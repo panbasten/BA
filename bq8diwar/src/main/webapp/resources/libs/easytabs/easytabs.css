@@ -1,0 +1,70 @@
+/* Styles for Tabs on Top */
+.ui-tab-container { width: 100%; padding: 0; clear: both; }
+.ui-tab-container ul.ui-tabs { margin: 0; padding: 0; }
+.ui-tab-container ul.ui-tabs li { display: inline-block; zoom:1; *display:inline; border: 1px solid #cccccc; -moz-border-radius: 5px 5px 0 0; -webkit-border-radius: 5px 5px 0 0; border-radius: 5px 5px 0 0; border-bottom: none; margin-right: 5px; }
+.ui-tab-container ul.ui-tabs li a { line-height: 2em; display: block; padding: 0 10px; outline: none; }
+.ui-tab-container ul.ui-tabs li a:hover { background-color: #eee; text-decoration: none;}
+.ui-tab-container ul.ui-tabs li.active { background: #fff; padding-top: 6px; position: relative; top: 1px; border-color: #cccccc; }
+.ui-tab-container ul.ui-tabs li a.active { font-weight: bold; }
+.ui-tab-container .ui-tab-panel-container { background: #fff; border: 1px solid #cccccc; padding: 10px; }
+
+/* Styles for Tabs on Side */
+.ui-tab-side-container { background: #fff; border: 1px solid #cccccc; height: 120px; }
+.ui-tab-side-container ul.ui-tabs { height: 120px; list-style: none; margin: 0; padding: 0; float: left; border-right: 1px solid #cccccc; }
+.ui-tab-side-container ul.ui-tabs li { width: 100px; margin: 0; padding: 0; text-align: center; }
+.ui-tab-side-container ul.ui-tabs li a { display: block; padding: 15px 0; outline: none; }
+.ui-tab-side-container ul.ui-tabs li a:hover { background-color: #eee; text-decoration: none; }
+.ui-tab-side-container ul.ui-tabs li.active { background: #fff; position: relative; left: 1px; border-style: solid; border-width: 1px 0; border-color: #cccccc; }
+.ui-tab-side-container ul.ui-tabs li:first-child.active { border-top: none; }
+.ui-tab-side-container ul.ui-tabs li a.active { font-weight: bold; text-decoration: none; }
+.ui-tab-side-container ul.ui-tabs li a.active:hover { background: #fff; text-decoration: none; }
+.ui-tab-side-container .ui-tab-panel-container { background: #fff; padding: 5px 5px 5px 110px; height: 100%;}
+
+/* Styles for Tabs on Bottom */
+.ui-tab-bottom-container { width: 100%; padding: 0; clear: both; }
+.ui-tab-bottom-container ul.ui-tabs { list-style: none; margin: 0; padding: 0; width: 100%; }
+.ui-tab-bottom-container ul.ui-tabs li { float: left; width: 33.33%; margin: 0; padding: 0; text-align: center; border-top: solid 1px; }
+.ui-tab-bottom-container ul.ui-tabs li a { display: block; padding: 15px 0; outline: none; }
+.ui-tab-bottom-container ul.ui-tabs li a:hover { background-color: #eee; text-decoration: none; }
+.ui-tab-bottom-container ul.ui-tabs li.active { width: 33%; background: #fff; border: solid 1px; border-top: none; }
+.ui-tab-bottom-container ul.ui-tabs li a.active { font-weight: bold; text-decoration: none; text-shadow: 0px 1px 0px rgba(255,255,255,0.7); }
+.ui-tab-bottom-container ul.ui-tabs li a.active:hover { background: #fff; text-decoration: none; }
+.ui-tab-bottom-container .ui-tab-panel-container { background: #fff; border: solid 1px; border-bottom: none; padding: 10px; margin-bottom: 0; }
+
+/* Styles for Collapsible */
+.ui-tab-collapsible-container { background: #fff; padding: 5px; border: solid 1px; }
+.ui-tab-collapsible-container ul.ui-tabs { margin: 0; padding: 5px 5px 0; background: #ccc; border: solid 1px; }
+.ui-tab-collapsible-container ul.ui-tabs li { display: inline-block; background: #ccc; border: solid 1px; border-bottom: none; margin: 0; }
+.ui-tab-collapsible-container ul.ui-tabs li a { display: block; padding: 5px; outline: none; }
+.ui-tab-collapsible-container ul.ui-tabs li a:hover { background-color: #eee; text-decoration: none; }
+.ui-tab-collapsible-container ul.ui-tabs li.active { background: #fff; padding-top: 6px; position: relative; top: 1px; }
+.ui-tab-collapsible-container ul.ui-tabs li a.active { font-weight: bold; text-decoration: none; text-shadow: 0px 1px 0px rgba(255,255,255,0.7); }
+.ui-tab-collapsible-container ul.ui-tabs li a.active:hover { background: #fff; text-decoration: none; }
+.ui-tab-collapsible-container .ui-tab-panel-container { background: #fff; border: none; padding: 0 10px; background: #fff; }
+
+/* Styles for Disconnected */
+.ui-tab-disconnected-container ul.ui-tabs { height: 52px; width: 100%; list-style: none; margin: 0; padding: 0; background: #ccc; }
+.ui-tab-disconnected-container ul.ui-tabs li { float: left; width: 33.3%; margin: 0; padding: 0; text-align: center; }
+.ui-tab-disconnected-container ul.ui-tabs li a { display: block; padding: 15px 0; line-height: 20px; outline: none; }
+.ui-tab-disconnected-container ul.ui-tabs li a:hover { background-color: #eee; text-decoration: none; }
+.ui-tab-disconnected-container ul.ui-tabs li.active { background: #fff; position: relative; left: 1px; }
+.ui-tab-disconnected-container ul.ui-tabs li a.active { font-weight: bold; text-decoration: none; border: solid 1px; text-shadow: 0px 1px 0px rgba(255,255,255,0.7); }
+.ui-tab-disconnected-container ul.ui-tabs li a.active:hover { background: #fff; text-decoration: none; }
+.ui-tab-disconnected-container .ui-tab-panel-container { background: #fff; padding: 10px; border: solid 1px; }
+.disconnected-tab3 { background: #fff; padding: 10px 15px; border: solid 1px #999; -moz-border-radius: 5px; -webkit-border-radius: 5px; margin: 15px 0; }
+
+/* Styles for Transition Options */
+.ui-tab-transition-container .ui-tab-panel-container { padding: 5px; }
+.ui-tab-transition-container .ui-tab-panel-container .active { padding: 0 5px; }
+
+/* Styles for Form Sections */
+.ui-tab-container fieldset { background: #fff; }
+.ui-tab-container .field-container { background: #fff; border: solid #666 1px; padding: 10px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
+
+/* Styles for Previous and Next buttons */
+.prev-tab, .next-tab { display: block; width: 100px; text-align: center; margin-top: 10px; }
+span.prev-tab, span.next-tab { background: #ccc; }
+.prev-tab { float: left; }
+.next-tab { float: right; }
+
+.ui-modify-tag {color:#2e83ff;margin-right:2px;}

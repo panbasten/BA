@@ -1,0 +1,155 @@
+.ui-tree{
+	font-size:12px;
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+.ui-tree li{
+	white-space:nowrap;
+}
+.ui-tree li ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+.ui-tree-node{
+	height:18px;
+	white-space:nowrap;
+	cursor:pointer;
+}
+.ui-tree-indent{
+	display:inline-block;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+}
+.ui-tree-hit{
+	cursor:pointer;
+}
+.ui-tree-expanded{
+	display:inline-block;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	background-position: -48px -16px;
+}
+.ui-tree-collapsed{
+	display:inline-block;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	background-position: -32px -16px;
+}
+.ui-tree-lines .ui-tree-expanded{
+	background:url('images/tree_elbow.png') no-repeat -36px -54px;
+}
+.ui-tree-lines .ui-tree-collapsed{
+	background:url('images/tree_elbow.png') no-repeat 0px -36px;
+}
+.ui-tree-lines .ui-tree-node-last .ui-tree-expanded{
+	background:url('images/tree_elbow.png') no-repeat -18px 0px;
+}
+.ui-tree-lines .ui-tree-node-last .ui-tree-collapsed{
+	background:url('images/tree_elbow.png') no-repeat -36px -36px;
+}
+.ui-tree-lines .ui-tree-root-first .ui-tree-expanded{
+	background:url('images/tree_elbow.png') no-repeat -18px -54px;
+}
+.ui-tree-lines .ui-tree-root-first .ui-tree-collapsed{
+	background:url('images/tree_elbow.png') no-repeat -18px -36px;
+}
+.ui-tree-lines .ui-tree-root-one .ui-tree-expanded{
+	background:url('images/tree_elbow.png') no-repeat 0px -18px;
+}
+.ui-tree-lines .ui-tree-root-one .ui-tree-collapsed{
+	background:url('images/tree_elbow.png') no-repeat 0px -72px;
+}
+.ui-tree-line{
+	background:url('images/tree_elbow.png') no-repeat 0px -54px;
+}
+.ui-tree-join{
+	background:url('images/tree_elbow.png') no-repeat -18px -18px;
+}
+.ui-tree-joinbottom{
+	background:url('images/tree_elbow.png') no-repeat 0px 0px;
+}
+.ui-tree-folder{
+	display:inline-block;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	background-position: 0 -96px;
+}
+.ui-tree-folder-open{
+	background-position: -16px -96px;
+}
+.ui-tree-file{
+	display:inline-block;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	background-position: -32px -96px;
+}
+.ui-tree-loading{
+	background:url('images/tree_loading.gif') no-repeat;
+}
+.ui-tree-title{
+	display:inline-block;
+	text-decoration:none;
+	vertical-align:middle;
+	padding:1px 2px 1px 2px;
+	white-space:nowrap;
+}
+
+.ui-tree-node-hover{
+	background:#fafafa;
+}
+.ui-tree-node-selected{
+	background:#FBEC88;
+}
+.ui-tree-checkbox{
+	display:inline-block;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	background-image: url("images/tree_checkbox.png");
+}
+.ui-tree-checkbox0{
+	background-position: 0 0;
+}
+.ui-tree-checkbox1{
+	background-position: -32px 0;
+}
+.ui-tree-checkbox2{
+	background-position: -16px 0;
+}
+.ui-tree-node-proxy{
+	font-size:12px;
+	padding:1px 2px 1px 18px;
+	background:#fafafa;
+	border:1px solid #ccc;
+	z-index:9900000;
+}
+.ui-tree-dnd-yes{
+	background:#fff url('images/tree_dnd_yes.png') no-repeat 0 center;
+}
+.ui-tree-dnd-no{
+	background:#fff url('images/tree_dnd_no.png') no-repeat 0 center;
+}
+.ui-tree-node-top{
+	border-top:1px dotted red;
+}
+.ui-tree-node-bottom{
+	border-bottom:1px dotted red;
+}
+.ui-tree-node-append .ui-tree-title{
+	border:1px dotted red;
+}
+.ui-tree-editor{
+	border:1px solid #ccc;
+	font-size:12px;
+	line-height:16px;
+	width:80px;
+	position:absolute;
+	top:0;
+}

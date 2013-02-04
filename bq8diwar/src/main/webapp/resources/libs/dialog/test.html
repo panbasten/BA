@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    
+	<link rel="stylesheet" type="text/css" href="../jquery/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css"/>
+	<link rel="stylesheet" type="text/css" href="dialog.css"/>
+	<link rel="stylesheet" type="text/css" href="../../styles/hb.css"/>
+    <script type="text/javascript" src="../jquery/jquery.js">
+    </script>
+    <script type="text/javascript" src="../core/core.js">
+    </script>
+	
+	<script type="text/javascript" src="../drag/drag.js">
+    </script>
+	<script type="text/javascript" src="../button/button.js">
+    </script>
+    <script type="text/javascript" src="dialog.js">
+    </script>
+</head>
+<style>
+	
+</style>
+  <body>
+    <script>
+
+    	//YonYou.cw("ConfirmDialog",null,{type:"prompt",text:"确认:询问用户操作。"});
+    	//YonYou.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",confirmFunc:function(e,d){alert(d);}});
+    	YonYou.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",footerButtons:[
+    		{componentType : "bq:Button", type : "button", label : "保存并关闭", title : "保存并关闭", events : { click:function(e,d){console.log(e);console.log(d);} }},
+    		{componentType : "bq:Button", type : "button", label : "关闭不保存", title : "关闭不保存", events : { click:function(e,d){console.log(e);d.target.hide();} }},
+    		{componentType : "bq:Button", type : "button", label : "取消", title : "取消", events : { click:"hide" }}
+    	]});
+//    	var obj=new YonYou.widget.ConfirmDialog({
+//			id : "aaa",
+//			type:"confirm",
+//			text:"温馨提示:用于提示用户操作成功。",
+//			text:"预警:预警是指在灾害或灾难以及其他需要提防的危险发生之前，根据以往的总结的规律或观测得到的可能性前兆，向相关部门发出紧急信号。",
+//			text:"确认:询问用户操作。",
+//			text:"错误:告知用户操作出现的错误。",
+//			confirm:function(){alert('提交');},
+//			width : 400,
+//			height : 100,
+//			autoOpen : true,
+//			showHeader : true,
+//			closable : true,
+//			maximizable : true
+//		});
+		//obj.init();
+//		var dom=document.createElement("div");
+//		var span=document.createElement("span");
+//			span.innerHTML="选择文件 :";
+//		var Input=document.createElement("input");
+//		dom.appendChild(span);
+//		dom.appendChild(Input);
+//		var obj1=new YonYou.widget.PromptDialog({
+//			id : "vvvv",
+//			header:"confirm",
+//			confirm:function(){alert('提交');},
+//			width : 400,
+//			height : 100,
+//			autoOpen : true,
+//			showHeader : true,
+//			closable : true,
+//			maximizable : true,
+//			content:dom
+//		});
+//		obj1.init();
+    </script>
+    
+  </body>
+</html>

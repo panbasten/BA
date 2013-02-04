@@ -1,0 +1,10 @@
+
+.ui-popup-con{
+	width:200px;
+	height: 200px;
+	position:absolute;
+	border: 1px solid #D8D8D8;
+	background-color: #FFFFFF;
+	box-shadow: 0 0 6px 0 #000000;	
+	display: none;
+}

@@ -1,0 +1,39 @@
+.ui-layout-div {
+	margin: 5px;
+}
+
+.ui-layout-float {
+	float: left;
+}
+
+.ui-label-default {
+	float: left;
+	padding-bottom: 10px;
+}
+
+.ui-label-default input,
+.ui-label-default select,
+.ui-label-default textarea {
+ 	float: left;
+}
+
+.ui-label-single {
+}
+
+.ui-label-single-object {
+	padding-bottom: 10px;
+}
+
+.ui-label-fieldset {
+	margin-bottom: 10px;
+}
+
+.ui-label-default label,
+.ui-label-single label {
+	margin-left: 5px;
+}
+
+span.ui-required-tag {
+	color: red;
+	margin: 7px 7px 0;
+}

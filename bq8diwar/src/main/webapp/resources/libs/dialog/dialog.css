@@ -1,0 +1,33 @@
+.ui-dialog { background-color:#696969;position: fixed; padding: 0; overflow: hidden; visibility: hidden;-moz-box-shadow: 3px 3px 3px #808080; -webkit-box-shadow: 3px 3px 3px #808080; }
+.ui-dialog .ui-dialog-titlebar { padding: .4em .4em .4em 1em; position: relative; border:0px; }
+.ui-dialog .ui-dialog-title { float: left; margin: .3em 16px .1em 0; } 
+.ui-dialog .ui-dialog-content {position: relative; border: 0; padding: .5em 1em; background-color: #696969; overflow: auto; zoom: 1; }
+.ui-dialog .ui-dialog-buttonpane { text-align: right; border-width: 1px 0 0 0; background-color: #5d5d5d; padding: .3em 1em .5em .4em; }
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { float: right; }
+.ui-dialog .ui-dialog-buttonpane button { margin: 1em .8em .5em 0; height:27px;}
+.ui-dialog .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
+.ui-draggable .ui-dialog-titlebar { cursor: move; }
+.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-titlebar-minimize,.ui-dialog .ui-dialog-titlebar-maximize { float: right; margin: 0px; top:0px; padding: 1px; margin-top:4px;}
+.ui-dialog .ui-dialog-titlebar-close span, .ui-dialog .ui-dialog-titlebar-minimize span, .ui-dialog .ui-dialog-titlebar-maximize span { display: block; margin: 0px; }
+.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus, .ui-dialog .ui-dialog-titlebar-minimize:hover, .ui-dialog .ui-dialog-titlebar-minimize:focus, .ui-dialog .ui-dialog-titlebar-maximize:hover, .ui-dialog .ui-dialog-titlebar-maximize:focus   { padding: 0; }
+.ui-dialog-footer {padding: .4em 1em; border-width: 1px 0 0 0;text-align:left;}
+.ui-dialog-docking-zone {position: fixed;bottom: 0;left: 0;}
+.ui-dialog-minimizing {border: 2px dotted gray;}
+.ui-confirm-dialog-severity {float: left; margin: 3px 7px 20px 0;}
+.ui-dialog.ui-dialog-minimized{*width: 200px !important;} /*IE7 hack*/
+
+
+.ui-dialog .ui-corner-top{padding:0 10px 0 0;height:30px;line-height:30px;font-size:12px;background: url("images/topbg.png") repeat-x;}
+.ui-dialog .ui-widget-content{border-bottom: 1px solid #000;width:100%;padding:0;margin:0;}
+.ui-dialog .ui-dialog-buttonpane{margin:0;padding:0;height:60px;border-top:1px solid #fff;}
+.ui-dialog .ui-corner-top .ui-dialog-title{margin:0 0 0 15px;}
+
+.ui-dialog-content .prompt,.ui-dialog-content .warning,.ui-dialog-content .error,.ui-dialog-content .confirm{height: auto;width: auto;margin: 20px auto 0 auto;}
+.ui-dialog-content span.ui-confirm-dialog-span{color:#fff;margin-left:90px;margin-right:10px;display:block;float:left;margin-top:10px;font-size:12px;position:absolute;}
+.ui-dialog-content-loader {height:19px;width:220px;position:relative;top:50%;margin:0 auto;background:url("images/ajax-loader.gif") repeat scroll 0 0 transparent;}
+.ui-dialog-content-loader-text{position:relative;top:50%;margin:0 auto;color:#fff;text-align:center;}
+.ui-dialog-content .ui-confirm-dialog-icon{float:left;height:62px;width:62px;margin-left: 20px;}
+.ui-dialog-content .prompt .ui-confirm-dialog-icon{background: url("images/prompt.png");}
+.ui-dialog-content .warning .ui-confirm-dialog-icon{background: url("images/warning.png");}
+.ui-dialog-content .error .ui-confirm-dialog-icon{background: url("images/error.png");}
+.ui-dialog-content .confirm .ui-confirm-dialog-icon{background: url("images/confirm.png");}

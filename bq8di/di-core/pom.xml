@@ -1,0 +1,14 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>bq8di</artifactId>
+		<groupId>com.yonyou.bq8.di</groupId>
+		<version>8.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.yonyou.bq8.di.bq8di</groupId>
+	<artifactId>di-core</artifactId>
+	<name>BQ8DI核心源码</name>
+	<version>8.0-SNAPSHOT</version>
+	
+</project>

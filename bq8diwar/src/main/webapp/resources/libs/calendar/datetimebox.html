@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>DateTimeBox - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+	<link rel="stylesheet" type="text/css" href="../validate/validatebox.css">
+	<link rel="stylesheet" type="text/css" href="../combo/combo.css">
+	<link rel="stylesheet" type="text/css" href="../spinner/spinner.css">
+	<link rel="stylesheet" type="text/css" href="calendar.css">
+	<link rel="stylesheet" type="text/css" href="datebox.css">
+	<script type="text/javascript" src="../jquery/jquery.js"></script>
+	<script type="text/javascript" src="../core/core.js"></script>
+	<script type="text/javascript" src="../validate/jquery.validatebox.js"></script>
+	<script type="text/javascript" src="../panel/jquery.panel.js"></script>
+	<script type="text/javascript" src="../combo/jquery.combo.js"></script>
+	<script type="text/javascript" src="jquery.calendar.js"></script>
+	<script type="text/javascript" src="jquery.datebox.js"></script>
+	<script type="text/javascript" src="../spinner/jquery.spinner.js"></script>
+	<script type="text/javascript" src="jquery.timespinner.js"></script>
+	<script type="text/javascript" src="jquery.datetimebox.js"></script>
+</head>
+<body>
+	<h2>DateTimeBox</h2>
+	<div class="demo-info" style="margin-bottom:10px">
+		<div class="demo-tip icon-tip"></div>
+		<div>Allow you to select date and time in your form.</div>
+	</div>
+	
+	<input id="birthday" data-options="required:true" value="3/4/2010 2:3:56" style="width:150px">
+
+	<script>
+	$('#birthday').datetimebox();
+	</script>
+</body>
+</html>

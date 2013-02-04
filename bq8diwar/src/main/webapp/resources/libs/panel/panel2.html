@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Panel With Tools - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+	<link rel="stylesheet" type="text/css" href="panel.css">
+	<script type="text/javascript" src="../jquery/jquery.js"></script>
+	<script type="text/javascript" src="../core/core.js"></script>
+	<script type="text/javascript" src="jquery.panel.js"></script>
+</head>
+<body>
+	<h2>Panel With Tools</h2>
+	<div class="demo-info">
+		<div class="demo-tip icon-tip"></div>
+		<div>Click the right top buttons to perform actions with panel.</div>
+	</div>
+	
+	<div style="margin:10px 0;">
+	</div>
+	<div id="p" style="width:500px;height:200px;padding:10px;"
+			title="My Panel" data-options="iconCls:'icon-ok',tools:'#tt'">
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+		<p>panel</p>
+	</div>
+	<div id="tt">
+		<a href="#" class="ui-icon ui-icon-plusthick" onclick="javascript:alert('add')"></a>
+		<a href="#" class="ui-icon ui-icon-editor-edit" onclick="javascript:alert('edit')"></a>
+		<a href="#" class="ui-icon ui-icon-system-cut" onclick="javascript:alert('cut')"></a>
+		<a href="#" class="ui-icon ui-icon-help" onclick="javascript:alert('help')"></a>
+	</div>
+	
+	<script>
+		$('#p').panel();
+	</script>
+</body>
+</html>

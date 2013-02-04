@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>浏览拖动</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <link rel="stylesheet" type="text/css" href="../tree/easytree.css"/>
+    <script type="text/javascript" src="../jquery/jquery.js">
+    </script>
+	<script type="text/javascript" src="../jquery/jquery-ui.min.js">
+    </script>
+    <script type="text/javascript" src="../core/core.js">
+    </script>
+    <script type="text/javascript" src="drag.js">
+    </script>
+	<script type="text/javascript" src="../tree/easytree.js">
+    </script>
+</head>
+  <body>
+  	<div id='tree' style="float:left;"></div>
+  	<div id='target' style="width:300px;height:300px;background:red;float:left;"></div>
+   	<a id="testDrag">拖动<span class="button ico-docu" style="background: url(&quot;../tree/images/diy/2.png&quot;) no-repeat scroll 0px 0px transparent;"></span><span>子节点1-1-1</span></a>
+	<script>
+    	
+		var treecfg= {
+			'id':'tree',
+            'els': [{
+                id: 'shit',
+                'displayName': '测试',
+                'type': 'node',
+                'icon': '../tree/images/diy/1_open.png',
+                'els':[{
+                    id: 'id11',
+                    displayName: '子节点1-1',
+                    type: 'node',
+                    'icon': '../tree/images/diy/3.png',
+                    'els': [{
+                        id: 'id111',
+                        displayName: '子节点1-1-1',
+						draggable:true,
+						targetid:'target',
+                        type: 'leaf',
+                        'icon': '../tree/images/diy/2.png',
+                    }, {
+                        id: 'id112',
+                        displayName: '子节点1-1-1',
+						draggable:true,
+						targetid:'target',
+                        type: 'leaf'
+                    }, {
+                        id: 'id113',
+                        displayName: '子节点1-1-1',
+						draggable:true,
+						targetid:'target',
+                        type: 'leaf'
+                    }]
+                }, {
+                    id: 'id121',
+                    displayName: '子节点1-2',
+                    type: 'node'
+                }, {
+                    id: 'id122',
+                    displayName: '子节点1-3',
+                    type: 'leaf'
+                }]
+            }, {
+                id: 'id2',
+                'displayName': '测试'
+            }, {
+                id: 'id3',
+                'displayName': '测试'
+            }]
+        }
+    	var tree=new YonYou.widget.EasyTree(treecfg);
+
+    </script>
+  </body>
+</html>

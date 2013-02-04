@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>弹出层测试</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	<link rel="stylesheet" type="text/css" href="popUp.css">
+	<script src="../jquery/jquery.js"></script>
+	<script src="popUp.js"></script>
+  </head>
+  <body>
+	<style>
+		.test{
+			width:100px;height:30px;background:green;
+			margin-top:20px;
+			border-radius:5px;
+		}
+	</style>
+    This is my HTML page. <br>
+	<div id='test'  class="test" onmouseover="pop($('#test'),test);"></div>
+	<div id='test1'  class="test" onmouseover="pop($('#test1'),test1);"></div>
+	<div id='test2'  class="test" onmouseover="pop($('#test2'),test2);"></div>
+	<div id='test3'  class="test" onmouseover="pop($('#test3'),test3);"></div>
+	<div id='test4'  class="test" onmouseover="pop($('#test4'),test4);"></div>
+	<div id='test5'  class="test" onmouseover="pop($('#test5'),test5);"></div>
+  </body>
+  	<script>
+  	var obj;
+  	function pop(dom){
+		if(!obj){
+			obj=new PopUp({
+				eventDom:dom
+			});
+			document.body.appendChild(obj.init());
+		}
+		obj.show(dom);
+	}
+	function hidden(obj){
+		obj.hidden();
+	}	
+
+   </script>
+</html>

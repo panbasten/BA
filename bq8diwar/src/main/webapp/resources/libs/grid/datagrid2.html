@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Editable DataGrid - jQuery EasyUI Demo</title>
+        <link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+        <link rel="stylesheet" type="text/css" href="../panel/panel.css">
+        <link rel="stylesheet" type="text/css" href="../combo/combo.css">
+        <link rel="stylesheet" type="text/css" href="../combo/combobox.css">
+        <link rel="stylesheet" type="text/css" href="../validate/validatebox.css">
+        <link rel="stylesheet" type="text/css" href="pagination.css">
+        <link rel="stylesheet" type="text/css" href="datagrid.css">
+        <script type="text/javascript" src="../jquery/jquery.js">
+        </script>
+		<script type="text/javascript" src="../core/core.js">
+        </script>
+        <script type="text/javascript" src="../button/button.js">
+        </script>
+        <script type="text/javascript" src="../panel/jquery.panel.js">
+        </script>
+        <script type="text/javascript" src="../validate/jquery.validatebox.js">
+        </script>
+        <script type="text/javascript" src="../combo/jquery.combo.js">
+        </script>
+        <script type="text/javascript" src="../combo/jquery.combobox.js">
+        </script>
+        <script type="text/javascript" src="../number/jquery.numberbox.js">
+        </script>
+        <script type="text/javascript" src="jquery.pagination.js">
+        </script>
+        <script type="text/javascript" src="jquery.datagrid.js">
+        </script>
+        
+  
+    </head>
+    <body>
+        <div id="tt" style="width:700px;height:300px" title="my test">
+        </div>
+		<script type="text/javascript">
+            var products = [{
+                productid: 'FI-SW-01',
+                name: 'Koi'
+            }, {
+                productid: 'K9-DL-01',
+                name: 'Dalmation'
+            }, {
+                productid: 'RP-SN-01',
+                name: 'Rattlesnake'
+            }, {
+                productid: 'RP-LI-02',
+                name: 'Iguana'
+            }, {
+                productid: 'FL-DSH-01',
+                name: 'Manx'
+            }, {
+                productid: 'FL-DLH-02',
+                name: 'Persian'
+            }, {
+                productid: 'AV-CB-01',
+                name: 'Amazon Parrot'
+            }];
+
+			function productFormatter(value){
+                for (var i = 0; i < products.length; i++) {
+                    if (products[i].productid == value) 
+                        return products[i].name;
+                }
+                return value;
+            }
+            
+            var columns = [[{
+                field: 'itemid',
+                width: 80,
+                title: "Item Id"
+            }, {
+                field: 'productid',
+                title: "ProductId",
+                width: 100,
+                formatter: productFormatter,
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        valueField: 'productid',
+                        textField: 'name',
+                        data: products,
+                        required: true
+                    }
+                }
+            }, {
+                field: 'listprice',
+                title: "ListPrice",
+                width: 80,
+                align: 'right',
+				sortable:true,
+                editor: {
+                    type: 'numberbox',
+                    options: {
+                        precision: 1
+                    }
+                }
+            }, {
+                field: 'unitcost',
+                title: "UnitCost",
+                width: 80,
+                align: 'right',
+                editor: 'numberbox'
+            }, {
+                field: 'attr1',
+                title: "Attr1",
+                width: 250,
+                editor: 'text'
+            }, {
+                field: 'status',
+				title:"Status",
+                width: 60,
+                align: 'center',
+                editor: {
+                    type: 'checkbox',
+                    options: {
+                        on: 'P',
+                        off: ''
+                    }
+                }
+            }]];
+			var lastIndex;
+			var cfg={
+					id:'tt',
+					title:'测试grid',
+					url:'datagrid_data2.json',
+					singleSelect:false,
+					"columns":columns,
+                    toolbar: [
+                    	{
+	                		componentType : "bq:Button",
+	                		type : "button",
+	                		label : "新增",
+	                		title : "新增",
+	                		events : {
+	                    		click:function(){
+			                        $('#tt').datagrid('endEdit', lastIndex);
+			                        $('#tt').datagrid('appendRow', {
+			                            itemid: '',
+			                            productid: '',
+			                            listprice: '',
+			                            unitprice: '',
+			                            attr1: '',
+			                            status: 'P'
+			                        });
+			                        lastIndex = $('#tt').datagrid('getRows').length - 1;
+			                        $('#tt').datagrid('selectRow', lastIndex);
+			                        $('#tt').datagrid('beginEdit', lastIndex);
+			                    }
+	                    	}
+                		},{
+	                		componentType : "bq:Button",
+	                		type : "button",
+	                		label : "删除",
+	                		title : "删除",
+	                		events : {
+	                    		click:function(){
+		                            var row = $('#tt').datagrid('getSelected');
+		                            if (row) {
+		                                var index = $('#tt').datagrid('getRowIndex', row);
+		                                $('#tt').datagrid('deleteRow', index);
+		                            }
+		                        }
+	                    	}
+                		},{
+	                		componentType : "bq:Button",
+	                		type : "button",
+	                		label : "保存",
+	                		title : "保存",
+	                		events : {
+	                    		click:function(){
+	                				$('#tt').datagrid('acceptChanges');
+		                        }
+	                    	}
+                		},{
+	                		componentType : "bq:Button",
+	                		type : "button",
+	                		label : "撤消",
+	                		title : "撤消",
+	                		events : {
+	                    		click:function(){
+	                				$('#tt').datagrid('rejectChanges');
+		                        }
+	                    	}
+                		},{
+	                		componentType : "bq:Button",
+	                		type : "button",
+	                		label : "刷新",
+	                		title : "刷新",
+	                		events : {
+	                    		click:function(){
+	                				var rows = $('#tt').datagrid('getChanges');
+	                				alert('changed rows: ' + rows.length + ' lines');
+		                        }
+	                    	}
+                		}],
+                    onBeforeLoad: function(){
+                        $(this).datagrid('rejectChanges');
+                    }
+                };
+			YonYou.cw("Grid","tt_var",cfg)
+			//new YonYou.widget.Grid(cfg);
+        </script>
+    </body>
+</html>

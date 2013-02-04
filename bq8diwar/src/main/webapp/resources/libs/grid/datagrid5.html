@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>DataGrid Footer Row - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+    <link rel="stylesheet" type="text/css" href="../panel/panel.css">
+    <link rel="stylesheet" type="text/css" href="../combo/combo.css">
+    <link rel="stylesheet" type="text/css" href="../combo/combobox.css">
+    <link rel="stylesheet" type="text/css" href="../validate/validatebox.css">
+    <link rel="stylesheet" type="text/css" href="pagination.css">
+    <link rel="stylesheet" type="text/css" href="datagrid.css">
+    <script type="text/javascript" src="../jquery/jquery.js">
+    </script>
+	<script type="text/javascript" src="../core/core.js">
+    </script>
+    <script type="text/javascript" src="../button/button.js">
+    </script>
+    <script type="text/javascript" src="../panel/jquery.panel.js">
+    </script>
+    <script type="text/javascript" src="../validate/jquery.validatebox.js">
+    </script>
+    <script type="text/javascript" src="../combo/jquery.combo.js">
+    </script>
+    <script type="text/javascript" src="../combo/jquery.combobox.js">
+    </script>
+    <script type="text/javascript" src="../number/jquery.numberbox.js">
+    </script>
+    <script type="text/javascript" src="jquery.pagination.js">
+    </script>
+    <script type="text/javascript" src="jquery.datagrid.js">
+    </script>
+</head>
+<body>
+	<h2>DataGrid - Footer Row</h2>
+	<div class="demo-info" style="margin-bottom:10px">
+		<div class="demo-tip icon-tip"></div>
+		<div>Display summary information in footer rows.</div>
+	</div>
+	
+	<table id="tt" title="DataGrid" style="width:700px;height:220px"
+			data-options="url:'datagrid_data3.json',fitColumns:true,nowrap:false,rownumbers:true,showFooter:true">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:80">Item ID</th>
+				<th data-options="field:'productid',width:120">Product ID</th>
+				<th data-options="field:'listprice',width:80,align:'right'">List Price</th>
+				<th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+				<th data-options="field:'attr1',width:250">Attribute</th>
+				<th data-options="field:'status',width:60,align:'center'">Status</th>
+			</tr>
+		</thead>
+	</table>
+	
+	<script type="text/javascript">
+		$("#tt").datagrid();
+	</script>
+</body>
+</html>

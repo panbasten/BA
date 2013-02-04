@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.yonyou.bq8.di.kettle</groupId>
+	<artifactId>kettle-ui</artifactId>
+	<name>Kettle源代码-UI</name>
+	<version>8.0-SNAPSHOT</version>
+	<description>Kettle源代码-UI</description>
+	<parent>
+		<artifactId>kettle</artifactId>
+		<groupId>com.yonyou.bq8.di</groupId>
+		<version>8.0-SNAPSHOT</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.yonyou.bq8.di.kettle</groupId>
+			<artifactId>kettle-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

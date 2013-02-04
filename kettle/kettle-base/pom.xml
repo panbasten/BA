@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.yonyou.bq8.di.kettle</groupId>
+	<artifactId>kettle-base</artifactId>
+	<name>Kettle源代码-Base</name>
+	<version>8.0-SNAPSHOT</version>
+	<description>Kettle源代码-Base</description>
+	<parent>
+		<artifactId>kettle</artifactId>
+		<groupId>com.yonyou.bq8.di</groupId>
+		<version>8.0-SNAPSHOT</version>
+	</parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
+					<items>
+						<item>timestamp</item>
+					</items>
+					<buildNumberPropertyName>
+						current.timestamp
+					</buildNumberPropertyName>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+                <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
+                <artifactId>svn-revision-number-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <entries>
+                        <entry>
+                            <prefix>prefix</prefix>
+                        </entry>
+                    </entries>
+                </configuration>
+            </plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Specification-Version>${prefix.revision}</Specification-Version>
+							<Compile-Timestamp>${current.timestamp}</Compile-Timestamp>
+							<Compile-User>${Compile-User}</Compile-User>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.yonyou.bq8.di.kettle</groupId>
+			<artifactId>kettle-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yonyou.bq8.di.kettle</groupId>
+			<artifactId>kettle-db</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

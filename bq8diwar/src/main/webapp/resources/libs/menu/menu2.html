@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Menu - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="menu.css">
+	
+	<link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+	
+	<script type="text/javascript" src="../jquery/jquery.js"></script>
+	<script type="text/javascript" src="../core/core.js"></script>
+	
+	<script type="text/javascript" src="menu.js"></script>
+	
+</head>
+<body>
+	<h2>Menu</h2>
+	<div class="demo-info">
+		<div class="demo-tip icon-tip"></div>
+		<div>
+			Menu can include many MenuItem, and the MenuItem can display submenu.
+			You also can right click to show the context menu.
+		</div>
+	</div>
+	
+	<div style="margin:10px 0">
+		<a href="#" onclick="javascript:$('#mm').menu('show',{left:100,top:200})">ShowMenu</a>
+		<a href="#" onclick="javascript:$('#mm').menu('hide')">HideMenu</a>
+	</div>
+	
+	<script>
+		// 属性有：
+		// id, name, title, onClick
+		// text, itemCls, itemStyle
+		// href, disabled, iconCls
+		YonYou.cw("Menu","mm_var",{
+			id : "mm",
+			itemWidth : 150,
+			menuItems : [{
+				id : "new",
+				text : "New",
+				title : "New",
+				onClick : "javascript:alert('new')"
+			},{
+				id : "open",
+				text : "Open",
+				title : "Open",
+				subWidth : 120,
+				subItems : [{
+					id : "word",
+					text : "<b>Word</b>"
+				},{
+					id : "excel",
+					text : "Excel"
+				},{
+					id : "powerpoint",
+					text : "PowerPoint"
+				},{
+					text : "M1",
+					subWidth : 120,
+					subItems : [{
+						text : "sub1"
+					},{
+						text : "sub2"
+					},{
+						text : "Sub",
+						subWidth : 80,
+						subItems : [{
+							text : "sub21",
+							onClick : "javascript:alert('sub21')"
+						},{
+							text : "sub22"
+						},{
+							text : "sub23"
+						}]
+					},{
+						text : "sub3"
+					}]
+				},{
+					text : "Window Demos",
+					subItems : [{
+						text : "Window",
+						href : "window.html"
+					},{
+						text : "<a href='http://www.jeasyui.com' target='_blank'>EasyUI</a>"
+					}]
+				}]
+			},{
+				text : "Save",
+				iconCls : "ui-icon-save"
+			},{
+				text : "Print",
+				disabled : true,
+				iconCls : "ui-icon-print"
+			},{
+				type : "separator"
+			},{
+				text : "Exit"
+			}]
+		});
+	
+		$(function(){
+			$(document).bind('contextmenu',function(e){
+				mm_var.show(e);
+				e.preventDefault();
+			});
+		});
+		
+	</script>
+</body>
+</html>

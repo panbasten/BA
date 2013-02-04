@@ -1,0 +1,46 @@
+.div-max-vertical{
+	z-index: 9999;
+	position: absolute;
+	background-image: url("images/up_enable.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor: pointer;
+	width: 71px;
+	height: 13px;
+}
+.div-max-horizontal{
+	z-index: 9999;
+	position: absolute;
+	background-image: url("images/left_enable.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor: pointer;
+	width: 9px;
+	height: 12px;
+}
+
+.div-min-vertical{
+	z-index: 9999;
+	position: absolute;
+	background-image: url("images/down_enable.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor: pointer;
+	width: 71px;
+	height: 13px;
+}
+
+.div-min-horizontal{
+	z-index: 9999;
+	position: absolute;
+	background-image: url("images/right_enable.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor: pointer;
+	width: 9px;
+	height: 12px;
+}
+
+.scroll-container{
+	overflow: hidden;	
+}

@@ -1,0 +1,41 @@
+.ui-validatebox-invalid{
+	background:#EEEEEE url('images/validatebox_warning.png') no-repeat right 1px;
+}
+.ui-validatebox-tip{
+	position:absolute;
+	width:200px;
+	height:auto;
+	display:none;
+	z-index:9900000;
+}
+.ui-validatebox-tip-content{
+	display:inline-block;
+	position:absolute;
+	top:0px;
+	left:10px;
+	width:150px;
+	padding:3px 5px;
+	background:#FFFFCC;
+	border:1px solid #CC9933;
+	z-index:9900001;
+	font-size:12px;
+}
+.ui-validatebox-tip-pointer{
+	background:url('images/validatebox_pointer.png') no-repeat left top;
+	display:inline-block;
+	width:10px;
+	height:19px;
+	position:absolute;
+	left:1px;
+	top:0px;
+	z-index:9900002;
+}
+.ui-validatebox-tip-left .ui-validatebox-tip-content{
+	left:auto;
+	right:10px;
+}
+.ui-validatebox-tip-left .ui-validatebox-tip-pointer{
+	background:url('images/validatebox_pointer.png') no-repeat left -19px;
+	left:auto;
+	right:1px;
+}

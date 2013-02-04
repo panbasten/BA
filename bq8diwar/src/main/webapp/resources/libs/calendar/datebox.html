@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>DateBox - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+	<link rel="stylesheet" type="text/css" href="../validate/validatebox.css">
+	<link rel="stylesheet" type="text/css" href="../combo/combo.css">
+	<link rel="stylesheet" type="text/css" href="calendar.css">
+	<link rel="stylesheet" type="text/css" href="datebox.css">
+	<script type="text/javascript" src="../jquery/jquery.js"></script>
+	<script type="text/javascript" src="../core/core.js"></script>
+	<script type="text/javascript" src="../validate/jquery.validatebox.js"></script>
+	<script type="text/javascript" src="../panel/jquery.panel.js"></script>
+	<script type="text/javascript" src="../combo/jquery.combo.js"></script>
+	<script type="text/javascript" src="jquery.calendar.js"></script>
+	<script type="text/javascript" src="jquery.datebox.js"></script>
+	<script>
+		function disable(){
+			$('#dd').datebox('disable');
+		}
+		function enable(){
+			$('#dd').datebox('enable');
+		}
+	</script>
+</head>
+<body>
+	<h2>DateBox</h2>
+	<div class="demo-info">
+		<div class="demo-tip icon-tip"></div>
+		<div>Allow you to select date in your form.</div>
+	</div>
+	
+	<div style="margin:10px 0;">
+		<a href="#" class="easyui-linkbutton" onclick="disable()">Disable</a>
+		<a href="#" class="easyui-linkbutton" onclick="enable()">Enable</a>
+	</div>
+	<input id="dd" required="required"></input>
+	<script>
+	$('#dd').datebox();
+	</script>
+</body>
+</html>
