@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.yonyou.bq8.di.core.exception.DIException;
-import com.yonyou.bq8.di.core.model.FilesystemCategory;
+import com.yonyou.bq8.di.core.model.DIFileSystemCategory;
 import com.yonyou.bq8.di.core.utils.BQFileUtils;
 import com.yonyou.bq8.di.delegates.intf.DIFilesysTypeAdaptor;
 import com.yonyou.bq8.di.delegates.intf.DIFsLocalAdaptor;
@@ -146,15 +146,15 @@ public class DIFileSystemService implements DIFileSystemDelegate {
 			 
 			String vfsPath = null;
 			
-			if (FilesystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(category)) {
+			if (DIFileSystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(category)) {
 				FilesysDirectory filesysDirectory = this.getLocalRootById(rootId);
 				String rootDir = filesysDirectory.getPath();
 				vfsPath = BQFileUtils.dirAppend(rootDir, workDir);
-			} else if (FilesystemCategory.FILESYS_TYPE_FTP.getCategory().equals(category)) {
+			} else if (DIFileSystemCategory.FILESYS_TYPE_FTP.getCategory().equals(category)) {
 				DIHost host = this.getFtphostById(rootId);
 				vfsPath = "ftp://" + host.getUsername() + ":" + host.getPassword() + "@"+host.getIp()
 						+ ":" + host.getPort() + workDir;
-			} else if (FilesystemCategory.FILESYS_TYPE_SFTP.getCategory().equals(category)) {
+			} else if (DIFileSystemCategory.FILESYS_TYPE_SFTP.getCategory().equals(category)) {
 				DIHost host = this.getFtphostById(rootId);
 				vfsPath = "sftp://" + host.getUsername() + ":" + host.getPassword() + "@"+host.getIp()
 						+ ":" + host.getPort() + workDir;
@@ -193,7 +193,7 @@ public class DIFileSystemService implements DIFileSystemDelegate {
 	public String getRootDesc(String category, long rootId) throws DIException {
 		String rootDirName = null;
 		
-		if (FilesystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(category)) {
+		if (DIFileSystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(category)) {
 			FilesysDirectory filesysDirectory = this.getLocalRootById(rootId);
 			rootDirName = filesysDirectory.getDesc();
 		} else {
