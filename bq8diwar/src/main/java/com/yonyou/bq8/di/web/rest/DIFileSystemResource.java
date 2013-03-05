@@ -25,11 +25,10 @@ import com.yonyou.bq8.di.component.utils.BQVariableResolver;
 import com.yonyou.bq8.di.component.utils.HTML;
 import com.yonyou.bq8.di.component.utils.PageTemplateInterpolator;
 import com.yonyou.bq8.di.core.exception.DIException;
-import com.yonyou.bq8.di.core.model.DIFileSystemCategory;
 import com.yonyou.bq8.di.core.utils.BQFileUtils;
 import com.yonyou.bq8.di.core.utils.JSONUtils;
 import com.yonyou.bq8.di.core.utils.Utils;
-import com.yonyou.bq8.di.delegates.vo.DIHost;
+import com.yonyou.bq8.di.delegates.utils.DIFileSystemCategory;
 import com.yonyou.bq8.di.delegates.vo.FilesysDirectory;
 import com.yonyou.bq8.di.delegates.vo.FilesysType;
 import com.yonyou.bq8.di.web.entity.AjaxResult;
@@ -156,12 +155,7 @@ public class DIFileSystemResource {
 
 			// 组装浏览面板数据
 			BrowseMeta browse = new BrowseMeta();
-			if (DIFileSystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(
-					category)) {
-				populateLocalBrowseEles(browse);
-			} else {
-				populateFTPBrowseEles(category, browse);
-			}
+			populateBrowseEles(browse, category);
 
 			browse.addExtendAttribute("category", category);
 			browse.addClass("hb-browsepanel");
@@ -181,28 +175,30 @@ public class DIFileSystemResource {
 	}
 
 	/**
-	 * 拼装本地文件系统内容
+	 * 拼装文件系统内容
 	 * 
 	 * @return
 	 * @throws DIException
 	 */
-	private void populateLocalBrowseEles(BrowseMeta browse) throws DIException {
+	private void populateBrowseEles(BrowseMeta browse, String category)
+			throws DIException {
+		DIFileSystemCategory cate = DIFileSystemCategory
+				.getCategoryByCode(category);
 		List<FilesysDirectory> filesysDirectorys = filesysService
-				.getLocalRoots();
+				.getFilesysRoots(cate);
 		if (filesysDirectorys != null && !filesysDirectorys.isEmpty()) {
 			for (FilesysDirectory filesysDirectory : filesysDirectorys) {
 				BrowseNodeMeta node = new BrowseNodeMeta();
 				node.setId(String.valueOf(filesysDirectory.getId()));
-				node.setCategory(DIFileSystemCategory.FILESYS_TYPE_LOCAL
-						.getCategory());
+				node.setCategory(category);
 				node.setPath("/");
 				node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME,
 						filesysDirectory.getDesc());
 				node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_NODE);
 				node.addAttribute(HTML.ATTR_NAME, filesysDirectory.getPath());
-				node.addAttribute(HTML.ATTR_SRC, "/fs/items/list/local");
-				node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE,
-						"ui-fs-local-icon");
+				node.addAttribute(HTML.ATTR_SRC, "/fs/items/list/" + category);
+				node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, "ui-fs-"
+						+ category + "-icon");
 				node.addExtendAttribute("rootId", String
 						.valueOf(filesysDirectory.getId()));
 
@@ -211,42 +207,6 @@ public class DIFileSystemResource {
 
 				browse.addContent(node);
 			}
-		}
-	}
-
-	/**
-	 * 拼装主机信息
-	 * 
-	 * @param category
-	 *            文件系统类别
-	 * @return
-	 * @throws DIException
-	 */
-	private void populateFTPBrowseEles(String category, BrowseMeta browse)
-			throws DIException {
-
-		List<DIHost> hosts = filesysService.getHostByCategory(category);
-		if (hosts == null || hosts.isEmpty()) {
-			return;
-		}
-
-		for (DIHost host : hosts) {
-			BrowseNodeMeta node = new BrowseNodeMeta();
-			node.setId(String.valueOf(host.getId()));
-			node.setPath("/");
-			node.setCategory(category);
-			node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, host.getDesc());
-			node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_NODE);
-			node.addAttribute(HTML.ATTR_NAME, host.getCode());
-			node.addAttribute(HTML.ATTR_SRC, "/fs/items/list/" + category);
-			node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, "ui-fs-"
-					+ category + "-icon");
-			node.addExtendAttribute("rootId", String.valueOf(host.getId()));
-
-			node.addEvent("mouseup", "YonYou.browse.showOperationForDir");
-			node.addEvent("dblclick", "YonYou.browse.changeDir");
-
-			browse.addContent(node);
 		}
 	}
 

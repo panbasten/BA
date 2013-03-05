@@ -399,6 +399,7 @@ public class KettleDatabaseRepositoryBase {
 	
 	public static final String TABLE_R_FILESYS_DIRECTORY = "R_FILESYS_DIRECTORY";
 	public static final String FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY = "ID_FS_DIRECTORY";
+	public static final String FIELD_FILESYS_DIRECTORY_FS_TYPE = "FS_TYPE";
 	public static final String FIELD_FILESYS_DIRECTORY_PATH = "PATH";
 	public static final String FIELD_FILESYS_DIRECTORY_DESCRIPTION = "DESCRIPTION";
 	public static final String FIELD_FILESYS_DIRECTORY_NOTES = "NOTES";

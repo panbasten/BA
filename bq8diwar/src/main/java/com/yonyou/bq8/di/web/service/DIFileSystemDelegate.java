@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.vfs.FileObject;
 
 import com.yonyou.bq8.di.core.exception.DIException;
+import com.yonyou.bq8.di.delegates.utils.DIFileSystemCategory;
 import com.yonyou.bq8.di.delegates.vo.DIHost;
 import com.yonyou.bq8.di.delegates.vo.FilesysDirectory;
 import com.yonyou.bq8.di.delegates.vo.FilesysType;
@@ -16,14 +17,6 @@ public interface DIFileSystemDelegate {
 	 * @throws DIException
 	 */
 	public List<DIHost> getAllHost() throws DIException;
-	
-	/**
-	 * 根据category查询主机信息
-	 * @param category
-	 * @return
-	 * @throws DIException
-	 */
-	public List<DIHost> getHostByCategory(String category) throws DIException;
 	
 	/**
 	 * 根据id获取主机信息
@@ -63,10 +56,11 @@ public interface DIFileSystemDelegate {
 	
 	/**
 	 * 获取服务器本地文件系统根目录
+	 * @param typeId
 	 * @return
 	 * @throws DIException
 	 */
-	public List<FilesysDirectory> getLocalRoots() throws DIException;
+	public List<FilesysDirectory> getFilesysRoots(DIFileSystemCategory cate) throws DIException;
 	
 	/**
 	 * 根据id获取服务器本地根目录信息

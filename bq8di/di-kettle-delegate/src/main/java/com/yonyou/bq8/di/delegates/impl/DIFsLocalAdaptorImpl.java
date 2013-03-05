@@ -105,7 +105,10 @@ public class DIFsLocalAdaptorImpl extends AbstractDbAdaptor implements DIFsLocal
 					+ ","
 					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_NOTES
 					+ " FROM "
-					+ KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY;
+					+ KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY
+					+ " WHERE "
+					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_FS_TYPE 
+					+ " = 1";
 			return getRows(sql);
 		} catch (KettleException e) {
 			throw new DIKettleException(e);
