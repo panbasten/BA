@@ -102,10 +102,8 @@ public class DIFileSystemService implements DIFileSystemDelegate {
 	@Override
 	public List<FilesysDirectory> getFilesysRoots(DIFileSystemCategory cate)
 			throws DIException {
-		DIFsLocalAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIFsLocalAdaptor.class);
 
-		List<Object[]> rs = adaptor.getLocalRoots();
+		List<Object[]> rs = cate.getFilesysRoots();
 
 		if (rs == null || rs.isEmpty()) {
 			return Collections.emptyList();

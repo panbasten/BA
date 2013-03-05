@@ -21,8 +21,7 @@ public class DIHostAdaptorImpl extends AbstractDbAdaptor implements
 	private final String QUERY_HOST = "SELECT "
 			+ KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY
 			+ "," + KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_PATH
-			+ ","
-			+ KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_DESCRIPTION
+			+ "," + KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_DESCRIPTION
 			+ "," + KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_NOTES
 			+ " FROM " + KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY;
 
@@ -52,7 +51,7 @@ public class DIHostAdaptorImpl extends AbstractDbAdaptor implements
 		try {
 			String sql = QUERY_HOST
 					+ " WHERE "
-					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY
+					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_FS_TYPE
 					+ " = " + type;
 			return getRows(sql);
 		} catch (KettleException e) {

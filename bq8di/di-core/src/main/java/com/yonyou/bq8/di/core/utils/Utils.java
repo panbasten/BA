@@ -615,6 +615,32 @@ public class Utils {
 	}
 
 	/**
+	 * 将String转换成boolean。如果转换出错，返回默认值
+	 * 
+	 * @param str
+	 * @param def
+	 * @return
+	 */
+	public static final boolean toBoolean(String str, boolean def) {
+		if (str != null && !"".equals(str)) {
+			if ("true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str)
+					|| "y".equalsIgnoreCase(str)) {
+				return Boolean.TRUE;
+			} else if ("false".equalsIgnoreCase(str)
+					|| "no".equalsIgnoreCase(str) || "n".equalsIgnoreCase(str)) {
+				return Boolean.FALSE;
+			} else {
+				try {
+					return Boolean.parseBoolean(str);
+				} catch (Exception e) {
+
+				}
+			}
+		}
+		return def;
+	}
+
+	/**
 	 * 将String转换成long integer。如果转换出错，返回默认值
 	 * 
 	 * @param str
@@ -855,6 +881,7 @@ public class Utils {
 
 	/**
 	 * 判断集合是否为空
+	 * 
 	 * @param collection
 	 * @return
 	 */
