@@ -1,5 +1,6 @@
 package com.yonyou.bq8.di.component.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import com.yonyou.bq8.di.core.utils.XmlUtils;
 
 public class PageTemplateResolverType {
 
-	public static final String XML_FILE_HB_COMPONENTS = "hb-components.xml";
+	public static final String XML_FILE_HB_COMPONENTS = "entities";
 
 	private static final ComponentResolverInterface htmlResolver = new HTMLComponentResolver();
 
@@ -42,25 +43,27 @@ public class PageTemplateResolverType {
 				categories = new HashMap<String, List<ComponentPlugin>>();
 				categoryNames = new ArrayList<String>();
 
-				Document document = XMLHandler.loadXMLFile(BQFileUtils
-						.getInputStream(XML_FILE_HB_COMPONENTS,
-								PageTemplateResolverType.class), null, true,
-						false);
+				File componentDir = BQFileUtils.getFile(XML_FILE_HB_COMPONENTS,
+						PageTemplateResolverType.class);
+				if (BQFileUtils.isDirectory(componentDir)) {
+					File[] components = componentDir.listFiles();
+					for (File com : components) {
+						Document document = XMLHandler.loadXMLFile(com);
 
-				Node componentsNode = XMLHandler.getSubNode(document,
-						"components");
-				List<Node> componentNodes = XMLHandler.getNodes(componentsNode,
-						"component");
-				for (Node componentNode : componentNodes) {
-					String id = XMLHandler.getTagAttribute(componentNode, "id");
-					ComponentPlugin p = ComponentPlugin.instance(componentNode);
-					plugins.put(id.toLowerCase(), p);
-					if (!categories.containsKey(p.getCategory())) {
-						categories.put(p.getCategory(),
-								new ArrayList<ComponentPlugin>());
-						categoryNames.add(p.getCategorydesc());
+						Node componentNode = XMLHandler.getSubNode(document,
+								"component");
+						String id = XMLHandler.getTagAttribute(componentNode,
+								"id");
+						ComponentPlugin p = ComponentPlugin
+								.instance(componentNode);
+						plugins.put(id.toLowerCase(), p);
+						if (!categories.containsKey(p.getCategory())) {
+							categories.put(p.getCategory(),
+									new ArrayList<ComponentPlugin>());
+							categoryNames.add(p.getCategorydesc());
+						}
+						categories.get(p.getCategory()).add(p);
 					}
-					categories.get(p.getCategory()).add(p);
 				}
 
 				init.set(true);
