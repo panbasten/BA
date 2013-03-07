@@ -1,6 +1,6 @@
 package com.yonyou.bq8.di.component.utils;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -24,7 +25,8 @@ import com.yonyou.bq8.di.core.utils.XmlUtils;
 
 public class PageTemplateResolverType {
 
-	public static final String XML_FILE_HB_COMPONENTS = "entities";
+	public static final String XML_FILE_HB_COMPONENTS = "META-INF/hb-composition.xml";
+	public static final String XML_FILE_HB_COMPONENTS_ENTITY_PREFIX = "META-INF/entities/";
 
 	private static final ComponentResolverInterface htmlResolver = new HTMLComponentResolver();
 
@@ -43,27 +45,15 @@ public class PageTemplateResolverType {
 				categories = new HashMap<String, List<ComponentPlugin>>();
 				categoryNames = new ArrayList<String>();
 
-				File componentDir = BQFileUtils.getFile(XML_FILE_HB_COMPONENTS,
-						PageTemplateResolverType.class);
-				if (BQFileUtils.isDirectory(componentDir)) {
-					File[] components = componentDir.listFiles();
-					for (File com : components) {
-						Document document = XMLHandler.loadXMLFile(com);
-
-						Node componentNode = XMLHandler.getSubNode(document,
-								"component");
-						String id = XMLHandler.getTagAttribute(componentNode,
-								"id");
-						ComponentPlugin p = ComponentPlugin
-								.instance(componentNode);
-						plugins.put(id.toLowerCase(), p);
-						if (!categories.containsKey(p.getCategory())) {
-							categories.put(p.getCategory(),
-									new ArrayList<ComponentPlugin>());
-							categoryNames.add(p.getCategorydesc());
-						}
-						categories.get(p.getCategory()).add(p);
-					}
+				Document document = getXMLDocument(XML_FILE_HB_COMPONENTS);
+				Node componentsNode = XMLHandler.getSubNode(document,
+						"components");
+				List<Node> componentNodes = XMLHandler.getNodes(componentsNode,
+						"component");
+				for (Node componentNode : componentNodes) {
+					String componentFilename = componentNode.getTextContent();
+					initComponent(getXMLDocument(XML_FILE_HB_COMPONENTS_ENTITY_PREFIX
+							+ componentFilename));
 				}
 
 				init.set(true);
@@ -72,6 +62,25 @@ public class PageTemplateResolverType {
 			throw new DIPageException("无法读取组件XML配置文件: "
 					+ XML_FILE_HB_COMPONENTS, e);
 		}
+	}
+
+	private static void initComponent(Document document) throws Exception {
+
+		Node componentNode = XMLHandler.getSubNode(document, "component");
+		String id = XMLHandler.getTagAttribute(componentNode, "id");
+		ComponentPlugin p = ComponentPlugin.instance(componentNode);
+		plugins.put(id.toLowerCase(), p);
+		if (!categories.containsKey(p.getCategory())) {
+			categories.put(p.getCategory(), new ArrayList<ComponentPlugin>());
+			categoryNames.add(p.getCategorydesc());
+		}
+		categories.get(p.getCategory()).add(p);
+	}
+
+	private static Document getXMLDocument(String filename)
+			throws KettleXMLException, FileNotFoundException {
+		return XMLHandler.loadXMLFile(BQFileUtils.getInputStream(filename,
+				PageTemplateResolverType.class), null, true, false);
 	}
 
 	public static Map<String, ComponentPlugin> getPlugins()

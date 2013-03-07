@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components>
+	<component>hb-base-composition.xml</component>
+	<component>hb-base-foreach.xml</component>
+	<component>hb-base-include.xml</component>
+	
+	<component>hb-browse.xml</component>
+	<component>hb-button.xml</component>
+	<component>hb-grid.xml</component>
+	<component>hb-inputtext.xml</component>
+	<component>hb-labelobject.xml</component>
+	<component>hb-layout.xml</component>
+	<component>hb-selectmenu.xml</component>
+	<component>hb-tabview.xml</component>
+</components>

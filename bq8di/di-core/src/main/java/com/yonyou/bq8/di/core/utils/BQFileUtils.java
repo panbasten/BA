@@ -14,7 +14,6 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -188,28 +187,9 @@ public class BQFileUtils {
 		if (file.exists()) {
 			url = file.toURI().toURL();
 		} else {
-			ClassLoader classLoader = cls.getClassLoader();
-			url = classLoader.getResource(filename);
+			url = cls.getResource(filename);
 		}
 		return url;
-	}
-
-	/**
-	 * 工具方法：通过文件
-	 * 
-	 * @param filename
-	 * @return
-	 * @throws MalformedURLException
-	 */
-	public static File getFile(String filename) throws MalformedURLException {
-		URL url = getURL(filename);
-		return toFile(url);
-	}
-
-	public static File getFile(String filename, Class<?> cls)
-			throws MalformedURLException {
-		URL url = getURL(filename, cls);
-		return toFile(url);
 	}
 
 	/**
