@@ -421,6 +421,8 @@ public class KettleDatabaseRepositoryBase {
 	public static final String FIELD_REPORT_ID_REPORT_DIRECTORY = "ID_REPORT_DIRECTORY";
 	public static final String FIELD_REPORT_REPORT_OBJECT = "REPORT_OBJECT";
 	public static final String FIELD_REPORT_REPORT_TYPE = "REPORT_TYPE";
+	public static final String FIELD_REPORT_IS_REF = "IS_REF";
+	public static final String FIELD_REPORT_ID_REF_REPORT = "ID_REF_REPORT";
 	public static final String FIELD_REPORT_DESCRIPTION = "DESCRIPTION";
 	public static final String FIELD_REPORT_REPORT_VERSION = "REPORT_VERSION";
 	public static final String FIELD_REPORT_REPORT_STATUS = "REPORT_STATUS";

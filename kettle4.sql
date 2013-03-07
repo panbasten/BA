@@ -319,7 +319,7 @@ CREATE TABLE `r_filesys_directory` (
   `ID_FS_DIRECTORY` bigint(20) NOT NULL,
   `FS_TYPE` int(11) DEFAULT NULL,
   `PATH` varchar(255) NOT NULL,
-  `DESCRIPTION` varchar(255) NOT NULL,
+  `DESCRIPTION` mediumtext NOT NULL,
   `NOTES` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_FS_DIRECTORY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -345,7 +345,7 @@ DROP TABLE IF EXISTS `r_filesys_type`;
 CREATE TABLE `r_filesys_type` (
   `ID_FS_TYPE` bigint(20) NOT NULL,
   `CODE` varchar(255) NOT NULL,
-  `DESCRIPTION` varchar(255) NOT NULL,
+  `DESCRIPTION` mediumtext NOT NULL,
   PRIMARY KEY (`ID_FS_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -370,9 +370,9 @@ DROP TABLE IF EXISTS `r_func_type`;
 CREATE TABLE `r_func_type` (
   `ID_FUNC_TYPE` int(11) NOT NULL,
   `CODE` varchar(20) DEFAULT NULL,
-  `DESCRIPTION` varchar(20) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
   `ID_FUNC_TYPE_PARENT` int(11) DEFAULT NULL,
-  `HELPTEXT` varchar(255) DEFAULT NULL,
+  `HELPTEXT` mediumtext,
   `TYPE_INDEX` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID_FUNC_TYPE`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
@@ -384,7 +384,7 @@ CREATE TABLE `r_func_type` (
 
 LOCK TABLES `r_func_type` WRITE;
 /*!40000 ALTER TABLE `r_func_type` DISABLE KEYS */;
-INSERT INTO `r_func_type` VALUES (0,'root','根',NULL,'功能的根节点',0),(1,'transjob','转换/作业',0,'一级节点：转换/作业',0),(2,'db','数据库',0,'一级节点：数据库',1),(4,'systools','功能',0,'一级节点：功能',4),(5,'privilege','用户权限',4,'二级节点：功能-用户权限',0),(6,'createuser','创建用户',5,'三级节点：功能-用户权限-创建用户',0),(7,'deluser','删除用户',5,'三级节点：功能-用户权限-删除用户',1),(8,'edituser','编辑当前用户',5,'三级节点：功能-用户权限-编辑当前用户',2),(9,'repository','资源库',4,'二级节点：功能-资源库',1),(10,'connrep','连接资源库',9,'三级节点：功能-资源库-连接资源库',0),(11,'findrep','探测资源库',9,'三级节点：功能-资源库-探测资源库',1),(12,'createrep','创建资源库',9,'三级节点：功能-资源库-创建资源库',2),(13,'file','文件',4,'二级节点：功能-文件',2),(14,'newtrans','新建转换',13,'三级节点：功能-文件-新建转换',0),(15,'newjob','新建作业',13,'三级节点：功能-文件-新建作业',1),(16,'newdb','添加数据库',13,'三级节点：功能-文件-添加数据库',2),(17,'newfs','添加文件系统',13,'三级节点：功能-文件-添加文件系统',3),(18,'operate','操作',4,'二级节点：功能-操作',3),(19,'open','打开',18,'三级节点：功能-操作-打开',0),(20,'fileopen','从文件打开',18,'三级节点：功能-操作-从文件打开',1),(21,'downloadzip','打包下载',18,'三级节点：功能-操作-打包下载',2),(22,'uploadfile','上传文件',18,'三级节点：功能-操作-上传文件',3),(23,'wizard','向导',4,'二级节点：功能-向导',4),(24,'wcreatedb','创建数据库连接',23,'三级节点：功能-向导-创建数据库连接',0),(25,'wsinglecopy','单表复制向导',23,'三级节点：功能-向导-单表复制向导',1),(26,'wmulticopy','多表复制向导',23,'三级节点：功能-向导-多表复制向导',2),(27,'help','帮助',4,'二级节点：功能-帮助',5),(28,'showstepplugin','显示步骤插件',27,'三级节点：功能-帮助-显示步骤插件',0),(29,'showjobplugin','显示作业插件',27,'三级节点：功能-帮助-显示作业插件',1),(30,'about','关于',27,'三级节点：功能-帮助-关于',2),(3,'domain','信息域',0,'一级节点：信息域',2),(31,'fs','文件系统',0,'一级节点：文件系统',3);
+INSERT INTO `r_func_type` VALUES (0,'root','根',NULL,'功能的根节点',0),(1,'transjob','转换/作业',0,'一级节点：转换/作业',0),(2,'db','数据库',0,'一级节点：数据库',1),(4,'systools','功能',0,'一级节点：功能',5),(5,'privilege','用户权限',4,'二级节点：功能-用户权限',0),(6,'createuser','创建用户',5,'三级节点：功能-用户权限-创建用户',0),(7,'deluser','删除用户',5,'三级节点：功能-用户权限-删除用户',1),(8,'edituser','编辑当前用户',5,'三级节点：功能-用户权限-编辑当前用户',2),(9,'repository','资源库',4,'二级节点：功能-资源库',1),(10,'connrep','连接资源库',9,'三级节点：功能-资源库-连接资源库',0),(11,'findrep','探测资源库',9,'三级节点：功能-资源库-探测资源库',1),(12,'createrep','创建资源库',9,'三级节点：功能-资源库-创建资源库',2),(13,'file','文件',4,'二级节点：功能-文件',2),(14,'newtrans','新建转换',13,'三级节点：功能-文件-新建转换',0),(15,'newjob','新建作业',13,'三级节点：功能-文件-新建作业',1),(16,'newdb','添加数据库',13,'三级节点：功能-文件-添加数据库',2),(17,'newfs','添加文件系统',13,'三级节点：功能-文件-添加文件系统',3),(18,'operate','操作',4,'二级节点：功能-操作',3),(19,'open','打开',18,'三级节点：功能-操作-打开',0),(20,'fileopen','从文件打开',18,'三级节点：功能-操作-从文件打开',1),(21,'downloadzip','打包下载',18,'三级节点：功能-操作-打包下载',2),(22,'uploadfile','上传文件',18,'三级节点：功能-操作-上传文件',3),(23,'wizard','向导',4,'二级节点：功能-向导',4),(24,'wcreatedb','创建数据库连接',23,'三级节点：功能-向导-创建数据库连接',0),(25,'wsinglecopy','单表复制向导',23,'三级节点：功能-向导-单表复制向导',1),(26,'wmulticopy','多表复制向导',23,'三级节点：功能-向导-多表复制向导',2),(27,'help','帮助',4,'二级节点：功能-帮助',5),(28,'showstepplugin','显示步骤插件',27,'三级节点：功能-帮助-显示步骤插件',0),(29,'showjobplugin','显示作业插件',27,'三级节点：功能-帮助-显示作业插件',1),(30,'about','关于',27,'三级节点：功能-帮助-关于',2),(3,'domain','信息域',0,'一级节点：信息域',2),(31,'fs','文件系统',0,'一级节点：文件系统',4),(32,'report','报表',0,'一级节点：报表',3);
 /*!40000 ALTER TABLE `r_func_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -869,6 +869,91 @@ CREATE TABLE `r_partition_schema` (
 LOCK TABLES `r_partition_schema` WRITE;
 /*!40000 ALTER TABLE `r_partition_schema` DISABLE KEYS */;
 /*!40000 ALTER TABLE `r_partition_schema` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `r_report`
+--
+
+DROP TABLE IF EXISTS `r_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `r_report` (
+  `ID_REPORT` bigint(20) NOT NULL,
+  `ID_REPORT_DIRECTORY` int(11) DEFAULT NULL,
+  `REPORT_OBJECT` blob,
+  `REPORT_TYPE` int(11) DEFAULT NULL,
+  `IS_REF` char(1) DEFAULT NULL,
+  `ID_REF_REPORT` int(11) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `REPORT_VERSION` varchar(255) DEFAULT NULL,
+  `REPORT_STATUS` int(11) DEFAULT NULL,
+  `CREATE_USER` varchar(255) DEFAULT NULL,
+  `CREATE_DATE` datetime DEFAULT NULL,
+  `MODIFIED_USER` varchar(255) DEFAULT NULL,
+  `MODIFIED_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_REPORT`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_report`
+--
+
+LOCK TABLES `r_report` WRITE;
+/*!40000 ALTER TABLE `r_report` DISABLE KEYS */;
+INSERT INTO `r_report` VALUES (0,0,NULL,1,'N',NULL,'表单例子',NULL,NULL,NULL,NULL,NULL,NULL),(1,0,NULL,2,'N',NULL,'报告例子',NULL,NULL,NULL,NULL,NULL,NULL),(2,0,NULL,3,'N',NULL,'自由报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(3,0,NULL,4,'N',NULL,'透视报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(4,1,NULL,NULL,'Y',0,'表单例子的引用',NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `r_report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `r_report_directory`
+--
+
+DROP TABLE IF EXISTS `r_report_directory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `r_report_directory` (
+  `ID_REPORT_DIRECTORY` bigint(20) NOT NULL,
+  `ID_REPORT_DIRECTORY_PARENT` int(11) unsigned zerofill DEFAULT NULL,
+  `DIRECTORY_NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID_REPORT_DIRECTORY`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_report_directory`
+--
+
+LOCK TABLES `r_report_directory` WRITE;
+/*!40000 ALTER TABLE `r_report_directory` DISABLE KEYS */;
+INSERT INTO `r_report_directory` VALUES (1,00000000000,'引用的一个例子目录');
+/*!40000 ALTER TABLE `r_report_directory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `r_report_type`
+--
+
+DROP TABLE IF EXISTS `r_report_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `r_report_type` (
+  `ID_REPORT_TYPE` bigint(20) NOT NULL,
+  `CODE` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  PRIMARY KEY (`ID_REPORT_TYPE`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_report_type`
+--
+
+LOCK TABLES `r_report_type` WRITE;
+/*!40000 ALTER TABLE `r_report_type` DISABLE KEYS */;
+INSERT INTO `r_report_type` VALUES (1,'form','表单'),(3,'freereport','自由报表'),(4,'pivotreport','透视报表'),(2,'wordreport','报告');
+/*!40000 ALTER TABLE `r_report_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1426,4 +1511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-04  7:18:16
+-- Dump completed on 2013-03-08  1:05:29
