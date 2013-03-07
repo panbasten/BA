@@ -288,6 +288,9 @@
 .ui-navi-icon-domain{
 	background-image: url("../images/desktop/navi_domain.png");
 }
+.ui-navi-icon-report{
+	background-image: url("../images/desktop/navi_report.png");
+}
 .ui-navi-icon-fs{
 	background-image: url("../images/desktop/navi_filesys.png");
 }
