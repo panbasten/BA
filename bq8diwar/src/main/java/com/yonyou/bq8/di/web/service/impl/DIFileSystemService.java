@@ -14,13 +14,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.yonyou.bq8.di.core.exception.DIException;
-import com.yonyou.bq8.di.core.utils.BQFileUtils;
 import com.yonyou.bq8.di.delegates.intf.DIFilesysTypeAdaptor;
-import com.yonyou.bq8.di.delegates.intf.DIFsLocalAdaptor;
-import com.yonyou.bq8.di.delegates.intf.DIHostAdaptor;
 import com.yonyou.bq8.di.delegates.utils.DIAdaptorFactory;
 import com.yonyou.bq8.di.delegates.utils.DIFileSystemCategory;
-import com.yonyou.bq8.di.delegates.vo.DIHost;
 import com.yonyou.bq8.di.delegates.vo.FilesysDirectory;
 import com.yonyou.bq8.di.delegates.vo.FilesysType;
 import com.yonyou.bq8.di.web.service.DIFileSystemDelegate;
@@ -28,53 +24,6 @@ import com.yonyou.bq8.di.web.service.DIFileSystemDelegate;
 @Service("di.service.filesystemService")
 public class DIFileSystemService implements DIFileSystemDelegate {
 	private final Logger log = Logger.getLogger(DIFileSystemService.class);
-
-	@Override
-	public List<DIHost> getAllHost() throws DIException {
-		DIHostAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIHostAdaptor.class);
-
-		List<Object[]> hostObjs = adaptor.getAllHosts();
-		if (hostObjs == null) {
-			return Collections.emptyList();
-		}
-
-		List<DIHost> hosts = new ArrayList<DIHost>();
-		for (Object[] hostObj : hostObjs) {
-			DIHost host = populateHost(hostObj);
-			hosts.add(host);
-		}
-
-		return hosts;
-	}
-
-	@Override
-	public DIHost getFtphostById(long id) throws DIException {
-		DIHostAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIHostAdaptor.class);
-		Object[] hostObj = adaptor.getHostById(id);
-		if (hostObj == null) {
-			return null;
-		}
-
-		DIHost host = populateHost(hostObj);
-		return host;
-	}
-
-	private DIHost populateHost(Object[] hostObj) {
-		DIHost host = new DIHost();
-		host.setId(Long.parseLong(hostObj[0].toString()));
-		host.setCode(String.valueOf(hostObj[1]));
-		host.setDesc(hostObj[2].toString());
-		host.setIp(hostObj[3].toString());
-		host.setPort(Integer.parseInt(hostObj[4].toString()));
-		host.setUsername(hostObj[5].toString());
-		host.setPassword(hostObj[6].toString());
-		host.setType(hostObj[7].toString());
-		host.setNotes(hostObj[8].toString());
-		host.setMode(hostObj[9].toString());
-		return host;
-	}
 
 	@Override
 	public List<FilesysType> getFilesysTypes() throws DIException {
@@ -102,44 +51,7 @@ public class DIFileSystemService implements DIFileSystemDelegate {
 	@Override
 	public List<FilesysDirectory> getFilesysRoots(DIFileSystemCategory cate)
 			throws DIException {
-
-		List<Object[]> rs = cate.getFilesysRoots();
-
-		if (rs == null || rs.isEmpty()) {
-			return Collections.emptyList();
-		}
-
-		List<FilesysDirectory> filesysDirectories = new ArrayList<FilesysDirectory>();
-		for (Object[] obj : rs) {
-			FilesysDirectory filesysDirectory = new FilesysDirectory();
-			filesysDirectory.setId(Long.parseLong(obj[0].toString()));
-			filesysDirectory.setPath(obj[1].toString());
-			filesysDirectory.setDesc(obj[2].toString());
-			filesysDirectory.setNotes(obj[3].toString());
-			filesysDirectories.add(filesysDirectory);
-		}
-
-		return filesysDirectories;
-	}
-
-	@Override
-	public FilesysDirectory getLocalRootById(long id) throws DIException {
-		DIFsLocalAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIFsLocalAdaptor.class);
-
-		Object[] rs = adaptor.getLocalRootById(id);
-
-		if (rs == null) {
-			return null;
-		}
-
-		FilesysDirectory filesysDirectory = new FilesysDirectory();
-		filesysDirectory.setId(Long.parseLong(rs[0].toString()));
-		filesysDirectory.setPath(rs[1].toString());
-		filesysDirectory.setDesc(rs[2].toString());
-		filesysDirectory.setNotes(rs[3].toString());
-
-		return filesysDirectory;
+		return cate.getFsAdaptor().getRootDirectories();
 	}
 
 	@Override
@@ -149,26 +61,15 @@ public class DIFileSystemService implements DIFileSystemDelegate {
 			FileSystemManager fsManager = VFS.getManager();
 			FileSystemOptions opts = new FileSystemOptions();
 
-			String vfsPath = null;
+			DIFileSystemCategory cate = DIFileSystemCategory
+					.getCategoryByCode(category);
+			FilesysDirectory fd = cate.getFsAdaptor().getRootDirectoryById(
+					rootId);
 
-			if (DIFileSystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(
+			String vfsPath = cate.getVfsPath(workDir, fd);
+
+			if (DIFileSystemCategory.FILESYS_TYPE_SFTP.getCategory().equals(
 					category)) {
-				FilesysDirectory filesysDirectory = this
-						.getLocalRootById(rootId);
-				String rootDir = filesysDirectory.getPath();
-				vfsPath = BQFileUtils.dirAppend(rootDir, workDir);
-			} else if (DIFileSystemCategory.FILESYS_TYPE_FTP.getCategory()
-					.equals(category)) {
-				DIHost host = this.getFtphostById(rootId);
-				vfsPath = "ftp://" + host.getUsername() + ":"
-						+ host.getPassword() + "@" + host.getIp() + ":"
-						+ host.getPort() + workDir;
-			} else if (DIFileSystemCategory.FILESYS_TYPE_SFTP.getCategory()
-					.equals(category)) {
-				DIHost host = this.getFtphostById(rootId);
-				vfsPath = "sftp://" + host.getUsername() + ":"
-						+ host.getPassword() + "@" + host.getIp() + ":"
-						+ host.getPort() + workDir;
 				SftpFileSystemConfigBuilder.getInstance()
 						.setStrictHostKeyChecking(opts, "no");
 			}
@@ -186,57 +87,10 @@ public class DIFileSystemService implements DIFileSystemDelegate {
 	public String getRootDesc(String category, long rootId) throws DIException {
 		String rootDirName = null;
 
-		if (DIFileSystemCategory.FILESYS_TYPE_LOCAL.getCategory().equals(
-				category)) {
-			FilesysDirectory filesysDirectory = this.getLocalRootById(rootId);
-			rootDirName = filesysDirectory.getDesc();
-		} else {
-			DIHost host = this.getFtphostById(rootId);
-			rootDirName = host.getDesc();
-		}
-		return rootDirName;
-	}
+		FilesysDirectory fd = DIFileSystemCategory.getCategoryByCode(category)
+				.getFsAdaptor().getRootDirectoryById(rootId);
 
-	@Override
-	public void addHost(DIHost host) throws DIException {
-		DIHostAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIHostAdaptor.class);
-		adaptor.addHost(host);
-	}
-
-	@Override
-	public void delHost(long id) throws DIException {
-		DIHostAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIHostAdaptor.class);
-		adaptor.delete(id);
-	}
-
-	@Override
-	public void updateHost(DIHost host) throws DIException {
-		DIHostAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIHostAdaptor.class);
-		adaptor.updateHost(host);
-	}
-
-	@Override
-	public void addLocalRoot(FilesysDirectory directory) throws DIException {
-		DIFsLocalAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIFsLocalAdaptor.class);
-		adaptor.addFsDirectory(directory);
-	}
-
-	@Override
-	public void deleteLocalRoot(long id) throws DIException {
-		DIFsLocalAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIFsLocalAdaptor.class);
-		adaptor.deleteFsDirectory(id);
-	}
-
-	@Override
-	public void updateLocalRoot(FilesysDirectory directory) throws DIException {
-		DIFsLocalAdaptor adaptor = DIAdaptorFactory
-				.createAdaptor(DIFsLocalAdaptor.class);
-		adaptor.updateFsDirectory(directory);
+		return fd.getDesc();
 	}
 
 }

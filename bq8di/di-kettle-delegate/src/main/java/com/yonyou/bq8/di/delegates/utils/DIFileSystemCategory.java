@@ -1,49 +1,87 @@
 package com.yonyou.bq8.di.delegates.utils;
 
-import java.util.List;
-
+import com.yonyou.bq8.di.core.utils.BQFileUtils;
+import com.yonyou.bq8.di.delegates.intf.DIFsAdaptor;
+import com.yonyou.bq8.di.delegates.intf.DIFsFTPAdaptor;
+import com.yonyou.bq8.di.delegates.intf.DIFsGITAdaptor;
 import com.yonyou.bq8.di.delegates.intf.DIFsLocalAdaptor;
-import com.yonyou.bq8.di.delegates.intf.DIHostAdaptor;
-import com.yonyou.bq8.di.exceptions.DIKettleException;
+import com.yonyou.bq8.di.delegates.intf.DIFsSFTPAdaptor;
+import com.yonyou.bq8.di.delegates.intf.DIFsSVNAdaptor;
+import com.yonyou.bq8.di.delegates.vo.FilesysDirectory;
 
 public enum DIFileSystemCategory {
 	FILESYS_TYPE_LOCAL(1, "local", "服务器文件系统") {
 		@Override
-		public List<Object[]> getFilesysRoots() throws DIKettleException {
+		public DIFsAdaptor getFsAdaptor() {
 			DIFsLocalAdaptor adaptor = DIAdaptorFactory
 					.createAdaptor(DIFsLocalAdaptor.class);
-			return adaptor.getLocalRoots();
+			return adaptor;
+		}
+
+		@Override
+		public String getVfsPath(String workDir, FilesysDirectory fd) {
+			String rootDir = fd.getPath();
+			return BQFileUtils.dirAppend(rootDir, workDir);
 		}
 	},
 
 	FILESYS_TYPE_FTP(2, "ftp", "FTP文件系统") {
 		@Override
-		public List<Object[]> getFilesysRoots() throws DIKettleException {
-			DIHostAdaptor adaptor = DIAdaptorFactory
-					.createAdaptor(DIHostAdaptor.class);
-			return adaptor.getHostsByType(FILESYS_TYPE_FTP.id);
+		public DIFsAdaptor getFsAdaptor() {
+			DIFsFTPAdaptor adaptor = DIAdaptorFactory
+					.createAdaptor(DIFsFTPAdaptor.class);
+			return adaptor;
+		}
+
+		@Override
+		public String getVfsPath(String workDir, FilesysDirectory fd) {
+			// vfsPath = "ftp://" + host.getUsername() + ":"
+			// + host.getPassword() + "@" + host.getIp() + ":"
+			// + host.getPort() + workDir;
+			return workDir;
 		}
 	},
 	FILESYS_TYPE_SFTP(3, "sftp", "SFTP文件系统") {
 		@Override
-		public List<Object[]> getFilesysRoots() throws DIKettleException {
-			DIHostAdaptor adaptor = DIAdaptorFactory
-					.createAdaptor(DIHostAdaptor.class);
-			return adaptor.getHostsByType(FILESYS_TYPE_SFTP.id);
+		public DIFsAdaptor getFsAdaptor() {
+			DIFsSFTPAdaptor adaptor = DIAdaptorFactory
+					.createAdaptor(DIFsSFTPAdaptor.class);
+			return adaptor;
+		}
+
+		@Override
+		public String getVfsPath(String workDir, FilesysDirectory fd) {
+//			vfsPath = "sftp://" + host.getUsername() + ":" + host.getPassword()
+//					+ "@" + host.getIp() + ":" + host.getPort() + workDir;
+			return workDir;
 		}
 	},
 	FILESYS_TYPE_SVN(4, "svn", "SVN服务器") {
 		@Override
-		public List<Object[]> getFilesysRoots() throws DIKettleException {
+		public DIFsAdaptor getFsAdaptor() {
+			DIFsSVNAdaptor adaptor = DIAdaptorFactory
+					.createAdaptor(DIFsSVNAdaptor.class);
+			return adaptor;
+		}
+
+		@Override
+		public String getVfsPath(String workDir, FilesysDirectory fd) {
 			// TODO Auto-generated method stub
-			return null;
+			return workDir;
 		}
 	},
 	FILESYS_TYPE_GIT(5, "git", "GIT服务器") {
 		@Override
-		public List<Object[]> getFilesysRoots() throws DIKettleException {
+		public DIFsAdaptor getFsAdaptor() {
+			DIFsGITAdaptor adaptor = DIAdaptorFactory
+					.createAdaptor(DIFsGITAdaptor.class);
+			return adaptor;
+		}
+
+		@Override
+		public String getVfsPath(String workDir, FilesysDirectory fd) {
 			// TODO Auto-generated method stub
-			return null;
+			return workDir;
 		}
 	};
 
@@ -57,7 +95,9 @@ public enum DIFileSystemCategory {
 		this.desc = desc;
 	}
 
-	public abstract List<Object[]> getFilesysRoots() throws DIKettleException;
+	public abstract DIFsAdaptor getFsAdaptor();
+
+	public abstract String getVfsPath(String workDir, FilesysDirectory fd);
 
 	public String getCategory() {
 		return category;

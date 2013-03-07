@@ -416,6 +416,25 @@ public class KettleDatabaseRepositoryBase {
 	public static final String FIELD_HOST_NOTES = "NOTES";
 	public static final String FIELD_HOST_MODE = "MODE";
 	
+	public static final String TABLE_R_REPORT = "R_REPORT";
+	public static final String FIELD_REPORT_ID_REPORT = "ID_REPORT";
+	public static final String FIELD_REPORT_ID_REPORT_DIRECTORY = "ID_REPORT_DIRECTORY";
+	public static final String FIELD_REPORT_REPORT_OBJECT = "REPORT_OBJECT";
+	public static final String FIELD_REPORT_REPORT_TYPE = "REPORT_TYPE";
+	public static final String FIELD_REPORT_DESCRIPTION = "DESCRIPTION";
+	public static final String FIELD_REPORT_REPORT_VERSION = "REPORT_VERSION";
+	public static final String FIELD_REPORT_REPORT_STATUS = "REPORT_STATUS";
+	public static final String FIELD_REPORT_CREATE_USER = "CREATE_USER";
+	public static final String FIELD_REPORT_CREATE_DATE = "CREATE_DATE";
+	public static final String FIELD_REPORT_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_REPORT_MODIFIED_DATE = "MODIFIED_DATE";
+	
+	public static final String TABLE_R_REPORT_DIRECTORY = "R_REPORT_DIRECTORY";
+	public static final String FIELD_REPORT_DIRECTORY_ID_REPORT_DIRECTORY = "ID_REPORT_DIRECTORY";
+	public static final String FIELD_REPORT_DIRECTORY_ID_REPORT_DIRECTORY_PARENT = "ID_REPORT_DIRECTORY_PARENT";
+	public static final String FIELD_REPORT_DIRECTORY_DIRECTORY_NAME = "DIRECTORY_NAME";
+	
+	
 	public static final String TABLE_R_ROLE = "R_ROLE";
 	public static final String FIELD_ROLE_ID_ROLE = "ID_ROLE";
 	public static final String FIELD_ROLE_NAME = "ROLE_NAME";

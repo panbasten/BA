@@ -47,9 +47,6 @@ public class DIFileSystemResource {
 	private static final String TEMPLATE_FILESYS_CREATE = "editor/filesys/create.h";
 	private static final String TEMPLATE_FILESYS_UPLOAD = "editor/filesys/upload.h";
 
-	// private final static String UPLOAD_TMPDIR =
-	// DIPropertyUtils.getProperty("fs.upload");
-
 	@Resource(name = "di.service.filesystemService")
 	private DIFileSystemDelegate filesysService;
 
