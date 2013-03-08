@@ -18,7 +18,7 @@ import com.yonyou.bq8.di.exceptions.DIKettleException;
  * @author Peter Pan
  * 
  */
-public interface DIPageDelegates {
+public interface DIPageDelegates extends DIDirectoryDelegates {
 
 	/**
 	 * 获取第一级导航项
@@ -29,38 +29,6 @@ public interface DIPageDelegates {
 	 */
 	public List<FunctionType> getNavigatorsLevelOne(String repository)
 			throws DIKettleException, DIException;
-
-	/**
-	 * 获得父目录对象
-	 * 
-	 * @param repository
-	 * @param id
-	 * @return
-	 * @throws DIException
-	 */
-	public BreadCrumbMeta getParentDirectories(String repository, Long id)
-			throws DIException;
-
-	/**
-	 * 获得子目录对象
-	 * 
-	 * @param id
-	 * @param browse
-	 * @throws DIException
-	 */
-	public void getSubDirectory(String repository, Long id, BrowseMeta browse)
-			throws DIException;
-
-	/**
-	 * 获得目录下面的子对象
-	 * 
-	 * @param category
-	 * @param id
-	 * @param browse
-	 * @throws DIException
-	 */
-	public void getSubDirectoryObject(String repository, String category,
-			Long id, BrowseMeta browse) throws DIException;
 
 	/**
 	 * 根据组件类别获取其下的所有组件

@@ -303,8 +303,9 @@ div.section {
 	font-size: 36px;
     line-height: 1em;
     margin: 40px 0 0 40px;
-    color: #e72112;
-    text-shadow: 2px 2px 6px #C89F40;
+    color: #D3D4D5;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #C89F40;
 }
 
 #slide2,#slide3{
@@ -322,11 +323,17 @@ div.section {
 	font-size: 14px;
 	line-height: 1.5em;
 	margin: 15px 0 0 150px;
+}
+#slide2 ul{
 	color: #9CA839;
 }
+#slide3 ul{
+	color: #4066C4
+}
+
 #slide4 p{
 	font-size: 24px;
 	font-weight: bold;
     line-height: 1em;
-	margin: 25px 0 0 40px;
+	margin: 65px 0 0 40px;
 }

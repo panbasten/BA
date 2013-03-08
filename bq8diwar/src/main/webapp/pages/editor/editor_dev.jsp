@@ -7,7 +7,7 @@
 <html>
 	<head>
 		
-		<title>BQ8 DI 操作平台</title>
+		<title>享元 DI 设计器平台</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />

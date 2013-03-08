@@ -19,13 +19,14 @@
 			<set>
 				<ref bean="di.resource.baseResource" />
 				<ref bean="di.resource.filesysResource" />
+				<ref bean="di.resource.reportResource" />
 				<ref bean="di.resource.identification" />
 				<ref bean="di.resource.sysToolsResource" />
 				<ref bean="di.resource.transJobResource" />
 				<ref bean="di.resource.dbResource" />
 				<ref bean="di.resource.fileOperation" />
-				<ref bean="di.resource.hostResource" />
-				<ref bean="di.resource.localResource" />
+				<!-- ref bean="di.resource.hostResource" />
+				<ref bean="di.resource.localResource" /-->
 			</set>
 		</property>
 	</bean>

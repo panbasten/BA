@@ -29,6 +29,7 @@ import com.yonyou.bq8.di.delegates.intf.DIFunctionTypeAdaptor;
 import com.yonyou.bq8.di.delegates.utils.DIAdaptorFactory;
 import com.yonyou.bq8.di.delegates.vo.FunctionType;
 import com.yonyou.bq8.di.exceptions.DIKettleException;
+import com.yonyou.bq8.di.web.service.AbstractDirectoryServices;
 import com.yonyou.bq8.di.web.service.DIPageDelegates;
 import com.yonyou.bq8.di.web.service.TransOrJobMetaCache;
 
@@ -39,7 +40,8 @@ import com.yonyou.bq8.di.web.service.TransOrJobMetaCache;
  * 
  */
 @Service("di.service.pageServices")
-public class DIPageServices implements DIPageDelegates {
+public class DIPageServices extends AbstractDirectoryServices implements
+		DIPageDelegates {
 
 	private final Logger log = Logger.getLogger(DIPageServices.class);
 
@@ -48,71 +50,13 @@ public class DIPageServices implements DIPageDelegates {
 	@Override
 	public BreadCrumbMeta getParentDirectories(String repository, Long id)
 			throws DIException {
-		Repository rep = null;
-		try {
-			BreadCrumbMeta bce = new BreadCrumbMeta();
-			rep = DIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface rd = rep
-					.findDirectory(new LongObjectId(id));
-			bce.addEvent("click", "YonYou.browse.changeDir");
-			String name;
-			while (true) {
-				name = rd.getName();
-				if (rd.isRoot()) {
-					name = "转换/作业";
-				}
-				BreadCrumbNodeMeta node = new BreadCrumbNodeMeta(rd
-						.getObjectId().getId(), name, "/transjob/dir/"
-						+ rd.getObjectId().getId(), "");
-
-				bce.addContentFirse(node);
-
-				if (rd.getParent() == null) {
-					break;
-				} else {
-					rd = rd.getParent();
-				}
-			}
-			return bce;
-
-		} catch (KettleException e) {
-			log.error("创建父目录页面出现错误。");
-			throw new DIException("创建父目录页面出现错误。");
-		} finally {
-			DIEnvironmentDelegate.instance().returnRep(repository, rep);
-		}
+		return parentDirectories(repository, id, "转换/作业", "/transjob/dir/");
 	}
 
 	@Override
 	public void getSubDirectory(String repository, Long id, BrowseMeta browse)
 			throws DIException {
-		Repository rep = null;
-		try {
-			rep = DIEnvironmentDelegate.instance().borrowRep(repository, null);
-
-			RepositoryDirectoryInterface rd = rep
-					.findDirectory(new LongObjectId(id));
-			for (RepositoryDirectoryInterface subrd : rd.getChildren()) {
-				BrowseNodeMeta node = new BrowseNodeMeta();
-				node.setId(subrd.getObjectId().getId());
-				node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, subrd
-						.getName());
-				node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_NODE);
-				node.addAttribute(HTML.ATTR_SRC, "transjob/dir/"
-						+ subrd.getObjectId().getId());
-
-				node.addEvent("mouseup", "YonYou.browse.showOperationForDir");
-				node.addEvent("dblclick", "YonYou.browse.changeDir");
-				browse.addContent(node);
-			}
-
-		} catch (KettleException e) {
-			log.error("创建子目录页面出现错误。");
-			throw new DIException("创建子目录页面出现错误。");
-		} finally {
-			DIEnvironmentDelegate.instance().returnRep(repository, rep);
-		}
-
+		subDirectory(repository, id, browse, "transjob/dir/");
 	}
 
 	@Override

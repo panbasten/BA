@@ -8,7 +8,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>BQ8 DI 操作平台</title>
+		<title>享元 DI 操作平台</title>
         
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
@@ -49,7 +49,7 @@
 						<!-- 内容区域 -->
 						<div id="section" class="section">
 							<div id="slide1" class="slide">
-								<p>用<br/>友<br/>DI</p>
+								<p>享<br/>元<br/>DI</p>
 							</div>
 							<div id="slide2" class="slide">
 								<p>您的企业是否面临这样的数据？</p>
@@ -71,7 +71,7 @@
 								</ul>
 							</div>
 							<div id="slide4" class="slide">
-								<p>用友DI平台全部帮您实现！</p>
+								<p>享元DI平台全部帮您实现！</p>
 							</div>
 						</div>
 						
@@ -113,7 +113,7 @@
 					
 				</div>
 				<div id="footer">
-					北京用友华表软件技术有限公司&#160;&#160;&#160;&#160;&#160;&#160;
+					北京享元科技软件技术有限公司&#160;&#160;&#160;&#160;&#160;&#160;
 					<br />
 					版权所有(2012)©，如需转载，请注明来源&#160;&#160;&#160;&#160;&#160;&#160;
 				</div>
