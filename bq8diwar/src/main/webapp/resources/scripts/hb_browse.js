@@ -168,6 +168,8 @@ YonYou.browse = {
 	},
 	openFile : function(event,data) {
 		var category = data.data.category;
+		// 转换、作业打开转换设计器（TAB）
+		console.log(category);
 		if(category=="trans" || category=="job"){
 			var match = diEditorPageTabs.hasMatch(category+"-"+data.id+"-tab");
 			if (match) {
@@ -192,7 +194,35 @@ YonYou.browse = {
 					});
 				}
 			});
-		}else if(category=="db"){
+		}
+		// 表单打开表单设计器
+		else if(category=="form"){
+			var match = diEditorPageTabs.hasMatch(category+"-"+data.id+"-tab");
+			if (match) {
+				diEditorPageTabs.select(category+"-"+data.id+"-tab");
+				return;
+			}
+			var displayName = data.attrs.displayName;
+			YonYou.ab({
+				type : "get",
+				modal : true,
+				modalMessage : "正在加载【"+displayName+"】...",
+				url : "rest/"+data.attrs.src,
+				onsuccess : function(data, status, xhr){
+					diEditorPageTabs.addTab({
+						exdata: data,
+						tabId: category,
+						tabText: displayName,
+						dataTarget: data.id+"-tab",
+						closable: true,
+						closePanel: false,
+				        checkModify: true
+					});
+				}
+			});
+		}
+		// 数据库文件打开数据库配置页面
+		else if(category=="db"){
 			YonYou.cw("Dialog","dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var",{
 				id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
 				header : "编辑【"+data.attrs.displayName+"】",

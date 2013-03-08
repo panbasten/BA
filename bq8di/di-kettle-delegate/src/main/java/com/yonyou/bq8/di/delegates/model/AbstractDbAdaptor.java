@@ -7,53 +7,58 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
-import org.pentaho.di.core.database.Database;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
-import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 
 import com.yonyou.bq8.di.exceptions.DIKettleException;
 
 /**
  * DB资源库操作抽象基类
+ * 
  * @author han
- *
+ * 
  */
-public abstract class AbstractDbAdaptor extends AbstractDelegate{
+public abstract class AbstractDbAdaptor extends AbstractDelegate {
 	private final Logger logger = Logger.getLogger(AbstractDbAdaptor.class);
-	
+
 	public String quote(String identifier) {
-		return ((KettleDatabaseRepository)repository).getRepositoryMeta().getConnection().quoteField(identifier);
+		return ((KettleDatabaseRepository) repository).getRepositoryMeta()
+				.getConnection().quoteField(identifier);
 	}
 
 	public String quoteTable(String table) {
-		return ((KettleDatabaseRepository)repository).getRepositoryMeta().getConnection()
-				.getQuotedSchemaTableCombination(null, table);
+		return ((KettleDatabaseRepository) repository).getRepositoryMeta()
+				.getConnection().getQuotedSchemaTableCombination(null, table);
 	}
-	
+
 	public KettleDatabaseRepository getRepository() {
-		return (KettleDatabaseRepository)this.repository;
+		return (KettleDatabaseRepository) this.repository;
 	}
-	
+
 	/**
 	 * 获取一行记录
-	 * @param sql 查询语句
+	 * 
+	 * @param sql
+	 *            查询语句
 	 * @return
 	 * @throws KettleDatabaseException
 	 */
 	public Object[] getOneRow(String sql) throws KettleDatabaseException {
-		List<Object[]> rows = getRepository().connectionDelegate.getRows(sql,1);
+		List<Object[]> rows = getRepository().connectionDelegate
+				.getRows(sql, 1);
 		if (rows == null || rows.isEmpty()) {
 			return null;
 		}
 		return rows.get(0);
 	}
-	
+
 	/**
 	 * 根据sql查询并返回所有命中的记录
-	 * @param sql 查询语句
+	 * 
+	 * @param sql
+	 *            查询语句
 	 * @return
 	 * @throws KettleDatabaseException
 	 */
@@ -64,40 +69,45 @@ public abstract class AbstractDbAdaptor extends AbstractDelegate{
 		}
 		return rows;
 	}
-	
-	public List<RowMetaAndData> getRowsWithMeta(String sql) throws KettleDatabaseException {
+
+	public List<RowMetaAndData> getRowsWithMeta(String sql)
+			throws KettleDatabaseException {
 		return getRepository().connectionDelegate.getRowsWithMeta(sql);
 	}
-	
+
 	/**
 	 * 执行sql语句
+	 * 
 	 * @param sql
 	 * @throws KettleDatabaseException
 	 */
-	public void execSql(String sql,boolean commit) throws KettleDatabaseException {
+	public void execSql(String sql, boolean commit)
+			throws KettleDatabaseException {
 		sql = StringUtils.replace(sql, "\\", "\\\\");
 		try {
 			getRepository().connectionDelegate.getDatabase().execStatement(sql);
 			if (commit) {
 				getRepository().connectionDelegate.getDatabase().commit();
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("exec sql exception:", e);
 			getRepository().connectionDelegate.getDatabase().rollback();
 		}
 	}
-	
+
 	/**
 	 * 执行sql语句
+	 * 
 	 * @param sql
 	 * @throws KettleDatabaseException
 	 */
 	public void execSql(String sql) throws KettleDatabaseException {
 		execSql(sql, true);
 	}
-	
+
 	/**
 	 * 替换sql中的参数占位符
+	 * 
 	 * @param sql
 	 * @param params
 	 * @return
@@ -112,9 +122,10 @@ public abstract class AbstractDbAdaptor extends AbstractDelegate{
 		}
 		return sql;
 	}
-	
+
 	/**
 	 * 替换sql中的参数占位符
+	 * 
 	 * @param sql
 	 * @param params
 	 * @return
@@ -127,22 +138,24 @@ public abstract class AbstractDbAdaptor extends AbstractDelegate{
 		sql = StringUtils.replaceOnce(sql, "?", param);
 		return sql;
 	}
-	
-	
+
 	/**
 	 * 获取下一个流水号
+	 * 
 	 * @return
-	 * @throws DIKettleException 
-	 * @throws KettleException 
+	 * @throws DIKettleException
+	 * @throws KettleException
 	 */
-	public long getNextBatchId(String tableName,String fieldName) throws DIKettleException {
+	public long getNextBatchId(String tableName, String fieldName)
+			throws DIKettleException {
 		try {
-			LongObjectId batchId = getRepository().connectionDelegate.getNextID(tableName, fieldName);
+			LongObjectId batchId = getRepository().connectionDelegate
+					.getNextID(tableName, fieldName);
 			return batchId.longValue();
 		} catch (KettleException e) {
 			logger.error("get batchid exception:", e);
 			throw new DIKettleException(e.getMessage());
 		}
 	}
-	
+
 }

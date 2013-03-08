@@ -415,6 +415,9 @@ public interface Repository {
 
 	public RepositoryDirectoryInterface loadRepositoryDirectoryTree()
 			throws KettleException;
+	
+	public RepositoryDirectoryInterface loadRepositoryDirectoryTree(
+			RepositoryDirectoryInterface root) throws KettleException;
 
 	public RepositoryDirectoryInterface findDirectory(String directory)
 			throws KettleException;

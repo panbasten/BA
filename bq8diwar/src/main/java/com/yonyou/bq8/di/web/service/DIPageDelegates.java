@@ -5,7 +5,6 @@ import java.util.List;
 import org.pentaho.di.repository.RepositoryElementInterface;
 import org.pentaho.di.trans.TransMeta;
 
-import com.yonyou.bq8.di.component.components.breadCrumb.BreadCrumbMeta;
 import com.yonyou.bq8.di.component.components.browse.BrowseMeta;
 import com.yonyou.bq8.di.core.exception.DIException;
 import com.yonyou.bq8.di.core.exception.DIJSONException;

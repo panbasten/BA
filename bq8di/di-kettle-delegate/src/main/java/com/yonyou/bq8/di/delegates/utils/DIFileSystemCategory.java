@@ -51,8 +51,9 @@ public enum DIFileSystemCategory {
 
 		@Override
 		public String getVfsPath(String workDir, FilesysDirectory fd) {
-//			vfsPath = "sftp://" + host.getUsername() + ":" + host.getPassword()
-//					+ "@" + host.getIp() + ":" + host.getPort() + workDir;
+			// vfsPath = "sftp://" + host.getUsername() + ":" +
+			// host.getPassword()
+			// + "@" + host.getIp() + ":" + host.getPort() + workDir;
 			return workDir;
 		}
 	},
@@ -113,6 +114,15 @@ public enum DIFileSystemCategory {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public static DIFileSystemCategory getCategoryById(int id) {
+		for (DIFileSystemCategory fsc : values()) {
+			if (fsc.getId() == id) {
+				return fsc;
+			}
+		}
+		return null;
 	}
 
 	public static DIFileSystemCategory getCategoryByCode(String category) {

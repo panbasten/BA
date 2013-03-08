@@ -5,5 +5,6 @@ import java.util.List;
 import com.yonyou.bq8.di.exceptions.DIKettleException;
 
 public interface DIReportAdaptor {
-	public List<Object[]> getRoots() throws DIKettleException;
+	public List<Object[]> getSubDirectoryObjects(String dirId)
+			throws DIKettleException;
 }

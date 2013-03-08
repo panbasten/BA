@@ -29,11 +29,10 @@ public interface DIDirectoryDelegates {
 	/**
 	 * 获得目录下面的子对象
 	 * 
-	 * @param category
 	 * @param id
 	 * @param browse
 	 * @throws DIException
 	 */
-	public void getSubDirectoryObject(String repository, String category,
-			Long id, BrowseMeta browse) throws DIException;
+	public void getSubDirectoryObject(String repository, Long id,
+			BrowseMeta browse) throws DIException;
 }

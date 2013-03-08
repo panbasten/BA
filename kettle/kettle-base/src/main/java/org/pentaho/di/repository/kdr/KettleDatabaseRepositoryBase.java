@@ -431,12 +431,6 @@ public class KettleDatabaseRepositoryBase {
 	public static final String FIELD_REPORT_MODIFIED_USER = "MODIFIED_USER";
 	public static final String FIELD_REPORT_MODIFIED_DATE = "MODIFIED_DATE";
 	
-	public static final String TABLE_R_REPORT_DIRECTORY = "R_REPORT_DIRECTORY";
-	public static final String FIELD_REPORT_DIRECTORY_ID_REPORT_DIRECTORY = "ID_REPORT_DIRECTORY";
-	public static final String FIELD_REPORT_DIRECTORY_ID_REPORT_DIRECTORY_PARENT = "ID_REPORT_DIRECTORY_PARENT";
-	public static final String FIELD_REPORT_DIRECTORY_DIRECTORY_NAME = "DIRECTORY_NAME";
-	
-	
 	public static final String TABLE_R_ROLE = "R_ROLE";
 	public static final String FIELD_ROLE_ID_ROLE = "ID_ROLE";
 	public static final String FIELD_ROLE_NAME = "ROLE_NAME";

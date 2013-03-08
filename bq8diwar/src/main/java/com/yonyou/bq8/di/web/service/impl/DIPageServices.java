@@ -10,14 +10,12 @@ import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
 import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.Repository;
-import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.repository.RepositoryElementInterface;
 import org.pentaho.di.repository.RepositoryElementMetaInterface;
 import org.pentaho.di.trans.TransMeta;
 import org.springframework.stereotype.Service;
 
 import com.yonyou.bq8.di.component.components.breadCrumb.BreadCrumbMeta;
-import com.yonyou.bq8.di.component.components.breadCrumb.BreadCrumbNodeMeta;
 import com.yonyou.bq8.di.component.components.browse.BrowseMeta;
 import com.yonyou.bq8.di.component.components.browse.BrowseNodeMeta;
 import com.yonyou.bq8.di.component.utils.HTML;
@@ -47,20 +45,32 @@ public class DIPageServices extends AbstractDirectoryServices implements
 
 	private static final String ICON_PATH = "resources/images/entities/";
 
+	public final static String FILE_PATH_PREFIX = "/transjob/dir/";
+
+	public final static long DIRECTORY_ROOT_ID = 0L;
+
 	@Override
 	public BreadCrumbMeta getParentDirectories(String repository, Long id)
 			throws DIException {
-		return parentDirectories(repository, id, "转换/作业", "/transjob/dir/");
+		return parentDirectories(repository, DIRECTORY_ROOT_ID, id, "转换/作业",
+				FILE_PATH_PREFIX);
 	}
 
 	@Override
 	public void getSubDirectory(String repository, Long id, BrowseMeta browse)
 			throws DIException {
-		subDirectory(repository, id, browse, "transjob/dir/");
+		subDirectory(repository, DIRECTORY_ROOT_ID, id, browse,
+				FILE_PATH_PREFIX);
 	}
 
 	@Override
-	public void getSubDirectoryObject(String repository, String category,
+	public void getSubDirectoryObject(String repository, Long id,
+			BrowseMeta browse) throws DIException {
+		getSubDirctoryObjectByType(repository, Utils.CATEGORY_TRANS, id, browse);
+		getSubDirctoryObjectByType(repository, Utils.CATEGORY_JOB, id, browse);
+	}
+
+	private void getSubDirctoryObjectByType(String repository, String category,
 			Long id, BrowseMeta browse) throws DIException {
 		Repository rep = null;
 		try {

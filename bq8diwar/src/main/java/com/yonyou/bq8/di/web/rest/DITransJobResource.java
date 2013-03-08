@@ -45,6 +45,7 @@ import com.yonyou.bq8.di.web.entity.AjaxResult;
 import com.yonyou.bq8.di.web.entity.AjaxResultEntity;
 import com.yonyou.bq8.di.web.model.ParameterContext;
 import com.yonyou.bq8.di.web.service.DIPageDelegates;
+import com.yonyou.bq8.di.web.service.impl.DIPageServices;
 import com.yonyou.bq8.di.web.utils.DIWebUtils;
 
 @Service("di.resource.transJobResource")
@@ -55,7 +56,7 @@ public class DITransJobResource {
 	public static final String TRANS_TEMPLATE = "editor/editor_trans.h";
 
 	private static final String TRANS_SETTING_TEMPLATE = "editor/trans/setting.h";
-	
+
 	public static final String TRANS_STEP_TEMPLATE_PREFIX = "editor/steps/";
 
 	private static final String ID_EDITOR_CONTENT_NAVI_TRANS_BC = "editorContent-navi-trans-bc";
@@ -69,7 +70,8 @@ public class DITransJobResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviContentTrans(
 			@CookieParam("repository") String repository) throws DIException {
-		return buildNaviContent(repository, "0", true);
+		return buildNaviContent(repository, DIPageServices.DIRECTORY_ROOT_ID,
+				true);
 	}
 
 	@GET
@@ -78,13 +80,12 @@ public class DITransJobResource {
 	public String flushNaviContent(
 			@CookieParam("repository") String repository,
 			@PathParam("id") String id) throws DIException {
-		return buildNaviContent(repository, id, false);
+		return buildNaviContent(repository, Long.parseLong(id), false);
 	}
 
-	private String buildNaviContent(String repository, String id, boolean isNew)
+	private String buildNaviContent(String repository, Long idL, boolean isNew)
 			throws DIException {
 		try {
-			Long idL = Long.parseLong(id);
 
 			// 1.为转换的面包屑页面创建一个自定义操作
 			BreadCrumbMeta bce = pageDelegates.getParentDirectories(repository,
@@ -98,10 +99,7 @@ public class DITransJobResource {
 			// 2.填充浏览面板内容
 			BrowseMeta browseMeta = new BrowseMeta();
 			pageDelegates.getSubDirectory(repository, idL, browseMeta);
-			pageDelegates.getSubDirectoryObject(repository,
-					Utils.CATEGORY_TRANS, idL, browseMeta);
-			pageDelegates.getSubDirectoryObject(repository, Utils.CATEGORY_JOB,
-					idL, browseMeta);
+			pageDelegates.getSubDirectoryObject(repository, idL, browseMeta);
 			browseMeta.addClass("hb-browsepanel");
 
 			AjaxResultEntity browseResult = AjaxResultEntity.instance()

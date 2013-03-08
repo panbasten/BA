@@ -1,13 +1,11 @@
 package com.yonyou.bq8.di.web.service;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.Repository;
+import org.pentaho.di.repository.RepositoryDirectory;
 import org.pentaho.di.repository.RepositoryDirectoryInterface;
-import org.pentaho.di.repository.RepositoryElementMetaInterface;
 
 import com.yonyou.bq8.di.component.components.breadCrumb.BreadCrumbMeta;
 import com.yonyou.bq8.di.component.components.breadCrumb.BreadCrumbNodeMeta;
@@ -22,15 +20,17 @@ public abstract class AbstractDirectoryServices {
 
 	private final Logger log = Logger
 			.getLogger(AbstractDirectoryServices.class);
-	
-	protected BreadCrumbMeta parentDirectories(String repository, Long id,
-			String tital, String prefixPath) throws DIException {
+
+	protected BreadCrumbMeta parentDirectories(String repository, Long rootId,
+			Long id, String tital, String prefixPath) throws DIException {
 		Repository rep = null;
 		try {
 			BreadCrumbMeta bce = new BreadCrumbMeta();
 			rep = DIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface rd = rep
-					.findDirectory(new LongObjectId(id));
+			RepositoryDirectory root = new RepositoryDirectory();
+			root.setObjectId(new LongObjectId(rootId));
+			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
+					root).findDirectory(new LongObjectId(id));
 			bce.addEvent("click", "YonYou.browse.changeDir");
 			String name;
 			while (true) {
@@ -60,14 +60,15 @@ public abstract class AbstractDirectoryServices {
 		}
 	}
 
-	protected void subDirectory(String repository, Long id, BrowseMeta browse,
-			String prefixPath) throws DIException {
+	protected void subDirectory(String repository, Long rootId, Long id,
+			BrowseMeta browse, String prefixPath) throws DIException {
 		Repository rep = null;
 		try {
 			rep = DIEnvironmentDelegate.instance().borrowRep(repository, null);
-
-			RepositoryDirectoryInterface rd = rep
-					.findDirectory(new LongObjectId(id));
+			RepositoryDirectory root = new RepositoryDirectory();
+			root.setObjectId(new LongObjectId(rootId));
+			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
+					root).findDirectory(new LongObjectId(id));
 			for (RepositoryDirectoryInterface subrd : rd.getChildren()) {
 				BrowseNodeMeta node = new BrowseNodeMeta();
 				node.setId(subrd.getObjectId().getId());
