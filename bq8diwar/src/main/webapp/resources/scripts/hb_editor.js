@@ -582,7 +582,7 @@ YonYou.editor = {
 			showHeader : true,
 			url : "rest/transjob/transstep/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/"+model.provider,
 			footerButtons : [{
-				componentType : "bq:PushButtontton",
+				componentType : "bq:PushButton",
 				type : "button",
 				label : "确定",
 				title : "确定",
@@ -595,7 +595,7 @@ YonYou.editor = {
 					}
 				}
 			},{
-				componentTypebq:PushButtonshButton",
+				componentType : "bq:PushButton",
 				type : "button",
 				label : "取消",
 				title : "取消",

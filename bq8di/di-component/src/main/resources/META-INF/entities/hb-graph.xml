@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="bq:Graph">
 	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.Graph</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.input.BQGraphResolver</classname>
+	<classname>com.yonyou.bq8.di.component.resolvers.display.BQGraphResolver</classname>
 	<category>Display</category>
 	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.Graph</tooltip>
 	<iconfile>graph.png</iconfile>

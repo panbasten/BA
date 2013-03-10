@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="bq:HorizontalLine">
 	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.HorizontalLine</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.input.BQHorizontalLineResolver</classname>
+	<classname>com.yonyou.bq8.di.component.resolvers.display.BQHorizontalLineResolver</classname>
 	<category>Display</category>
 	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.HorizontalLine</tooltip>
 	<iconfile>horizontalline.png</iconfile>
