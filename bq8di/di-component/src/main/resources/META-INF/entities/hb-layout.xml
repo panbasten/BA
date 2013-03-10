@@ -2,7 +2,7 @@
 <component id="bq:Layout">
 	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.Layout</description>
 	<classname>com.yonyou.bq8.di.component.resolvers.layout.BQLayoutResolver</classname>
-	<category>Container</category>
+	<category>Layout</category>
 	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.Layout</tooltip>
 	<iconfile>layout.png</iconfile>
 </component>

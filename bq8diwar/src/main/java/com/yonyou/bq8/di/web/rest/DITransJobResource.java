@@ -391,7 +391,7 @@ public class DITransJobResource {
 	}
 
 	/**
-	 * 创建转换页面
+	 * 创建转换编辑器页面
 	 * 
 	 * @throws DIException
 	 */
@@ -401,7 +401,7 @@ public class DITransJobResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createTransPage() throws DIException {
 		try {
-			// 转换的导航项
+			// 生成插件工具栏
 			List<String> transStepBar = pageDelegates
 					.getPluginNavigator(Utils.CATEGORY_TRANS);
 			List<BrowseMeta> transStepBrowses = new ArrayList<BrowseMeta>();
@@ -452,7 +452,7 @@ public class DITransJobResource {
 
 			return result.toJSONString();
 		} catch (Exception ex) {
-			throw new DIException("创建转换页面出现错误。", ex);
+			throw new DIException("创建转换编辑器页面出现错误。", ex);
 		}
 	}
 }

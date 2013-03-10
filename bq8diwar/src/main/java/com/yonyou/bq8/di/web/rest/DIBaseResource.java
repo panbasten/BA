@@ -30,6 +30,7 @@ public class DIBaseResource {
 	public static final String ID_EDITOR_NAVIS = "navis";
 	public static final String ID_EDITOR_TRANS = "trans";
 	public static final String ID_EDITOR_JOBS = "jobs";
+	public static final String ID_EDITOR_FORM = "form";
 
 	@Resource(name = "di.service.pageServices")
 	private DIPageDelegates pageDelegates;

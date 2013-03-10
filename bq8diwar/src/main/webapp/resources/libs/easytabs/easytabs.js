@@ -224,7 +224,7 @@
     	if($clicked.data('modify')){
     		YonYou.cw("ConfirmDialog",null,{type:"confirm",text:plugin.resolverModifyCloseTip($clicked),
     			footerButtons:[
-		    		{componentType : "bq:Button", type : "button", label : "保存", title : "保存并关闭", events : { 
+		    		{componentType : "bq:PushButton", type : "button", label : "保存", title : "保存并关闭", events : { 
 		    			click:function(e,d){
 		    				// 保存
 		    				if(settings.onSave){
@@ -233,7 +233,7 @@
 		    				plugin.removeSilence($clicked, callback);
 		    				d.target.hide();
 		    			} }},
-		    		{componentType : "bq:Button", type : "button", label : "放弃", title : "放弃保存并关闭", events : { 
+		    		{componentType : "bq:PushButton", type : "button", label : "放弃", title : "放弃保存并关闭", events : { 
 		    			click:function(e,d){
 		    				if(settings.onDiscard){
 		  	    			  	eval(settings.onDiscard+"($clicked);");
@@ -241,7 +241,7 @@
 		    				plugin.removeSilence($clicked, callback);
 		    				d.target.hide();
 		    			} }},
-		    		{componentType : "bq:Button", type : "button", label : "取消", title : "取消", events : { click:"hide" }}
+		    		{componentType : "bq:PushButton", type : "button", label : "取消", title : "取消", events : { click:"hide" }}
 		    	]});
     	}else{
     		plugin.removeSilence($clicked, callback);

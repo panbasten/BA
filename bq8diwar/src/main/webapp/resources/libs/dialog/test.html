@@ -32,9 +32,9 @@
     	//YonYou.cw("ConfirmDialog",null,{type:"prompt",text:"确认:询问用户操作。"});
     	//YonYou.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",confirmFunc:function(e,d){alert(d);}});
     	YonYou.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",footerButtons:[
-    		{componentType : "bq:Button", type : "button", label : "保存并关闭", title : "保存并关闭", events : { click:function(e,d){console.log(e);console.log(d);} }},
-    		{componentType : "bq:Button", type : "button", label : "关闭不保存", title : "关闭不保存", events : { click:function(e,d){console.log(e);d.target.hide();} }},
-    		{componentType : "bq:Button", type : "button", label : "取消", title : "取消", events : { click:"hide" }}
+    		{componentType : "bq:PushButton", type : "button", label : "保存并关闭", title : "保存并关闭", events : { click:function(e,d){console.log(e);console.log(d);} }},
+    		{componentType : "bq:PushButton", type : "button", label : "关闭不保存", title : "关闭不保存", events : { click:function(e,d){console.log(e);d.target.hide();} }},
+    		{componentType : "bq:PushButton", type : "button", label : "取消", title : "取消", events : { click:"hide" }}
     	]});
 //    	var obj=new YonYou.widget.ConfirmDialog({
 //			id : "aaa",

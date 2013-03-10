@@ -17,9 +17,9 @@
 	</div>
 	<div id="transContent" class="hb-flow-content hb-editor-content-height hb-editor-content-width">
 		<div id="transEditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
-			<bq:button id="trans_run" icon="ui-icon-editor-run" onclick="" title="运行" />
-			<bq:button type="separator" />
-			<bq:button id="trans_edit" icon="ui-icon-editor-edit" onclick="" title="画线" />
+            <bq:pushbutton id="trans_run" icon="ui-icon-editor-run" onclick="" title="运行" />
+            <bq:pushbutton type="separator" />
+            <bq:pushbutton id="trans_edit" icon="ui-icon-editor-edit" onclick="" title="画线" />
 		</div>
 		<div id="transEditorPanel" oncontextmenu="return false;" class="hb-editor-content-width-no-padding hb-editor-content-height-editor ui-helper-clearfix" style="margin:0 5px;">
 		</div>

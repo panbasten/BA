@@ -581,7 +581,7 @@ YonYou.widget.ConfirmDialog = function(cfg) {
     if(cfg.footerButtons == null){
 	    if(cfg.type=="prompt"){
 	    	cfg.footerButtons = [{
-	    		componentType : "bq:Button",
+	    		componentType : "bq:PushButton",
 	    		type : "button",
 	    		label : "确定",
 	    		title : "确定",
@@ -592,7 +592,7 @@ YonYou.widget.ConfirmDialog = function(cfg) {
 	    }
 	    else if(cfg.type=="confirm"){
 	    	cfg.footerButtons = [{
-	    		componentType : "bq:Button",
+	    		componentType : "bq:PushButton",
 	    		type : "button",
 	    		label : "确定",
 	    		title : "确定",
@@ -603,7 +603,7 @@ YonYou.widget.ConfirmDialog = function(cfg) {
 	    			}
 	        	}
 	    	},{
-	    		componentType : "bq:Button",
+	    		componentType : "bq:PushButton",
 	    		type : "button",
 	    		label : "取消",
 	    		title : "取消",
@@ -617,7 +617,7 @@ YonYou.widget.ConfirmDialog = function(cfg) {
 	    } 
 	    else {
 	    	cfg.footerButtons = [{
-	    		componentType : "bq:Button",
+	    		componentType : "bq:PushButton",
 	    		type : "button",
 	    		label : "关闭",
 	    		title : "关闭",
@@ -667,7 +667,7 @@ YonYou.widget.PromptDialog=function(cfg){
     cfg.realRemove = true;
     cfg.autoOpen = true;
     cfg.footerButtons = [{
-		componentType : "bq:Button",
+		componentType : "bq:PushButton",
 		type : "button",
 		label : "确定",
 		title : "确定",
@@ -678,7 +678,7 @@ YonYou.widget.PromptDialog=function(cfg){
 			}
     	}
 	},{
-		componentType : "bq:Button",
+		componentType : "bq:PushButton",
 		type : "button",
 		label : "取消",
 		title : "取消",

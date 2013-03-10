@@ -40,7 +40,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/fs/items/upload?data="+YonYou.toJSONString(currentCase),
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "新增",
 					title : "新增",
@@ -50,7 +50,7 @@ YonYou.filesys = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "上传",
 					title : "上传",
@@ -71,7 +71,7 @@ YonYou.filesys = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
@@ -97,7 +97,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/fs/items/rename?srcName=" + selItem.name+"&data=" + YonYou.toJSONString(selItem),
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -116,7 +116,7 @@ YonYou.filesys = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
@@ -142,7 +142,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/fs/items/create?data="+YonYou.toJSONString(currentCase),
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -161,7 +161,7 @@ YonYou.filesys = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
@@ -236,7 +236,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/host/setting",
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -253,9 +253,8 @@ YonYou.filesys = {
 								}
 							});
 						}
-					}
-				},{
-					componentType : "bq:Button",
+					}				},{
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
@@ -284,7 +283,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/host/setting?hostId=" + id,
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -301,9 +300,8 @@ YonYou.filesys = {
 								}
 							});
 						}
-					}
-				},{
-					componentType : "bq:Button",
+					}				},{
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
@@ -336,7 +334,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/fslocal/setting",
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -355,7 +353,7 @@ YonYou.filesys = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
@@ -384,7 +382,7 @@ YonYou.filesys = {
 				modal : true,
 				url : "rest/fslocal/setting?rootId=" + id,
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -403,7 +401,7 @@ YonYou.filesys = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",

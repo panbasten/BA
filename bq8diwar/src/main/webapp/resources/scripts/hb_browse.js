@@ -138,7 +138,7 @@ YonYou.browse = {
 			modal : true,
 			url : "rest/"+data.attrs.src+"/setting",
 			footerButtons : [{
-				componentType : "bq:Button",
+				componentType : "bq:PushButton",
 				type : "button",
 				label : "确定",
 				title : "确定",
@@ -151,7 +151,7 @@ YonYou.browse = {
 					}
 				}
 			},{
-				componentType : "bq:Button",
+				componentType : "bq:PushButton",
 				type : "button",
 				label : "取消",
 				title : "取消",
@@ -169,7 +169,6 @@ YonYou.browse = {
 	openFile : function(event,data) {
 		var category = data.data.category;
 		// 转换、作业打开转换设计器（TAB）
-		console.log(category);
 		if(category=="trans" || category=="job"){
 			var match = diEditorPageTabs.hasMatch(category+"-"+data.id+"-tab");
 			if (match) {
@@ -177,6 +176,7 @@ YonYou.browse = {
 				return;
 			}
 			var displayName = data.attrs.displayName;
+			
 			YonYou.ab({
 				type : "get",
 				modal : true,
@@ -233,7 +233,7 @@ YonYou.browse = {
 				modal : true,
 				url : "rest/"+data.attrs.src,
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -246,7 +246,7 @@ YonYou.browse = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",

@@ -1,4 +1,4 @@
-YonYou.widget.Button=function(cfg){
+YonYou.widget.PushButton=function(cfg){
 	this.cfg = cfg;
 	this.id = this.cfg.id;
 	this.jqId = YonYou.escapeClientId(this.id);
@@ -6,9 +6,9 @@ YonYou.widget.Button=function(cfg){
 	this.init();
 };
 
-YonYou.extend(YonYou.widget.Button, YonYou.widget.BaseWidget);
+YonYou.extend(YonYou.widget.PushButton, YonYou.widget.BaseWidget);
 
-YonYou.widget.Button.prototype.init = function() {
+YonYou.widget.PushButton.prototype.init = function() {
 	if(this.cfg.parent || this.cfg.parentId){
 		this.parent = this.cfg.parent || $(YonYou.escapeClientId(this.cfg.parentId));
 		this.jq = $(this.parent).find(this.jqId);
@@ -103,11 +103,11 @@ YonYou.widget.Button.prototype.init = function() {
 	
 };
 
-YonYou.widget.Button.prototype.isActive = function(){
+YonYou.widget.PushButton.prototype.isActive = function(){
 	return this.jq.hasClass("ui-state-active");
 };
 
-YonYou.widget.Button.prototype.initEvents = function(){
+YonYou.widget.PushButton.prototype.initEvents = function(){
 	// mouseOver
 	this.jq.bind("mouseover",this.cfg,function(event){
 		$(this).addClass('ui-state-hover');

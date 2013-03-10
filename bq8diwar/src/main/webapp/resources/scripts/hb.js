@@ -50,7 +50,7 @@ YonYou.desktop = {
 					scrollType:'vertical'
 				});
 				
-				// 4.循环遍历加载每个导航页的内容页
+				// 循环遍历加载每个导航页的内容页
 				var naviLis = $("#navigator-ul").find("li");
 				for(var i=0; i<naviLis.length; i++){
 					// 加载导航具体内容
@@ -69,136 +69,10 @@ YonYou.desktop = {
 			}
 		});
 		
-		// 2.加载转换页
-		YonYou.ab({
-			type : "get",
-			url : "rest/transjob/trans/editor",
-			beforeSend : function(){
-				YonYou.desktop.changeMarkText("正在加载转换页面...");
-			},
-			oncomplete : function(xhr, status){
-				YonYou.cw("EasyTabs","diEditorTransStepBar",{
-					id : "transStepBar"
-				});
-				YonYou.cw("Scrollbar","transStepBarScroll",{
-					id:'transStepBar',
-					tabGroup:'transStepBar-ul',
-					step:80,
-					scrollType:'vertical'
-				});
-				// 拖拽
-				$(".hb-trans-step-plugin").draggable({
-					revert:true,
-					deltaX:-10,
-					deltaY:-10,
-					proxy:function(source){
-						var n = $('<div class="proxy"></div>');
-						n.append($(source).children("div").clone());
-						n.appendTo('body');
-						return n;
-					}
-				});
-				$("#transEditorPanel").droppable({
-					accept: '.hb-trans-step-plugin',
-					onDragEnter:function(e,source,data){
-						$("#transEditorPanel").addClass("ui-state-highlight");
-					},
-					onDragLeave: function(e,source,data){
-						$("#transEditorPanel").removeClass("ui-state-highlight");
-					},
-					onDrop: function(e,source,data){
-						$("#transEditorPanel").removeClass("ui-state-highlight");
-						YonYou.editor.appendEl("trans",$(source).data("data"),data);
-					}
-				});
-				
-				// 添加一个静态的树
-				var config = {
-					'id' : 'datasource',
-					"checkbox":true,
-					"dnd":true,
-					'els' : [ {
-						'id' : 'id0',
-						'displayName' : '数据库',
-						'type' : 'node',
-						'icon' : 'resources/libs/tree/images/diy/1_close.png',
-						'els' : [ {
-							id : 'id1-1',
-							displayName : '连接名称1',
-							type : 'node',
-							'icon' : '',
-							state:"open",
-							'els' : [ {
-								id : 'id1-1-1',
-								displayName : '表结构',
-								type : 'node',
-								state:"closed",
-								'icon' : '',
-								'els' : [ {
-									id : 'id1-1-1',
-									displayName : '表1',
-									type : 'leaf',
-									draggable : true
-								}, {
-									id : 'id1-1-11',
-									displayName : '表2',
-									type : 'leaf',
-									draggable : true
-								}, {
-									id : 'id1-1-12',
-									displayName : '表3',
-									type : 'leaf',
-									draggable : true
-								} ]
-							}, {
-								id : 'id1-1-2',
-								displayName : '视图',
-								type : 'node',
-								'els' : [ {
-									id : 'id1-1-21',
-									displayName : '视图1',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-22',
-									displayName : '视图2',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-23',
-									displayName : '视图3',
-									type : 'leaf'
-								} ]
-							}, {
-								id : 'id1-1-3',
-								displayName : '存储过程',
-								type : 'node',
-								'els' : [ {
-									id : 'id1-1-31',
-									displayName : '过程1',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-32',
-									displayName : '过程2',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-33',
-									displayName : '过程3',
-									type : 'leaf'
-								} ]
-							} ]
-						}, {
-							id : 'id1-21',
-							displayName : '连接名称2',
-							type : 'node'
-						}, {
-							id : 'id1-22',
-							displayName : '连接名称3',
-							type : 'node'
-						} ]
-					} ]
-				};
-				var tree = new YonYou.widget.EasyTree(config);
-			}
-		});
+		// 2.注册transjob
+		YonYou.editors.trans.register();
+		
+		YonYou.editors.form.register();
 		
 		// 3.加载用户信息弹出页
 		YonYou.ab({
@@ -227,12 +101,7 @@ YonYou.desktop = {
 		
 		diEditorNaviScroll.reinit();
 		
-		transStepBarScroll.reinit();
-		
-		if(window["transEditorPanel_var"]){
-			transEditorPanel_var.changeSize(YonYou.desktop.contentWidthNoPadding,
-				YonYou.desktop.contentHeightEditor);
-		}
+		YonYou.editors.reinit();
 	},
 	
 	/* 
@@ -244,7 +113,7 @@ YonYou.desktop = {
 		YonYou.cw("EasyTabs","diEditorPageTabs",{
 			id : "editorContent",
 			createTab: "<li><a class='ui-tab-a' href='##tabId'><div class='ui-tab-left'></div><div class='ui-tab-middle'>#modifyTag<span class='ui-tab-text'>#tabText</span>#closeButton</div><div class='ui-tab-right'></div></a></li>",
-			onBeforeSelect : "YonYou.desktop.changeTransEditorPage",
+			onBeforeSelect : "YonYou.editors.changeEditor",
 			onSave : "YonYou.editor.saveTab",
 			onDiscard : "YonYou.editor.discardTab",
 			modifyCloseTip : "即将关闭任务【#tabText】已经被修改。<br>选择【保存】按钮进行保存操作然后关闭选项卡，选择【放弃】按钮所进行的修改操作将丢失，请进行选择？"
@@ -299,69 +168,6 @@ YonYou.desktop = {
 			$("#startingCover").fadeOut("slow",function(){
 				YonYou.desktop.changeMarkText();
 			});
-		}
-	},
-	changeTransEditorPage : function ($taba,$tabo) {
-		// 保存原来的结果
-		if ($tabo && $tabo.data("exdata")){
-			var canvasObj = transEditorPanel_var.flowChart;
-			if(canvasObj && canvasObj.childCanvas){
-				var flow = canvasObj.getChildCanvasByIndex(0);
-				$tabo.data("exdata").data = YonYou.parseJSON(flow.getElsValue());
-			}
-		}
-		
-		if (typeof($taba.data("exdata"))=='undefined')return;
-		var canvasData = {
-			onClearAll: "YonYou.editor.stepSelect('trans',canvasObj,flowObj)",
-			onModify: "YonYou.editor.modify('trans',canvasObj,flowObj)",
-			canvasEls : {},
-			defaultAttributes: {
-				onInitStep: {
-					onContextMenu: "YonYou.editor.stepContent(canvasObj,flowObj,this)",
-					onDblClick: "YonYou.editor.stepDblclick(canvasObj,flowObj,this)",
-					sWidth: 32,
-					sHeight: 32,
-					bTextStyle: "#ffffff",
-					acceptAll: true,
-					onEndHop: "YonYou.editor.checkEndHop('trans',setting,this)",
-					onRope: "YonYou.editor.stepSelect('trans',canvasObj,flowObj,this)",
-					onClick: "YonYou.editor.stepSelect('trans',canvasObj,flowObj,this)"
-				},
-				onInitHop: {
-					onDblClick: "YonYou.editor.hopDblclick(canvasObj,flowObj,this)",
-					onContextMenu: "YonYou.editor.hopContext(canvasObj,flowObj,this)",
-					style: "#2e83ff",
-					textStyle: "#ffffff",
-					arrowEndType: "default",
-					onRope: "YonYou.editor.stepSelect('trans',canvasObj,flowObj,this)",
-					onClick: "YonYou.editor.stepSelect('trans',canvasObj,flowObj,this)"
-				}
-			}
-		};
-		var tabData = $taba.data("exdata").data;
-		if(tabData.canvasEls) $.extend(canvasData.canvasEls,tabData.canvasEls);
-		if(tabData.defaultAttributes){
-			if(tabData.defaultAttributes.onInitStep) $.extend(canvasData.defaultAttributes.onInitStep,tabData.defaultAttributes.onInitStep);
-			if(tabData.defaultAttributes.onInitHop) $.extend(canvasData.defaultAttributes.onInitHop,tabData.defaultAttributes.onInitHop);
-		}
-		if(tabData.onClearAll) canvasData.onClearAll=tabData.onClearAll;
-		if(tabData.onModify) canvasData.onModify=tabData.onModify;
-		if(tabData.extendData) canvasData.extendData=tabData.extendData;
-		if (typeof transEditorPanel_var == 'undefined') {
-			var $panelSize = YonYou.getDomSizeById("transEditorPanel");
-			YonYou.cw("FlowChart","transEditorPanel_var",{
-				id: "transEditorPanel",
-				oid: "transOverviewPanel",
-				canvasConfig: {
-					width: $panelSize.width,
-					height: $panelSize.height
-				},
-				outerControl:true,
-				data: canvasData
-			});
-		}else{
-			transEditorPanel_var.flush(canvasData);
 		}
 	},
 	toggleContent : function(id,close){

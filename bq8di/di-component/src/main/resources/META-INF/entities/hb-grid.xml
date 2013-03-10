@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:Grid">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.Grid</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.grid.BQGridResolver</classname>
-	<category>Grid</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.Grid</tooltip>
+<component id="bq:DataGrid">
+	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.DataGrid</description>
+	<classname>com.yonyou.bq8.di.component.resolvers.item.BQDataGridResolver</classname>
+	<category>Item</category>
+	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.DataGrid</tooltip>
 	<iconfile>grid.png</iconfile>
 </component>

@@ -16,7 +16,7 @@ YonYou.sysTools = {
 				modal : true,
 				url : url,
 				footerButtons : [{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "确定",
 					title : "确定",
@@ -35,7 +35,7 @@ YonYou.sysTools = {
 						}
 					}
 				},{
-					componentType : "bq:Button",
+					componentType : "bq:PushButton",
 					type : "button",
 					label : "取消",
 					title : "取消",
