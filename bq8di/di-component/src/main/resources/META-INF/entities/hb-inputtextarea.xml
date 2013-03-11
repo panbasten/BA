@@ -4,5 +4,5 @@
 	<classname>com.yonyou.bq8.di.component.resolvers.input.BQInputTextareaResolver</classname>
 	<category>Input</category>
 	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.InputTextarea</tooltip>
-	<iconfile>selectmenu.png</iconfile>
+	<iconfile>inputtextarea.png</iconfile>
 </component>

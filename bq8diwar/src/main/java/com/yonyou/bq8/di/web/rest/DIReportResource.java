@@ -35,6 +35,8 @@ import com.yonyou.bq8.di.web.service.impl.DIReportService;
 public class DIReportResource {
 	private final Logger logger = Logger.getLogger(DIReportResource.class);
 
+	private static final String ICON_PATH = "resources/images/plugins/";
+
 	public static final String FORM_TEMPLATE = "editor/editor_form.h";
 
 	private static final String ID_EDITOR_CONTENT_NAVI_REPORT_BC = "editorContent-navi-report-bc";
@@ -128,8 +130,8 @@ public class DIReportResource {
 					plugin.setId(cp.getId());
 					plugin.setCategory(cp.getCategory());
 					plugin.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
-					System.out.println(cp.getIconfile());
-					// plugin.addAttribute(HTML.ATTR_ICON, cp.getIconfile());
+					plugin.addAttribute(HTML.ATTR_ICON, ICON_PATH
+							+ cp.getIconfile());
 					plugin.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, cp
 							.getDescription());
 					plugin.addAttribute(HTML.ATTR_TITLE, cp.getTooltip());
