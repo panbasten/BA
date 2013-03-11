@@ -278,7 +278,7 @@ CREATE TABLE `r_directory` (
 
 LOCK TABLES `r_directory` WRITE;
 /*!40000 ALTER TABLE `r_directory` DISABLE KEYS */;
-INSERT INTO `r_directory` VALUES (1,0,'新目录新目录新目录新目录新目录新目录');
+INSERT INTO `r_directory` VALUES (10,0,'新目录新目录新目录新目录新目录新目录'),(0,NULL,'转换/作业'),(1,NULL,'报表'),(2,1,'系统目录'),(3,1,'个人目录');
 /*!40000 ALTER TABLE `r_directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -902,33 +902,8 @@ CREATE TABLE `r_report` (
 
 LOCK TABLES `r_report` WRITE;
 /*!40000 ALTER TABLE `r_report` DISABLE KEYS */;
-INSERT INTO `r_report` VALUES (0,0,NULL,1,'N',NULL,'表单例子',NULL,NULL,NULL,NULL,NULL,NULL),(1,0,NULL,2,'N',NULL,'报告例子',NULL,NULL,NULL,NULL,NULL,NULL),(2,0,NULL,3,'N',NULL,'自由报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(3,0,NULL,4,'N',NULL,'透视报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(4,1,NULL,NULL,'Y',0,'表单例子的引用',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `r_report` VALUES (0,1,NULL,1,'N',NULL,'表单例子',NULL,NULL,NULL,NULL,NULL,NULL),(1,1,NULL,2,'N',NULL,'报告例子',NULL,NULL,NULL,NULL,NULL,NULL),(2,1,NULL,3,'N',NULL,'自由报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(3,1,NULL,4,'N',NULL,'透视报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(4,2,NULL,1,'Y',0,'表单例子的引用',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `r_report` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_report_directory`
---
-
-DROP TABLE IF EXISTS `r_report_directory`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_report_directory` (
-  `ID_REPORT_DIRECTORY` bigint(20) NOT NULL,
-  `ID_REPORT_DIRECTORY_PARENT` int(11) unsigned zerofill DEFAULT NULL,
-  `DIRECTORY_NAME` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID_REPORT_DIRECTORY`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_report_directory`
---
-
-LOCK TABLES `r_report_directory` WRITE;
-/*!40000 ALTER TABLE `r_report_directory` DISABLE KEYS */;
-INSERT INTO `r_report_directory` VALUES (1,00000000000,'引用的一个例子目录');
-/*!40000 ALTER TABLE `r_report_directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1395,7 +1370,7 @@ CREATE TABLE `r_transformation` (
 
 LOCK TABLES `r_transformation` WRITE;
 /*!40000 ALTER TABLE `r_transformation` DISABLE KEYS */;
-INSERT INTO `r_transformation` VALUES (2,1,'转换 1',NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,-1,NULL,'Y','Y',-1,NULL,NULL,0,0,'-','2012-11-21 11:31:56','admin','2012-11-21 13:28:47',10000),(1,0,'测试用的转换',NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,-1,NULL,'Y','Y',-1,NULL,NULL,0,0,'-','2012-10-27 14:01:42','admin','2012-12-06 14:37:48',10000);
+INSERT INTO `r_transformation` VALUES (2,10,'转换 1',NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,-1,NULL,'Y','Y',-1,NULL,NULL,0,0,'-','2012-11-21 11:31:56','admin','2012-11-21 13:28:47',10000),(1,0,'测试用的转换',NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,-1,NULL,'Y','Y',-1,NULL,NULL,0,0,'-','2012-10-27 14:01:42','admin','2012-12-06 14:37:48',10000);
 /*!40000 ALTER TABLE `r_transformation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1511,4 +1486,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-08  1:05:29
+-- Dump completed on 2013-03-11 20:13:15
