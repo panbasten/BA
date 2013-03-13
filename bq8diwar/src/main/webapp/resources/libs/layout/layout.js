@@ -1,33 +1,3 @@
-/**
- * @preserve jquery.layout 1.3.0 - Release Candidate 30.62
- * $Date: 2012-08-04 08:00:00 (Thu, 23 Aug 2012) $
- * $Rev: 303006 $
- *
- * Copyright (c) 2012 
- *   Fabrizio Balliano (http://www.fabrizioballiano.net)
- *   Kevin Dalman (http://allpro.net)
- *
- * Dual licensed under the GPL (http://www.gnu.org/licenses/gpl.html)
- * and MIT (http://www.opensource.org/licenses/mit-license.php) licenses.
- *
- * Changelog: http://layout.jquery-dev.net/changelog.cfm#1.3.0.rc30.62
- * NOTE: This is a short-term release to patch a couple of bugs.
- * These bugs are listed as officially fixed in RC30.7, which will be released shortly.
- *
- * Docs: http://layout.jquery-dev.net/documentation.html
- * Tips: http://layout.jquery-dev.net/tips.html
- * Help: http://groups.google.com/group/jquery-ui-layout
- */
-
-/* JavaDoc Info: http://code.google.com/closure/compiler/docs/js-for-compiler.html
- * {!Object}	non-nullable type (never NULL)
- * {?string}	nullable type (sometimes NULL) - default for {Object}
- * {number=}	optional parameter
- * {*}			ALL types
- */
-
-// NOTE: For best readability, view with a fixed-width font and tabs equal to 4-chars
-
 ;(function ($) {
 
 // alias Math methods - used a lot!
@@ -54,28 +24,18 @@ var	min		= Math.min
 
 
 /*
- *	GENERIC $.layout METHODS - used by all layouts
+ *	布局的通用方法
  */
 $.layout = {
 
 	version:	"1.3.rc30.62"
 ,	revision:	0.033006 // 1.3.0 final = 1.0300 - major(n+).minor(nn)+patch(nn+)
 
-	// can update code here if $.browser is phased out
-,	browser: {
-		mozilla:	!!$.browser.mozilla
-	,	webkit:		!!$.browser.webkit || !!$.browser.safari // webkit = jQ 1.4
-	,	msie:		!!$.browser.msie
-	,	isIE6:		$.browser.msie && $.browser.version == 6
-	,	boxModel:	$.support.boxModel !== false || !$.browser.msie // ONLY IE reverts to old box-model - update for older jQ onReady
-	,	version:	$.browser.version // not used in Layout core, but may be used by plugins
-	}
-
 	// *PREDEFINED* EFFECTS & DEFAULTS 
 	// MUST list effect here - OR MUST set an fxSettings option (can be an empty hash: {})
 ,	effects: {
 
-	//	Pane Open/Close Animations
+	//	窗格的打开/关闭动画
 		slide: {
 			all:	{ duration:  "fast"	} // eg: duration: 1000, easing: "easeOutBounce"
 		,	north:	{ direction: "up"	}
@@ -430,7 +390,7 @@ $.layout = {
 		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
 		if (outerWidth <= 0) return 0;
 
-		if (!$.layout.browser.boxModel) return outerWidth;
+		if (!YonYou.browserDetect.boxModel) return outerWidth;
 
 		// strip border and padding from outerWidth to get CSS Width
 		var b = $.layout.borderWidth
@@ -456,7 +416,7 @@ $.layout = {
 		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
 		if (outerHeight <= 0) return 0;
 
-		if (!$.layout.browser.boxModel) return outerHeight;
+		if (!YonYou.browserDetect.boxModel) return outerHeight;
 
 		// strip border and padding from outerHeight to get CSS Height
 		var b = $.layout.borderWidth
@@ -527,7 +487,7 @@ $.layout = {
 		,	y	= evt.pageY	// evt.clientY ?
 		;
 		// if X & Y are < 0, probably means is over an open SELECT
-		return ($.layout.browser.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
+		return (YonYou.browserDetect.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
 	}
 
 	/**
@@ -685,7 +645,7 @@ $.layout.defaults = {
 	,	slideDelay_open:		300			// applies only for mouseenter event - 0 = instant open
 	,	slideDelay_close:		300			// applies only for mouseleave event (300ms is the minimum!)
 	,	hideTogglerOnSlide:		false		// when pane is slid-open, should the toggler show?
-	,	preventQuickSlideClose:	$.layout.browser.webkit // Chrome triggers slideClosed as it is opening
+	,	preventQuickSlideClose:	YonYou.browserDetect.webkit // Chrome triggers slideClosed as it is opening
 	,	preventPrematureSlideClose: false	// handle incorrect mouseleave trigger, like when over a SELECT-list in IE
 	//	PANE-SPECIFIC TIPS & MESSAGES
 	,	tips: {
@@ -942,7 +902,7 @@ $.fn.layout = function (opts) {
 	var
 
 	// local aliases to global data
-	browser	= $.layout.browser
+	browser	= YonYou.browserDetect
 ,	_c		= $.layout.config
 
 	// local aliases to utlity methods
@@ -4749,7 +4709,7 @@ $.fn.layout = function (opts) {
  *	so if this is IE, use support.boxModel to test for quirks-mode (ONLY IE changes boxModel).
  */
 $(function(){
-	var b = $.layout.browser;
+	var b = YonYou.browserDetect;
 	if (b.msie) b.boxModel = $.support.boxModel;
 });
 
@@ -5454,7 +5414,7 @@ $.layout.browserZoom = {
 		,	s	= screen
 		,	d	= document
 		,	dE	= d.documentElement || d.body
-		,	b	= $.layout.browser
+		,	b	= YonYou.browserDetect
 		,	v	= b.version
 		,	r, sW, cW
 		;

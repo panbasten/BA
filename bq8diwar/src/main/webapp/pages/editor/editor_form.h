@@ -26,7 +26,7 @@
 	</div>
 	<div id="${editorId}PropBar" class="hb-flow-prop-bar hb-editor-stepbar-content-height ui-corner-top">
 		<div class="ui-widget-header ui-helper-clearfix" style="border: medium none;">
-			<div class="ui-toolbar-group-left">缩略图</div>
+			<div class="ui-toolbar-group-left">结构</div>
 			<div class="ui-toolbar-group-right">
 				<span id="thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="YonYou.desktop.toggleContent('${editorId}OverviewPanel',this);"></span>
 			</div>
@@ -34,7 +34,7 @@
 		<div id="${editorId}OverviewPanel" class="hb-overview ui-widget-content ui-helper-clearfix">
 		</div>
 		<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
-			<div class="ui-toolbar-group-left">数据源</div>
+			<div class="ui-toolbar-group-left">属性</div>
 			<div class="ui-toolbar-group-right">
 				<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="YonYou.desktop.toggleContent('datasource',this);"></span>
 			</div>

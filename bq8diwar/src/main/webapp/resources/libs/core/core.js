@@ -428,7 +428,6 @@ YonYou = {
 	 * 设置浏览器环境
 	 */
 	env : function (){
-		YonYou.browserDetect.init();
 		$("html").addClass(YonYou.browserDetect.OS + " " + YonYou.browserDetect.browser + " " + YonYou.browserDetect.browser_ver);
 	},
 	
@@ -928,11 +927,18 @@ YonYou.ajax.Queue = {
     }
 };
 
+/**
+ * 浏览器检查
+ */
 YonYou.browserDetect = {
 	init: function () {
+		// 浏览器标识
 		this.browser = this.searchString(this.dataBrowser) || "unknown";
-		this.version = $.browser.version || "unknown";
+		// 操作系统
 		this.OS = this.searchString(this.dataOS) || "unknown";
+		// 版本
+		this.version = $.browser.version || "unknown";
+		// 浏览器标识_版本
 		this.browser_ver = this.browser;
 		var vers = this.version.split(".");
 		for(var i=0;i<vers.length && i<2;i++){
@@ -942,6 +948,21 @@ YonYou.browserDetect = {
 				this.browser_ver = this.browser_ver + "_" + vers[i];
 			}
 		}
+		
+		// mozilla内核
+		this.mozilla = !!$.browser.mozilla;
+		
+		// webkit内核
+		this.webkit = !!$.browser.webkit || !!$.browser.safari;
+		
+		// msie内核
+		this.msie = !!$.browser.msie;
+		this.isIE6 = $.browser.msie && $.browser.version == 6;
+		
+		// box model
+		// 只有IE需要还原到旧的box-model - update for older jQ onReady
+		this.boxModel = $.support.boxModel !== false || !$.browser.msie;
+		
 	},
 	searchString: function (data) {
 		for (var i=0;i<data.length;i++)	{
@@ -1043,6 +1064,7 @@ YonYou.browserDetect = {
 		}
 	]
 };
+YonYou.browserDetect.init();
 
 YonYou.interaction = {
 	action : function(val, act){
