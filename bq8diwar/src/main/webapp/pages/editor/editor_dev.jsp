@@ -91,6 +91,8 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/flowchart/excanvas.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/libs/flowchart/flowchart.utils.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/libs/flowchart/flowchart.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/dialog/dialog.js"></script>
