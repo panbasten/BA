@@ -595,3 +595,23 @@ div.ui-fs-sftp-icon {
 	border: 1px #5C5C5C;
 	border-radius:5px;
 }
+
+.hb-form-editor-content{
+	background: url("../images/default/form_editer_bg.gif") repeat scroll left top #cccccc;
+    position: absolute;
+	-moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+	margin: 5px;
+}
+
+.hb-form-editor-component{
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+.hb-form-editor-canvas{
+	position: absolute;
+	margin: 0;
+}
