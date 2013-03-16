@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.yonyou.bq8</groupId>
+	<groupId>com.plywet.platform</groupId>
 	<artifactId>dk</artifactId>
 	<packaging>pom</packaging>
-	<name>BQ8DI开发工具包</name>
+	<name>BI开发工具包</name>
 	<version>1.0-SNAPSHOT</version>
-	<description>BQ8DI开发工具包</description>
+	<description>BI开发工具包</description>
 	<modules>
-		<module>bq-jsp-plugin</module>
+		<module>dk-build-plugin</module>
 	</modules>
 
 </project>

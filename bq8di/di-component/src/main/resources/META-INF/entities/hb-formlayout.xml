@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:FormLayout">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.FormLayout</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.layout.BQFormLayoutResolver</classname>
-	<category>Layout</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.FormLayout</tooltip>
-	<iconfile>formlayout.png</iconfile>
-</component>

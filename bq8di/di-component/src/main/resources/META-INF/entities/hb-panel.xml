@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:Panel">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.Panel</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.container.BQPanelResolver</classname>
-	<category>Containers</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.Panel</tooltip>
-	<iconfile>panel.png</iconfile>
-</component>

@@ -139,7 +139,7 @@
 	
 	<step id="ReportFileOutput">
 		<description>i18n:org.pentaho.di.trans.step:BaseStep.TypeLongDesc.ReportFileOutput</description>
-		<classname>com.yonyou.bq8.di.report.steps.reportfileoutput.ReportFileOutputMeta</classname>
+		<classname>com.plywet.platform.birm.bi.report.steps.reportfileoutput.ReportFileOutputMeta</classname>
 		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Output</category>
 		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.ReportFileOutput</tooltip>
 		<iconfile>RFO.png</iconfile>

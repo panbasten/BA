@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:PushButton">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.PushButton</description>
+	<classname>com.plywet.platform.bi.component.resolvers.button.FLYPushButtonResolver</classname>
+	<category>Buttons</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.PushButton</tooltip>
+	<iconfile>pushbutton.png</iconfile>
+</component>

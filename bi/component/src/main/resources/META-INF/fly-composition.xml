@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components>
+	<!-- base -->
+	<component>fly-base-composition.xml</component>
+	<component>fly-base-foreach.xml</component>
+	<component>fly-base-include.xml</component>
+	
+	<!-- spacers -->
+	<component>fly-horizontalspacer.xml</component>
+	<component>fly-verticalspacer.xml</component>
+	
+	<!-- buttons -->
+	<component>fly-pushbutton.xml</component>
+	<component>fly-linkbutton.xml</component>
+	<component>fly-radiobutton.xml</component>
+	<component>fly-checkbox.xml</component>
+	
+	<!-- input widgets -->
+	<component>fly-inputtext.xml</component>
+	<component>fly-inputtextarea.xml</component>
+	<component>fly-richtextarea.xml</component>
+	<component>fly-selectmenu.xml</component>
+	
+	<component>fly-combobox.xml</component>
+	<component>fly-combogrid.xml</component>
+	<component>fly-combotree.xml</component>
+	
+	<component>fly-datebox.xml</component>
+	<component>fly-datetimebox.xml</component>
+	<component>fly-timespinner.xml</component>
+	
+	<component>fly-numberbox.xml</component>
+	<component>fly-numberspinner.xml</component>
+	
+	<!-- display widgets -->
+	<component>fly-labelobject.xml</component>
+	<component>fly-image.xml</component>
+	<component>fly-graph.xml</component>
+	<component>fly-horizontalline.xml</component>
+	<component>fly-verticalline.xml</component>
+	
+	<!-- item widgets -->
+	<component>fly-browse.xml</component>
+	<component>fly-datagrid.xml</component>
+	<component>fly-pagination.xml</component>
+	<component>fly-tree.xml</component>
+	<component>fly-treegrid.xml</component>
+	
+	<!-- containers -->
+	<component>fly-tabview.xml</component>
+	<component>fly-panel.xml</component>
+	<component>fly-fieldset.xml</component>
+	
+	<!-- layout -->
+	<component>fly-layout.xml</component>
+	<component>fly-verticallayout.xml</component>
+	<component>fly-horizontallayout.xml</component>
+	<component>fly-gridlayout.xml</component>
+	<component>fly-formlayout.xml</component>
+	
+</components>

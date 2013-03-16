@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:RichTextarea">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.RichTextarea</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.input.BQRichTextareaResolver</classname>
-	<category>Input</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.RichTextarea</tooltip>
-	<iconfile>richtextarea.png</iconfile>
-</component>

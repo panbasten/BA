@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:VerticalLayout">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.VerticalLayout</description>
+	<classname>com.plywet.platform.bi.component.resolvers.layout.FLYVerticalLayoutResolver</classname>
+	<category>Layout</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.VerticalLayout</tooltip>
+	<iconfile>verticallayout.png</iconfile>
+</component>

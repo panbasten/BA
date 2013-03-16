@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:LabelObject">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.LabelObject</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.display.BQLabelObjectResolver</classname>
-	<category>Display</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.LabelObject</tooltip>
-	<iconfile>labelobject.png</iconfile>
-</component>

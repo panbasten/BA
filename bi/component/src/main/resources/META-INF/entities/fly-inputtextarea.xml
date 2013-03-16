@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:InputTextarea">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.InputTextarea</description>
+	<classname>com.plywet.platform.bi.component.resolvers.input.FLYInputTextareaResolver</classname>
+	<category>Input</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.InputTextarea</tooltip>
+	<iconfile>inputtextarea.png</iconfile>
+</component>

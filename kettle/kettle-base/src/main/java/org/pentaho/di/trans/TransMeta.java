@@ -293,7 +293,7 @@ public class TransMeta extends ChangedFlag implements XMLInterface, Comparator<T
      */
     protected boolean             usingThreadPriorityManagment;
     
-    /** If this is null, we load from the default shared objects file : $BQ_HOME/.bq/shared.xml */
+    /** If this is null, we load from the default shared objects file : $PLYWET_HOME/.plywet/shared.xml */
     protected String              sharedObjectsFile;
     
     /** The last load of the shared objects file by this TransMet object. */

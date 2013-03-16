@@ -162,7 +162,7 @@ public class Props implements Cloneable
 	public static final int TYPE_PROPERTIES_KITCHEN = 4;
 	public static final int TYPE_PROPERTIES_MENU    = 5;
 	public static final int TYPE_PROPERTIES_PLATE   = 6;
-	public static final int TYPE_PROPERTIES_BQDI   = 7;
+	public static final int TYPE_PROPERTIES_BI   = 7;
     
     public static final int WIDGET_STYLE_DEFAULT = 0;
     public static final int WIDGET_STYLE_FIXED   = 1;
@@ -292,8 +292,8 @@ public class Props implements Cloneable
 			case TYPE_PROPERTIES_PLATE:
 				filename=directory+Const.FILE_SEPARATOR+".platerc";
 				break;
-			case TYPE_PROPERTIES_BQDI:
-				filename=directory+Const.FILE_SEPARATOR+"bqdi.properties";
+			case TYPE_PROPERTIES_BI:
+				filename=directory+Const.FILE_SEPARATOR+"bi.properties";
 				break;
 			default: break;
 		}
@@ -371,7 +371,7 @@ public class Props implements Cloneable
 
             SortedFileOutputStream fos = new SortedFileOutputStream(spoonRc);
             fos.setLogger(log);
-			properties.store(fos, "BQDI Properties file");
+			properties.store(fos, "BI Properties file");
             fos.close();
             log.logDetailed(BaseMessages.getString(PKG, "Spoon.Log.SaveProperties"));
 		}

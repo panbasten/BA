@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:PushButton">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.PushButton</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.button.BQPushButtonResolver</classname>
-	<category>Buttons</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.PushButton</tooltip>
-	<iconfile>pushbutton.png</iconfile>
-</component>

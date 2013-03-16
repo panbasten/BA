@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:ComboTree">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.ComboTree</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.input.BQComboTreeResolver</classname>
-	<category>Input</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.ComboTree</tooltip>
-	<iconfile>combotree.png</iconfile>
-</component>

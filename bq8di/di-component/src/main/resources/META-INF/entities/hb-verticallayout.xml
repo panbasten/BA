@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:VerticalLayout">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.VerticalLayout</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.layout.BQVerticalLayoutResolver</classname>
-	<category>Layout</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.VerticalLayout</tooltip>
-	<iconfile>verticallayout.png</iconfile>
-</component>

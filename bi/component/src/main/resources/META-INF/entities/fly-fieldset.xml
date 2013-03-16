@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:FieldSet">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.FieldSet</description>
+	<classname>com.plywet.platform.bi.component.resolvers.container.FLYFieldSetResolver</classname>
+	<category>Containers</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.FieldSet</tooltip>
+	<iconfile>fieldset.png</iconfile>
+</component>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:HorizontalLayout">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.HorizontalLayout</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.layout.BQHorizontalLayoutResolver</classname>
-	<category>Layout</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.HorizontalLayout</tooltip>
-	<iconfile>horizontallayout.png</iconfile>
-</component>

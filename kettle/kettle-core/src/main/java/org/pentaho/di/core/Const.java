@@ -150,7 +150,7 @@ public class Const
      * @deprecated Use {@link Const.getUserHomeDirectory()} instead.
      */
     @Deprecated
-    public static final String USER_HOME_DIRECTORY = NVL(System.getProperty("BQ_HOME"), System.getProperty("user.home"));
+    public static final String USER_HOME_DIRECTORY = NVL(System.getProperty("PLYWET_HOME"), System.getProperty("user.home"));
     
     /**
      * Path to the simple-jndi directory
@@ -369,19 +369,19 @@ public class Const
 	private static String STRING_JOB_FILTER_NAMES[];
 
 	/** Name of the kettle parameters file */
-	public static final String KETTLE_PROPERTIES = "bqdi.properties";
+	public static final String KETTLE_PROPERTIES = "bi.properties";
 
     /** The prefix that all internal kettle variables should have */
     public static final String INTERNAL_VARIABLE_PREFIX = "Internal";
 
     /** The version number as an internal variable */
-    public static final String INTERNAL_VARIABLE_KETTLE_VERSION = INTERNAL_VARIABLE_PREFIX+".BQDI.Version";
+    public static final String INTERNAL_VARIABLE_KETTLE_VERSION = INTERNAL_VARIABLE_PREFIX+".BI.Version";
 
     /** The build version as an internal variable */
-    public static final String INTERNAL_VARIABLE_KETTLE_BUILD_VERSION = INTERNAL_VARIABLE_PREFIX+".BQDI.Build.Version";
+    public static final String INTERNAL_VARIABLE_KETTLE_BUILD_VERSION = INTERNAL_VARIABLE_PREFIX+".BI.Build.Version";
 
     /** The build date as an internal variable */
-    public static final String INTERNAL_VARIABLE_KETTLE_BUILD_DATE = INTERNAL_VARIABLE_PREFIX+".BQDI.Build.Date";
+    public static final String INTERNAL_VARIABLE_KETTLE_BUILD_DATE = INTERNAL_VARIABLE_PREFIX+".BI.Build.Date";
     
     /** The job filename directory */
     public static final String INTERNAL_VARIABLE_JOB_FILENAME_DIRECTORY = INTERNAL_VARIABLE_PREFIX+".Job.Filename.Directory";
@@ -1365,13 +1365,13 @@ public class Const
 	}
 
   /**
-   * Looks up the user's home directory (or BQ_HOME) for every invocation. This is no longer a static property so
+   * Looks up the user's home directory (or PLYWET_HOME) for every invocation. This is no longer a static property so
    * the value may be set after this class is loaded.
    *
-   * @return The path to the users home directory, or the System property {@code BQ_HOME} if set.
+   * @return The path to the users home directory, or the System property {@code PLYWET_HOME} if set.
    */
   public static final String getUserHomeDirectory() {
-    return NVL(System.getProperty("BQ_HOME"), System.getProperty("user.home"));
+    return NVL(System.getProperty("PLYWET_HOME"), System.getProperty("user.home"));
   }
 
 	/**
@@ -1380,7 +1380,7 @@ public class Const
 	 */
 	public static final String getKettleDirectory()
 	{
-		return getUserHomeDirectory() + FILE_SEPARATOR + BasePropertyHandler.getProperty("userBaseDir", ".bq");
+		return getUserHomeDirectory() + FILE_SEPARATOR + BasePropertyHandler.getProperty("userBaseDir", ".plywet");
 	}
 	
 	/** 
@@ -1435,7 +1435,7 @@ public class Const
 
 	/**
 	 * Returns the path to the Kettle Carte password file in the home directory:<p>
-	 * $BQ_HOME/.bq/kettle.pwd<br>
+	 * $PLYWET_HOME/.plywet/kettle.pwd<br>
 	 * 
 	 * @return The Carte password file in the home directory.
 	 */
@@ -1458,8 +1458,8 @@ public class Const
 
 	/**
 	 * Replaces environment variables in a string.
-	 * For example if you set BQ_HOME as an environment variable, you can 
-	 * use %%BQ_HOME%% in dialogs etc. to refer to this value.
+	 * For example if you set PLYWET_HOME as an environment variable, you can 
+	 * use %%PLYWET_HOME%% in dialogs etc. to refer to this value.
 	 * This procedures looks for %%...%% pairs and replaces them including the 
 	 * name of the environment variable with the actual value.
 	 * In case the variable was not set, nothing is replaced!

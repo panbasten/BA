@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:FormLayout">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.FormLayout</description>
+	<classname>com.plywet.platform.bi.component.resolvers.layout.FLYFormLayoutResolver</classname>
+	<category>Layout</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.FormLayout</tooltip>
+	<iconfile>formlayout.png</iconfile>
+</component>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:VerticalSpacer">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.VerticalSpacer</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.spacer.BQVerticalSpacerResolver</classname>
-	<category>Spacers</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.VerticalSpacer</tooltip>
-	<iconfile>verticalspacer.png</iconfile>
-</component>

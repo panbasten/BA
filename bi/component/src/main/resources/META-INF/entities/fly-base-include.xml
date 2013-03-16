@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:Include">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Include</description>
+	<classname>com.plywet.platform.bi.component.resolvers.base.IncludeResolver</classname>
+	<category>Base</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Include</tooltip>
+	<iconfile>include.png</iconfile>
+</component>

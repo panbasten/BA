@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans       
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd      
+ http://www.springframework.org/schema/context       
+ http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	
+	<context:annotation-config />
+	<context:component-scan base-package="com.plywet.platform.bi" />
+	<bean class="org.apache.wink.spring.Registrar">
+		<property name="classes">
+			<set value-type="java.lang.Class">
+				<!-- <value>org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider</value> -->
+			</set>
+		</property>
+		<property name="instances">
+			<set>
+				<ref bean="bi.resource.baseResource" />
+				<ref bean="bi.resource.filesysResource" />
+				<ref bean="bi.resource.reportResource" />
+				<ref bean="bi.resource.sysToolsResource" />
+				<ref bean="bi.resource.transJobResource" />
+				<ref bean="bi.resource.dbResource" />
+				<ref bean="bi.resource.domainResource" />
+				
+				<ref bean="bi.resource.identification" />
+				<ref bean="bi.resource.fileOperation" />
+				<!-- ref bean="bi.resource.hostResource" />
+				<ref bean="bi.resource.localResource" /-->
+			</set>
+		</property>
+	</bean>
+
+</beans>

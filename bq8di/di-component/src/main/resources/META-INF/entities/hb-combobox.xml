@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="bq:ComboBox">
-	<description>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeLongDesc.ComboBox</description>
-	<classname>com.yonyou.bq8.di.component.resolvers.input.BQComboBoxResolver</classname>
-	<category>Input</category>
-	<tooltip>i18n:com.yonyou.bq8.di.component.resolvers:Component.TypeTooltipDesc.ComboBox</tooltip>
-	<iconfile>combobox.png</iconfile>
-</component>

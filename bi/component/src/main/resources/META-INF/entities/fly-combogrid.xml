@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:ComboGrid">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.ComboGrid</description>
+	<classname>com.plywet.platform.bi.component.resolvers.input.FLYComboGridResolver</classname>
+	<category>Input</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.ComboGrid</tooltip>
+	<iconfile>combogrid.png</iconfile>
+</component>
