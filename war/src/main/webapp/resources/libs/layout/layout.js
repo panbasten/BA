@@ -288,265 +288,6 @@ $.layout = {
 		return dim.match(/^(width|height)$/) ? d[dim] : d;
 	}
 
-
-	/**
-	* Returns hash container 'display' and 'visibility'
-	*
-	* @see	$.swap() - swaps CSS, runs callback, resets CSS
-	*/
-,	showInvisibly: function ($E, force) {
-		if ($E && $E.length && (force || $E.css('display') === "none")) { // only if not *already hidden*
-			var s = $E[0].style
-				// save ONLY the 'style' props because that is what we must restore
-			,	CSS = { display: s.display || '', visibility: s.visibility || '' };
-			// show element 'invisibly' so can be measured
-			$E.css({ display: "block", visibility: "hidden" });
-			return CSS;
-		}
-		return {};
-	}
-
-	/**
-	* Returns data for setting size of an element (container or a pane).
-	*
-	* @see  _create(), onWindowResize() for container, plus others for pane
-	* @return JSON  Returns a hash of all dimensions: top, bottom, left, right, outerWidth, innerHeight, etc
-	*/
-,	getElementDimensions: function ($E) {
-		var
-			d	= {}			// dimensions hash
-		,	x	= d.css = {}	// CSS hash
-		,	i	= {}			// TEMP insets
-		,	b, p				// TEMP border, padding
-		,	N	= $.layout.cssNum
-		,	off = $E.offset()
-		;
-		d.offsetLeft = off.left;
-		d.offsetTop  = off.top;
-
-		$.each("Left,Right,Top,Bottom".split(","), function (idx, e) { // e = edge
-			b = x["border" + e] = $.layout.borderWidth($E, e);
-			p = x["padding"+ e] = $.layout.cssNum($E, "padding"+e);
-			i[e] = b + p; // total offset of content from outer side
-			d["inset"+ e] = p;	// eg: insetLeft = paddingLeft
-		});
-
-		d.offsetWidth	= $E.innerWidth();	// offsetWidth is used in calc when doing manual resize
-		d.offsetHeight	= $E.innerHeight();	// ditto
-		d.outerWidth	= $E.outerWidth();
-		d.outerHeight	= $E.outerHeight();
-		d.innerWidth	= max(0, d.outerWidth  - i.Left - i.Right);
-		d.innerHeight	= max(0, d.outerHeight - i.Top  - i.Bottom);
-
-		x.width		= $E.width();
-		x.height	= $E.height();
-		x.top		= N($E,"top",true);
-		x.bottom	= N($E,"bottom",true);
-		x.left		= N($E,"left",true);
-		x.right		= N($E,"right",true);
-
-		//d.visible	= $E.is(":visible");// && x.width > 0 && x.height > 0;
-
-		return d;
-	}
-
-,	getElementCSS: function ($E, list) {
-		var
-			CSS	= {}
-		,	style	= $E[0].style
-		,	props	= list.split(",")
-		,	sides	= "Top,Bottom,Left,Right".split(",")
-		,	attrs	= "Color,Style,Width".split(",")
-		,	p, s, a, i, j, k
-		;
-		for (i=0; i < props.length; i++) {
-			p = props[i];
-			if (p.match(/(border|padding|margin)$/))
-				for (j=0; j < 4; j++) {
-					s = sides[j];
-					if (p === "border")
-						for (k=0; k < 3; k++) {
-							a = attrs[k];
-							CSS[p+s+a] = style[p+s+a];
-						}
-					else
-						CSS[p+s] = style[p+s];
-				}
-			else
-				CSS[p] = style[p];
-		};
-		return CSS
-	}
-
-	/**
-	* Return the innerWidth for the current browser/doctype
-	*
-	* @see  initPanes(), sizeMidPanes(), initHandles(), sizeHandles()
-	* @param  {Array.<Object>}	$E  Must pass a jQuery object - first element is processed
-	* @param  {number=}			outerWidth (optional) Can pass a width, allowing calculations BEFORE element is resized
-	* @return {number}			Returns the innerWidth of the elem by subtracting padding and borders
-	*/
-,	cssWidth: function ($E, outerWidth) {
-		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
-		if (outerWidth <= 0) return 0;
-
-		if (!Plywet.browserDetect.boxModel) return outerWidth;
-
-		// strip border and padding from outerWidth to get CSS Width
-		var b = $.layout.borderWidth
-		,	n = $.layout.cssNum
-		,	W = outerWidth
-				- b($E, "Left")
-				- b($E, "Right")
-				- n($E, "paddingLeft")		
-				- n($E, "paddingRight");
-
-		return max(0,W);
-	}
-
-	/**
-	* Return the innerHeight for the current browser/doctype
-	*
-	* @see  initPanes(), sizeMidPanes(), initHandles(), sizeHandles()
-	* @param  {Array.<Object>}	$E  Must pass a jQuery object - first element is processed
-	* @param  {number=}			outerHeight  (optional) Can pass a width, allowing calculations BEFORE element is resized
-	* @return {number}			Returns the innerHeight of the elem by subtracting padding and borders
-	*/
-,	cssHeight: function ($E, outerHeight) {
-		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
-		if (outerHeight <= 0) return 0;
-
-		if (!Plywet.browserDetect.boxModel) return outerHeight;
-
-		// strip border and padding from outerHeight to get CSS Height
-		var b = $.layout.borderWidth
-		,	n = $.layout.cssNum
-		,	H = outerHeight
-			- b($E, "Top")
-			- b($E, "Bottom")
-			- n($E, "paddingTop")
-			- n($E, "paddingBottom");
-
-		return max(0,H);
-	}
-
-	/**
-	* Returns the 'current CSS numeric value' for a CSS property - 0 if property does not exist
-	*
-	* @see  Called by many methods
-	* @param {Array.<Object>}	$E					Must pass a jQuery object - first element is processed
-	* @param {string}			prop				The name of the CSS property, eg: top, width, etc.
-	* @param {boolean=}			[allowAuto=false]	true = return 'auto' if that is value; false = return 0
-	* @return {(string|number)}						Usually used to get an integer value for position (top, left) or size (height, width)
-	*/
-,	cssNum: function ($E, prop, allowAuto) {
-		if (!$E.jquery) $E = $($E);
-		var CSS = $.layout.showInvisibly($E)
-		,	p	= $.css($E[0], prop, true)
-		,	v	= allowAuto && p=="auto" ? p : (parseInt(p, 10) || 0);
-		$E.css( CSS ); // RESET
-		return v;
-	}
-
-,	borderWidth: function (el, side) {
-		if (el.jquery) el = el[0];
-		var b = "border"+ side.substr(0,1).toUpperCase() + side.substr(1); // left => Left
-		return $.css(el, b+"Style", true) === "none" ? 0 : (parseInt($.css(el, b+"Width", true), 10) || 0);
-	}
-
-	/**
-	* Mouse-tracking utility - FUTURE REFERENCE
-	*
-	* init: if (!window.mouse) {
-	*			window.mouse = { x: 0, y: 0 };
-	*			$(document).mousemove( $.layout.trackMouse );
-	*		}
-	*
-	* @param {Object}		evt
-	*
-,	trackMouse: function (evt) {
-		window.mouse = { x: evt.clientX, y: evt.clientY };
-	}
-	*/
-
-	/**
-	* SUBROUTINE for preventPrematureSlideClose option
-	*
-	* @param {Object}		evt
-	* @param {Object=}		el
-	*/
-,	isMouseOverElem: function (evt, el) {
-		var
-			$E	= $(el || this)
-		,	d	= $E.offset()
-		,	T	= d.top
-		,	L	= d.left
-		,	R	= L + $E.outerWidth()
-		,	B	= T + $E.outerHeight()
-		,	x	= evt.pageX	// evt.clientX ?
-		,	y	= evt.pageY	// evt.clientY ?
-		;
-		// if X & Y are < 0, probably means is over an open SELECT
-		return (Plywet.browserDetect.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
-	}
-
-	/**
-	* Message/Logging Utility
-	*
-	* @example $.layout.msg("My message");				// log text
-	* @example $.layout.msg("My message", true);		// alert text
-	* @example $.layout.msg({ foo: "bar" }, "Title");	// log hash-data, with custom title
-	* @example $.layout.msg({ foo: "bar" }, true, "Title", { sort: false }); -OR-
-	* @example $.layout.msg({ foo: "bar" }, "Title", { sort: false, display: true }); // alert hash-data
-	*
-	* @param {(Object|string)}			info			String message OR Hash/Array
-	* @param {(Boolean|string|Object)=}	[popup=false]	True means alert-box - can be skipped
-	* @param {(Object|string)=}			[debugTitle=""]	Title for Hash data - can be skipped
-	* @param {Object=}					[debugOpts]		Extra options for debug output
-	*/
-,	msg: function (info, popup, debugTitle, debugOpts) {
-		if ($.isPlainObject(info) && window.debugData) {
-			if (typeof popup === "string") {
-				debugOpts	= debugTitle;
-				debugTitle	= popup;
-			}
-			else if (typeof debugTitle === "object") {
-				debugOpts	= debugTitle;
-				debugTitle	= null;
-			}
-			var t = debugTitle || "log( <object> )"
-			,	o = $.extend({ sort: false, returnHTML: false, display: false }, debugOpts);
-			if (popup === true || o.display)
-				debugData( info, t, o );
-			else if (window.console)
-				console.log(debugData( info, t, o ));
-		}
-		else if (popup)
-			alert(info);
-		else if (window.console)
-			console.log(info);
-		else {
-			var id	= "#layoutLogger"
-			,	$l = $(id);
-			if (!$l.length)
-				$l = createLog();
-			$l.children("ul").append('<li style="padding: 4px 10px; margin: 0; border-top: 1px solid #CCC;">'+ info.replace(/\</g,"&lt;").replace(/\>/g,"&gt;") +'</li>');
-		}
-
-		function createLog () {
-			var pos = $.support.fixedPosition ? 'fixed' : 'absolute'
-			,	$e = $('<div id="layoutLogger" style="position: '+ pos +'; top: 5px; z-index: 999999; max-width: 25%; overflow: hidden; border: 1px solid #000; border-radius: 5px; background: #FBFBFB; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">'
-				+	'<div style="font-size: 13px; font-weight: bold; padding: 5px 10px; background: #F6F6F6; border-radius: 5px 5px 0 0; cursor: move;">'
-				+	'<span style="float: right; padding-left: 7px; cursor: pointer;" title="Remove Console" onclick="$(this).closest(\'#layoutLogger\').remove()">X</span>Layout console.log</div>'
-				+	'<ul style="font-size: 13px; font-weight: none; list-style: none; margin: 0; padding: 0 0 2px;"></ul>'
-				+ '</div>'
-				).appendTo("body");
-			$e.css('left', $(window).width() - $e.outerWidth() - 5)
-			if ($.ui.draggable) $e.draggable({ handle: ':first-child' });
-			return $e;
-		};
-	}
-
 };
 
 // DEFAULT OPTIONS
@@ -569,8 +310,6 @@ $.layout.defaults = {
 ,	onunload_start:				null		// CALLBACK when Layout is destroyed OR onWindowUnload
 ,	onunload_end:				null		// CALLBACK when Layout is destroyed OR onWindowUnload
 ,	initPanes:					true		// false = DO NOT initialize the panes onLoad - will init later
-,	showErrorMessages:			true		// enables fatal error messages to warn developers of common errors
-,	showDebugMessages:			false		// display console-and-alert debug msgs - IF this Layout version _has_ debugging code!
 //	Changing this zIndex value will cause other zIndex values to automatically change
 ,	zIndex:						null		// the PANE zIndex - resizers and masks will be +1
 //	DO NOT CHANGE the zIndex values below unless you clearly understand their relationships
@@ -748,7 +487,7 @@ $.layout.defaults = {
 $.layout.optionsMap = {
 	// layout/global options - NOT pane-options
 	layout: ("stateManagement,effects,zIndexes,errors,"
-	+	"name,zIndex,scrollToBookmarkOnLoad,showErrorMessages,"
+	+	"name,zIndex,scrollToBookmarkOnLoad,"
 	+	"resizeWithWindow,resizeWithWindowDelay,resizeWithWindowMaxDelay,"
 	+	"onresizeall,onresizeall_start,onresizeall_end,onload,onunload").split(",")
 //	borderPanes: [ ALL options that are NOT specified as 'layout' ]
@@ -906,10 +645,10 @@ $.fn.layout = function (opts) {
 ,	_c		= $.layout.config
 
 	// local aliases to utlity methods
-,	cssW	= $.layout.cssWidth
-,	cssH	= $.layout.cssHeight
-,	elDims	= $.layout.getElementDimensions
-,	elCSS	= $.layout.getElementCSS
+,	cssW	= Plywet.cssWidth
+,	cssH	= Plywet.cssHeight
+,	elDims	= Plywet.getElementDimensions
+,	elCSS	= Plywet.getElementCSS
 ,	evtObj	= $.layout.getEventObject
 ,	evtPane	= $.layout.parsePaneName
 
@@ -962,20 +701,6 @@ $.fn.layout = function (opts) {
 	}
 
 	/**
-	* Alert or console.log a message - IF option is enabled.
-	*
-	* @param {(string|!Object)}	msg		Message (or debug-data) to display
-	* @param {?boolean}			popup	True by default, means 'alert', false means use console.log
-	* @param {?boolean}			debug	True means is a widget debugging message
-	*/
-,	_log = function (msg, popup, debug) {
-		var o = options;
-		if ((o.showErrorMessages && !debug) || (debug && o.showDebugMessages))
-			$.layout.msg( o.name +' / '+ msg, (popup !== false) );
-		return false;
-	}
-
-	/**
 	* Executes a Callback function after a trigger event, like resize, open or close
 	*
 	* @param {string}			evtName			Name of the layout callback, eg "onresize_start"
@@ -1024,7 +749,7 @@ $.fn.layout = function (opts) {
 				}
 			}
 			catch (ex) {
-				_log( options.errors.callbackError.replace(/EVENT/, $.trim(pane +" "+ lng)), false );
+				Plywet.error( options.errors.callbackError.replace(/EVENT/, $.trim(pane +" "+ lng)) );
 			}
 		}
 
@@ -1193,7 +918,7 @@ $.fn.layout = function (opts) {
 			var	dim	= (dir === "horz" ? "height" : "width")
 			,	$P	= $Ps[pane]
 			,	$C	= dim === 'height' ? $Cs[pane] : false
-			,	vis	= $.layout.showInvisibly($P) // show pane invisibly if hidden
+			,	vis	= Plywet.setInvisibly($P) // show pane invisibly if hidden
 			,	szP	= $P.css(dim) // SAVE current pane size
 			,	szC	= $C ? $C.css(dim) : 0 // SAVE current content size
 			;
@@ -1458,7 +1183,7 @@ $.fn.layout = function (opts) {
 
 		// a center pane is required, so make sure it exists
 		if (!getPane("center").length) {
-			return _log( o.errors.centerPaneMissing );
+			return Plywet.error( o.errors.centerPaneMissing );
 		}
 
 		// TEMP state so isInitialized returns true during init process
@@ -1698,7 +1423,7 @@ $.fn.layout = function (opts) {
 				if ( $N.is(":visible") ) {
 					$.extend(sC, elDims( $N ));
 					if (sC.innerHeight < 1)
-						_log( o.errors.noContainerHeight.replace(/CONTAINER/, sC.ref) );
+						Plywet.error( o.errors.noContainerHeight.replace(/CONTAINER/, sC.ref) );
 				}
 			}
 		} catch (ex) {}
@@ -3303,7 +3028,7 @@ $.fn.layout = function (opts) {
 			close_NOW(); // close immediately onClick
 		else if (o.preventQuickSlideClose && s.isMoving)
 			return; // handle Chrome quick-close on slide-open
-		else if (o.preventPrematureSlideClose && evt && $.layout.isMouseOverElem(evt, $Ps[pane]))
+		else if (o.preventPrematureSlideClose && evt && Plywet.isMouseOverElement(evt, $Ps[pane]))
 			return; // handle incorrect mouseleave trigger, like when over a SELECT-list in IE
 		else if (evt) // trigger = mouseleave - use a delay
 			// 1 sec delay if 'opening', else .3 sec
@@ -3514,7 +3239,7 @@ $.fn.layout = function (opts) {
 				var	side = c.side.toLowerCase()
 				,	pos  = s.size + sC["inset"+ c.side]
 				;
-				if ($.layout.cssNum($R, side) != pos) $R.css( side, pos );
+				if (Plywet.cssNum($R, side) != pos) $R.css( side, pos );
 			}
 
 			// if was previously hidden due to noRoom, then RESET because NOW there is room
@@ -3680,12 +3405,12 @@ $.fn.layout = function (opts) {
 				thisTry.actual	= dimName=='width' ? $P.outerWidth() : $P.outerHeight();
 				thisTry.correct	= (size === thisTry.actual);
 
-				// log attempts and alert the user of this *non-fatal error* (if showDebugMessages)
+				// log attempts and alert the user of this *non-fatal error* 
 				if ( tries.length === 1) {
-					_log(msg, false, true);
-					_log(lastTry, false, true);
+					Plywet.debug(msg);
+					Plywet.debug(lastTry);
 				}
-				_log(thisTry, false, true);
+				Plywet.debug(thisTry);
 				// after 4 tries, is as close as its gonna get!
 				if (tries.length > 3) break;
 
@@ -3725,7 +3450,7 @@ $.fn.layout = function (opts) {
 
 			// DEBUG - ALERT user/developer so they know there was a sizing problem
 			if (tries.length > 1)
-				_log(msg +'\nSee the Error Console for details.', true, true);
+				Plywet.debug(msg +'\nSee the Error Console for details.');
 		}
 	}
 
@@ -4079,7 +3804,7 @@ $.fn.layout = function (opts) {
 				//paneLen = $P.outerWidth(); // s.outerWidth || 
 				paneLen = sC.innerWidth; // handle offscreen-panes
 				s.resizerLength = paneLen;
-				left = $.layout.cssNum($P, "left")
+				left = Plywet.cssNum($P, "left")
 				$R.css({
 					width:	cssW($R, paneLen) // account for borders & padding
 				,	height:	cssH($R, spacing) // ditto
@@ -4093,7 +3818,7 @@ $.fn.layout = function (opts) {
 					height:	cssH($R, paneLen) // account for borders & padding
 				,	width:	cssW($R, spacing) // ditto
 				,	top:	sC.insetTop + getPaneSize("north", true) // TODO: what if no North pane?
-				//,	top:	$.layout.cssNum($Ps["center"], "top")
+				//,	top:	Plywet.cssNum($Ps["center"], "top")
 				});
 			}
 
@@ -4617,7 +4342,7 @@ $.fn.layout = function (opts) {
 	// validate that container exists
 	var $N = $(this).eq(0); // FIRST matching Container element
 	if (!$N.length) {
-		return _log( options.errors.containerMissing );
+		return Plywet.error( options.errors.containerMissing );
 	};
 
 	// Users retrieve Instance of a layout with: $N.layout() OR $N.data("layout")
@@ -5147,15 +4872,15 @@ $.layout.buttons = {
 		,	err	= o.errors.addButtonError
 		;
 		if (!$E.length) { // element not found
-			$.layout.msg(err +" "+ o.errors.selector +": "+ selector, true);
+			Plywet.error(err +" "+ o.errors.selector +": "+ selector);
 		}
 		else if ($.inArray(pane, $.layout.config.borderPanes) < 0) { // invalid 'pane' sepecified
-			$.layout.msg(err +" "+ o.errors.pane +": "+ pane, true);
+			Plywet.error(err +" "+ o.errors.pane +": "+ pane);
 			$E = $("");  // NO BUTTON
 		}
 		else { // VALID
 			var btn = o[pane].buttonClass +"-"+ action;
-			$E	.addClass( btn +" "+ btn +"-"+ pane )
+			$E.addClass( btn +" "+ btn +"-"+ pane )
 				.data("layoutName", o.name); // add layout identifier - even if blank!
 		}
 		return $E;

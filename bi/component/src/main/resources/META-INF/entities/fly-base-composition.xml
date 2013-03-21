@@ -3,6 +3,7 @@
 	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Composition</description>
 	<classname>com.plywet.platform.bi.component.resolvers.base.CompositionResolver</classname>
 	<category>Base</category>
+	<ignoreInDesigner>true</ignoreInDesigner>
 	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Composition</tooltip>
 	<iconfile>composition.png</iconfile>
 </component>

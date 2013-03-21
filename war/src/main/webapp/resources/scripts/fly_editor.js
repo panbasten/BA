@@ -121,13 +121,13 @@ Plywet.editors.trans = {
 		if(tabData.onModify) canvasData.onModify=tabData.onModify;
 		if(tabData.extendData) canvasData.extendData=tabData.extendData;
 		if (typeof transEditorPanel_var == 'undefined') {
-			var $panelSize = Plywet.getDomSizeById("transEditorPanel");
+			var $panelSize = Plywet.getElementDimensions($(Plywet.escapeClientId("transEditorPanel")));
 			Plywet.cw("FlowChart","transEditorPanel_var",{
 				id: "transEditorPanel",
 				oid: "transOverviewPanel",
 				canvasConfig: {
-					width: $panelSize.width,
-					height: $panelSize.height
+					width: $panelSize.css.width,
+					height: $panelSize.css.height
 				},
 				outerControl:true,
 				data: canvasData
@@ -284,6 +284,12 @@ Plywet.editors.form = {
 	},
 	reloadStatus : function ($taba) {
 		console.log("reload form");
+		
+		if (typeof($taba.data("exdata"))=='undefined')return;
+		var tabData = $taba.data("exdata").data;
+		console.log(tabData);
+		
+		
 	},
 	reinit : function(){
 		formStepBarScroll.reinit();

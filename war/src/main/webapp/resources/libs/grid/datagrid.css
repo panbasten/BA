@@ -95,6 +95,7 @@
 	height:25px;
 }
 .ui-datagrid-header td{
+	color: #ccc;
 	border-right:1px dotted #ccc;
 	font-size:12px;
 	font-weight:normal;
@@ -129,7 +130,7 @@
 	text-align:center;
 	margin:0px;
 	padding:5px 0px;
-	color:#000;
+	color:#ccc;
 }
 .ui-datagrid-body{
 	margin:0;

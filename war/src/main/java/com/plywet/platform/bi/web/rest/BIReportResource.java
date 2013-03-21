@@ -98,9 +98,65 @@ public class BIReportResource {
 	@GET
 	@Path("/form/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openTransEditor(@CookieParam("repository") String repository,
+	public String openFormsEditor(@CookieParam("repository") String repository,
 			@PathParam("id") String id) throws BIException {
-		return "{}";
+		// xml
+		// <fly:composition x="0" y="0" width="273" height="83" name="GoToCellDialog"
+		//		type="VBoxLayout" marginLeft="9" marginTop="9" marginRight="9" marginBottom="9">
+		//		<fly:HBoxLayout name="" marginLeft="0" marginTop="0" marginRight="0" marginBottom="0">
+		// 			<fly:labelObject name="label" text="Cell Location:" />
+		//			<fly:inputText name="lineEdit" />
+		//		</fly:HBoxLayout>
+		// </fly:composition>
+		// 
+		String doth = "<fly:composition x=\"0\" y=\"0\" width=\"273\" height=\"83\" name=\"GoToCellDialog\"" +
+		"		type=\"VBoxLayout\" marginLeft=\"9\" marginTop=\"9\" marginRight=\"9\" marginBottom=\"9\">" +
+		"		<fly:hBoxLayout name=\"\" marginLeft=\"0\" marginTop=\"0\" marginRight=\"0\" marginBottom=\"0\">" +
+		" 			<fly:labelObject name=\"label\" text=\"Cell Location:\" />" +
+		"			<fly:inputText name=\"lineEdit\" />" +
+		"		</fly:HBoxLayout>" +
+		" </fly:composition>";
+		
+		String domStructure = "{" +
+		"	\"domStructure\":{" +
+		"		\"type\" : \"fly_comosition\"" +
+		"		,\"attrs\" : {" +
+		"			\"x\": \"0\"" +
+		"			,\"y\": \"0\"" +
+		"			,\"width\": \"273\"" +
+		"			,\"height\": \"83\"" +
+		"		}" +
+		"		,\"subs\" : [" +
+		"			{" +
+		"				\"type\" : \"fly_hBoxLayout\"" +
+		"				,\"attrs\" : {" +
+		"					\"name\" : \"\"" +
+		"					,\"marginLeft\" : \"0\"" +
+		"					,\"marginTop\" : \"0\"" +
+		"					,\"marginRight\" : \"0\"" +
+		"					,\"marginBottom\" : \"0\"" +
+		"				}" +
+		"				,\"subs\" : [" +
+		"					{" +
+		"						\"type\" : \"fly_labelObject\"" +
+		"						,\"attrs\" : {" +
+		"							\"name\" : \"label\"" +
+		"							,\"text\" : \"Cell Location:\"" +
+		"						}" +
+		"					}" +
+		"					,{" +
+		"						\"type\" : \"fly_inputText\"" +
+		"						,\"attrs\" : {" +
+		"							\"name\" : \"lineEdit\"" +
+		"						}" +
+		"						,\"html\" : \"\"" +
+		"					}" +
+		"				]" +
+		"			}" +
+		"		]" +
+		"	}" +
+		"}";
+		return domStructure;
 	}
 
 	/**
@@ -126,6 +182,9 @@ public class BIReportResource {
 				BrowseMeta browseMeta = new BrowseMeta();
 
 				for (ComponentPlugin cp : cps) {
+					if (cp.isIgnoreInDesigner()) {
+						continue;
+					}
 					BrowseNodeMeta plugin = new BrowseNodeMeta();
 					plugin.setId(cp.getId());
 					plugin.setCategory(cp.getCategory());

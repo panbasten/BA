@@ -167,16 +167,17 @@ Plywet.browse = {
 		Plywet.browse.openFile(event,Plywet.browse.TEMP.contextObjectData);
 	},
 	openFile : function(event,data) {
-		var category = data.data.category;
-		// 转换、作业打开转换设计器（TAB）
-		if(category=="trans" || category=="job"){
-			var match = diEditorPageTabs.hasMatch(category+"-"+data.id+"-tab");
-			if (match) {
-				diEditorPageTabs.select(category+"-"+data.id+"-tab");
+		var superData = data,
+			category = data.data.category,
+			tabName = category+"-"+data.id+"-tab",
+			displayName = data.attrs.displayName;
+		
+		// 转换、作业、表单报表打开转换设计器（TAB）
+		if(category=="trans" || category=="job" || category=="form"){
+			if (diEditorPageTabs.hasMatch(tabName)) {
+				diEditorPageTabs.select(tabName);
 				return;
 			}
-			var displayName = data.attrs.displayName;
-			
 			Plywet.ab({
 				type : "get",
 				modal : true,
@@ -187,33 +188,7 @@ Plywet.browse = {
 						exdata: data,
 						tabId: category,
 						tabText: displayName,
-						dataTarget: data.id+"-tab",
-						closable: true,
-						closePanel: false,
-				        checkModify: true
-					});
-				}
-			});
-		}
-		// 表单打开表单设计器
-		else if(category=="form"){
-			var match = diEditorPageTabs.hasMatch(category+"-"+data.id+"-tab");
-			if (match) {
-				diEditorPageTabs.select(category+"-"+data.id+"-tab");
-				return;
-			}
-			var displayName = data.attrs.displayName;
-			Plywet.ab({
-				type : "get",
-				modal : true,
-				modalMessage : "正在加载【"+displayName+"】...",
-				url : "rest/"+data.attrs.src,
-				onsuccess : function(data, status, xhr){
-					diEditorPageTabs.addTab({
-						exdata: data,
-						tabId: category,
-						tabText: displayName,
-						dataTarget: data.id+"-tab",
+						dataTarget: tabName,
 						closable: true,
 						closePanel: false,
 				        checkModify: true
@@ -225,7 +200,7 @@ Plywet.browse = {
 		else if(category=="db"){
 			Plywet.cw("Dialog","dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var",{
 				id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
-				header : "编辑【"+data.attrs.displayName+"】",
+				header : "编辑【"+displayName+"】",
 				width : 700,
 				height : 400,
 				autoOpen : true,

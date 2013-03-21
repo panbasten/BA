@@ -1,6 +1,10 @@
 package com.plywet.platform.bi.component.utils;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +22,13 @@ import com.plywet.platform.bi.component.resolvers.base.HTMLComponentResolver;
 import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.FileUtils;
+import com.plywet.platform.bi.core.utils.Utils;
 
 public class PageTemplateResolverType {
 
 	public static final String XML_FILE_FLY_COMPONENTS = "META-INF/fly-composition.xml";
 	public static final String XML_FILE_FLY_COMPONENTS_ENTITY_PREFIX = "META-INF/entities/";
+	public static final String XML_FILE_FLY_COMPONENTS_ATTRIBUTE_PREFIX = "META-INF/entities/attributes/";
 
 	private static final ComponentResolverInterface htmlResolver = new HTMLComponentResolver();
 
@@ -50,7 +56,7 @@ public class PageTemplateResolverType {
 						"component");
 				for (Node componentNode : componentNodes) {
 					String componentFilename = componentNode.getTextContent();
-					initComponent(getXMLDocument(XML_FILE_FLY_COMPONENTS_ENTITY_PREFIX
+					initComponent(getComponentDocument(XML_FILE_FLY_COMPONENTS_ENTITY_PREFIX
 							+ componentFilename));
 				}
 
@@ -76,10 +82,61 @@ public class PageTemplateResolverType {
 		categories.get(p.getCategory()).add(p);
 	}
 
+	/**
+	 * 获得XML的Document对象
+	 * 
+	 * @param filename
+	 * @return
+	 * @throws KettleXMLException
+	 * @throws FileNotFoundException
+	 */
 	private static Document getXMLDocument(String filename)
 			throws KettleXMLException, FileNotFoundException {
 		return XMLHandler.loadXMLFile(FileUtils.getInputStream(filename,
 				PageTemplateResolverType.class), null, true, false);
+	}
+
+	/**
+	 * 获得组件的XML的Document对象
+	 * 
+	 * @param filename
+	 * @return
+	 * @throws IOException
+	 * @throws KettleXMLException
+	 */
+
+	private static Document getComponentDocument(String filename)
+			throws IOException, KettleXMLException {
+		return XMLHandler.loadXMLString(getComponentString(filename));
+	}
+
+	private static String getComponentString(String filename)
+			throws IOException, KettleXMLException {
+		// 获得输入流
+		InputStream is = FileUtils.getInputStream(filename,
+				PageTemplateResolverType.class);
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		try {
+			// 获得行，进行判断替换属性
+			String xml = "", line;
+			while ((line = br.readLine()) != null) {
+				// 如果匹配，用具体内容替换
+				line = Utils.trim(line);
+				if (line.startsWith("&")) {
+					line = getComponentString(XML_FILE_FLY_COMPONENTS_ATTRIBUTE_PREFIX
+							+ line.substring(1) + ".xml");
+				}
+				xml += line;
+			}
+			return xml;
+
+		} finally {
+			br.close();
+			isr.close();
+			is.close();
+		}
+
 	}
 
 	public static Map<String, ComponentPlugin> getPlugins()
@@ -98,7 +155,7 @@ public class PageTemplateResolverType {
 		init();
 		return categoryNames;
 	}
-	
+
 	public static List<String> getCategoryCodes() throws BIPageException {
 		init();
 		return categoryCodes;

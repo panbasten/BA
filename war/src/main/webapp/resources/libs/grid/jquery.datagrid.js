@@ -143,15 +143,15 @@
 			if (ridx != undefined) {
 				var tr1 = opts.finder.getTr(target, ridx, "body", 1);
 				var tr2 = opts.finder.getTr(target, ridx, "body", 2);
-				setHeightTr(tr1, tr2);
+				setHeightTrs(tr1, tr2);
 			} else {
 				var tr1 = opts.finder.getTr(target, 0, "allbody", 1);
 				var tr2 = opts.finder.getTr(target, 0, "allbody", 2);
-				setHeightTr(tr1, tr2);
+				setHeightTrs(tr1, tr2);
 				if (opts.showFooter) {
 					var tr1 = opts.finder.getTr(target, 0, "allfooter", 1);
 					var tr2 = opts.finder.getTr(target, 0, "allfooter", 2);
-					setHeightTr(tr1, tr2);
+					setHeightTrs(tr1, tr2);
 				}
 			}
 		}
@@ -179,7 +179,7 @@
 		}
 		dc.body2.triggerHandler("scroll");
 		
-		function setHeightTr(tr1s, tr2s) {
+		function setHeightTrs(tr1s, tr2s) {
 			for ( var i = 0; i < tr2s.length; i++) {
 				var tr1 = $(tr1s[i]);
 				var tr2 = $(tr2s[i]);
@@ -1302,11 +1302,11 @@
 	/**
 	 * 通过行选择框选中所有行
 	 */
-	function _checkAll(target, _ec) {
+	function _checkAll(target, skip) {
 		var grid = $.data(target, "datagrid");
 		var opts = grid.options;
 		var data = grid.data;
-		if (!_ec && opts.selectOnCheck) {
+		if (!skip && opts.selectOnCheck) {
 			_selectAll(target, true);
 		}
 		var ck = opts.finder.getTr(target, "", "allbody").find(
@@ -2551,9 +2551,11 @@
 		rowStyler : function(_1eb, _1ec) { },
 		loader : function(data, onsuccess, onerror) {
 			var opts = $(this).datagrid("options");
+			console.log("adaaaaa3");
 			if (!opts.url) {
 				return false;
 			}
+			console.log("adaaaaa");
 			Plywet.ab({
 				type : opts.method,
 				url : opts.url,

@@ -8,13 +8,13 @@ import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.core.utils.XmlUtils;
 
-public class ComponentAttribute {
-	private String name;
+public class ComponentAttribute extends BaseComponentAttribute implements
+		IComponentAttribute {
+
 	private boolean required;
 	private Class<?> type;
 	private String defaultValueStr;
 	private Object defaultValue;
-	private String description;
 
 	private ComponentAttribute(Node attributesNode) throws Exception {
 		this.name = XMLHandler.getTagAttribute(attributesNode, "name");
@@ -42,19 +42,14 @@ public class ComponentAttribute {
 
 		this.description = PropertyUtils.getCodedTranslation(XmlUtils
 				.getTagOrAttribute(attributesNode, "description"));
+
+		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
+				.getTagOrAttribute(attributesNode, "tooltip"));
 	}
 
 	public static ComponentAttribute instance(Node attributesNode)
 			throws Exception {
 		return new ComponentAttribute(attributesNode);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public boolean isRequired() {
@@ -81,19 +76,13 @@ public class ComponentAttribute {
 		this.defaultValueStr = defaultValueStr;
 	}
 
-	public Object getDefaultValue() {
-		return defaultValue;
+	@SuppressWarnings("unchecked")
+	public <T> T getDefaultValue() {
+		return (T) defaultValue;
 	}
 
 	public void setDefaultValue(Object defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 }

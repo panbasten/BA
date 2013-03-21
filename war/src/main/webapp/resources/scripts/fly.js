@@ -69,7 +69,7 @@ Plywet.desktop = {
 			}
 		});
 		
-		// 2.注册transjob
+		// 2.注册trans、job编辑器
 		Plywet.editors.trans.register();
 		
 		Plywet.editors.form.register();
@@ -133,8 +133,6 @@ Plywet.desktop = {
 		// 隐藏蒙版
 		Plywet.desktop.triggerMark(false);
 
-		// TODO
-		//diEditorPageTabs.setTabModify("trans-1-tab", true);
 	},
 	
 	changeSize : function () {

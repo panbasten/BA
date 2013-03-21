@@ -226,6 +226,8 @@ Plywet = {
     info: function(log) {
         if(this.logger) {
             this.logger.info(log);
+        }else if(window.console){
+        	console.info(log);
         }
     },
     
@@ -236,6 +238,8 @@ Plywet = {
     debug: function(log) {
         if(this.logger) {
             this.logger.debug(log);
+        }else if(window.console){
+        	console.debug(log);
         }
     },
     
@@ -246,6 +250,8 @@ Plywet = {
     warn: function(log) {
         if(this.logger) {
             this.logger.warn(log);
+        }else if(window.console){
+        	console.warn(log);
         }
     },
     
@@ -256,6 +262,8 @@ Plywet = {
     error: function(log) {
         if(this.logger) {
             this.logger.error(log);
+        }else if(window.console){
+        	console.error(log);
         }
     },
     
@@ -326,8 +334,29 @@ Plywet = {
 	    }
 	    return {"left":left,"top":top};
 	},
+	
 	/**
-	 * @see 得到窗体的
+	 * 鼠标是否经过对象
+	 * @param {Object}		evt
+	 * @param {Object=}		el
+	 */
+	isMouseOverElement: function (evt, el) {
+		var
+			$E	= $(el || this)
+		,	d	= $E.offset()
+		,	T	= d.top
+		,	L	= d.left
+		,	R	= L + $E.outerWidth()
+		,	B	= T + $E.outerHeight()
+		,	x	= evt.pageX	// evt.clientX ?
+		,	y	= evt.pageY	// evt.clientY ?
+		;
+		// if X & Y are < 0, probably means is over an open SELECT
+		return (Plywet.browserDetect.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
+	},
+	
+	/**
+	 * 得到窗口的尺寸
 	 */
 	getWindowScroll:function (){
 		
@@ -350,22 +379,193 @@ Plywet = {
 		};			
 		
 	},
-	getDomSize:function (dom){
-		var T=0,L=0,W=0,H=0;
-		if(dom){
-			var dom = $(dom);
-			T=dom.scrollTop()||0;
-			L=dom.scrollLeft()||0;
-			W=dom.width()||dom.get(0).clientWidth||dom.get(0).offsetWidth||0;
-			H=dom.height()||dom.get(0).clientHeight||dom.get(0).offsetHeight||0;
+	/**
+	 * 设置不可见的元素为可测量空间尺寸状态，返回容器的'display' 和 'visibility'的哈希值，
+	 * 如果要恢复容器的这两个属性，需要在调用方法中设置
+	 */
+	setInvisibly: function ($E, force) {
+		// 只对于display为none的元素进行设置，原因是其无法获得尺寸信息
+		if ($E && $E.length && (force || $E.css('display') === "none")) {
+			var s = $E[0].style
+				// 保存当前的样式属性，用于调用者恢复其属性
+			,	CSS = { display: s.display || '', visibility: s.visibility || '' };
+			// 设置元素不可见，但可以被测量
+			$E.css({ display: "block", visibility: "hidden" });
+			return CSS;
 		}
-		return {
-			top:T,left:L,width:W,height:H
+		return {};
+	},
+	
+	/**
+	 * 返回对象CSS属性的数字值
+	 * 		- 0 如果属性不存在
+	 * @param {Array.<Object>}	$E	
+	 * 		必须传入一个jQuery对象（必选）
+	 * @param {string}			prop
+	 * 		CSS属性的名字，例如：top, width ...
+	 * @param {boolean=}		[allowAuto=false]
+	 * 		- true 		如果属性值是auto，返回auto字符串
+	 * 		- false 	如果属性值是auto，返回0
+	 * 
+	 * @return {(string|number)}
+	 * 		通常可获得位置(top, left)或者尺寸(width, height)的整数值
+	 */
+	cssNum: function ($E, prop, allowAuto) {
+		if (!$E.jquery) $E = $($E);
+		var CSS = Plywet.setInvisibly($E)
+		,	p	= $.css($E[0], prop, true)
+		,	v	= allowAuto && p=="auto" ? p : (parseInt(p, 10) || 0);
+		$E.css( CSS ); // 重置
+		return v;
+	},
+	
+	/**
+	 * 获得对象基于给定外部宽度的innerWidth
+	 * @param {Array.<Object>}	$E 
+	 * 		必须传入jQuery对象（必选）
+	 * @param  {number=}
+	 * 		外部宽度
+	 * @return 返回对象的innerWidth，排除了padding和border
+	 * 
+	 */
+	cssWidth: function ($E, outerWidth) {
+		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
+		if (outerWidth <= 0) return 0;
+
+		if (!Plywet.browserDetect.boxModel) return outerWidth;
+
+		// strip border and padding from outerWidth to get CSS Width
+		var b = Plywet.borderWidth
+		,	n = Plywet.cssNum
+		,	W = outerWidth
+				- b($E, "Left")
+				- b($E, "Right")
+				- n($E, "paddingLeft")		
+				- n($E, "paddingRight");
+
+		return Math.max(0,W);
+	},
+	
+	/**
+	 * 获得对象的innerHeight
+	 * @param {Array.<Object>}	$E 
+	 * 		必须传入jQuery对象（必选）
+	 * @param  {number=}
+	 * 		外部高度
+	 * @return 返回对象的innerHeight，排除了padding和border
+	 * 
+	 */
+	cssHeight: function ($E, outerHeight) {
+		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
+		if (outerHeight <= 0) return 0;
+
+		if (!Plywet.browserDetect.boxModel) return outerHeight;
+
+		// strip border and padding from outerHeight to get CSS Height
+		var b = Plywet.borderWidth
+		,	n = Plywet.cssNum
+		,	H = outerHeight
+			- b($E, "Top")
+			- b($E, "Bottom")
+			- n($E, "paddingTop")
+			- n($E, "paddingBottom");
+
+		return Math.max(0,H);
+	},
+	
+	/**
+	 * 获得元素的指定CSS
+	 * @param {Array.<Object>}	$E 
+	 * 		必须传入jQuery对象（必选）
+	 * @param {string} 	list
+	 * 		指定的CSS属性，以','分隔
+	 * @return 
+	 * 		指定CSS的hash
+	 */
+	getElementCSS: function ($E, list) {
+		var
+			CSS	= {}
+		,	style	= $E[0].style
+		,	props	= list.split(",")
+		,	sides	= "Top,Bottom,Left,Right".split(",")
+		,	attrs	= "Color,Style,Width".split(",")
+		,	p, s, a, i, j, k
+		;
+		for (i=0; i < props.length; i++) {
+			p = props[i];
+			if (p.match(/(border|padding|margin)$/))
+				for (j=0; j < 4; j++) {
+					s = sides[j];
+					if (p === "border")
+						for (k=0; k < 3; k++) {
+							a = attrs[k];
+							CSS[p+s+a] = style[p+s+a];
+						}
+					else
+						CSS[p+s] = style[p+s];
+				}
+			else
+				CSS[p] = style[p];
 		};
+		return CSS
 	},
-	getDomSizeById:function (id){
-		return Plywet.getDomSize(Plywet.escapeClientId(id));
+	
+	/**
+	 * 获得border的宽度
+	 * @param el 	dom对象
+	 * @param side	边线位置
+	 */
+	borderWidth: function (el, side) {
+		if (el.jquery) el = el[0];
+		var b = "border"+ side.substr(0,1).toUpperCase() + side.substr(1); // left => Left
+		return $.css(el, b+"Style", true) === "none" ? 0 : (parseInt($.css(el, b+"Width", true), 10) || 0);
 	},
+	
+	/**
+	 * 获得容器或者窗格的尺寸
+	 * 
+	 * @return JSON 
+	 * 		- 返回所有维度：top, bottom, left, right, outerWidth, innerHeight...
+	 */
+	getElementDimensions : function ($E) {
+		if (!$E.jquery) $E = $($E);
+		var
+			d	= {}			// dimensions hash
+		,	x	= d.css = {}	// CSS hash
+		,	i	= {}			// TEMP insets
+		,	b, p				// TEMP border, padding
+		,	N	= Plywet.cssNum
+		,	off = $E.offset()
+		;
+		d.offsetLeft = off.left;
+		d.offsetTop  = off.top;
+	
+		$.each("Left,Right,Top,Bottom".split(","), function (idx, e) { // e = edge
+			b = x["border" + e] = Plywet.borderWidth($E, e);
+			p = x["padding"+ e] = Plywet.cssNum($E, "padding"+e);
+			i[e] = b + p; // total offset of content from outer side
+			d["inset"+ e] = p;	// eg: insetLeft = paddingLeft
+		});
+	
+		d.offsetWidth	= $E.innerWidth();	// offsetWidth is used in calc when doing manual resize
+		d.offsetHeight	= $E.innerHeight();	// ditto
+		d.outerWidth	= $E.outerWidth();
+		d.outerHeight	= $E.outerHeight();
+		d.innerWidth	= Math.max(0, d.outerWidth  - i.Left - i.Right);
+		d.innerHeight	= Math.max(0, d.outerHeight - i.Top  - i.Bottom);
+	
+		x.width		= $E.width();
+		x.height	= $E.height();
+		x.top		= N($E,"top",true);
+		x.bottom	= N($E,"bottom",true);
+		x.left		= N($E,"left",true);
+		x.right		= N($E,"right",true);
+		
+		//d.visible	= $E.is(":visible");// && x.width > 0 && x.height > 0;
+		
+		return d;
+	},
+	
 	/**
 	 * 替换/r/n为<br>
 	 */
@@ -729,7 +929,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
                 cfg.beforeSend.call(this, xhr, status);
             }
     
-            Plywet.error('Request before send:' + status + '.');
+            Plywet.debug('Request before send:' + status + '.');
         },
         error: function(xhr, status, errorThrown) {
             if(cfg.onerror) {
@@ -872,7 +1072,7 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 							try{
 								eval(opera.script[j]);
 							}catch(e){
-								Plywet.error("Error:"+opera.script[j]);
+								Plywet.error(opera.script[j]);
 							}
 						}
 					}

@@ -17,9 +17,26 @@
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content fly-editor-content-height fly-editor-content-width">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
-			<fly:pushbutton id="trans_run" icon="ui-icon-editor-run" onclick="" title="运行" />
+			<fly:pushbutton id="form_edit_component" icon="ui-icon-editor-edit-component" 
+				onclick="" title="编辑控件" />
+			<fly:pushbutton id="form_edit_signal_slot" icon="ui-icon-editor-edit-signal-slot" 
+				onclick="" title="编辑信号/槽" />
+			<fly:pushbutton id="form_edit_buddy" icon="ui-icon-editor-edit-buddy" 
+				onclick="" title="编辑伙伴" />
+			<fly:pushbutton id="form_edit_tab_sequence" icon="ui-icon-editor-edit-tab-sequence" 
+				onclick="" title="编辑Tab顺序" />
 			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="trans_edit" icon="ui-icon-editor-edit" onclick="" title="画线" />
+			<fly:pushbutton id="form_layout_horizontal" icon="ui-icon-editor-layout-horizontal" 
+				onclick="" title="水平布局" />
+			<fly:pushbutton id="form_layout_vertical" icon="ui-icon-editor-layout-vertical" 
+				onclick="" title="垂直布局" />
+			<fly:pushbutton id="form_layout_grid" icon="ui-icon-editor-layout-grid" 
+				onclick="" title="栅格布局" />
+			<fly:pushbutton id="form_layout_broke" icon="ui-icon-editor-layout-broke" 
+				onclick="" title="打破布局" />
+			<fly:pushbutton type="separator" />
+			<fly:pushbutton id="form_resize" icon="ui-icon-editor-resize" 
+				onclick="" title="调整尺寸" />
 		</div>
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor-content-width-no-padding fly-editor-content-height-editor ui-helper-clearfix" 
 			style="margin:0 5px;position:relative;overflow:auto;">

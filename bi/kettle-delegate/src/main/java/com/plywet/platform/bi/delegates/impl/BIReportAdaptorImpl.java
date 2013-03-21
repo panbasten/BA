@@ -42,5 +42,8 @@ public class BIReportAdaptorImpl extends BIAbstractDbAdaptor implements
 			throw new BIKettleException(e);
 		}
 	}
+	
+	
+	
 
 }

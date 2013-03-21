@@ -1,0 +1,7 @@
+<attribute>
+	<name>objectName</name>
+	<required>false</required>
+	<type>java.lang.String</type>
+    <description>i18n:com.plywet.platform.bi.component.resolvers.base:Component.AttributeLongDesc.ObjectName</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers.base:Component.AttributeTooltipDesc.ObjectName</tooltip>
+</attribute>

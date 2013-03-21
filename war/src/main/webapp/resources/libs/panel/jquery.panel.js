@@ -709,9 +709,9 @@
 		},
 		onDestroy : function() {
 		},
-		onResize : function(_6a, _6b) {
+		onResize : function(target, size) {
 		},
-		onMove : function(_6c, top) {
+		onMove : function(target, top) {
 		},
 		onMaximize : function() {
 		},

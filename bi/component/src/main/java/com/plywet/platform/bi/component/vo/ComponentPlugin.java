@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.plywet.platform.bi.component.core.ComponentResolverInterface;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.ReflectionUtils;
+import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.core.utils.XmlUtils;
 
 public class ComponentPlugin {
@@ -21,10 +23,11 @@ public class ComponentPlugin {
 	private String categorydesc;
 	private String tooltip;
 	private String iconfile;
+	private boolean ignoreInDesigner;
 	private ComponentResolverInterface resolver;
 
-	private List<ComponentAttribute> attributes;
-	private Map<String, ComponentAttribute> attributesMap;
+	private List<IComponentAttribute> attributes = new ArrayList<IComponentAttribute>();;
+	private Map<String, IComponentAttribute> attributesMap = new HashMap<String, IComponentAttribute>();
 
 	private ComponentPlugin(Node componentNode) throws Exception {
 		this.id = XMLHandler.getTagAttribute(componentNode, "id");
@@ -41,31 +44,45 @@ public class ComponentPlugin {
 		this.resolver = (ComponentResolverInterface) ReflectionUtils
 				.newInstance(this.classname);
 
+		this.ignoreInDesigner = Utils.toBoolean(XmlUtils.getTagOrAttribute(
+				componentNode, "ignoreInDesigner"), false);
+
 		// 属性
 		Node attributesNode = XMLHandler
 				.getSubNode(componentNode, "attributes");
 		if (attributesNode != null) {
-			List<Node> attributeNodes = XMLHandler.getNodes(attributesNode,
-					"attribute");
-			for (Node attrNode : attributeNodes) {
-				addAttribute(ComponentAttribute.instance(attrNode));
+			NodeList children = attributesNode.getChildNodes();
+			Node childnode;
+
+			for (int i = 0; i < children.getLength(); i++) {
+				childnode = children.item(i);
+				if (childnode.getNodeName().equalsIgnoreCase("attribute")) {
+					addAttribute(ComponentAttribute.instance(childnode));
+				} else if (childnode.getNodeName().equalsIgnoreCase(
+						"attributeGroup")) {
+					addAttributeGroup(ComponentAttributeGroup
+							.instance(childnode));
+				}
 			}
 		}
 	}
 
-	public void addAttribute(ComponentAttribute attr) {
-		if (attributes == null) {
-			attributes = new ArrayList<ComponentAttribute>();
+	public void addAttributeGroup(ComponentAttributeGroup attrGroup) {
+		addAttribute(attrGroup);
+		for (ComponentAttribute attr : attrGroup.getAttributes()) {
+			addAttribute(attr);
 		}
+
+	}
+
+	public void addAttribute(IComponentAttribute attr) {
+
 		attributes.add(attr);
 
-		if (attributesMap == null) {
-			attributesMap = new HashMap<String, ComponentAttribute>();
-		}
 		attributesMap.put(attr.getName(), attr);
 	}
 
-	public ComponentAttribute getAttribute(String name) {
+	public IComponentAttribute getAttribute(String name) {
 		if (attributesMap != null) {
 			return attributesMap.get(name);
 		}
@@ -138,6 +155,14 @@ public class ComponentPlugin {
 
 	public void setResolver(ComponentResolverInterface resolver) {
 		this.resolver = resolver;
+	}
+
+	public boolean isIgnoreInDesigner() {
+		return ignoreInDesigner;
+	}
+
+	public void setIgnoreInDesigner(boolean ignoreInDesigner) {
+		this.ignoreInDesigner = ignoreInDesigner;
 	}
 
 }
