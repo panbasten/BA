@@ -286,7 +286,7 @@ Plywet.editors.form = {
 		console.log("reload form");
 		
 		if (typeof($taba.data("exdata"))=='undefined')return;
-		var tabData = $taba.data("exdata").data;
+		var tabData = $taba.data("exdata");
 		console.log(tabData);
 		
 		
@@ -345,6 +345,9 @@ Plywet.editors.form = {
 						Plywet.editor.appendEl("form",$(source).data("data"),data);
 					}
 				});
+				
+				// 结构
+				
 				
 				Plywet.editors.form.reinit();
 				Plywet.editors.register["form"] = "Y";

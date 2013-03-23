@@ -119,7 +119,7 @@ public class BIReportResource {
 		
 		String domStructure = "{" +
 		"	\"domStructure\":{" +
-		"		\"type\" : \"fly_comosition\"" +
+		"		\"type\" : \"fly:comosition\"" +
 		"		,\"attrs\" : {" +
 		"			\"x\": \"0\"" +
 		"			,\"y\": \"0\"" +
@@ -128,7 +128,7 @@ public class BIReportResource {
 		"		}" +
 		"		,\"subs\" : [" +
 		"			{" +
-		"				\"type\" : \"fly_hBoxLayout\"" +
+		"				\"type\" : \"fly:hBoxLayout\"" +
 		"				,\"attrs\" : {" +
 		"					\"name\" : \"\"" +
 		"					,\"marginLeft\" : \"0\"" +
@@ -138,14 +138,14 @@ public class BIReportResource {
 		"				}" +
 		"				,\"subs\" : [" +
 		"					{" +
-		"						\"type\" : \"fly_labelObject\"" +
+		"						\"type\" : \"fly:labelObject\"" +
 		"						,\"attrs\" : {" +
 		"							\"name\" : \"label\"" +
 		"							,\"text\" : \"Cell Location:\"" +
 		"						}" +
 		"					}" +
 		"					,{" +
-		"						\"type\" : \"fly_inputText\"" +
+		"						\"type\" : \"fly:inputText\"" +
 		"						,\"attrs\" : {" +
 		"							\"name\" : \"lineEdit\"" +
 		"						}" +
