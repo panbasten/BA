@@ -2,7 +2,8 @@ a {
     outline: none;
 }
 
-.ui-icon {
+.ui-icon,
+.ui-layout-resizer {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -197,6 +198,17 @@ a {
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
 }
+.ui-layout-toggler
+{
+	width: 16px;
+    height: 16px;
+	background-image: url("images/ui-icons_ffffff_256x384.png");
+}
+.ui-layout-toggler-hover
+{
+	background-image: url("images/ui-icons_2d5972_256x384.png");
+}
+
 .ui-state-default .ui-icon, .hover .ui-icon
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
@@ -832,19 +844,27 @@ a {
 {
     background-position: -32px -192px;
 }
-.ui-icon-circle-triangle-e
+.ui-icon-circle-triangle-e,
+.ui-layout-toggler-east-open,
+.ui-layout-toggler-west-closed
 {
     background-position: -48px -192px;
 }
-.ui-icon-circle-triangle-s
+.ui-icon-circle-triangle-s,
+.ui-layout-toggler-south-open,
+.ui-layout-toggler-north-closed
 {
     background-position: -64px -192px;
 }
-.ui-icon-circle-triangle-w
+.ui-icon-circle-triangle-w,
+.ui-layout-toggler-west-open,
+.ui-layout-toggler-east-closed
 {
     background-position: -80px -192px;
 }
-.ui-icon-circle-triangle-n
+.ui-icon-circle-triangle-n,
+.ui-layout-toggler-north-open,
+.ui-layout-toggler-south-closed
 {
     background-position: -96px -192px;
 }

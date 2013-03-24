@@ -17,8 +17,9 @@ Plywet = {
     /**
      * 解析json串为javascript对象
      */
-    parseJSON : function(data) {
-    	return eval("("+data+")");		
+    parseJSON : function(str) {
+    	try { return $.parseJSON ? $.parseJSON(str) : window["eval"]("("+ str +")") || {}; }
+		catch (e) { return {}; }
     },
     
     /**
@@ -194,77 +195,12 @@ Plywet = {
     },
 
     /**
-     * 通过name获得cookie值
-     * @param name
-     */
-    getCookie : function(name) {
-        return $.cookie(name);
-    },
-
-    /**
-     * 设置cookie值
-     * @param name
-     * @param value
-     */
-    setCookie : function(name, value) {
-        $.cookie(name, value);
-    },
-    
-    /**
      * ajax快捷方式
      * @param cfg
      * @param ext
      */
     ab : function(cfg, ext) {
         Plywet.ajax.AjaxRequest(cfg, ext);
-    },
-    
-    /**
-     * 日志：info
-     * @param log
-     */
-    info: function(log) {
-        if(this.logger) {
-            this.logger.info(log);
-        }else if(window.console){
-        	console.info(log);
-        }
-    },
-    
-    /**
-     * 日志：debug
-     * @param log
-     */
-    debug: function(log) {
-        if(this.logger) {
-            this.logger.debug(log);
-        }else if(window.console){
-        	console.debug(log);
-        }
-    },
-    
-    /**
-     * 日志：warn
-     * @param log
-     */
-    warn: function(log) {
-        if(this.logger) {
-            this.logger.warn(log);
-        }else if(window.console){
-        	console.warn(log);
-        }
-    },
-    
-    /**
-     * 日志：error
-     * @param log
-     */
-    error: function(log) {
-        if(this.logger) {
-            this.logger.error(log);
-        }else if(window.console){
-        	console.error(log);
-        }
     },
     
     /**
@@ -708,6 +644,130 @@ Plywet = {
     windex : 0
 };
 
+Plywet.CookieUtils = {
+	/**
+	 * 是否允许使用cookie
+	 */
+	acceptsCookies: !!navigator.cookieEnabled,
+    /**
+     * 通过name获得cookie值
+     * @param name
+     */
+    read : function(name) {
+		var
+			c		= document.cookie
+		,	cs		= c ? c.split(';') : []
+		,	pair	// loop var
+		;
+		for (var i=0, n=cs.length; i < n; i++) {
+			pair = $.trim(cs[i]).split('='); // name=value pair
+			if (pair[0] == name) // found the layout cookie
+				return decodeURIComponent(pair[1]);
+		
+		}
+		return null;
+    },
+
+    /**
+     * 设置cookie值
+     * @param name
+     * @param val
+     * @param cookieOpts
+     */
+    write: function (name, val, cookieOpts) {
+		var
+			params	= ''
+		,	date	= ''
+		,	clear	= false
+		,	o		= cookieOpts || {}
+		,	x		= o.expires
+		;
+		if (x && x.toUTCString)
+			date = x;
+		else if (x === null || typeof x === 'number') {
+			date = new Date();
+			if (x > 0)
+				date.setDate(date.getDate() + x);
+			else {
+				date.setFullYear(1970);
+				clear = true;
+			}
+		}
+		if (date)		params += ';expires='+ date.toUTCString();
+		if (o.path)		params += ';path='+ o.path;
+		if (o.domain)	params += ';domain='+ o.domain;
+		if (o.secure)	params += ';secure';
+		document.cookie = name +'='+ (clear ? "" : encodeURIComponent( val )) + params; // write or clear cookie
+	},
+	
+	/**
+	 * 
+	 */
+	clear: function (name) {
+		Plywet.CookieUtils.write(name, '', {expires: -1});
+	}
+};
+
+Plywet.cookie = function (k, v, o) {
+	var C = Plywet.CookieUtils;
+	if (v === null)
+		C.clear(k);
+	else if (v === undefined)
+		return C.read(k);
+	else
+		C.write(k, v, o);
+};
+
+Plywet.Logger = {
+	/**
+     * 日志：info
+     * @param log
+     */
+    info: function(log) {
+        if(this.logger) {
+            this.logger.info(log);
+        }else if(window.console){
+        	console.info(log);
+        }
+    },
+    
+    /**
+     * 日志：debug
+     * @param log
+     */
+    debug: function(log) {
+        if(this.logger) {
+            this.logger.debug(log);
+        }else if(window.console){
+        	console.debug(log);
+        }
+    },
+    
+    /**
+     * 日志：warn
+     * @param log
+     */
+    warn: function(log) {
+        if(this.logger) {
+            this.logger.warn(log);
+        }else if(window.console){
+        	console.warn(log);
+        }
+    },
+    
+    /**
+     * 日志：error
+     * @param log
+     */
+    error: function(log) {
+        if(this.logger) {
+            this.logger.error(log);
+        }else if(window.console){
+        	console.error(log);
+        }
+    }
+};
+
 
 /**
  * 扩展jQuery方法
@@ -848,7 +908,7 @@ Plywet.ajax.AjaxUtils = {
  * ajax请求
  */
 Plywet.ajax.AjaxRequest = function(cfg, ext) {
-    Plywet.debug('Initiating ajax request.');
+    Plywet.Logger.debug('Initiating ajax request.');
     
     var ajaxURL=cfg.url,ajaxParams="",ajaxType=(cfg.type)?cfg.type:"post";
     ajaxType=ajaxType.toLowerCase();
@@ -898,7 +958,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         	} else {
         		ajaxParams = form.serialize();
         	}
-        	Plywet.debug('Form to post ' + form.attr('id') + '.');
+        	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
         }
     }
 
@@ -910,7 +970,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(ext.params);
     }
     
-    Plywet.debug('Post Data:' + ajaxParams);
+    Plywet.Logger.debug('Post Data:' + ajaxParams);
     var xhrOptions = {
         url : ajaxURL,
         type : ajaxType,
@@ -929,17 +989,17 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
                 cfg.beforeSend.call(this, xhr, status);
             }
     
-            Plywet.debug('Request before send:' + status + '.');
+            Plywet.Logger.debug('Request before send:' + status + '.');
         },
         error: function(xhr, status, errorThrown) {
             if(cfg.onerror) {
                 cfg.onerror.call(xhr, status, errorThrown);
             }
     
-            Plywet.error('Request return with error:' + status + '.');
+            Plywet.Logger.error('Request return with error:' + status + '.');
         },
         success : function(data, status, xhr) {
-            Plywet.debug('Response received succesfully.');
+            Plywet.Logger.debug('Response received succesfully.');
             
             var parsed;
             //call user callback
@@ -960,7 +1020,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
                 Plywet.ajax.AjaxResponse.call(this, data);
             }
             
-            Plywet.debug('DOM is updated.');
+            Plywet.Logger.debug('DOM is updated.');
         },
         complete : function(xhr, status) {
             if(cfg.oncomplete) {
@@ -975,7 +1035,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
     			Plywet.desktop.triggerMark(false);
     		}
             
-            Plywet.debug('Response completed.');
+            Plywet.Logger.debug('Response completed.');
             
             if(this.queued) {
                 Plywet.ajax.Queue.poll();
@@ -1033,22 +1093,22 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 				if(t){
 					if(opera.operation=="update"){
 						Plywet.ajax.AjaxUtils.updateElement.call(this, t, opera.dom);
-						Plywet.debug('DOM ' + t.attr('id') + ' is updated.');
+						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is updated.');
 					} else if(opera.operation=="append"){
 						Plywet.ajax.AjaxUtils.appendElement.call(this, t, opera.dom);
-						Plywet.debug('DOM ' + t.attr('id') + ' is appended.');
+						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is appended.');
 					} else if(opera.operation=="remove"){
 						Plywet.ajax.AjaxUtils.removeElement.call(this, t);
-						Plywet.debug('DOM ' + t.attr('id') + ' is removed.');
+						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is removed.');
 					} else if(opera.operation=="empty"){
 						Plywet.ajax.AjaxUtils.emptyElement.call(this, t);
-						Plywet.debug('DOM ' + t.attr('id') + ' is empty.');
+						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is empty.');
 					} else if(opera.operation=="before"){
 						Plywet.ajax.AjaxUtils.beforeElement.call(this, t, opera.dom);
-						Plywet.debug('DOM ' + t.attr('id') + ' before.');
+						Plywet.Logger.debug('DOM ' + t.attr('id') + ' before.');
 					} else if(opera.operation=="after"){
 						Plywet.ajax.AjaxUtils.afterElement.call(this, t, opera.dom);
-						Plywet.debug('DOM ' + t.attr('id') + ' after.');
+						Plywet.Logger.debug('DOM ' + t.attr('id') + ' after.');
 					} else if(opera.operation=="custom"){
 						if(!Plywet.isNull(opera.cmd)){
 							var cfg = opera.data;
@@ -1072,7 +1132,7 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 							try{
 								eval(opera.script[j]);
 							}catch(e){
-								Plywet.error(opera.script[j]);
+								Plywet.Logger.error(opera.script[j]);
 							}
 						}
 					}

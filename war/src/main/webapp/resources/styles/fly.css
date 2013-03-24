@@ -12,13 +12,13 @@
 /*.fly-container .fly-tabs .active>a,.fly-container .fly-tabs .active>a:hover{background-color:#ffffff;border:1px solid #a8a8a8;border-bottom-color:transparent;cursor:default;font-weight: bold;}*/
 
 /* Styles for steps bar tabs */
-.fly-flow-step-bar { width:190px;float:left;position:relative;overflow:hidden;background: #535353;border-bottom: medium none;}
+.fly-flow-step-bar { float:left;position:relative;overflow:hidden;background: #535353;border-bottom: medium none;}
 .fly-flow-step-bar ul.ui-tabs { height: 2700px; position: relative; }
 .fly-flow-step-bar ul.ui-tabs li { width:40px; height: 40px; background:url("../images/default/tabbg.normal.png") no-repeat;background-position: center;border-bottom: 1px solid #8E8E8E; }
 .fly-flow-step-bar ul.ui-tabs li:HOVER{background:url("../images/default/tabbg.hover.png") no-repeat; }
 .fly-flow-step-bar ul.ui-tabs li a { padding: 10px 0; color:#ffffff;}
 .fly-flow-step-bar ul.ui-tabs li a.active{ }
-.fly-flow-step-bar div.ui-tab-panel-container { padding: 5px;background: transparent;}
+.fly-flow-step-bar div.ui-tab-panel-container { margin: 0;padding: 0;background: transparent;}
 
 
 .fly-flow-step-panel {width: 150px;}
@@ -545,43 +545,43 @@ div.ui-fs-sftp-icon {
 	color: #000000;
 }
 
-#navis .div-max-vertical {
+#navis .ui-scrollbar-div1-vertical {
 	background-image: url("../images/default/navis_up_enable.png");
 }
-#navis .div-max-vertical:HOVER {
+#navis .ui-scrollbar-div1-vertical:HOVER {
 	background-image: url("../images/default/navis_up_hover.png");
 }
-#navis .div-max-vertical:FOCUS {
+#navis .ui-scrollbar-div1-vertical:FOCUS {
 	background-image: url("../images/default/navis_up_pressed.png");
 }
 
-#navis .div-min-vertical {
+#navis .ui-scrollbar-div2-vertical {
 	background-image: url("../images/default/navis_down_enable.png");
 }
-#navis .div-min-vertical:HOVER {
+#navis .ui-scrollbar-div2-vertical:HOVER {
 	background-image: url("../images/default/navis_down_hover.png");
 }
-#navis .div-min-vertical:FOCUS {
+#navis .ui-scrollbar-div2-vertical:FOCUS {
 	background-image: url("../images/default/navis_down_pressed.png");
 }
 
-.fly-flow-step-bar .div-max-vertical {
+.fly-flow-step-bar .ui-scrollbar-div1-vertical {
 	background-image: url("../images/default/stepbar_up_enable.png");
 }
-.fly-flow-step-bar .div-max-vertical:hover{
+.fly-flow-step-bar .ui-scrollbar-div1-vertical:hover{
 	background-image: url("../images/default/stepbar_up_hover.png");
 }
-.fly-flow-step-bar .div-max-vertical:FOCUS{
+.fly-flow-step-bar .ui-scrollbar-div1-vertical:FOCUS{
 	background-image: url("../images/default/stepbar_up_pressed.png");
 }
 
-.fly-flow-step-bar .div-min-vertical {
+.fly-flow-step-bar .ui-scrollbar-div2-vertical {
 	background-image: url("../images/default/stepbar_down_enable.png");
 }
-.fly-flow-step-bar .div-min-vertical:HOVER{
+.fly-flow-step-bar .ui-scrollbar-div2-vertical:HOVER{
 	background-image: url("../images/default/stepbar_down_hover.png");
 }
-.fly-flow-step-bar .div-min-vertical:FOCUS{
+.fly-flow-step-bar .ui-scrollbar-div2-vertical:FOCUS{
 	background-image: url("../images/default/stepbar_down_pressed.png");
 }
 

@@ -319,7 +319,6 @@ $.layout.defaults = {
 	,	resizer_normal:			2			// normal z-index for resizer-bars
 	,	pane_sliding:			100			// applied to *BOTH* the pane and its resizer when a pane is 'slid open'
 	,	pane_animate:			1000		// applied to the pane when being animated - not applied to the resizer
-	,	resizer_drag:			10000		// applied to the CLONED resizer-bar when being 'dragged'
 	}
 ,	errors: {
 		pane:					"pane"		// description of "layout pane element" - used only in error messages
@@ -749,7 +748,7 @@ $.fn.layout = function (opts) {
 				}
 			}
 			catch (ex) {
-				Plywet.error( options.errors.callbackError.replace(/EVENT/, $.trim(pane +" "+ lng)) );
+				Plywet.Logger.error( options.errors.callbackError.replace(/EVENT/, $.trim(pane +" "+ lng)) );
 			}
 		}
 
@@ -1183,7 +1182,7 @@ $.fn.layout = function (opts) {
 
 		// a center pane is required, so make sure it exists
 		if (!getPane("center").length) {
-			return Plywet.error( o.errors.centerPaneMissing );
+			return Plywet.Logger.error( o.errors.centerPaneMissing );
 		}
 
 		// TEMP state so isInitialized returns true during init process
@@ -1423,7 +1422,7 @@ $.fn.layout = function (opts) {
 				if ( $N.is(":visible") ) {
 					$.extend(sC, elDims( $N ));
 					if (sC.innerHeight < 1)
-						Plywet.error( o.errors.noContainerHeight.replace(/CONTAINER/, sC.ref) );
+						Plywet.Logger.error( o.errors.noContainerHeight.replace(/CONTAINER/, sC.ref) );
 				}
 			}
 		} catch (ex) {}
@@ -2022,6 +2021,7 @@ $.fn.layout = function (opts) {
 			,	$R		= $Rs[pane]
 			,	base	= o.resizerClass
 			,	lastPos	= 0 // used when live-resizing
+			, 	pos = 0
 			,	r, live // set in start because may change
 			//	'drag' classes are applied to the ORIGINAL resizer-bar while dragging is in process
 			,	resizerClass		= base+"-drag"				// resizer-drag
@@ -2040,18 +2040,9 @@ $.fn.layout = function (opts) {
 
 			$R.draggable({
 				containment:	$N[0] // limit resizing to layout container
-			,	axis:			(c.dir=="horz" ? "y" : "x") // limit resizing to horz or vert axis
-			,	delay:			0
-			,	distance:		1
-			,	grid:			o.resizingGrid
-			//	basic format for helper - style it using class: .ui-draggable-dragging
-			,	helper:			"clone"
-			,	opacity:		o.resizerDragOpacity
-			,	addClasses:		false // avoid ui-state-disabled class when disabled
-			//,	iframeFix:		o.draggableIframeFix // TODO: consider using when bug is fixed
-			,	zIndex:			z.resizer_drag
-
-			,	start: function (e, ui) {
+			,	axis:			(c.dir=="horz" ? "v" : "h") // limit resizing to horz or vert axis
+			, 	cursor:			o.resizerCursor
+			,	onStartDrag: function (e) {
 					// REFRESH options & state pointers in case we used swapPanes
 					o = options[pane];
 					s = state[pane];
@@ -2068,7 +2059,7 @@ $.fn.layout = function (opts) {
 					// SET RESIZER LIMITS - used in drag()
 					setSizeLimits(pane); // update pane/resizer state
 					r = s.resizerPosition;
-					lastPos = ui.position[ side ]
+					lastPos = Plywet.getElementDimensions($(e.data.target)).css[ side ];
 
 					$R.addClass( resizerClass +" "+ resizerPaneClass ); // add drag classes
 					helperClassesSet = false; // reset logic var - see drag()
@@ -2080,10 +2071,12 @@ $.fn.layout = function (opts) {
 					showMasks( masks );
 				}
 
-			,	drag: function (e, ui) {
+			,	onDrag: function (e) {
+					var holder = $(e.data.target),
+						ui = Plywet.getElementDimensions(holder);
 					if (!helperClassesSet) { // can only add classes after clone has been added to the DOM
 						//$(".ui-draggable-dragging")
-						ui.helper
+						holder
 							.addClass( helperClass +" "+ helperPaneClass ) // add helper classes
 							.css({ right: "auto", bottom: "auto" })	// fix dir="rtl" issue
 							.children().css("visibility","hidden")	// hide toggler inside dragged resizer-bar
@@ -2094,32 +2087,40 @@ $.fn.layout = function (opts) {
 					}
 					// CONTAIN RESIZER-BAR TO RESIZING LIMITS
 					var limit = 0;
-					if (ui.position[side] < r.min) {
-						ui.position[side] = r.min;
+					pos = ui.css[ side ];
+					if (pos < r.min) {
+						pos = r.min;
 						limit = -1;
 					}
-					else if (ui.position[side] > r.max) {
-						ui.position[side] = r.max;
+					else if (pos > r.max) {
+						pos = r.max;
 						limit = 1;
 					}
 					// ADD/REMOVE dragging-limit CLASS
 					if (limit) {
-						ui.helper.addClass( helperLimitClass +" "+ helperPaneLimitClass ); // at dragging-limit
+						holder.addClass( helperLimitClass +" "+ helperPaneLimitClass ); // at dragging-limit
 						window.defaultStatus = (limit>0 && pane.match(/(north|west)/)) || (limit<0 && pane.match(/(south|east)/)) ? o.tips.maxSizeWarning : o.tips.minSizeWarning;
 					}
 					else {
-						ui.helper.removeClass( helperLimitClass +" "+ helperPaneLimitClass ); // not at dragging-limit
+						holder.removeClass( helperLimitClass +" "+ helperPaneLimitClass ); // not at dragging-limit
 						window.defaultStatus = "";
 					}
 					// DYNAMICALLY RESIZE PANES IF OPTION ENABLED
 					// won't trigger unless resizer has actually moved!
-					if (live && Math.abs(ui.position[side] - lastPos) >= o.liveResizingTolerance) {
-						lastPos = ui.position[side];
+					if (live && Math.abs(pos - lastPos) >= o.liveResizingTolerance) {
+						lastPos = pos;
 						resizePanes(e, ui, pane)
 					}
 				}
 
-			,	stop: function (e, ui) {
+			,	onStopDrag: function (e) {
+					var holder = $(e.data.target),
+						ui = Plywet.getElementDimensions(holder);
+					holder
+						.removeClass( helperClass +" "+ helperPaneClass ) // add helper classes
+						.children().css("visibility","visible")	// hide toggler inside dragged resizer-bar
+					;
+					holder.removeClass( helperLimitClass +" "+ helperPaneLimitClass );
 					$('body').enableSelection(); // RE-ENABLE TEXT SELECTION
 					window.defaultStatus = ""; // clear 'resizing limit' message from statusbar
 					$R.removeClass( resizerClass +" "+ resizerPaneClass ); // remove drag classes from Resizer
@@ -2141,7 +2142,7 @@ $.fn.layout = function (opts) {
 		* @param {boolean=}		[resizingDone=false]
 		*/
 		var resizePanes = function (evt, ui, pane, resizingDone, masks) {
-			var	dragPos	= ui.position
+			var	dragPos	= ui.css
 			,	c		= _c[pane]
 			,	o		= options[pane]
 			,	s		= state[pane]
@@ -3407,10 +3408,10 @@ $.fn.layout = function (opts) {
 
 				// log attempts and alert the user of this *non-fatal error* 
 				if ( tries.length === 1) {
-					Plywet.debug(msg);
-					Plywet.debug(lastTry);
+					Plywet.Logger.debug(msg);
+					Plywet.Logger.debug(lastTry);
 				}
-				Plywet.debug(thisTry);
+				Plywet.Logger.debug(thisTry);
 				// after 4 tries, is as close as its gonna get!
 				if (tries.length > 3) break;
 
@@ -3450,7 +3451,7 @@ $.fn.layout = function (opts) {
 
 			// DEBUG - ALERT user/developer so they know there was a sizing problem
 			if (tries.length > 1)
-				Plywet.debug(msg +'\nSee the Error Console for details.');
+				Plywet.Logger.debug(msg +'\nSee the Error Console for details.');
 		}
 	}
 
@@ -4342,7 +4343,7 @@ $.fn.layout = function (opts) {
 	// validate that container exists
 	var $N = $(this).eq(0); // FIRST matching Container element
 	if (!$N.length) {
-		return Plywet.error( options.errors.containerMissing );
+		return Plywet.Logger.error( options.errors.containerMissing );
 	};
 
 	// Users retrieve Instance of a layout with: $N.layout() OR $N.data("layout")
@@ -4385,6 +4386,7 @@ $.fn.layout = function (opts) {
 	//	pane actions
 	,	setSizeLimits:		setSizeLimits	// method - pass a 'pane' - update state min/max data
 	,	_sizePane:			sizePane		// method -intended for user by plugins only!
+	, 	getPaneSize:		getPaneSize		// method - ditto
 	,	sizePane:			manualSizePane	// method - pass a 'pane' AND an 'outer-size' in pixels or percent, or 'auto'
 	,	sizeContent:		sizeContent		// method - pass a 'pane'
 	,	swapPanes:			swapPanes		// method - pass TWO 'panes' - will swap them
@@ -4392,6 +4394,7 @@ $.fn.layout = function (opts) {
 	,	hideMasks:			hideMasks		// method - ditto'
 	//	pane element methods
 	,	initContent:		initContent		// method - ditto
+	,	getPane:			getPane			// method - ditto
 	,	addPane:			addPane			// method - pass a 'pane'
 	,	removePane:			removePane		// method - pass a 'pane' to remove from layout, add 'true' to delete the pane-elem
 	,	createChildLayout:	createChildLayout// method - pass a 'pane' and (optional) layout-options (OVERRIDES options[pane].childOptions
@@ -4450,7 +4453,7 @@ $(function(){
  * and MIT (http://www.opensource.org/licenses/mit-license.php) licenses.
  *
  * @dependancies: UI Layout 1.3.0.rc30.1 or higher
- * @dependancies: $.ui.cookie (above)
+ * @dependancies: Plywet.cookie (above)
  *
  * @support: http://groups.google.com/group/jquery-ui-layout
  */
@@ -4482,80 +4485,6 @@ $(function(){
  *	@example var JSON = myLayout.readState( "west.isClosed,north.size,south.isHidden" );
  *	@example myLayout.loadState( JSON );
  */
-
-/**
- *	UI COOKIE UTILITY
- *
- *	A $.cookie OR $.ui.cookie namespace *should be standard*, but until then...
- *	This creates $.ui.cookie so Layout does not need the cookie.jquery.js plugin
- *	NOTE: This utility is REQUIRED by the layout.state plugin
- *
- *	Cookie methods in Layout are created as part of State Management 
- */
-if (!$.ui) $.ui = {};
-$.ui.cookie = {
-
-	// cookieEnabled is not in DOM specs, but DOES works in all browsers,including IE6
-	acceptsCookies: !!navigator.cookieEnabled
-
-,	read: function (name) {
-		var
-			c		= document.cookie
-		,	cs		= c ? c.split(';') : []
-		,	pair	// loop var
-		;
-		for (var i=0, n=cs.length; i < n; i++) {
-			pair = $.trim(cs[i]).split('='); // name=value pair
-			if (pair[0] == name) // found the layout cookie
-				return decodeURIComponent(pair[1]);
-
-		}
-		return null;
-	}
-
-,	write: function (name, val, cookieOpts) {
-		var
-			params	= ''
-		,	date	= ''
-		,	clear	= false
-		,	o		= cookieOpts || {}
-		,	x		= o.expires
-		;
-		if (x && x.toUTCString)
-			date = x;
-		else if (x === null || typeof x === 'number') {
-			date = new Date();
-			if (x > 0)
-				date.setDate(date.getDate() + x);
-			else {
-				date.setFullYear(1970);
-				clear = true;
-			}
-		}
-		if (date)		params += ';expires='+ date.toUTCString();
-		if (o.path)		params += ';path='+ o.path;
-		if (o.domain)	params += ';domain='+ o.domain;
-		if (o.secure)	params += ';secure';
-		document.cookie = name +'='+ (clear ? "" : encodeURIComponent( val )) + params; // write or clear cookie
-	}
-
-,	clear: function (name) {
-		$.ui.cookie.write(name, '', {expires: -1});
-	}
-
-};
-// if cookie.jquery.js is not loaded, create an alias to replicate it
-// this may be useful to other plugins or code dependent on that plugin
-if (!$.cookie) $.cookie = function (k, v, o) {
-	var C = $.ui.cookie;
-	if (v === null)
-		C.clear(k);
-	else if (v === undefined)
-		return C.read(k);
-	else
-		C.write(k, v, o);
-};
-
 
 // tell Layout that the state plugin is available
 $.layout.plugins.stateManagement = true;
@@ -4601,7 +4530,7 @@ $.layout.state = {
 		,	oC	= $.extend(true, {}, oS.cookie, cookieOpts || null)
 		,	data = inst.state.stateData = inst.readState( keys || oS.stateKeys ) // read current panes-state
 		;
-		$.ui.cookie.write( oC.name || o.name || "Layout", $.layout.state.encodeJSON(data), oC );
+		Plywet.CookieUtils.write( oC.name || o.name || "Layout", Plywet.toJSONString(data), oC );
 		return $.extend(true, {}, data); // return COPY of state.stateData data
 	}
 
@@ -4612,7 +4541,7 @@ $.layout.state = {
 	 */
 ,	deleteCookie: function (inst) {
 		var o = inst.options;
-		$.ui.cookie.clear( o.stateManagement.cookie.name || o.name || "Layout" );
+		Plywet.CookieUtils.clear( o.stateManagement.cookie.name || o.name || "Layout" );
 	}
 
 	/**
@@ -4622,9 +4551,9 @@ $.layout.state = {
 	 */
 ,	readCookie: function (inst) {
 		var o = inst.options;
-		var c = $.ui.cookie.read( o.stateManagement.cookie.name || o.name || "Layout" );
+		var c = Plywet.CookieUtils.read( o.stateManagement.cookie.name || o.name || "Layout" );
 		// convert cookie string back to a hash and return it
-		return c ? $.layout.state.decodeJSON(c) : {};
+		return c ? Plywet.parseJSON(c) : {};
 	}
 
 	/**
@@ -4712,36 +4641,6 @@ $.layout.state = {
 		return data;
 	}
 
-	/**
-	 *	Stringify a JSON hash so can save in a cookie or db-field
-	 */
-,	encodeJSON: function (JSON) {
-		return parse(JSON);
-		function parse (h) {
-			var D=[], i=0, k, v, t; // k = key, v = value
-			for (k in h) {
-				v = h[k];
-				t = typeof v;
-				if (t == 'string')		// STRING - add quotes
-					v = '"'+ v +'"';
-				else if (t == 'object')	// SUB-KEY - recurse into it
-					v = parse(v);
-				D[i++] = '"'+ k +'":'+ v;
-			}
-			return '{'+ D.join(',') +'}';
-		};
-	}
-
-	/**
-	 *	Convert stringified JSON back to a hash object
-	 *	@see		$.parseJSON(), adding in jQuery 1.4.1
-	 */
-,	decodeJSON: function (str) {
-		try { return $.parseJSON ? $.parseJSON(str) : window["eval"]("("+ str +")") || {}; }
-		catch (e) { return {}; }
-	}
-
-
 ,	_create: function (inst) {
 		var _	= $.layout.state;
 		//	ADD State-Management plugin methods to inst
@@ -4758,9 +4657,6 @@ $.layout.state = {
 		,	loadState:		function (stateData, animate) { _.loadState(inst, stateData, animate); }
 		//	readState - returns hash of current layout-state
 		,	readState:		function (keys) { return _.readState(inst, keys); }
-		//	add JSON utility methods too...
-		,	encodeJSON:		_.encodeJSON
-		,	decodeJSON:		_.decodeJSON
 		});
 
 		// init state.stateData key, even if plugin is initially disabled
@@ -4872,10 +4768,10 @@ $.layout.buttons = {
 		,	err	= o.errors.addButtonError
 		;
 		if (!$E.length) { // element not found
-			Plywet.error(err +" "+ o.errors.selector +": "+ selector);
+			Plywet.Logger.error(err +" "+ o.errors.selector +": "+ selector);
 		}
 		else if ($.inArray(pane, $.layout.config.borderPanes) < 0) { // invalid 'pane' sepecified
-			Plywet.error(err +" "+ o.errors.pane +": "+ pane);
+			Plywet.Logger.error(err +" "+ o.errors.pane +": "+ pane);
 			$E = $("");  // NO BUTTON
 		}
 		else { // VALID

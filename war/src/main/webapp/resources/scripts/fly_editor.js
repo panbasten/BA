@@ -311,6 +311,57 @@ Plywet.editors.form = {
 				Plywet.desktop.changeMarkText("正在注册表单设计器页面...");
 			},
 			oncomplete : function(xhr, status){
+				var editorContainer = diEditorLayout.getPane("center"),
+					editorContentWidth = editorContainer.outerWidth(),
+					editorContentHeight = editorContainer.outerHeight()-40;
+				// 初始化尺寸
+				var form = $("#form");
+				form.width(editorContentWidth).height(editorContentHeight);
+				$("#formEditorPanel").height(editorContentHeight - 40);
+				
+				// 结构
+				form.layout({
+					defaults: {
+						size:					"auto"
+						,	minSize:				50
+						,	togglerLength_open:		35			// WIDTH of toggler on north/south edges - HEIGHT on east/west edges
+						,	togglerLength_closed:	35			// "100%" OR -1 = full height
+						,	hideTogglerOnSlide:		true		// hide the toggler when pane is 'slid open'
+						,	slideTrigger_open:		"mouseover"
+						,	livePaneResizing:		true
+						,	spacing_closed:			16
+						,	togglerAlign_closed:	"top"
+						,	togglerLength_closed:	16
+						//	effect defaults - overridden on some panes
+						,	fxName:					"slide"		// none, slide, drop, scale
+						,	fxSpeed_open:			750
+						,	fxSpeed_close:			1500
+						,	fxSettings_open:		{ easing: "easeInQuint" }
+						,	fxSettings_close:		{ easing: "easeOutQuint" }
+					}
+					, west : {
+						size : 200
+						,	paneSelector : "#formStepBar"
+						,	togglerTip_open:		"关闭工具箱"
+						,	togglerTip_closed:		"打开工具箱"
+						,	resizable:				false
+//						,	initClosed:				true
+						,	fxSettings_open:		{ easing: "easeOutBounce" }
+					}
+					, east : {
+						size : 250
+						,	paneSelector : "#formPropBar"
+						,	togglerTip_open:		"关闭属性框"
+						,	togglerTip_closed:		"打开属性框"
+						,	resizerTip:		"调整属性框"
+					}
+					, center : {
+						paneSelector : "#formContent"
+						, 	minWidth : 200
+					}
+				});
+				
+				
 				Plywet.cw("EasyTabs","diEditorFormStepBar",{
 					id : "formStepBar"
 				});
@@ -346,10 +397,9 @@ Plywet.editors.form = {
 					}
 				});
 				
-				// 结构
+				form.hide();
 				
-				
-				Plywet.editors.form.reinit();
+				//Plywet.editors.form.reinit();
 				Plywet.editors.register["form"] = "Y";
 			}
 		});

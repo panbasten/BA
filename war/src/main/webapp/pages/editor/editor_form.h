@@ -1,5 +1,5 @@
-<div id="${editorId}" style="display:none;">
-	<div id="${editorId}StepBar" class="fly-flow-step-bar fly-editor-stepbar-content-height ui-tab-side-container ui-corner-top">
+<div id="${editorId}">
+	<div id="${editorId}StepBar" class="fly-flow-step-bar ui-tab-side-container ui-corner-top">
 		<ul id="${editorId}StepBar-ul" class="ui-tabs">
 			<fly:foreach items="${formStepBar}" var="entity" indexVar="entityIndex">
 				<li>
@@ -7,7 +7,7 @@
 				</li>
 			</fly:foreach>
 		</ul>
-		<div id="plugin_panel" class="ui-tab-panel-container fly-editor-stepbar-height-no-padding ui-scrollbar" style="overflow-x: hidden;overflow-y:auto;">
+		<div id="plugin_panel" class="ui-tab-panel-container ui-scrollbar" style="overflow-x: hidden;overflow-y:auto;">
 			<fly:foreach items="${formStepBar}" var="entity" indexVar="entityIndex">
 				<div id="${editorId}-step-${entityIndex}" class="fly-flow-step-panel">
 					<fly:browse target="${editorId}-step-${entityIndex}" value="${formStepBrowses[entityIndex]}" />
@@ -15,7 +15,7 @@
 			</fly:foreach>
 		</div>
 	</div>
-	<div id="${editorId}Content" class="fly-flow-content fly-editor-content-height fly-editor-content-width">
+	<div id="${editorId}Content" class="fly-flow-content">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
 			<fly:pushbutton id="form_edit_component" icon="ui-icon-editor-edit-component" 
 				onclick="" title="编辑控件" />
@@ -38,7 +38,7 @@
 			<fly:pushbutton id="form_resize" icon="ui-icon-editor-resize" 
 				onclick="" title="调整尺寸" />
 		</div>
-		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor-content-width-no-padding fly-editor-content-height-editor ui-helper-clearfix" 
+		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix" 
 			style="margin:0 5px;position:relative;overflow:auto;">
 			<div class="fly-form-editor-content" style="width:600px;height:400px;">
 				<!-- margin 需要处理按字号处理高度，还要考虑是否有边框，以及边框宽度 -->
@@ -81,7 +81,7 @@
 		cxt.strokeRect(102,32,6,6);
 	</script>
 	
-	<div id="${editorId}PropBar" class="fly-flow-prop-bar fly-editor-stepbar-content-height ui-corner-top">
+	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
 		<div class="ui-widget-header ui-helper-clearfix" style="border: medium none;">
 			<div class="ui-toolbar-group-left">结构</div>
 			<div class="ui-toolbar-group-right">

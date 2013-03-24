@@ -1,46 +1,37 @@
-.div-max-vertical{
+.ui-scrollbar-div1-vertical,
+.ui-scrollbar-div2-vertical,
+.ui-scrollbar-div1-horizontal,
+.ui-scrollbar-div2-horizontal{
 	z-index: 9999;
 	position: absolute;
-	background-image: url("images/up_enable.png");
 	background-repeat:no-repeat;
 	background-position:center;
 	cursor: pointer;
+}
+
+.ui-scrollbar-div1-vertical{
+	background-image: url("images/scrollbar-up-enable.png");
 	width: 71px;
 	height: 13px;
 }
-.div-max-horizontal{
-	z-index: 9999;
-	position: absolute;
-	background-image: url("images/left_enable.png");
-	background-repeat:no-repeat;
-	background-position:center;
-	cursor: pointer;
+.ui-scrollbar-div1-horizontal{
+	background-image: url("images/scrollbar-left-enable.png");
 	width: 9px;
 	height: 12px;
 }
 
-.div-min-vertical{
-	z-index: 9999;
-	position: absolute;
-	background-image: url("images/down_enable.png");
-	background-repeat:no-repeat;
-	background-position:center;
-	cursor: pointer;
+.ui-scrollbar-div2-verticall{
+	background-image: url("images/scrollbar-down-enable.png");
 	width: 71px;
 	height: 13px;
 }
 
-.div-min-horizontal{
-	z-index: 9999;
-	position: absolute;
-	background-image: url("images/right_enable.png");
-	background-repeat:no-repeat;
-	background-position:center;
-	cursor: pointer;
+.ui-scrollbar-div2-horizontal{
+	background-image: url("images/scrollbar-right-enable.png");
 	width: 9px;
 	height: 12px;
 }
 
-.scroll-container{
+.ui-scrollbar-container{
 	overflow: hidden;	
 }

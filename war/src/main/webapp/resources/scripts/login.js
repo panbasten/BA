@@ -29,7 +29,7 @@ Plywet.Login = {
 				if(data.state == 0){
 					var cookieJson = Plywet.parseJSON(data.data);
 					for(var p in cookieJson){
-						Plywet.setCookie(p,cookieJson[p]);
+						Plywet.CookieUtils.write(p,cookieJson[p]);
 					}
 					window.location = "editor";
 				}else{
