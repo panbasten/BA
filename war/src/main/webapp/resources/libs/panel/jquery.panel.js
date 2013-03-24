@@ -601,9 +601,9 @@
 				_resize(this, param);
 			});
 		},
-		move : function(jq, _63) {
+		move : function(jq, pos) {
 			return jq.each(function() {
-				_move(this, _63);
+				_move(this, pos);
 			});
 		},
 		maximize : function(jq) {

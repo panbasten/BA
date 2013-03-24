@@ -565,6 +565,12 @@ div.ui-fs-sftp-icon {
 	background-image: url("../images/default/navis_down_pressed.png");
 }
 
+.fly-flow-step-bar .ui-scrollbar-div1-vertical,
+.fly-flow-step-bar .ui-scrollbar-div2-vertical{
+	width: 42px;
+	height: 13px;
+}
+
 .fly-flow-step-bar .ui-scrollbar-div1-vertical {
 	background-image: url("../images/default/stepbar_up_enable.png");
 }

@@ -10,16 +10,18 @@ Plywet.widget.Scrollbar = function(cfg) {
 	this.type = cfg.scrollType;
 	
 	this._createDom();
+	
 	this.reinit();
+	
 };
 
 Plywet.extend(Plywet.widget.Scrollbar, Plywet.widget.BaseWidget);
 
 Plywet.widget.Scrollbar.prototype.reinit = function(){
-	this._rePosition();
-	this.switchScroll();
 	this.currentTop = 0;
 	this.currentLeft = 0;
+	this._rePosition();
+	this.switchScroll();
 };
 
 Plywet.widget.Scrollbar.prototype._isVScroll = function() {
@@ -76,44 +78,31 @@ Plywet.widget.Scrollbar.prototype._moveScrollbar1 = function(){
 
 Plywet.widget.Scrollbar.prototype.switchScroll = function(){
 	if (this._isVScroll()) {
-		var containerHeight = this.$container.height();
-		var validHeight = 0;// 有效高度，通过所有tab高度相加计算
-		var tabArr = this.$tabGroup.children(':visible');
-		for ( var i = 0; i < tabArr.length; i++) {
-			validHeight += $(tabArr[i]).height();
-		}
-	
-		if (containerHeight >= validHeight) {
+		if (this.containerHeight >= this.allTabsHeight) {
 			this.$scrollbar1.hide();
 			this.$scrollbar2.hide();
 			return;
 		}
 	
 		var roof = 0,
-			floor = this.$container.height(),
+			floor = this.containerHeight,
 			tabsTop = this.currentTop,
-			tabsButtom = this.currentTop + validHeight;
+			tabsButtom = this.currentTop + this.allTabsHeight;
 	
 		(tabsTop >= roof) ? this.$scrollbar1.hide() : this.$scrollbar1.show();
 		(tabsButtom >= floor) ? this.$scrollbar2.show() : this.$scrollbar2.hide();
-	} else {
-		var containerWidth = this.$container.width();
-		var validWidth = 0;// 有效宽度，通过所有tab宽度相加计算
-		var tabArr = this.$tabGroup.children(':visible');
-		for ( var i = 0; i < tabArr.length; i++) {
-			validWidth += $(tabArr[i]).width();
-		}
 
-		if (containerWidth >= validWidth) {
+	} else {
+		if (this.containerWidth >= this.allTabsWidth) {
 			this.$scrollbar1.hide();
 			this.$scrollbar2.hide();
 			return;
 		}
 		
 		var left = 0,
-			right = this.$container.width(),
+			right = this.containerWidth,
 			tabsLeft = this.currentLeft,
-			tabsRight = this.currentLeft + validWidth;
+			tabsRight = this.currentLeft + this.allTabsWidth;
 		
 		(tabsLeft >= left) ? this.$scrollbar1.hide() : this.$scrollbar1.show();
 		(tabsRight >= right) ? this.$scrollbar2.show() : this.$scrollbar2.hide();	
@@ -131,7 +120,7 @@ Plywet.widget.Scrollbar.prototype._rePosition = function(){
 		}
 		
 		var roof = 0,
-			floor = containerHeight,
+			floor = this.containerHeight,
 			left = 0;
 		
 		var topPositon = roof,
@@ -156,7 +145,7 @@ Plywet.widget.Scrollbar.prototype._rePosition = function(){
 		}
 		
 		var left = this.$container.offset().left,
-			right = this.$container.offset().left + this.$container.width(),
+			right = this.$container.offset().left + this.containerWidth,
 			roof = this.$tabGroup.offset().top;
 	
 		var leftPosition = left,
