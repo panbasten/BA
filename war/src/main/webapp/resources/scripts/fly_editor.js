@@ -320,12 +320,10 @@ Plywet.editors.form = {
 				$("#formEditorPanel").height(editorContentHeight - 40);
 				
 				// 结构
-				form.layout({
+				$formLayout = form.layout({
 					defaults: {
 						size:					"auto"
 						,	minSize:				50
-						,	togglerLength_open:		35			// WIDTH of toggler on north/south edges - HEIGHT on east/west edges
-						,	togglerLength_closed:	35			// "100%" OR -1 = full height
 						,	hideTogglerOnSlide:		true		// hide the toggler when pane is 'slid open'
 						,	slideTrigger_open:		"mouseover"
 						,	livePaneResizing:		true
@@ -353,11 +351,27 @@ Plywet.editors.form = {
 						,	paneSelector : "#formPropBar"
 						,	togglerTip_open:		"关闭属性框"
 						,	togglerTip_closed:		"打开属性框"
-						,	resizerTip:		"调整属性框"
+						,	resizerTip:		"调整属性框宽度"
+						,	childOptions: {
+							defaults: {
+								size:					"auto"
+								,	minSize : 			20
+								,	livePaneResizing:	true
+							}
+							, north: {
+								size : 200
+								,	closable : false
+								,  	resizerTip:		"调整属性框高度"
+								,	paneSelector : "#formOverviewPanel"
+							}
+							, center: {
+								paneSelector : "#formPropPanel"
+							}
+						}
 					}
 					, center : {
 						paneSelector : "#formContent"
-						, 	minWidth : 200
+						, 	minSize : 200
 					}
 				});
 				

@@ -82,22 +82,36 @@
 	</script>
 	
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
-		<div class="ui-widget-header ui-helper-clearfix" style="border: medium none;">
-			<div class="ui-toolbar-group-left">结构</div>
-			<div class="ui-toolbar-group-right">
-				<span id="thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}OverviewPanel',this);"></span>
+		<div id="${editorId}OverviewPanel" class="ui-widget-panel">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top" style="border: medium none;">
+				<div class="ui-toolbar-group-left">结构</div>
+				<div class="ui-toolbar-group-right">
+					<span id="thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}PropBar','north',this);"></span>
+				</div>
+			</div>
+			<div class="ui-widget-content">
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
+				<p>11111</p>
 			</div>
 		</div>
-		<div id="${editorId}OverviewPanel" class="fly-overview ui-widget-content ui-helper-clearfix">
-		</div>
-		<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
-			<div class="ui-toolbar-group-left">属性</div>
-			<div class="ui-toolbar-group-right">
-				<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('datasource',this);"></span>
+		
+		<div id="${editorId}PropPanel" class="ui-widget-panel">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+				<div class="ui-toolbar-group-left">属性</div>
+				<div class="ui-toolbar-group-right">
+					<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}PropBar','center',this);"></span>
+				</div>
 			</div>
-		</div>
-		<div id="datasource" class="ui-widget-content ui-helper-clearfix">
-			
+			<div class="ui-widget-content">
+			</div>
 		</div>
 	</div>
 </div>

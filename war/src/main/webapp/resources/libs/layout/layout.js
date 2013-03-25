@@ -3303,6 +3303,7 @@ $.fn.layout = function (opts) {
 	*/
 ,	sizePane = function (evt_or_pane, size, skipCallback, force, noAnimation) {
 		if (!isInitialized()) return;
+		console.log(_c[evtPane.call(this, evt_or_pane)]);
 		var	pane	= evtPane.call(this, evt_or_pane) // probably NEVER called from event?
 		,	o		= options[pane]
 		,	s		= state[pane]
