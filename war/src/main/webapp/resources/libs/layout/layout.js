@@ -937,7 +937,7 @@ $.fn.layout = function (opts) {
 	* @param  {boolean=}			[inclSpace=false]
 	* @return {number}				Returns EITHER Width for east/west panes OR Height for north/south panes
 	*/
-,	getPaneSize = function (pane, inclSpace) {
+,	getPaneSize = function (pane, inclSpace, dir) {
 		var 
 			$P	= $Ps[pane]
 		,	o	= options[pane]
@@ -945,11 +945,13 @@ $.fn.layout = function (opts) {
 		,	oSp	= (inclSpace ? o.spacing_open : 0)
 		,	cSp	= (inclSpace ? o.spacing_closed : 0)
 		;
+		
+		dir = (dir ? dir : _c[pane].dir);
 		if (!$P || s.isHidden)
 			return 0;
 		else if (s.isClosed || (s.isSliding && inclSpace))
 			return cSp;
-		else if (_c[pane].dir === "horz")
+		else if (dir === "horz")
 			return $P.outerHeight() + oSp;
 		else // dir === "vert"
 			return $P.outerWidth() + oSp;

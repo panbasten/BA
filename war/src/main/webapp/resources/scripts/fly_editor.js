@@ -355,14 +355,18 @@ Plywet.editors.form = {
 						,	childOptions: {
 							defaults: {
 								size:					"auto"
-								,	minSize : 			20
-								,	livePaneResizing:	true
+								,	contentSelector:	".ui-widget-content"
+								,	minSize : 				30
+								,	animatePaneSizing: 		true
+								,	fxSpeed_size:			750
+								,	fxSettings_size:		{ easing: "easeInQuint" }
+								,	livePaneResizing:		true
 							}
 							, north: {
 								size : 200
 								,	closable : false
 								,  	resizerTip:		"调整属性框高度"
-								,	paneSelector : "#formOverviewPanel"
+								,	paneSelector : "#formStructPanel"
 							}
 							, center: {
 								paneSelector : "#formPropPanel"
@@ -417,6 +421,67 @@ Plywet.editors.form = {
 				Plywet.editors.register["form"] = "Y";
 			}
 		});
+	},
+	toggleFlags : {
+		structPane : true,
+		propPane : true,
+		structHeight : 0,
+		propHeight : 0
+	},
+	toggleContent : function(target){
+		var $close1 = $("#formStructClose"),
+			$close2 = $("#formPropClose"),
+			$layout = $("#formPropBar").data('layout');
+		
+		if(this.toggleFlags.structPane && this.toggleFlags.propPane){
+			this.toggleFlags.structHeight = $layout.getPaneSize("north");
+			this.toggleFlags.propHeight = $layout.getPaneSize("center", false, "horz");
+		}
+		
+		//最小化1，最大化2
+		if(target == "structPane" && this.toggleFlags.structPane) {
+			$layout.sizePane("north", 30);
+			
+			$close1.addClass("ui-icon-circle-plus");
+			$close1.removeClass("ui-icon-circle-minus");
+			
+			$close2.removeClass("ui-icon-circle-plus");
+			$close2.addClass("ui-icon-circle-minus");
+			
+			this.toggleFlags.structPane = false;
+			this.toggleFlags.propPane = true;
+		} 
+		// 最小化2，最大化1
+		else if(target == "propPane" && this.toggleFlags.propPane) {
+			$layout.sizePane("north", this.toggleFlags.structHeight + this.toggleFlags.propHeight - 30);
+		
+			$close2.addClass("ui-icon-circle-plus");
+			$close2.removeClass("ui-icon-circle-minus");
+			
+			$close1.removeClass("ui-icon-circle-plus");
+			$close1.addClass("ui-icon-circle-minus");
+			
+			this.toggleFlags.structPane = true;
+			this.toggleFlags.propPane = false;
+		}
+		else {
+			$layout.sizePane("north", this.toggleFlags.structHeight);
+			
+			$close1.removeClass("ui-icon-circle-plus");
+			$close1.addClass("ui-icon-circle-minus");
+			
+			$close2.removeClass("ui-icon-circle-plus");
+			$close2.addClass("ui-icon-circle-minus");
+			
+			this.toggleFlags.structPane = true;
+			this.toggleFlags.propPane = true;
+		}
+		
+		if(this.toggleFlags.structPane && this.toggleFlags.propPane){
+			$layout.enableResizable("north");
+		} else {
+			$layout.disableResizable("north");
+		}
 	}
 };
 

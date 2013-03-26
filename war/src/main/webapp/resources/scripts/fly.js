@@ -167,20 +167,6 @@ Plywet.desktop = {
 				Plywet.desktop.changeMarkText();
 			});
 		}
-	},
-	toggleContent : function(parentId,dir,close){
-		var $close = $(close),
-			$layout = $(Plywet.escapeClientId(parentId)).data('layout');
-		if($close.hasClass("ui-icon-circle-minus")){
-			$close.data("oraHeight", $layout.getPane(dir).outerHeight());
-			$layout.sizePane(dir,20);
-			$close.addClass("ui-icon-circle-plus");
-			$close.removeClass("ui-icon-circle-minus");
-		}else{
-			$layout.sizePane(dir,$close.data("oraHeight"));
-			$close.removeClass("ui-icon-circle-plus");
-			$close.addClass("ui-icon-circle-minus");
-		}
 	}
 };
 

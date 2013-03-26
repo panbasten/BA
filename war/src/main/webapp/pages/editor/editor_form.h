@@ -82,11 +82,11 @@
 	</script>
 	
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
-		<div id="${editorId}OverviewPanel" class="ui-widget-panel">
+		<div id="${editorId}StructPanel" class="ui-widget-panel">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top" style="border: medium none;">
 				<div class="ui-toolbar-group-left">结构</div>
 				<div class="ui-toolbar-group-right">
-					<span id="thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}PropBar','north',this);"></span>
+					<span id="${editorId}StructClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.form.toggleContent('structPane');"></span>
 				</div>
 			</div>
 			<div class="ui-widget-content">
@@ -102,12 +102,11 @@
 				<p>11111</p>
 			</div>
 		</div>
-		
 		<div id="${editorId}PropPanel" class="ui-widget-panel">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">属性</div>
 				<div class="ui-toolbar-group-right">
-					<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}PropBar','center',this);"></span>
+					<span id="${editorId}PropClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.form.toggleContent('propPane');"></span>
 				</div>
 			</div>
 			<div class="ui-widget-content">
