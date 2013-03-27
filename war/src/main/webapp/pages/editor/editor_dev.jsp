@@ -183,7 +183,7 @@
 		$(document).ready( function() {
 			Plywet.desktop.initPage();
 			$(window).bind('resize', function() {
-				Plywet.desktop.initSize();
+				Plywet.desktop.resize();
 			});
 			$(document).bind('contextmenu', function(e) {
 				return false;

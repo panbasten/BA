@@ -1,8 +1,10 @@
 Plywet.editors = {
 	register : {},
-	reinit : function(){
-		if(Plywet.editors.register[Plywet.editors.trans.type]){
-			Plywet.editors.trans.reinit();
+	resize : function(){
+		for(var i in Plywet.editors.register){
+			if(Plywet.editors.register[i] == "Y"){
+				Plywet.editors[i].resize();
+			}
 		}
 	},
 	changeEditor : function ($taba,$tabo) {
@@ -64,13 +66,9 @@ Plywet.editors.toolbarButton = {
 // 转换
 Plywet.editors.trans = {
 	type : "trans",
-	reinit : function(){
-//		transStepBarScroll.reinit();
+	resize : function(){
+		// TODO 
 		
-//		if(window["transEditorPanel_var"]){
-//			transEditorPanel_var.changeSize(Plywet.desktop.contentWidthNoPadding,
-//				Plywet.desktop.contentHeightEditor);
-//		}
 	},
 	saveStatus : function ($tabo) {
 		// 保存原来的结果
@@ -149,15 +147,15 @@ Plywet.editors.trans = {
 				Plywet.desktop.changeMarkText("正在注册转换设计器页面...");
 			},
 			oncomplete : function(xhr, status){
+				// 初始化尺寸
 				var editorContainer = diEditorLayout.getPane("center"),
 				editorContentWidth = editorContainer.outerWidth(),
 				editorContentHeight = editorContainer.outerHeight()-40;
-				// 初始化尺寸
-				var trans = $("#trans");
-				trans.width(editorContentWidth).height(editorContentHeight);
+				var $trans = $("#trans");
+				$trans.width(editorContentWidth).height(editorContentHeight);
 				
 				// 结构
-				$transLayout = trans.layout({
+				$transLayout = $trans.layout({
 					defaults: {
 						size:					"auto"
 						,	minSize:				50
@@ -343,11 +341,72 @@ Plywet.editors.trans = {
 				};
 				var tree = new Plywet.widget.EasyTree(config);
 				
-				trans.hide();
+				$trans.hide();
 				
 				Plywet.editors.register[Plywet.editors.trans.type] = "Y";
 			}
 		});
+	},
+	toggleFlags : {
+		thumbPane : true,
+		dsPane : true,
+		thumbHeight : 0,
+		dsHeight : 0
+	},
+	toggleContent : function(target){
+		var $close1 = $("#transThumbClose"),
+			$close2 = $("#transDSClose"),
+			$layout = $("#transPropBar").data('layout');
+		
+		if(this.toggleFlags.thumbPane && this.toggleFlags.dsPane){
+			this.toggleFlags.thumbHeight = $layout.getPaneSize("north");
+			this.toggleFlags.dsHeight = $layout.getPaneSize("center", false, "horz");
+		}
+		
+		//最小化1，最大化2
+		if(target == "thumbPane" && this.toggleFlags.thumbPane) {
+			$layout.sizePane("north", 30);
+			
+			$close1.addClass("ui-icon-circle-plus");
+			$close1.removeClass("ui-icon-circle-minus");
+			
+			$close2.removeClass("ui-icon-circle-plus");
+			$close2.addClass("ui-icon-circle-minus");
+			
+			this.toggleFlags.thumbPane = false;
+			this.toggleFlags.dsPane = true;
+		} 
+		// 最小化2，最大化1
+		else if(target == "dsPane" && this.toggleFlags.dsPane) {
+			$layout.sizePane("north", this.toggleFlags.thumbHeight + this.toggleFlags.dsHeight - 30);
+		
+			$close2.addClass("ui-icon-circle-plus");
+			$close2.removeClass("ui-icon-circle-minus");
+			
+			$close1.removeClass("ui-icon-circle-plus");
+			$close1.addClass("ui-icon-circle-minus");
+			
+			this.toggleFlags.thumbPane = true;
+			this.toggleFlags.dsPane = false;
+		}
+		else {
+			$layout.sizePane("north", this.toggleFlags.thumbHeight);
+			
+			$close1.removeClass("ui-icon-circle-plus");
+			$close1.addClass("ui-icon-circle-minus");
+			
+			$close2.removeClass("ui-icon-circle-plus");
+			$close2.addClass("ui-icon-circle-minus");
+			
+			this.toggleFlags.thumbPane = true;
+			this.toggleFlags.dsPane = true;
+		}
+		
+		if(this.toggleFlags.thumbPane && this.toggleFlags.dsPane){
+			$layout.enableResizable("north");
+		} else {
+			$layout.disableResizable("north");
+		}
 	}
 };
 
@@ -365,13 +424,9 @@ Plywet.editors.form = {
 		
 		
 	},
-	reinit : function(){
-//		formStepBarScroll.reinit();
+	resize : function(){
+		// TODO 工具箱的滚动按钮
 		
-//		if(window["formEditorPanel_var"]){
-//			formEditorPanel_var.changeSize(Plywet.desktop.contentWidthNoPadding,
-//				Plywet.desktop.contentHeightEditor);
-//		}
 	},
 	register : function(){
 		if(Plywet.editors.register["form"]){
@@ -385,16 +440,16 @@ Plywet.editors.form = {
 				Plywet.desktop.changeMarkText("正在注册表单设计器页面...");
 			},
 			oncomplete : function(xhr, status){
+				// 初始化尺寸
 				var editorContainer = diEditorLayout.getPane("center"),
 					editorContentWidth = editorContainer.outerWidth(),
 					editorContentHeight = editorContainer.outerHeight()-40;
-				// 初始化尺寸
-				var form = $("#form");
-				form.width(editorContentWidth).height(editorContentHeight);
+				var $form = $("#form");
+				$form.width(editorContentWidth).height(editorContentHeight);
 				$("#formEditorPanel").height(editorContentHeight - 40);
 				
 				// 结构
-				$formLayout = form.layout({
+				$formLayout = $form.layout({
 					defaults: {
 						size:					"auto"
 						,	minSize:				50
@@ -489,7 +544,7 @@ Plywet.editors.form = {
 					}
 				});
 				
-				form.hide();
+				$form.hide();
 				
 				Plywet.editors.register["form"] = "Y";
 			}

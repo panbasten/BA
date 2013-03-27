@@ -55,7 +55,7 @@
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">缩略图</div>
 				<div class="ui-toolbar-group-right">
-					<span id="${editorId}thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}OverviewPanel',this);"></span>
+					<span id="${editorId}ThumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.trans.toggleContent('thumbPane');"></span>
 				</div>
 			</div>
 			<div id="${editorId}ThumbContent" class="ui-widget-content">
@@ -65,7 +65,7 @@
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">数据源</div>
 				<div class="ui-toolbar-group-right">
-					<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('datasource',this);"></span>
+					<span id="${editorId}DSClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.trans.toggleContent('dsPane');"></span>
 				</div>
 			</div>
 			<div id="datasource" class="ui-widget-content">

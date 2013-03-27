@@ -3792,13 +3792,28 @@ Plywet.widget.FlowChart = function(cfg) {
 
 Plywet.extend(Plywet.widget.FlowChart,Plywet.widget.BaseWidget);
 
-Plywet.widget.FlowChart.prototype.changeSize = function(w, h){
+/**
+ * 改变尺寸
+ */
+Plywet.widget.FlowChart.prototype.changeSize = function(w, h, ow, oh){
 	$(this.flowChart.canvas).attr({"width":w,"height":h});
 	this.flowChart.config.canvasConfig.width=w;
 	this.flowChart.config.canvasConfig.height=h;
+	if (ow) {
+		this.flowChart.oconfig.canvasConfig.width=ow;
+	}
+	if (oh) {
+		this.flowChart.oconfig.canvasConfig.height=oh;
+	}
+	
+	console.log(this.flowChart.config);
+	
 	this.flowChart.redraw();
 };
 
+/**
+ * 刷新内容
+ */
 Plywet.widget.FlowChart.prototype.flush = function(exdata){
 	 this.oraData = exdata;
 	 this.flowObject.init(this.flowChart,exdata);

@@ -1,5 +1,8 @@
 Plywet.desktop = {
 	initPage : function () {
+		// 设置浏览器环境
+		Plywet.env();
+		
 		// Editor
 		var layoutSettings_diEditor = {
 			name: "diEditor",	
@@ -92,14 +95,9 @@ Plywet.desktop = {
 		
 	},
 	
-	initSize : function() {
-		// 设置浏览器环境
-		Plywet.env();
-
+	resize : function() {
 		// 设置页面尺寸
 		Plywet.desktop.changeSize();
-		
-		diEditorNaviScroll.reinit();
 		
 		Plywet.editors.reinit();
 	},
@@ -119,8 +117,6 @@ Plywet.desktop = {
 			modifyCloseTip : "即将关闭任务【#tabText】已经被修改。<br>选择【保存】按钮进行保存操作然后关闭选项卡，选择【放弃】按钮所进行的修改操作将丢失，请进行选择？"
 		});
 		
-		Plywet.desktop.initSize();
-		
 		// 添加搜索框
 		Plywet.cw("Search","search_var",{
 			id:"idSearch",
@@ -129,6 +125,9 @@ Plywet.desktop = {
 				alert("您搜索的是："+data);
 			}
 		});
+		
+		// 改变首页部分页面元素尺寸
+		Plywet.desktop.changeSize();
 		
 		// 隐藏蒙版
 		Plywet.desktop.triggerMark(false);
@@ -142,15 +141,8 @@ Plywet.desktop = {
 		$(".fly-editor-content-height").height(this.contentHeight);
 		$(".fly-editor-content-height-no-padding").height(this.contentHeight-10);
 		$(".fly-editor-content-height-browse-panel").height(this.contentHeight-33);
-		$(".fly-editor-stepbar-content-height").height(this.contentHeight);
-		$(".fly-editor-stepbar-height-no-padding").height(this.contentHeight-10);
-		$(".fly-editor-content-width").width(this.contentWidth);
 		
-		this.contentWidthNoPadding = this.contentWidth-10;
-		$(".fly-editor-content-width-no-padding").width(this.contentWidthNoPadding);
-		// trans
-		this.contentHeightEditor = this.contentHeight-40;
-		$(".fly-editor-content-height-editor").height(this.contentHeightEditor);
+		diEditorNaviScroll.reinit();
 	},
 	
 	changeMarkText : function (text) {
