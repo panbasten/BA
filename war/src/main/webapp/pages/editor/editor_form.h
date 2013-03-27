@@ -7,7 +7,7 @@
 				</li>
 			</fly:foreach>
 		</ul>
-		<div id="plugin_panel" class="ui-tab-panel-container ui-scrollbar" style="overflow-x: hidden;overflow-y:auto;">
+		<div id="${editorId}PluginPanel" class="ui-tab-panel-container ui-scrollbar" style="overflow-x: hidden;overflow-y:auto;">
 			<fly:foreach items="${formStepBar}" var="entity" indexVar="entityIndex">
 				<div id="${editorId}-step-${entityIndex}" class="fly-flow-step-panel">
 					<fly:browse target="${editorId}-step-${entityIndex}" value="${formStepBrowses[entityIndex]}" />

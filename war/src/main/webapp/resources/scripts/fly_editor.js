@@ -65,12 +65,12 @@ Plywet.editors.toolbarButton = {
 Plywet.editors.trans = {
 	type : "trans",
 	reinit : function(){
-		transStepBarScroll.reinit();
+//		transStepBarScroll.reinit();
 		
-		if(window["transEditorPanel_var"]){
-			transEditorPanel_var.changeSize(Plywet.desktop.contentWidthNoPadding,
-				Plywet.desktop.contentHeightEditor);
-		}
+//		if(window["transEditorPanel_var"]){
+//			transEditorPanel_var.changeSize(Plywet.desktop.contentWidthNoPadding,
+//				Plywet.desktop.contentHeightEditor);
+//		}
 	},
 	saveStatus : function ($tabo) {
 		// 保存原来的结果
@@ -124,7 +124,7 @@ Plywet.editors.trans = {
 			var $panelSize = Plywet.getElementDimensions($(Plywet.escapeClientId("transEditorPanel")));
 			Plywet.cw("FlowChart","transEditorPanel_var",{
 				id: "transEditorPanel",
-				oid: "transOverviewPanel",
+				oid: "transThumbContent",
 				canvasConfig: {
 					width: $panelSize.css.width,
 					height: $panelSize.css.height
@@ -149,6 +149,78 @@ Plywet.editors.trans = {
 				Plywet.desktop.changeMarkText("正在注册转换设计器页面...");
 			},
 			oncomplete : function(xhr, status){
+				var editorContainer = diEditorLayout.getPane("center"),
+				editorContentWidth = editorContainer.outerWidth(),
+				editorContentHeight = editorContainer.outerHeight()-40;
+				// 初始化尺寸
+				var trans = $("#trans");
+				trans.width(editorContentWidth).height(editorContentHeight);
+				
+				// 结构
+				$transLayout = trans.layout({
+					defaults: {
+						size:					"auto"
+						,	minSize:				50
+						,	hideTogglerOnSlide:		true		// hide the toggler when pane is 'slid open'
+						,	slideTrigger_open:		"mouseover"
+						,	livePaneResizing:		true
+						,	spacing_closed:			16
+						,	togglerAlign_closed:	"top"
+						,	togglerLength_closed:	16
+						//	effect defaults - overridden on some panes
+						,	fxName:					"slide"		// none, slide, drop, scale
+						,	fxSpeed_open:			750
+						,	fxSpeed_close:			1500
+						,	fxSettings_open:		{ easing: "easeInQuint" }
+						,	fxSettings_close:		{ easing: "easeOutQuint" }
+					}
+					, west : {
+						size : 200
+						,	paneSelector : "#transStepBar"
+						,	togglerTip_open:		"关闭工具箱"
+						,	togglerTip_closed:		"打开工具箱"
+						,	resizable:				false
+	//					,	initClosed:				true
+						,	fxSettings_open:		{ easing: "easeOutBounce" }
+					}
+					, east : {
+						size : 250
+						,	paneSelector : "#transPropBar"
+						,	togglerTip_open:		"关闭属性框"
+						,	togglerTip_closed:		"打开属性框"
+						,	resizerTip:		"调整属性框宽度"
+						,	childOptions: {
+							defaults: {
+								size:					"auto"
+								,	contentSelector:	".ui-widget-content"
+								,	minSize : 				30
+								,	animatePaneSizing: 		true
+								,	fxSpeed_size:			750
+								,	fxSettings_size:		{ easing: "easeInQuint" }
+								,	livePaneResizing:		true
+							}
+							, north: {
+								size : 150
+								,	closable : false
+								,  	resizerTip:		"调整属性框高度"
+								,	paneSelector : "#transThumbPanel"
+							}
+							, center: {
+								paneSelector : "#transDSPanel"
+							}
+						}
+					}
+					, center : {
+						paneSelector : "#transContent"
+						, 	minSize : 200
+					}
+				});
+				
+				
+				$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 40)
+					.width($transLayout.getPaneSize("center", false, "vert")-10);
+				$("#transThumbContent").width($transLayout.getPaneSize("east")-12);
+				
 				Plywet.cw("EasyTabs","diEditorTransStepBar",{
 					id : "transStepBar"
 				});
@@ -158,6 +230,7 @@ Plywet.editors.trans = {
 					step:80,
 					scrollType:'vertical'
 				});
+				
 				// 拖拽
 				$(".fly-trans-step-plugin").draggable({
 					revert:true,
@@ -270,7 +343,8 @@ Plywet.editors.trans = {
 				};
 				var tree = new Plywet.widget.EasyTree(config);
 				
-				Plywet.editors.trans.reinit();
+				trans.hide();
+				
 				Plywet.editors.register[Plywet.editors.trans.type] = "Y";
 			}
 		});
@@ -292,7 +366,7 @@ Plywet.editors.form = {
 		
 	},
 	reinit : function(){
-		formStepBarScroll.reinit();
+//		formStepBarScroll.reinit();
 		
 //		if(window["formEditorPanel_var"]){
 //			formEditorPanel_var.changeSize(Plywet.desktop.contentWidthNoPadding,
@@ -417,7 +491,6 @@ Plywet.editors.form = {
 				
 				form.hide();
 				
-				//Plywet.editors.form.reinit();
 				Plywet.editors.register["form"] = "Y";
 			}
 		});

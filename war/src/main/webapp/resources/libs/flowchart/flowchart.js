@@ -3137,13 +3137,12 @@
 				this.hasOverview = true;
 				this.ocanvasDiv = jQuery(Plywet.escapeClientId(this.oclientId));
 				this.ocanvas = this.ocanvasDiv.find("canvas").get(0);
+				var ocanvasSize = Plywet.getElementDimensions(this.ocanvasDiv);
+				this.oconfig.canvasConfig.width=ocanvasSize.css.width;
+				this.oconfig.canvasConfig.height=ocanvasSize.css.height;
 				if(this.ocanvas){
-					this.oconfig.canvasConfig.width=jQuery(this.ocanvas).attr("width");
-					this.oconfig.canvasConfig.height=jQuery(this.ocanvas).attr("height");
 				}else{
-					this.oconfig.canvasConfig.width=this.ocanvasDiv.width();
-					this.oconfig.canvasConfig.height=this.ocanvasDiv.height();
-					this.ocanvas = jQuery("<canvas id='"+this.clientId+"_ocanvas' width='"+this.ocanvasDiv.width()+"' height='"+this.ocanvasDiv.height()+"'></canvas>");
+					this.ocanvas = jQuery("<canvas id='"+this.clientId+"_ocanvas' width='"+this.oconfig.canvasConfig.width+"' height='"+this.oconfig.canvasConfig.height+"'></canvas>");
 					this.ocanvas.appendTo(this.ocanvasDiv);
 					this.ocanvas = this.ocanvas.get(0);
 				}

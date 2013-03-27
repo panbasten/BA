@@ -1,5 +1,5 @@
-<div id="${editorId}" style="display:none;">
-	<div id="${editorId}StepBar" class="fly-flow-step-bar fly-editor-stepbar-content-height ui-tab-side-container ui-corner-top">
+<div id="${editorId}">
+	<div id="${editorId}StepBar" class="fly-flow-step-bar ui-tab-side-container ui-corner-top">
 		<ul id="${editorId}StepBar-ul" class="ui-tabs">
 			<fly:foreach items="${transStepBar}" var="entity" indexVar="entityIndex">
 				<li>
@@ -7,7 +7,7 @@
 				</li>
 			</fly:foreach>
 		</ul>
-		<div id="plugin_panel" class="ui-tab-panel-container fly-editor-stepbar-height-no-padding ui-scrollbar" style="overflow-x: hidden;overflow-y:auto;">
+		<div id="${editorId}PluginPanel" class="ui-tab-panel-container ui-scrollbar" style="overflow-x: hidden;overflow-y:auto;">
 			<fly:foreach items="${transStepBar}" var="entity" indexVar="entityIndex">
 				<div id="${editorId}-step-${entityIndex}" class="fly-flow-step-panel">
 					<fly:browse target="${editorId}-step-${entityIndex}" value="${transStepBrowses[entityIndex]}" />
@@ -15,7 +15,7 @@
 			</fly:foreach>
 		</div>
 	</div>
-	<div id="${editorId}Content" class="fly-flow-content fly-editor-content-height fly-editor-content-width">
+	<div id="${editorId}Content" class="fly-flow-content">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
 			<fly:pushbutton id="trans_run" icon="ui-icon-editor-run" onclick="" title="运行" />
 			<fly:pushbutton id="trans_runstep" icon="ui-icon-editor-runstep" onclick="" title="单步运行" />
@@ -47,26 +47,30 @@
 			<fly:pushbutton id="trans_save_xml" icon="ui-icon-save-xml" onclick="" title="保存为xml文件并下载" />
 			<fly:pushbutton id="trans_save_image" icon="ui-icon-save-image" onclick="" title="保存为图片并下载" />
 		</div>
-		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor-content-width-no-padding fly-editor-content-height-editor ui-helper-clearfix" style="margin:0 5px;">
+		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix" style="margin:0 5px;">
 		</div>
 	</div>
-	<div id="${editorId}PropBar" class="fly-flow-prop-bar fly-editor-stepbar-content-height ui-corner-top">
-		<div class="ui-widget-header ui-helper-clearfix" style="border: medium none;">
-			<div class="ui-toolbar-group-left">缩略图</div>
-			<div class="ui-toolbar-group-right">
-				<span id="thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}OverviewPanel',this);"></span>
+	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
+		<div id="${editorId}ThumbPanel" class="ui-widget-panel">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+				<div class="ui-toolbar-group-left">缩略图</div>
+				<div class="ui-toolbar-group-right">
+					<span id="${editorId}thumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('${editorId}OverviewPanel',this);"></span>
+				</div>
+			</div>
+			<div id="${editorId}ThumbContent" class="ui-widget-content">
 			</div>
 		</div>
-		<div id="${editorId}OverviewPanel" class="fly-overview ui-widget-content ui-helper-clearfix">
-		</div>
-		<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
-			<div class="ui-toolbar-group-left">数据源</div>
-			<div class="ui-toolbar-group-right">
-				<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('datasource',this);"></span>
+		<div id="${editorId}DSPanel" class="ui-widget-panel">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+				<div class="ui-toolbar-group-left">数据源</div>
+				<div class="ui-toolbar-group-right">
+					<span id="datasourceClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.desktop.toggleContent('datasource',this);"></span>
+				</div>
 			</div>
-		</div>
-		<div id="datasource" class="ui-widget-content ui-helper-clearfix">
-			
+			<div id="datasource" class="ui-widget-content">
+				
+			</div>
 		</div>
 	</div>
 </div>
