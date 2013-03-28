@@ -3263,7 +3263,7 @@
 					// 确保是鼠标左键
 					if (e.which != 1) {return;}
 					// 取得按下鼠标的坐标
-					var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords2(e);
+					var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 					
 					if((canvasObj.oconfig.editRect.x-3) < mouseCoords.x 
 						&& mouseCoords.x < (canvasObj.oconfig.editRect.x+canvasObj.oconfig.editRect.width+3)
@@ -3283,7 +3283,7 @@
 					if(!canvasObj.config.outerControl){return;}
 					
 					// 取得当前鼠标的坐标
-					var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords2(e);
+					var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 					
 					if((canvasObj.oconfig.editRect.x-3) < mouseCoords.x 
 							&& mouseCoords.x < (canvasObj.oconfig.editRect.x+canvasObj.oconfig.editRect.width+3)
@@ -3318,7 +3318,7 @@
 					// 确保是外部可改
 					if(!canvasObj.config.outerControl){return;}
 					
-					var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords2(e);
+					var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 					
 					// 如果是鼠标右键，调用右键方法
 					if (e.which != 1) {return;}
@@ -3796,19 +3796,44 @@ Plywet.extend(Plywet.widget.FlowChart,Plywet.widget.BaseWidget);
  * 改变尺寸
  */
 Plywet.widget.FlowChart.prototype.changeSize = function(w, h, ow, oh){
-	$(this.flowChart.canvas).attr({"width":w,"height":h});
-	this.flowChart.config.canvasConfig.width=w;
-	this.flowChart.config.canvasConfig.height=h;
-	if (ow) {
-		this.flowChart.oconfig.canvasConfig.width=ow;
+	var $canvas = $(this.flowChart.canvas);
+		
+	if (w) {
+		$canvas.attr("width", w);
+		this.flowChart.config.canvasConfig.width=w;
 	}
-	if (oh) {
-		this.flowChart.oconfig.canvasConfig.height=oh;
+	if (h) {
+		$canvas.attr("height", h);
+		this.flowChart.config.canvasConfig.height=h;
 	}
 	
-	console.log(this.flowChart.config);
+	if(this.flowChart.hasOverview){
+		var $ocanvas = $(this.flowChart.ocanvas);
+		if (ow) {
+			$ocanvas.attr("width", ow);
+			this.flowChart.oconfig.canvasConfig.width=ow;
+		}
+		if (oh) {
+			$ocanvas.attr("height", oh);
+			this.flowChart.oconfig.canvasConfig.height=oh;
+		}
+	}
 	
 	this.flowChart.redraw();
+};
+
+Plywet.widget.FlowChart.prototype.autoChangeSize = function(){
+	var w, h, ow, oh;
+	var $canvasDivDim = Plywet.getElementDimensions($(this.flowChart.canvasDiv));
+	w = $canvasDivDim.css.width;
+	h = $canvasDivDim.css.height;
+	
+	if(this.flowChart.hasOverview){
+		var $ocanvasDivDim = Plywet.getElementDimensions($(this.flowChart.ocanvasDiv));
+		ow = $ocanvasDivDim.css.width;
+		oh = $ocanvasDivDim.css.height;
+	}
+	this.changeSize(w, h, ow, oh);
 };
 
 /**

@@ -171,6 +171,13 @@ Plywet.editors.trans = {
 						,	fxSpeed_close:			1500
 						,	fxSettings_open:		{ easing: "easeInQuint" }
 						,	fxSettings_close:		{ easing: "easeOutQuint" }
+						,	onresize_end:			function(){
+							$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 40)
+								.width($transLayout.getPaneSize("center", false, "vert")-10);
+							$("#transThumbContent").width($transLayout.getPaneSize("east")-12);
+							// 改变canvas属性
+							transEditorPanel_var.autoChangeSize();
+						}
 					}
 					, west : {
 						size : 200
@@ -192,10 +199,13 @@ Plywet.editors.trans = {
 								size:					"auto"
 								,	contentSelector:	".ui-widget-content"
 								,	minSize : 				30
-								,	animatePaneSizing: 		true
-								,	fxSpeed_size:			750
-								,	fxSettings_size:		{ easing: "easeInQuint" }
+//								,	animatePaneSizing: 		true
+//								,	fxSpeed_size:			750
+//								,	fxSettings_size:		{ easing: "easeInQuint" }
 								,	livePaneResizing:		true
+								,	onresize_end:			function(){
+										transEditorPanel_var.autoChangeSize();
+									}
 							}
 							, north: {
 								size : 150
@@ -257,8 +267,8 @@ Plywet.editors.trans = {
 				
 				// 添加一个静态的树
 				var config = {
-					'id' : 'datasource',
-					"checkbox":true,
+					'id' : 'transDSContent',
+//					"checkbox":true,
 					"dnd":true,
 					'els' : [ {
 						'id' : 'id0',

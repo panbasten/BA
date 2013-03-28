@@ -144,6 +144,9 @@ $.layout = {
 		}
 	,	north: {
 			side:			"Top"
+		,	cssReset: {
+				bottom: 	"auto"
+		}
 		,	sizeType:		"Height"
 		,	dir:			"horz"
 		,	cssReq: {
@@ -157,6 +160,9 @@ $.layout = {
 		}
 	,	south: {
 			side:			"Bottom"
+		,	cssReset: {
+				top: 	"auto"
+		}
 		,	sizeType:		"Height"
 		,	dir:			"horz"
 		,	cssReq: {
@@ -170,6 +176,9 @@ $.layout = {
 		}
 	,	east: {
 			side:			"Right"
+		,	cssReset: {
+				left: 		"auto"
+		}
 		,	sizeType:		"Width"
 		,	dir:			"vert"
 		,	cssReq: {
@@ -183,6 +192,9 @@ $.layout = {
 		}
 	,	west: {
 			side:			"Left"
+		,	cssReset: {
+				right: 		"auto"
+		}
 		,	sizeType:		"Width"
 		,	dir:			"vert"
 		,	cssReq: {
@@ -2635,6 +2647,7 @@ $.fn.layout = function (opts) {
 	*/
 ,	close = function (evt_or_pane, force, noAnimation, skipCallback) {
 		var	pane = evtPane.call(this, evt_or_pane);
+		
 		// if pane has been initialized, but NOT the complete layout, close pane instantly
 		if (!state.initialized && $Ps[pane]) {
 			_closePane(pane); // INIT pane as closed
@@ -2752,6 +2765,10 @@ $.fn.layout = function (opts) {
 		,	_sliding= "-sliding"
 		,	_closed	= "-closed"
 		;
+		console.log(side);
+		console.log(sC[inset]);
+		$R	
+			.css(_c[pane].cssReset);
 		$R
 			.css(side, sC[inset]) // move the resizer
 			.removeClass( rClass+_open +" "+ rClass+_pane+_open )

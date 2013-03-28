@@ -99,7 +99,7 @@ Plywet.desktop = {
 		// 设置页面尺寸
 		Plywet.desktop.changeSize();
 		
-		Plywet.editors.reinit();
+		Plywet.editors.resize();
 	},
 	
 	/* 

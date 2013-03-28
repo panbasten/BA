@@ -68,7 +68,7 @@
 					<span id="${editorId}DSClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.trans.toggleContent('dsPane');"></span>
 				</div>
 			</div>
-			<div id="datasource" class="ui-widget-content">
+			<div id="${editorId}DSContent" class="ui-widget-content" style="overflow: auto;">
 				
 			</div>
 		</div>
