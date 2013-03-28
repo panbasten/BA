@@ -201,6 +201,86 @@ Plywet.widget.FlowChartUtils = {
 	},
 	
 	/**
+	 * 画调整块
+	 */
+	drawResizer : function(ctx, pos, off, conf) {
+		ctx.save();
+		
+		conf = (conf) ? conf : {};
+		
+		cxt.lineWidth = conf.lineWidth || 1;
+		cxt.fillStyle = conf.fillStyle || '#000';
+		cxt.strokeStyle = conf.strokeStyle || '#00f';
+		
+		var resizerSize = conf.resizerSize || 6; 
+		
+		off = (off) ? off : {
+			x : 0
+			,y : 0
+		};
+		
+		off.x = off.x - (resizerSize / 2);
+		off.y = off.y - (resizerSize / 2);
+		
+		var rtn = {
+			nw : {
+				x : pos.x + off.x
+				,y : pos.y + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, ne : {
+				x : pos.x + pos.width + off.x
+				,y : pos.y + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, sw : {
+				x : pos.x + off.x
+				,y : pos.y + pos.height + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, se : {
+				x : pos.x + pos.width + off.x
+				,y : pos.y + pos.height + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, n : {
+				x : pos.x + (pos.width / 2) + off.x
+				,y : pos.y + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, s : {
+				x : pos.x + (pos.width / 2) + off.x
+				,y : pos.y + pos.height + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, w : {
+				x : pos.x + off.x
+				,y : pos.y + (pos.height / 2) + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+			, e : {
+				x : pos.x + pos.width + off.x
+				,y : pos.y + (pos.height / 2) + off.y
+				,width : resizerSize
+				,height : resizerSize
+			}
+		};
+		
+		
+		ctx.restore();
+		
+		
+		return rtn;
+	},
+	
+	/**
 	 * 画十字
 	 */
 	drawCross : function(c,ctx){
