@@ -330,6 +330,10 @@ a.active .ui-navi-icon-systools{
 	
 }
 
+.fly-flow-step-bar .ui-browsepanel-itemcon span p {
+	font-size: 90%;
+}
+
 .fly-container .fly-tabs li a span{
 	line-height: 30px;
 }
