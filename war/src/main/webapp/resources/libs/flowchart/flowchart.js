@@ -2246,7 +2246,7 @@
 						x = oconfig.editRect.x + pos.x*oconfig.scale;
 						y = oconfig.editRect.y + pos.y*oconfig.scale;
 						w = (pos.x2 - pos.x)*oconfig.scale;
-						Plywet.widget.FlowChartUtils.drawRect(this.canvasObj.octx,x,y,w,w,"#dc003f");
+						Plywet.widget.FlowChartUtils.drawRect(this.canvasObj.octx,{x:x,y:y,width:w,height:w},{strokeStyle:"#dc003f"});
 					}
 				}
 			}

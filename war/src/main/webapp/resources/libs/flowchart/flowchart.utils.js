@@ -134,14 +134,30 @@ Plywet.widget.FlowChartUtils = {
 	/**
 	 * 画矩形
 	 */
-	drawRect : function(ctx,x,y,w,h,style,type){
-		ctx.strokeStyle = style;
+	drawRect : function(ctx,pos,conf,type,off){
+		ctx.save();
+		
+		conf = conf || {};
+		off = off || {x:0,y:0};
+		
+		ctx.lineWidth = conf.lineWidth || 1;
+		ctx.strokeStyle = conf.strokeStyle || '#00f';
+		
+		ctx.globalAlpha = 1;
 		ctx.beginPath();
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,x,y,x+w,y);
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,x+w,y,x+w,y+h);
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,x+w,y+h,x,y+h);
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,x,y+h,x,y);
+		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+off.x,pos.y+off.y,pos.x+pos.width+off.x,pos.y+off.y);
+		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+pos.width+off.x,pos.y+off.y,pos.x+pos.width+off.x,pos.y+pos.height+off.y);
+		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+pos.width+off.x,pos.y+pos.height+off.y,pos.x+off.x,pos.y+pos.height+off.y);
+		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+off.x,pos.y+pos.height+off.y,pos.x+off.x,pos.y+off.y);
 		ctx.stroke();
+		
+		if (conf.isFill) {
+			ctx.globalAlpha = conf.globalAlpha || 0.2;
+			ctx.fillStyle = conf.fillStyle || '#00f';
+			ctx.fillRect(pos.x+off.x+1,pos.y+off.y+1,pos.width-2,pos.height-2);
+		}
+		
+		ctx.restore();
 	},
 	
 	/**
@@ -171,7 +187,8 @@ Plywet.widget.FlowChartUtils = {
 			y=(targetSize.height-h)/2;
 		}
 		// 画整体元素区域
-		Plywet.widget.FlowChartUtils.drawRect(ctx,x,y,w,h,"#999999","dotted");
+		console.log([x,y,w,h]);
+		Plywet.widget.FlowChartUtils.drawRect(ctx,{x:x,y:y,width:w,height:h},{strokeStyle:"#999"},"dotted");
 		
 		var s = w/sWidth,
 		rtn={
@@ -195,6 +212,7 @@ Plywet.widget.FlowChartUtils = {
 		ctx.fillStyle = "#7187D6";
 		ctx.globalAlpha = 0.3;
 		ctx.fillRect(rtn.editRect.x,rtn.editRect.y,rtn.editRect.width,rtn.editRect.height);
+		
 		ctx.restore();
 		
 		return rtn;
@@ -206,18 +224,16 @@ Plywet.widget.FlowChartUtils = {
 	drawResizer : function(ctx, pos, off, conf) {
 		ctx.save();
 		
-		conf = (conf) ? conf : {};
+		conf = conf || {};
 		
-		cxt.lineWidth = conf.lineWidth || 1;
-		cxt.fillStyle = conf.fillStyle || '#000';
-		cxt.strokeStyle = conf.strokeStyle || '#00f';
+		ctx.globalAlpha = conf.globalAlpha || 1;
+		ctx.lineWidth = conf.lineWidth || 1;
+		ctx.fillStyle = conf.fillStyle || '#000';
+		ctx.strokeStyle = conf.strokeStyle || '#00f';
 		
 		var resizerSize = conf.resizerSize || 6; 
 		
-		off = (off) ? off : {
-			x : 0
-			,y : 0
-		};
+		off = off || {x:0, y:0};
 		
 		off.x = off.x - (resizerSize / 2);
 		off.y = off.y - (resizerSize / 2);
@@ -273,9 +289,13 @@ Plywet.widget.FlowChartUtils = {
 			}
 		};
 		
+		for (var p in rtn) {
+			var ps = rtn[p];
+			ctx.fillRect(ps.x+1, ps.y+1, ps.width-2, ps.height-2);
+			ctx.strokeRect(ps.x, ps.y, ps.width, ps.height);
+		}
 		
 		ctx.restore();
-		
 		
 		return rtn;
 	},
@@ -547,8 +567,6 @@ Plywet.widget.FlowChartUtils = {
 			var offLengthX = ca*offLength;
 			var offLengthY = sa*offLength;
 			
-			ctx.save();
-			
 			while(overflow < segLength){
 				ctx.moveTo(tmpX,tmpY);
 				
@@ -565,8 +583,6 @@ Plywet.widget.FlowChartUtils = {
 				tmpY += offLengthY;
 				overflow += offLength;
 			}
-			
-			ctx.restore();
 		}
 	},
 	

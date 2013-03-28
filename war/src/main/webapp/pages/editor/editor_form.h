@@ -52,33 +52,22 @@
 	
 	<script>
 		var myCanvas=document.getElementById("myCanvas");
-		var cxt=myCanvas.getContext("2d");
-		cxt.lineWidth=1;
+		var ctx=myCanvas.getContext("2d");
+		ctx.lineWidth=1;
 
-		cxt.fillStyle='#000';
-		cxt.strokeStyle='#00f';
-		cxt.fillRect(3,3,4,4);
-		cxt.strokeRect(2,2,6,6);
-		cxt.fillRect(3,403,4,4);
-		cxt.strokeRect(2,402,6,6);
-		cxt.fillRect(603,403,4,4);
-		cxt.strokeRect(602,402,6,6);
-		cxt.fillRect(603,3,4,4);
-		cxt.strokeRect(602,2,6,6);
 
-		cxt.strokeStyle='#f00';
-		cxt.strokeRect(35,35,70,30);
 
-		cxt.fillStyle='#a0a0a0';
-		cxt.strokeStyle='#00f';
-		cxt.fillRect(33,33,4,4);
-		cxt.strokeRect(32,32,6,6);
-		cxt.fillRect(33,63,4,4);
-		cxt.strokeRect(32,62,6,6);
-		cxt.fillRect(103,63,4,4);
-		cxt.strokeRect(102,62,6,6);
-		cxt.fillRect(103,33,4,4);
-		cxt.strokeRect(102,32,6,6);
+	Plywet.widget.FlowChartUtils.drawResizer(ctx, {x:0,y:0,width:600,height:400},{x:5,y:5});
+
+	Plywet.widget.FlowChartUtils.drawRect(ctx, {x:30,y:30,width:70,height:30}, {strokeStyle:'#f00',fillStyle:'#f00',isFill:true}, "line", {x:5,y:5});
+	
+	Plywet.widget.FlowChartUtils.drawResizer(ctx, {x:30,y:30,width:70,height:30},{x:5,y:5},{fillStyle:'#a0a0a0'});
+
+		
+
+
+
+
 	</script>
 	
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
