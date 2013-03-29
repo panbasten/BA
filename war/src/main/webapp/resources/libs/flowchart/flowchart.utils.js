@@ -187,7 +187,6 @@ Plywet.widget.FlowChartUtils = {
 			y=(targetSize.height-h)/2;
 		}
 		// 画整体元素区域
-		console.log([x,y,w,h]);
 		Plywet.widget.FlowChartUtils.drawRect(ctx,{x:x,y:y,width:w,height:h},{strokeStyle:"#999"},"dotted");
 		
 		var s = w/sWidth,

@@ -112,9 +112,9 @@ Plywet.desktop = {
 			id : "editorContent",
 			createTab: "<li><a class='ui-tab-a' href='##tabId'><div class='ui-tab-left'></div><div class='ui-tab-middle'>#modifyTag<span class='ui-tab-text'>#tabText</span>#closeButton</div><div class='ui-tab-right'></div></a></li>",
 			onBeforeSelect : "Plywet.editors.changeEditor",
-			onSave : "Plywet.editor.saveTab",
-			onDiscard : "Plywet.editor.discardTab",
-			modifyCloseTip : "即将关闭任务【#tabText】已经被修改。<br>选择【保存】按钮进行保存操作然后关闭选项卡，选择【放弃】按钮所进行的修改操作将丢失，请进行选择？"
+			onSave : "Plywet.editors.saveTab",
+			onDiscard : "Plywet.editors.discardTab",
+			modifyCloseTip : "即将关闭设计【#tabText】已经被修改。<br>选择【保存】按钮进行保存操作然后关闭选项卡，选择【放弃】按钮所进行的修改操作将丢失，请进行选择？"
 		});
 		
 		// 添加搜索框
