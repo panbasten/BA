@@ -3796,25 +3796,42 @@ Plywet.extend(Plywet.widget.FlowChart,Plywet.widget.BaseWidget);
  * 改变尺寸
  */
 Plywet.widget.FlowChart.prototype.changeSize = function(w, h, ow, oh){
-	var $canvas = $(this.flowChart.canvas);
+	var $canvas = $(this.flowChart.canvas),
+		useVML = ($.browser.msie && $.browser.version < 9);
 		
 	if (w) {
-		$canvas.attr("width", w);
+		if (useVML){
+			$canvas.width(w);
+		}else{
+			$canvas.attr("width", w);
+		}
 		this.flowChart.config.canvasConfig.width=w;
 	}
 	if (h) {
-		$canvas.attr("height", h);
+		if (useVML){
+			$canvas.height(h);
+		}else{
+			$canvas.attr("height", h);
+		}
 		this.flowChart.config.canvasConfig.height=h;
 	}
 	
 	if(this.flowChart.hasOverview){
 		var $ocanvas = $(this.flowChart.ocanvas);
 		if (ow) {
-			$ocanvas.attr("width", ow);
+			if (useVML){
+				$ocanvas.width(ow);
+			}else{
+				$ocanvas.attr("width", ow);
+			}
 			this.flowChart.oconfig.canvasConfig.width=ow;
 		}
 		if (oh) {
-			$ocanvas.attr("height", oh);
+			if (useVML){
+				$ocanvas.height(oh);
+			}else{
+				$ocanvas.attr("height", oh);
+			}
 			this.flowChart.oconfig.canvasConfig.height=oh;
 		}
 	}

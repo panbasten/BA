@@ -4,12 +4,20 @@ Plywet.editors.form = {
 		console.log("save form");
 	},
 	reloadStatus : function ($taba) {
-		console.log("reload form");
 		
 		if (typeof($taba.data("exdata"))=='undefined')return;
 		var tabData = $taba.data("exdata");
-		console.log(tabData);
-		
+
+		if (typeof formEditorPanel_var == 'undefined') {
+			Plywet.cw("FormEditor","formEditorPanel_var",{
+				id: "formEditorPanel",
+				structureId: "formStructPanel",
+				propId: "formPropBar",
+				data: tabData
+			});
+		} else {
+			formEditorPanel_var.flush(tabData);
+		}
 		
 	},
 	resize : function(){
@@ -200,3 +208,95 @@ Plywet.editors.form = {
 		}
 	}
 };
+
+
+Plywet.widget.FormEditor = function(cfg) {
+	this.cfg = cfg;
+	this.id = this.cfg.id;
+	this.structureId = this.cfg.structureId;
+	this.propId = this.cfg.propId;
+	
+	this.off = {x:5,y:5};
+	
+	this.eidtor = $(Plywet.escapeClientId(this.id));
+	this.structure = $(Plywet.escapeClientId(this.structureId));
+	this.prop = $(Plywet.escapeClientId(this.propId));
+	
+	this.initEditor();
+};
+
+Plywet.widget.FormEditor.prototype.initEditor = function() {
+	this.editorContent = $("<div id='"+this.id+"Content' class='fly-form-editor-content'></div>");
+	this.editorContent.appendTo(this.eidtor);
+	
+	if ($.browser.msie && $.browser.version < 9){ // excanvas hack
+    	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-form-editor-canvas'></canvas>");
+    	this.editorCanvas.appendTo(this.eidtor);
+    	this.editorCanvas = window.G_vmlCanvasManager.initElement(this.editorCanvas.get(0));
+    } else {
+    	this.editorCanvas = $("<canvas id='"+this.id+"Canvas' class='fly-form-editor-canvas'></canvas>");
+    	this.editorCanvas.appendTo(this.eidtor);
+    	this.editorCanvas = this.editorCanvas.get(0);
+    }
+	
+	this.ctx = this.editorCanvas.getContext('2d');
+	
+	this.flush(this.cfg.data);
+};
+
+Plywet.widget.FormEditor.prototype.changeSize = function(w, h) {
+	var $canvas = $(this.editorCanvas);
+	
+	if (w) {
+		this.width= w || 600;
+		this.editorContent.width(w);
+		
+		if ($.browser.msie && $.browser.version < 9){
+			$canvas.width(w+10);
+		} else {
+			$canvas.attr("width", w+10);
+		}
+	}
+	if (h) {
+		this.height= h || 400;
+		this.editorContent.height(h);
+		
+		if ($.browser.msie && $.browser.version < 9){
+			$canvas.height(h+10);
+		} else {
+			$canvas.attr("height", h+10);
+		}
+	}
+	
+	this.redraw();
+};
+
+Plywet.widget.FormEditor.prototype.flush = function(data) {
+	this.dom = data.dom;
+	this.domStructure = data.domStructure;
+	
+	this.editorContent.html(this.dom);
+	
+	this.changeSize(this.domStructure.attrs.width, this.domStructure.attrs.height);
+};
+
+Plywet.widget.FormEditor.prototype.redraw = function() {
+	this.ctx.clearRect(0,0,this.width+10,this.height+10);
+	
+	this.ctx.lineWidth=1;
+
+	Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:0,y:0,width:600,height:400},this.off);
+	Plywet.widget.FlowChartUtils.drawRect(this.ctx, {x:30,y:30,width:70,height:30}, {strokeStyle:'#f00',fillStyle:'#f00',isFill:true}, "line", this.off);
+	Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:30,y:30,width:70,height:30},this.off,{fillStyle:'#a0a0a0'});
+
+};
+
+
+
+
+
+
+
+
+
+

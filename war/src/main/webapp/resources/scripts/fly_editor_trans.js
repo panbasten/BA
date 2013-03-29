@@ -53,6 +53,7 @@ Plywet.editors.trans = {
 		if(tabData.onClearAll) canvasData.onClearAll=tabData.onClearAll;
 		if(tabData.onModify) canvasData.onModify=tabData.onModify;
 		if(tabData.extendData) canvasData.extendData=tabData.extendData;
+		
 		if (typeof transEditorPanel_var == 'undefined') {
 			var $panelSize = Plywet.getElementDimensions($(Plywet.escapeClientId("transEditorPanel")));
 			Plywet.cw("FlowChart","transEditorPanel_var",{

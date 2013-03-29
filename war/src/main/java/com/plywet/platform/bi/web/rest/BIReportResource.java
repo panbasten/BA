@@ -117,24 +117,32 @@ public class BIReportResource {
 		"		</fly:HBoxLayout>" +
 		" </fly:composition>";
 		
-		String domStructure = "{" +
+		String dom = "<div class='ui-layout-float ui-helper-clearfix'>" +
+				"<div class='ui-label-default ui-helper-clearfix'>" +
+				"<label for='aaaaa'>连接名称</label>" +
+				"</div>" +
+				"<div class='ui-label-default ui-helper-clearfix'>" +
+				"<input id='aaaaa' type='text' value='test' />" +
+				"<span class='ui-required-tag'>*</span>" +
+				"</div>" +
+				"</div>";
+		
+		String domStructure = 
 		"	\"domStructure\":{" +
 		"		\"type\" : \"fly:comosition\"" +
 		"		,\"attrs\" : {" +
-		"			\"x\": \"0\"" +
-		"			,\"y\": \"0\"" +
-		"			,\"width\": \"273\"" +
-		"			,\"height\": \"83\"" +
+		"			\"width\": 600" +
+		"			,\"height\": 400" +
 		"		}" +
 		"		,\"subs\" : [" +
 		"			{" +
 		"				\"type\" : \"fly:hBoxLayout\"" +
 		"				,\"attrs\" : {" +
 		"					\"name\" : \"\"" +
-		"					,\"marginLeft\" : \"0\"" +
-		"					,\"marginTop\" : \"0\"" +
-		"					,\"marginRight\" : \"0\"" +
-		"					,\"marginBottom\" : \"0\"" +
+		"					,\"marginLeft\" : 0" +
+		"					,\"marginTop\" : 0" +
+		"					,\"marginRight\" : 0" +
+		"					,\"marginBottom\" : 0" +
 		"				}" +
 		"				,\"subs\" : [" +
 		"					{" +
@@ -154,9 +162,8 @@ public class BIReportResource {
 		"				]" +
 		"			}" +
 		"		]" +
-		"	}" +
-		"}";
-		return domStructure;
+		"	}";
+		return "{\"dom\":\""+dom+"\","+domStructure+"}";
 	}
 
 	/**
