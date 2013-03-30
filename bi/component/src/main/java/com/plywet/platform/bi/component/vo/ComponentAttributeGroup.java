@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.XmlUtils;
 
 public class ComponentAttributeGroup extends BaseComponentAttribute implements
-		IComponentAttribute {
+		ComponentAttributeInterface {
 
 	private List<ComponentAttribute> attrs = new ArrayList<ComponentAttribute>();
 
@@ -23,10 +25,15 @@ public class ComponentAttributeGroup extends BaseComponentAttribute implements
 		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
 				.getTagOrAttribute(node, "tooltip"));
 
-		List<Node> sub = XMLHandler.getNodes(node, "subAttributes");
-		if (sub != null) {
-			for (Node s : sub) {
-				addAttribute(s);
+		NodeList children = node.getChildNodes();
+		Node childnode;
+
+		if (children != null) {
+			for (int i = 0; i < children.getLength(); i++) {
+				childnode = children.item(i);
+				if (childnode.getNodeName().equalsIgnoreCase("attribute")) {
+					addAttribute(childnode);
+				}
 			}
 		}
 	}

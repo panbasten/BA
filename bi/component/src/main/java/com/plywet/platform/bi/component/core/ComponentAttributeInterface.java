@@ -1,6 +1,6 @@
-package com.plywet.platform.bi.component.vo;
+package com.plywet.platform.bi.component.core;
 
-public interface IComponentAttribute {
+public interface ComponentAttributeInterface {
 
 	public String getName();
 

@@ -4,18 +4,21 @@ import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
+import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
+import com.plywet.platform.bi.component.core.ComponentEnumInterface;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.core.utils.XmlUtils;
 
 public class ComponentAttribute extends BaseComponentAttribute implements
-		IComponentAttribute {
+		ComponentAttributeInterface {
 
 	private boolean required;
 	private Class<?> type;
 	private String defaultValueStr;
 	private Object defaultValue;
 
+	@SuppressWarnings("unchecked")
 	private ComponentAttribute(Node attributesNode) throws Exception {
 		this.name = XMLHandler.getTagAttribute(attributesNode, "name");
 		this.required = Utils.toBoolean(XMLHandler.getTagAttribute(
@@ -45,6 +48,17 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 
 		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
 				.getTagOrAttribute(attributesNode, "tooltip"));
+
+		this.editorType = XMLHandler.getTagAttribute(attributesNode,
+				"editorType");
+
+		String editorOptionEnumStr = XMLHandler.getTagAttribute(attributesNode,
+				"editorOptionEnum");
+		if (StringUtils.isNotEmpty(editorOptionEnumStr)) {
+			this.editorOptionEnum = (Class<? extends ComponentEnumInterface>) Class
+					.forName(editorOptionEnumStr);
+		}
+
 	}
 
 	public static ComponentAttribute instance(Node attributesNode)

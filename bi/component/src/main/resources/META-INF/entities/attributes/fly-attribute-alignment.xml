@@ -1,0 +1,29 @@
+<attributeGroup>
+
+	<name>alignment</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.Alignment</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.Alignment</tooltip>
+
+	<attribute>
+		<name>alignHorizontal</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<defaultValue>left</defaultValue>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYAlignHorizontalEnum</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignHorizontal</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignHorizontal</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>alignVertical</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<defaultValue>middle</defaultValue>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYAlignVerticalEnum</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignVertical</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignVertical</tooltip>
+	</attribute>
+
+</attributeGroup>

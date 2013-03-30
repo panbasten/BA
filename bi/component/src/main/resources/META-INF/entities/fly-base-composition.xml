@@ -6,4 +6,18 @@
 	<ignoreInDesigner>true</ignoreInDesigner>
 	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Composition</tooltip>
 	<iconfile>composition.png</iconfile>
+	
+	<attributes>
+		&fly-attribute-object-name
+		&fly-attribute-enabled
+		&fly-attribute-tooltip
+		
+		&fly-attribute-font
+		
+		&fly-attribute-geometry
+		&fly-attribute-margin
+		&fly-attribute-padding
+		&fly-attribute-border
+	</attributes>
+	
 </component>

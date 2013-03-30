@@ -9,6 +9,7 @@ import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
 import com.plywet.platform.bi.component.core.ComponentResolverInterface;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.ReflectionUtils;
@@ -26,8 +27,8 @@ public class ComponentPlugin {
 	private boolean ignoreInDesigner;
 	private ComponentResolverInterface resolver;
 
-	private List<IComponentAttribute> attributes = new ArrayList<IComponentAttribute>();;
-	private Map<String, IComponentAttribute> attributesMap = new HashMap<String, IComponentAttribute>();
+	private List<ComponentAttributeInterface> attributes = new ArrayList<ComponentAttributeInterface>();;
+	private Map<String, ComponentAttributeInterface> attributesMap = new HashMap<String, ComponentAttributeInterface>();
 
 	private ComponentPlugin(Node componentNode) throws Exception {
 		this.id = XMLHandler.getTagAttribute(componentNode, "id");
@@ -75,14 +76,14 @@ public class ComponentPlugin {
 
 	}
 
-	public void addAttribute(IComponentAttribute attr) {
+	public void addAttribute(ComponentAttributeInterface attr) {
 
 		attributes.add(attr);
 
 		attributesMap.put(attr.getName(), attr);
 	}
 
-	public IComponentAttribute getAttribute(String name) {
+	public ComponentAttributeInterface getAttribute(String name) {
 		if (attributesMap != null) {
 			return attributesMap.get(name);
 		}
