@@ -1,0 +1,4 @@
+1.通过模板获得dom结构
+
+Object[] domString = PageTemplateInterpolator.interpolate(
+					DB_SETTING_TEMPLATE, attrsMap);

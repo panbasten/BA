@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.core.exception.BIPageException;
@@ -26,11 +27,28 @@ import com.plywet.platform.bi.el.parser.ELParser;
  */
 public class PageTemplateInterpolator {
 
+	/**
+	 * 获得模板的dom和javascript代码
+	 * 
+	 * @param fileUrl
+	 * @param attrs
+	 * @return
+	 * @throws BIPageException
+	 */
 	public static Object[] interpolate(String fileUrl, FLYVariableResolver attrs)
 			throws BIPageException {
 		return interpolate(fileUrl, new ArrayList<String>(), attrs, null);
 	}
 
+	/**
+	 * 获得指定节点ID的dom和javascript片段
+	 * 
+	 * @param fileUrl
+	 * @param attrs
+	 * @param nodeId
+	 * @return
+	 * @throws BIPageException
+	 */
 	public static Object[] interpolate(String fileUrl,
 			FLYVariableResolver attrs, String nodeId) throws BIPageException {
 		return interpolate(fileUrl, new ArrayList<String>(), attrs, nodeId);
@@ -63,7 +81,8 @@ public class PageTemplateInterpolator {
 				return new Object[] { StringUtils.EMPTY, "" };
 			}
 
-			if (!StringUtils.contains(domString, HTML.COMPONENT_TYPE_FLY_PREFIX)) {
+			if (!StringUtils
+					.contains(domString, HTML.COMPONENT_TYPE_FLY_PREFIX)) {
 				String html = interpolateExpressions(domString, attrs);
 				return new Object[] { html, script };
 			}
@@ -85,6 +104,53 @@ public class PageTemplateInterpolator {
 		} catch (Exception e) {
 			throw new BIPageException("解析页面标签出现错误.", e);
 		}
+	}
+
+	/**
+	 * 通过模板的url获得dom
+	 * 
+	 * @param fileUrl
+	 * @return
+	 * @throws BIPageException
+	 */
+	public static Document getDom(String fileUrl) throws BIPageException {
+		try {
+			String domString = PageTemplateCache.getDomByUrl(fileUrl);
+			if (domString == null) {
+				domString = FLYPageTemplateUtils
+						.readPageTemplateFileContent(fileUrl);
+				PageTemplateCache.put(fileUrl, domString);
+			}
+
+			if (domString == null) {
+				return null;
+			}
+			return XMLHandler.loadXMLFile(new ByteArrayInputStream(domString
+					.getBytes(Const.XML_ENCODING)));
+
+		} catch (Exception e) {
+			throw new BIPageException("获得页面DOM出现错误.", e);
+		}
+	}
+
+	/**
+	 * 为编辑器获得dom
+	 * 
+	 * @param fileUrl
+	 * @return
+	 * @throws BIPageException
+	 */
+	public static Document getDomForEditor(String fileUrl)
+			throws BIPageException {
+		Document dom = getDom(fileUrl);
+		if (dom == null) {
+			return null;
+		}
+		
+		XmlUtils.setAttribute(dom, "__eid", value);
+		
+
+		return dom;
 	}
 
 	/**

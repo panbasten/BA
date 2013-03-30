@@ -1,6 +1,7 @@
 package com.plywet.platform.bi.core.utils;
 
 import org.pentaho.di.core.xml.XMLHandler;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -49,6 +50,13 @@ public class XmlUtils {
 			string = XMLHandler.getTagAttribute(pluginNode, tag);
 		}
 		return string;
+	}
+
+	public static void setAttribute(Element node, String name, String value) {
+		if (node == null) {
+			return;
+		}
+		node.setAttribute(name, value);
 	}
 
 }

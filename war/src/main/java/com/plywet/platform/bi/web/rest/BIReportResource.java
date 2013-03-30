@@ -109,7 +109,7 @@ public class BIReportResource {
 		//		</fly:HBoxLayout>
 		// </fly:composition>
 		// 
-		String doth = "<fly:composition x=\"0\" y=\"0\" width=\"273\" height=\"83\" name=\"GoToCellDialog\"" +
+		String doth = "<fly:composition x=\"0\" y=\"0\" width=\"600\" height=\"400\" name=\"GoToCellDialog\"" +
 		"		type=\"VBoxLayout\" marginLeft=\"9\" marginTop=\"9\" marginRight=\"9\" marginBottom=\"9\">" +
 		"		<fly:hBoxLayout name=\"\" marginLeft=\"0\" marginTop=\"0\" marginRight=\"0\" marginBottom=\"0\">" +
 		" 			<fly:labelObject name=\"label\" text=\"Cell Location:\" />" +
@@ -123,7 +123,6 @@ public class BIReportResource {
 				"</div>" +
 				"<div class='ui-label-default ui-helper-clearfix'>" +
 				"<input id='aaaaa' type='text' value='test' />" +
-				"<span class='ui-required-tag'>*</span>" +
 				"</div>" +
 				"</div>";
 		
