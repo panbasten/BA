@@ -52,7 +52,6 @@
 	<component>fly-fieldset.xml</component>
 	
 	<!-- layout -->
-	<component>fly-layout.xml</component>
 	<component>fly-verticallayout.xml</component>
 	<component>fly-horizontallayout.xml</component>
 	<component>fly-gridlayout.xml</component>

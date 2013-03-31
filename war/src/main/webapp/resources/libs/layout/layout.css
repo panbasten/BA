@@ -6,14 +6,9 @@
 	float: left;
 }
 
-.ui-label-default {
-	float: left;
-	padding-bottom: 10px;
-}
-
-.ui-label-default input,
-.ui-label-default select,
-.ui-label-default textarea {
+.ui-layout-float input,
+.ui-layout-float select,
+.ui-layout-float textarea {
  	float: left;
 }
 
@@ -24,11 +19,11 @@
 	padding-bottom: 10px;
 }
 
-.ui-label-fieldset {
+.ui-fieldset {
 	margin-bottom: 10px;
 }
 
-.ui-label-default label,
+.ui-layout-float label,
 .ui-label-single label {
 	margin-left: 5px;
 }

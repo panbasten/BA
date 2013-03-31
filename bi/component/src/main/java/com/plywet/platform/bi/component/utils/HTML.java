@@ -45,10 +45,10 @@ public class HTML {
 	public static final String COMPONENT_TYPE_COMPOSITION = COMPONENT_TYPE_FLY_PREFIX
 			+ "composition";;
 
-	public static final String COMPONENT_TYPE_LAYOUT = COMPONENT_TYPE_FLY_PREFIX
-			+ "Layout";
-	public static final String COMPONENT_TYPE_LAYOUT_ITEM = COMPONENT_TYPE_FLY_PREFIX
-			+ "LayoutItem";
+	public static final String COMPONENT_TYPE_GRID_LAYOUT = COMPONENT_TYPE_FLY_PREFIX
+			+ "GridLayout";
+	public static final String COMPONENT_TYPE_GRID_LAYOUT_ITEM = COMPONENT_TYPE_FLY_PREFIX
+			+ "GridLayoutItem";
 	public static final String COMPONENT_TYPE_INPUT_TEXT = COMPONENT_TYPE_FLY_PREFIX
 			+ "InputText";
 	public static final String COMPONENT_TYPE_SELECT_MENU = COMPONENT_TYPE_FLY_PREFIX
@@ -281,6 +281,12 @@ public class HTML {
 	public final static String SEPARATOR_ICON_CLASS = "ui-icon ui-icon-grip-dotted-vertical-narrow";
 
 	public static final String REQUIRED_CLASS = "ui-required-tag";
+	
+	public static final String LAYOUT_CLASS = "ui-layout-div ui-helper-clearfix";
+
+	public static final String LAYOUT_ITEM_CLASS = "ui-layout-float ui-helper-clearfix";
+	
+	public static final String LAYOUT_SINGLE_CLASS = "ui-label-single ui-helper-clearfix";
 
 	public static Map<String, Object> getAttributesMap(NamedNodeMap nnm,
 			FLYVariableResolver attrs) throws BIPageException {

@@ -11,7 +11,9 @@ import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.XmlUtils;
@@ -140,17 +142,34 @@ public class PageTemplateInterpolator {
 	 * @return
 	 * @throws BIPageException
 	 */
-	public static Document getDomForEditor(String fileUrl)
+	public static Document getDomForEditor(String fileUrl, String prefix)
 			throws BIPageException {
 		Document dom = getDom(fileUrl);
 		if (dom == null) {
 			return null;
 		}
-		
-		XmlUtils.setAttribute(dom, "__eid", value);
-		
+
+		int idx = 0;
+		modifySubDomForEditor(dom, prefix, idx);
 
 		return dom;
+	}
+
+	private static void modifySubDomForEditor(Node node, String prefix, int idx) {
+		if (node == null) {
+			return;
+		}
+
+		XmlUtils.setAttribute((Element) node, "__eid", prefix + "_" + (idx++));
+
+		NodeList nodeList = node.getChildNodes();
+
+		if (nodeList != null) {
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node subNode = nodeList.item(i);
+				modifySubDomForEditor(subNode, prefix, idx);
+			}
+		}
 	}
 
 	/**
