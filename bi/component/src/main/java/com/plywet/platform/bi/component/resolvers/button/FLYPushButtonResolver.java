@@ -30,18 +30,13 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 	private void renderSeparatorType(Node node, HTMLWriter html,
 			List<String> script, FLYVariableResolver attrs) {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
-		String clazz = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
-		String styleClass = (clazz != null) ? HTML.SEPARATOR_CLASS + " "
-				+ clazz : HTML.SEPARATOR_CLASS;
-		html.writeAttribute(HTML.ATTR_CLASS, styleClass);
+
+		HTML.writeStyleClassAttribute(node, html, attrs, HTML.SEPARATOR_CLASS);
+		HTML.writeStyleAttribute(node, html, attrs);
 
 		if (HTML.containsTagName(node, HTML.ATTR_ID))
 			html.writeAttribute(HTML.ATTR_ID, HTML.getTagAttribute(node,
 					HTML.ATTR_ID, attrs));
-
-		if (HTML.containsTagName(node, HTML.ATTR_STYLE))
-			html.writeAttribute(HTML.ATTR_STYLE, HTML.getTagAttribute(node,
-					HTML.ATTR_STYLE, attrs));
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 		html.writeAttribute(HTML.ATTR_CLASS, HTML.SEPARATOR_ICON_CLASS);
@@ -100,8 +95,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 						attrs), "");
 		html.writeAttribute(HTML.ATTR_ON_MOUSE_OUT, mouseOutEvent);
 
-		HTML.getAttributesString(node.getAttributes(), new String[] {
-				HTML.ATTR_TYPE, HTML.ATTR_CLASS, HTML.ATTR_ON_MOUSE_OVER,
+		HTML.writeAttributes(node.getAttributes(), new String[] {
+				HTML.ATTR_TYPE, HTML.ATTR_ON_MOUSE_OVER,
 				HTML.ATTR_ON_MOUSE_OUT, HTML.ATTR_STATE, HTML.ATTR_ICON,
 				HTML.ATTR_ICON_POS, HTML.ATTR_LABEL }, html, attrs);
 

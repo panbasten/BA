@@ -15,7 +15,7 @@ import com.plywet.platform.bi.core.exception.BIPageException;
 
 public class FLYGridLayoutResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
-	
+
 	public static final String ATTR_COLUMN = "column";
 
 	public static final String ATTR_COLS = "cols";
@@ -26,10 +26,10 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
-		String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
-		styleClass = (styleClass != null) ? HTML.LAYOUT_CLASS + " "
-				+ styleClass : HTML.LAYOUT_CLASS;
-		html.writeAttribute(HTML.ATTR_CLASS, styleClass);
+
+		HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
+
+		HTML.writeStyleAttribute(node, html, attrs);
 
 		String columnStr = HTML.getTagAttribute(node, ATTR_COLUMN, attrs);
 		String itemWidthStr = HTML
@@ -55,11 +55,8 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 			itemWidth = new int[] { per };
 		}
 
-		renderShowWithStyle(node, html, attrs);
-
-		HTML.getAttributesString(node.getAttributes(), new String[] {
-				HTML.ATTR_CLASS, HTML.ATTR_STYLE, ATTR_COLUMN, ATTR_ITEM_WIDTH,
-				ATTR_SHOW }, html, attrs);
+		HTML.writeAttributes(node.getAttributes(), new String[] { ATTR_COLUMN,
+				ATTR_ITEM_WIDTH }, html, attrs);
 
 		renderItems(node, html, script, attrs, fileUrl, column, itemWidth);
 
@@ -92,14 +89,15 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 				String style = Const.NVL(HTML.getTagAttribute(subNode,
 						HTML.ATTR_STYLE, attrs), "");
 				style = "width:" + w + "%;" + style;
-				style = getShowStyle(subNode, html, attrs) + style;
+				style = HTML.getShowStyle(subNode, attrs) + style;
 				html.writeAttribute(HTML.ATTR_STYLE, style);
 
-				HTML.getAttributesString(subNode.getAttributes(),
-						new String[] { HTML.ATTR_CLASS, HTML.ATTR_STYLE,
-								ATTR_SHOW, ATTR_COLS }, html, attrs);
+				HTML.writeAttributes(subNode.getAttributes(),
+						new String[] { ATTR_COLS }, html, attrs);
 				super.renderSub(subNode, html, script, attrs, fileUrl);
 				html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
+			} else {
+
 			}
 		}
 	}

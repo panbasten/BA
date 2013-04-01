@@ -131,7 +131,6 @@ public class HTML {
 	public static final String ATTR_NAME = "name";
 	public static final String ATTR_CLASS = "class";
 	public static final String ATTR_CLS = "cls";
-	public static final String ATTR_ALT = "alt";
 	public static final String ATTR_VALUE = "value";
 	public static final String ATTR_STYLE = "style";
 	public static final String ATTR_WIDTH = "width";
@@ -187,6 +186,56 @@ public class HTML {
 	public static final String ATTR_STATE_ACTIVE = "active";
 	public static final String ATTR_STATE_NOT_DISPLAY = "notDisplay";
 
+	public static final String ATTR_FONT = "font";
+	public static final String ATTR_FONT_FAMILY = "fontFamily";
+	public static final String ATTR_FONT_SIZE = "fontSize";
+	public static final String ATTR_FONT_WEIGHT = "fontWeight";
+	public static final String ATTR_FONT_ITALIC = "fontItalic";
+	public static final String ATTR_FONT_UNDER = "fontUnder";
+	public static final String ATTR_FONT_STRIKE = "fontStrike";
+
+	public static final String ATTR_GEOMETRY = "geometry";
+	public static final String ATTR_X = "x";
+	public static final String ATTR_Y = "y";
+
+	public static final String ATTR_MARGIN_GROUP = "marginGroup";
+	public static final String ATTR_MARGIN = "margin";
+	public static final String ATTR_MARGIN_TOP = "marginTop";
+	public static final String ATTR_MARGIN_BOTTOM = "marginBottom";
+	public static final String ATTR_MARGIN_LEFT = "marginLeft";
+	public static final String ATTR_MARGIN_RIGHT = "marginRight";
+
+	public static final String ATTR_PADDING_GROUP = "paddingGroup";
+	public static final String ATTR_PADDING = "padding";
+	public static final String ATTR_PADDING_TOP = "paddingTop";
+	public static final String ATTR_PADDING_BOTTOM = "paddingBottom";
+	public static final String ATTR_PADDING_LEFT = "paddingLeft";
+	public static final String ATTR_PADDING_RIGHT = "paddingRight";
+
+	public static final String ATTR_BORDER_GROUP = "borderGroup";
+	public static final String ATTR_BORDER = "border";
+	public static final String ATTR_BORDER_WIDTH = "borderWidth";
+	public static final String ATTR_BORDER_COLOR = "borderColor";
+	public static final String ATTR_BORDER_STYLE = "borderStyle";
+	public static final String ATTR_BORDER_TOP = "borderTop";
+	public static final String ATTR_BORDER_TOP_WIDTH = "borderTopWidth";
+	public static final String ATTR_BORDER_TOP_COLOR = "borderTopColor";
+	public static final String ATTR_BORDER_TOP_STYLE = "borderTopStyle";
+	public static final String ATTR_BORDER_BOTTOM = "borderBottom";
+	public static final String ATTR_BORDER_BOTTOM_WIDTH = "borderBottomWidth";
+	public static final String ATTR_BORDER_BOTTOM_COLOR = "borderBottomColor";
+	public static final String ATTR_BORDER_BOTTOM_STYLE = "borderBottomStyle";
+	public static final String ATTR_BORDER_LEFT = "borderLeft";
+	public static final String ATTR_BORDER_LEFT_WIDTH = "borderLeftWidth";
+	public static final String ATTR_BORDER_LEFT_COLOR = "borderLeftColor";
+	public static final String ATTR_BORDER_LEFT_STYLE = "borderLeftStyle";
+	public static final String ATTR_BORDER_RIGHT = "borderRight";
+	public static final String ATTR_BORDER_RIGHT_WIDTH = "borderRightWidth";
+	public static final String ATTR_BORDER_RIGHT_COLOR = "borderRightColor";
+	public static final String ATTR_BORDER_RIGHT_STYLE = "borderRightStyle";
+
+	public static final String ATTR_SHOW = "show";
+
 	public static String[] CLICK_EVENT = { ATTR_ON_CLICK };
 
 	public static String[] BLUR_FOCUS_EVENTS = { ATTR_ON_BLUR, ATTR_ON_FOCUS };
@@ -202,26 +251,26 @@ public class HTML {
 			ATTR_ON_MOUSE_DOWN, ATTR_ON_MOUSE_MOVE, ATTR_ON_MOUSE_OUT,
 			ATTR_ON_MOUSE_OVER, ATTR_ON_MOUSE_UP };
 
-	public static String[] IMG_ATTRS_WITHOUT_EVENTS = { ATTR_ALT, ATTR_WIDTH,
+	public static String[] IMG_ATTRS_WITHOUT_EVENTS = { ATTR_WIDTH,
 			ATTR_HEIGHT, ATTR_TITLE };
 
 	public static String[] LINK_ATTRS_WITHOUT_EVENTS = { ATTR_DISABLED,
 			ATTR_HREF, ATTR_TITLE, ATTR_TYPE };
 
-	public static String[] BUTTON_ATTRS_WITHOUT_EVENTS = { ATTR_ALT,
-			ATTR_LABEL, ATTR_TITLE, ATTR_TYPE, ATTR_VALUE };
+	public static String[] BUTTON_ATTRS_WITHOUT_EVENTS = { ATTR_LABEL,
+			ATTR_TITLE, ATTR_TYPE, ATTR_VALUE };
 
 	public static String[] MEDIA_ATTRS = { ATTR_HEIGHT, ATTR_WIDTH };
 
 	public static String[] INPUT_TEXT_ATTRS_WITHOUT_EVENTS = { ATTR_DISABLED,
-			ATTR_READONLY, ATTR_ALT, ATTR_MAX_LENGTH, ATTR_SIZE, ATTR_TITLE,
-			ATTR_SRC, ATTR_ACCEPT, ATTR_TYPE, ATTR_VALUE };
+			ATTR_READONLY, ATTR_MAX_LENGTH, ATTR_SIZE, ATTR_TITLE, ATTR_SRC,
+			ATTR_ACCEPT, ATTR_TYPE, ATTR_VALUE };
 
 	public static String[] SELECT_ATTRS_WITHOUT_EVENTS = { ATTR_DISABLED,
 			ATTR_READONLY, ATTR_TITLE, ATTR_VALUE };
 
 	public static String[] TEXTAREA_ATTRS = { ATTR_DISABLED, ATTR_READONLY,
-			ATTR_COLS, ATTR_ROWS, ATTR_ALT, ATTR_SIZE, ATTR_TITLE, ATTR_VALUE };
+			ATTR_COLS, ATTR_ROWS, ATTR_SIZE, ATTR_TITLE, ATTR_VALUE };
 
 	public static String[] LINK_EVENTS = ArrayUtils.concat(COMMON_EVENTS,
 			BLUR_FOCUS_EVENTS);
@@ -247,11 +296,10 @@ public class HTML {
 	public static String[] LABEL_ATTRS = ArrayUtils.concat(COMMON,
 			COMMON_EVENTS, new String[] { ATTR_TITLE, ATTR_FOR, ATTR_VALUE });
 
-	public static String[] LEGEND_ATTRS = ArrayUtils.concat(HTML.COMMON,
-			COMMON_EVENTS, new String[] { HTML.ATTR_TITLE, HTML.ATTR_ALIGN,
-					ATTR_VALUE });
+	public static String[] LEGEND_ATTRS = ArrayUtils.concat(COMMON,
+			COMMON_EVENTS, new String[] { ATTR_TITLE, ATTR_ALIGN, ATTR_VALUE });
 
-	public static String[] FORM_ATTRS = ArrayUtils.concat(HTML.COMMON,
+	public static String[] FORM_ATTRS = ArrayUtils.concat(COMMON,
 			COMMON_EVENTS,
 			new String[] { ATTR_ACTION, ATTR_METHOD, ATTR_TARGET });
 
@@ -267,6 +315,28 @@ public class HTML {
 			SELECT_ATTRS_WITHOUT_EVENTS, COMMON_EVENTS, COMMON,
 			CHANGE_SELECT_EVENTS, BLUR_FOCUS_EVENTS);
 
+	public static final String[] STYLE_ATTRS = { ATTR_STYLE, ATTR_CLASS,
+			ATTR_FONT_FAMILY, ATTR_FONT_SIZE, ATTR_FONT_WEIGHT,
+			ATTR_FONT_ITALIC, ATTR_X, ATTR_Y, ATTR_WIDTH, ATTR_HEIGHT,
+			ATTR_MARGIN, ATTR_MARGIN_TOP, ATTR_MARGIN_BOTTOM, ATTR_MARGIN_LEFT,
+			ATTR_MARGIN_RIGHT, ATTR_PADDING, ATTR_PADDING_TOP,
+			ATTR_PADDING_BOTTOM, ATTR_PADDING_LEFT, ATTR_PADDING_RIGHT,
+			ATTR_BORDER, ATTR_BORDER_WIDTH, ATTR_BORDER_COLOR,
+			ATTR_BORDER_STYLE, ATTR_BORDER_TOP, ATTR_BORDER_TOP_WIDTH,
+			ATTR_BORDER_TOP_COLOR, ATTR_BORDER_TOP_STYLE, ATTR_BORDER_BOTTOM,
+			ATTR_BORDER_BOTTOM_WIDTH, ATTR_BORDER_BOTTOM_COLOR,
+			ATTR_BORDER_BOTTOM_STYLE, ATTR_BORDER_LEFT, ATTR_BORDER_LEFT_WIDTH,
+			ATTR_BORDER_LEFT_COLOR, ATTR_BORDER_LEFT_STYLE, ATTR_BORDER_RIGHT,
+			ATTR_BORDER_RIGHT_WIDTH, ATTR_BORDER_RIGHT_COLOR,
+			ATTR_BORDER_RIGHT_STYLE, ATTR_SHOW };
+
+	public static final Map<String, Boolean> STYLE_ATTRS_MAP = new HashMap<String, Boolean>();
+	static {
+		for (String d : STYLE_ATTRS) {
+			STYLE_ATTRS_MAP.put(d, true);
+		}
+	};
+
 	public final static String BUTTON_TEXT_ONLY_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
 	public final static String BUTTON_ICON_ONLY_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
 	public final static String BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
@@ -281,11 +351,11 @@ public class HTML {
 	public final static String SEPARATOR_ICON_CLASS = "ui-icon ui-icon-grip-dotted-vertical-narrow";
 
 	public static final String REQUIRED_CLASS = "ui-required-tag";
-	
+
 	public static final String LAYOUT_CLASS = "ui-layout-div ui-helper-clearfix";
 
 	public static final String LAYOUT_ITEM_CLASS = "ui-layout-float ui-helper-clearfix";
-	
+
 	public static final String LAYOUT_SINGLE_CLASS = "ui-label-single ui-helper-clearfix";
 
 	public static Map<String, Object> getAttributesMap(NamedNodeMap nnm,
@@ -322,7 +392,7 @@ public class HTML {
 		return null;
 	}
 
-	public static void getAttributesString(NamedNodeMap nnm, String[] dis,
+	public static void writeAttributes(NamedNodeMap nnm, String[] dis,
 			HTMLWriter html, FLYVariableResolver attrs) throws BIPageException {
 		Map<String, Boolean> disMap = null;
 		if (dis != null) {
@@ -344,13 +414,16 @@ public class HTML {
 		}
 	}
 
-	public static void getAttributesString(NamedNodeMap nnm, HTMLWriter html,
+	public static void writeAttributes(NamedNodeMap nnm, HTMLWriter html,
 			FLYVariableResolver attrs) throws BIPageException {
-		getAttributesString(nnm, null, html, attrs);
+		writeAttributes(nnm, null, html, attrs);
 	}
 
 	private static boolean marchAttribute(Map<String, Boolean> disMap,
 			String nodeName) {
+		if (STYLE_ATTRS_MAP.containsKey(nodeName)) {
+			return true;
+		}
 		if (disMap == null) {
 			return false;
 		}
@@ -358,24 +431,39 @@ public class HTML {
 
 	}
 
+	/**
+	 * 获得标签的属性值
+	 * 
+	 * @param node
+	 * @param attribute
+	 * @return
+	 */
 	public static String getTagAttribute(Node node, String attribute) {
 		return XMLHandler.getTagAttribute(node, attribute);
 	}
 
 	public static String getTagAttribute(Node node, String attribute,
 			FLYVariableResolver attrs) {
+		String attr = null;
 		if (attrs == null) {
-			return XMLHandler.getTagAttribute(node, attribute);
+			attr = XMLHandler.getTagAttribute(node, attribute);
 		} else {
-			String attr = XMLHandler.getTagAttribute(node, attribute);
+			attr = XMLHandler.getTagAttribute(node, attribute);
 			if (attr != null) {
-				if ("".equals(attr.trim())) {
-					return "";
-				}
-				return PageTemplateInterpolator.evaluate(attr, attrs);
+				attr = attr.trim();
+				attr = PageTemplateInterpolator.evaluate(attr, attrs);
 			}
 		}
-		return null;
+
+		// 如果为空，取默认值
+		if (Utils.isEmpty(attr)) {
+			Object defaultValue = PageTemplateResolverType
+					.getComponentDefaultAttribute(node.getNodeName(), attribute);
+			if (defaultValue != null)
+				attr = String.valueOf(defaultValue);
+		}
+
+		return attr;
 	}
 
 	public static Object getTagAttributeObject(Node node, String attribute,
@@ -390,5 +478,216 @@ public class HTML {
 
 	public static boolean containsTagName(Node node, String attribute) {
 		return XMLHandler.containsTagName(node, attribute);
+	}
+
+	private static String addStyleString(Node node, FLYVariableResolver attrs,
+			String attrName, String styleName) {
+		String v = getTagAttribute(node, attrName, attrs);
+
+		if (!Utils.isEmpty(v)) {
+			return styleName + ":" + v + ";";
+		}
+
+		return "";
+	}
+
+	private static String addStyleInteger(Node node, FLYVariableResolver attrs,
+			String attrName, String styleName) {
+		String v = getTagAttribute(node, attrName, attrs);
+
+		if (!Utils.isEmpty(v)) {
+			return styleName + ":" + v + "px;";
+		}
+
+		return "";
+	}
+
+	private static String addStyle(Node node, FLYVariableResolver attrs,
+			String attrName, String styleName) {
+		String v = getTagAttribute(node, attrName, attrs);
+
+		if (!Utils.isEmpty(v)) {
+			if (Utils.isNumber(v)) {
+				return styleName + ":" + v + "px;";
+			} else {
+				return styleName + ":" + v + ";";
+			}
+		}
+
+		return "";
+	}
+
+	public static String getFontStyle(Node node, FLYVariableResolver attrs) {
+		String style = "";
+		if (PageTemplateResolverType.containComponentAttribute(node
+				.getNodeName(), ATTR_FONT)) {
+			style += addStyleString(node, attrs, ATTR_FONT_FAMILY,
+					"font-family");
+
+			style += addStyle(node, attrs, ATTR_FONT_SIZE, "font-size");
+
+			style += addStyleString(node, attrs, ATTR_FONT_WEIGHT,
+					"font-weight");
+
+			if (Utils.toBoolean(getTagAttribute(node, ATTR_FONT_ITALIC, attrs),
+					false)) {
+				style += "font-style:italic;";
+			}
+		}
+		return style;
+	}
+
+	public static String getGeometryStyle(Node node, FLYVariableResolver attrs) {
+		String style = "";
+		if (PageTemplateResolverType.containComponentAttribute(node
+				.getNodeName(), ATTR_GEOMETRY)) {
+
+			style += addStyleInteger(node, attrs, ATTR_X, "left");
+			style += addStyleInteger(node, attrs, ATTR_Y, "top");
+			style += addStyle(node, attrs, ATTR_WIDTH, "width");
+			style += addStyle(node, attrs, ATTR_HEIGHT, "height");
+
+		}
+		return style;
+	}
+
+	public static String getMarginStyle(Node node, FLYVariableResolver attrs) {
+		String style = "";
+
+		if (PageTemplateResolverType.containComponentAttribute(node
+				.getNodeName(), ATTR_MARGIN_GROUP)) {
+
+			style += addStyle(node, attrs, ATTR_MARGIN, "margin");
+
+			style += addStyleInteger(node, attrs, ATTR_MARGIN_TOP, "margin-top");
+			style += addStyleInteger(node, attrs, ATTR_MARGIN_BOTTOM,
+					"margin-bottom");
+			style += addStyleInteger(node, attrs, ATTR_MARGIN_LEFT,
+					"margin-left");
+			style += addStyleInteger(node, attrs, ATTR_MARGIN_RIGHT,
+					"margin-right");
+
+		}
+
+		return style;
+	}
+
+	public static String getPaddingStyle(Node node, FLYVariableResolver attrs) {
+		String style = "";
+
+		if (PageTemplateResolverType.containComponentAttribute(node
+				.getNodeName(), ATTR_PADDING_GROUP)) {
+
+			style += addStyle(node, attrs, ATTR_PADDING, "padding");
+
+			style += addStyleInteger(node, attrs, ATTR_PADDING_TOP,
+					"padding-top");
+			style += addStyleInteger(node, attrs, ATTR_PADDING_BOTTOM,
+					"padding-bottom");
+			style += addStyleInteger(node, attrs, ATTR_PADDING_LEFT,
+					"padding-left");
+			style += addStyleInteger(node, attrs, ATTR_PADDING_RIGHT,
+					"padding-right");
+		}
+
+		return style;
+	}
+
+	public static String getBorderStyle(Node node, FLYVariableResolver attrs) {
+		String style = "";
+
+		if (PageTemplateResolverType.containComponentAttribute(node
+				.getNodeName(), ATTR_BORDER_GROUP)) {
+			style += addStyleString(node, attrs, ATTR_BORDER, "border");
+			style += addStyleInteger(node, attrs, ATTR_BORDER_WIDTH,
+					"border-width");
+			style += addStyleString(node, attrs, ATTR_BORDER_COLOR,
+					"border-color");
+			style += addStyleString(node, attrs, ATTR_BORDER_STYLE,
+					"border-style");
+
+			style += addStyleString(node, attrs, ATTR_BORDER_TOP, "border-top");
+			style += addStyleInteger(node, attrs, ATTR_BORDER_TOP_WIDTH,
+					"border-top-width");
+			style += addStyleString(node, attrs, ATTR_BORDER_TOP_COLOR,
+					"border-top-color");
+			style += addStyleString(node, attrs, ATTR_BORDER_TOP_STYLE,
+					"border-top-style");
+
+			style += addStyleString(node, attrs, ATTR_BORDER_BOTTOM,
+					"border-bottom");
+			style += addStyleInteger(node, attrs, ATTR_BORDER_BOTTOM_WIDTH,
+					"border-bottom-width");
+			style += addStyleString(node, attrs, ATTR_BORDER_BOTTOM_COLOR,
+					"border-bottom-color");
+			style += addStyleString(node, attrs, ATTR_BORDER_BOTTOM_STYLE,
+					"border-bottom-style");
+
+			style += addStyleString(node, attrs, ATTR_BORDER_LEFT,
+					"border-left");
+			style += addStyleInteger(node, attrs, ATTR_BORDER_LEFT_WIDTH,
+					"border-left-width");
+			style += addStyleString(node, attrs, ATTR_BORDER_LEFT_COLOR,
+					"border-left-color");
+			style += addStyleString(node, attrs, ATTR_BORDER_LEFT_STYLE,
+					"border-left-style");
+
+			style += addStyleString(node, attrs, ATTR_BORDER_RIGHT,
+					"border-right");
+			style += addStyleInteger(node, attrs, ATTR_BORDER_RIGHT_WIDTH,
+					"border-right-width");
+			style += addStyleString(node, attrs, ATTR_BORDER_RIGHT_COLOR,
+					"border-right-color");
+			style += addStyleString(node, attrs, ATTR_BORDER_RIGHT_STYLE,
+					"border-right-style");
+
+		}
+
+		return style;
+	}
+
+	public static String getShowStyle(Node node, FLYVariableResolver attrs) {
+		String show = getTagAttribute(node, ATTR_SHOW, attrs);
+		if (!Utils.isEmpty(show)) {
+			if (Utils.toBoolean(show, true)) {
+				return "display:block;";
+			} else {
+				return "display:none;";
+			}
+		}
+		return "";
+	}
+
+	public static String getStyle(Node node, FLYVariableResolver attrs) {
+		String style = Utils.NVL(getTagAttribute(node, ATTR_STYLE, attrs), "");
+
+		style += getFontStyle(node, attrs);
+		style += getGeometryStyle(node, attrs);
+		style += getMarginStyle(node, attrs);
+		style += getPaddingStyle(node, attrs);
+		style += getBorderStyle(node, attrs);
+		style += getShowStyle(node, attrs);
+
+		return style;
+	}
+
+	public static void writeStyleAttribute(Node node, HTMLWriter html,
+			FLYVariableResolver attrs) {
+		String style = getStyle(node, attrs);
+		if (!Utils.isEmpty(style)) {
+			html.writeAttribute(ATTR_STYLE, style);
+		}
+
+	}
+
+	public static void writeStyleClassAttribute(Node node, HTMLWriter html,
+			FLYVariableResolver attrs, String def) {
+		String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
+
+		styleClass = (!Utils.isEmpty(styleClass)) ? def + " " + styleClass
+				: def;
+		if (!Utils.isEmpty(styleClass)) {
+			html.writeAttribute(HTML.ATTR_CLASS, styleClass);
+		}
 	}
 }

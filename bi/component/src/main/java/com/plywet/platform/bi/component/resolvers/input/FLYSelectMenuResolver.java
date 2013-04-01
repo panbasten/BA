@@ -36,12 +36,6 @@ public class FLYSelectMenuResolver extends BaseComponentResolver implements
 
 			String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS,
 					attrs);
-			boolean required = false;
-			String requiredStr = HTML.getTagAttribute(node, HTML.ATTR_DISABLED,
-					attrs);
-			if (requiredStr != null) {
-				required = Boolean.valueOf(requiredStr);
-			}
 
 			if (HTML.ATTR_STATE_DISABLED.equals(state)
 					|| Boolean.parseBoolean(disabled)) {
@@ -64,12 +58,14 @@ public class FLYSelectMenuResolver extends BaseComponentResolver implements
 				html.writeAttribute(HTML.ATTR_ON_CHANGE, onchange);
 			}
 
-			HTML.getAttributesString(node.getAttributes(), new String[] {
-					HTML.ATTR_CLASS, HTML.ATTR_STATE, HTML.ATTR_ON_CHANGE,
-					HTML.ATTR_DISABLED, ATTR_INTERACTION }, html, attrs);
+			HTML.writeAttributes(node.getAttributes(), new String[] {
+					HTML.ATTR_STATE, HTML.ATTR_ON_CHANGE, HTML.ATTR_DISABLED,
+					ATTR_INTERACTION }, html, attrs);
 			if (styleClass != null) {
 				html.writeAttribute(HTML.ATTR_CLASS, styleClass);
 			}
+			
+			HTML.writeStyleAttribute(node, html, attrs);
 
 			// options
 			String value = HTML.getTagAttribute(node, HTML.ATTR_VALUE, attrs);
@@ -77,7 +73,7 @@ public class FLYSelectMenuResolver extends BaseComponentResolver implements
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_SELECT);
 
-			if (required) {
+			if (isRequired(node, attrs)) {
 				html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 				html.writeAttribute(HTML.ATTR_CLASS, HTML.REQUIRED_CLASS);
 				html.writeText("*");

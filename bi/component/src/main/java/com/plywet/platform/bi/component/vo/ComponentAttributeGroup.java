@@ -3,7 +3,6 @@ package com.plywet.platform.bi.component.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -17,7 +16,7 @@ public class ComponentAttributeGroup extends BaseComponentAttribute implements
 	private List<ComponentAttribute> attrs = new ArrayList<ComponentAttribute>();
 
 	private ComponentAttributeGroup(Node node) throws Exception {
-		this.name = XMLHandler.getTagAttribute(node, "name");
+		this.name = XmlUtils.getTagOrAttribute(node, "name");
 
 		this.description = PropertyUtils.getCodedTranslation(XmlUtils
 				.getTagOrAttribute(node, "description"));

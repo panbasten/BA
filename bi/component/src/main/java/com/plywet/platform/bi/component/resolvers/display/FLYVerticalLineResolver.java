@@ -20,15 +20,12 @@ public class FLYVerticalLineResolver extends BaseComponentResolver implements
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
-		String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
-		styleClass = (styleClass != null) ? HTML.LAYOUT_CLASS + " "
-				+ styleClass : HTML.LAYOUT_CLASS;
-		html.writeAttribute(HTML.ATTR_CLASS, styleClass);
 
-		renderShowWithStyle(node, html, attrs);
+		HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
 
-		HTML.getAttributesString(node.getAttributes(), new String[] {
-				HTML.ATTR_CLASS, HTML.ATTR_STYLE }, html, attrs);
+		HTML.writeStyleAttribute(node, html, attrs);
+
+		HTML.writeAttributes(node.getAttributes(), html, attrs);
 
 		renderItems(node, html, script, attrs, fileUrl);
 

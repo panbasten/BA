@@ -80,14 +80,21 @@ public class ComponentPlugin {
 
 		attributes.add(attr);
 
-		attributesMap.put(attr.getName(), attr);
+		attributesMap.put(attr.getName().toLowerCase(), attr);
 	}
 
 	public ComponentAttributeInterface getAttribute(String name) {
-		if (attributesMap != null) {
-			return attributesMap.get(name);
+		if (attributesMap != null && name != null) {
+			return attributesMap.get(name.toLowerCase());
 		}
 		return null;
+	}
+
+	public boolean containAttribute(String name) {
+		if (attributesMap != null && name != null) {
+			return attributesMap.containsKey(name.toLowerCase());
+		}
+		return false;
 	}
 
 	public static ComponentPlugin instance(Node componentNode) throws Exception {

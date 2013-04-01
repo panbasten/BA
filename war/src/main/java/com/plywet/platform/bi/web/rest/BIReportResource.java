@@ -111,10 +111,10 @@ public class BIReportResource {
 		// 
 		String doth = "<fly:composition x=\"0\" y=\"0\" width=\"600\" height=\"400\" name=\"GoToCellDialog\"" +
 		"		type=\"VBoxLayout\" marginLeft=\"9\" marginTop=\"9\" marginRight=\"9\" marginBottom=\"9\">" +
-		"		<fly:hBoxLayout name=\"\" marginLeft=\"0\" marginTop=\"0\" marginRight=\"0\" marginBottom=\"0\">" +
+		"		<fly:horizontalLayout name=\"\" marginLeft=\"0\" marginTop=\"0\" marginRight=\"0\" marginBottom=\"0\">" +
 		" 			<fly:labelObject name=\"label\" text=\"Cell Location:\" />" +
 		"			<fly:inputText name=\"lineEdit\" />" +
-		"		</fly:HBoxLayout>" +
+		"		</fly:horizontalLayout>" +
 		" </fly:composition>";
 		
 		String dom = "<div class='ui-layout-float ui-helper-clearfix'>" +
@@ -135,7 +135,7 @@ public class BIReportResource {
 		"		}" +
 		"		,\"subs\" : [" +
 		"			{" +
-		"				\"type\" : \"fly:hBoxLayout\"" +
+		"				\"type\" : \"fly:horizontalLayout\"" +
 		"				,\"attrs\" : {" +
 		"					\"name\" : \"\"" +
 		"					,\"marginLeft\" : 0" +

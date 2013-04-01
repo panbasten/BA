@@ -1,5 +1,5 @@
 <fly:composition>
-	<fly:vBoxLayout>
+	<fly:verticalLayout>
 		<fly:fieldSet title="标识符">
 			<fly:gridLayout column="4" itemWidth="35%,15%,35%,15%">
 				<fly:gridLayoutItem>
@@ -34,7 +34,7 @@
 		
 		<fly:labelObject for="${formId}:preferredSchemaName" title="默认模式名称（在没有其他模式名时使用）" />
 		
-		<fly:inputText id="${formId}:preferredSchemaName" name="${formId}:preferredSchemaName" style="width:100%;" type="text" value="${dbMeta.preferredSchemaName}" />
+		<fly:inputText id="${formId}:preferredSchemaName" name="${formId}:preferredSchemaName" type="text" value="${dbMeta.preferredSchemaName}" />
 		
 		<fly:labelObject for="${formId}:connectionType" title="请输入连接成功后要执行的SQL语句，用分号(;)隔开" />
 		
@@ -42,6 +42,6 @@
 			${dbMeta.connectSQL}
 		</textarea>
 		
-	</fly:vBoxLayout>
+	</fly:verticalLayout>
 
 </fly:composition>

@@ -11,7 +11,7 @@
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	
-	<fly:vBoxLayout>
+	<fly:verticalLayout>
 		<fly:fieldSet title="连接池大小">
 			<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%">
 				<fly:gridLayoutItem>
@@ -36,19 +36,19 @@
 		
 		<fly:labelObject title="命名参数" />
 		
-		<fly:grid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" selectable="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
+		<fly:dataGrid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" selectable="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="key" title="参数名" width="150" align="center" />
 					<fly:column field="value" title="值" width="150" editor="text" align="center" />
 				</fly:row>
 			</fly:columns>
-		</fly:grid>
+		</fly:dataGrid>
 		
 		<fly:labelObject title="描述" />
 		
-		<div id="${formId}:description" style="width:100%;height:50px;" class="ui-show-description-panel">
+		<div id="${formId}:description" style="width:100%;height:50px;margin:5px;" class="ui-show-description-panel">
 		</div>
-	</fly:vBoxLayout>
+	</fly:verticalLayout>
 
 </fly:composition>

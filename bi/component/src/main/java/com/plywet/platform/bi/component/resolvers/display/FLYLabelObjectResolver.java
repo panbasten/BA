@@ -26,11 +26,15 @@ public class FLYLabelObjectResolver extends BaseComponentResolver implements
 		if (forStr != null) {
 			html.writeAttribute(HTML.ATTR_FOR, forStr);
 		}
+
+		HTML.writeStyleAttribute(node, html, attrs);
+		HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
+		HTML.writeAttributes(node.getAttributes(), html, attrs);
+
 		html.writeText(Const.NVL(HTML.getTagAttribute(node, HTML.ATTR_TITLE,
 				attrs), ""));
 		html.endElement(HTML.COMPONENT_TYPE_BASE_LABEL);
 
 	}
-
 
 }

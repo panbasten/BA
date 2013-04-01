@@ -19,7 +19,8 @@ import com.plywet.platform.bi.core.utils.JSONUtils;
 public abstract class BaseComponentResolver implements
 		ComponentResolverInterface {
 
-	public static final String ATTR_SHOW = "show";
+	public static final String ATTR_VALIDATE = "validate";
+	public static final String ATTR_REQUIRED = "required";
 
 	@Override
 	public void render(Node node, HTMLWriter html, List<String> script,
@@ -60,46 +61,25 @@ public abstract class BaseComponentResolver implements
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 	}
 
-	public void renderShow(Node node, HTMLWriter html, FLYVariableResolver attrs) {
-		String show = HTML.getTagAttribute(node, ATTR_SHOW, attrs);
-		if (show != null) {
-			if (Boolean.valueOf(show)) {
-				html.writeAttribute(HTML.ATTR_STYLE, "display:block;");
-			} else {
-				html.writeAttribute(HTML.ATTR_STYLE, "display:none;");
+	public boolean isRequired(Node node, FLYVariableResolver attrs) {
+		String validate = HTML.getTagAttribute(node, ATTR_VALIDATE, attrs);
+		boolean required = false;
+		if (validate != null) {
+			int validateIndex = validate.indexOf(ATTR_REQUIRED);
+			if (validateIndex > -1) {
+				int validateIndex2 = validate.indexOf(",", validateIndex);
+				if (validateIndex2 < validateIndex) {
+					validateIndex2 = validate.length();
+				}
+				String subVal = validate.substring(validateIndex,
+						validateIndex2);
+				subVal = subVal.replaceAll("\"", "").replaceAll("'", "")
+						.replace("}", "");
+				String[] kv = subVal.split(":");
+				required = Boolean.valueOf(kv[1].trim());
 			}
 		}
-	}
-
-	public void renderShowWithStyle(Node node, HTMLWriter html,
-			FLYVariableResolver attrs) {
-		String show = HTML.getTagAttribute(node, ATTR_SHOW, attrs);
-		String style = HTML.getTagAttribute(node, HTML.ATTR_STYLE, attrs);
-		if (show != null) {
-			if (Boolean.valueOf(show)) {
-				style = (style != null) ? "display:block;" + style
-						: "display:block;";
-			} else {
-				style = (style != null) ? "display:none;" + style
-						: "display:none;";
-			}
-		}
-		if (style != null) {
-			html.writeAttribute(HTML.ATTR_STYLE, style);
-		}
-	}
-
-	public String getShowStyle(Node node, HTMLWriter html,
-			FLYVariableResolver attrs) {
-		String show = HTML.getTagAttribute(node, ATTR_SHOW, attrs);
-		if (show != null) {
-			if (Boolean.valueOf(show)) {
-				return "display:block;";
-			} else {
-				return "display:none;";
-			}
-		}
-		return "";
+		return required;
 	}
 
 	public Node getFirstSubNode(Node node, String nodeName) {

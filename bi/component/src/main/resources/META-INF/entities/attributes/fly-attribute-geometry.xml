@@ -23,7 +23,7 @@
 	<attribute>
 		<name>width</name>
 		<required>false</required>
-		<type>java.lang.Integer</type>
+		<type>java.lang.String</type>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Width</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Width</tooltip>
 	</attribute>
@@ -31,7 +31,7 @@
 	<attribute>
 		<name>height</name>
 		<required>false</required>
-		<type>java.lang.Integer</type>
+		<type>java.lang.String</type>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Height</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Height</tooltip>
 	</attribute>

@@ -17,8 +17,10 @@ import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
 import com.plywet.platform.bi.component.core.ComponentResolverInterface;
 import com.plywet.platform.bi.component.resolvers.base.HTMLComponentResolver;
+import com.plywet.platform.bi.component.vo.ComponentAttribute;
 import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.FileUtils;
@@ -55,31 +57,76 @@ public class PageTemplateResolverType {
 				List<Node> componentNodes = XMLHandler.getNodes(componentsNode,
 						"component");
 				for (Node componentNode : componentNodes) {
-					String componentFilename = componentNode.getTextContent();
-					initComponent(getComponentDocument(XML_FILE_FLY_COMPONENTS_ENTITY_PREFIX
-							+ componentFilename));
+					initComponent(componentNode.getTextContent());
 				}
 
 				init.set(true);
 			}
 		} catch (Exception e) {
-			throw new BIPageException("无法读取组件XML配置文件: "
+			throw new BIPageException("无法读取组件集成XML配置文件: "
 					+ XML_FILE_FLY_COMPONENTS, e);
 		}
 	}
 
-	private static void initComponent(Document document) throws Exception {
+	private static void initComponent(String componentFilename)
+			throws BIPageException {
 
-		Node componentNode = XMLHandler.getSubNode(document, "component");
-		String id = XMLHandler.getTagAttribute(componentNode, "id");
-		ComponentPlugin p = ComponentPlugin.instance(componentNode);
-		plugins.put(id.toLowerCase(), p);
-		if (!categories.containsKey(p.getCategory())) {
-			categories.put(p.getCategory(), new ArrayList<ComponentPlugin>());
-			categoryNames.add(p.getCategorydesc());
-			categoryCodes.add(p.getCategory());
+		try {
+			Document document = getComponentDocument(XML_FILE_FLY_COMPONENTS_ENTITY_PREFIX
+					+ componentFilename);
+			Node componentNode = XMLHandler.getSubNode(document, "component");
+			String id = XMLHandler.getTagAttribute(componentNode, "id");
+			ComponentPlugin p = ComponentPlugin.instance(componentNode);
+			plugins.put(id.toLowerCase(), p);
+			if (!categories.containsKey(p.getCategory())) {
+				categories.put(p.getCategory(),
+						new ArrayList<ComponentPlugin>());
+				categoryNames.add(p.getCategorydesc());
+				categoryCodes.add(p.getCategory());
+			}
+			categories.get(p.getCategory()).add(p);
+		} catch (Exception e) {
+			throw new BIPageException("无法读取组件XML配置文件: " + componentFilename, e);
 		}
-		categories.get(p.getCategory()).add(p);
+	}
+
+	public static boolean containComponent(String pn) {
+		if (pn == null) {
+			return false;
+		}
+		return plugins.containsKey(pn.toLowerCase());
+	}
+
+	public static boolean containComponentAttribute(String pn, String attr) {
+		if (pn == null || attr == null) {
+			return false;
+		}
+		ComponentPlugin p = getPlugin(pn.toLowerCase());
+		if (p != null) {
+			return p.containAttribute(attr);
+		}
+		return false;
+	}
+
+	/**
+	 * 获得组件属性的默认值
+	 * 
+	 * @param pn
+	 * @param attr
+	 * @return
+	 */
+	public static <T> T getComponentDefaultAttribute(String pn, String attr) {
+		if (pn == null || attr == null) {
+			return null;
+		}
+		ComponentPlugin p = getPlugin(pn);
+		if (p != null) {
+			ComponentAttributeInterface ca = p.getAttribute(attr);
+			if (ca instanceof ComponentAttribute) {
+				return ((ComponentAttribute) ca).getDefaultValue();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -137,6 +184,13 @@ public class PageTemplateResolverType {
 			is.close();
 		}
 
+	}
+
+	public static ComponentPlugin getPlugin(String name) {
+		if (plugins != null && name != null) {
+			return plugins.get(name.toLowerCase());
+		}
+		return null;
 	}
 
 	public static Map<String, ComponentPlugin> getPlugins()

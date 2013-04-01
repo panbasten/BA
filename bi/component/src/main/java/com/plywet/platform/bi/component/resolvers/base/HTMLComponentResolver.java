@@ -24,7 +24,11 @@ public class HTMLComponentResolver extends BaseComponentResolver implements
 	public void renderStart(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		html.startElement(node.getNodeName());
-		HTML.getAttributesString(node.getAttributes(), html, attrs);
+
+		HTML.writeStyleClassAttribute(node, html, attrs, "");
+		HTML.writeStyleAttribute(node, html, attrs);
+
+		HTML.writeAttributes(node.getAttributes(), html, attrs);
 	}
 
 }

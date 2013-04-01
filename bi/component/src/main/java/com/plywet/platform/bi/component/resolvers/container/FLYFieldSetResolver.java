@@ -16,17 +16,18 @@ import com.plywet.platform.bi.core.utils.Utils;
 public class FLYFieldSetResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
-	public static final String LABLE_FIELDSET_STYLE_CLASS = "ui-fieldset";
-	public static final String LABLE_FIELDSET_CONTENT_STYLE_CLASS = "ui-fieldset-content";
+	public static final String FIELDSET_STYLE_CLASS = "ui-fieldset";
+	public static final String FIELDSET_CONTENT_STYLE_CLASS = "ui-fieldset-content";
 
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_FIELDSET);
-		html.writeAttribute(HTML.ATTR_CLASS, LABLE_FIELDSET_STYLE_CLASS);
-		renderShow(node, html, attrs);
-		HTML.getAttributesString(node.getAttributes(),
-				new String[] { HTML.ATTR_CLASS }, html, attrs);
+
+		HTML.writeStyleClassAttribute(node, html, attrs, FIELDSET_STYLE_CLASS);
+		HTML.writeStyleAttribute(node, html, attrs);
+
+		HTML.writeAttributes(node.getAttributes(), html, attrs);
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_LEGEND);
 		html.writeText(Const.NVL(HTML.getTagAttribute(node, HTML.ATTR_TITLE,
@@ -35,14 +36,13 @@ public class FLYFieldSetResolver extends BaseComponentResolver implements
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 		String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
-		if(Utils.isEmpty(id)){
-			html.writeAttribute(HTML.ATTR_ID, id+":content");
+		if (!Utils.isEmpty(id)) {
+			html.writeAttribute(HTML.ATTR_ID, id + ":content");
 		}
-		html.writeAttribute(HTML.ATTR_CLASS, LABLE_FIELDSET_CONTENT_STYLE_CLASS);
+		html.writeAttribute(HTML.ATTR_CLASS, FIELDSET_CONTENT_STYLE_CLASS);
 		super.renderSub(node, html, script, attrs, fileUrl);
 		html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
 		html.endElement(HTML.COMPONENT_TYPE_BASE_FIELDSET);
 	}
-
 }

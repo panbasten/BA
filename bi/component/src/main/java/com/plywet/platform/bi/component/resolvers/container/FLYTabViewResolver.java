@@ -21,6 +21,8 @@ import com.plywet.platform.bi.core.exception.BIPageException;
 public class FLYTabViewResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
+	public static final String TAB_CONTAINER_STYLE_CLASS = "ui-tab-container";
+
 	public void renderScript(FLYTabViewMeta tabView, List<String> script) {
 		// 添加子页面脚本
 		for (TabNode tab : tabView.getTabs()) {
@@ -39,18 +41,11 @@ public class FLYTabViewResolver extends BaseComponentResolver implements
 		String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
 		html.writeAttribute(HTML.ATTR_ID, id);
 
-		if (HTML.containsTagName(node, HTML.ATTR_STYLE)) {
-			html.writeAttribute(HTML.ATTR_STYLE, HTML.getTagAttribute(node,
-					HTML.ATTR_STYLE, attrs));
-		}
+		HTML.writeStyleAttribute(node, html, attrs);
 
 		// TODO 更换各种方向
-		String styleClass = "ui-tab-container";
-		if (HTML.containsTagName(node, HTML.ATTR_CLASS)) {
-			styleClass = styleClass + " "
-					+ HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
-		}
-		html.writeAttribute(HTML.ATTR_CLASS, styleClass);
+		HTML.writeStyleClassAttribute(node, html, attrs,
+				TAB_CONTAINER_STYLE_CLASS);
 
 		FLYTabViewMeta tabView = new FLYTabViewMeta();
 		tabView.setId(id);

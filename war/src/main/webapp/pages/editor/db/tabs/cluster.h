@@ -11,9 +11,9 @@
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	
-	<fly:vBoxLayout>
+	<fly:verticalLayout>
 		<fly:labelObject title="命名参数" />
-		<fly:grid id="${formId}:partitioningInformations" singleSelect="true" selectable="false" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
+		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" selectable="false" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="partitionId" title="分区ID" width="100" editor="text" align="center" />
@@ -24,7 +24,7 @@
 					<fly:column field="password" title="密码" width="100" editor="text" align="center" />
 				</fly:row>
 			</fly:columns>
-		</fly:grid>
-	</fly:vBoxLayout>
+		</fly:dataGrid>
+	</fly:verticalLayout>
 
 </fly:composition>

@@ -9,7 +9,6 @@
 	<attributes>
 		&fly-attribute-object-name
 		&fly-attribute-enabled
-		&fly-attribute-text
 		&fly-attribute-tooltip
 		
 		&fly-attribute-font

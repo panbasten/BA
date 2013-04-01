@@ -1,13 +1,21 @@
 <attributeGroup>
 
-	<name>border</name>
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.Border</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.Border</tooltip>
+	<name>borderGroup</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.BorderGroup</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.BorderGroup</tooltip>
 
+	<attribute>
+		<name>border</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Border</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Border</tooltip>
+	</attribute>
+	
 	<attribute>
 		<name>borderWidth</name>
 		<required>false</required>
-		<type>java.lang.String</type>
+		<type>java.lang.Integer</type>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderWidth</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderWidth</tooltip>
 	</attribute>
@@ -32,6 +40,13 @@
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderStyle</tooltip>
 	</attribute>
 
+	<attribute>
+		<name>borderTop</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTop</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTop</tooltip>
+	</attribute>
 	
 	<attribute>
 		<name>borderTopWidth</name>
@@ -63,6 +78,14 @@
 	
 	
 	<attribute>
+		<name>borderBottom</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottom</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottom</tooltip>
+	</attribute>
+	
+	<attribute>
 		<name>borderBottomWidth</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
@@ -92,6 +115,14 @@
 	
 	
 	<attribute>
+		<name>borderLeft</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeft</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeft</tooltip>
+	</attribute>
+	
+	<attribute>
 		<name>borderLeftWidth</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
@@ -119,6 +150,14 @@
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeftStyle</tooltip>
 	</attribute>
 	
+	
+	<attribute>
+		<name>borderRight</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRight</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRight</tooltip>
+	</attribute>
 	
 	<attribute>
 		<name>borderRightWidth</name>

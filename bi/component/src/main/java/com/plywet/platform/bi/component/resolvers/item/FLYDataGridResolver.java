@@ -3,7 +3,6 @@ package com.plywet.platform.bi.component.resolvers.item;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.pentaho.pms.util.Const;
@@ -21,8 +20,6 @@ import com.plywet.platform.bi.core.utils.JSONUtils;
 
 public class FLYDataGridResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
-	public static final String ATTR_WIDTH = "width";
-	public static final String ATTR_HEIGHT = "height";
 	public static final String ATTR_COLUMNS = "columns";
 	public static final String ATTR_ROW = "row";
 	public static final String ATTR_COLUMN = "column";
@@ -38,31 +35,17 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 			String weightVar = HTML.getTagAttribute(node, HTML.TAG_WEIGHT_VAR,
 					attrs);
 			String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
-			String width = HTML.getTagAttribute(node, ATTR_WIDTH, attrs);
-			String height = HTML.getTagAttribute(node, ATTR_HEIGHT, attrs);
-			String style = HTML.getTagAttribute(node, HTML.ATTR_STYLE, attrs);
-			style = Const.NVL(style, "");
-			if (width != null) {
-				style += ATTR_WIDTH
-						+ ":"
-						+ ((StringUtils.isNumeric(width)) ? width + "px"
-								: width) + ";";
-			}
-			if (height != null) {
-				style += ATTR_HEIGHT
-						+ ":"
-						+ ((StringUtils.isNumeric(height)) ? height + "px"
-								: height) + ";";
-			}
+
 			html.writeAttribute(HTML.ATTR_ID, id);
-			html.writeAttribute(HTML.ATTR_STYLE, style);
+
+			HTML.writeStyleAttribute(node, html, attrs);
+			HTML.writeStyleClassAttribute(node, html, attrs, "");
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
 			Map<String, Object> map = HTML.getAttributesMap(node
-					.getAttributes(), new String[] { ATTR_WIDTH, ATTR_HEIGHT,
-					HTML.ATTR_STYLE, ATTR_COLUMNS, ATTR_TOOLBAR, ATTR_DATA },
-					attrs);
+					.getAttributes(), new String[] { ATTR_COLUMNS,
+					ATTR_TOOLBAR, ATTR_DATA }, attrs);
 			JSONObject jo = JSONUtils.convertToJSONObject(map);
 			// column,toolbar
 			JSONArray columns = (JSONArray) HTML.getTagAttributeObject(node,
@@ -95,8 +78,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	@SuppressWarnings("unchecked")
 	private void parserSubNode(JSONObject jo, Node node,
 			FLYVariableResolver attrs) throws BIPageException, BIJSONException {
-		Node columns = this.getFirstSubNode(node, HTML.COMPONENT_TYPE_FLY_PREFIX
-				+ ATTR_COLUMNS);
+		Node columns = this.getFirstSubNode(node,
+				HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_COLUMNS);
 		if (columns != null) {
 			jo.put(ATTR_COLUMNS, parserColumns(columns, attrs));
 		}

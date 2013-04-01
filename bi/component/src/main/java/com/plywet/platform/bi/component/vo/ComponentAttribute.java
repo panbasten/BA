@@ -1,7 +1,6 @@
 package com.plywet.platform.bi.component.vo;
 
 import org.apache.commons.lang.StringUtils;
-import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
@@ -20,15 +19,15 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 
 	@SuppressWarnings("unchecked")
 	private ComponentAttribute(Node attributesNode) throws Exception {
-		this.name = XMLHandler.getTagAttribute(attributesNode, "name");
-		this.required = Utils.toBoolean(XMLHandler.getTagAttribute(
+		this.name = XmlUtils.getTagOrAttribute(attributesNode, "name");
+		this.required = Utils.toBoolean(XmlUtils.getTagOrAttribute(
 				attributesNode, "required"), false);
 
-		String typeStr = Utils.NVL(XMLHandler.getTagAttribute(attributesNode,
+		String typeStr = Utils.NVL(XmlUtils.getTagOrAttribute(attributesNode,
 				"type"), "java.lang.String");
 		this.type = Class.forName(typeStr);
 
-		this.defaultValueStr = XMLHandler.getTagAttribute(attributesNode,
+		this.defaultValueStr = XmlUtils.getTagOrAttribute(attributesNode,
 				"defaultValue");
 		if (StringUtils.isNotEmpty(defaultValueStr)) {
 			if (this.type == String.class) {
@@ -49,10 +48,10 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
 				.getTagOrAttribute(attributesNode, "tooltip"));
 
-		this.editorType = XMLHandler.getTagAttribute(attributesNode,
+		this.editorType = XmlUtils.getTagOrAttribute(attributesNode,
 				"editorType");
 
-		String editorOptionEnumStr = XMLHandler.getTagAttribute(attributesNode,
+		String editorOptionEnumStr = XmlUtils.getTagOrAttribute(attributesNode,
 				"editorOptionEnum");
 		if (StringUtils.isNotEmpty(editorOptionEnumStr)) {
 			this.editorOptionEnum = (Class<? extends ComponentEnumInterface>) Class

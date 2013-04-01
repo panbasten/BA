@@ -15,10 +15,6 @@ import com.plywet.platform.bi.core.exception.BIPageException;
 public class FLYInputTextResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
-	public static final String ATTR_VALIDATE = "validate";
-
-	public static final String ATTR_REQUIRED = "required";
-
 	public static final String ATTR_INTERACTION = "interaction";
 
 	@Override
@@ -30,24 +26,6 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 			String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
 			String disabled = HTML.getTagAttribute(node, HTML.ATTR_DISABLED,
 					attrs);
-
-			String validate = HTML.getTagAttribute(node, ATTR_VALIDATE, attrs);
-			boolean required = false;
-			if (validate != null) {
-				int validateIndex = validate.indexOf(ATTR_REQUIRED);
-				if (validateIndex > -1) {
-					int validateIndex2 = validate.indexOf(",", validateIndex);
-					if (validateIndex2 < validateIndex) {
-						validateIndex2 = validate.length();
-					}
-					String subVal = validate.substring(validateIndex,
-							validateIndex2);
-					subVal = subVal.replaceAll("\"", "").replaceAll("'", "")
-							.replace("}", "");
-					String[] kv = subVal.split(":");
-					required = Boolean.valueOf(kv[1].trim());
-				}
-			}
 
 			String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS,
 					attrs);
@@ -80,15 +58,17 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 				html.writeAttribute(HTML.ATTR_ON_CHANGE, onchange);
 			}
 
-			HTML.getAttributesString(node.getAttributes(), new String[] {
-					HTML.ATTR_CLASS, HTML.ATTR_STATE, HTML.ATTR_ON_CHANGE,
-					HTML.ATTR_DISABLED, ATTR_INTERACTION }, html, attrs);
+			HTML.writeAttributes(node.getAttributes(), new String[] {
+					HTML.ATTR_STATE, HTML.ATTR_ON_CHANGE, HTML.ATTR_DISABLED,
+					ATTR_INTERACTION }, html, attrs);
 			if (styleClass != null) {
 				html.writeAttribute(HTML.ATTR_CLASS, styleClass);
 			}
 
+			HTML.writeStyleAttribute(node, html, attrs);
+
 			html.endElement(HTML.COMPONENT_TYPE_BASE_INPUT);
-			if (required) {
+			if (isRequired(node, attrs)) {
 				html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 				html.writeAttribute(HTML.ATTR_CLASS, HTML.REQUIRED_CLASS);
 				html.writeText("*");

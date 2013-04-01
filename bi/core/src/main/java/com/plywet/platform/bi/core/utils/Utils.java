@@ -624,10 +624,11 @@ public class Utils {
 	public static final boolean toBoolean(String str, boolean def) {
 		if (str != null && !"".equals(str)) {
 			if ("true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str)
-					|| "y".equalsIgnoreCase(str)) {
+					|| "y".equalsIgnoreCase(str) || "1".equals(str)) {
 				return Boolean.TRUE;
 			} else if ("false".equalsIgnoreCase(str)
-					|| "no".equalsIgnoreCase(str) || "n".equalsIgnoreCase(str)) {
+					|| "no".equalsIgnoreCase(str) || "n".equalsIgnoreCase(str)
+					|| "0".equals(str)) {
 				return Boolean.FALSE;
 			} else {
 				try {
@@ -811,9 +812,9 @@ public class Utils {
 	public static final Boolean convertStringToBoolean(String string) {
 		if (isEmpty(string))
 			return null;
-		return Boolean.valueOf("Y".equalsIgnoreCase(string)
-				|| "TRUE".equalsIgnoreCase(string)
-				|| "YES".equalsIgnoreCase(string) || "1".equals(string));
+		return Boolean.valueOf("y".equalsIgnoreCase(string)
+				|| "true".equalsIgnoreCase(string)
+				|| "yes".equalsIgnoreCase(string) || "1".equals(string));
 	}
 
 	@SuppressWarnings("unchecked")
