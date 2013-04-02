@@ -488,28 +488,33 @@ div.ui-fs-sftp-icon {
 	overflow:hidden;
 	white-space:nowrap;
 }
-.ui-dialog .ui-dialog-content *{
-	color: #fff;
+
+
+.fly-editor .fly-editor-content * {
+	color: #000000;
 }
-.ui-dialog .ui-dialog-content .ui-tab-container .ui-tab-panel-container{
+
+.fly-editor .fly-editor-content .ui-tab-container .ui-tab-panel-container {
 	background: none repeat scroll 0 0 transparent;
-	border: 1px solid #cccccc;
+	border: 1px solid #000000;
 }
-.ui-dialog .ui-dialog-content .ui-tab-container .ui-panel,
-.ui-dialog .ui-dialog-content .ui-tab-container .ui-show-description-panel,
-.ui-dialog .ui-dialog-content .ui-tab-container fieldset,
-.ui-dialog .ui-dialog-content .ui-tab-container input,
-.ui-dialog .ui-dialog-content .ui-tab-container select,
-.ui-dialog .ui-dialog-content .ui-tab-container textarea {
+
+.fly-editor .fly-editor-content .ui-panel,
+.fly-editor .fly-editor-content .ui-show-description-panel,
+.fly-editor .fly-editor-content fieldset,
+.fly-editor .fly-editor-content input,
+.fly-editor .fly-editor-content select,
+.fly-editor .fly-editor-content textarea {
 	background: none repeat scroll 0 0 transparent;
-	border: 1px solid #cccccc;
+	border: 1px solid #000000;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px; 
 	border-radius: 5px;
 }
-.ui-dialog .ui-dialog-content .ui-tab-container input:focus,
-.ui-dialog .ui-dialog-content .ui-tab-container select:focus,
-.ui-dialog .ui-dialog-content .ui-tab-container textarea:focus {
+
+.fly-editor .fly-editor-content input:focus,
+.fly-editor .fly-editor-content select:focus,
+.fly-editor .fly-editor-content textarea:focus {
 	-moz-box-shadow: 0 2px 8px #8f8f8f;
     -webkit-box-shadow: 0px 2px 8px #8f8f8f;
     box-shadow: 0px 2px 8px #8f8f8f;
@@ -517,8 +522,60 @@ div.ui-fs-sftp-icon {
     font-weight: bold;
 }
 
-.ui-dialog .ui-dialog-content .ui-tab-container .ui-show-description-panel,
-.ui-dialog .ui-dialog-content .ui-tab-container fieldset {
+.fly-editor .fly-editor-content .ui-show-description-panel,
+.fly-editor .fly-editor-content fieldset {
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	border-radius: 5px;
+}
+
+.fly-editor .ui-tab-container ul.ui-tabs li.active {
+	background: #696969;
+}
+
+.fly-editor .ui-tab-container ul.ui-tabs li a:hover {
+	background: none repeat scroll 0 0 transparent;
+}
+
+.fly-editor .ui-tab-container span.ui-required-tag {
+	color: red;
+	margin: 7px 7px 0;
+	position: absolute;
+}
+
+
+
+.ui-dialog .ui-dialog-content * {
+	color: #fff;
+}
+.ui-dialog .ui-dialog-content .ui-tab-container .ui-tab-panel-container {
+	background: none repeat scroll 0 0 transparent;
+	border: 1px solid #cccccc;
+}
+.ui-dialog .ui-dialog-content .ui-panel,
+.ui-dialog .ui-dialog-content .ui-show-description-panel,
+.ui-dialog .ui-dialog-content fieldset,
+.ui-dialog .ui-dialog-content input,
+.ui-dialog .ui-dialog-content select,
+.ui-dialog .ui-dialog-content textarea {
+	background: none repeat scroll 0 0 transparent;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	border-radius: 5px;
+}
+.ui-dialog .ui-dialog-content input:focus,
+.ui-dialog .ui-dialog-content select:focus,
+.ui-dialog .ui-dialog-content textarea:focus {
+	-moz-box-shadow: 0 2px 8px #8f8f8f;
+    -webkit-box-shadow: 0px 2px 8px #8f8f8f;
+    box-shadow: 0px 2px 8px #8f8f8f;
+    border-color:rgba(82, 168, 236, 0.8);
+    font-weight: bold;
+}
+
+.ui-dialog .ui-dialog-content .ui-show-description-panel,
+.ui-dialog .ui-dialog-content fieldset {
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px; 
 	border-radius: 5px;
@@ -622,3 +679,5 @@ div.ui-fs-sftp-icon {
 	position: absolute;
 	margin: 0;
 }
+
+.fly-form-editor-content 

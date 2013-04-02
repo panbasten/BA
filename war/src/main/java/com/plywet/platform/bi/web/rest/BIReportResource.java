@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.component.components.breadCrumb.BreadCrumbMeta;
@@ -24,6 +25,7 @@ import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
@@ -100,69 +102,39 @@ public class BIReportResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openFormsEditor(@CookieParam("repository") String repository,
 			@PathParam("id") String id) throws BIException {
-		// xml
-		// <fly:composition x="0" y="0" width="273" height="83" name="GoToCellDialog"
-		//		type="VBoxLayout" marginLeft="9" marginTop="9" marginRight="9" marginBottom="9">
-		//		<fly:HBoxLayout name="" marginLeft="0" marginTop="0" marginRight="0" marginBottom="0">
-		// 			<fly:labelObject name="label" text="Cell Location:" />
-		//			<fly:inputText name="lineEdit" />
-		//		</fly:HBoxLayout>
-		// </fly:composition>
-		// 
-		String doth = "<fly:composition x=\"0\" y=\"0\" width=\"600\" height=\"400\" name=\"GoToCellDialog\"" +
-		"		type=\"VBoxLayout\" marginLeft=\"9\" marginTop=\"9\" marginRight=\"9\" marginBottom=\"9\">" +
-		"		<fly:horizontalLayout name=\"\" marginLeft=\"0\" marginTop=\"0\" marginRight=\"0\" marginBottom=\"0\">" +
-		" 			<fly:labelObject name=\"label\" text=\"Cell Location:\" />" +
-		"			<fly:inputText name=\"lineEdit\" />" +
-		"		</fly:horizontalLayout>" +
-		" </fly:composition>";
-		
-		String dom = "<div class='ui-layout-float ui-helper-clearfix'>" +
-				"<div class='ui-label-default ui-helper-clearfix'>" +
-				"<label for='aaaaa'>连接名称</label>" +
-				"</div>" +
-				"<div class='ui-label-default ui-helper-clearfix'>" +
-				"<input id='aaaaa' type='text' value='test' />" +
-				"</div>" +
-				"</div>";
-		
-		String domStructure = 
-		"	\"domStructure\":{" +
-		"		\"type\" : \"fly:comosition\"" +
-		"		,\"attrs\" : {" +
-		"			\"width\": 600" +
-		"			,\"height\": 400" +
-		"		}" +
-		"		,\"subs\" : [" +
-		"			{" +
-		"				\"type\" : \"fly:horizontalLayout\"" +
-		"				,\"attrs\" : {" +
-		"					\"name\" : \"\"" +
-		"					,\"marginLeft\" : 0" +
-		"					,\"marginTop\" : 0" +
-		"					,\"marginRight\" : 0" +
-		"					,\"marginBottom\" : 0" +
-		"				}" +
-		"				,\"subs\" : [" +
-		"					{" +
-		"						\"type\" : \"fly:labelObject\"" +
-		"						,\"attrs\" : {" +
-		"							\"name\" : \"label\"" +
-		"							,\"text\" : \"Cell Location:\"" +
-		"						}" +
-		"					}" +
-		"					,{" +
-		"						\"type\" : \"fly:inputText\"" +
-		"						,\"attrs\" : {" +
-		"							\"name\" : \"lineEdit\"" +
-		"						}" +
-		"						,\"html\" : \"\"" +
-		"					}" +
-		"				]" +
-		"			}" +
-		"		]" +
-		"	}";
-		return "{\"dom\":\""+dom+"\","+domStructure+"}";
+
+		FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+
+		attrsMap.addVariable("formId", "test");
+
+		Object[] domString = PageTemplateInterpolator.interpolate(
+				"editor/test/test.h", attrsMap);
+
+		String domStructure = "	{" + "		\"type\" : \"fly:comosition\""
+				+ "		,\"attrs\" : {" + "			\"width\": 600"
+				+ "			,\"height\": 400" + "		}" + "		,\"subs\" : [" + "			{"
+				+ "				\"type\" : \"fly:horizontalLayout\""
+				+ "				,\"attrs\" : {" + "					\"name\" : \"\""
+				+ "					,\"marginLeft\" : 0" + "					,\"marginTop\" : 0"
+				+ "					,\"marginRight\" : 0" + "					,\"marginBottom\" : 0"
+				+ "				}" + "				,\"subs\" : [" + "					{"
+				+ "						\"type\" : \"fly:labelObject\""
+				+ "						,\"attrs\" : {" + "							\"name\" : \"label\""
+				+ "							,\"text\" : \"Cell Location:\"" + "						}"
+				+ "					}" + "					,{" + "						\"type\" : \"fly:inputText\""
+				+ "						,\"attrs\" : {" + "							\"name\" : \"lineEdit\""
+				+ "						}" + "						,\"html\" : \"\"" + "					}" + "				]"
+				+ "			}" + "		]" + "	}";
+
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("dom", (String) domString[0]);
+			jo.put("domStructure", JSONUtils
+					.convertStringToJSONObject(domStructure));
+		} catch (Exception e) {
+
+		}
+		return jo.toJSONString();
 	}
 
 	/**

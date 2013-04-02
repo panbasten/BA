@@ -2,6 +2,7 @@ package com.plywet.platform.bi.component.resolvers.layout;
 
 import java.util.List;
 
+import org.pentaho.di.core.Const;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -12,6 +13,7 @@ import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.HTMLWriter;
 import com.plywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.plywet.platform.bi.core.exception.BIPageException;
+import com.plywet.platform.bi.core.utils.Utils;
 
 public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
@@ -41,6 +43,17 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node subNode = nodeList.item(i);
+
+			String subNodeName = subNode.getNodeName();
+
+			// 如果是文字，判断是否为空，如果为空则不单独起一行
+			if (subNodeName.equals("#text")) {
+				if (Utils.isEmpty(Const.removeTAB(Const.removeCRLF(subNode
+						.getNodeValue())))) {
+					continue;
+				}
+			}
+
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			html.writeAttribute(HTML.ATTR_CLASS, HTML.LAYOUT_SINGLE_CLASS);
 			PageTemplateResolverType.replaceAll(subNode, html, script, attrs,

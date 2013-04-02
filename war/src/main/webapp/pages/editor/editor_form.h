@@ -38,7 +38,7 @@
 			<fly:pushbutton id="form_resize" icon="ui-icon-editor-resize" 
 				onclick="" title="调整尺寸" />
 		</div>
-		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix" 
+		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
 			style="margin:0 5px;position:relative;overflow:auto;">
 				<!-- margin 需要处理按字号处理高度，还要考虑是否有边框，以及边框宽度 -->
 				<!-- div class="fly-form-editor-component" style="width:70px;height:30px;top:30px;left:30px;"><label style="width:70px;height:16px;margin: 7px 0;">Find what:</label></div-->

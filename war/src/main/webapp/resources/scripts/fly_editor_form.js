@@ -226,15 +226,15 @@ Plywet.widget.FormEditor = function(cfg) {
 };
 
 Plywet.widget.FormEditor.prototype.initEditor = function() {
-	this.editorContent = $("<div id='"+this.id+"Content' class='fly-form-editor-content'></div>");
+	this.editorContent = $("<div id='"+this.id+"Content' class='fly-editor-content fly-form-editor-content'></div>");
 	this.editorContent.appendTo(this.eidtor);
 	
 	if ($.browser.msie && $.browser.version < 9){ // excanvas hack
-    	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-form-editor-canvas'></canvas>");
+    	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-editor-canvas fly-form-editor-canvas'></canvas>");
     	this.editorCanvas.appendTo(this.eidtor);
     	this.editorCanvas = window.G_vmlCanvasManager.initElement(this.editorCanvas.get(0));
     } else {
-    	this.editorCanvas = $("<canvas id='"+this.id+"Canvas' class='fly-form-editor-canvas'></canvas>");
+    	this.editorCanvas = $("<canvas id='"+this.id+"Canvas' class='fly-editor-canvas fly-form-editor-canvas'></canvas>");
     	this.editorCanvas.appendTo(this.eidtor);
     	this.editorCanvas = this.editorCanvas.get(0);
     }
