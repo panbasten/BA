@@ -37,7 +37,7 @@ public abstract class BaseComponentResolver implements
 		NodeList nodeList = node.getChildNodes();
 
 		if (nodeList != null) {
-			PageTemplateResolver.resolver(node, html, script, attrs, fileUrl);
+			PageTemplateResolver.resolverSubNode(node, html, script, attrs, fileUrl);
 		}
 		if (node.getNodeValue() != null) {
 			html.writeText(Const.removeTAB(Const

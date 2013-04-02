@@ -11,6 +11,7 @@ import com.plywet.platform.bi.component.resolvers.BaseComponentResolver;
 import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.HTMLWriter;
+import com.plywet.platform.bi.component.utils.PageTemplateResolver;
 import com.plywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.Utils;
@@ -56,7 +57,7 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			html.writeAttribute(HTML.ATTR_CLASS, HTML.LAYOUT_SINGLE_CLASS);
-			PageTemplateResolverType.replaceAll(subNode, html, script, attrs,
+			PageTemplateResolver.resolverNode(subNode, html, script, attrs,
 					fileUrl);
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 		}

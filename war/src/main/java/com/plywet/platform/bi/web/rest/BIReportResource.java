@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 import com.plywet.platform.bi.component.components.breadCrumb.BreadCrumbMeta;
 import com.plywet.platform.bi.component.components.browse.BrowseMeta;
@@ -109,6 +110,8 @@ public class BIReportResource {
 
 		Object[] domString = PageTemplateInterpolator.interpolate(
 				"editor/test/test.h", attrsMap);
+		
+		Document doc = PageTemplateInterpolator.getDomForEditor("editor/test/test.h", "test_");
 
 		String domStructure = "	{" + "		\"type\" : \"fly:comosition\""
 				+ "		,\"attrs\" : {" + "			\"width\": 600"

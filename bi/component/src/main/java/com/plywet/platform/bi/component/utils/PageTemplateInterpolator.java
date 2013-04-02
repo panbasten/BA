@@ -95,14 +95,14 @@ public class PageTemplateInterpolator {
 			HTMLWriter html = HTMLWriter.instance();
 			if (nodeId != null && !"".equals(nodeId)) {
 				doc = XmlUtils.getSubNodeById(doc, nodeId);
-				PageTemplateResolverType.replaceAll(doc, html, script, attrs,
+				PageTemplateResolver.resolverNode(doc, html, script, attrs,
 						fileUrl);
 			} else {
-				PageTemplateResolver
-						.resolver(doc, html, script, attrs, fileUrl);
+				PageTemplateResolver.resolverSubNode(doc, html, script, attrs, fileUrl);
 			}
 
 			return new Object[] { html.toString(), script };
+
 		} catch (Exception e) {
 			throw new BIPageException("解析页面标签出现错误.", e);
 		}

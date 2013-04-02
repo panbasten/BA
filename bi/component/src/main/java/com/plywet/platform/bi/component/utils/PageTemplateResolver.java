@@ -15,7 +15,17 @@ import com.plywet.platform.bi.core.exception.BIPageException;
  */
 public class PageTemplateResolver {
 
-	public static void resolver(Node node, HTMLWriter html,
+	/**
+	 * 解析node的所有子节点
+	 * 
+	 * @param node
+	 * @param html
+	 * @param script
+	 * @param attrs
+	 * @param fileUrl
+	 * @throws BIPageException
+	 */
+	public static void resolverSubNode(Node node, HTMLWriter html,
 			List<String> script, FLYVariableResolver attrs, String fileUrl)
 			throws BIPageException {
 		NodeList nodeList = node.getChildNodes();
@@ -25,8 +35,23 @@ public class PageTemplateResolver {
 
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node subNode = nodeList.item(i);
-			PageTemplateResolverType.replaceAll(subNode, html, script, attrs,
-					fileUrl);
+			resolverNode(subNode, html, script, attrs, fileUrl);
 		}
+	}
+
+	/**
+	 * 解析node节点，包括自身
+	 * 
+	 * @param node
+	 * @param html
+	 * @param script
+	 * @param attrs
+	 * @param fileUrl
+	 * @throws BIPageException
+	 */
+	public static void resolverNode(Node node, HTMLWriter html,
+			List<String> script, FLYVariableResolver attrs, String fileUrl)
+			throws BIPageException {
+		PageTemplateResolverType.replaceAll(node, html, script, attrs, fileUrl);
 	}
 }
