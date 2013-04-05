@@ -1305,3 +1305,8 @@ Plywet.widget.EasyTree.prototype.transdata=function(initdata){
 	}
 	return initdata;
 };
+
+Plywet.widget.EasyTree.prototype.select=function(id){
+	var node = $("#"+this.id).tree("find",id);
+	$("#"+this.id).tree("select",node.target);
+};

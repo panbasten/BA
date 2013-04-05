@@ -265,9 +265,8 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 		}
 		
 		var clickId = _self.clickDom(mouseCoords);
-		_self.clearSelected();
-		_self.addSelected(clickId);
-		_self.redraw();
+		_self.domStructureTree.select(clickId);
+		
 	});
 	
 	this.flush(this.cfg.data);
@@ -333,7 +332,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 	var config = {
 		id : 		"formStructPanelContent"
-		,onClick : 	Plywet.editors.form.action.struct_on_click
+		,onSelect : 	Plywet.editors.form.action.struct_on_select
 		,els :		[getNodeStructure(this.domStructure)]
 	};
 	
@@ -435,7 +434,7 @@ Plywet.widget.FormEditor.prototype.redraw = function() {
 };
 
 Plywet.editors.form.action = {
-	struct_on_click : function(node){
+	struct_on_select : function(node){
 		formEditorPanel_var.clearSelected();
 		formEditorPanel_var.addSelected(node.id);
 		formEditorPanel_var.redraw();
