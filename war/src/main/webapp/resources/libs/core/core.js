@@ -988,7 +988,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
             if(cfg.beforeSend) {
                 cfg.beforeSend.call(this, xhr, status);
             }
-    
+            
             Plywet.Logger.debug('Request before send:' + status + '.');
         },
         error: function(xhr, status, errorThrown) {

@@ -1,6 +1,11 @@
 package com.plywet.platform.bi.core.utils;
 
+import javax.xml.transform.TransformerException;
+
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -52,11 +57,68 @@ public class XmlUtils {
 		return string;
 	}
 
-	public static void setAttribute(Element node, String name, String value) {
+	/**
+	 * 设置属性
+	 * 
+	 * @param node
+	 * @param name
+	 * @param value
+	 */
+	public static void setAttribute(Node node, String name, String value) {
 		if (node == null) {
 			return;
 		}
-		node.setAttribute(name, value);
+		if (node instanceof Element) {
+			((Element) node).setAttribute(name, value);
+		} else if (node instanceof Document) {
+			Attr attr = ((Document) node).createAttribute(name);
+			attr.setValue(value);
+		}
+
 	}
 
+	/**
+	 * 返回文档Document的XML格式的字符串
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public static String toXMLString(Node node) throws TransformerException {
+		String str = "";
+
+		String nodeName = node.getNodeName();
+
+		if (nodeName.equals("#text")) {
+			return Const.NVL(node.getNodeValue(), "");
+		}
+
+		if (!nodeName.equals("#document")) {
+			str = str + "<" + nodeName;
+			NamedNodeMap nnm = node.getAttributes();
+			if (nnm != null) {
+				for (int i = 0; i < nnm.getLength(); i++) {
+					Node attr = nnm.item(i);
+					str = str + " " + attr.getNodeName() + "=\""
+							+ attr.getNodeValue() + "\"";
+				}
+			}
+			str = str + ">";
+			str = str + Const.CR;
+		}
+
+		NodeList nodeList = node.getChildNodes();
+		if (nodeList != null) {
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node subNode = nodeList.item(i);
+				str = str + toXMLString(subNode);
+			}
+		}
+
+		if (!nodeName.equals("#document")) {
+			str = str + "</" + nodeName + ">";
+			str = str + Const.CR;
+		}
+		return str;
+
+	}
 }

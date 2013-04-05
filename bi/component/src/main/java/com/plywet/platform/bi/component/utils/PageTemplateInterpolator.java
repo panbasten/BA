@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -40,6 +39,11 @@ public class PageTemplateInterpolator {
 	public static Object[] interpolate(String fileUrl, FLYVariableResolver attrs)
 			throws BIPageException {
 		return interpolate(fileUrl, new ArrayList<String>(), attrs, null);
+	}
+
+	public static Object[] interpolate(String fileUrl, Document doc,
+			FLYVariableResolver attrs) throws BIPageException {
+		return interpolate(fileUrl, doc, new ArrayList<String>(), attrs, null);
 	}
 
 	/**
@@ -92,20 +96,32 @@ public class PageTemplateInterpolator {
 			// 首先解析成dom对象进行替换
 			Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
 					domString.getBytes(Const.XML_ENCODING)));
+			return interpolate(fileUrl, doc, script, attrs, nodeId);
+
+		} catch (Exception e) {
+			throw new BIPageException("解析页面标签出现错误.", e);
+		}
+	}
+
+	public static Object[] interpolate(String fileUrl, Node doc,
+			List<String> script, FLYVariableResolver attrs, String nodeId)
+			throws BIPageException {
+		try {
 			HTMLWriter html = HTMLWriter.instance();
 			if (nodeId != null && !"".equals(nodeId)) {
 				doc = XmlUtils.getSubNodeById(doc, nodeId);
 				PageTemplateResolver.resolverNode(doc, html, script, attrs,
 						fileUrl);
 			} else {
-				PageTemplateResolver.resolverSubNode(doc, html, script, attrs, fileUrl);
+				PageTemplateResolver.resolverSubNode(doc, html, script, attrs,
+						fileUrl);
 			}
 
 			return new Object[] { html.toString(), script };
-
 		} catch (Exception e) {
 			throw new BIPageException("解析页面标签出现错误.", e);
 		}
+
 	}
 
 	/**
@@ -155,21 +171,25 @@ public class PageTemplateInterpolator {
 		return dom;
 	}
 
-	private static void modifySubDomForEditor(Node node, String prefix, int idx) {
+	private static int modifySubDomForEditor(Node node, String prefix, int idx) {
 		if (node == null) {
-			return;
+			return idx;
 		}
 
-		XmlUtils.setAttribute((Element) node, "__eid", prefix + "_" + (idx++));
+		XmlUtils.setAttribute(node, "__editor_id", prefix + "_" + (idx++));
 
 		NodeList nodeList = node.getChildNodes();
 
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node subNode = nodeList.item(i);
-				modifySubDomForEditor(subNode, prefix, idx);
+				String subNodeName = subNode.getNodeName();
+				if (!subNodeName.equals("#text")) {
+					idx = modifySubDomForEditor(subNode, prefix, idx++);
+				}
 			}
 		}
+		return idx;
 	}
 
 	/**
@@ -232,11 +252,13 @@ public class PageTemplateInterpolator {
 			} else if (result instanceof Expression) {
 				Expression expr = (Expression) result;
 				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result == null ? null : result.toString();
+				return result == null ? ("${" + expr.getExpressionString() + "}")
+						: result.toString();
 			} else if (result instanceof ExpressionString) {
 				ExpressionString expr = (ExpressionString) result;
 				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result == null ? null : result.toString();
+				return result == null ? ("${" + expr.getExpressionString() + "}")
+						: result.toString();
 			} else {
 				throw new RuntimeException(
 						"无效的解析类型：非 String、Expression、ExpressionString");

@@ -218,11 +218,25 @@ Plywet.widget.FormEditor = function(cfg) {
 	
 	this.off = {x:5,y:5};
 	
+	this.drawRectFillStyle = {strokeStyle:'#f00',fillStyle:'#f00',isFill:true};
+	this.drawRectStyle = {strokeStyle:'#f00'};
+	this.drawResizerStyle = {fillStyle:'#a0a0a0'};
+	
 	this.eidtor = $(Plywet.escapeClientId(this.id));
 	this.structure = $(Plywet.escapeClientId(this.structureId));
 	this.prop = $(Plywet.escapeClientId(this.propId));
 	
+	this.selected = [];
+	
 	this.initEditor();
+};
+
+Plywet.widget.FormEditor.prototype.clearSelected = function() {
+	this.selected = [];
+};
+
+Plywet.widget.FormEditor.prototype.addSelected = function(domId) {
+	this.selected.push(domId)
 };
 
 Plywet.widget.FormEditor.prototype.initEditor = function() {
@@ -273,22 +287,99 @@ Plywet.widget.FormEditor.prototype.changeSize = function(w, h) {
 
 Plywet.widget.FormEditor.prototype.flush = function(data) {
 	this.dom = data.dom;
-	this.domStructure = data.domStructure;
+	this.script = data.script;
+	this.domStructure = $(data.domStructure);
 	
 	this.editorContent.html(this.dom);
+	if(this.script){
+		for(var j=0;j<this.script.length;j++){
+			try{
+				eval(this.script[j]);
+			}catch(e){
+				Plywet.Logger.error(this.script[j]);
+			}
+		}
+	}
 	
-	this.changeSize(this.domStructure.attrs.width, this.domStructure.attrs.height);
+	var config = {
+		id : 		"formStructPanelContent"
+		,onClick : 	Plywet.editors.form.action.struct_on_click
+		,els :		[this.getNodeStructure(this.domStructure)]
+	};
+	
+	this.width = parseInt(this.domStructure.attr("width"));
+	this.height = parseInt(this.domStructure.attr("height"));
+	
+	this.changeSize(this.width, this.height);
+	
+	if(!this.domStructureTree){
+		this.domStructureTree = new Plywet.widget.EasyTree(config);
+	}
+	
+};
+
+Plywet.widget.FormEditor.prototype.getNodeStructure = function(node) {
+	var domId = node.attr("id");
+	if(!domId){
+		domId = "<无名称>";
+	}
+	var id = node.attr("__editor_id");
+	var rtn = {
+		id : id
+		,type : "node"
+		,displayName : domId + "--" + node.get(0).tagName
+	};
+	
+	var subNodes = node.children();
+	if(subNodes.size() > 0){
+		var els = [];
+		for(var i=0;i<subNodes.size();i++){
+			els.push(this.getNodeStructure($(subNodes[i])));
+		}
+		rtn.els = els;
+	}
+	
+	return rtn;
+	
 };
 
 Plywet.widget.FormEditor.prototype.redraw = function() {
 	this.ctx.clearRect(0,0,this.width+10,this.height+10);
 	
 	this.ctx.lineWidth=1;
+	
+	for(var i=0;i<this.selected.length;i++){
+		this.componentDim(this.selected[i]);
+	}
 
-	Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:0,y:0,width:600,height:400},this.off);
-	Plywet.widget.FlowChartUtils.drawRect(this.ctx, {x:30,y:30,width:70,height:30}, {strokeStyle:'#f00',fillStyle:'#f00',isFill:true}, "line", this.off);
-	Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:30,y:30,width:70,height:30},this.off,{fillStyle:'#a0a0a0'});
+};
 
+Plywet.widget.FormEditor.prototype.componentDim = function(selectedId) {
+	var dom = this.editorContent.find("[__editor_id="+selectedId+"]");
+	
+	if(dom.size() == 0){
+		Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:0,y:0,width:this.width,height:this.height},this.off);
+		return;
+	}
+	
+	var dim = Plywet.getElementDimensions(dom),
+		editorDim = Plywet.getElementDimensions(this.editorContent);
+	
+	var editorDim_top = dim.offsetTop-editorDim.offsetTop,
+		editorDim_left = dim.offsetLeft-editorDim.offsetLeft,
+		editorDim_width = dim.offsetWidth,
+		editorDim_height = dim.offsetHeight;
+	
+	Plywet.widget.FlowChartUtils.drawRect(this.ctx, {x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height}, this.drawRectStyle, "line", this.off);
+	Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height},this.off,this.drawResizerStyle);
+};
+
+Plywet.editors.form.action = {
+	struct_on_click : function(node){
+		formEditorPanel_var.clearSelected();
+		formEditorPanel_var.addSelected(node.id);
+		formEditorPanel_var.redraw();
+	}
 };
 
 

@@ -53,17 +53,8 @@
 					<span id="${editorId}StructClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.form.toggleContent('structPane');"></span>
 				</div>
 			</div>
-			<div class="ui-widget-content" style="overflow:auto;">
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
-				<p>11111</p>
+			<div id="${editorId}StructPanelContent" class="ui-widget-content" style="overflow:auto;">
+				
 			</div>
 		</div>
 		<div id="${editorId}PropPanel" class="ui-widget-panel">

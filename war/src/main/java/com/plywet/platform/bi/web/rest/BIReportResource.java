@@ -28,6 +28,7 @@ import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
+import com.plywet.platform.bi.core.utils.XmlUtils;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.service.BIReportDelegates;
@@ -98,46 +99,34 @@ public class BIReportResource {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/form/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openFormsEditor(@CookieParam("repository") String repository,
 			@PathParam("id") String id) throws BIException {
 
-		FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-
-		attrsMap.addVariable("formId", "test");
-
-		Object[] domString = PageTemplateInterpolator.interpolate(
-				"editor/test/test.h", attrsMap);
-		
-		Document doc = PageTemplateInterpolator.getDomForEditor("editor/test/test.h", "test_");
-
-		String domStructure = "	{" + "		\"type\" : \"fly:comosition\""
-				+ "		,\"attrs\" : {" + "			\"width\": 600"
-				+ "			,\"height\": 400" + "		}" + "		,\"subs\" : [" + "			{"
-				+ "				\"type\" : \"fly:horizontalLayout\""
-				+ "				,\"attrs\" : {" + "					\"name\" : \"\""
-				+ "					,\"marginLeft\" : 0" + "					,\"marginTop\" : 0"
-				+ "					,\"marginRight\" : 0" + "					,\"marginBottom\" : 0"
-				+ "				}" + "				,\"subs\" : [" + "					{"
-				+ "						\"type\" : \"fly:labelObject\""
-				+ "						,\"attrs\" : {" + "							\"name\" : \"label\""
-				+ "							,\"text\" : \"Cell Location:\"" + "						}"
-				+ "					}" + "					,{" + "						\"type\" : \"fly:inputText\""
-				+ "						,\"attrs\" : {" + "							\"name\" : \"lineEdit\""
-				+ "						}" + "						,\"html\" : \"\"" + "					}" + "				]"
-				+ "			}" + "		]" + "	}";
-
-		JSONObject jo = new JSONObject();
 		try {
-			jo.put("dom", (String) domString[0]);
-			jo.put("domStructure", JSONUtils
-					.convertStringToJSONObject(domStructure));
-		} catch (Exception e) {
+			Document doc = PageTemplateInterpolator.getDomForEditor(
+					"editor/test/test.h", "form_" + id);
 
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					"editor/test/test.h", doc, attrsMap);
+			String dom = (String) domString[0];
+			List<String> script = (List<String>) domString[1];
+
+			String domStructure = XmlUtils.toXMLString(doc);
+
+			JSONObject jo = new JSONObject();
+			jo.put("dom", dom);
+			jo.put("script", JSONUtils.convertToJSONArray(script));
+			jo.put("domStructure", domStructure);
+
+			return jo.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建Form页面出现错误。", ex);
 		}
-		return jo.toJSONString();
 	}
 
 	/**
@@ -200,7 +189,7 @@ public class BIReportResource {
 
 			return result.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建转换页面出现错误。", ex);
+			throw new BIException("创建Form编辑器页面出现错误。", ex);
 		}
 	}
 }

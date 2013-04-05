@@ -13,7 +13,7 @@
 	padding:0;
 }
 .ui-tree-node{
-	height:18px;
+	height:20px;
 	white-space:nowrap;
 	cursor:pointer;
 }
@@ -101,10 +101,14 @@
 	white-space:nowrap;
 }
 
-.ui-tree-node-hover{
+.ui-tree-node-hover,
+.ui-tree-node-hover .ui-tree-indent,
+.ui-tree-node-hover .ui-tree-title{
 	background:#fafafa;
 }
-.ui-tree-node-selected{
+.ui-tree-node-selected,
+.ui-tree-node-selected .ui-tree-indent,
+.ui-tree-node-selected .ui-tree-title {
 	background:#FBEC88;
 }
 .ui-tree-checkbox{

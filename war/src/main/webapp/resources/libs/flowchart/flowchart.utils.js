@@ -220,10 +220,12 @@ Plywet.widget.FlowChartUtils = {
 	/**
 	 * 画调整块
 	 */
-	drawResizer : function(ctx, pos, off, conf) {
+	drawResizer : function(ctx, pos, offa, confa) {
 		ctx.save();
 		
-		conf = conf || {};
+		var off = $.extend({ x:0, y:0 }, offa);
+		
+		var conf = $.extend({}, confa);
 		
 		ctx.globalAlpha = conf.globalAlpha || 1;
 		ctx.lineWidth = conf.lineWidth || 1;
@@ -231,8 +233,6 @@ Plywet.widget.FlowChartUtils = {
 		ctx.strokeStyle = conf.strokeStyle || '#00f';
 		
 		var resizerSize = conf.resizerSize || 6; 
-		
-		off = off || {x:0, y:0};
 		
 		off.x = off.x - (resizerSize / 2);
 		off.y = off.y - (resizerSize / 2);
