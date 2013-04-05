@@ -65,6 +65,7 @@
 				</div>
 			</div>
 			<div class="ui-widget-content">
+				
 			</div>
 		</div>
 	</div>

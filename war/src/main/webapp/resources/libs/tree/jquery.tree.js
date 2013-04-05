@@ -1269,6 +1269,7 @@
         }
     };
 })(jQuery);
+
 Plywet.widget.EasyTree=function(cfg){
 	this.cfg=cfg;    
 	this.treedata=this.transdata(cfg.els?cfg.els:[]);
@@ -1278,7 +1279,9 @@ Plywet.widget.EasyTree=function(cfg){
 	$("#"+this.id).tree(cfg);
 	$("#"+this.id).tree("loadData",this.treedata);
 };
+
 Plywet.extend(Plywet.widget.EasyTree, Plywet.widget.BaseWidget);
+
 Plywet.widget.EasyTree.prototype.transdata=function(initdata){
 	if(initdata){
 		for(var i=0; i<initdata.length;i++){

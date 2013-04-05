@@ -255,40 +255,70 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 	
 	this.ctx = this.editorCanvas.getContext('2d');
 	
+	
+	var _self = this;
+	this.eidtor.mouseup(function(e){
+		var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+		
+		if(!_self.domSize){
+			_self.createDomSize();
+		}
+		
+		var clickId = _self.clickDom(mouseCoords);
+		_self.clearSelected();
+		_self.addSelected(clickId);
+		_self.redraw();
+	});
+	
 	this.flush(this.cfg.data);
 };
 
-Plywet.widget.FormEditor.prototype.changeSize = function(w, h) {
-	var $canvas = $(this.editorCanvas);
-	
-	if (w) {
-		this.width= w || 600;
-		this.editorContent.width(w);
+Plywet.widget.FormEditor.prototype.clickDom = function(m) {
+	var id, dim, dimLeft, dimTop;
+	for (var d in this.domSize) {
+		dim = this.domSize[d];
 		
-		if ($.browser.msie && $.browser.version < 9){
-			$canvas.width(w+10);
-		} else {
-			$canvas.attr("width", w+10);
+		if(dim.offsetLeft <= m.x && (dim.offsetLeft+dim.offsetWidth) >= m.x
+			&& dim.offsetTop <= m.y && (dim.offsetTop+dim.offsetHeight) >= m.y){
+			id = d;
 		}
 	}
-	if (h) {
-		this.height= h || 400;
-		this.editorContent.height(h);
+	return id;
+};
+
+Plywet.widget.FormEditor.prototype.createDomSize = function() {
+	this.domSize = {};
+	
+	var editorDim = Plywet.getElementDimensions(this.editorContent);
+	
+	createSubDomSize(this.domStructure, editorDim, this);
+	
+	function createSubDomSize(node, editorDim, _self) {
+		var id = node.attr("__editor_id"),
+			dom = _self.editorContent.find("[__editor_id="+id+"]");
 		
-		if ($.browser.msie && $.browser.version < 9){
-			$canvas.height(h+10);
-		} else {
-			$canvas.attr("height", h+10);
+		if(dom.size() > 0){
+			_self.domSize[id] = Plywet.getElementDimensions(dom);
+			
+			_self.domSize[id].offsetTop = _self.domSize[id].offsetTop - editorDim.offsetTop;
+			_self.domSize[id].offsetLeft = _self.domSize[id].offsetLeft - editorDim.offsetLeft;
+		}
+		
+		var subNodes = node.children();
+		if(subNodes.size() > 0){
+			for(var i=0;i<subNodes.size();i++){
+				createSubDomSize($(subNodes[i]), editorDim, _self);
+			}
 		}
 	}
-	
-	this.redraw();
 };
 
 Plywet.widget.FormEditor.prototype.flush = function(data) {
 	this.dom = data.dom;
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
+	
+	this.domSize = null;
 	
 	this.editorContent.html(this.dom);
 	if(this.script){
@@ -304,42 +334,67 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	var config = {
 		id : 		"formStructPanelContent"
 		,onClick : 	Plywet.editors.form.action.struct_on_click
-		,els :		[this.getNodeStructure(this.domStructure)]
+		,els :		[getNodeStructure(this.domStructure)]
 	};
 	
 	this.width = parseInt(this.domStructure.attr("width"));
 	this.height = parseInt(this.domStructure.attr("height"));
-	
-	this.changeSize(this.width, this.height);
+	changeSize(this.width, this.height, this);
 	
 	if(!this.domStructureTree){
 		this.domStructureTree = new Plywet.widget.EasyTree(config);
 	}
 	
-};
-
-Plywet.widget.FormEditor.prototype.getNodeStructure = function(node) {
-	var domId = node.attr("id");
-	if(!domId){
-		domId = "<无名称>";
-	}
-	var id = node.attr("__editor_id");
-	var rtn = {
-		id : id
-		,type : "node"
-		,displayName : domId + "--" + node.get(0).tagName
-	};
-	
-	var subNodes = node.children();
-	if(subNodes.size() > 0){
-		var els = [];
-		for(var i=0;i<subNodes.size();i++){
-			els.push(this.getNodeStructure($(subNodes[i])));
+	function changeSize(w, h, _self) {
+		var $canvas = $(_self.editorCanvas);
+		
+		if (w) {
+			_self.width= w || 600;
+			_self.editorContent.width(w);
+			
+			if ($.browser.msie && $.browser.version < 9){
+				$canvas.width(w+10);
+			} else {
+				$canvas.attr("width", w+10);
+			}
 		}
-		rtn.els = els;
+		if (h) {
+			_self.height= h || 400;
+			_self.editorContent.height(h);
+			
+			if ($.browser.msie && $.browser.version < 9){
+				$canvas.height(h+10);
+			} else {
+				$canvas.attr("height", h+10);
+			}
+		}
+		
+		_self.redraw();
 	}
 	
-	return rtn;
+	function getNodeStructure(node) {
+		var domId = node.attr("id");
+		if(!domId){
+			domId = "<无名称>";
+		}
+		var id = node.attr("__editor_id");
+		var rtn = {
+			id : id
+			,type : "node"
+			,displayName : domId + "--" + node.get(0).tagName
+		};
+		
+		var subNodes = node.children();
+		if(subNodes.size() > 0){
+			var els = [];
+			for(var i=0;i<subNodes.size();i++){
+				els.push(getNodeStructure($(subNodes[i])));
+			}
+			rtn.els = els;
+		}
+		
+		return rtn;
+	}
 	
 };
 
@@ -349,29 +404,34 @@ Plywet.widget.FormEditor.prototype.redraw = function() {
 	this.ctx.lineWidth=1;
 	
 	for(var i=0;i<this.selected.length;i++){
-		this.componentDim(this.selected[i]);
-	}
-
-};
-
-Plywet.widget.FormEditor.prototype.componentDim = function(selectedId) {
-	var dom = this.editorContent.find("[__editor_id="+selectedId+"]");
-	
-	if(dom.size() == 0){
-		Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:0,y:0,width:this.width,height:this.height},this.off);
-		return;
+		redrawSelectComponent(this.selected[i], this);
 	}
 	
-	var dim = Plywet.getElementDimensions(dom),
-		editorDim = Plywet.getElementDimensions(this.editorContent);
-	
-	var editorDim_top = dim.offsetTop-editorDim.offsetTop,
-		editorDim_left = dim.offsetLeft-editorDim.offsetLeft,
-		editorDim_width = dim.offsetWidth,
-		editorDim_height = dim.offsetHeight;
-	
-	Plywet.widget.FlowChartUtils.drawRect(this.ctx, {x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height}, this.drawRectStyle, "line", this.off);
-	Plywet.widget.FlowChartUtils.drawResizer(this.ctx, {x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height},this.off,this.drawResizerStyle);
+	function redrawSelectComponent(selectedId, _self) {
+		var dom = _self.editorContent.find("[__editor_id="+selectedId+"]");
+		
+		if(dom.size() == 0){
+			Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
+					{x:0,y:0,width:_self.width,height:_self.height},_self.off);
+			return;
+		}
+		
+		var dim = Plywet.getElementDimensions(dom),
+			editorDim = Plywet.getElementDimensions(_self.editorContent);
+		
+		var editorDim_top = dim.offsetTop-editorDim.offsetTop,
+			editorDim_left = dim.offsetLeft-editorDim.offsetLeft,
+			editorDim_width = dim.offsetWidth,
+			editorDim_height = dim.offsetHeight;
+		
+		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+				{x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height}, 
+				_self.drawRectStyle, "line", _self.off);
+		Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
+				{x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height},
+				_self.off,_self.drawResizerStyle);
+	}
+
 };
 
 Plywet.editors.form.action = {
