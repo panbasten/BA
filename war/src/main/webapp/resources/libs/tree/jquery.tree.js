@@ -1271,7 +1271,7 @@
 })(jQuery);
 
 Plywet.widget.EasyTree=function(cfg){
-	this.cfg=cfg;    
+	this.cfg=cfg;
 	this.treedata=this.transdata(cfg.els?cfg.els:[]);
 	this.id = cfg.id;
     this.jqId = Plywet.escapeClientId(this.id);
@@ -1283,27 +1283,28 @@ Plywet.widget.EasyTree=function(cfg){
 Plywet.extend(Plywet.widget.EasyTree, Plywet.widget.BaseWidget);
 
 Plywet.widget.EasyTree.prototype.transdata=function(initdata){
+	var rtn = [];
 	if(initdata){
-		for(var i=0; i<initdata.length;i++){
-				initdata[i].text=initdata[i].displayName;
-				initdata[i].iconCls=initdata[i].icon;
-				initdata[i].children=initdata[i].els;
-				if(initdata[i].els){
-					recursion(initdata[i].els);
-				}	
-		}
+		rtn = _transdata(initdata);
 	}
-	function recursion(array){
-		for(var i=0;i<array.length;i++ ){
-				array[i].text=array[i].displayName;
-				array[i].iconCls=array[i].icon;
-				array[i].children=array[i].els;
-				if(array[i].els&&array[i].els.length>0){
-					recursion(array[i].els);
-				}
+	function _transdata(array){
+		var rtn = [];
+		for(var i=0;i<array.length;i++){
+			var conf = {};
+			conf.id=array[i].id;
+			conf.text=array[i].displayName;
+			conf.iconCls=array[i].icon;
+			if(array[i].data){
+				conf.attributes=array[i].data;
+			}
+			if(array[i].els&&array[i].els.length>0){
+				conf.children=_transdata(array[i].els);
+			}
+			rtn.push(conf);
 		}
+		return rtn;
 	}
-	return initdata;
+	return rtn;
 };
 
 Plywet.widget.EasyTree.prototype.select=function(id){

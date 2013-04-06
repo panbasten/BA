@@ -1,6 +1,7 @@
 package com.plywet.platform.bi.web.rest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -164,6 +166,18 @@ public class BIReportResource {
 					plugin.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, cp
 							.getDescription());
 					plugin.addAttribute(HTML.ATTR_TITLE, cp.getTooltip());
+					
+					Map dataMap = new HashMap();
+					// TODO
+					JSONArray ja = new JSONArray();
+					JSONObject jo = new JSONObject();
+					jo.put("propName", "objectId");
+					jo.put("propDefaultValue", "");
+					jo.put("propType", "input");
+					ja.add(jo);
+					dataMap.put("props", ja);
+					plugin.setData(dataMap);
+					
 					browseMeta.addContent(plugin);
 				}
 

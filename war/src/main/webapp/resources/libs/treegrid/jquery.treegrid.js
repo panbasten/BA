@@ -857,31 +857,33 @@
 				
 				function createTable(fromFrozenColumns, treeLevel, treeNodes) {
 					var tableArr = [ "<table class=\"ui-datagrid-btable\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tbody>" ];
-					for ( var i = 0; i < treeNodes.length; i++) {
-						var row = treeNodes[i];
-						if (row.state != "open" && row.state != "closed") {
-							row.state = "open";
-						}
-						var rowStyle = opts.rowStyler ? opts.rowStyler.call(target, row) : "";
-						var style = rowStyle ? "style=\"" + rowStyle + "\"" : "";
-						var rowId = rowIdPrefix + "-" + (fromFrozenColumns ? 1 : 2) + "-" + row[opts.idField];
-						tableArr.push("<tr id=\""
-							+ rowId
-							+ "\" class=\"ui-datagrid-row\" node-id="
-							+ row[opts.idField] + " "
-							+ style + ">");
-						tableArr = tableArr.concat(_self.renderRow.call(_self, target, columnFields, fromFrozenColumns, treeLevel, row));
-						tableArr.push("</tr>");
-						if (row.children && row.children.length) {
-							var tt = createTable(fromFrozenColumns, treeLevel + 1, row.children);
-							var v = row.state == "closed" ? "none"
-									: "block";
-							tableArr.push("<tr class=\"ui-treegrid-tr-tree\"><td style=\"border:0px\" colspan="
-									+ (columnFields.length + (opts.rownumbers ? 1 : 0))
-									+ "><div style=\"display:"
-									+ v + "\">");
-							tableArr = tableArr.concat(tt);
-							tableArr.push("</div></td></tr>");
+					if (treeNodes) {
+						for ( var i = 0; i < treeNodes.length; i++) {
+							var row = treeNodes[i];
+							if (row.state != "open" && row.state != "closed") {
+								row.state = "open";
+							}
+							var rowStyle = opts.rowStyler ? opts.rowStyler.call(target, row) : "";
+							var style = rowStyle ? "style=\"" + rowStyle + "\"" : "";
+							var rowId = rowIdPrefix + "-" + (fromFrozenColumns ? 1 : 2) + "-" + row[opts.idField];
+							tableArr.push("<tr id=\""
+								+ rowId
+								+ "\" class=\"ui-datagrid-row\" node-id="
+								+ row[opts.idField] + " "
+								+ style + ">");
+							tableArr = tableArr.concat(_self.renderRow.call(_self, target, columnFields, fromFrozenColumns, treeLevel, row));
+							tableArr.push("</tr>");
+							if (row.children && row.children.length) {
+								var tt = createTable(fromFrozenColumns, treeLevel + 1, row.children);
+								var v = row.state == "closed" ? "none"
+										: "block";
+								tableArr.push("<tr class=\"ui-treegrid-tr-tree\"><td style=\"border:0px\" colspan="
+										+ (columnFields.length + (opts.rownumbers ? 1 : 0))
+										+ "><div style=\"display:"
+										+ v + "\">");
+								tableArr = tableArr.concat(tt);
+								tableArr.push("</div></td></tr>");
+							}
 						}
 					}
 					tableArr.push("</tbody></table>");
@@ -1240,3 +1242,13 @@
 			}
 		});
 })(jQuery);
+
+Plywet.widget.EasyTreeGrid=function(cfg){
+	this.cfg=cfg;
+	this.id=cfg.id;
+	this.jqId = Plywet.escapeClientId(this.id);
+    this.jq = $(this.jqId);
+	$("#"+this.id).treegrid(cfg);
+};
+
+Plywet.extend(Plywet.widget.EasyTreeGrid, Plywet.widget.BaseWidget);

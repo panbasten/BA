@@ -64,7 +64,7 @@
 					<span id="${editorId}PropClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.form.toggleContent('propPane');"></span>
 				</div>
 			</div>
-			<div class="ui-widget-content">
+			<div id="${editorId}PropPanelContent" class="ui-widget-content">
 				
 			</div>
 		</div>

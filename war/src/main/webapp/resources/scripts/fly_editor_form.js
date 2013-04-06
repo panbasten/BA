@@ -226,6 +226,8 @@ Plywet.widget.FormEditor = function(cfg) {
 	this.structure = $(Plywet.escapeClientId(this.structureId));
 	this.prop = $(Plywet.escapeClientId(this.propId));
 	
+	this.formStepBar = $(Plywet.escapeClientId("formStepBar"));
+	
 	this.selected = [];
 	
 	this.initEditor();
@@ -265,7 +267,9 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 		}
 		
 		var clickId = _self.clickDom(mouseCoords);
-		_self.domStructureTree.select(clickId);
+		if(clickId){
+			_self.domStructureTree.select(clickId);
+		}
 		
 	});
 	
@@ -330,18 +334,39 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 		}
 	}
 	
-	var config = {
-		id : 		"formStructPanelContent"
-		,onSelect : 	Plywet.editors.form.action.struct_on_select
-		,els :		[getNodeStructure(this.domStructure)]
-	};
-	
 	this.width = parseInt(this.domStructure.attr("width"));
 	this.height = parseInt(this.domStructure.attr("height"));
 	changeSize(this.width, this.height, this);
 	
 	if(!this.domStructureTree){
+		var config = {
+			id : 		"formStructPanelContent"
+			,onSelect : 	Plywet.editors.form.action.struct_on_select
+			,els :		[getNodeStructure(this.domStructure, this)]
+		};
 		this.domStructureTree = new Plywet.widget.EasyTree(config);
+	}
+	
+	
+	if(!this.domProp){
+		var config = {
+			id: 			"formPropPanelContent",
+			animate:		true,
+			collapsible:	true,
+			idField:		"propName",
+			treeField:		"propName",
+			frozenColumns:[[
+                {field:'propName',title:'属性',width:150,
+	                formatter:function(value){
+	                	return '<span style="color:red">'+value+'</span>';
+	                }
+                }
+			]],
+			columns:[[
+				{field:'propValue',title:'值',width:150}
+			]]
+		};
+		this.domProp = new Plywet.widget.EasyTreeGrid(config);
 	}
 	
 	function changeSize(w, h, _self) {
@@ -371,23 +396,38 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 		_self.redraw();
 	}
 	
-	function getNodeStructure(node) {
+	function getNodeStructure(node, _self) {
 		var domId = node.attr("id");
 		if(!domId){
 			domId = "<无名称>";
 		}
-		var id = node.attr("__editor_id");
+		var id = node.attr("__editor_id"),
+			type = node.attr("__editor_type"),
+			typeName = "";
+		if(type){
+			var plugin = _self.formStepBar.find(Plywet.escapeClientId("leaf:"+type));
+			if(plugin.size() == 0){
+				typeName = "构件";
+			}else{
+				typeName = plugin.data("data")["displayName"];
+			}
+		}else{
+			type = typeName = node.get(0).tagName;
+		}
 		var rtn = {
 			id : id
 			,type : "node"
-			,displayName : domId + "--" + node.get(0).tagName
+			,data : {
+				pluginType : type
+			}
+			,displayName : "<b>"+domId+"</b>&nbsp;&nbsp;["+typeName+"]"
 		};
 		
 		var subNodes = node.children();
 		if(subNodes.size() > 0){
 			var els = [];
 			for(var i=0;i<subNodes.size();i++){
-				els.push(getNodeStructure($(subNodes[i])));
+				els.push(getNodeStructure($(subNodes[i]), _self));
 			}
 			rtn.els = els;
 		}
@@ -435,6 +475,21 @@ Plywet.widget.FormEditor.prototype.redraw = function() {
 
 Plywet.editors.form.action = {
 	struct_on_select : function(node){
+		var pluginType = $(node.target).data("uiTreeNode").attributes.pluginType;
+		var props = [];
+		if(pluginType.indexOf("fly:")>-1){ // fly组件
+			var plugin = $(Plywet.escapeClientId("formStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
+			if(plugin.size() == 0){// 表示构件
+				props = [{propName:"objectId",propType:"input"}];
+			}else{
+				props = plugin.data("data")["props"];
+			}
+		}else{// html组件
+			props = [{propName:"objectId",propType:"input"}];
+		}
+		// TODO
+		console.log(props);
+		
 		formEditorPanel_var.clearSelected();
 		formEditorPanel_var.addSelected(node.id);
 		formEditorPanel_var.redraw();

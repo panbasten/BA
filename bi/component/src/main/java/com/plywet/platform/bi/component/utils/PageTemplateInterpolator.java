@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.XmlUtils;
 import com.plywet.platform.bi.el.expression.Expression;
@@ -177,6 +178,11 @@ public class PageTemplateInterpolator {
 		}
 
 		XmlUtils.setAttribute(node, "__editor_id", prefix + "_" + (idx++));
+		ComponentPlugin plugin = PageTemplateResolverType.getPlugin(node
+				.getNodeName());
+		if (plugin != null) {
+			XmlUtils.setAttribute(node, "__editor_type", plugin.getId());
+		}
 
 		NodeList nodeList = node.getChildNodes();
 

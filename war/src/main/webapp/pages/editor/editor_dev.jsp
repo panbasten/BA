@@ -123,6 +123,8 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/grid/jquery.datagrid.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/libs/form/jquery.form.js"></script>
 		
 		

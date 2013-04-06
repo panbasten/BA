@@ -18,27 +18,29 @@ Plywet.widget.BrowsePanel.prototype={
 			if(this.id) $("#"+this.id).append(this.container);
 		};
 		if(this.cfg.attrs && this.cfg.attrs.style){
-			$(this.container).css(this.cfg.attrs.style);
+			this.container.css(this.cfg.attrs.style);
 		}
 		if(this.cfg.attrs && this.cfg.attrs["class"]){
-			$(this.container).addClass(this.cfg.attrs["class"]);
+			this.container.addClass(this.cfg.attrs["class"]);
 		}
 		return this.container;
 	},
 	_createContainer:function(){
-		var container=document.createElement('div');
-		this.container=container;
-		$(container).addClass('ui-browsepanel-con');
+		this.container=$("<div></div>");
+		this.container.addClass('ui-browsepanel-con');
 		this.addItem(this.cfg.items);
 	},
 	getSelections:function(){
 		var items = [];
-		$(this.container).children().each(function(i){
+		this.container.children().each(function(i){
 			if($(this).hasClass("ui-state-active")){
 				items.push($(this).data("data"));
 			}
 		});
 		return items;
+	},
+	getItem:function(id){
+		return this.container.find(Plywet.escapeClientId(id));
 	},
 	addItem:function(items){
 		if(!items) return;
@@ -71,7 +73,7 @@ Plywet.widget.BrowsePanel.prototype={
 			itemDom.append(icon);
 			itemDom.append(span);
 			
-			$(this.container).append(itemDom);
+			this.container.append(itemDom);
 			
 			// click event
 			itemDom.bind("click",item,function(event){
@@ -126,14 +128,8 @@ Plywet.widget.BrowsePanel.prototype={
 	flush:function(cfg){
 		if(!cfg) return;
 		this.cfg = cfg;
-		$(this.container).html('');
+		this.container.html('');
 		this.addItem(cfg.items);
-	},
-	getDom:function(){
-		$(this.container).attr({
-			oncontextmenu:"return false"
-		});
-		return this.container;
 	},
 	getCurrentData:function() {
 		return this.cfg.attrs;
