@@ -1,10 +1,11 @@
 package com.plywet.platform.bi.component.vo;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONObject;
 import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
-import com.plywet.platform.bi.component.core.ComponentEnumInterface;
+import com.plywet.platform.bi.component.resolvers.enums.FLYEnumUtils;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.core.utils.XmlUtils;
@@ -17,7 +18,6 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 	private String defaultValueStr;
 	private Object defaultValue;
 
-	@SuppressWarnings("unchecked")
 	private ComponentAttribute(Node attributesNode) throws Exception {
 		this.name = XmlUtils.getTagOrAttribute(attributesNode, "name");
 		this.required = Utils.toBoolean(XmlUtils.getTagOrAttribute(
@@ -51,13 +51,28 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 		this.editorType = XmlUtils.getTagOrAttribute(attributesNode,
 				"editorType");
 
-		String editorOptionEnumStr = XmlUtils.getTagOrAttribute(attributesNode,
+		this.editorOptionEnum = XmlUtils.getTagOrAttribute(attributesNode,
 				"editorOptionEnum");
-		if (StringUtils.isNotEmpty(editorOptionEnumStr)) {
-			this.editorOptionEnum = (Class<? extends ComponentEnumInterface>) Class
-					.forName(editorOptionEnumStr);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jo = new JSONObject();
+		jo.put("name", this.name);
+		jo.put("description", this.description);
+		jo.put("tooltip", this.tooltip);
+		jo.put("editorType", this.editorType);
+
+		if (this.editorOptionEnum != null) {
+			jo.put("editorOptionEnum", FLYEnumUtils
+					.getEnumJSONArray(this.editorOptionEnum));
 		}
 
+		jo.put("required", required);
+		jo.put("defaultValue", defaultValueStr);
+		return jo;
 	}
 
 	public static ComponentAttribute instance(Node attributesNode)

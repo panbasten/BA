@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -68,6 +69,20 @@ public class ComponentPlugin {
 		}
 	}
 
+	/**
+	 * 得到JSON格式的属性集
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public JSONArray getAttributesJSONArray() {
+		JSONArray ja = new JSONArray();
+		for (ComponentAttributeInterface attr : attributes) {
+			ja.add(attr.toJSONObject());
+		}
+		return ja;
+	}
+
 	public void addAttributeGroup(ComponentAttributeGroup attrGroup) {
 		addAttribute(attrGroup);
 		for (ComponentAttribute attr : attrGroup.getAttributes()) {
@@ -77,9 +92,7 @@ public class ComponentPlugin {
 	}
 
 	public void addAttribute(ComponentAttributeInterface attr) {
-
 		attributes.add(attr);
-
 		attributesMap.put(attr.getName().toLowerCase(), attr);
 	}
 

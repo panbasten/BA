@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -137,6 +136,7 @@ public class BIReportResource {
 	 * @return
 	 * @throws BIException
 	 */
+	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/form/editor")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -168,14 +168,7 @@ public class BIReportResource {
 					plugin.addAttribute(HTML.ATTR_TITLE, cp.getTooltip());
 					
 					Map dataMap = new HashMap();
-					// TODO
-					JSONArray ja = new JSONArray();
-					JSONObject jo = new JSONObject();
-					jo.put("propName", "objectId");
-					jo.put("propDefaultValue", "");
-					jo.put("propType", "input");
-					ja.add(jo);
-					dataMap.put("props", ja);
+					dataMap.put("props", cp.getAttributesJSONArray());
 					plugin.setData(dataMap);
 					
 					browseMeta.addContent(plugin);

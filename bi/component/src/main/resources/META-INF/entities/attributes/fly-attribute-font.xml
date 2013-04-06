@@ -25,7 +25,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYFontWeightEnum</editorOptionEnum>
+		<editorOptionEnum>FontWeight</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.FontWeight</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.FontWeight</tooltip>
 	</attribute>

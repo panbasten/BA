@@ -3,6 +3,8 @@ package com.plywet.platform.bi.component.vo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -35,6 +37,23 @@ public class ComponentAttributeGroup extends BaseComponentAttribute implements
 				}
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jo = new JSONObject();
+		jo.put("name", this.name);
+		jo.put("description", this.description);
+		jo.put("tooltip", this.tooltip);
+
+		JSONArray ja = new JSONArray();
+		for (ComponentAttribute attr : attrs) {
+			ja.add(attr.toJSONObject());
+		}
+		jo.put("attrs", ja);
+
+		return jo;
 	}
 
 	public List<ComponentAttribute> getAttributes() {

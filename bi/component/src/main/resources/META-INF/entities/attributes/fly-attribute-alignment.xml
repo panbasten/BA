@@ -10,7 +10,7 @@
 		<type>java.lang.String</type>
 		<defaultValue>left</defaultValue>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYAlignHorizontalEnum</editorOptionEnum>
+		<editorOptionEnum>AlignHorizontal</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignHorizontal</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignHorizontal</tooltip>
 	</attribute>
@@ -21,7 +21,7 @@
 		<type>java.lang.String</type>
 		<defaultValue>middle</defaultValue>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYAlignVerticalEnum</editorOptionEnum>
+		<editorOptionEnum>AlignVertical</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignVertical</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignVertical</tooltip>
 	</attribute>

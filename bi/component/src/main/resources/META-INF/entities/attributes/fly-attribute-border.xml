@@ -25,7 +25,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYColorEnum</editorOptionEnum>
+		<editorOptionEnum>Color</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderColor</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderColor</tooltip>
 	</attribute>
@@ -35,7 +35,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYBorderStyleEnum</editorOptionEnum>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderStyle</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderStyle</tooltip>
 	</attribute>
@@ -61,7 +61,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYColorEnum</editorOptionEnum>
+		<editorOptionEnum>Color</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTopColor</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTopColor</tooltip>
 	</attribute>
@@ -71,7 +71,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYBorderStyleEnum</editorOptionEnum>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTopStyle</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTopStyle</tooltip>
 	</attribute>
@@ -98,7 +98,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYColorEnum</editorOptionEnum>
+		<editorOptionEnum>Color</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottomColor</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottomColor</tooltip>
 	</attribute>
@@ -108,7 +108,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYBorderStyleEnum</editorOptionEnum>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottomStyle</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottomStyle</tooltip>
 	</attribute>
@@ -135,7 +135,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYColorEnum</editorOptionEnum>
+		<editorOptionEnum>Color</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeftColor</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeftColor</tooltip>
 	</attribute>
@@ -145,7 +145,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYBorderStyleEnum</editorOptionEnum>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeftStyle</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeftStyle</tooltip>
 	</attribute>
@@ -172,7 +172,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYColorEnum</editorOptionEnum>
+		<editorOptionEnum>Color</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRightColor</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRightColor</tooltip>
 	</attribute>
@@ -182,7 +182,7 @@
 		<required>false</required>
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
-		<editorOptionEnum>com.plywet.platform.bi.component.resolvers.enums.FLYBorderStyleEnum</editorOptionEnum>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
 	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRightStyle</description>
 		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRightStyle</tooltip>
 	</attribute>

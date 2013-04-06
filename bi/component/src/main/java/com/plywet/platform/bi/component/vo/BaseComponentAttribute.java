@@ -1,6 +1,5 @@
 package com.plywet.platform.bi.component.vo;
 
-import com.plywet.platform.bi.component.core.ComponentEnumInterface;
 
 public class BaseComponentAttribute {
 	protected String name;
@@ -9,7 +8,7 @@ public class BaseComponentAttribute {
 	protected String tooltip;
 
 	protected String editorType;
-	protected Class<? extends ComponentEnumInterface> editorOptionEnum;
+	protected String editorOptionEnum;
 
 	public String getDescription() {
 		return description;
@@ -43,12 +42,11 @@ public class BaseComponentAttribute {
 		this.editorType = editorType;
 	}
 
-	public Class<? extends ComponentEnumInterface> getEditorOptionEnum() {
+	public String getEditorOptionEnum() {
 		return editorOptionEnum;
 	}
 
-	public void setEditorOptionEnum(
-			Class<? extends ComponentEnumInterface> editorOptionEnum) {
+	public void setEditorOptionEnum(String editorOptionEnum) {
 		this.editorOptionEnum = editorOptionEnum;
 	}
 
