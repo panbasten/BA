@@ -15,7 +15,7 @@
 		}
 	}
 	
-	function _5(target) {
+	function _initTreeGrid(target) {
 		var opts = $.data(target, "treegrid").options;
 		$(target).datagrid($.extend( {}, opts, {
 			url : null,
@@ -32,7 +32,7 @@
 				opts.sortName = sortName;
 				opts.sortOrder = sortOrder;
 				if (opts.remoteSort) {
-					_20(target);
+					_doLoadData(target);
 				} else {
 					var data = $(target).treegrid("getData");
 					_loadData(target, 0, data);
@@ -99,7 +99,7 @@
 				onSelectPage : function(pageNumber, pageSize) {
 					opts.pageNumber = pageNumber;
 					opts.pageSize = pageSize;
-					_20(target);
+					_doLoadData(target);
 				}
 			});
 			opts.pageSize = pager.pagination("options").pageSize;
@@ -141,10 +141,13 @@
 		});
 	}
 	
-	function _2d(target) {
+	/**
+	 * 初始化节点的事件
+	 */
+	function _initNodeEvent(target) {
 		var dc = $.data(target, "datagrid").dc;
-		var _2f = dc.body1.add(dc.body2);
-		var _30 = ($.data(_2f[0], "events") || $._data(_2f[0], "events")).click[0].handler;
+		var body = dc.body1.add(dc.body2);
+		var clickHandler = ($.data(body[0], "events") || $._data(body[0], "events")).click[0].handler;
 		dc.body1.add(dc.body2).bind(
 				"mouseover",
 				function(e) {
@@ -182,7 +185,7 @@
 			if (tt.hasClass("ui-tree-hit")) {
 				_toggle(target, tr.attr("node-id"));
 			} else {
-				_30(e);
+				clickHandler(e);
 			}
 			e.stopPropagation();
 		});
@@ -206,6 +209,9 @@
 		
 	}
 	
+	/**
+	 * 加载数据
+	 */
 	function _loadData(target, id, data, inc) {
 		var opts = $.data(target, "treegrid").options;
 		var dc = $.data(target, "datagrid").dc;
@@ -254,7 +260,10 @@
 		$(target).treegrid("autoSizeColumn");
 	}
 	
-	function _20(target, id, queryParams, inc, _4a) {
+	/**
+	 * 加载节点子数据
+	 */
+	function _doLoadData(target, id, queryParams, inc, backward) {
 		var opts = $.data(target, "treegrid").options;
 		var dgBody = $(target).datagrid("getPanel").find("div.ui-datagrid-body");
 		if (queryParams) {
@@ -284,15 +293,15 @@
 			icon.removeClass("ui-tree-loading");
 			$(target).treegrid("loaded");
 			_loadData(target, id, data, inc);
-			if (_4a) {
-				_4a();
+			if (backward) {
+				backward();
 			}
 		}, function() {
 			icon.removeClass("ui-tree-loading");
 			$(target).treegrid("loaded");
 			opts.onLoadError.apply(target, arguments);
-			if (_4a) {
-				_4a();
+			if (backward) {
+				backward();
 			}
 		});
 		if (loader == false) {
@@ -462,15 +471,15 @@
 			_32(target, row[opts.idField]);
 			var cc = treeTr.children("td").children("div");
 			cc.hide();
-			_20(target, row[opts.idField], {
+			_doLoadData(target, row[opts.idField], {
 				id : row[opts.idField]
-			}, true, function() {
-				if (cc.is(":empty")) {
-					treeTr.remove();
-				} else {
-					_showSubNode(cc);
-				}
-			});
+				}, true, function() {
+					if (cc.is(":empty")) {
+						treeTr.remove();
+					} else {
+						_showSubNode(cc);
+					}
+				});
 		}
 		
 		function _showSubNode(cc) {
@@ -525,7 +534,7 @@
 	}
 	
 	function _expandTo(target, pid) {
-		var opts = $.data(_8d, "treegrid").options;
+		var opts = $.data(target, "treegrid").options;
 		var ids = [];
 		var p = _getParent(target, pid);
 		while (p) {
@@ -647,9 +656,9 @@
 					data : []
 				});
 			}
-			_5(this);
-			_20(this);
-			_2d(this);
+			_initTreeGrid(this);
+			_doLoadData(this);
+			_initNodeEvent(this);
 		});
 	};
 	
@@ -657,9 +666,9 @@
 		options : function(jq) {
 			return $.data(jq[0], "treegrid").options;
 		},
-		resize : function(jq, _ab) {
+		resize : function(jq, size) {
 			return jq.each(function() {
-				$(this).datagrid("resize", _ab);
+				$(this).datagrid("resize", size);
 			});
 		},
 		fixRowHeight : function(jq, id) {
@@ -672,23 +681,27 @@
 				_loadData(this, null, data);
 			});
 		},
+		/**
+		 * 重新加载特定节点
+		 */
 		reload : function(jq, id) {
 			return jq.each(function() {
 				if (id) {
-					var _ae = $(this).treegrid("find", id);
-					if (_ae.children) {
-						_ae.children.splice(0, _ae.children.length);
+					var node = $(this).treegrid("find", id);
+					// 删除原子节点
+					if (node.children) {
+						node.children.splice(0, node.children.length);
 					}
-					var _af = $(this).datagrid("getPanel").find(
+					var body = $(this).datagrid("getPanel").find(
 							"div.ui-datagrid-body");
-					var tr = _af.find("tr[node-id=" + id + "]");
+					var tr = body.find("tr[node-id=" + id + "]");
 					tr.next("tr.ui-treegrid-tr-tree").remove();
 					var hit = tr.find("span.ui-tree-hit");
 					hit.removeClass("ui-tree-expanded ui-tree-expanded-hover")
 							.addClass("ui-tree-collapsed");
 					_expand(this, id);
 				} else {
-					_20(this, null, {});
+					_doLoadData(this, null, {});
 				}
 			});
 		},
@@ -1248,7 +1261,7 @@ Plywet.widget.EasyTreeGrid=function(cfg){
 	this.id=cfg.id;
 	this.jqId = Plywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
-	$("#"+this.id).treegrid(cfg);
+    this.jq.treegrid(cfg);
 };
 
 Plywet.extend(Plywet.widget.EasyTreeGrid, Plywet.widget.BaseWidget);

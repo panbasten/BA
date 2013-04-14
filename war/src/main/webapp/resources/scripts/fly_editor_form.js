@@ -379,23 +379,54 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 	if(!this.domProp){
 		var config = {
-			id: 			"formPropPanelContent",
-			animate:		true,
-			collapsible:	true,
-			idField:		"propName",
-			treeField:		"propName",
-			frozenColumns:[[
-                {field:'propName',title:'属性',width:150,
+			id: 			"formPropPanelContent"
+			,animate:		true
+			,collapsible:	true
+			,idField:		"propName"
+			,treeField:		"propName"
+			,frozenColumns:[[
+                {field:'propName',title:'属性',width:120,
 	                formatter:function(value){
 	                	return '<span style="color:red">'+value+'</span>';
 	                }
                 }
-			]],
-			columns:[[
+			]]
+			,columns:[[
 				{field:'propValue',title:'值',width:150}
 			]]
 		};
 		this.domProp = new Plywet.widget.EasyTreeGrid(config);
+	}
+	
+	if(!this.signalGrid){
+		var config = {
+			id:				"formSignalPanelContent"
+//			,singleSelect:	false
+			,columns:		[
+		        [{
+		        	field: 'sender',
+	                title: "发送者",
+	                width: 150,
+		      	}
+		        ,{
+		        	field: 'signal',
+	                title: "信号",
+	                width: 150,
+		      	}
+		        ,{
+		        	field: 'accepter',
+	                title: "接收者",
+	                width: 150,
+		      	}
+		        ,{
+		        	field: 'slot',
+	                title: "槽",
+	                width: 150,
+		      	}]
+			]
+		};
+		
+		this.signalGrid = new Plywet.widget.Grid(config);
 	}
 	
 	function changeSize(w, h, _self) {
@@ -518,6 +549,8 @@ Plywet.editors.form.action = {
 		}
 		// TODO
 		console.log(props);
+		formEditorPanel_var.domProp.jq.treegrid("loadData", {
+		});
 		
 		formEditorPanel_var.clearSelected();
 		formEditorPanel_var.addSelected(node.id);

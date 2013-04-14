@@ -47,12 +47,15 @@
 		
 		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
-				<div class="ui-toolbar-group-left">添加</div>
+				<div class="ui-toolbar-group-left">
+					<fly:pushbutton icon="ui-icon-plusthick" onclick="" title="添加" />
+					<fly:pushbutton icon="ui-icon-closethick" onclick="" title="删除" />
+				</div>
 				<div class="ui-toolbar-group-right">
 				</div>
 			</div>
 			<div id="${editorId}SignalPanelContent" class="ui-widget-content ui-corner-bottom" style="overflow:auto;">
-				测试
+				
 			</div>
 		</div>
 	</div>
