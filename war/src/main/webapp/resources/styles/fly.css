@@ -12,7 +12,7 @@
 /*.fly-container .fly-tabs .active>a,.fly-container .fly-tabs .active>a:hover{background-color:#ffffff;border:1px solid #a8a8a8;border-bottom-color:transparent;cursor:default;font-weight: bold;}*/
 
 /* Styles for steps bar tabs */
-.fly-flow-step-bar { float:left;position:relative;overflow:hidden;background: #535353;border-bottom: medium none;}
+.fly-flow-step-bar { float:left;position:relative;overflow:hidden;background: #535353;}
 .fly-flow-step-bar ul.ui-tabs { height: 2700px; position: relative; }
 .fly-flow-step-bar ul.ui-tabs li { width:40px; height: 40px; background:url("../images/default/tabbg.normal.png") no-repeat;background-position: center;border-bottom: 1px solid #8E8E8E; }
 .fly-flow-step-bar ul.ui-tabs li:HOVER{background:url("../images/default/tabbg.hover.png") no-repeat; }
@@ -42,17 +42,45 @@
 }
 
 .fly-flow-content { width: 400px; float: left; background: #535353; }
-.fly-flow-content div.ui-widget-header { margin: 5px; padding: 3px 1px 5px 5px; color: #808080; }
+.fly-flow-content div.ui-widget-header { 
+	margin: 5px; 
+	padding: 3px 1px 5px 5px; 
+	color: #808080; 
+	border: 1px solid #A8A8A8;
+	border-bottom: 0px none;
+}
 .fly-flow-content div.ui-state-highlight { border: none; background-color: #515355;}
 
-.fly-flow-prop-bar { width: 200px; overflow: hidden; float: left; background: #3D3D3D; border-top: 1px solid #A8A8A8;border-left: 1px solid #A8A8A8;border-right: 1px solid #A8A8A8;}
-.fly-flow-prop-bar div.ui-widget-panel {color:#fff; padding: 5px; overflow: hidden;}
-.fly-flow-prop-bar div.ui-widget-header {font-weight:normal;text-shadow:0 0 0; padding: 3px 5px 0; border-bottom: medium none; border-left: medium none; border-right: medium none; }
-.fly-flow-prop-bar div.ui-widget-content { border: medium none;background: transparent; }
-
-#datasource .ui-easytree-con{
-	width: 100%;
+.fly-flow-prop-bar { width: 200px; overflow: hidden; float: left; background: #535353;}
+.fly-flow-prop-bar * { color:#fff; }
+.fly-flow-prop-bar div.ui-widget-panel {overflow: hidden;}
+.fly-flow-prop-bar div.ui-widget-header {
+	font-weight:normal;
+	border: 1px solid #A8A8A8;
+	border-bottom: 0px none;
+	padding: 3px 5px 0; 
 }
+.fly-flow-prop-bar div.ui-widget-content { 
+	background: transparent;
+	border: 1px solid #A8A8A8;
+	border-top: 0px none;
+}
+
+.fly-flow-signal-bar { overflow: hidden; }
+.fly-flow-signal-bar * { color:#fff; }
+.fly-flow-signal-bar div.ui-widget-header { 
+	margin: 0;
+	font-weight:normal;
+	border: 1px solid #A8A8A8;
+	border-bottom: 0px none;
+}
+.fly-flow-signal-bar div.ui-widget-content { 
+	border: 1px solid #A8A8A8;
+	border-top: 0px none;
+	background: #535353;
+}
+
+#datasource .ui-easytree-con { width: 100%; }
 
 /* 启动加载 */
 #startingCover {
@@ -489,6 +517,10 @@ div.ui-fs-sftp-icon {
 	white-space:nowrap;
 }
 
+.fly-editor {
+	border: 1px solid #A8A8A8;
+	border-top: 0px none;
+}
 
 .fly-editor .fly-editor-content * {
 	color: #000000;
@@ -679,5 +711,3 @@ div.ui-fs-sftp-icon {
 	position: absolute;
 	margin: 0;
 }
-
-.fly-form-editor-content 

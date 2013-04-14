@@ -50,16 +50,16 @@ Plywet.editors.form = {
 						size:					"auto"
 						,	minSize:				50
 						,	hideTogglerOnSlide:		true		// hide the toggler when pane is 'slid open'
-						,	slideTrigger_open:		"mouseover"
-						,	livePaneResizing:		true
+						,	slideTrigger_open:		"click"
+//						,	livePaneResizing:		true
 						,	spacing_closed:			16
 						,	togglerAlign_closed:	"top"
-						,	togglerLength_closed:	16
+						,	togglerLength_closed:	36
 						//	effect defaults - overridden on some panes
 						,	fxName:					"slide"		// none, slide, drop, scale
 						,	fxSpeed_open:			750
 						,	fxSpeed_close:			1500
-						,	fxSettings_open:		{ easing: "easeInQuint" }
+						,	fxSettings_open:		{ easing: "easeOutBounce" }
 						,	fxSettings_close:		{ easing: "easeOutQuint" }
 					}
 					, west : {
@@ -67,15 +67,16 @@ Plywet.editors.form = {
 						,	paneSelector : "#formStepBar"
 						,	togglerTip_open:		"关闭工具箱"
 						,	togglerTip_closed:		"打开工具箱"
+						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-e'></div>"
 						,	resizable:				false
 //						,	initClosed:				true
-						,	fxSettings_open:		{ easing: "easeOutBounce" }
 					}
 					, east : {
 						size : 250
 						,	paneSelector : "#formPropBar"
 						,	togglerTip_open:		"关闭属性框"
 						,	togglerTip_closed:		"打开属性框"
+						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-w'></div>"
 						,	resizerTip:		"调整属性框宽度"
 						,	childOptions: {
 							defaults: {
@@ -85,7 +86,7 @@ Plywet.editors.form = {
 								,	animatePaneSizing: 		true
 								,	fxSpeed_size:			750
 								,	fxSettings_size:		{ easing: "easeInQuint" }
-								,	livePaneResizing:		true
+//								,	livePaneResizing:		true
 							}
 							, north: {
 								size : 200
@@ -101,6 +102,34 @@ Plywet.editors.form = {
 					, center : {
 						paneSelector : "#formContent"
 						, 	minSize : 200
+						,	childOptions: {
+							defaults: {
+								size:					"auto"
+								,	contentSelector:	".ui-widget-content"
+								,	minSize : 				10
+								,	animatePaneSizing: 		true
+								,	fxSpeed_size:			750
+								,	fxSettings_size:		{ easing: "easeInQuint" }
+							}
+							, north: {
+								size : 30
+								,	resizable:				false
+								,	closable : 				false
+								,	paneSelector : 			"#formEditorToolbar"
+							}
+							, center: {
+								paneSelector : 				"#formEditorPanel"
+							}
+							, south: {
+								size : 200
+								,	paneSelector : 			"#formSignalBar"
+								,	slideTrigger_open:		"click"
+								,	spacing_closed:			16
+								,	togglerAlign_closed:	"right"
+								,	togglerLength_closed:	36
+								,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-n'></div>"
+							}
+						}
 					}
 				});
 				
@@ -477,7 +506,7 @@ Plywet.editors.form.action = {
 	struct_on_select : function(node){
 		var pluginType = $(node.target).data("uiTreeNode").attributes.pluginType;
 		var props = [];
-		if(pluginType.indexOf("fly:")>-1){ // fly组件
+		if(pluginType.indexOf("fly:")==0){ // fly组件
 			var plugin = $(Plywet.escapeClientId("formStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
 			if(plugin.size() == 0){// 表示构件
 				props = [{propName:"objectId",propType:"input"}];

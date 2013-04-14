@@ -1,7 +1,7 @@
 <div id="editorContent-navi-${entity.code}" class="fly-editor-tab">
 	<div id="editorContent-navi-db-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
 		<div class="ui-toolbar-group-left" style="width: 20%;">
-			数据库
+			数据源
 		</div>
 		<div class="ui-toolbar-group-right">
             <fly:pushbutton icon="ui-icon-folder-open" label="添加" title="添加" />

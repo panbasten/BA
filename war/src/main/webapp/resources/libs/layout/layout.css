@@ -37,21 +37,28 @@ span.ui-required-tag {
 /*
 *	OUTER LAYOUT RESIZERS & TOGGLERS
 */
-.ui-layout-resizer-north-dragging ,
-.ui-layout-resizer-north:hover		{ background: url(images/resizable-n.gif) repeat-x center; }
-.ui-layout-resizer-south-dragging ,
-.ui-layout-resizer-south:hover		{ background: url(images/resizable-s.gif) repeat-x center; }
-	
-.ui-layout-resizer-west-dragging ,
-.ui-layout-resizer-west-open:hover	{ background: url(images/resizable-w.gif) repeat-y center; }
-.ui-layout-resizer-east-dragging ,
-.ui-layout-resizer-east-open:hover	{ background: url(images/resizable-e.gif) repeat-y center; }
+.ui-layout-resizer-north-dragging
+{ background: url(images/resizable-n.gif) repeat-x center; }
 
+.ui-layout-resizer-south-dragging
+{ background: url(images/resizable-s.gif) repeat-x center; }
+	
+.ui-layout-resizer-west-dragging
+{ background: url(images/resizable-w.gif) repeat-y center; }
+
+.ui-layout-resizer-east-dragging
+{ background: url(images/resizable-e.gif) repeat-y center; }
+
+.ui-layout-resizer-north-open ,
+.ui-layout-resizer-south-open ,
 .ui-layout-resizer-west-open ,
 .ui-layout-resizer-east-open {
 	opacity: 0.1;
 	filter: alpha(opacity=10);
 }
+
+.ui-layout-resizer-north-open:hover ,
+.ui-layout-resizer-south-open:hover ,
 .ui-layout-resizer-west-open:hover ,
 .ui-layout-resizer-east-open:hover {
 	background-color: #3c3c3c;
@@ -61,22 +68,8 @@ span.ui-required-tag {
 .ui-layout-resizer-dragging {
 	opacity: 0.5;
 	filter: alpha(opacity=50);
-	
 }
 .ui-layout-resizer-dragging-limit	{ background: #FF3300 !important; }
-
-/* IE6 * HACK - always show resizer graphics because IE6 cannot understand elem:hover */
-* html .ui-layout-resizer-north		{ background: url(images/resizable-n.gif) repeat-x center !important; }
-* html .ui-layout-resizer-south		{ background: url(images/resizable-s.gif) repeat-x center !important; }
-* html .ui-layout-resizer-west-open	{ background: url(images/resizable-w.gif) repeat-y center !important; }
-* html .ui-layout-resizer-east-open	{ background: url(images/resizable-e.gif) repeat-y center !important; }
-* html .ui-layout-resizer-north ,
-* html .ui-layout-resizer-south ,
-* html .ui-layout-resizer-west-open ,
-* html .ui-layout-resizer-east-open {
-	opacity: 0.1 !important;
-	filter: alpha(opacity=10) !important;
-}
 
 /*
 *	SIMPLE TOGGLER BUTTONS (used on Outer Layout North/South only)
@@ -95,15 +88,15 @@ span.ui-required-tag {
 *	extJS-STYLE RESIZER/SLIDER-BAR (CLOSED)
 */
 .ui-layout-resizer-west-closed ,
-.ui-layout-resizer-east-closed {
-	background: #12b4b1 url(images/resizer-closed.png) 0 0 repeat;
-	border-top: 1px solid #959595;
-	border-bottom: 1px solid #959595;
-}
-.ui-layout-resizer-west-closed:hover ,
-.ui-layout-resizer-east-closed:hover {
+.ui-layout-resizer-east-closed ,
+.ui-layout-resizer-north-closed ,
+.ui-layout-resizer-south-closed {
 	background: #12b4b1;
 }
+.ui-layout-resizer-west-closed:hover ,
+.ui-layout-resizer-east-closed:hover ,
+.ui-layout-resizer-north-closed:hover ,
+.ui-layout-resizer-south-closed:hover {
+	background: #0053a8;
+}
 
-.ui-layout-resizer-closed .ui-layout-toggler
-{ top : 10px !important; }

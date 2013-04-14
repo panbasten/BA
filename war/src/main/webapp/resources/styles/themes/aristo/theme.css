@@ -198,15 +198,9 @@ a {
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
 }
-.ui-layout-toggler
-{
-	width: 16px;
-    height: 16px;
-	background-image: url("images/ui-icons_ffffff_256x384.png");
-}
-.ui-layout-toggler-hover
-{
-	background-image: url("images/ui-icons_2d5972_256x384.png");
+
+.ui-widget-header .ui-icon:hover {
+	background-image: url("images/ui-icons_898989_256x384.png");
 }
 
 .ui-state-default .ui-icon, .hover .ui-icon
@@ -844,27 +838,19 @@ a {
 {
     background-position: -32px -192px;
 }
-.ui-icon-circle-triangle-e,
-.ui-layout-toggler-east-open,
-.ui-layout-toggler-west-closed
+.ui-icon-circle-triangle-e
 {
     background-position: -48px -192px;
 }
-.ui-icon-circle-triangle-s,
-.ui-layout-toggler-south-open,
-.ui-layout-toggler-north-closed
+.ui-icon-circle-triangle-s
 {
     background-position: -64px -192px;
 }
-.ui-icon-circle-triangle-w,
-.ui-layout-toggler-west-open,
-.ui-layout-toggler-east-closed
+.ui-icon-circle-triangle-w
 {
     background-position: -80px -192px;
 }
-.ui-icon-circle-triangle-n,
-.ui-layout-toggler-north-open,
-.ui-layout-toggler-south-closed
+.ui-icon-circle-triangle-n
 {
     background-position: -96px -192px;
 }
@@ -1445,4 +1431,14 @@ a {
 
 .ui-loading {
 	background-image: url("images/loading.gif");
+}
+
+.ui-layout-toggler .ui-layout-toggler-closed-icon
+{
+	background-image: url("images/ui-icons_ffffff_256x384.png");
+}
+
+.ui-layout-toggler-hover .ui-layout-toggler-closed-icon
+{
+	background-image: url("images/ui-icons_898989_256x384.png");
 }

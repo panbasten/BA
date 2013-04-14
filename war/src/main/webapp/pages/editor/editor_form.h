@@ -1,5 +1,5 @@
 <div id="${editorId}">
-	<div id="${editorId}StepBar" class="fly-flow-step-bar ui-tab-side-container ui-corner-top">
+	<div id="${editorId}StepBar" class="fly-flow-step-bar ui-tab-side-container ui-corner-all">
 		<ul id="${editorId}StepBar-ul" class="ui-tabs">
 			<fly:foreach items="${formStepBar}" var="entity" indexVar="entityIndex">
 				<li>
@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content">
-		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
+		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-top">
 			<fly:pushbutton id="form_edit_component" icon="ui-icon-editor-edit-component" 
 				onclick="" title="编辑控件" />
 			<fly:pushbutton id="form_edit_signal_slot" icon="ui-icon-editor-edit-signal-slot" 
@@ -38,32 +38,38 @@
 			<fly:pushbutton id="form_resize" icon="ui-icon-editor-resize" 
 				onclick="" title="调整尺寸" />
 		</div>
+		
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
 			style="margin:0 5px;position:relative;overflow:auto;">
 				<!-- margin 需要处理按字号处理高度，还要考虑是否有边框，以及边框宽度 -->
 				<!-- div class="fly-form-editor-component" style="width:70px;height:30px;top:30px;left:30px;"><label style="width:70px;height:16px;margin: 7px 0;">Find what:</label></div-->
 		</div>
+		
+		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+				<div class="ui-toolbar-group-left">添加</div>
+				<div class="ui-toolbar-group-right">
+				</div>
+			</div>
+			<div id="${editorId}SignalPanelContent" class="ui-widget-content ui-corner-bottom" style="overflow:auto;">
+				测试
+			</div>
+		</div>
 	</div>
 	
-	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
+	<div id="${editorId}PropBar" class="fly-flow-prop-bar">
 		<div id="${editorId}StructPanel" class="ui-widget-panel">
-			<div class="ui-widget-header ui-helper-clearfix ui-corner-top" style="border: medium none;">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">结构</div>
 				<div class="ui-toolbar-group-right">
 					<span id="${editorId}StructClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.form.toggleContent('structPane');"></span>
 				</div>
 			</div>
-			<div id="${editorId}StructPanelContent" class="ui-widget-content" style="overflow:auto;">
+			<div id="${editorId}StructPanelContent" class="ui-widget-content ui-corner-bottom" style="overflow:auto;">
 				
 			</div>
 		</div>
-		<div id="${editorId}PropPanel" class="ui-widget-panel">
-			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
-				<div class="ui-toolbar-group-left">属性</div>
-				<div class="ui-toolbar-group-right">
-					<span id="${editorId}PropClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.form.toggleContent('propPane');"></span>
-				</div>
-			</div>
+		<div id="${editorId}PropPanel" class="ui-widget-panel" style="padding:0;">
 			<div id="${editorId}PropPanelContent" class="ui-widget-content">
 				
 			</div>

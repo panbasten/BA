@@ -160,6 +160,7 @@ public class BIReportResource {
 					BrowseNodeMeta plugin = new BrowseNodeMeta();
 					plugin.setId(cp.getId());
 					plugin.setCategory(cp.getCategory());
+					plugin.addClass("fly-form-step-plugin");
 					plugin.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
 					plugin.addAttribute(HTML.ATTR_ICON, ICON_PATH
 							+ cp.getIconfile());

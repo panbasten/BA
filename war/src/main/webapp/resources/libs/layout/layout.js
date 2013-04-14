@@ -954,8 +954,8 @@ $.fn.layout = function (opts) {
 			$P	= $Ps[pane]
 		,	o	= options[pane]
 		,	s	= state[pane]
-		,	oSp	= (inclSpace ? o.spacing_open : 0)
-		,	cSp	= (inclSpace ? o.spacing_closed : 0)
+		,	oSp	= ((inclSpace && (o.resizable || o.closable)) ? o.spacing_open : 0)
+		,	cSp	= ((inclSpace && (o.resizable || o.closable)) ? o.spacing_closed : 0)
 		;
 		
 		dir = (dir ? dir : _c[pane].dir);
@@ -1878,79 +1878,82 @@ $.fn.layout = function (opts) {
 			,	_state	= (s.isVisible ? "-open" : "-closed") // used for classNames
 			,	I		= Instance[pane]
 				// INIT RESIZER BAR
-			,	$R		= I.resizer = $Rs[pane] = $("<div></div>")
+			,	$R		= I.resizer = ((o.resizable || o.closable) ? $Rs[pane] = $("<div></div>") : false)
 				// INIT TOGGLER BUTTON
 			,	$T		= I.toggler = (o.closable ? $Ts[pane] = $("<div></div>") : false)
 			;
 
 			//if (s.isVisible && o.resizable) ... handled by initResizable
-			if (!s.isVisible && o.slidable)
-				$R.attr("title", o.tips.Slide).css("cursor", o.sliderCursor);
-
-			$R	// if paneSelector is an ID, then create a matching ID for the resizer, eg: "#paneLeft" => "paneLeft-resizer"
-				.attr("id", paneId ? paneId +"-resizer" : "" )
-				.data({
-					parentLayout:	Instance
-				,	layoutPane:		Instance[pane]	// NEW pointer to pane-alias-object
-				,	layoutEdge:		pane
-				,	layoutRole:		"resizer"
-				})
-				.css(_c.resizers.cssReq).css("zIndex", options.zIndexes.resizer_normal)
-				.css(o.applyDemoStyles ? _c.resizers.cssDemo : {}) // add demo styles
-				.addClass(rClass +" "+ rClass+_pane)
-				.hover(addHover, removeHover) // ALWAYS add hover-classes, even if resizing is not enabled - handle with CSS instead
-				.hover(onResizerEnter, onResizerLeave) // ALWAYS NEED resizer.mouseleave to balance toggler.mouseenter
-				.appendTo($N) // append DIV to container
-			;
-
-			if ($T) {
-				$T	// if paneSelector is an ID, then create a matching ID for the resizer, eg: "#paneLeft" => "#paneLeft-toggler"
-					.attr("id", paneId ? paneId +"-toggler" : "" )
+			if ($R) {
+			
+				if (!s.isVisible && o.slidable)
+					$R.attr("title", o.tips.Slide).css("cursor", o.sliderCursor);
+	
+				$R	// if paneSelector is an ID, then create a matching ID for the resizer, eg: "#paneLeft" => "paneLeft-resizer"
+					.attr("id", paneId ? paneId +"-resizer" : "" )
 					.data({
 						parentLayout:	Instance
 					,	layoutPane:		Instance[pane]	// NEW pointer to pane-alias-object
 					,	layoutEdge:		pane
-					,	layoutRole:		"toggler"
+					,	layoutRole:		"resizer"
 					})
-					.css(_c.togglers.cssReq) // add base/required styles
-					.css(o.applyDemoStyles ? _c.togglers.cssDemo : {}) // add demo styles
-					.addClass(tClass +" "+ tClass+_pane)
-					.hover(addHover, removeHover) // ALWAYS add hover-classes, even if toggling is not enabled - handle with CSS instead
-					.bind("mouseenter", onResizerEnter) // NEED toggler.mouseenter because mouseenter MAY NOT fire on resizer
-					.appendTo($R) // append SPAN to resizer DIV
+					.css(_c.resizers.cssReq).css("zIndex", options.zIndexes.resizer_normal)
+					.css(o.applyDemoStyles ? _c.resizers.cssDemo : {}) // add demo styles
+					.addClass(rClass +" "+ rClass+_pane)
+					.hover(addHover, removeHover) // ALWAYS add hover-classes, even if resizing is not enabled - handle with CSS instead
+					.hover(onResizerEnter, onResizerLeave) // ALWAYS NEED resizer.mouseleave to balance toggler.mouseenter
+					.appendTo($N) // append DIV to container
 				;
-				// ADD INNER-SPANS TO TOGGLER
-				if (o.togglerContent_open) // ui-layout-open
-					$("<span>"+ o.togglerContent_open +"</span>")
+	
+				if ($T) {
+					$T	// if paneSelector is an ID, then create a matching ID for the resizer, eg: "#paneLeft" => "#paneLeft-toggler"
+						.attr("id", paneId ? paneId +"-toggler" : "" )
 						.data({
-							layoutEdge:		pane
-						,	layoutRole:		"togglerContent"
+							parentLayout:	Instance
+						,	layoutPane:		Instance[pane]	// NEW pointer to pane-alias-object
+						,	layoutEdge:		pane
+						,	layoutRole:		"toggler"
 						})
-						.data("layoutRole", "togglerContent")
-						.data("layoutEdge", pane)
-						.addClass("content content-open")
-						.css("display","none")
-						.appendTo( $T )
-						//.hover( addHover, removeHover ) // use ui-layout-toggler-west-hover .content-open instead!
+						.css(_c.togglers.cssReq) // add base/required styles
+						.css(o.applyDemoStyles ? _c.togglers.cssDemo : {}) // add demo styles
+						.addClass(tClass +" "+ tClass+_pane)
+						.hover(addHover, removeHover) // ALWAYS add hover-classes, even if toggling is not enabled - handle with CSS instead
+						.bind("mouseenter", onResizerEnter) // NEED toggler.mouseenter because mouseenter MAY NOT fire on resizer
+						.appendTo($R) // append SPAN to resizer DIV
 					;
-				if (o.togglerContent_closed) // ui-layout-closed
-					$("<span>"+ o.togglerContent_closed +"</span>")
-						.data({
-							layoutEdge:		pane
-						,	layoutRole:		"togglerContent"
-						})
-						.addClass("content content-closed")
-						.css("display","none")
-						.appendTo( $T )
-						//.hover( addHover, removeHover ) // use ui-layout-toggler-west-hover .content-closed instead!
-					;
-				// ADD TOGGLER.click/.hover
-				enableClosable(pane);
+					// ADD INNER-SPANS TO TOGGLER
+					if (o.togglerContent_open) // ui-layout-open
+						$("<span>"+ o.togglerContent_open +"</span>")
+							.data({
+								layoutEdge:		pane
+							,	layoutRole:		"togglerContent"
+							})
+							.data("layoutRole", "togglerContent")
+							.data("layoutEdge", pane)
+							.addClass("content content-open")
+							.css("display","none")
+							.appendTo( $T )
+							//.hover( addHover, removeHover ) // use ui-layout-toggler-west-hover .content-open instead!
+						;
+					if (o.togglerContent_closed) // ui-layout-closed
+						$("<span>"+ o.togglerContent_closed +"</span>")
+							.data({
+								layoutEdge:		pane
+							,	layoutRole:		"togglerContent"
+							})
+							.addClass("content content-closed")
+							.css("display","none")
+							.appendTo( $T )
+							//.hover( addHover, removeHover ) // use ui-layout-toggler-west-hover .content-closed instead!
+						;
+					// ADD TOGGLER.click/.hover
+					enableClosable(pane);
+				}
+	
+				// add Draggable events
+				initResizable(pane);
 			}
-
-			// add Draggable events
-			initResizable(pane);
-
+			
 			// ADD CLASSNAMES & SLIDE-BINDINGS - eg: class="resizer resizer-west resizer-open"
 			if (s.isVisible)
 				setAsOpen(pane);	// onOpen will be called, but NOT onResize
@@ -2765,8 +2768,6 @@ $.fn.layout = function (opts) {
 		,	_sliding= "-sliding"
 		,	_closed	= "-closed"
 		;
-		console.log(side);
-		console.log(sC[inset]);
 		$R	
 			.css(_c[pane].cssReset);
 		$R
@@ -2943,25 +2944,27 @@ $.fn.layout = function (opts) {
 		,	_closed	= "-closed"
 		,	_sliding= "-sliding"
 		;
-		$R
-			.css(side, sC[inset] + getPaneSize(pane)) // move the resizer
-			.removeClass( rClass+_closed +" "+ rClass+_pane+_closed )
-			.addClass( rClass+_open +" "+ rClass+_pane+_open )
-		;
-		if (s.isSliding)
-			$R.addClass( rClass+_sliding +" "+ rClass+_pane+_sliding )
-		else // in case 'was sliding'
-			$R.removeClass( rClass+_sliding +" "+ rClass+_pane+_sliding )
-
-		if (o.resizerDblClickToggle)
-			$R.bind("dblclick", toggle );
-		removeHover( 0, $R ); // remove hover classes
-		if (o.resizable && $.layout.plugins.draggable)
-			$R	.draggable("enable")
-				.css("cursor", o.resizerCursor)
-				.attr("title", o.tips.Resize);
-		else if (!s.isSliding)
-			$R.css("cursor", "default"); // n-resize, s-resize, etc
+		if ($R) {
+			$R
+				.css(side, sC[inset] + getPaneSize(pane)) // move the resizer
+				.removeClass( rClass+_closed +" "+ rClass+_pane+_closed )
+				.addClass( rClass+_open +" "+ rClass+_pane+_open )
+			;
+			if (s.isSliding)
+				$R.addClass( rClass+_sliding +" "+ rClass+_pane+_sliding )
+			else // in case 'was sliding'
+				$R.removeClass( rClass+_sliding +" "+ rClass+_pane+_sliding )
+	
+			if (o.resizerDblClickToggle)
+				$R.bind("dblclick", toggle );
+			removeHover( 0, $R ); // remove hover classes
+			if (o.resizable && $.layout.plugins.draggable)
+				$R	.draggable("enable")
+					.css("cursor", o.resizerCursor)
+					.attr("title", o.tips.Resize);
+			else if (!s.isSliding)
+				$R.css("cursor", "default"); // n-resize, s-resize, etc
+		}
 
 		// if pane also has a toggler button, adjust that too
 		if ($T) {
