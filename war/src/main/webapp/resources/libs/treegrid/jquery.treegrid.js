@@ -722,6 +722,12 @@
 				}
 			});
 		},
+		setUrlData : function(jq, data) {
+			return jq.each(function() {
+				var opts = $.data(this, "treegrid").options;
+				opts.urlData = data;
+			});
+		},
 		getData : function(jq) {
 			return $.data(jq[0], "treegrid").data;
 		},
@@ -853,7 +859,7 @@
 					animate : "boolean"
 				} ]));
 	};
-	var _b9 = $.extend({}, $.fn.datagrid.defaults.view,
+	var _view = $.extend({}, $.fn.datagrid.defaults.view,
 		{
 			render : function(target, _bb, fromFrozenColumns) {
 				var opts = $.data(target, "treegrid").options;
@@ -1157,9 +1163,13 @@
 			treeField : null,
 			animate : false,
 			singleSelect : true,
-			view : _b9,
+			view : _view,
 			loader : function(data, onsuccess, onerror) {
 				var options = $(this).treegrid("options");
+				if (options.urlData){
+					onsuccess(options.urlData);
+					return true;
+				}
 				if (!options.url) {
 					return false;
 				}

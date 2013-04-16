@@ -382,6 +382,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 			id: 			"formPropPanelContent"
 			,animate:		true
 			,collapsible:	true
+//			,singleSelect:	true
 			,idField:		"propName"
 			,treeField:		"propName"
 			,frozenColumns:[[
@@ -548,9 +549,44 @@ Plywet.editors.form.action = {
 			props = [{propName:"objectId",propType:"input"}];
 		}
 		// TODO
+		// 显示属性
 		console.log(props);
-		formEditorPanel_var.domProp.jq.treegrid("loadData", {
-		});
+		var data = [{
+			"id":1,
+			"propName":"name1",
+			"propValue":"address1",
+			"iconCls":"icon-ok",
+			"children":[{
+				"id":2,
+				"propName":"name11",
+				"propValue":"address11",
+			},{
+				"id":3,
+				"propName":"name12",
+				"propValue":"address12",
+			}]
+		},{
+			"id":4,
+			"propName":"Languages abc",
+			"propValue":"address2",
+			"state":"closed",
+			"children":[{
+				"id":5,
+				"propName":"Java",
+				"children":[{
+					"id":6,
+					"propName":"jdk1"
+				},{
+					"id":7,
+					"propName":"jdk2"
+				}]
+			},{
+				"id":8,
+				"propName":"C#",
+			}]
+		}];
+		formEditorPanel_var.domProp.jq.treegrid("setUrlData", data);
+		formEditorPanel_var.domProp.jq.treegrid("reload");
 		
 		formEditorPanel_var.clearSelected();
 		formEditorPanel_var.addSelected(node.id);
