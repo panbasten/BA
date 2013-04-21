@@ -40,7 +40,7 @@
             if (!node.length) {
                 return;
             }
-            node.addClass("ui-tree-node-hover");
+            node.addClass("ui-state-hover");
             if (tt.hasClass("ui-tree-hit")) {
                 if (tt.hasClass("ui-tree-expanded")) {
                     tt.addClass("ui-tree-expanded-hover");
@@ -56,7 +56,7 @@
             if (!node.length) {
                 return;
             }
-            node.removeClass("ui-tree-node-hover");
+            node.removeClass("ui-state-hover");
             if (tt.hasClass("ui-tree-hit")) {
                 if (tt.hasClass("ui-tree-expanded")) {
                     tt.removeClass("ui-tree-expanded-hover");
@@ -395,20 +395,20 @@
         if (!append) {
             $(ul).empty();
         }
-        var _4f = [];
+        var nodeDoms = [];
         var len = $(ul).prev("div.ui-tree-node").find("span.ui-tree-indent, span.ui-tree-hit").length;
-        _51(ul, data, len);
+        _loadNodes(ul, data, len);
         if (opts.dnd) {
             _enableDnd(target);
         }
         else {
             _disableDnd(target);
         }
-        for (var i = 0; i < _4f.length; i++) {
-            _check(target, _4f[i], true);
+        for (var i = 0; i < nodeDoms.length; i++) {
+            _check(target, nodeDoms[i], true);
         }
         setTimeout(function(){
-            _59(target, target);
+            _setNodes(target, target);
         }, 0);
         var node = null;
         if (target != ul) {
@@ -417,74 +417,88 @@
         }
         opts.onLoadSuccess.call(target, node, data);
         
-        function _51(ul, _54, _55){
-            for (var i = 0; i < _54.length; i++) {
+        function _loadNodes(ul, nodeDatas, len){
+            for (var i = 0; i < nodeDatas.length; i++) {
                 var li = $("<li></li>").appendTo(ul);
-                var _56 = _54[i];
-                if (_56.state != "open" && _56.state != "closed") {
-                    _56.state = "open";
+                var nodeData = nodeDatas[i];
+                if (nodeData.state != "open" && nodeData.state != "closed") {
+                	nodeData.state = "open";
                 }
-                var _57 = $("<div class=\"ui-tree-node\"></div>").appendTo(li);
-                _57.attr("node-id", _56.id);
-                $.data(_57[0], "ui-tree-node", {
-                    id: _56.id,
-                    text: _56.text,
-                    iconCls: _56.iconCls,
-                    attributes: _56.attributes
+                var nodeDom = $("<div class=\"ui-tree-node\"></div>").appendTo(li);
+                nodeDom.attr("node-id", nodeData.id);
+                $.data(nodeDom[0], "ui-tree-node", {
+                    id: nodeData.id,
+                    text: nodeData.text,
+                    iconCls: nodeData.iconCls,
+                    attributes: nodeData.attributes
                 });
-                $("<span class=\"ui-tree-title\"></span>").html(_56.text).appendTo(_57);
+                $("<span class=\"ui-tree-title\"></span>").html(nodeData.text).appendTo(nodeDom);
                 if (opts.checkbox) {
                     if (opts.onlyLeafCheck) {
-                        if (_56.state == "open" && (!_56.children || !_56.children.length)) {
-                            if (_56.checked) {
-                                $("<span class=\"ui-tree-checkbox ui-tree-checkbox1\"></span>").prependTo(_57);
+                        if (nodeData.state == "open" && (!nodeData.children || !nodeData.children.length)) {
+                            if (nodeData.checked) {
+                                $("<span class=\"ui-tree-checkbox ui-tree-checkbox1\"></span>").prependTo(nodeDom);
                             }
                             else {
-                                $("<span class=\"ui-tree-checkbox ui-tree-checkbox0\"></span>").prependTo(_57);
+                                $("<span class=\"ui-tree-checkbox ui-tree-checkbox0\"></span>").prependTo(nodeDom);
                             }
                         }
                     }
                     else {
-                        if (_56.checked) {
-                            $("<span class=\"ui-tree-checkbox ui-tree-checkbox1\"></span>").prependTo(_57);
-                            _4f.push(_57[0]);
+                        if (nodeData.checked) {
+                            $("<span class=\"ui-tree-checkbox ui-tree-checkbox1\"></span>").prependTo(nodeDom);
+                            nodeDoms.push(nodeDom[0]);
                         }
                         else {
-                            $("<span class=\"ui-tree-checkbox ui-tree-checkbox0\"></span>").prependTo(_57);
+                            $("<span class=\"ui-tree-checkbox ui-tree-checkbox0\"></span>").prependTo(nodeDom);
                         }
                     }
                 }
-                if (_56.children && _56.children.length) {
-                    var _58 = $("<ul></ul>").appendTo(li);
-                    if (_56.state == "open") {
-                        $("<span class=\"ui-tree-icon ui-icon ui-tree-folder ui-tree-folder-open\"></span>").addClass(_56.iconCls).prependTo(_57);
-                        $("<span class=\"ui-tree-hit ui-icon ui-tree-expanded\"></span>").prependTo(_57);
+                var nodeIcon;
+                if (nodeData.children && nodeData.children.length) {
+                    var ul = $("<ul></ul>").appendTo(li);
+                    if (nodeData.state == "open") {
+                        nodeIcon = $("<span class=\"ui-tree-icon ui-icon ui-tree-folder ui-tree-folder-open\"></span>").addClass(nodeData.iconCls);
+                        nodeIcon.prependTo(nodeDom);
+                        $("<span class=\"ui-tree-hit ui-icon ui-tree-expanded\"></span>").prependTo(nodeDom);
                     }
                     else {
-                        $("<span class=\"ui-tree-icon ui-icon ui-tree-folder\"></span>").addClass(_56.iconCls).prependTo(_57);
-                        $("<span class=\"ui-tree-hit ui-icon ui-tree-collapsed\"></span>").prependTo(_57);
-                        _58.css("display", "none");
+                    	nodeIcon = $("<span class=\"ui-tree-icon ui-icon ui-tree-folder\"></span>").addClass(nodeData.iconCls);
+                    	nodeIcon.prependTo(nodeDom);
+                        $("<span class=\"ui-tree-hit ui-icon ui-tree-collapsed\"></span>").prependTo(nodeDom);
+                        ul.css("display", "none");
                     }
-                    _51(_58, _56.children, _55 + 1);
+                    _loadNodes(ul, nodeData.children, len + 1);
                 }
                 else {
-                    if (_56.state == "closed") {
-                        $("<span class=\"ui-tree-icon ui-icon ui-tree-folder\"></span>").addClass(_56.iconCls).prependTo(_57);
-                        $("<span class=\"ui-tree-hit ui-icon ui-tree-collapsed\"></span>").prependTo(_57);
+                    if (nodeData.state == "closed") {
+                    	nodeIcon = $("<span class=\"ui-tree-icon ui-icon ui-tree-folder\"></span>").addClass(nodeData.iconCls);
+                    	nodeIcon.prependTo(nodeDom);
+                        $("<span class=\"ui-tree-hit ui-icon ui-tree-collapsed\"></span>").prependTo(nodeDom);
                     }
                     else {
-                        $("<span class=\"ui-tree-icon ui-icon ui-tree-file\"></span>").addClass(_56.iconCls).prependTo(_57);
-                        $("<span class=\"ui-tree-indent\"></span>").prependTo(_57);
+                    	nodeIcon = $("<span class=\"ui-tree-icon ui-icon ui-tree-file\"></span>").addClass(nodeData.iconCls);
+                    	nodeIcon.prependTo(nodeDom);
+                        $("<span class=\"ui-tree-indent\"></span>").prependTo(nodeDom);
                     }
                 }
-                for (var j = 0; j < _55; j++) {
-                    $("<span class=\"ui-tree-indent\"></span>").prependTo(_57);
+                
+                var showIcon = (nodeData.showIcon == undefined) ? ((opts.showIcon == undefined) ? true : opts.showIcon) : nodeData.showIcon;
+                if(!showIcon && nodeIcon){
+                	nodeIcon.hide();
+                }
+                
+                for (var j = 0; j < len; j++) {
+                    $("<span class=\"ui-tree-indent\"></span>").prependTo(nodeDom);
                 }
             }
         }
     }
     
-    function _59(target, ul, isRoot){
+    /**
+     * 设置节点的缩进选择框等样式
+     */
+    function _setNodes(target, ul, isRoot){
         var opts = $.data(target, "tree").options;
         if (!opts.lines) {
             return;
@@ -508,7 +522,7 @@
                 if ($(this).next().length) {
                 	treeLine(node);
                 }
-                _59(target, ul, isRoot);
+                _setNodes(target, ul, isRoot);
             }
             else {
             	treeJoin(node);
@@ -775,7 +789,7 @@
     }
     
     function _getSelected(top){
-        var nodes = $(top).find("div.ui-tree-node-selected");
+        var nodes = $(top).find("div.ui-state-active");
         if (nodes.length) {
             return _getNode(top, nodes[0]);
         }
@@ -854,7 +868,7 @@
         if (parent) {
             _dealCheckbox(top, parent.target);
         }
-        _59(top, top);
+        _setNodes(top, top);
     }
     
     function _getData(top, target){
@@ -927,8 +941,8 @@
         if (options.onBeforeSelect.call(top, targetNode) == false) {
             return;
         }
-        $("div.ui-tree-node-selected", top).removeClass("ui-tree-node-selected");
-        $(target).addClass("ui-tree-node-selected");
+        $("div.ui-state-active", top).removeClass("ui-state-active");
+        $(target).addClass("ui-state-active");
         options.onSelect.call(top, targetNode);
     }
     
@@ -1209,6 +1223,7 @@
         onlyLeafCheck: false,
         lines: false,
         dnd: false,
+        showIcon: true,
         data: null,
         loader: function(data, onsuccess, onerror){
             var opts = $(this).tree("options");

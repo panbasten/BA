@@ -383,12 +383,13 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 			,animate:		true
 			,collapsible:	true
 //			,singleSelect:	true
-			,idField:		"propName"
+			,idField:		"propId"
 			,treeField:		"propName"
+			,showIcon: 		false
 			,frozenColumns:[[
                 {field:'propName',title:'属性',width:120,
 	                formatter:function(value){
-	                	return '<span style="color:red">'+value+'</span>';
+	                	return value;
 	                }
                 }
 			]]
@@ -541,56 +542,39 @@ Plywet.editors.form.action = {
 		if(pluginType.indexOf("fly:")==0){ // fly组件
 			var plugin = $(Plywet.escapeClientId("formStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
 			if(plugin.size() == 0){// 表示构件
-				props = [{propName:"objectId",propType:"input"}];
+				props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
 			}else{
 				props = plugin.data("data")["props"];
 			}
 		}else{// html组件
-			props = [{propName:"objectId",propType:"input"}];
+			props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
 		}
-		// TODO
 		// 显示属性
-		console.log(props);
-		var data = [{
-			"id":1,
-			"propName":"name1",
-			"propValue":"address1",
-			"iconCls":"icon-ok",
-			"children":[{
-				"id":2,
-				"propName":"name11",
-				"propValue":"address11",
-			},{
-				"id":3,
-				"propName":"name12",
-				"propValue":"address12",
-			}]
-		},{
-			"id":4,
-			"propName":"Languages abc",
-			"propValue":"address2",
-			"state":"closed",
-			"children":[{
-				"id":5,
-				"propName":"Java",
-				"children":[{
-					"id":6,
-					"propName":"jdk1"
-				},{
-					"id":7,
-					"propName":"jdk2"
-				}]
-			},{
-				"id":8,
-				"propName":"C#",
-			}]
-		}];
-		formEditorPanel_var.domProp.jq.treegrid("setUrlData", data);
-		formEditorPanel_var.domProp.jq.treegrid("reload");
+		formEditorPanel_var.domProp.setUrlData(_transdata(props));
 		
 		formEditorPanel_var.clearSelected();
 		formEditorPanel_var.addSelected(node.id);
 		formEditorPanel_var.redraw();
+		
+		function _transdata(array){
+			var rtn = [];
+			for(var i=0;i<array.length;i++){
+				var conf = {};
+				conf.propId="prop_"+array[i].name;
+				if(array[i].attrs&&array[i].attrs.length>0){
+					conf.propName="<b>"+array[i].description+"</b>";
+				}else{
+					conf.propName=array[i].description;
+				}
+				// TODO
+				conf.propValue=array[i].defaultValue||"";
+				if(array[i].attrs&&array[i].attrs.length>0){
+					conf.children=_transdata(array[i].attrs);
+				}
+				rtn.push(conf);
+			}
+			return rtn;
+		}
 	}
 };
 

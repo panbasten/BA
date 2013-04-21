@@ -88,7 +88,6 @@ a {
 }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus
 {
-    border: 1px solid #001346;
     background: #003147 url("images/ui-bg_highlight-hard_80_85b2cb_1x100.png") 50% 50% repeat-x;
     background: #003147 linear-gradient(top, rgba(93,115,243,1), rgba(3,37,234,1));
     background: #003147 -webkit-gradient(linear, left top, left bottom, from(rgba(93,115,243,1)), to(rgba(3,37,234,1)));
@@ -194,7 +193,8 @@ a {
     background-image: url("images/ui-icons_616161_256x384.png");
 }
 .ui-widget-header .ui-icon,
-.ui-tree .ui-icon
+.ui-tree .ui-icon,
+.ui-datagrid .ui-icon
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
 }
@@ -214,9 +214,11 @@ a {
 }
 .ui-state-highlight .ui-icon,
 .ui-tree .ui-tree-node-hover .ui-icon,
-.ui-tree .ui-tree-node-selected .ui-icon
+.ui-tree .ui-tree-node-selected .ui-icon,
+.ui-datagrid .ui-state-hover .ui-icon,
+.ui-datagrid .ui-state-active .ui-icon
 {
-    background-image: url("images/ui-icons_2d5972_256x384.png");
+    background-image: url("images/ui-icons_616161_256x384.png");
 }
 .ui-state-error .ui-icon, .ui-state-error-text .ui-icon
 {

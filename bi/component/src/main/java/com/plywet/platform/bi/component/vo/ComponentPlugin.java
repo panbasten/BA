@@ -86,7 +86,7 @@ public class ComponentPlugin {
 	public void addAttributeGroup(ComponentAttributeGroup attrGroup) {
 		addAttribute(attrGroup);
 		for (ComponentAttribute attr : attrGroup.getAttributes()) {
-			addAttribute(attr);
+			attributesMap.put(attr.getName().toLowerCase(), attr);
 		}
 
 	}

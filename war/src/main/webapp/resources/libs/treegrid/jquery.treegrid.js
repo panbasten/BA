@@ -705,12 +705,12 @@
 				}
 			});
 		},
-		reloadFooter : function(jq, _b0) {
+		reloadFooter : function(jq, footer) {
 			return jq.each(function() {
 				var opts = $.data(this, "treegrid").options;
 				var dc = $.data(this, "datagrid").dc;
-				if (_b0) {
-					$.data(this, "treegrid").footer = _b0;
+				if (footer) {
+					$.data(this, "treegrid").footer = footer;
 				}
 				if (opts.showFooter) {
 					opts.view.renderFooter.call(opts.view, this, dc.footer1, true);
@@ -977,6 +977,7 @@
 								val = row[field];
 							}
 							if (field == opts.treeField) {
+								var showIcon = (row.showIcon == undefined) ? ((opts.showIcon == undefined) ? true : opts.showIcon) : row.showIcon;
 								for ( var j = 0; j < _d4; j++) {
 									cc.push("<span class=\"ui-tree-indent\"></span>");
 								}
@@ -984,20 +985,20 @@
 									cc.push("<span class=\"ui-tree-hit ui-icon ui-tree-collapsed\"></span>");
 									cc.push("<span class=\"ui-tree-icon ui-icon ui-tree-folder "
 													+ (row.iconCls ? row.iconCls : "")
-													+ "\"></span>");
+													+ "\"" + (showIcon ? "" : "style=\"display:none;\"") +"></span>");
 								} else {
 									if (row.children && row.children.length) {
 										cc.push("<span class=\"ui-tree-hit ui-icon ui-tree-expanded\"></span>");
 										cc.push("<span class=\"ui-tree-icon ui-icon ui-tree-folder ui-tree-folder-open "
 												+ (row.iconCls ? row.iconCls
 														: "")
-												+ "\"></span>");
+												+ "\"" + (showIcon ? "" : "style=\"display:none;\"") +"></span>");
 									} else {
 										cc.push("<span class=\"ui-tree-indent\"></span>");
 										cc.push("<span class=\"ui-tree-icon ui-icon ui-tree-file "
 												+ (row.iconCls ? row.iconCls
 														: "")
-												+ "\"></span>");
+												+ "\"" + (showIcon ? "" : "style=\"display:none;\"") +"></span>");
 									}
 								}
 								cc.push("<span class=\"ui-tree-title\">" + val + "</span>");
@@ -1161,6 +1162,7 @@
 		$.fn.datagrid.defaults,
 		{
 			treeField : null,
+			showIcon : true,
 			animate : false,
 			singleSelect : true,
 			view : _view,
@@ -1275,3 +1277,8 @@ Plywet.widget.EasyTreeGrid=function(cfg){
 };
 
 Plywet.extend(Plywet.widget.EasyTreeGrid, Plywet.widget.BaseWidget);
+
+Plywet.widget.EasyTreeGrid.prototype.setUrlData=function(data){
+	this.jq.treegrid("setUrlData", data);
+	this.jq.treegrid("reload");
+};

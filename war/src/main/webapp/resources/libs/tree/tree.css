@@ -101,16 +101,11 @@
 	white-space:nowrap;
 }
 
-.ui-tree-node-hover,
-.ui-tree-node-hover .ui-tree-indent,
-.ui-tree-node-hover .ui-tree-title{
-	background:#fafafa;
+.ui-tree .ui-state-active{
+	border:0 none;
+	box-shadow: none;
 }
-.ui-tree-node-selected,
-.ui-tree-node-selected .ui-tree-indent,
-.ui-tree-node-selected .ui-tree-title {
-	background:#FBEC88;
-}
+
 .ui-tree-checkbox{
 	display:inline-block;
 	width:16px;
