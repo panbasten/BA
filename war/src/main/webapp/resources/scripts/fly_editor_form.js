@@ -155,19 +155,6 @@ Plywet.editors.form = {
 						return n;
 					}
 				});
-				$("#formEditorPanel").droppable({
-					accept: '.fly-form-step-plugin',
-					onDragEnter:function(e,source,data){
-						$("#formEditorPanel").addClass("ui-state-highlight");
-					},
-					onDragLeave: function(e,source,data){
-						$("#formEditorPanel").removeClass("ui-state-highlight");
-					},
-					onDrop: function(e,source,data){
-						$("#formEditorPanel").removeClass("ui-state-highlight");
-						Plywet.editor.appendEl("form",$(source).data("data"),data);
-					}
-				});
 				
 				$form.hide();
 				
@@ -257,30 +244,49 @@ Plywet.widget.FormEditor = function(cfg) {
 	
 	this.formStepBar = $(Plywet.escapeClientId("formStepBar"));
 	
-	this.selected = [];
+	this.selected = {};
+	
+	// 鼠标一次按下抬起操作
+	this.holder = false;
 	
 	this.initEditor();
+	
 };
 
 Plywet.widget.FormEditor.prototype.clearSelected = function() {
-	this.selected = [];
+	this.selected = {};
 };
 
 Plywet.widget.FormEditor.prototype.addSelected = function(domId) {
-	this.selected.push(domId)
+	this.selected[domId]=true;
+};
+
+Plywet.widget.FormEditor.prototype.isSelected = function(domId) {
+	return this.selected[domId];
+};
+
+Plywet.widget.FormEditor.prototype.getSelectedSize = function() {
+	var size = 0;
+	for(var selectedId in this.selected){
+		if(this.selected[selectedId]){
+			size++;
+		}
+	}
+	return size;
 };
 
 Plywet.widget.FormEditor.prototype.initEditor = function() {
+	this.editorWrapper = $("<div id='"+this.id+"Wrapper' class='fly-editor-wrapper fly-form-editor-wrapper'></div>").appendTo(this.eidtor);
 	this.editorContent = $("<div id='"+this.id+"Content' class='fly-editor-content fly-form-editor-content'></div>");
-	this.editorContent.appendTo(this.eidtor);
+	this.editorContent.appendTo(this.editorWrapper);
 	
 	if ($.browser.msie && $.browser.version < 9){ // excanvas hack
     	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-editor-canvas fly-form-editor-canvas'></canvas>");
-    	this.editorCanvas.appendTo(this.eidtor);
+    	this.editorCanvas.appendTo(this.editorWrapper);
     	this.editorCanvas = window.G_vmlCanvasManager.initElement(this.editorCanvas.get(0));
     } else {
     	this.editorCanvas = $("<canvas id='"+this.id+"Canvas' class='fly-editor-canvas fly-form-editor-canvas'></canvas>");
-    	this.editorCanvas.appendTo(this.eidtor);
+    	this.editorCanvas.appendTo(this.editorWrapper);
     	this.editorCanvas = this.editorCanvas.get(0);
     }
 	
@@ -288,60 +294,160 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 	
 	
 	var _self = this;
-	this.eidtor.mouseup(function(e){
-		var mouseCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
-		
-		if(!_self.domSize){
-			_self.createDomSize();
+	
+	this.editorWrapper
+		.bind("mousedown", function(e){
+			_self.holder = true;
+			
+			_self.initDomsSize();
+			
+			_self.mouseDownCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+			_self.mouseDownId = _self.getDomByMouseCoords(_self.mouseDownCoords);
+			
+			// 选择一个树节点
+			_self.domStructureTree.select(_self.mouseDownId);
+			
+			// 如果按下shift，认为是多选
+			if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
+			}else{
+				// 如果选择对象已经被选中，不清除所有选中
+				if(!_self.isSelected(_self.mouseDownId)){
+					_self.clearSelected();
+				}
+			}
+			_self.addSelected(_self.mouseDownId);
+			
+			_self.redraw();
+		})
+		.bind("mouseout", function(e){
+			_self.holder = false;
+			_self.mouseDownCoords = undefined;
+			_self.mouseDownId = undefined;
+			_self.mouseUpCoords = undefined;
+			_self.mouseUpId = undefined;
+			_self.redraw();
+		})
+		.bind("mousemove", function(e){
+			if(_self.holder){
+				_self.mouseMovingCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+				_self.redraw({"drawMove":true});
+			}
+		})
+		.bind("mouseup", function(e){
+			_self.initDomsSize();
+			
+			_self.mouseUpCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+			_self.mouseUpId = _self.getDomByMouseCoords(_self.mouseUpCoords);
+			
+			// 鼠标抬起对象是可接受的放置对象时，进行移动操作 TODO
+			
+			_self.holder = false;
+			_self.redraw();
+		});
+	
+	// 接受拖拽事件
+	this.editorWrapper.droppable({
+		accept: '.fly-form-step-plugin',
+		onDragEnter:function(e,source,data){
+			_self.editorWrapper.addClass("ui-state-highlight");
+		},
+		onDragLeave: function(e,source,data){
+			_self.editorWrapper.removeClass("ui-state-highlight");
+		},
+		onDrop: function(e,source,data){
+			_self.editorWrapper.removeClass("ui-state-highlight");
+			console.log($(source).data("data"));
+			console.log(data);
+			//Plywet.editor.appendEl("form",$(source).data("data"),data);
 		}
-		
-		var clickId = _self.clickDom(mouseCoords);
-		if(clickId){
-			_self.domStructureTree.select(clickId);
-		}
-		
 	});
 	
 	this.flush(this.cfg.data);
 };
 
-Plywet.widget.FormEditor.prototype.clickDom = function(m) {
-	var id, dim, dimLeft, dimTop;
-	for (var d in this.domSize) {
-		dim = this.domSize[d];
-		
-		if(dim.offsetLeft <= m.x && (dim.offsetLeft+dim.offsetWidth) >= m.x
-			&& dim.offsetTop <= m.y && (dim.offsetTop+dim.offsetHeight) >= m.y){
-			id = d;
-		}
-	}
-	return id;
-};
-
-Plywet.widget.FormEditor.prototype.createDomSize = function() {
-	this.domSize = {};
+/**
+ * 通过坐标，获得Dom的编辑ID
+ */
+Plywet.widget.FormEditor.prototype.getDomByMouseCoords = function(m) {
+	return getSubDomByMouseCoords(this.domsSize);
 	
-	var editorDim = Plywet.getElementDimensions(this.editorContent);
-	
-	createSubDomSize(this.domStructure, editorDim, this);
-	
-	function createSubDomSize(node, editorDim, _self) {
-		var id = node.attr("__editor_id"),
-			dom = _self.editorContent.find("[__editor_id="+id+"]");
-		
-		if(dom.size() > 0){
-			_self.domSize[id] = Plywet.getElementDimensions(dom);
+	function getSubDomByMouseCoords(domsSize){
+		var id, dim;
+		for (var i=0;i<domsSize.length;i++) {
+			dim = domsSize[i];
 			
-			_self.domSize[id].offsetTop = _self.domSize[id].offsetTop - editorDim.offsetTop;
-			_self.domSize[id].offsetLeft = _self.domSize[id].offsetLeft - editorDim.offsetLeft;
-		}
-		
-		var subNodes = node.children();
-		if(subNodes.size() > 0){
-			for(var i=0;i<subNodes.size();i++){
-				createSubDomSize($(subNodes[i]), editorDim, _self);
+			if(dim.offsetLeft <= m.x && (dim.offsetLeft+dim.offsetWidth) >= m.x
+				&& dim.offsetTop <= m.y && (dim.offsetTop+dim.offsetHeight) >= m.y){
+				id = dim.id;
+				if(dim.children){
+					id = getSubDomByMouseCoords(dim.children) || id;
+				}
+				return id;
 			}
 		}
+		return id;
+	}
+};
+
+/**
+ * 通过编辑ID，获得DomSize
+ */
+Plywet.widget.FormEditor.prototype.getDomSizeById = function(id) {
+	
+	return _getDomSizeById(this.domsSize);
+	
+	function _getDomSizeById(domsSize){
+		for (var i=0;i<domsSize.length;i++) {
+			var dim = domsSize[i];
+			if(dim.id == id){
+				return dim;
+			}else if(dim.children){
+				dim = _getDomSizeById(dim.children);
+				if(dim){
+					return dim;
+				}
+			}
+		}
+		return undefined;
+	}
+};
+
+Plywet.widget.FormEditor.prototype.initDomsSize = function() {
+	
+	if(!this.domsSize) {
+		
+		this.domsSize = [];
+		
+		var editorDim = Plywet.getElementDimensions(this.editorContent);;
+		
+		initSubDomsSize($(this.domStructure), editorDim, this.editorContent, this.domsSize);
+
+	}
+	
+	function initSubDomsSize(node, editorDim, dom, domsSize) {
+		var id = node.attr("__editor_id"),
+			domSize = Plywet.getElementDimensions(dom);
+			
+			domSize.offsetTop = domSize.offsetTop - editorDim.offsetTop;
+			domSize.offsetLeft = domSize.offsetLeft - editorDim.offsetLeft;
+			
+			var subNodes = node.children();
+			if(subNodes.size() > 0){
+				domSize.children = [];
+				for(var i=0;i<subNodes.size();i++){
+					initSubDomsSize2($(subNodes[i]), editorDim, dom, domSize.children);
+				}
+			}
+			
+			domSize.id = id;
+			
+			domsSize.push(domSize);
+	}
+	
+	function initSubDomsSize2(node, editorDim, pDom, domsSize){
+		var id = node.attr("__editor_id"),
+			dom = pDom.find("[__editor_id="+id+"]");
+		initSubDomsSize(node, editorDim, dom, domsSize);
 	}
 };
 
@@ -350,7 +456,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
 	
-	this.domSize = null;
+	this.domsSize = null;
 	
 	this.editorContent.html(this.dom);
 	if(this.script){
@@ -394,7 +500,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
                 }
 			]]
 			,columns:[[
-				{field:'propValue',title:'值',width:150}
+				{field:'propValue',title:'值',width:150,editor:'text'}
 			]]
 		};
 		this.domProp = new Plywet.widget.EasyTreeGrid(config);
@@ -436,6 +542,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 		
 		if (w) {
 			_self.width= w || 600;
+			_self.editorWrapper.width(w+10);
 			_self.editorContent.width(w);
 			
 			if ($.browser.msie && $.browser.version < 9){
@@ -446,6 +553,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 		}
 		if (h) {
 			_self.height= h || 400;
+			_self.editorWrapper.height(h+10);
 			_self.editorContent.height(h);
 			
 			if ($.browser.msie && $.browser.version < 9){
@@ -499,37 +607,52 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 };
 
-Plywet.widget.FormEditor.prototype.redraw = function() {
+Plywet.widget.FormEditor.prototype.redraw = function(cfg) {
+	
+	cfg = cfg || {};
+	
 	this.ctx.clearRect(0,0,this.width+10,this.height+10);
 	
 	this.ctx.lineWidth=1;
 	
-	for(var i=0;i<this.selected.length;i++){
-		redrawSelectComponent(this.selected[i], this);
+	var _self = this;
+	
+	var dim, mavingOff;
+	
+	if(cfg.drawMove){
+		mavingOff = {
+			x : this.off.x + this.mouseMovingCoords.x - this.mouseDownCoords.x,
+			y : this.off.y + this.mouseMovingCoords.y - this.mouseDownCoords.y
+		};
 	}
 	
-	function redrawSelectComponent(selectedId, _self) {
-		var dom = _self.editorContent.find("[__editor_id="+selectedId+"]");
-		
-		if(dom.size() == 0){
-			Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
-					{x:0,y:0,width:_self.width,height:_self.height},_self.off);
-			return;
+	for(var selectedId in this.selected){
+		if(this.selected[selectedId]){
+			dim = this.getDomSizeById(selectedId);
+			
+			// 绘制选中框
+			redrawSelectedComponents(dim);
+			
+			// 绘制拖动框
+			if(cfg.drawMove){
+				redrawMovingComponents(dim, mavingOff);
+			}
 		}
-		
-		var dim = Plywet.getElementDimensions(dom),
-			editorDim = Plywet.getElementDimensions(_self.editorContent);
-		
-		var editorDim_top = dim.offsetTop-editorDim.offsetTop,
-			editorDim_left = dim.offsetLeft-editorDim.offsetLeft,
-			editorDim_width = dim.offsetWidth,
-			editorDim_height = dim.offsetHeight;
+	}
+	
+	function redrawMovingComponents(dim, mavingOff) {
+		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
+				_self.drawRectStyle, "dotted", mavingOff);
+	}
+	
+	function redrawSelectedComponents(dim) {
 		
 		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
-				{x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height}, 
+				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
 				_self.drawRectStyle, "line", _self.off);
 		Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
-				{x:editorDim_left,y:editorDim_top,width:editorDim_width,height:editorDim_height},
+				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight},
 				_self.off,_self.drawResizerStyle);
 	}
 
@@ -552,9 +675,12 @@ Plywet.editors.form.action = {
 		// 显示属性
 		formEditorPanel_var.domProp.setUrlData(_transdata(props));
 		
-		formEditorPanel_var.clearSelected();
-		formEditorPanel_var.addSelected(node.id);
-		formEditorPanel_var.redraw();
+		// 页面点击独立处理这部分
+		if(!formEditorPanel_var.holder){
+			formEditorPanel_var.clearSelected();
+			formEditorPanel_var.addSelected(node.id);
+			formEditorPanel_var.redraw();
+		}
 		
 		function _transdata(array){
 			var rtn = [];

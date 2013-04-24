@@ -193,6 +193,15 @@
 			});
 			$(document).bind('contextmenu', function(e) {
 				return false;
+			})
+			.bind('keydown', function(e){
+				window["__global_hold_key"] = e.keyCode;
+			})
+			.bind('keyup', function(e){
+				window["__global_hold_key"] = undefined;
+			})
+			.bind('blur', function(e){
+				window["__global_hold_key"] = undefined;
 			});
 		});
 	</script>

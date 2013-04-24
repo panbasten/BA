@@ -230,5 +230,6 @@
 	width:100%;
 	font-size:12px;
 	border:1px solid #A4BED4;
-	padding:2px 4px 0 4px;
+	background:none repeat scroll 0 0 transparent;
+	margin:1px;
 }

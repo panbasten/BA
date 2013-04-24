@@ -110,6 +110,8 @@ public class BIReportResource {
 		try {
 			Document doc = PageTemplateInterpolator.getDomForEditor(
 					"editor/test/test.h", "form_" + id);
+			
+			// 保留编辑状态，对于集群应用需要使用共享缓存
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			Object[] domString = PageTemplateInterpolator.interpolate(
@@ -125,6 +127,18 @@ public class BIReportResource {
 			jo.put("domStructure", domStructure);
 
 			return jo.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建Form页面出现错误。", ex);
+		}
+	}
+	
+	@GET
+	@Path("/form/{id}/")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String operatorFormsEditor(@CookieParam("repository") String repository,
+			@PathParam("id") String id) throws BIException {
+		try {
+			return "";
 		} catch (Exception ex) {
 			throw new BIException("创建Form页面出现错误。", ex);
 		}

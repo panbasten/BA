@@ -21,6 +21,28 @@ Plywet.Login = {
 		}
 	},
 	
+	closeWebPage : function() {  
+        if (Plywet.browserDetect.msie) {  
+            if (Plywet.browserDetect.isIE6) {  
+                window.opener = null; 
+                window.close();  
+            }  
+            else {  
+                window.open('', '_top'); 
+                window.top.close();  
+            }  
+        }  
+        else if (Plywet.browserDetect.mozilla) {  
+            window.location.href = 'about:blank ';  
+            //window.history.go(-2);  
+        }  
+        else {  
+            window.opener = null;   
+            window.open('', '_self', '');  
+            window.close();  
+        }  
+    },
+	
 	loginAction : function(){
 		Plywet.ab({
 			formId: "login",
@@ -31,7 +53,9 @@ Plywet.Login = {
 					for(var p in cookieJson){
 						Plywet.CookieUtils.write(p,cookieJson[p]);
 					}
-					window.location = "editor";
+					//window.location = "editor";
+					window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
+					setTimeout("Plywet.Login.closeWebPage();",500);
 				}else{
 					var msg = "";
 					if(data.messages){
