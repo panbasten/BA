@@ -30,7 +30,7 @@ public class BIBaseResource {
 	public static final String ID_EDITOR_NAVIS = "navis";
 	public static final String ID_EDITOR_TRANS = "trans";
 	public static final String ID_EDITOR_JOBS = "jobs";
-	public static final String ID_EDITOR_FORM = "form";
+	public static final String ID_EDITOR_DASHBOARD = "dashboard";
 
 	@Resource(name = "bi.service.pageServices")
 	private BIPageDelegates pageDelegates;

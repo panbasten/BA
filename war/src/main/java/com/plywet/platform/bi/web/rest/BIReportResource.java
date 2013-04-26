@@ -42,7 +42,7 @@ public class BIReportResource {
 
 	private static final String ICON_PATH = "resources/images/plugins/";
 
-	public static final String FORM_TEMPLATE = "editor/editor_form.h";
+	public static final String DASHBOARD_TEMPLATE = "editor/editor_dashboard.h";
 
 	private static final String ID_EDITOR_CONTENT_NAVI_REPORT_BC = "editorContent-navi-report-bc";
 	private static final String ID_EDITOR_CONTENT_NAVI_REPORT_BP = "editorContent-navi-report-bp";
@@ -100,17 +100,26 @@ public class BIReportResource {
 		}
 	}
 
+	/**
+	 * 打开一个Dashboard编辑页面
+	 * 
+	 * @param repository
+	 * @param id
+	 * @return
+	 * @throws BIException
+	 */
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/form/{id}")
+	@Path("/dashboard/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openFormsEditor(@CookieParam("repository") String repository,
+	public String openDashboardEditor(
+			@CookieParam("repository") String repository,
 			@PathParam("id") String id) throws BIException {
 
 		try {
 			Document doc = PageTemplateInterpolator.getDomForEditor(
-					"editor/test/test.h", "form_" + id);
-			
+					"editor/test/test.h", "dom_" + id);
+
 			// 保留编辑状态，对于集群应用需要使用共享缓存
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
@@ -128,38 +137,39 @@ public class BIReportResource {
 
 			return jo.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建Form页面出现错误。", ex);
+			throw new BIException("创建Dashboard编辑页面出现错误。", ex);
 		}
 	}
-	
+
 	@GET
-	@Path("/form/{id}/")
+	@Path("/dashboard/{id}/")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String operatorFormsEditor(@CookieParam("repository") String repository,
+	public String operatorDashboardEditor(
+			@CookieParam("repository") String repository,
 			@PathParam("id") String id) throws BIException {
 		try {
 			return "";
 		} catch (Exception ex) {
-			throw new BIException("创建Form页面出现错误。", ex);
+			throw new BIException("创建Dashboard页面出现错误。", ex);
 		}
 	}
 
 	/**
-	 * 创建一个表单编辑器
+	 * 初始化加载Dashboard编辑器页面
 	 * 
 	 * @return
 	 * @throws BIException
 	 */
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/form/editor")
+	@Path("/dashboard/editor")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createFormPage() throws BIException {
+	public String loadDashboardEditor() throws BIException {
 		try {
 			// 生成插件工具栏
-			List<String> formStepBar = PageTemplateResolverType
+			List<String> dashboardStepBar = PageTemplateResolverType
 					.getCategoryNames();
-			List<BrowseMeta> formStepBrowses = new ArrayList<BrowseMeta>();
+			List<BrowseMeta> dashboardStepBrowses = new ArrayList<BrowseMeta>();
 			Map<String, List<ComponentPlugin>> categories = PageTemplateResolverType
 					.getCategories();
 
@@ -174,31 +184,31 @@ public class BIReportResource {
 					BrowseNodeMeta plugin = new BrowseNodeMeta();
 					plugin.setId(cp.getId());
 					plugin.setCategory(cp.getCategory());
-					plugin.addClass("fly-form-step-plugin");
+					plugin.addClass("fly-dashboard-step-plugin");
 					plugin.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
 					plugin.addAttribute(HTML.ATTR_ICON, ICON_PATH
 							+ cp.getIconfile());
 					plugin.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, cp
 							.getDescription());
 					plugin.addAttribute(HTML.ATTR_TITLE, cp.getTooltip());
-					
+
 					Map dataMap = new HashMap();
 					dataMap.put("props", cp.getAttributesJSONArray());
 					plugin.setData(dataMap);
-					
+
 					browseMeta.addContent(plugin);
 				}
 
-				formStepBrowses.add(browseMeta);
+				dashboardStepBrowses.add(browseMeta);
 			}
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-			attrsMap.addVariable("editorId", BIBaseResource.ID_EDITOR_FORM);
-			attrsMap.addVariable("formStepBar", formStepBar);
-			attrsMap.addVariable("formStepBrowses", formStepBrowses);
+			attrsMap.addVariable("editorId", BIBaseResource.ID_EDITOR_DASHBOARD);
+			attrsMap.addVariable("dashboardStepBar", dashboardStepBar);
+			attrsMap.addVariable("dashboardStepBrowses", dashboardStepBrowses);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
-					FORM_TEMPLATE, attrsMap);
+					DASHBOARD_TEMPLATE, attrsMap);
 
 			// 创建一个更新操作
 			AjaxResultEntity entity = AjaxResultEntity.instance().setOperation(
@@ -211,7 +221,7 @@ public class BIReportResource {
 
 			return result.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建Form编辑器页面出现错误。", ex);
+			throw new BIException("初始化加载Dashboard编辑器页面出现错误。", ex);
 		}
 	}
 }

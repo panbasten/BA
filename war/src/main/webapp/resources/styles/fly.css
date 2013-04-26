@@ -695,12 +695,12 @@ div.ui-fs-sftp-icon {
 	border-radius:5px;
 }
 
-.fly-form-editor-wrapper{
+.fly-dashboard-editor-wrapper{
 	position: absolute;
 }
 
-.fly-form-editor-content{
-	background: url("../images/default/form_editer_bg.gif") repeat scroll left top #cccccc;
+.fly-dashboard-editor-content{
+	background: url("../images/default/dashboard_editer_bg.gif") repeat scroll left top #cccccc;
     position: absolute;
 	-moz-box-shadow: none;
     -webkit-box-shadow: none;
@@ -708,13 +708,13 @@ div.ui-fs-sftp-icon {
 	margin: 5px;
 }
 
-.fly-form-editor-component{
+.fly-dashboard-editor-component{
 	position: absolute;
 	margin: 0;
 	padding: 0;
 }
 
-.fly-form-editor-canvas{
+.fly-dashboard-editor-canvas{
 	position: absolute;
 	margin: 0;
 }

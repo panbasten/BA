@@ -75,7 +75,7 @@ Plywet.desktop = {
 		// 2.注册trans、job编辑器
 		Plywet.editors.trans.register();
 		
-		Plywet.editors.form.register();
+		Plywet.editors.dashboard.register();
 		
 		// 3.加载用户信息弹出页
 		Plywet.ab({

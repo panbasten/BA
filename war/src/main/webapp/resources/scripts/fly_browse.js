@@ -173,7 +173,7 @@ Plywet.browse = {
 			displayName = data.attrs.displayName;
 		
 		// 转换、作业、表单报表打开转换设计器（TAB）
-		if(category=="trans" || category=="job" || category=="form"){
+		if(category=="trans" || category=="job" || category=="dashboard"){
 			if (diEditorPageTabs.hasMatch(tabName)) {
 				diEditorPageTabs.select(tabName);
 				return;

@@ -1,7 +1,7 @@
 package com.plywet.platform.bi.delegates.utils;
 
 public enum BIReportCategory {
-	REPORT_TYPE_FORM(1, "form", "表单") {
+	REPORT_TYPE_FORM(1, "dashboard", "仪表板") {
 	},
 	REPORT_TYPE_WORD_REPORT(2, "wordreport", "报告") {
 	},

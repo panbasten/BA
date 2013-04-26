@@ -1,22 +1,22 @@
 // 表单
-Plywet.editors.form = {
+Plywet.editors.dashboard = {
 	saveStatus : function ($tabo) {
-		console.log("save form");
+		console.log("save dashboard");
 	},
 	reloadStatus : function ($taba) {
 		
 		if (typeof($taba.data("exdata"))=='undefined')return;
 		var tabData = $taba.data("exdata");
 
-		if (typeof formEditorPanel_var == 'undefined') {
-			Plywet.cw("FormEditor","formEditorPanel_var",{
-				id: "formEditorPanel",
-				structureId: "formStructPanel",
-				propId: "formPropBar",
+		if (typeof dashboardEditorPanel_var == 'undefined') {
+			Plywet.cw("DashboardEditor","dashboardEditorPanel_var",{
+				id: "dashboardEditorPanel",
+				structureId: "dashboardStructPanel",
+				propId: "dashboardPropBar",
 				data: tabData
 			});
 		} else {
-			formEditorPanel_var.flush(tabData);
+			dashboardEditorPanel_var.flush(tabData);
 		}
 		
 	},
@@ -25,13 +25,13 @@ Plywet.editors.form = {
 		
 	},
 	register : function(){
-		if(Plywet.editors.register["form"]){
+		if(Plywet.editors.register["dashboard"]){
 			return;
 		}
 		
 		Plywet.ab({
 			type : "get",
-			url: "rest/report/form/editor",
+			url: "rest/report/dashboard/editor",
 			beforeSend : function(){
 				Plywet.desktop.changeMarkText("正在注册表单设计器页面...");
 			},
@@ -40,12 +40,12 @@ Plywet.editors.form = {
 				var editorContainer = diEditorLayout.getPane("center"),
 					editorContentWidth = editorContainer.outerWidth(),
 					editorContentHeight = editorContainer.outerHeight()-40;
-				var $form = $("#form");
-				$form.width(editorContentWidth).height(editorContentHeight);
-				$("#formEditorPanel").height(editorContentHeight - 40);
+				var $dashboard = $("#dashboard");
+				$dashboard.width(editorContentWidth).height(editorContentHeight);
+				$("#dashboardEditorPanel").height(editorContentHeight - 40);
 				
 				// 结构
-				$formLayout = $form.layout({
+				$dashboardLayout = $dashboard.layout({
 					defaults: {
 						size:					"auto"
 						,	minSize:				50
@@ -64,7 +64,7 @@ Plywet.editors.form = {
 					}
 					, west : {
 						size : 200
-						,	paneSelector : "#formStepBar"
+						,	paneSelector : "#dashboardStepBar"
 						,	togglerTip_open:		"关闭工具箱"
 						,	togglerTip_closed:		"打开工具箱"
 						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-e'></div>"
@@ -73,7 +73,7 @@ Plywet.editors.form = {
 					}
 					, east : {
 						size : 250
-						,	paneSelector : "#formPropBar"
+						,	paneSelector : "#dashboardPropBar"
 						,	togglerTip_open:		"关闭属性框"
 						,	togglerTip_closed:		"打开属性框"
 						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-w'></div>"
@@ -92,15 +92,15 @@ Plywet.editors.form = {
 								size : 200
 								,	closable : false
 								,  	resizerTip:		"调整属性框高度"
-								,	paneSelector : "#formStructPanel"
+								,	paneSelector : "#dashboardStructPanel"
 							}
 							, center: {
-								paneSelector : "#formPropPanel"
+								paneSelector : "#dashboardPropPanel"
 							}
 						}
 					}
 					, center : {
-						paneSelector : "#formContent"
+						paneSelector : "#dashboardContent"
 						, 	minSize : 200
 						,	childOptions: {
 							defaults: {
@@ -115,14 +115,14 @@ Plywet.editors.form = {
 								size : 30
 								,	resizable:				false
 								,	closable : 				false
-								,	paneSelector : 			"#formEditorToolbar"
+								,	paneSelector : 			"#dashboardEditorToolbar"
 							}
 							, center: {
-								paneSelector : 				"#formEditorPanel"
+								paneSelector : 				"#dashboardEditorPanel"
 							}
 							, south: {
 								size : 200
-								,	paneSelector : 			"#formSignalBar"
+								,	paneSelector : 			"#dashboardSignalBar"
 								,	slideTrigger_open:		"click"
 								,	spacing_closed:			16
 								,	togglerAlign_closed:	"right"
@@ -134,17 +134,17 @@ Plywet.editors.form = {
 				});
 				
 				
-				Plywet.cw("EasyTabs","diEditorFormStepBar",{
-					id : "formStepBar"
+				Plywet.cw("EasyTabs","diEditordashboardStepBar",{
+					id : "dashboardStepBar"
 				});
-				Plywet.cw("Scrollbar","formStepBarScroll",{
-					id:'formStepBar',
-					tabGroup:'formStepBar-ul',
+				Plywet.cw("Scrollbar","dashboardStepBarScroll",{
+					id:'dashboardStepBar',
+					tabGroup:'dashboardStepBar-ul',
 					step:80,
 					scrollType:'vertical'
 				});
 				// 拖拽
-				$(".fly-form-step-plugin").draggable({
+				$(".fly-dashboard-step-plugin").draggable({
 					revert:true,
 					deltaX:-10,
 					deltaY:-10,
@@ -156,9 +156,9 @@ Plywet.editors.form = {
 					}
 				});
 				
-				$form.hide();
+				$dashboard.hide();
 				
-				Plywet.editors.register["form"] = "Y";
+				Plywet.editors.register["dashboard"] = "Y";
 			}
 		});
 	},
@@ -169,9 +169,9 @@ Plywet.editors.form = {
 		propHeight : 0
 	},
 	toggleContent : function(target){
-		var $close1 = $("#formStructClose"),
-			$close2 = $("#formPropClose"),
-			$layout = $("#formPropBar").data('layout');
+		var $close1 = $("#dashboardStructClose"),
+			$close2 = $("#dashboardPropClose"),
+			$layout = $("#dashboardPropBar").data('layout');
 		
 		if(this.toggleFlags.structPane && this.toggleFlags.propPane){
 			this.toggleFlags.structHeight = $layout.getPaneSize("north");
@@ -226,7 +226,7 @@ Plywet.editors.form = {
 };
 
 
-Plywet.widget.FormEditor = function(cfg) {
+Plywet.widget.DashboardEditor = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
 	this.structureId = this.cfg.structureId;
@@ -242,7 +242,7 @@ Plywet.widget.FormEditor = function(cfg) {
 	this.structure = $(Plywet.escapeClientId(this.structureId));
 	this.prop = $(Plywet.escapeClientId(this.propId));
 	
-	this.formStepBar = $(Plywet.escapeClientId("formStepBar"));
+	this.dashboardStepBar = $(Plywet.escapeClientId("dashboardStepBar"));
 	
 	this.selected = {};
 	
@@ -253,19 +253,19 @@ Plywet.widget.FormEditor = function(cfg) {
 	
 };
 
-Plywet.widget.FormEditor.prototype.clearSelected = function() {
+Plywet.widget.DashboardEditor.prototype.clearSelected = function() {
 	this.selected = {};
 };
 
-Plywet.widget.FormEditor.prototype.addSelected = function(domId) {
+Plywet.widget.DashboardEditor.prototype.addSelected = function(domId) {
 	this.selected[domId]=true;
 };
 
-Plywet.widget.FormEditor.prototype.isSelected = function(domId) {
+Plywet.widget.DashboardEditor.prototype.isSelected = function(domId) {
 	return this.selected[domId];
 };
 
-Plywet.widget.FormEditor.prototype.getSelectedSize = function() {
+Plywet.widget.DashboardEditor.prototype.getSelectedSize = function() {
 	var size = 0;
 	for(var selectedId in this.selected){
 		if(this.selected[selectedId]){
@@ -275,17 +275,17 @@ Plywet.widget.FormEditor.prototype.getSelectedSize = function() {
 	return size;
 };
 
-Plywet.widget.FormEditor.prototype.initEditor = function() {
-	this.editorWrapper = $("<div id='"+this.id+"Wrapper' class='fly-editor-wrapper fly-form-editor-wrapper'></div>").appendTo(this.eidtor);
-	this.editorContent = $("<div id='"+this.id+"Content' class='fly-editor-content fly-form-editor-content'></div>");
+Plywet.widget.DashboardEditor.prototype.initEditor = function() {
+	this.editorWrapper = $("<div id='"+this.id+"Wrapper' class='fly-editor-wrapper fly-dashboard-editor-wrapper'></div>").appendTo(this.eidtor);
+	this.editorContent = $("<div id='"+this.id+"Content' class='fly-editor-content fly-dashboard-editor-content'></div>");
 	this.editorContent.appendTo(this.editorWrapper);
 	
 	if ($.browser.msie && $.browser.version < 9){ // excanvas hack
-    	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-editor-canvas fly-form-editor-canvas'></canvas>");
+    	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-editor-canvas fly-dashboard-editor-canvas'></canvas>");
     	this.editorCanvas.appendTo(this.editorWrapper);
     	this.editorCanvas = window.G_vmlCanvasManager.initElement(this.editorCanvas.get(0));
     } else {
-    	this.editorCanvas = $("<canvas id='"+this.id+"Canvas' class='fly-editor-canvas fly-form-editor-canvas'></canvas>");
+    	this.editorCanvas = $("<canvas id='"+this.id+"Canvas' class='fly-editor-canvas fly-dashboard-editor-canvas'></canvas>");
     	this.editorCanvas.appendTo(this.editorWrapper);
     	this.editorCanvas = this.editorCanvas.get(0);
     }
@@ -347,7 +347,7 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 	
 	// 接受拖拽事件
 	this.editorWrapper.droppable({
-		accept: '.fly-form-step-plugin',
+		accept: '.fly-dashboard-step-plugin',
 		onDragEnter:function(e,source,data){
 			_self.editorWrapper.addClass("ui-state-highlight");
 		},
@@ -358,7 +358,7 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 			_self.editorWrapper.removeClass("ui-state-highlight");
 			console.log($(source).data("data"));
 			console.log(data);
-			//Plywet.editor.appendEl("form",$(source).data("data"),data);
+			//Plywet.editor.appendEl("dashboard",$(source).data("data"),data);
 		}
 	});
 	
@@ -368,7 +368,7 @@ Plywet.widget.FormEditor.prototype.initEditor = function() {
 /**
  * 通过坐标，获得Dom的编辑ID
  */
-Plywet.widget.FormEditor.prototype.getDomByMouseCoords = function(m) {
+Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
 	return getSubDomByMouseCoords(this.domsSize);
 	
 	function getSubDomByMouseCoords(domsSize){
@@ -392,7 +392,7 @@ Plywet.widget.FormEditor.prototype.getDomByMouseCoords = function(m) {
 /**
  * 通过编辑ID，获得DomSize
  */
-Plywet.widget.FormEditor.prototype.getDomSizeById = function(id) {
+Plywet.widget.DashboardEditor.prototype.getDomSizeById = function(id) {
 	
 	return _getDomSizeById(this.domsSize);
 	
@@ -412,7 +412,7 @@ Plywet.widget.FormEditor.prototype.getDomSizeById = function(id) {
 	}
 };
 
-Plywet.widget.FormEditor.prototype.initDomsSize = function() {
+Plywet.widget.DashboardEditor.prototype.initDomsSize = function() {
 	
 	if(!this.domsSize) {
 		
@@ -451,7 +451,7 @@ Plywet.widget.FormEditor.prototype.initDomsSize = function() {
 	}
 };
 
-Plywet.widget.FormEditor.prototype.flush = function(data) {
+Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	this.dom = data.dom;
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
@@ -475,8 +475,8 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 	if(!this.domStructureTree){
 		var config = {
-			id : 		"formStructPanelContent"
-			,onSelect : 	Plywet.editors.form.action.struct_on_select
+			id : 		"dashboardStructPanelContent"
+			,onSelect : 	Plywet.editors.dashboard.action.struct_on_select
 			,els :		[getNodeStructure(this.domStructure, this)]
 		};
 		this.domStructureTree = new Plywet.widget.EasyTree(config);
@@ -485,7 +485,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 	if(!this.domProp){
 		var config = {
-			id: 			"formPropPanelContent"
+			id: 			"dashboardPropPanelContent"
 			,animate:		true
 			,collapsible:	true
 //			,singleSelect:	true
@@ -508,7 +508,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 	if(!this.signalGrid){
 		var config = {
-			id:				"formSignalPanelContent"
+			id:				"dashboardSignalPanelContent"
 //			,singleSelect:	false
 			,columns:		[
 		        [{
@@ -575,7 +575,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 			type = node.attr("__editor_type"),
 			typeName = "";
 		if(type){
-			var plugin = _self.formStepBar.find(Plywet.escapeClientId("leaf:"+type));
+			var plugin = _self.dashboardStepBar.find(Plywet.escapeClientId("leaf:"+type));
 			if(plugin.size() == 0){
 				typeName = "构件";
 			}else{
@@ -607,7 +607,7 @@ Plywet.widget.FormEditor.prototype.flush = function(data) {
 	
 };
 
-Plywet.widget.FormEditor.prototype.redraw = function(cfg) {
+Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	
 	cfg = cfg || {};
 	
@@ -658,12 +658,12 @@ Plywet.widget.FormEditor.prototype.redraw = function(cfg) {
 
 };
 
-Plywet.editors.form.action = {
+Plywet.editors.dashboard.action = {
 	struct_on_select : function(node){
 		var pluginType = $(node.target).data("uiTreeNode").attributes.pluginType;
 		var props = [];
 		if(pluginType.indexOf("fly:")==0){ // fly组件
-			var plugin = $(Plywet.escapeClientId("formStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
+			var plugin = $(Plywet.escapeClientId("dashboardStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
 			if(plugin.size() == 0){// 表示构件
 				props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
 			}else{
@@ -673,13 +673,13 @@ Plywet.editors.form.action = {
 			props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
 		}
 		// 显示属性
-		formEditorPanel_var.domProp.setUrlData(_transdata(props));
+		dashboardEditorPanel_var.domProp.setUrlData(_transdata(props));
 		
 		// 页面点击独立处理这部分
-		if(!formEditorPanel_var.holder){
-			formEditorPanel_var.clearSelected();
-			formEditorPanel_var.addSelected(node.id);
-			formEditorPanel_var.redraw();
+		if(!dashboardEditorPanel_var.holder){
+			dashboardEditorPanel_var.clearSelected();
+			dashboardEditorPanel_var.addSelected(node.id);
+			dashboardEditorPanel_var.redraw();
 		}
 		
 		function _transdata(array){
