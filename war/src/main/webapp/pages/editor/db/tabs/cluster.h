@@ -2,7 +2,7 @@
 
 	<fly:gridLayout column="4">
 		<fly:gridLayoutItem>
-			<fly:labelObject for="${formId}:partitioned" title="使用集群" />
+			<fly:labelObject buddy="${formId}:partitioned" text="使用集群" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:partitioned" name="${formId}:partitioned" type="checkbox" 
@@ -12,7 +12,7 @@
 	</fly:gridLayout>
 	
 	<fly:verticalLayout>
-		<fly:labelObject title="命名参数" />
+		<fly:labelObject text="命名参数" />
 		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" selectable="false" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
 			<fly:columns>
 				<fly:row>

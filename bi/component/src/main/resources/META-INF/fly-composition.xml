@@ -56,6 +56,5 @@
 	<component>fly-horizontallayout.xml</component>
 	<component>fly-gridlayout.xml</component>
 	<component>fly-gridlayoutitem.xml</component>
-	<component>fly-formlayout.xml</component>
 	
 </components>

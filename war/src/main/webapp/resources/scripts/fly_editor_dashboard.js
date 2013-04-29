@@ -244,7 +244,9 @@ Plywet.widget.DashboardEditor = function(cfg) {
 	
 	this.dashboardStepBar = $(Plywet.escapeClientId("dashboardStepBar"));
 	
+	// 选中的对象
 	this.selected = {};
+	this.targetObject = null;
 	
 	// 鼠标一次按下抬起操作
 	this.holder = false;
@@ -299,7 +301,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 		.bind("mousedown", function(e){
 			_self.holder = true;
 			
-			_self.initDomsSize();
+			_self.initDomsProp();
 			
 			_self.mouseDownCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 			_self.mouseDownId = _self.getDomByMouseCoords(_self.mouseDownCoords);
@@ -331,10 +333,13 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			if(_self.holder){
 				_self.mouseMovingCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 				_self.redraw({"drawMove":true});
+				
+				// TODO找到一个节点
+				//var plugin = $(Plywet.escapeClientId("dashboardStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
 			}
 		})
 		.bind("mouseup", function(e){
-			_self.initDomsSize();
+			_self.initDomsProp();
 			
 			_self.mouseUpCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 			_self.mouseUpId = _self.getDomByMouseCoords(_self.mouseUpCoords);
@@ -369,12 +374,16 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
  * 通过坐标，获得Dom的编辑ID
  */
 Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
-	return getSubDomByMouseCoords(this.domsSize);
+	var id = getSubDomByMouseCoords(this.domsProp);
+	if(!id){
+		id = this.domsProp[0].id;
+	}
+	return id;
 	
-	function getSubDomByMouseCoords(domsSize){
+	function getSubDomByMouseCoords(domsProp){
 		var id, dim;
-		for (var i=0;i<domsSize.length;i++) {
-			dim = domsSize[i];
+		for (var i=0;i<domsProp.length;i++) {
+			dim = domsProp[i];
 			
 			if(dim.offsetLeft <= m.x && (dim.offsetLeft+dim.offsetWidth) >= m.x
 				&& dim.offsetTop <= m.y && (dim.offsetTop+dim.offsetHeight) >= m.y){
@@ -390,19 +399,19 @@ Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
 };
 
 /**
- * 通过编辑ID，获得DomSize
+ * 通过编辑ID，获得DomProp
  */
-Plywet.widget.DashboardEditor.prototype.getDomSizeById = function(id) {
+Plywet.widget.DashboardEditor.prototype.getDomPropById = function(id) {
 	
-	return _getDomSizeById(this.domsSize);
+	return _getDomPropById(this.domsProp);
 	
-	function _getDomSizeById(domsSize){
-		for (var i=0;i<domsSize.length;i++) {
-			var dim = domsSize[i];
+	function _getDomPropById(domsProp){
+		for (var i=0;i<domsProp.length;i++) {
+			var dim = domsProp[i];
 			if(dim.id == id){
 				return dim;
 			}else if(dim.children){
-				dim = _getDomSizeById(dim.children);
+				dim = _getDomPropById(dim.children);
 				if(dim){
 					return dim;
 				}
@@ -412,42 +421,98 @@ Plywet.widget.DashboardEditor.prototype.getDomSizeById = function(id) {
 	}
 };
 
-Plywet.widget.DashboardEditor.prototype.initDomsSize = function() {
+/**
+ * 初始化Dom的属性集
+ */
+Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
 	
-	if(!this.domsSize) {
+	if(!this.domsProp) {
 		
-		this.domsSize = [];
+		this.domsProp = [];
 		
-		var editorDim = Plywet.getElementDimensions(this.editorContent);;
+		var editorDim = Plywet.getElementDimensions(this.editorContent);
 		
-		initSubDomsSize($(this.domStructure), editorDim, this.editorContent, this.domsSize);
+		initSubDomsProp($(this.domStructure), editorDim, this.editorContent, this.domsProp, this);
 
 	}
 	
-	function initSubDomsSize(node, editorDim, dom, domsSize) {
-		var id = node.attr("__editor_id"),
-			domSize = Plywet.getElementDimensions(dom);
+	function initSubDomsProp(node, editorDim, dom, domsProp, target) {
+		var domProp = Plywet.getElementDimensions(dom);
 			
-			domSize.offsetTop = domSize.offsetTop - editorDim.offsetTop;
-			domSize.offsetLeft = domSize.offsetLeft - editorDim.offsetLeft;
-			
-			var subNodes = node.children();
-			if(subNodes.size() > 0){
-				domSize.children = [];
-				for(var i=0;i<subNodes.size();i++){
-					initSubDomsSize2($(subNodes[i]), editorDim, dom, domSize.children);
-				}
+		domProp.offsetTop = domProp.offsetTop - editorDim.offsetTop;
+		domProp.offsetLeft = domProp.offsetLeft - editorDim.offsetLeft;
+		
+		var subNodes = node.children();
+		if(subNodes.size() > 0){
+			domProp.children = [];
+			for(var i=0;i<subNodes.size();i++){
+				initSubDomsProp2($(subNodes[i]), editorDim, dom, domProp.children, target);
 			}
-			
-			domSize.id = id;
-			
-			domsSize.push(domSize);
+		}
+		
+		initDomAttr(node, domProp, target);
+		
+		domsProp.push(domProp);
 	}
 	
-	function initSubDomsSize2(node, editorDim, pDom, domsSize){
+	function initSubDomsProp2(node, editorDim, pDom, domsProp, target){
 		var id = node.attr("__editor_id"),
 			dom = pDom.find("[__editor_id="+id+"]");
-		initSubDomsSize(node, editorDim, dom, domsSize);
+		initSubDomsProp(node, editorDim, dom, domsProp, target);
+	}
+	
+	function initDomAttr(node, domProp, target) {
+		domProp.id = node.attr("__editor_id");
+		domProp.type = node.attr("__editor_type");
+		
+		var props;
+		
+		// Fly组件
+		if(domProp.type){
+			var plugin = target.getPlugin(domProp.type);
+			// 构件
+			if(plugin.size() == 0){
+				props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
+			}
+			// 其他Fly组件
+			else{
+				props = plugin.data("data")["props"];
+			}
+		}
+		// HTML组件
+		else{
+			props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
+		}
+		
+		// 获得一份plugin的属性集
+		domProp.props = transformAttrForTreeGrid(props, node);
+		
+	}
+	
+	function transformAttrForTreeGrid(array, node){
+		var rtn = [];
+		for(var i=0;i<array.length;i++){
+			var conf = {};
+			conf.propId="prop_"+array[i].name;
+			if(array[i].attrs&&array[i].attrs.length>0){
+				conf.propName="<b>"+array[i].description+"</b>";
+			}else{
+				conf.propName=array[i].description;
+			}
+			// 使用node的属性值替换
+			if(array[i].name == "objectName"){
+				conf.propValue=node.attr("objectName")||node.attr("id")||node.attr("name")||"";
+			}else{
+				conf.propValue=node.attr(array[i].name)||"";
+			}
+			
+			// 子属性
+			if(array[i].attrs&&array[i].attrs.length>0){
+				conf.children=transformAttrForTreeGrid(array[i].attrs, node);
+			}
+			rtn.push(conf);
+		}
+		return rtn;
 	}
 };
 
@@ -456,7 +521,7 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
 	
-	this.domsSize = null;
+	this.domsProp = null;
 	
 	this.editorContent.html(this.dom);
 	if(this.script){
@@ -575,7 +640,7 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 			type = node.attr("__editor_type"),
 			typeName = "";
 		if(type){
-			var plugin = _self.dashboardStepBar.find(Plywet.escapeClientId("leaf:"+type));
+			var plugin = _self.getPlugin(type);
 			if(plugin.size() == 0){
 				typeName = "构件";
 			}else{
@@ -607,6 +672,10 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	
 };
 
+Plywet.widget.DashboardEditor.prototype.getPlugin = function(type) {
+	return this.dashboardStepBar.find(Plywet.escapeClientId("leaf:"+type));
+};
+
 Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	
 	cfg = cfg || {};
@@ -628,7 +697,7 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	
 	for(var selectedId in this.selected){
 		if(this.selected[selectedId]){
-			dim = this.getDomSizeById(selectedId);
+			dim = this.getDomPropById(selectedId);
 			
 			// 绘制选中框
 			redrawSelectedComponents(dim);
@@ -660,20 +729,11 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 
 Plywet.editors.dashboard.action = {
 	struct_on_select : function(node){
-		var pluginType = $(node.target).data("uiTreeNode").attributes.pluginType;
-		var props = [];
-		if(pluginType.indexOf("fly:")==0){ // fly组件
-			var plugin = $(Plywet.escapeClientId("dashboardStepBar")).find(Plywet.escapeClientId("leaf:"+pluginType));
-			if(plugin.size() == 0){// 表示构件
-				props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
-			}else{
-				props = plugin.data("data")["props"];
-			}
-		}else{// html组件
-			props = [{name:"objectId",description:"对象ID",tooltip:"对象ID"}];
-		}
+
 		// 显示属性
-		dashboardEditorPanel_var.domProp.setUrlData(_transdata(props));
+		props = dashboardEditorPanel_var.getDomPropById(node.id).props;
+		
+		dashboardEditorPanel_var.domProp.setUrlData(props);
 		
 		// 页面点击独立处理这部分
 		if(!dashboardEditorPanel_var.holder){
@@ -682,25 +742,6 @@ Plywet.editors.dashboard.action = {
 			dashboardEditorPanel_var.redraw();
 		}
 		
-		function _transdata(array){
-			var rtn = [];
-			for(var i=0;i<array.length;i++){
-				var conf = {};
-				conf.propId="prop_"+array[i].name;
-				if(array[i].attrs&&array[i].attrs.length>0){
-					conf.propName="<b>"+array[i].description+"</b>";
-				}else{
-					conf.propName=array[i].description;
-				}
-				// TODO
-				conf.propValue=array[i].defaultValue||"";
-				if(array[i].attrs&&array[i].attrs.length>0){
-					conf.children=_transdata(array[i].attrs);
-				}
-				rtn.push(conf);
-			}
-			return rtn;
-		}
 	}
 };
 

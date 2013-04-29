@@ -136,6 +136,7 @@ public class HTML {
 	public static final String ATTR_WIDTH = "width";
 	public static final String ATTR_HEIGHT = "height";
 	public static final String ATTR_TITLE = "title";
+	public static final String ATTR_TEXT = "text";
 	public static final String ATTR_TYPE = "type";
 	public static final String ATTR_SELECTED = "selected";
 	public static final String ATTR_BUTTON_TYPE_BUTTON = "button";
@@ -177,6 +178,7 @@ public class HTML {
 	public static final String ATTR_COLS = "cols";
 	public static final String ATTR_ROWS = "rows";
 	public static final String ATTR_FOR = "for";
+	public static final String ATTR_BUDDY = "buddy";
 	public static final String ATTR_DISABLED = "disabled";
 	public static final String ATTR_READONLY = "readonly";
 	public static final String ATTR_STATE = "state";

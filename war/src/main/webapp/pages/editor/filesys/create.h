@@ -1,7 +1,7 @@
 <form action="rest/fsop/create" method="POST" id="fs_create_form">
 	<fly:gridLayout column="2" itemWidth="30%,70%">
 		<fly:gridLayoutItem>
-			<fly:labelObject for="dirName" title="输入目录名" />
+			<fly:labelObject buddy="dirName" text="输入目录名" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>

@@ -2,7 +2,7 @@
 	
 	<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%">
 		<fly:gridLayoutItem>
-			<fly:labelObject for="newname" title="输入新名称" />
+			<fly:labelObject buddy="newname" text="输入新名称" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem cols="3">

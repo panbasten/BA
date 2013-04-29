@@ -22,16 +22,16 @@ public class FLYLabelObjectResolver extends BaseComponentResolver implements
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_LABEL);
-		String forStr = HTML.getTagAttribute(node, HTML.ATTR_FOR, attrs);
-		if (forStr != null) {
-			html.writeAttribute(HTML.ATTR_FOR, forStr);
+		String buddyStr = HTML.getTagAttribute(node, HTML.ATTR_BUDDY, attrs);
+		if (buddyStr != null) {
+			html.writeAttribute(HTML.ATTR_BUDDY, buddyStr);
 		}
 
 		HTML.writeStyleAttribute(node, html, attrs);
 		HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
 		HTML.writeAttributes(node.getAttributes(), html, attrs);
 
-		html.writeText(Const.NVL(HTML.getTagAttribute(node, HTML.ATTR_TITLE,
+		html.writeText(Const.NVL(HTML.getTagAttribute(node, HTML.ATTR_TEXT,
 				attrs), ""));
 		html.endElement(HTML.COMPONENT_TYPE_BASE_LABEL);
 

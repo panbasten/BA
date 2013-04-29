@@ -2,49 +2,49 @@
 	
 	<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%">
 		<fly:gridLayoutItem>
-			<fly:labelObject for="desc" title="主机名称" />
+			<fly:labelObject buddy="desc" text="主机名称" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="desc" name="desc" type="text" validate="required:true" value="${host.desc}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="code" title="主机编码" />
+			<fly:labelObject buddy="code" text="主机编码" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="code" name="code" type="text" validate="required:true" value="${host.code}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="ip" title="IP" />
+			<fly:labelObject buddy="ip" text="IP" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="ip" name="ip" type="text" validate="required:true" value="${host.ip}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="port" title="端口" />
+			<fly:labelObject buddy="port" text="端口" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="port" name="port" type="text" validate="required:true" value="${host.port}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="username" title="用户名" />
+			<fly:labelObject buddy="username" text="用户名" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="username" name="username" type="text" validate="required:true" value="${host.username}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="password" title="密码" />
+			<fly:labelObject buddy="password" text="密码" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="password" name="password" type="password" validate="required:true" value="${host.password}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="type" title="连接类型" />
+			<fly:labelObject buddy="type" text="连接类型" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<select id="type" name="type" size="2">
@@ -54,7 +54,7 @@
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="mode" title="连接模式" />
+			<fly:labelObject buddy="mode" text="连接模式" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<select id="mode" name="mode" size="2">
@@ -64,7 +64,7 @@
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject for="notes" title="备注" />
+			<fly:labelObject buddy="notes" text="备注" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="notes" name="notes" type="text" value="${host.notes}" />
