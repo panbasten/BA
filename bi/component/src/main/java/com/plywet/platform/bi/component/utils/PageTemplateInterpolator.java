@@ -182,6 +182,7 @@ public class PageTemplateInterpolator {
 				.getNodeName());
 		if (plugin != null) {
 			XmlUtils.setAttribute(node, "__editor_type", plugin.getId());
+			XmlUtils.setAttribute(node, "__editor_category", plugin.getCategory());
 		}
 
 		NodeList nodeList = node.getChildNodes();

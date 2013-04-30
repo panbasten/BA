@@ -47,7 +47,7 @@
 			<fly:pushbutton id="trans_save_xml" icon="ui-icon-save-xml" onclick="" title="保存为xml文件并下载" />
 			<fly:pushbutton id="trans_save_image" icon="ui-icon-save-image" onclick="" title="保存为图片并下载" />
 		</div>
-		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix" style="margin:0 5px;">
+		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix">
 		</div>
 	</div>
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">

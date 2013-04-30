@@ -121,9 +121,9 @@
 							&& e.pageX < p2.left + _thisObj.outerWidth()
 							&& e.pageY > p2.top
 							&& e.pageY < p2.top + _thisObj.outerHeight()) {
+						e.data.x=e.pageX-p2.left;
+						e.data.y=e.pageY-p2.top;
 						if (!this.entered) {
-							e.data.x=e.pageX-p2.left;
-							e.data.y=e.pageY-p2.top;
 							$(this).trigger("_dragenter", [ obj, e.data ]);
 							this.entered = true;
 						}
@@ -153,16 +153,16 @@
 				});
 			} else {
 				if (proxy) {
-					var _1c, top;
+					var left, top;
 					if (proxy.parent()[0] == document.body) {
-						_1c = e.data.startX - e.data.offsetWidth;
+						left = e.data.startX - e.data.offsetWidth;
 						top = e.data.startY - e.data.offsetHeight;
 					} else {
-						_1c = e.data.startLeft;
+						left = e.data.startLeft;
 						top = e.data.startTop;
 					}
 					proxy.animate( {
-						left : _1c,
+						left : left,
 						top : top
 					}, function() {
 						_1d();

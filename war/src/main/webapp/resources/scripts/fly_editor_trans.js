@@ -108,9 +108,9 @@ Plywet.editors.trans = {
 						,	fxSettings_open:		{ easing: "easeInQuint" }
 						,	fxSettings_close:		{ easing: "easeOutQuint" }
 						,	onresize_end:			function(){
-							$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 40)
-								.width($transLayout.getPaneSize("center", false, "vert")-10);
-							$("#transThumbContent").width($transLayout.getPaneSize("east")-12);
+							$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 30)
+								.width($transLayout.getPaneSize("center", false, "vert"));
+							$("#transThumbContent").width($transLayout.getPaneSize("east")-2);
 							// 改变canvas属性
 							transEditorPanel_var.autoChangeSize();
 						}
@@ -161,9 +161,9 @@ Plywet.editors.trans = {
 				});
 				
 				
-				$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 40)
-					.width($transLayout.getPaneSize("center", false, "vert")-10);
-				$("#transThumbContent").width($transLayout.getPaneSize("east")-12);
+				$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 30)
+					.width($transLayout.getPaneSize("center", false, "vert"));
+				$("#transThumbContent").width($transLayout.getPaneSize("east")-2);
 				
 				Plywet.cw("EasyTabs","diEditorTransStepBar",{
 					id : "transStepBar"
