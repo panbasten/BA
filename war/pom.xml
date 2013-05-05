@@ -5,9 +5,9 @@
 	<groupId>com.plywet.platform</groupId>
 	<artifactId>war</artifactId>
 	<packaging>war</packaging>
-	<name>BI平台War源代码</name>
+	<name>BA平台War源代码</name>
 	<version>8.0-SNAPSHOT</version>
-	<description>BI平台War源代码</description>
+	<description>BA平台War源代码</description>
 	<parent>
 		<artifactId>platform</artifactId>
 		<groupId>com.plywet</groupId>
@@ -253,7 +253,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
-		<finalName>bi</finalName>
+		<finalName>ba</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -279,7 +279,7 @@
 				<version>${mortbay.jetty.version}</version>
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
-					<contextPath>/bi</contextPath>
+					<contextPath>/ba</contextPath>
 					<reload>automatic</reload>
 				</configuration>
 			</plugin>
@@ -310,22 +310,22 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.plywet.platform.bi</groupId>
+			<groupId>com.plywet.platform.ba</groupId>
 			<artifactId>core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.bi</groupId>
+			<groupId>com.plywet.platform.ba</groupId>
 			<artifactId>component</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.bi</groupId>
+			<groupId>com.plywet.platform.ba</groupId>
 			<artifactId>report</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.bi</groupId>
+			<groupId>com.plywet.platform.ba</groupId>
 			<artifactId>kettle-delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>

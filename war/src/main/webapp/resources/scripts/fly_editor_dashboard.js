@@ -655,9 +655,10 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	
 	if(!this.domStructureTree){
 		var config = {
-			id : 		"dashboardStructPanelContent"
+			id : 			"dashboardStructPanelContent"
+			,dnd :			true
 			,onSelect : 	Plywet.editors.dashboard.action.struct_on_select
-			,els :		[getNodeStructure(this.domStructure, this)]
+			,els :			[getNodeStructure(this.domStructure, this)]
 		};
 		this.domStructureTree = new Plywet.widget.EasyTree(config);
 	}

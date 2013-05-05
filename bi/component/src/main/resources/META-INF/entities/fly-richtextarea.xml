@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="fly:RichTextarea">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.RichTextarea</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYRichTextareaResolver</classname>
-	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.RichTextarea</tooltip>
-	<iconfile>richtextarea.png</iconfile>
-</component>

@@ -369,7 +369,7 @@ public class Const
 	private static String STRING_JOB_FILTER_NAMES[];
 
 	/** Name of the kettle parameters file */
-	public static final String KETTLE_PROPERTIES = "bi.properties";
+	public static final String KETTLE_PROPERTIES = "ba.properties";
 
     /** The prefix that all internal kettle variables should have */
     public static final String INTERNAL_VARIABLE_PREFIX = "Internal";

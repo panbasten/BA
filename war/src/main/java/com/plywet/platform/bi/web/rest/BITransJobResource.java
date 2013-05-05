@@ -46,7 +46,7 @@ import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.service.BIPageDelegates;
 import com.plywet.platform.bi.web.service.impl.BIPageServices;
-import com.plywet.platform.bi.web.utils.DIWebUtils;
+import com.plywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.transJobResource")
 @Path("/transjob")
@@ -132,7 +132,7 @@ public class BITransJobResource {
 			@PathParam("id") String id, String body) throws BIException {
 		try {
 			Long idL = Long.parseLong(id);
-			ParameterContext paramContext = DIWebUtils
+			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 			String val = paramContext.getParameter("val");
 

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="fly:TreeGrid">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.TreeGrid</description>
-	<classname>com.plywet.platform.bi.component.resolvers.item.FLYTreeGridResolver</classname>
-	<category>Item</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.TreeGrid</tooltip>
-	<iconfile>treegrid.png</iconfile>
-</component>

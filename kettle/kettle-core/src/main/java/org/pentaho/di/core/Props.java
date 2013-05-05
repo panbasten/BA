@@ -293,7 +293,7 @@ public class Props implements Cloneable
 				filename=directory+Const.FILE_SEPARATOR+".platerc";
 				break;
 			case TYPE_PROPERTIES_BI:
-				filename=directory+Const.FILE_SEPARATOR+"bi.properties";
+				filename=directory+Const.FILE_SEPARATOR+"ba.properties";
 				break;
 			default: break;
 		}

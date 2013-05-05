@@ -37,7 +37,7 @@ import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.service.BIDatabaseDelegates;
-import com.plywet.platform.bi.web.utils.DIWebUtils;
+import com.plywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.dbResource")
 @Path("/db")
@@ -167,7 +167,7 @@ public class BIDBResource {
 			@PathParam("id") String id, String body) {
 		// List<InPart> parts = bimp.getParts();
 		try {
-			ParameterContext paramContext = DIWebUtils
+			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 			String aaa = paramContext.getParameter("db_1:id");
 			System.out.println(id);

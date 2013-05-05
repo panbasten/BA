@@ -10,7 +10,7 @@
 	<description>${application.description}</description>
 	<modules>
 		<module>kettle</module>
-		<module>bi</module>
+		<module>ba</module>
 		<module>war</module>
 	</modules>
 	
@@ -34,9 +34,9 @@
 	</organization>
 	
 	<properties>
-		<application.id>FlyBI</application.id>
-		<application.name>享元BI平台</application.name>
-		<application.description>该平台是享元公司的BI业务平台</application.description>
+		<application.id>FlyBA</application.id>
+		<application.name>享元BA平台</application.name>
+		<application.description>该平台是享元公司的BA业务平台</application.description>
 		<company.name>北京享元科技软件技术有限公司</company.name>
 		<company.url>http://www.yonyou.com</company.url>
 		

@@ -41,7 +41,7 @@ import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.service.BIFileSystemDelegate;
-import com.plywet.platform.bi.web.utils.DIWebUtils;
+import com.plywet.platform.bi.web.utils.BIWebUtils;
 
 /**
  * 文件系统操作资源
@@ -144,7 +144,7 @@ public class BIFileOperationResource {
 	public String createFolder(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
 		try {
-			ParameterContext paramContext = DIWebUtils
+			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
 			long rootId = Long.parseLong(paramContext.getParameter("rootId"));
@@ -271,7 +271,7 @@ public class BIFileOperationResource {
 	public String rename(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
 		try {
-			ParameterContext paramContext = DIWebUtils
+			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(URLDecoder.decode(body, "utf-8"));
 
 			long rootId = Long.parseLong(paramContext.getParameter("rootId"));

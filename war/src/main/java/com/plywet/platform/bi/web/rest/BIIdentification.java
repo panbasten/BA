@@ -22,8 +22,8 @@ import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.model.ParameterContext;
-import com.plywet.platform.bi.web.utils.DISecurityUtils;
-import com.plywet.platform.bi.web.utils.DIWebUtils;
+import com.plywet.platform.bi.web.utils.BISecurityUtils;
+import com.plywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.identification")
 @Path("/identification")
@@ -49,7 +49,7 @@ public class BIIdentification {
 		Repository rep = null;
 		String repository = null;
 		try {
-			ParameterContext paramContext = DIWebUtils
+			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(userinfo);
 
 			repository = paramContext.getParameter("repository");
@@ -106,7 +106,7 @@ public class BIIdentification {
 		}
 
 		// TODO 写入用户和有效时间的密文，和path信息
-		String cookie = DISecurityUtils.createCookieString(map);
+		String cookie = BISecurityUtils.createCookieString(map);
 		return cookie;
 	}
 }

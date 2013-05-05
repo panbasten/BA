@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="fly:HorizontalSpacer">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.HorizontalSpacer</description>
-	<classname>com.plywet.platform.bi.component.resolvers.spacer.FLYHorizontalSpacerResolver</classname>
-	<category>Spacers</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.HorizontalSpacer</tooltip>
-	<iconfile>horizontalspacer.png</iconfile>
-</component>

@@ -23,7 +23,7 @@ import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.service.BIUserDelegate;
-import com.plywet.platform.bi.web.utils.DIWebUtils;
+import com.plywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.userResource")
 @Path("/user")
@@ -63,7 +63,7 @@ public class BIUserResource {
 	public String save(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
 		try {
-			ParameterContext parameterContext = DIWebUtils
+			ParameterContext parameterContext = BIWebUtils
 					.fillParameterContext(body);
 
 			User user = new User();

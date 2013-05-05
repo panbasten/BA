@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component id="fly:ComboTree">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.ComboTree</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYComboTreeResolver</classname>
-	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.ComboTree</tooltip>
-	<iconfile>combotree.png</iconfile>
-</component>
