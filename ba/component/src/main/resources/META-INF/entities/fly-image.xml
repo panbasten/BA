@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:Image">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Image</description>
+	<classname>com.plywet.platform.bi.component.resolvers.display.FLYImageResolver</classname>
+	<category>Display</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Image</tooltip>
+	<iconfile>image.png</iconfile>
+</component>

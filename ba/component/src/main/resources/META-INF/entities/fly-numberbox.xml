@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:NumberBox">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.NumberBox</description>
+	<classname>com.plywet.platform.bi.component.resolvers.input.FLYNumberBoxResolver</classname>
+	<category>Input</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.NumberBox</tooltip>
+	<iconfile>numberbox.png</iconfile>
+</component>

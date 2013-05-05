@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:LabelObject">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.LabelObject</description>
+	<classname>com.plywet.platform.bi.component.resolvers.display.FLYLabelObjectResolver</classname>
+	<category>Display</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.LabelObject</tooltip>
+	<iconfile>labelobject.png</iconfile>
+	
+	<attributes>
+		&fly-attribute-object-name
+		&fly-attribute-enabled
+		&fly-attribute-text
+		&fly-attribute-tooltip
+		
+		&fly-attribute-font
+		&fly-attribute-alignment
+		
+		&fly-attribute-geometry
+		&fly-attribute-margin
+		&fly-attribute-padding
+		&fly-attribute-border
+		
+		&fly-attribute-buddy
+	</attributes>
+	
+</component>

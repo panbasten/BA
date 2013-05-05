@@ -1,0 +1,39 @@
+<attributeGroup>
+
+	<name>geometry</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.Geometry</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.Geometry</tooltip>
+
+	<attribute>
+		<name>x</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.X</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.X</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>y</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Y</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Y</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>width</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Width</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Width</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>height</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Height</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Height</tooltip>
+	</attribute>
+
+</attributeGroup>

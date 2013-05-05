@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:CheckBox">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.CheckBox</description>
+	<classname>com.plywet.platform.bi.component.resolvers.button.FLYCheckBoxResolver</classname>
+	<category>Buttons</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.CheckBox</tooltip>
+	<iconfile>checkbox.png</iconfile>
+</component>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:NumberSpinner">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.NumberSpinner</description>
+	<classname>com.plywet.platform.bi.component.resolvers.input.FLYNumberSpinnerResolver</classname>
+	<category>Input</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.NumberSpinner</tooltip>
+	<iconfile>numberspinner.png</iconfile>
+</component>

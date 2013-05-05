@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:Panel">
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Panel</description>
+	<classname>com.plywet.platform.bi.component.resolvers.container.FLYPanelResolver</classname>
+	<category>Containers</category>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Panel</tooltip>
+	<iconfile>panel.png</iconfile>
+</component>

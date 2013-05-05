@@ -1,0 +1,191 @@
+<attributeGroup>
+
+	<name>borderGroup</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.BorderGroup</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.BorderGroup</tooltip>
+
+	<attribute>
+		<name>border</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Border</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Border</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderWidth</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderWidth</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderWidth</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderColor</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Color</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderColor</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderColor</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderStyle</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderStyle</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderStyle</tooltip>
+	</attribute>
+
+	<attribute>
+		<name>borderTop</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTop</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTop</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderTopWidth</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTopWidth</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTopWidth</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderTopColor</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Color</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTopColor</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTopColor</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderTopStyle</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderTopStyle</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderTopStyle</tooltip>
+	</attribute>
+	
+	
+	<attribute>
+		<name>borderBottom</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottom</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottom</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderBottomWidth</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottomWidth</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottomWidth</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderBottomColor</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Color</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottomColor</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottomColor</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderBottomStyle</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderBottomStyle</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderBottomStyle</tooltip>
+	</attribute>
+	
+	
+	<attribute>
+		<name>borderLeft</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeft</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeft</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderLeftWidth</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeftWidth</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeftWidth</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderLeftColor</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Color</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeftColor</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeftColor</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderLeftStyle</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderLeftStyle</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderLeftStyle</tooltip>
+	</attribute>
+	
+	
+	<attribute>
+		<name>borderRight</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRight</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRight</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderRightWidth</name>
+		<required>false</required>
+		<type>java.lang.Integer</type>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRightWidth</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRightWidth</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderRightColor</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Color</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRightColor</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRightColor</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>borderRightStyle</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>BorderStyle</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.BorderRightStyle</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.BorderRightStyle</tooltip>
+	</attribute>
+
+
+</attributeGroup>

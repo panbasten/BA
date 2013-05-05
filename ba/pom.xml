@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.plywet.platform</groupId>
+	<artifactId>ba</artifactId>
+	<packaging>pom</packaging>
+	<name>BA源代码</name>
+	<version>8.0-SNAPSHOT</version>
+	<description>BA源代码</description>
+	<parent>
+		<artifactId>platform</artifactId>
+		<groupId>com.plywet</groupId>
+		<version>8.0-SNAPSHOT</version>
+	</parent>
+	<modules>
+		<module>core</module>
+		<module>el</module>
+		<module>component</module>
+		<module>report</module>
+		<module>kettle-delegate</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.plywet.platform.kettle</groupId>
+			<artifactId>kettle-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.kettle</groupId>
+			<artifactId>kettle-db</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.kettle</groupId>
+			<artifactId>kettle-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>
