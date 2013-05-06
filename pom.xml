@@ -9,11 +9,12 @@
 	<name>${application.name}</name>
 	<description>${application.description}</description>
 	<modules>
+		<module>mondrian</module>
 		<module>kettle</module>
 		<module>ba</module>
 		<module>war</module>
 	</modules>
-	
+
 	<developers>
 		<developer>
 			<id>peter</id>
@@ -32,23 +33,23 @@
 		<name>${company.name}</name>
 		<url>${company.url}</url>
 	</organization>
-	
+
 	<properties>
 		<application.id>FlyBA</application.id>
 		<application.name>享元BA平台</application.name>
 		<application.description>该平台是享元公司的BA业务平台</application.description>
 		<company.name>北京享元科技软件技术有限公司</company.name>
 		<company.url>http://www.yonyou.com</company.url>
-		
+
 		<Compile-User>Peter Pan</Compile-User>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<!-- Platform -->
 		<mortbay.jetty.version>6.1.21</mortbay.jetty.version>
 		<eclipse.jetty.version>8.0.0.M1</eclipse.jetty.version>
-		
+
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 
@@ -225,6 +226,11 @@
 				<version>9.1.0.8</version>
 			</dependency>
 			<dependency>
+				<groupId>net.sf.saxon</groupId>
+				<artifactId>saxon-xom</artifactId>
+				<version>9.1.0.8</version>
+			</dependency>
+			<dependency>
 				<groupId>net.sf.scannotation</groupId>
 				<artifactId>scannotation</artifactId>
 				<version>1.0.2</version>
@@ -274,7 +280,7 @@
 				<artifactId>xercesImpl</artifactId>
 				<version>2.9.1</version>
 			</dependency>
-			
+
 			<!-- commons -->
 			<dependency>
 				<groupId>commons-beanutils</groupId>
@@ -334,7 +340,7 @@
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
-				<version>1.1</version>
+				<version>1.1.1</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-math</groupId>
@@ -356,7 +362,7 @@
 				<artifactId>commons-validator</artifactId>
 				<version>1.3.1</version>
 			</dependency>
-			
+
 			<!-- elasticsearch -->
 			<dependency>
 				<groupId>elasticsearch</groupId>
@@ -388,14 +394,14 @@
 				<artifactId>lucene-queries</artifactId>
 				<version>3.1.0</version>
 			</dependency>
-			
+
 			<!-- eobjects -->
 			<dependency>
 				<groupId>org.eobjects.sassyreader</groupId>
 				<artifactId>SassyReader</artifactId>
 				<version>0.4</version>
 			</dependency>
-			
+
 			<!-- feed -->
 			<dependency>
 				<groupId>feed4j</groupId>
@@ -427,34 +433,34 @@
 				<artifactId>xml-apis</artifactId>
 				<version>1.4.01</version>
 			</dependency>
-			
+
 			<!-- google -->
 			<dependency>
-	            <groupId>com.google.gdata</groupId>
-	            <artifactId>gdata-analytics</artifactId>
-	            <version>2.3.0</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>com.google.gdata</groupId>
-	            <artifactId>gdata-analytics-meta</artifactId>
-	            <version>2.1</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>com.google.gdata</groupId>
-	            <artifactId>gdata-client</artifactId>
-	            <version>1.41.4</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>com.google.gdata</groupId>
-	            <artifactId>gdata-client-meta</artifactId>
-	            <version>1.0</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>com.google.gdata</groupId>
-	            <artifactId>gdata-core</artifactId>
-	            <version>1.41.4</version>
-	        </dependency>
-	        <dependency>
+				<groupId>com.google.gdata</groupId>
+				<artifactId>gdata-analytics</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gdata</groupId>
+				<artifactId>gdata-analytics-meta</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gdata</groupId>
+				<artifactId>gdata-client</artifactId>
+				<version>1.41.4</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gdata</groupId>
+				<artifactId>gdata-client-meta</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gdata</groupId>
+				<artifactId>gdata-core</artifactId>
+				<version>1.41.4</version>
+			</dependency>
+			<dependency>
 				<groupId>com.google.collections</groupId>
 				<artifactId>google-collections</artifactId>
 				<version>1.0-rc5</version>
@@ -464,29 +470,29 @@
 				<artifactId>jsr305</artifactId>
 				<version>1.3.9</version>
 			</dependency>
-			
+
 			<!-- jersey -->
 			<dependency>
 				<groupId>com.sun.jersey.contribs</groupId>
-	        	<artifactId>jersey-apache-client</artifactId>
-	        	<version>1.7</version>
-	        </dependency>
-	        <dependency>
+				<artifactId>jersey-apache-client</artifactId>
+				<version>1.7</version>
+			</dependency>
+			<dependency>
 				<groupId>com.sun.jersey</groupId>
-	        	<artifactId>jersey-client</artifactId>
-	        	<version>1.7</version>
-	        </dependency>
-	        <dependency>
+				<artifactId>jersey-client</artifactId>
+				<version>1.7</version>
+			</dependency>
+			<dependency>
 				<groupId>com.sun.jersey</groupId>
-	        	<artifactId>jersey-core</artifactId>
-	        	<version>1.7</version>
-	        </dependency>
-	        <dependency>
+				<artifactId>jersey-core</artifactId>
+				<version>1.7</version>
+			</dependency>
+			<dependency>
 				<groupId>org.jvnet</groupId>
 				<artifactId>mimepull</artifactId>
 				<version>1.5</version>
-	        </dependency>
-			
+			</dependency>
+
 			<!-- jfree -->
 			<dependency>
 				<groupId>jfree</groupId>
@@ -498,27 +504,22 @@
 				<artifactId>jfreechart</artifactId>
 				<version>1.0.13</version>
 			</dependency>
-			
+
 			<!-- mondrian -->
 			<dependency>
 				<groupId>eigenbase</groupId>
 				<artifactId>eigenbase-properties</artifactId>
-				<version>1.1.0.10924</version>
+				<version>1.1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>eigenbase</groupId>
 				<artifactId>eigenbase-resgen</artifactId>
-				<version>1.3.0.13768</version>
+				<version>1.3.1</version>
 			</dependency>
 			<dependency>
 				<groupId>eigenbase</groupId>
 				<artifactId>eigenbase-xom</artifactId>
-				<version>1.3.0.13768</version>
-			</dependency>
-			<dependency>
-				<groupId>edu.princeton.cup</groupId>
-				<artifactId>java-cup</artifactId>
-				<version>10k</version>
+				<version>1.3.1</version>
 			</dependency>
 			<dependency>
 				<groupId>net.java.dev.javacc</groupId>
@@ -526,32 +527,36 @@
 				<version>5.0</version>
 			</dependency>
 			<dependency>
-				<groupId>pentaho</groupId>
-				<artifactId>mondrian</artifactId>
-				<version>3.4.0.14937</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>jsp-api</artifactId>
-					</exclusion>
-				</exclusions>
+				<groupId>org.olap4j</groupId>
+				<artifactId>olap4j</artifactId>
+				<version>1.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.olap4j</groupId>
-				<artifactId>olap4j</artifactId>
-				<version>1.0.1.500</version>
+				<artifactId>olap4j-tck</artifactId>
+				<version>1.0.1.539</version>
 			</dependency>
 			<dependency>
 				<groupId>org.olap4j</groupId>
 				<artifactId>olap4j-xmla</artifactId>
-				<version>1.0.1.500</version>
+				<version>1.1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>net.sf.saxon</groupId>
-				<artifactId>saxon-xom</artifactId>
-				<version>9.1.0.8</version>
+				<groupId>javacup</groupId>
+				<artifactId>javacup</artifactId>
+				<version>10k</version>
 			</dependency>
-			
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>1.0.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>sun</groupId>
+				<artifactId>jlfgr</artifactId>
+				<version>1.0</version>
+			</dependency>
+
 			<!-- pentaho -->
 			<dependency>
 				<groupId>net.java.dev.jets3t</groupId>
@@ -598,7 +603,7 @@
 				<artifactId>pentaho-xul-swt</artifactId>
 				<version>0.0.1</version>
 			</dependency>
-			
+
 			<!-- poi -->
 			<dependency>
 				<groupId>org.apache.poi</groupId>
@@ -620,7 +625,7 @@
 				<artifactId>poi-ooxml-schemas</artifactId>
 				<version>3.8</version>
 			</dependency>
-			
+
 			<!-- rule -->
 			<dependency>
 				<groupId>org.eclipse.jdt</groupId>
@@ -658,7 +663,7 @@
 				<artifactId>mvel2</artifactId>
 				<version>2.0.10</version>
 			</dependency>
-			
+
 			<!-- salesforce -->
 			<dependency>
 				<groupId>org.apache.axis</groupId>
@@ -680,7 +685,7 @@
 				<artifactId>salesforce-partner</artifactId>
 				<version>24.0</version>
 			</dependency>
-			
+
 			<!-- webservices -->
 			<dependency>
 				<groupId>javax.xml.bind</groupId>
@@ -761,7 +766,7 @@
 				<version>5.1.18</version>
 			</dependency>
 
-			
+
 			<dependency>
 				<groupId>com.lowagie</groupId>
 				<artifactId>itext</artifactId>
@@ -787,9 +792,15 @@
 				<version>4.8.2</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>xmlunit</groupId>
+				<artifactId>xmlunit</artifactId>
+				<version>1.1</version>
+				<scope>test</scope>
+			</dependency>
 
-			
-			
+
+
 			<!-- jetty -->
 			<dependency>
 				<groupId>simple-jndi</groupId>
@@ -820,7 +831,7 @@
 				<artifactId>jetty-naming</artifactId>
 				<version>${mortbay.jetty.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-util</artifactId>
@@ -850,7 +861,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<!-- servlet -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -869,32 +880,32 @@
 				<artifactId>jstl</artifactId>
 				<version>1.2</version>
 			</dependency>
-			<dependency>    
-	    		<groupId>net.sf.json-lib</groupId>    
-	    		<artifactId>json-lib</artifactId>    
-	    		<version>2.4</version>    
-	    		<classifier>jdk15</classifier>    
+			<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<version>2.4</version>
+				<classifier>jdk15</classifier>
 			</dependency>
-			
+
 			<!-- restful  -->
 			<dependency>
-			    <groupId>org.apache.wink</groupId>
-			    <artifactId>wink-server</artifactId>
-			    <version>1.2.0-incubating</version>
+				<groupId>org.apache.wink</groupId>
+				<artifactId>wink-server</artifactId>
+				<version>1.2.0-incubating</version>
 			</dependency>
 			<dependency>
-	            <groupId>org.apache.wink</groupId>
-	            <artifactId>wink-json-provider</artifactId>
+				<groupId>org.apache.wink</groupId>
+				<artifactId>wink-json-provider</artifactId>
 				<version>1.2.0-incubating</version>
-        	</dependency>
+			</dependency>
 			<dependency>
-				 <groupId>org.apache.wink</groupId>
-				 <artifactId>wink-spring-support</artifactId>
-				 <version>1.2.0-incubating</version>
+				<groupId>org.apache.wink</groupId>
+				<artifactId>wink-spring-support</artifactId>
+				<version>1.2.0-incubating</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	 
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -904,10 +915,10 @@
 					<version>1.2</version>
 				</plugin>
 				<plugin>
-       		<groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
-        	<artifactId>svn-revision-number-maven-plugin</artifactId>
-        	<version>1.13</version>
-        </plugin>
+					<groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
+					<artifactId>svn-revision-number-maven-plugin</artifactId>
+					<version>1.13</version>
+				</plugin>
 				<plugin>
 					<groupId>com.pyx4me</groupId>
 					<artifactId>proguard-maven-plugin</artifactId>
@@ -940,7 +951,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>hb-public</id>
@@ -955,29 +966,28 @@
 				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
 		</repository>
-		<!--
+
 		<repository>
 			<id>pentaho-repo</id>
-            <name>Pentaho Maven Repository</name>
-            <url>http://repository.pentaho.org/artifactory/repo</url>
+			<name>Pentaho Maven Repository</name>
+			<url>http://repository.pentaho.org/artifactory/repo</url>
 		</repository>
 		<repository>
 			<id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
 		</repository>
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>http://download.java.net/maven/2/</url>
-        </repository>
-        <repository>
-            <id>repository.jboss.org</id>
-            <name>JBoss Repository for Maven</name>
-            <url>http://repository.jboss.org/maven2</url>
-        </repository>
-        
-        <repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
+		<repository>
+			<id>repository.jboss.org</id>
+			<name>JBoss Repository for Maven</name>
+			<url>http://repository.jboss.org/maven2</url>
+		</repository>
+		<repository>
 			<id>jboss</id>
 			<name>jboss</name>
 			<url>http://repository.jboss.org/maven2</url>
@@ -1005,7 +1015,7 @@
 			<name>JBoss Public Maven Repository Group</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
 		</repository>
-		-->
+
 	</repositories>
 
 	<pluginRepositories>
@@ -1028,12 +1038,12 @@
 			<url>http://10.11.46.192:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 	<scm>
 		<connection>scm:svn:https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</connection>
 		<developerConnection>scm:svn:https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</developerConnection>
 		<tag>HEAD</tag>
 		<url>https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</url>
 	</scm>
-	
+
 </project>

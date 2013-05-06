@@ -154,6 +154,10 @@
 			<artifactId>saxon-dom</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>saxon-xom</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>net.sf.scannotation</groupId>
 			<artifactId>scannotation</artifactId>
 		</dependency>
@@ -378,41 +382,11 @@
 
 		<!-- mondrian -->
 		<dependency>
-			<groupId>eigenbase</groupId>
-			<artifactId>eigenbase-properties</artifactId>
+			<groupId>com.plywet.platform.mondrian</groupId>
+			<artifactId>mondrian-srv</artifactId>
+			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>eigenbase</groupId>
-			<artifactId>eigenbase-resgen</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>eigenbase</groupId>
-			<artifactId>eigenbase-xom</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>edu.princeton.cup</groupId>
-			<artifactId>java-cup</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.java.dev.javacc</groupId>
-			<artifactId>javacc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>pentaho</groupId>
-			<artifactId>mondrian</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.olap4j</groupId>
-			<artifactId>olap4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.olap4j</groupId>
-			<artifactId>olap4j-xmla</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>saxon-xom</artifactId>
-		</dependency>
+		
 
 		<!-- pentaho -->
 		<dependency>
