@@ -146,6 +146,7 @@ abstract class MondrianOlap4jPreparedStatement
         getParameter(parameterIndex).setValue(x);
     }
 
+    @Override
     public void setAsciiStream(
         int parameterIndex, InputStream x, int length) throws SQLException
     {
