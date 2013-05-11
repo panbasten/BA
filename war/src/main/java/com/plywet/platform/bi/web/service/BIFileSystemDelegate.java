@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.vfs.FileObject;
 
 import com.plywet.platform.bi.core.exception.BIException;
-import com.plywet.platform.bi.delegates.utils.BIFileSystemCategory;
+import com.plywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.vo.FilesysDirectory;
 import com.plywet.platform.bi.delegates.vo.FilesysType;
 

@@ -28,7 +28,7 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.utils.FileUtils;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
-import com.plywet.platform.bi.delegates.utils.BIFileSystemCategory;
+import com.plywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.vo.FilesysDirectory;
 import com.plywet.platform.bi.delegates.vo.FilesysType;
 import com.plywet.platform.bi.web.entity.AjaxResult;

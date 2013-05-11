@@ -308,6 +308,10 @@ div.section {
     text-shadow: 1px 1px 1px #C89F40;
 }
 
+#slide1 .slide-ba {
+	font-size: 26px;
+}
+
 #slide2,#slide3{
 	background: url("../images/login/section/mascot.png") no-repeat scroll 0 0 transparent;
 }

@@ -18,7 +18,7 @@
 		<module>el</module>
 		<module>component</module>
 		<module>report</module>
-		<module>kettle-delegate</module>
+		<module>delegate</module>
 	</modules>
 
 	<dependencies>

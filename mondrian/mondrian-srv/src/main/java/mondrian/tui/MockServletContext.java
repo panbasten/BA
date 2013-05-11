@@ -286,12 +286,6 @@ public class MockServletContext implements ServletContext {
         }
     }
 
-
-	@Override
-	public String getContextPath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
 
 // End MockServletContext.java

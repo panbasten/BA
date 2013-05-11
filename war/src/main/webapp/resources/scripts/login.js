@@ -32,8 +32,10 @@ Plywet.Login = {
                 window.top.close();  
             }  
         }  
-        else if (Plywet.browserDetect.mozilla) {  
-            window.location.href = 'about:blank ';  
+        else if (Plywet.browserDetect.mozilla) {
+        	if(window["editorPageHandle"]){
+        		window.location.href = 'about:blank';  
+        	}
             //window.history.go(-2);  
         }  
         else {  
@@ -54,7 +56,13 @@ Plywet.Login = {
 						Plywet.CookieUtils.write(p,cookieJson[p]);
 					}
 					//window.location = "editor";
-					window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
+					if (Plywet.browserDetect.msie){
+						window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
+					}else{
+						window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
+						window["editorPageHandle"].moveTo(0, 0);
+						window["editorPageHandle"].resizeTo(window.screen.availWidth, window.screen.availHeight);
+					}
 					setTimeout("Plywet.Login.closeWebPage();",500);
 				}else{
 					var msg = "";

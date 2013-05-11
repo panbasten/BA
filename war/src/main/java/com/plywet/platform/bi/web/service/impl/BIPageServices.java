@@ -27,9 +27,9 @@ import com.plywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
 import com.plywet.platform.bi.exceptions.BIKettleException;
+import com.plywet.platform.bi.web.cache.TransOrJobMetaCache;
 import com.plywet.platform.bi.web.service.AbstractDirectoryServices;
 import com.plywet.platform.bi.web.service.BIPageDelegates;
-import com.plywet.platform.bi.web.service.TransOrJobMetaCache;
 
 /**
  * 元数据服务层接口实现类

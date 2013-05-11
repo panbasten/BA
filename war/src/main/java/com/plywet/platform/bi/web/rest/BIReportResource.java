@@ -30,6 +30,7 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.core.utils.XmlUtils;
+import com.plywet.platform.bi.delegates.enums.BIReportCategory;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.service.BIReportDelegates;
@@ -42,7 +43,7 @@ public class BIReportResource {
 
 	private static final String ICON_PATH = "resources/images/plugins/";
 
-	public static final String DASHBOARD_TEMPLATE = "editor/editor_dashboard.h";
+	public static final String DASHBOARD_TEMPLATE_PREFIX = "editor/editor_";
 
 	private static final String ID_EDITOR_CONTENT_NAVI_REPORT_BC = "editorContent-navi-report-bc";
 	private static final String ID_EDITOR_CONTENT_NAVI_REPORT_BP = "editorContent-navi-report-bp";
@@ -166,6 +167,8 @@ public class BIReportResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String loadDashboardEditor() throws BIException {
 		try {
+			String cate = BIReportCategory.REPORT_TYPE_DASHBOARD.getCategory();
+
 			// 生成插件工具栏
 			List<String> dashboardStepBar = PageTemplateResolverType
 					.getCategoryNames();
@@ -184,7 +187,7 @@ public class BIReportResource {
 					BrowseNodeMeta plugin = new BrowseNodeMeta();
 					plugin.setId(cp.getId());
 					plugin.setCategory(cp.getCategory());
-					plugin.addClass("fly-dashboard-step-plugin");
+					plugin.addClass("fly-" + cate + "-step-plugin");
 					plugin.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
 					plugin.addAttribute(HTML.ATTR_ICON, ICON_PATH
 							+ cp.getIconfile());
@@ -203,12 +206,12 @@ public class BIReportResource {
 			}
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-			attrsMap.addVariable("editorId", BIBaseResource.ID_EDITOR_DASHBOARD);
+			attrsMap.addVariable("editorId", cate);
 			attrsMap.addVariable("dashboardStepBar", dashboardStepBar);
 			attrsMap.addVariable("dashboardStepBrowses", dashboardStepBrowses);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
-					DASHBOARD_TEMPLATE, attrsMap);
+					getTemplateString(cate), attrsMap);
 
 			// 创建一个更新操作
 			AjaxResultEntity entity = AjaxResultEntity.instance().setOperation(
@@ -223,5 +226,9 @@ public class BIReportResource {
 		} catch (Exception ex) {
 			throw new BIException("初始化加载Dashboard编辑器页面出现错误。", ex);
 		}
+	}
+
+	private String getTemplateString(String cate) {
+		return DASHBOARD_TEMPLATE_PREFIX + cate + ".h";
 	}
 }

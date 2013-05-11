@@ -326,7 +326,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.plywet.platform.ba</groupId>
-			<artifactId>kettle-delegate</artifactId>
+			<artifactId>delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		

@@ -49,7 +49,7 @@
 						<!-- 内容区域 -->
 						<div id="section" class="section">
 							<div id="slide1" class="slide">
-								<p>享<br/>元<br/>BI</p>
+								<p>享<br/>元<br/><font class="slide-ba">BA</font></p>
 							</div>
 							<div id="slide2" class="slide">
 								<p>您的企业是否面临这样的数据？</p>
@@ -71,7 +71,7 @@
 								</ul>
 							</div>
 							<div id="slide4" class="slide">
-								<p>享元BI平台全部帮您实现！</p>
+								<p>享元BA平台全部帮您实现！</p>
 							</div>
 						</div>
 						

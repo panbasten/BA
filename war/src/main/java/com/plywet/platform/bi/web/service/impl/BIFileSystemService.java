@@ -14,9 +14,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.intf.BIFilesysTypeAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
-import com.plywet.platform.bi.delegates.utils.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.vo.FilesysDirectory;
 import com.plywet.platform.bi.delegates.vo.FilesysType;
 import com.plywet.platform.bi.web.service.BIFileSystemDelegate;

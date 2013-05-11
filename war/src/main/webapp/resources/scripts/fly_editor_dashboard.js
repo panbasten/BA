@@ -621,6 +621,7 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 	var params = {type:"move",source:sources,target:target};
 	
 	// TODO
+	console.log(this.id);
 	console.log(params);
 };
 
@@ -632,6 +633,8 @@ Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
 };
 
 Plywet.widget.DashboardEditor.prototype.flush = function(data) {
+	console.log("data----------");
+	console.log(data);
 	this.dom = data.dom;
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
