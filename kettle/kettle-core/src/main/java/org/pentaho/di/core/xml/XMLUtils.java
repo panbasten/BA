@@ -1,4 +1,4 @@
-package com.plywet.platform.bi.core.utils;
+package org.pentaho.di.core.xml;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
@@ -15,7 +15,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class XmlUtils {
+public class XMLUtils {
 
 	/**
 	 * 通过ID查找子Node

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.pentaho.di.core.xml.XMLHandler;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -15,7 +16,6 @@ import com.plywet.platform.bi.component.core.ComponentResolverInterface;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.ReflectionUtils;
 import com.plywet.platform.bi.core.utils.Utils;
-import com.plywet.platform.bi.core.utils.XmlUtils;
 
 public class ComponentPlugin {
 	private String id;
@@ -33,20 +33,20 @@ public class ComponentPlugin {
 
 	private ComponentPlugin(Node componentNode) throws Exception {
 		this.id = XMLHandler.getTagAttribute(componentNode, "id");
-		this.description = PropertyUtils.getCodedTranslation(XmlUtils
+		this.description = PropertyUtils.getCodedTranslation(XMLUtils
 				.getTagOrAttribute(componentNode, "description"));
-		this.iconfile = XmlUtils.getTagOrAttribute(componentNode, "iconfile");
-		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
+		this.iconfile = XMLUtils.getTagOrAttribute(componentNode, "iconfile");
+		this.tooltip = PropertyUtils.getCodedTranslation(XMLUtils
 				.getTagOrAttribute(componentNode, "tooltip"));
-		this.category = XmlUtils.getTagOrAttribute(componentNode, "category");
+		this.category = XMLUtils.getTagOrAttribute(componentNode, "category");
 		this.categorydesc = PropertyUtils
 				.getCodedTranslation("i18n:com.plywet.platform.bi.component.resolvers:Component.Category."
 						+ this.category);
-		this.classname = XmlUtils.getTagOrAttribute(componentNode, "classname");
+		this.classname = XMLUtils.getTagOrAttribute(componentNode, "classname");
 		this.resolver = (ComponentResolverInterface) ReflectionUtils
 				.newInstance(this.classname);
 
-		this.ignoreInDesigner = Utils.toBoolean(XmlUtils.getTagOrAttribute(
+		this.ignoreInDesigner = Utils.toBoolean(XMLUtils.getTagOrAttribute(
 				componentNode, "ignoreInDesigner"), false);
 
 		// 属性

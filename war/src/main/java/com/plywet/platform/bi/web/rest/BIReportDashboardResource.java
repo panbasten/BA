@@ -10,9 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.xml.transform.TransformerException;
 
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.exception.KettleException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
@@ -22,7 +22,7 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
-import com.plywet.platform.bi.core.utils.XmlUtils;
+import com.plywet.platform.bi.report.meta.TemplateMeta;
 import com.plywet.platform.bi.web.cache.TemplateCache;
 import com.plywet.platform.bi.web.service.BIReportDelegates;
 
@@ -54,9 +54,10 @@ public class BIReportDashboardResource {
 					(String) report[1], "dom_" + id);
 
 			// 保留编辑状态，对于集群应用需要使用共享缓存
-			TemplateCache.put(id, doc);
+			TemplateMeta templateMeta = new TemplateMeta(doc);
+			TemplateCache.put(id, templateMeta);
 
-			return getDashboardJson(id, doc).toJSONString();
+			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("创建Dashboard编辑页面出现错误。", ex);
 		}
@@ -69,11 +70,10 @@ public class BIReportDashboardResource {
 			@QueryParam("source") String source,
 			@QueryParam("target") String target) throws BIException {
 		try {
-			Document doc = TemplateCache.get(id);
+			TemplateMeta templateMeta = TemplateCache.get(id);
 			// TODO
-			
-			
-			return getDashboardJson(id, doc).toJSONString();
+
+			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("移动Dashboard页面元素出现错误。", ex);
 		}
@@ -86,17 +86,18 @@ public class BIReportDashboardResource {
 			@QueryParam("source") String source,
 			@QueryParam("target") String target) throws BIException {
 		try {
-			Document doc = TemplateCache.get(id);
+			TemplateMeta templateMeta = TemplateCache.get(id);
 			// TODO
-			return getDashboardJson(id, doc).toJSONString();
+			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("添加Dashboard页面元素出现错误。", ex);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private JSONObject getDashboardJson(String id, Document doc)
-			throws BIJSONException, BIPageException, TransformerException {
+	private JSONObject getDashboardJson(String id, TemplateMeta templateMeta)
+			throws BIJSONException, BIPageException, KettleException {
+		Document doc = templateMeta.getDoc();
 		Object[] domString = PageTemplateInterpolator.interpolate("report:"
 				+ id, doc, FLYVariableResolver.instance());
 
@@ -107,7 +108,7 @@ public class BIReportDashboardResource {
 		jo.put("dom", (String) domString[0]);
 		jo.put("script", JSONUtils
 				.convertToJSONArray((List<String>) domString[1]));
-		jo.put("domStructure", XmlUtils.toXMLString(doc));
+		jo.put("domStructure", templateMeta.getXML());
 
 		return jo;
 	}

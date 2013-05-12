@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
-import com.plywet.platform.bi.core.utils.XmlUtils;
 
 public class ComponentAttributeGroup extends BaseComponentAttribute implements
 		ComponentAttributeInterface {
@@ -18,12 +18,12 @@ public class ComponentAttributeGroup extends BaseComponentAttribute implements
 	private List<ComponentAttribute> attrs = new ArrayList<ComponentAttribute>();
 
 	private ComponentAttributeGroup(Node node) throws Exception {
-		this.name = XmlUtils.getTagOrAttribute(node, "name");
+		this.name = XMLUtils.getTagOrAttribute(node, "name");
 
-		this.description = PropertyUtils.getCodedTranslation(XmlUtils
+		this.description = PropertyUtils.getCodedTranslation(XMLUtils
 				.getTagOrAttribute(node, "description"));
 
-		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
+		this.tooltip = PropertyUtils.getCodedTranslation(XMLUtils
 				.getTagOrAttribute(node, "tooltip"));
 
 		NodeList children = node.getChildNodes();

@@ -956,8 +956,8 @@
 	<!--  -->
 	<repositories>
 		<repository>
-			<id>hb-public</id>
-			<name>Yonyou HB Public Repository</name>
+			<id>fly-public</id>
+			<name>Plywet Public Repository</name>
 			<url>http://10.11.46.192:8081/nexus/content/groups/public</url>
 			<releases>
 				<updatePolicy>never</updatePolicy>

@@ -2,13 +2,13 @@ package com.plywet.platform.bi.component.vo;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.component.core.ComponentAttributeInterface;
 import com.plywet.platform.bi.component.resolvers.enums.FLYEnumUtils;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.Utils;
-import com.plywet.platform.bi.core.utils.XmlUtils;
 
 public class ComponentAttribute extends BaseComponentAttribute implements
 		ComponentAttributeInterface {
@@ -19,15 +19,15 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 	private Object defaultValue;
 
 	private ComponentAttribute(Node attributesNode) throws Exception {
-		this.name = XmlUtils.getTagOrAttribute(attributesNode, "name");
-		this.required = Utils.toBoolean(XmlUtils.getTagOrAttribute(
+		this.name = XMLUtils.getTagOrAttribute(attributesNode, "name");
+		this.required = Utils.toBoolean(XMLUtils.getTagOrAttribute(
 				attributesNode, "required"), false);
 
-		String typeStr = Utils.NVL(XmlUtils.getTagOrAttribute(attributesNode,
+		String typeStr = Utils.NVL(XMLUtils.getTagOrAttribute(attributesNode,
 				"type"), "java.lang.String");
 		this.type = Class.forName(typeStr);
 
-		this.defaultValueStr = XmlUtils.getTagOrAttribute(attributesNode,
+		this.defaultValueStr = XMLUtils.getTagOrAttribute(attributesNode,
 				"defaultValue");
 		if (StringUtils.isNotEmpty(defaultValueStr)) {
 			if (this.type == String.class) {
@@ -42,16 +42,16 @@ public class ComponentAttribute extends BaseComponentAttribute implements
 			}
 		}
 
-		this.description = PropertyUtils.getCodedTranslation(XmlUtils
+		this.description = PropertyUtils.getCodedTranslation(XMLUtils
 				.getTagOrAttribute(attributesNode, "description"));
 
-		this.tooltip = PropertyUtils.getCodedTranslation(XmlUtils
+		this.tooltip = PropertyUtils.getCodedTranslation(XMLUtils
 				.getTagOrAttribute(attributesNode, "tooltip"));
 
-		this.editorType = XmlUtils.getTagOrAttribute(attributesNode,
+		this.editorType = XMLUtils.getTagOrAttribute(attributesNode,
 				"editorType");
 
-		this.editorOptionEnum = XmlUtils.getTagOrAttribute(attributesNode,
+		this.editorOptionEnum = XMLUtils.getTagOrAttribute(attributesNode,
 				"editorOptionEnum");
 
 	}

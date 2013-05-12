@@ -10,13 +10,13 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIPageException;
-import com.plywet.platform.bi.core.utils.XmlUtils;
 import com.plywet.platform.bi.el.expression.Expression;
 import com.plywet.platform.bi.el.expression.ExpressionString;
 import com.plywet.platform.bi.el.parser.ELParser;
@@ -114,7 +114,7 @@ public class PageTemplateInterpolator {
 		try {
 			HTMLWriter html = HTMLWriter.instance();
 			if (nodeId != null && !"".equals(nodeId)) {
-				doc = XmlUtils.getSubNodeById(doc, nodeId);
+				doc = XMLUtils.getSubNodeById(doc, nodeId);
 				PageTemplateResolver.resolverNode(doc, html, script, attrs,
 						fileUrl);
 			} else {
@@ -223,14 +223,14 @@ public class PageTemplateInterpolator {
 			return idx;
 		}
 
-		XmlUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_ID, prefix + "_"
+		XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_ID, prefix + "_"
 				+ (idx++));
 		ComponentPlugin plugin = PageTemplateResolverType.getPlugin(node
 				.getNodeName());
 		if (plugin != null) {
-			XmlUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_TYPE, plugin
+			XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_TYPE, plugin
 					.getId());
-			XmlUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY,
+			XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY,
 					plugin.getCategory());
 		}
 
