@@ -4,7 +4,7 @@ import org.pentaho.di.core.database.DatabaseMeta;
 
 import com.plywet.platform.bi.component.components.browse.BrowseMeta;
 import com.plywet.platform.bi.core.exception.BIException;
-import com.plywet.platform.bi.exceptions.BIKettleException;
+import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 
 public interface BIDatabaseDelegates {
 	/**

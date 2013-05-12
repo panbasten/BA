@@ -14,7 +14,7 @@ import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.plywet.platform.bi.exceptions.BIKettleException;
+import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.plywet.platform.bi.web.service.BIDatabaseDelegates;
 
 @Service("bi.service.databaseServices")

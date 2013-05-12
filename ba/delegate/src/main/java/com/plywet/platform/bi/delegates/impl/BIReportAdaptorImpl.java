@@ -43,7 +43,36 @@ public class BIReportAdaptorImpl extends BIAbstractDbAdaptor implements
 		}
 	}
 	
-	
+	public Object[] getReportObject(String id) throws BIKettleException{
+		try {
+			String sql = "SELECT "
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT_DIRECTORY
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_OBJECT
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_TYPE
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_IS_REF
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REF_REPORT
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_DESCRIPTION
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_STATUS
+					+ " FROM "
+					+ KettleDatabaseRepositoryBase.TABLE_R_REPORT
+					+ " WHERE "
+					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT
+					+ " = " + id;
+			Object[] row = getOneRow(sql);
+			return row;
+		} catch (KettleException e) {
+			logger.error("获得报表对象内容出现错误。");
+			throw new BIKettleException(e);
+		}
+	}
 	
 
 }

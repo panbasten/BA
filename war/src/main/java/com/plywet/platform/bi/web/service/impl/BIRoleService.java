@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.plywet.platform.bi.delegates.intf.BIAuthorizationAdaptor;
 import com.plywet.platform.bi.delegates.intf.BIRoleAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.plywet.platform.bi.delegates.vo.Authorization;
 import com.plywet.platform.bi.delegates.vo.Role;
-import com.plywet.platform.bi.exceptions.BIKettleException;
 import com.plywet.platform.bi.web.service.BIRoleDelegate;
 
 @Service("bi.service.roleService")

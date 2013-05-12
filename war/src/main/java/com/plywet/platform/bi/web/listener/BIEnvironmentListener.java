@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.plywet.platform.bi.component.utils.FLYPageTemplateUtils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.plywet.platform.bi.exceptions.BIKettleException;
+import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 
 public class BIEnvironmentListener implements ServletContextListener {
 	private final static Logger log = Logger

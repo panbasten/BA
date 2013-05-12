@@ -2,9 +2,9 @@ package com.plywet.platform.bi.web.service;
 
 import java.util.List;
 
+import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.plywet.platform.bi.delegates.vo.Authorization;
 import com.plywet.platform.bi.delegates.vo.Role;
-import com.plywet.platform.bi.exceptions.BIKettleException;
 
 public interface BIRoleDelegate {
 	public List<Role> getAllRoles() throws BIKettleException;

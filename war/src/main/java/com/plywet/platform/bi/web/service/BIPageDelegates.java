@@ -8,8 +8,8 @@ import org.pentaho.di.trans.TransMeta;
 import com.plywet.platform.bi.component.components.browse.BrowseMeta;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
+import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
-import com.plywet.platform.bi.exceptions.BIKettleException;
 
 /**
  * 页面服务层接口类
