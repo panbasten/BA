@@ -13,8 +13,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.json.simple.JSONObject;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
@@ -71,12 +73,23 @@ public class BIReportDashboardResource {
 			@QueryParam("target") String target) throws BIException {
 		try {
 			TemplateMeta templateMeta = TemplateCache.get(id);
-			// TODO
+			Document doc = templateMeta.getDoc();
+			Node sourceNode = getNodeWithEditorId(doc, source);
+			Node targetNode = getNodeWithEditorId(doc, target);
+			System.out.println(XMLUtils.toXMLString(sourceNode));
+			System.out.println(XMLUtils.toXMLString(targetNode));
+			// XMLUtils.appendTo(source, target);
 
 			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("移动Dashboard页面元素出现错误。", ex);
 		}
+	}
+
+	private Node getNodeWithEditorId(Node node, String editorId) {
+		return XMLUtils.selectSingleNode(node, "//*[@"
+				+ PageTemplateInterpolator.TEMPLATE_ATTRIBUTE_EDITOR_ID + "='"
+				+ editorId + "']");
 	}
 
 	@GET
