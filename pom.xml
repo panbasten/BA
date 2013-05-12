@@ -9,8 +9,9 @@
 	<name>${application.name}</name>
 	<description>${application.description}</description>
 	<modules>
-		<module>mondrian</module>
 		<module>kettle</module>
+		<module>mondrian</module>
+		<module>report</module>
 		<module>ba</module>
 		<module>war</module>
 	</modules>
@@ -952,7 +953,7 @@
 		</plugins>
 	</build>
 
-	<!-- 
+	<!--  -->
 	<repositories>
 		<repository>
 			<id>hb-public</id>
@@ -1039,7 +1040,7 @@
 			<url>http://10.11.46.192:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	 -->
+	
 
 	<scm>
 		<connection>scm:svn:https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</connection>

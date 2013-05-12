@@ -489,6 +489,7 @@ Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
  * 通过编辑ID，获得DomProp
  */
 Plywet.widget.DashboardEditor.prototype.getDomPropById = function(id) {
+	this.initDomsProp();
 	return _getDomPropById(this.domsProp);
 	
 	function _getDomPropById(domsProp){
@@ -618,23 +619,37 @@ Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
  * @param target 目标元素
  */
 Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
-	var params = {type:"move",source:sources,target:target};
-	
-	// TODO
-	console.log(this.id);
-	console.log(params);
+	var _self = this;
+	Plywet.ab({
+		type : "get",
+		url: "rest/dashboard/move/"+this.reportInfo.id,
+		params: {
+			source :	sources,
+			target :	target
+		},
+		onsuccess : function(data, status, xhr){
+			_self.flush(data);
+		}
+	});
 };
 
 Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
-	var params = {typd:"append",source:source,target:target};
-	
-	// TODO
-	console.log(params);
+	var _self = this;
+	Plywet.ab({
+		type : "get",
+		url: "rest/dashboard/append/"+this.id,
+		params: {
+			source :	sources,
+			target :	target
+		},
+		onsuccess : function(data, status, xhr){
+			_self.flush(data);
+		}
+	});
 };
 
 Plywet.widget.DashboardEditor.prototype.flush = function(data) {
-	console.log("data----------");
-	console.log(data);
+	this.reportInfo = data.reportInfo;
 	this.dom = data.dom;
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);

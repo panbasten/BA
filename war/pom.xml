@@ -287,11 +287,6 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-		    <groupId>commons-vfs</groupId>
-		    <artifactId>commons-vfs</artifactId>
-		    <version>1.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>com.plywet.platform.kettle</groupId>
@@ -310,23 +305,40 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.plywet.platform.mondrian</groupId>
+			<artifactId>mondrian-srv</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.mondrian</groupId>
+			<artifactId>mondrian-steps</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.plywet.platform.report</groupId>
+			<artifactId>fly-report-srv</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.report</groupId>
+			<artifactId>fly-report-steps</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.plywet.platform.ba</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>fly-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.plywet.platform.ba</groupId>
-			<artifactId>component</artifactId>
+			<artifactId>fly-component</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.plywet.platform.ba</groupId>
-			<artifactId>report</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.plywet.platform.ba</groupId>
-			<artifactId>delegate</artifactId>
+			<artifactId>fly-delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		

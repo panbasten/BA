@@ -14,11 +14,10 @@
 		<version>8.0-SNAPSHOT</version>
 	</parent>
 	<modules>
-		<module>core</module>
-		<module>el</module>
-		<module>component</module>
-		<module>report</module>
-		<module>delegate</module>
+		<module>fly-core</module>
+		<module>fly-el</module>
+		<module>fly-component</module>
+		<module>fly-delegate</module>
 	</modules>
 
 	<dependencies>
@@ -39,9 +38,27 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
+			<groupId>com.plywet.platform.mondrian</groupId>
+			<artifactId>mondrian-srv</artifactId>
+			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.mondrian</groupId>
+			<artifactId>mondrian-steps</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.plywet.platform.report</groupId>
+			<artifactId>fly-report-srv</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.report</groupId>
+			<artifactId>fly-report-steps</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>

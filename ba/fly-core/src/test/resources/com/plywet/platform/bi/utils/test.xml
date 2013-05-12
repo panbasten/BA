@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<videoGames>
+	<game system="PS" id="000">
+		<title>Madden 2001</title>
+		<maxPlayers>8</maxPlayers>
+	</game>
+	
+	<game system="PS2" id="001">
+		<title>Madden 2001</title>
+		<maxPlayers>8</maxPlayers>
+	</game>
+
+	<game system="PS2" id="002">
+		<title>SSX</title>
+		<maxPlayers>2</maxPlayers>
+	</game>
+
+	<game system="PS2" id="003">
+		<title>NHL 2001</title>
+		<maxPlayers>8</maxPlayers>
+	</game>
+	
+	<game system="PS3" id="004">
+		<title>NHL 2007</title>
+		<maxPlayers>16</maxPlayers>
+	</game>
+</videoGames>

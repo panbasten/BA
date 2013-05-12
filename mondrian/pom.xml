@@ -15,9 +15,26 @@
 	</parent>
 	<modules>
 		<module>mondrian-srv</module>
+		<module>mondrian-steps</module>
 	</modules>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.plywet.platform.kettle</groupId>
+			<artifactId>kettle-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.kettle</groupId>
+			<artifactId>kettle-db</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.plywet.platform.kettle</groupId>
+			<artifactId>kettle-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>

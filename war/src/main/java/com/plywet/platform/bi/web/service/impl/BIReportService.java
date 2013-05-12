@@ -69,12 +69,27 @@ public class BIReportService extends AbstractDirectoryServices implements
 
 			node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, style);
 			node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
-			node.addAttribute(HTML.ATTR_SRC, "report/" + category + "/"
-					+ reportId);
+			node.addAttribute(HTML.ATTR_SRC, category + "/open/" + reportId);
 			node.addEvent("mouseup", "Plywet.browse.showOperationForFile");
 			node.addEvent("dblclick", "Plywet.browse.openFile");
 			browse.addContent(node);
 		}
+	}
+
+	@Override
+	public Object[] getReportObject(Long id) throws BIException {
+		BIReportAdaptor adaptor = BIAdaptorFactory
+				.createAdaptor(BIReportAdaptor.class);
+
+		Object[] report = adaptor.getReportObject(String.valueOf(id));
+		// 如果是引用，再次查询
+
+		if (report != null) {
+			Object[] rtn = new Object[] { report[0], report[2] };
+			return rtn;
+		}
+
+		return null;
 	}
 
 }

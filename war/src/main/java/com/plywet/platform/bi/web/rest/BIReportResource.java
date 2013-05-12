@@ -14,9 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
 
 import com.plywet.platform.bi.component.components.breadCrumb.BreadCrumbMeta;
 import com.plywet.platform.bi.component.components.browse.BrowseMeta;
@@ -27,9 +25,7 @@ import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIException;
-import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
-import com.plywet.platform.bi.core.utils.XmlUtils;
 import com.plywet.platform.bi.delegates.enums.BIReportCategory;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
@@ -98,60 +94,6 @@ public class BIReportResource {
 		} catch (Exception ex) {
 			logger.error("创建导航的转换内容页面出现错误。");
 			throw new BIException("创建导航的转换内容页面出现错误。", ex);
-		}
-	}
-
-	/**
-	 * 打开一个Dashboard编辑页面
-	 * 
-	 * @param repository
-	 * @param id
-	 * @return
-	 * @throws BIException
-	 */
-	@SuppressWarnings("unchecked")
-	@GET
-	@Path("/dashboard/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String openDashboardEditor(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
-
-		try {
-			Document doc = PageTemplateInterpolator.getDomForEditor(
-					"editor/test/test.h", "dom_" + id);
-
-			// 保留编辑状态，对于集群应用需要使用共享缓存
-
-			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-			Object[] domString = PageTemplateInterpolator.interpolate(
-					"editor/test/test.h", doc, attrsMap);
-			String dom = (String) domString[0];
-			List<String> script = (List<String>) domString[1];
-
-			String domStructure = XmlUtils.toXMLString(doc);
-
-			JSONObject jo = new JSONObject();
-			jo.put("dom", dom);
-			jo.put("script", JSONUtils.convertToJSONArray(script));
-			jo.put("domStructure", domStructure);
-
-			return jo.toJSONString();
-		} catch (Exception ex) {
-			throw new BIException("创建Dashboard编辑页面出现错误。", ex);
-		}
-	}
-
-	@GET
-	@Path("/dashboard/{id}/")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String operatorDashboardEditor(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
-		try {
-			return "";
-		} catch (Exception ex) {
-			throw new BIException("创建Dashboard页面出现错误。", ex);
 		}
 	}
 

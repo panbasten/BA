@@ -380,14 +380,6 @@
 			<artifactId>jfreechart</artifactId>
 		</dependency>
 
-		<!-- mondrian -->
-		<dependency>
-			<groupId>com.plywet.platform.mondrian</groupId>
-			<artifactId>mondrian-srv</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		
-
 		<!-- pentaho -->
 		<dependency>
 			<groupId>net.java.dev.jets3t</groupId>
