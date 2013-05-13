@@ -629,6 +629,8 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 		},
 		onsuccess : function(data, status, xhr){
 			_self.flush(data);
+			_self.clearSelected();
+			_self.redraw();
 		}
 	});
 };
@@ -644,6 +646,8 @@ Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
 		},
 		onsuccess : function(data, status, xhr){
 			_self.flush(data);
+			_self.clearSelected();
+			_self.redraw();
 		}
 	});
 };
@@ -842,8 +846,38 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 		}
 	}
 	
+	// 绘制布局的外框
+	if(this.domsProp){
+		redrawLayoutBorder(this.domsProp);
+	}
+	
 	if(_self.mouseMovingDom){
 		redrawMovingTargetComponents();
+	}
+	
+	function redrawLayoutBorder(domsProp){
+		var dim;
+		for (var i=0;i<domsProp.length;i++) {
+			dim = domsProp[i];
+			
+			if(dim.type == "fly:GridLayoutItem" 
+				|| dim.type == "fly:HorizontalLayout" 
+				|| dim.type == "fly:VerticalLayout"){
+				redrawLayoutComponent(dim);
+			}
+			
+			if(dim.children){
+				redrawLayoutBorder(dim.children);
+			}
+		}
+	}
+	
+	function redrawLayoutComponent(dim) {
+		if(dim){
+			Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
+				_self.drawRectStyle, "line", _self.off);
+		}
 	}
 	
 	function redrawMovingTargetComponents() {

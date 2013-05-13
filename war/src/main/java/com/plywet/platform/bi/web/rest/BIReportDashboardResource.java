@@ -18,8 +18,12 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.plywet.platform.bi.component.exceptions.BIComponentException;
 import com.plywet.platform.bi.component.utils.FLYVariableResolver;
+import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
+import com.plywet.platform.bi.component.utils.PageTemplateResolverType;
+import com.plywet.platform.bi.component.vo.ComponentPlugin;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.exception.BIPageException;
@@ -76,14 +80,64 @@ public class BIReportDashboardResource {
 			Document doc = templateMeta.getDoc();
 			Node sourceNode = getNodeWithEditorId(doc, source);
 			Node targetNode = getNodeWithEditorId(doc, target);
-			System.out.println(XMLUtils.toXMLString(sourceNode));
-			System.out.println(XMLUtils.toXMLString(targetNode));
-			// XMLUtils.appendTo(source, target);
+
+			String sourceType = XMLUtils.getTagOrAttribute(sourceNode,
+					PageTemplateInterpolator.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
+
+			String targetType = XMLUtils.getTagOrAttribute(targetNode,
+					PageTemplateInterpolator.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
+
+			ComponentPlugin sourcePlugin = PageTemplateResolverType
+					.getPlugin(sourceType);
+			ComponentPlugin targetPlugin = PageTemplateResolverType
+					.getPlugin(targetType);
+
+			// 如果源节点是GridLayoutItem
+			if (sourcePlugin != null
+					&& HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM
+							.equalsIgnoreCase(sourcePlugin.getId())) {
+				if (targetPlugin != null
+						&& HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM
+								.equalsIgnoreCase(targetPlugin.getId())) {
+					XMLUtils.insertBefore(sourceNode, targetNode);
+				} else if (targetPlugin != null
+						&& HTML.COMPONENT_TYPE_GRID_LAYOUT
+								.equalsIgnoreCase(targetPlugin.getId())) {
+					XMLUtils.appendTo(sourceNode, targetNode);
+				} else {
+					throw new BIComponentException("不允许将栅格布局的项目拖拽到其他类型的节点。");
+				}
+			}
+			// 如果目标节点类型是GridLayout，且源节点不是GridLayoutItem
+			else if (targetPlugin != null
+					&& HTML.COMPONENT_TYPE_GRID_LAYOUT
+							.equalsIgnoreCase(targetPlugin.getId())) {
+				// TODO 创建一个GridLayoutItem
+			}
+			// 如果目标节点类型是容器属性或者是HTML容器，添加到其内部
+			else if (isContainer(targetType)) {
+				XMLUtils.appendTo(sourceNode, targetNode);
+			}
+			// 其他情况
+			else {
+				XMLUtils.insertBefore(sourceNode, targetNode);
+			}
 
 			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("移动Dashboard页面元素出现错误。", ex);
 		}
+	}
+
+	private boolean isContainer(String targetType) {
+		ComponentPlugin targetPlugin = PageTemplateResolverType
+				.getPlugin(targetType);
+		if (targetPlugin == null) {
+			// TODO 判断HTML可容纳的元素
+		} else if (targetPlugin != null && targetPlugin.isContainer()) {
+			return true;
+		}
+		return false;
 	}
 
 	private Node getNodeWithEditorId(Node node, String editorId) {

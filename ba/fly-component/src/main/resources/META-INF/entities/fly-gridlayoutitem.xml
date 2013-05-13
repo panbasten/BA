@@ -3,6 +3,7 @@
 	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.GridLayoutItem</description>
 	<classname>com.plywet.platform.bi.component.resolvers.layout.FLYGridLayoutItemResolver</classname>
 	<category>Layout</category>
+	<container>true</container>
 	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.GridLayoutItem</tooltip>
 	<iconfile>gridlayoutitem.png</iconfile>
 </component>

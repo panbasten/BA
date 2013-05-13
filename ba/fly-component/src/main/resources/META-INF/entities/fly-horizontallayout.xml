@@ -3,6 +3,7 @@
 	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.HorizontalLayout</description>
 	<classname>com.plywet.platform.bi.component.resolvers.layout.FLYHorizontalLayoutResolver</classname>
 	<category>Layout</category>
+	<container>true</container>
 	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.HorizontalLayout</tooltip>
 	<iconfile>horizontallayout.png</iconfile>
 	

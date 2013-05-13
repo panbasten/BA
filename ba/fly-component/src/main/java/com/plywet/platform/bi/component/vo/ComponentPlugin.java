@@ -26,6 +26,7 @@ public class ComponentPlugin {
 	private String tooltip;
 	private String iconfile;
 	private boolean ignoreInDesigner;
+	private boolean container;
 	private ComponentResolverInterface resolver;
 
 	private List<ComponentAttributeInterface> attributes = new ArrayList<ComponentAttributeInterface>();;
@@ -48,6 +49,9 @@ public class ComponentPlugin {
 
 		this.ignoreInDesigner = Utils.toBoolean(XMLUtils.getTagOrAttribute(
 				componentNode, "ignoreInDesigner"), false);
+
+		this.container = Utils.toBoolean(XMLUtils.getTagOrAttribute(
+				componentNode, "container"), false);
 
 		// 属性
 		Node attributesNode = XMLHandler
@@ -184,6 +188,14 @@ public class ComponentPlugin {
 
 	public void setIgnoreInDesigner(boolean ignoreInDesigner) {
 		this.ignoreInDesigner = ignoreInDesigner;
+	}
+
+	public boolean isContainer() {
+		return container;
+	}
+
+	public void setContainer(boolean container) {
+		this.container = container;
 	}
 
 }
