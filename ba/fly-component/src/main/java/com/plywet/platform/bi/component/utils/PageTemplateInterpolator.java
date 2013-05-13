@@ -20,6 +20,7 @@ import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.el.expression.Expression;
 import com.plywet.platform.bi.el.expression.ExpressionString;
 import com.plywet.platform.bi.el.parser.ELParser;
+import com.plywet.platform.bi.report.meta.TemplateMeta;
 
 /**
  * 进行参数替换的工具类
@@ -28,10 +29,6 @@ import com.plywet.platform.bi.el.parser.ELParser;
  * 
  */
 public class PageTemplateInterpolator {
-
-	public static final String TEMPLATE_ATTRIBUTE_EDITOR_ID = "__editor_id";
-	public static final String TEMPLATE_ATTRIBUTE_EDITOR_TYPE = "__editor_type";
-	public static final String TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY = "__editor_category";
 
 	/**
 	 * 获得模板的dom和javascript代码
@@ -192,7 +189,11 @@ public class PageTemplateInterpolator {
 		}
 
 		int idx = 0;
-		modifySubDomForEditor(dom, prefix, idx);
+		idx = modifySubDomForEditor(dom, prefix, idx);
+
+		XMLUtils.setAttribute(dom,
+				TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_INDEX, String
+						.valueOf(idx));
 
 		return dom;
 	}
@@ -215,6 +216,10 @@ public class PageTemplateInterpolator {
 		int idx = 0;
 		idx = modifySubDomForEditor(dom, prefix, idx);
 
+		XMLUtils.setAttribute(dom,
+				TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_INDEX, String
+						.valueOf(idx));
+
 		return dom;
 	}
 
@@ -223,15 +228,18 @@ public class PageTemplateInterpolator {
 			return idx;
 		}
 
-		XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_ID, prefix + "_"
-				+ (idx++));
+		XMLUtils.setAttribute(node, TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_ID,
+				prefix + "_" + (idx++));
 		ComponentPlugin plugin = PageTemplateResolverType.getPlugin(node
 				.getNodeName());
 		if (plugin != null) {
-			XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_TYPE, plugin
-					.getId());
-			XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY,
-					plugin.getCategory());
+			XMLUtils
+					.setAttribute(node,
+							TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_TYPE, plugin
+									.getId());
+			XMLUtils.setAttribute(node,
+					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY, plugin
+							.getCategory());
 		}
 
 		NodeList nodeList = node.getChildNodes();

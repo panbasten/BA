@@ -82,10 +82,10 @@ public class BIReportDashboardResource {
 			Node targetNode = getNodeWithEditorId(doc, target);
 
 			String sourceType = XMLUtils.getTagOrAttribute(sourceNode,
-					PageTemplateInterpolator.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
+					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
 
 			String targetType = XMLUtils.getTagOrAttribute(targetNode,
-					PageTemplateInterpolator.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
+					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
 
 			ComponentPlugin sourcePlugin = PageTemplateResolverType
 					.getPlugin(sourceType);
@@ -112,7 +112,11 @@ public class BIReportDashboardResource {
 			else if (targetPlugin != null
 					&& HTML.COMPONENT_TYPE_GRID_LAYOUT
 							.equalsIgnoreCase(targetPlugin.getId())) {
-				// TODO 创建一个GridLayoutItem
+				// 创建一个GridLayoutItem
+				Node node = doc
+						.createElement(HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM);
+				XMLUtils.appendTo(sourceNode, node);
+				XMLUtils.appendTo(node, targetNode);
 			}
 			// 如果目标节点类型是容器属性或者是HTML容器，添加到其内部
 			else if (isContainer(targetType)) {
@@ -142,8 +146,8 @@ public class BIReportDashboardResource {
 
 	private Node getNodeWithEditorId(Node node, String editorId) {
 		return XMLUtils.selectSingleNode(node, "//*[@"
-				+ PageTemplateInterpolator.TEMPLATE_ATTRIBUTE_EDITOR_ID + "='"
-				+ editorId + "']");
+				+ TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_ID + "='" + editorId
+				+ "']");
 	}
 
 	@GET

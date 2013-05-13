@@ -19,7 +19,14 @@ public class TemplateMeta implements XMLInterface, Cloneable,
 
 	private static Class<?> PKG = TemplateMeta.class;
 
+	public static final String TEMPLATE_ATTRIBUTE_EDITOR_ID = "__editor_id";
+	public static final String TEMPLATE_ATTRIBUTE_EDITOR_TYPE = "__editor_type";
+	public static final String TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY = "__editor_category";
+	public static final String TEMPLATE_ATTRIBUTE_EDITOR_INDEX = "__editor_idx";
+
 	protected Document doc;
+
+	protected int idx;
 
 	// 用于支持"undo"操作的活动列表
 	protected List<TemplateAction> undo;
@@ -32,6 +39,9 @@ public class TemplateMeta implements XMLInterface, Cloneable,
 
 	public TemplateMeta(Document doc) {
 		this.doc = doc;
+		String idxString = XMLUtils.getTagOrAttribute(this.doc,
+				TEMPLATE_ATTRIBUTE_EDITOR_INDEX);
+		idx = Integer.valueOf(idxString);
 	}
 
 	/**

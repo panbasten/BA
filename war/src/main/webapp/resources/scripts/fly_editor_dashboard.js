@@ -15,8 +15,10 @@ Plywet.editors.dashboard = {
 				propId: "dashboardPropBar",
 				data: tabData
 			});
+			console.log("aa");
 		} else {
 			dashboardEditorPanel_var.flush(tabData);
+			console.log("bb");
 		}
 		
 	},
@@ -298,7 +300,6 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 	
 	this.ctx = this.editorCanvas.getContext('2d');
 	
-	
 	var _self = this;
 	
 	this.editorWrapper
@@ -455,7 +456,6 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 	});
 	
 	this.flush(this.cfg.data);
-	
 };
 
 /**
@@ -520,7 +520,7 @@ Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
 		var editorDim = Plywet.getElementDimensions(this.editorContent);
 		
 		initSubDomsProp($(this.domStructure), editorDim, this.editorContent, this.domsProp, undefined, this);
-
+		
 	}
 	
 	function initSubDomsProp(node, editorDim, dom, domsProp, parentDomProp, target) {
@@ -860,9 +860,7 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 		for (var i=0;i<domsProp.length;i++) {
 			dim = domsProp[i];
 			
-			if(dim.type == "fly:GridLayoutItem" 
-				|| dim.type == "fly:HorizontalLayout" 
-				|| dim.type == "fly:VerticalLayout"){
+			if(dim.type == "fly:GridLayoutItem"){
 				redrawLayoutComponent(dim);
 			}
 			
@@ -875,8 +873,8 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	function redrawLayoutComponent(dim) {
 		if(dim){
 			Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
-				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
-				_self.drawRectStyle, "line", _self.off);
+					{x:(dim.offsetLeft+2),y:(dim.offsetTop+2),width:(dim.offsetWidth-4),height:(dim.offsetHeight-4)}, 
+					_self.drawRectStyle, "line", _self.off);
 		}
 	}
 	
@@ -897,9 +895,9 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	
 	function redrawSelectedComponents(dim) {
 		
-		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
-				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
-				_self.drawRectStyle, "line", _self.off);
+//		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+//				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
+//				_self.drawRectStyle, "line", _self.off);
 		Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight},
 				_self.off,_self.drawResizerStyle);
