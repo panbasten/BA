@@ -187,10 +187,21 @@ public class BIReportDashboardResource {
 	@Path("/append/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String appendDashboard(@PathParam("id") String id,
-			@QueryParam("source") String source,
+			@QueryParam("source") String sourceType,
 			@QueryParam("target") String target) throws BIException {
 		try {
 			TemplateMeta templateMeta = TemplateCache.get(id);
+
+			Document doc = templateMeta.getDoc();
+			Node targetNode = getNodeWithEditorId(doc, target);
+			String targetType = XMLUtils.getTagOrAttribute(targetNode,
+					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
+
+			ComponentPlugin sourcePlugin = PageTemplateResolverType
+					.getPlugin(sourceType);
+			ComponentPlugin targetPlugin = PageTemplateResolverType
+					.getPlugin(targetType);
+
 			// TODO
 			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {

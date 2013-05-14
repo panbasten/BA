@@ -263,11 +263,19 @@ Plywet.widget.DashboardEditor = function(cfg) {
 Plywet.widget.DashboardEditor.prototype.reInitEditor = function(data){
 	this.clearSelected();
 	this.clearDomsProp();
+	this.clearDomPropPanel();
 	this.flush(data);
 };
 
 Plywet.widget.DashboardEditor.prototype.clearSelected = function() {
 	this.selected = {};
+};
+
+Plywet.widget.DashboardEditor.prototype.clearDomPropPanel = function() {
+	// 如果没有选中的节点，或者选中的节点不再存在，清空
+	if(this.domProp){
+		this.domProp.loadData([]);
+	}
 };
 
 Plywet.widget.DashboardEditor.prototype.clearDomsProp = function(){
@@ -673,9 +681,7 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 			target :	target
 		},
 		onsuccess : function(data, status, xhr){
-			_self.clearSelected();
-			_self.clearDomsProp();
-			_self.flush(data);
+			_self.reInitEditor(data);
 			_self.redraw();
 		}
 	});
@@ -688,15 +694,13 @@ Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
 	var _self = this;
 	Plywet.ab({
 		type : "get",
-		url: "rest/dashboard/append/"+this.id,
+		url: "rest/dashboard/append/"+this.reportInfo.id,
 		params: {
-			source :	sources,
+			source :	source,
 			target :	target
 		},
 		onsuccess : function(data, status, xhr){
-			_self.clearSelected();
-			_self.clearDomsProp();
-			_self.flush(data);
+			_self.reInitEditor(data);
 			_self.redraw();
 		}
 	});
@@ -760,9 +764,6 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 			]]
 		};
 		this.domProp = new Plywet.widget.EasyTreeGrid(config);
-	}else{
-		// TODO 如果没有选中的节点，或者选中的节点不再存在，清空
-		console.log("reinit domProp");
 	}
 	
 	if(!this.signalGrid){
@@ -967,7 +968,7 @@ Plywet.editors.dashboard.action = {
 		// 显示属性
 		props = dashboardEditorPanel_var.getDomPropById(node.id).props;
 		
-		dashboardEditorPanel_var.domProp.setUrlData(props);
+		dashboardEditorPanel_var.domProp.loadData(props);
 		
 		// 页面点击独立处理这部分
 		if(!dashboardEditorPanel_var.holder){

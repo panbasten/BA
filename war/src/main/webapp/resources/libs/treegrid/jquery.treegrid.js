@@ -1278,7 +1278,7 @@ Plywet.widget.EasyTreeGrid=function(cfg){
 
 Plywet.extend(Plywet.widget.EasyTreeGrid, Plywet.widget.BaseWidget);
 
-Plywet.widget.EasyTreeGrid.prototype.setUrlData=function(data){
+Plywet.widget.EasyTreeGrid.prototype.loadData=function(data){
 	this.jq.treegrid("setUrlData", data);
 	this.jq.treegrid("reload");
 };
