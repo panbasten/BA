@@ -37,6 +37,16 @@ public class HTML {
 	public static final String COMPONENT_TYPE_BASE_P = "p";
 	public static final String COMPONENT_TYPE_BASE_FONT = "font";
 	public static final String COMPONENT_TYPE_BASE_SPAN = "span";
+	
+	
+	public static final String COMPONENT_CATEGORY_BASE = "Base";
+	public static final String COMPONENT_CATEGORY_SPACERS = "Spacers";
+	public static final String COMPONENT_CATEGORY_BUTTONS = "Buttons";
+	public static final String COMPONENT_CATEGORY_INPUT = "Input";
+	public static final String COMPONENT_CATEGORY_DISPLAY = "Display";
+	public static final String COMPONENT_CATEGORY_ITEM = "Item";
+	public static final String COMPONENT_CATEGORY_CONTAINERS = "Containers";
+	public static final String COMPONENT_CATEGORY_LAYOUT = "Layout";
 
 	public static final String COMPONENT_TYPE_FOR_EACH = COMPONENT_TYPE_FLY_PREFIX
 			+ "foreach";

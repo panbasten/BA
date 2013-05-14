@@ -1287,15 +1287,19 @@
 
 Plywet.widget.EasyTree=function(cfg){
 	this.cfg=cfg;
-	this.treedata=this.transdata(cfg.els?cfg.els:[]);
 	this.id = cfg.id;
     this.jqId = Plywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
-	$("#"+this.id).tree(cfg);
-	$("#"+this.id).tree("loadData",this.treedata);
+	this.jq.tree(cfg);
+	this.loadData(cfg.els);
 };
 
 Plywet.extend(Plywet.widget.EasyTree, Plywet.widget.BaseWidget);
+
+Plywet.widget.EasyTree.prototype.loadData=function(data){
+	this.treedata=this.transdata(data?data:[]);
+	this.jq.tree("loadData",this.treedata);
+};
 
 Plywet.widget.EasyTree.prototype.transdata=function(initdata){
 	var rtn = [];

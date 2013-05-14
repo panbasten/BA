@@ -7,8 +7,6 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.pentaho.di.core.Const;
-import org.pentaho.di.core.xml.XMLHandler;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -54,6 +52,9 @@ public class XMLUtils {
 	}
 
 	public static String getTagOrAttribute(Node node, String tag) {
+		if (node instanceof Document) {
+			node = ((Document) node).getDocumentElement();
+		}
 		String string = XMLHandler.getTagValue(node, tag);
 		if (string == null) {
 			string = XMLHandler.getTagAttribute(node, tag);
@@ -75,8 +76,8 @@ public class XMLUtils {
 		if (node instanceof Element) {
 			((Element) node).setAttribute(name, value);
 		} else if (node instanceof Document) {
-			Attr attr = ((Document) node).createAttribute(name);
-			attr.setValue(value);
+			Element root = ((Document) node).getDocumentElement();
+			root.setAttribute(name, value);
 		}
 
 	}
@@ -133,7 +134,7 @@ public class XMLUtils {
 	public static void appendTo(Node source, Node target) {
 		target.appendChild(source);
 	}
-	
+
 	public static void appendTo(Node node, String sourceExpress,
 			String targetExpress) {
 		NodeList sources = selectNodes(node, sourceExpress);

@@ -178,6 +178,7 @@ public class PageTemplateInterpolator {
 	 * 为编辑器获得dom
 	 * 
 	 * @param fileUrl
+	 * @param id 报表
 	 * @return
 	 * @throws BIPageException
 	 */
@@ -189,6 +190,7 @@ public class PageTemplateInterpolator {
 		}
 
 		int idx = 0;
+
 		idx = modifySubDomForEditor(dom, prefix, idx);
 
 		XMLUtils.setAttribute(dom,

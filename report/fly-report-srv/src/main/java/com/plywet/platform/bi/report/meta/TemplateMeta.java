@@ -10,6 +10,7 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.xml.XMLInterface;
 import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.report.undo.TemplateAction;
 import com.plywet.platform.bi.report.undo.TemplateUndoInterface;
@@ -20,11 +21,14 @@ public class TemplateMeta implements XMLInterface, Cloneable,
 	private static Class<?> PKG = TemplateMeta.class;
 
 	public static final String TEMPLATE_ATTRIBUTE_EDITOR_ID = "__editor_id";
+	public static final String TEMPLATE_ATTRIBUTE_EDITOR_ID_PREFIX = "dom_";
 	public static final String TEMPLATE_ATTRIBUTE_EDITOR_TYPE = "__editor_type";
 	public static final String TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY = "__editor_category";
 	public static final String TEMPLATE_ATTRIBUTE_EDITOR_INDEX = "__editor_idx";
 
 	protected Document doc;
+
+	protected String templateId;
 
 	protected int idx;
 
@@ -37,7 +41,8 @@ public class TemplateMeta implements XMLInterface, Cloneable,
 	// 当前undo位置
 	protected int undo_position = -1;
 
-	public TemplateMeta(Document doc) {
+	public TemplateMeta(String templateId, Document doc) {
+		this.templateId = templateId;
 		this.doc = doc;
 		String idxString = XMLUtils.getTagOrAttribute(this.doc,
 				TEMPLATE_ATTRIBUTE_EDITOR_INDEX);
@@ -173,4 +178,30 @@ public class TemplateMeta implements XMLInterface, Cloneable,
 		return doc;
 	}
 
+	private int getNextEditorIndex() {
+		idx++;
+		XMLUtils.setAttribute(doc, TEMPLATE_ATTRIBUTE_EDITOR_INDEX, String
+				.valueOf(idx));
+		return idx;
+	}
+
+	/**
+	 * 创建一个节点对象
+	 * 
+	 * @param category
+	 *            组件的分类
+	 * @param type
+	 *            组件的类型
+	 * @return
+	 */
+	public Node createElement(String category, String type) {
+		Node node = doc.createElement(type);
+		XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_TYPE, type);
+		XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_CATEGORY,
+				category);
+		XMLUtils.setAttribute(node, TEMPLATE_ATTRIBUTE_EDITOR_ID,
+				TEMPLATE_ATTRIBUTE_EDITOR_ID_PREFIX + templateId + "_"
+						+ getNextEditorIndex());
+		return node;
+	}
 }

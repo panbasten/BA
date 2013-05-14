@@ -57,10 +57,11 @@ public class BIReportDashboardResource {
 			// 获得报表对象
 			Object[] report = reportService.getReportObject(Long.valueOf(id));
 			Document doc = PageTemplateInterpolator.getDomForEditorWithContent(
-					(String) report[1], "dom_" + id);
+					(String) report[1],
+					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_ID_PREFIX + id);
 
 			// 保留编辑状态，对于集群应用需要使用共享缓存
-			TemplateMeta templateMeta = new TemplateMeta(doc);
+			TemplateMeta templateMeta = new TemplateMeta(id, doc);
 			TemplateCache.put(id, templateMeta);
 
 			return getDashboardJson(id, templateMeta).toJSONString();
@@ -113,8 +114,9 @@ public class BIReportDashboardResource {
 					&& HTML.COMPONENT_TYPE_GRID_LAYOUT
 							.equalsIgnoreCase(targetPlugin.getId())) {
 				// 创建一个GridLayoutItem
-				Node node = doc
-						.createElement(HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM);
+				Node node = templateMeta.createElement(HTML.COMPONENT_CATEGORY_LAYOUT,
+						HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM);
+
 				XMLUtils.appendTo(sourceNode, node);
 				XMLUtils.appendTo(node, targetNode);
 			}

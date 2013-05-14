@@ -2,6 +2,9 @@ package com.plywet.platform.bi.component.resolvers.layout;
 
 import java.util.List;
 
+import javax.xml.transform.TransformerException;
+
+import org.pentaho.di.core.xml.XMLUtils;
 import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -72,6 +75,15 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 			Node subNode = nodeList.item(i);
 			if (HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM.equalsIgnoreCase(subNode
 					.getNodeName())) {
+				// TODO 如果内容为空，直接忽略
+				System.out.println(subNode.getChildNodes());
+				try {
+					System.out.println(XMLUtils.toXMLString(subNode));XMLUtils.selectNodes(subNode, "//*").getLength();
+				} catch (TransformerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				int cols = 1, w = 0;
 				String colsStr = HTML
 						.getTagAttribute(subNode, ATTR_COLS, attrs);
@@ -97,7 +109,7 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 				super.renderSub(subNode, html, script, attrs, fileUrl);
 				html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			} else {
-
+				// 如果不是GRID_LAYOUT_ITEM类型的节点，不做操作
 			}
 		}
 	}
