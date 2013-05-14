@@ -533,6 +533,12 @@ div.ui-fs-sftp-icon {
 	border: 1px solid #000000;
 }
 
+.fly-editor .fly-editor-content .ui-grid-layout-item-empty {
+	color: red;
+	height: auto;
+	margin: 5px;
+}
+
 .fly-editor .fly-editor-content .ui-panel,
 .fly-editor .fly-editor-content .ui-show-description-panel,
 .fly-editor .fly-editor-content fieldset,

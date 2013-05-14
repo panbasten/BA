@@ -285,6 +285,20 @@ Plywet.widget.DashboardEditor.prototype.isSelected = function(domId) {
 	return this.selected[domId];
 };
 
+Plywet.widget.DashboardEditor.prototype.isSelectedByCoords = function(m){
+	var dim;
+	for(var selectedId in this.selected){
+		dim = this.selected[selectedId];
+		if(dim){
+			if(dim.offsetLeft <= m.x && (dim.offsetLeft+dim.offsetWidth) >= m.x
+				&& dim.offsetTop <= m.y && (dim.offsetTop+dim.offsetHeight) >= m.y){
+				return dim;
+			}
+		}
+	}
+	return false;
+};
+
 Plywet.widget.DashboardEditor.prototype.getSelectedSize = function() {
 	var size = 0;
 	for(var selectedId in this.selected){
@@ -317,26 +331,8 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 	this.editorWrapper
 		.bind("mousedown", function(e){
 			_self.holder = true;
-			
 			_self.initDomsProp();
-			
 			_self.mouseDownCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
-			_self.mouseDownDom = _self.getDomByMouseCoords(_self.mouseDownCoords);
-			
-			// 选择一个树节点
-			_self.domStructureTree.select(_self.mouseDownDom.id);
-			
-			// 如果按下shift，认为是多选
-			if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
-			}else{
-				// 如果选择对象已经被选中，不清除所有选中
-				if(!_self.isSelected(_self.mouseDownDom.id)){
-					_self.clearSelected();
-				}
-			}
-			_self.addSelected(_self.mouseDownDom.id,_self.mouseDownDom);
-			
-			_self.redraw();
 		})
 		.bind("mouseout", function(e){
 			_self.holder = false;
@@ -368,6 +364,17 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 							if(dim.parent.id == _self.mouseMovingDom.id){
 								_self.mouseMovingDom = undefined;
 								break;
+							}
+						}
+						
+						// 不能拖入子元素
+						var movingDomParent = _self.mouseMovingDom.parent;
+						while(movingDomParent){
+							if(dim.id == movingDomParent.id){
+								_self.mouseMovingDom = undefined;
+								break;
+							}else{
+								movingDomParent = movingDomParent.parent;
 							}
 						}
 						
@@ -407,6 +414,26 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					}
 				}
 				_self.move(sources,_self.mouseMovingDom.id);
+			} else {
+				// 鼠标抬起对象是选中对象，将鼠标抬起对象设置为选中对象的父对象
+				if(_self.isSelected(_self.mouseUpDom.id)){
+					// 选择父对象
+					_self.mouseUpDom = _self.mouseUpDom.parent;
+				}
+				
+				// 选择一个树节点
+				_self.domStructureTree.select(_self.mouseUpDom.id);
+				
+				// 如果按下shift，认为是多选
+				if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
+				}else{
+					// 如果选择对象已经被选中，不清除所有选中
+					if(!_self.isSelected(_self.mouseUpDom.id)){
+						_self.clearSelected();
+					}
+				}
+				_self.addSelected(_self.mouseUpDom.id,_self.mouseUpDom);
+				
 			}
 			
 			_self.mouseMovingDom = undefined;
@@ -526,8 +553,6 @@ Plywet.widget.DashboardEditor.prototype.getDomPropById = function(id) {
 Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
 	
 	if(!this.domsProp) {
-		
-		console.log("initDomsProp");
 		
 		this.domsProp = [];
 		
@@ -673,8 +698,6 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	this.dom = data.dom;
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
-	console.log("----domStructure");
-	console.log(data.domStructure);
 	
 	this.domsProp = null;
 	
@@ -703,7 +726,6 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 		this.domStructureTree = new Plywet.widget.EasyTree(config);
 	}else{
 		// 重新加载树
-		console.log("reload");
 		this.domStructureTree.loadData([getNodeStructure(this.domStructure, this)]);
 	}
 	

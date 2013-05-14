@@ -15,6 +15,7 @@ import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.HTMLWriter;
 import com.plywet.platform.bi.core.exception.BIPageException;
+import com.plywet.platform.bi.core.utils.Utils;
 
 public class FLYGridLayoutResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
@@ -75,15 +76,7 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 			Node subNode = nodeList.item(i);
 			if (HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM.equalsIgnoreCase(subNode
 					.getNodeName())) {
-				// TODO 如果内容为空，直接忽略
-				System.out.println(subNode.getChildNodes());
-				try {
-					System.out.println(XMLUtils.toXMLString(subNode));XMLUtils.selectNodes(subNode, "//*").getLength();
-				} catch (TransformerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+
 				int cols = 1, w = 0;
 				String colsStr = HTML
 						.getTagAttribute(subNode, ATTR_COLS, attrs);
@@ -106,12 +99,39 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 
 				HTML.writeAttributes(subNode.getAttributes(),
 						new String[] { ATTR_COLS }, html, attrs);
-				super.renderSub(subNode, html, script, attrs, fileUrl);
+
+				if (isEmptyItem(subNode)) {
+					html.writeText("<div class='ui-grid-layout-item-empty'>--空--</div>");
+				} else {
+					super.renderSub(subNode, html, script, attrs, fileUrl);
+				}
+
 				html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			} else {
 				// 如果不是GRID_LAYOUT_ITEM类型的节点，不做操作
 			}
 		}
+
+	}
+
+	private boolean isEmptyItem(Node subNode) throws BIPageException {
+		try {
+			// 如果内容为空，返回true
+			NodeList subNodeChildList = subNode.getChildNodes();
+			if (subNodeChildList == null)
+				return true;
+			String subText = "";
+			for (int si = 0; si < subNodeChildList.getLength(); si++) {
+				subText = subText
+						+ XMLUtils.toXMLString(subNodeChildList.item(si));
+			}
+			if (Utils.isEmpty(Utils.trim(subText)))
+				return true;
+
+		} catch (TransformerException e) {
+			throw new BIPageException("渲染GridLayout组件出现错误。");
+		}
+		return false;
 	}
 
 	private int getWidth(int index, int column, int[] itemWidth) {
