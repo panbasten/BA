@@ -101,7 +101,8 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 						new String[] { ATTR_COLS }, html, attrs);
 
 				if (isEmptyItem(subNode)) {
-					html.writeText("<div class='ui-grid-layout-item-empty'>--空--</div>");
+					html
+							.writeText("<div class='ui-grid-layout-item-empty'>--空--</div>");
 				} else {
 					super.renderSub(subNode, html, script, attrs, fileUrl);
 				}
@@ -120,18 +121,21 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 			NodeList subNodeChildList = subNode.getChildNodes();
 			if (subNodeChildList == null)
 				return true;
-			String subText = "";
 			for (int si = 0; si < subNodeChildList.getLength(); si++) {
-				subText = subText
-						+ XMLUtils.toXMLString(subNodeChildList.item(si));
+				Node n = subNodeChildList.item(si);
+				if ("#text".equals(n.getNodeName())) {
+					if (Utils.isEmpty(Utils.trim(XMLUtils.toXMLString(n)))) {
+						continue;
+					}
+				}
+				return false;
 			}
-			if (Utils.isEmpty(Utils.trim(subText)))
-				return true;
+			
+			return true;
 
 		} catch (TransformerException e) {
 			throw new BIPageException("渲染GridLayout组件出现错误。");
 		}
-		return false;
 	}
 
 	private int getWidth(int index, int column, int[] itemWidth) {

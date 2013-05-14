@@ -658,6 +658,12 @@ Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
  * @param target 目标元素
  */
 Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
+	if(!sources || sources.length==0){
+		return;
+	}
+	if(!target){
+		return;
+	}
 	var _self = this;
 	Plywet.ab({
 		type : "get",
@@ -676,6 +682,9 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 };
 
 Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
+	if(!source || !target){
+		return;
+	}
 	var _self = this;
 	Plywet.ab({
 		type : "get",

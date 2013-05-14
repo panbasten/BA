@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.xml.transform.TransformerException;
 
 import org.json.simple.JSONObject;
 import org.pentaho.di.core.exception.KettleException;
@@ -28,6 +29,7 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
+import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.report.meta.TemplateMeta;
 import com.plywet.platform.bi.web.cache.TemplateCache;
 import com.plywet.platform.bi.web.service.BIReportDelegates;
@@ -100,7 +102,7 @@ public class BIReportDashboardResource {
 				if (targetPlugin != null
 						&& HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM
 								.equalsIgnoreCase(targetPlugin.getId())) {
-					XMLUtils.insertBefore(sourceNode, targetNode);
+					insertBefore(sourceNode, targetNode);
 				} else if (targetPlugin != null
 						&& HTML.COMPONENT_TYPE_GRID_LAYOUT
 								.equalsIgnoreCase(targetPlugin.getId())) {
@@ -114,7 +116,8 @@ public class BIReportDashboardResource {
 					&& HTML.COMPONENT_TYPE_GRID_LAYOUT
 							.equalsIgnoreCase(targetPlugin.getId())) {
 				// 创建一个GridLayoutItem
-				Node node = templateMeta.createElement(HTML.COMPONENT_CATEGORY_LAYOUT,
+				Node node = templateMeta.createElement(
+						HTML.COMPONENT_CATEGORY_LAYOUT,
 						HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM);
 
 				XMLUtils.appendTo(sourceNode, node);
@@ -126,13 +129,41 @@ public class BIReportDashboardResource {
 			}
 			// 其他情况
 			else {
-				XMLUtils.insertBefore(sourceNode, targetNode);
+				insertBefore(sourceNode, targetNode);
 			}
 
 			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("移动Dashboard页面元素出现错误。", ex);
 		}
+	}
+
+	private void insertBefore(Node sourceNode, Node targetNode)
+			throws TransformerException {
+		// 如果源节点的下一个节点是目标节点，调整两者的顺序
+		if (isBefore(sourceNode, targetNode)) {
+			XMLUtils.insertBefore(targetNode, sourceNode);
+		} else {
+			XMLUtils.insertBefore(sourceNode, targetNode);
+		}
+	}
+
+	private boolean isBefore(Node sourceNode, Node targetNode)
+			throws TransformerException {
+		Node temp = sourceNode.getNextSibling();
+		while (temp != null) {
+			if ("#text".equals(temp.getNodeName())) {
+				if (Utils.isEmpty(Utils.trim(XMLUtils.toXMLString(temp)))) {
+					temp = temp.getNextSibling();
+				}
+			} else if (temp == targetNode) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+
 	}
 
 	private boolean isContainer(String targetType) {
