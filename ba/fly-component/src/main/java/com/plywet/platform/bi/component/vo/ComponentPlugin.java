@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONArray;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.core.xml.XMLUtils;
@@ -85,6 +86,29 @@ public class ComponentPlugin {
 			ja.add(attr.toJSONObject());
 		}
 		return ja;
+	}
+
+	public void setDefaultAttributesForNode(Node node) {
+		for (ComponentAttributeInterface attr : attributes) {
+			if (attr instanceof ComponentAttributeGroup) {
+				setDefaultAttributeGroup(node, (ComponentAttributeGroup) attr);
+			} else if (attr instanceof ComponentAttribute) {
+				setDefaultAttribute(node, (ComponentAttribute) attr);
+			}
+		}
+	}
+
+	public void setDefaultAttributeGroup(Node node, ComponentAttributeGroup attr) {
+		for (ComponentAttribute a : attr.getAttributes()) {
+			setDefaultAttribute(node, a);
+		}
+	}
+
+	public void setDefaultAttribute(Node node, ComponentAttribute attr) {
+		String defaultValueStr = attr.getDefaultValueStr();
+		if (StringUtils.isNotEmpty(defaultValueStr)) {
+			XMLUtils.setAttribute(node, attr.getName(), defaultValueStr);
+		}
 	}
 
 	public void addAttributeGroup(ComponentAttributeGroup attrGroup) {

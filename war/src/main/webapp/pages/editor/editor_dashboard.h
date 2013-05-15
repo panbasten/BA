@@ -47,8 +47,8 @@
 		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">
-					<fly:pushbutton icon="ui-icon-plusthick" onclick="" title="添加" />
-					<fly:pushbutton icon="ui-icon-closethick" onclick="" title="删除" />
+					<fly:pushbutton icon="ui-icon-plusthick" onclick="Plywet.editors.dashboard.action.signal_add_on_click();" title="添加" />
+					<fly:pushbutton icon="ui-icon-closethick" onclick="Plywet.editors.dashboard.action.signal_delete_on_click();" title="删除" />
 				</div>
 				<div class="ui-toolbar-group-right">
 				</div>

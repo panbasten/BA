@@ -2159,6 +2159,7 @@ $.fn.layout = function (opts) {
 		* @param {boolean=}		[resizingDone=false]
 		*/
 		var resizePanes = function (evt, ui, pane, resizingDone, masks) {
+			
 			var	dragPos	= ui.css
 			,	c		= _c[pane]
 			,	o		= options[pane]
@@ -2191,6 +2192,8 @@ $.fn.layout = function (opts) {
 				if (s.isSliding && masks) // RE-SHOW only 'object-masks' so objects won't show through sliding pane
 					showMasks( masks, true ); // true = onlyForObjects
 			}
+			
+			// 如果其子元素为layout
 		};
 	}
 
@@ -3802,7 +3805,7 @@ $.fn.layout = function (opts) {
 			,	$TC
 			;
 			if (!$P || !$R) return;
-
+			
 			var
 				dir			= _c[pane].dir
 			,	_state		= (s.isClosed ? "_closed" : "_open")

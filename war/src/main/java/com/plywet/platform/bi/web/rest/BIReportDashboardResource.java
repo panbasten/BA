@@ -116,9 +116,10 @@ public class BIReportDashboardResource {
 					&& HTML.COMPONENT_TYPE_GRID_LAYOUT
 							.equalsIgnoreCase(targetPlugin.getId())) {
 				// 创建一个GridLayoutItem
-				Node node = templateMeta.createElement(
-						HTML.COMPONENT_CATEGORY_LAYOUT,
-						HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM);
+				Node node = createElement(
+						templateMeta,
+						PageTemplateResolverType
+								.getPlugin(HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM));
 
 				XMLUtils.appendTo(sourceNode, node);
 				XMLUtils.appendTo(node, targetNode);
@@ -136,6 +137,15 @@ public class BIReportDashboardResource {
 		} catch (Exception ex) {
 			throw new BIException("移动Dashboard页面元素出现错误。", ex);
 		}
+	}
+
+	private Node createElement(TemplateMeta templateMeta, ComponentPlugin plugin) {
+		Node node = templateMeta.createElement(plugin.getCategory(), plugin
+				.getId());
+		// 添加默认属性
+		plugin.setDefaultAttributesForNode(node);
+
+		return node;
 	}
 
 	private void insertBefore(Node sourceNode, Node targetNode)
@@ -202,7 +212,32 @@ public class BIReportDashboardResource {
 			ComponentPlugin targetPlugin = PageTemplateResolverType
 					.getPlugin(targetType);
 
-			// TODO
+			Node sourceNode = createElement(templateMeta, sourcePlugin);
+			// 如果源节点插件类型为GridLayoutItem，只能添加到GridLayout中
+			if (sourcePlugin != null
+					&& HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM
+							.equalsIgnoreCase(sourcePlugin.getId())) {
+				if (targetPlugin != null
+						&& HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM
+								.equalsIgnoreCase(targetPlugin.getId())) {
+					XMLUtils.insertBefore(sourceNode, targetNode);
+				} else if (targetPlugin != null
+						&& HTML.COMPONENT_TYPE_GRID_LAYOUT
+								.equalsIgnoreCase(targetPlugin.getId())) {
+					XMLUtils.appendTo(sourceNode, targetNode);
+				} else {
+					throw new BIComponentException("不允许将栅格布局的项目拖拽到其他类型的节点。");
+				}
+			}
+			// 如果目标是容器，添加到内部
+			else if (isContainer(targetType)) {
+				XMLUtils.appendTo(sourceNode, targetNode);
+			}
+			// 其他添加到目标节点前面
+			else {
+				XMLUtils.insertBefore(sourceNode, targetNode);
+			}
+
 			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("添加Dashboard页面元素出现错误。", ex);

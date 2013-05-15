@@ -96,6 +96,9 @@ Plywet.editors.dashboard = {
 							}
 							, center: {
 								paneSelector : "#dashboardPropPanel"
+								,	onresize_end: 	function(pane){
+									dashboardEditorPanel_var.domProp.resize();
+								}
 							}
 						}
 					}
@@ -977,6 +980,12 @@ Plywet.editors.dashboard.action = {
 			dashboardEditorPanel_var.redraw();
 		}
 		
+	},
+	
+	signal_add_on_click : function(){
+	},
+	
+	signal_delete_on_click : function(){
 	}
 };
 

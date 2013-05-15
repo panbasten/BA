@@ -1282,3 +1282,7 @@ Plywet.widget.EasyTreeGrid.prototype.loadData=function(data){
 	this.jq.treegrid("setUrlData", data);
 	this.jq.treegrid("reload");
 };
+
+Plywet.widget.EasyTreeGrid.prototype.resize=function(size){
+	this.jq.treegrid("resize", size);
+};
