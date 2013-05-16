@@ -18,8 +18,8 @@ Plywet.editors.trans = {
 	reloadStatus : function ($taba) {
 		if (typeof($taba.data("exdata"))=='undefined')return;
 		var canvasData = {
-			onClearAll: "Plywet.editors.trans.action.stepSelect('trans',canvasObj,flowObj)",
-			onModify: "Plywet.editors.trans.action.modify('trans',canvasObj,flowObj)",
+			onClearAll: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj)",
+			onModify: "Plywet.editors.trans.action.modify(canvasObj,flowObj)",
 			canvasEls : {},
 			defaultAttributes: {
 				onInitStep: {
@@ -29,9 +29,9 @@ Plywet.editors.trans = {
 					sHeight: 32,
 					bTextStyle: "#ffffff",
 					acceptAll: true,
-					onEndHop: "Plywet.editors.trans.action.checkEndHop('trans',setting,this)",
-					onRope: "Plywet.editors.trans.action.stepSelect('trans',canvasObj,flowObj,this)",
-					onClick: "Plywet.editors.trans.action.stepSelect('trans',canvasObj,flowObj,this)"
+					onEndHop: "Plywet.editors.trans.action.checkEndHop(setting,this)",
+					onRope: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
+					onClick: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
 				},
 				onInitHop: {
 					onDblClick: "Plywet.editors.trans.action.hopDblclick(canvasObj,flowObj,this)",
@@ -39,8 +39,8 @@ Plywet.editors.trans = {
 					style: "#2e83ff",
 					textStyle: "#ffffff",
 					arrowEndType: "default",
-					onRope: "Plywet.editors.trans.action.stepSelect('trans',canvasObj,flowObj,this)",
-					onClick: "Plywet.editors.trans.action.stepSelect('trans',canvasObj,flowObj,this)"
+					onRope: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
+					onClick: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
 				}
 			}
 		};
@@ -197,7 +197,7 @@ Plywet.editors.trans = {
 					},
 					onDrop: function(e,source,data){
 						$("#transEditorPanel").removeClass("ui-state-highlight");
-						Plywet.editors.trans.action.appendEl("trans",$(source).data("data"),data);
+						Plywet.editors.trans.action.appendEl($(source).data("data"),data);
 					}
 				});
 				
@@ -361,6 +361,7 @@ Plywet.editors.trans = {
  */
 Plywet.editors.trans.action = {
 	tb : Plywet.editors.toolbarButton,
+	editorPrefix : "trans",
 	ids : {
 		operations : ["run","runstep","runreturn","pause","stop","validate","analize","runstep"],
 		editors : ["edit","magnify","lessen","partMagnify","zoom_100","zoom_fit","screenMove"],
@@ -368,53 +369,53 @@ Plywet.editors.trans.action = {
 		systems : ["cut","copy","paste","delete"],
 		saves : ["save","saveas","save_xml","save_image"]
 	},
-	getId : function(panel,id){
+	getId : function(id){
 		if(typeof(id)=="string"){
-			return panel+"_"+id;
+			return this.editorPrefix+"_"+id;
 		}else if(id instanceof Array){
 			var rtn = [];
 			for(var i=0;i<id.length;i++){
-				rtn.push(panel+"_"+id[i]);
+				rtn.push(this.editorPrefix+"_"+id[i]);
 			}
 			return rtn;
 		}
 	},
-	getFlow : function(panel){
-		eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+	getFlow : function(){
+		var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		return canvasObj.getChildCanvasByIndex(0);
     	}
 	},
-	editorZoom100 : function(panel){
-		this.changeOuterControlType(panel,"");
-    	var flow = this.getFlow(panel);
+	editorZoom100 : function(){
+		this.changeOuterControlType("");
+    	var flow = this.getFlow();
     	if(flow){
     		flow.showZoom100();
     	}
 	},
-	editorFix : function(panel){
-		this.changeOuterControlType(panel,"");
-		var flow = this.getFlow(panel);
+	editorFix : function(){
+		this.changeOuterControlType("");
+		var flow = this.getFlow();
     	if(flow){
     		flow.fixSize();
     	}
 	},
-	changeOuterControlType : function (panel,v,id){
+	changeOuterControlType : function (v,id){
 		if(v==undefined || v==null || v==""){
 			v = "";
-			this.tb.inactive(this.getId(panel,this.ids.editors));
+			this.tb.inactive(this.getId(this.ids.editors));
 		}else{
-			var btnId = this.getId(panel,((id)?id:v));
+			var btnId = this.getId((id)?id:v);
 			if(this.tb.isActive(btnId)){
 				v = "";
 				this.tb.inactive(btnId);
 			}else{
-				this.tb.inactive(this.getId(panel,this.ids.editors));
+				this.tb.inactive(this.getId(this.ids.editors));
 				this.tb.active(btnId);
 			}
 		}
 		
-		eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+		var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj){
     		var ctrlType = v;
     		canvasObj.setOuterControl(true,ctrlType);
@@ -422,21 +423,21 @@ Plywet.editors.trans.action = {
     	}
     },
 
-    deleteSelectedElFromOutset : function (panel){
-    	eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+    deleteSelectedElFromOutset : function (){
+    	var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var flow = canvasObj.getChildCanvasByIndex(0);
    			flow.deleteSelectedEl();
     		canvasObj.redraw();
     		
-    		this.stepSelect('trans',canvasObj,flow);
+    		this.stepSelect(this.editorPrefix,canvasObj,flow);
     	}
     	
     	
     },
 
-    save : function (panel){
-    	eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+    save : function (){
+    	var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var transId = canvasObj.config.data.extendData.transId;
     		var flow = canvasObj.getChildCanvasByIndex(0);
@@ -454,6 +455,7 @@ Plywet.editors.trans.action = {
     	diEditorPageTabs.setTabModify(null, false);
     },
     
+    // @Override 必要方法：用于在Tab发生修改时，点击保存按钮调用的方法。
     saveTab : function (clicked) {
     	var isActive = diEditorPageTabs.isActive(clicked.data("exdata").id+"-tab");
     	if(isActive){
@@ -473,6 +475,7 @@ Plywet.editors.trans.action = {
     	}
     },
     
+    // @Override 必要方法：用于在Tab发生修改时，点击放弃按钮调用的方法。
     discardTab : function (clicked) {
     	var transId = clicked.data("exdata").data.extendData.transId;
     	Plywet.ab({
@@ -481,8 +484,8 @@ Plywet.editors.trans.action = {
 		});
     },
     
-    appendEl : function (panel,data,pos){
-    	eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+    appendEl : function (data,pos){
+    	var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var flow = canvasObj.getChildCanvasByIndex(0);
     		var realOffset = Plywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale,10);
@@ -521,19 +524,19 @@ Plywet.editors.trans.action = {
     /**
      * 显示网格
      */
-    showGrid : function(panel){
-    	var btnId = this.getId(panel,"grid_show");
+    showGrid : function(){
+    	var btnId = this.getId("grid_show");
     	var showGrid;
 		if(this.tb.isActive(btnId)){
 			showGrid=false;
 			this.tb.inactive(btnId);
-			this.tb.disabled(this.getId(panel,"grid_close"));
+			this.tb.disabled(this.getId("grid_close"));
 		}else{
 			showGrid=true;
 			this.tb.active(btnId);
-			this.tb.enabled(this.getId(panel,"grid_close"));
+			this.tb.enabled(this.getId("grid_close"));
 		}
-    	eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+		var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var flow = canvasObj.getChildCanvasByIndex(0);
     		flow.showGrid(showGrid);
@@ -543,8 +546,8 @@ Plywet.editors.trans.action = {
     /**
      * 贴近网格
      */
-    closeGrid : function(panel){
-    	var btnId = this.getId(panel,"grid_close");
+    closeGrid : function(){
+    	var btnId = this.getId("grid_close");
     	var close;
 		if(this.tb.isActive(btnId)){
 			close=false;
@@ -553,7 +556,7 @@ Plywet.editors.trans.action = {
 			close=true;
 			this.tb.active(btnId);
 		}
-    	eval("var canvasObj="+panel+"EditorPanel_var.flowChart");
+		var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var flow = canvasObj.getChildCanvasByIndex(0);
     		flow.closeGrid(close);
@@ -581,11 +584,10 @@ Plywet.editors.trans.action = {
     /**
      * 判断是否可以进行连线
      * 
-     * @param panel
      * @param setting：fromElId, toElId
      * @param flowObject
      */
-    checkEndHop : function (panel,setting,flowObject){
+    checkEndHop : function (setting,flowObject){
     	var hops = flowObject.config.canvasEls.hops;
     	for(var i=0;i<hops.length;i++){
     		if(hops[i].fromElId == setting.fromElId && hops[i].toElId == setting.toElId){
@@ -595,9 +597,9 @@ Plywet.editors.trans.action = {
     	return true;
     },
     
-    stepSelect : function(panel,flowChart,flowObject,model){
-    	var editorIds = this.getId(panel,["cut","copy"]);
-    	var deleteId = this.getId(panel,"delete");
+    stepSelect : function(flowChart,flowObject,model){
+    	var editorIds = this.getId(["cut","copy"]);
+    	var deleteId = this.getId("delete");
     	if(flowObject.hasSelectedEl("step")){
     		this.tb.enabled(editorIds);
     	}else{
@@ -610,7 +612,7 @@ Plywet.editors.trans.action = {
     	}
     },
     
-    modify : function(panel,flowChart,flowObject){
+    modify : function(flowChart,flowObject){
     	// 表示修改
 		diEditorPageTabs.setTabModify(null, true);
     },

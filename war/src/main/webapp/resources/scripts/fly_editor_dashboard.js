@@ -675,6 +675,10 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 	if(!target){
 		return;
 	}
+	
+	// 设置tab为修改状态 
+	Plywet.editors.dashboard.action.modify();
+	
 	var _self = this;
 	Plywet.ab({
 		type : "get",
@@ -694,6 +698,10 @@ Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
 	if(!source || !target){
 		return;
 	}
+	
+	// 设置tab为修改状态 
+	Plywet.editors.dashboard.action.modify();
+	
 	var _self = this;
 	Plywet.ab({
 		type : "get",
@@ -970,6 +978,41 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 };
 
 Plywet.editors.dashboard.action = {
+	tb : Plywet.editors.toolbarButton,
+	editorPrefix : "dashboard",
+	ids : {
+		editors : ["editor_component","editor_signal_slot",
+		           "editor_buddy","editor_tab_sequence"],
+		layouts : ["layout_horizontal","layout_vertical",
+		           "layout_grid","layout_broke"],
+		operators : ["resize","preview"]
+		
+	},
+	getId : function(id){
+		if(typeof(id)=="string"){
+			return this.editorPrefix+"_"+id;
+		}else if(id instanceof Array){
+			var rtn = [];
+			for(var i=0;i<id.length;i++){
+				rtn.push(this.editorPrefix+"_"+id[i]);
+			}
+			return rtn;
+		}
+	},
+	// 表示修改
+	modify : function(){
+    	
+		diEditorPageTabs.setTabModify(null, true);
+    },
+    // @Override 必要方法：用于在Tab发生修改时，点击保存按钮调用的方法。
+    saveTab : function (clicked) {
+    	console.log(clicked.data("exdata"));
+    },
+    // @Override 必要方法：用于在Tab发生修改时，点击放弃按钮调用的方法。
+    discardTab : function (clicked) {
+    	console.log(clicked.data("exdata"));
+    },
+    
 	struct_on_select : function(node){
 
 		// 显示属性
@@ -987,6 +1030,7 @@ Plywet.editors.dashboard.action = {
 	},
 	
 	signal_add_on_click : function(){
+		this.modify();
 		dashboardEditorPanel_var.signalGrid.jq.datagrid("appendRow", {
 			sender: '',
 			signal: '',
@@ -1001,11 +1045,51 @@ Plywet.editors.dashboard.action = {
 	},
 	
 	signal_delete_on_click : function(){
+		this.modify();
 		var row = dashboardEditorPanel_var.signalGrid.jq.datagrid('getSelected');
         if (row) {
             var index = dashboardEditorPanel_var.signalGrid.jq.datagrid('getRowIndex', row);
             dashboardEditorPanel_var.signalGrid.jq.datagrid('deleteRow', index);
         }
+	},
+	
+	editorComponent : function(){
+		console.log("editorComponent");
+		this.tb.inactive(this.getId(this.ids.editors));
+		this.tb.active(this.getId("editor_component"));
+	},
+	editorSignalSlot : function(){
+		console.log("editorSignalSlot");
+		this.tb.inactive(this.getId(this.ids.editors));
+		this.tb.active(this.getId("editor_signal_slot"));
+	},
+	editorBuddy : function(){
+		console.log("editorBuddy");
+		this.tb.inactive(this.getId(this.ids.editors));
+		this.tb.active(this.getId("editor_buddy"));
+	},
+	editorTab : function(){
+		console.log("editorTab");
+		this.tb.inactive(this.getId(this.ids.editors));
+		this.tb.active(this.getId("editor_tab_sequence"));
+	},
+	layoutHorizontal : function(){
+		console.log("layoutHorizontal");
+	},
+	layoutVertical : function(){
+		console.log("layoutVertical");
+	},
+	layoutGrid : function(){
+		console.log("layoutGrid");
+	},
+	layoutBroke : function(){
+		console.log("layoutBroke");
+	},
+	resize : function(){
+		console.log("resize");
+	},
+	preview : function(){
+		console.log("preview");
 	}
 };
 
