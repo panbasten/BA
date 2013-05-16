@@ -602,6 +602,7 @@
 					col.width = $(this)._outerWidth();
 					col.boxWidth = parseInt(this.style.width);
 					col.auto = undefined;
+					console.log(col);
 					_fixColumnSize(target, field);
 					dc.view2.children("div.ui-datagrid-header").scrollLeft(dc.body2.scrollLeft());
 					grid.proxy.remove();
@@ -2551,11 +2552,9 @@
 		rowStyler : function(_1eb, _1ec) { },
 		loader : function(data, onsuccess, onerror) {
 			var opts = $(this).datagrid("options");
-			console.log("adaaaaa3");
 			if (!opts.url) {
 				return false;
 			}
-			console.log("adaaaaa");
 			Plywet.ab({
 				type : opts.method,
 				url : opts.url,

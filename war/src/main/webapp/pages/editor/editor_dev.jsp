@@ -107,6 +107,8 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/drag/jquery.droppable.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/libs/resizable/jquery.resizable.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/libs/tree/jquery.tree.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/panel/jquery.panel.js"></script>

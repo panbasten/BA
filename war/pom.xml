@@ -201,6 +201,7 @@
 										
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/drag/jquery.draggable.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/drag/jquery.droppable.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/resizable/jquery.resizable.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/tree/jquery.tree.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/panel/jquery.panel.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/validate/jquery.validatebox.js</include>

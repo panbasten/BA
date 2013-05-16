@@ -772,27 +772,31 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	if(!this.signalGrid){
 		var config = {
 			id:				"dashboardSignalPanelContent"
-//			,singleSelect:	false
+			,singleSelect:	true
 			,columns:		[
 		        [{
 		        	field: 'sender',
-	                title: "发送者",
+	                title: '发送者',
 	                width: 150,
+	                editor: 'text'
 		      	}
 		        ,{
 		        	field: 'signal',
-	                title: "信号",
+	                title: '信号',
 	                width: 150,
+	                editor: 'text'
 		      	}
 		        ,{
 		        	field: 'accepter',
-	                title: "接收者",
+	                title: '接收者',
 	                width: 150,
+	                editor: 'text'
 		      	}
 		        ,{
 		        	field: 'slot',
-	                title: "槽",
+	                title: '槽',
 	                width: 150,
+	                editor: 'text'
 		      	}]
 			]
 		};
@@ -983,9 +987,25 @@ Plywet.editors.dashboard.action = {
 	},
 	
 	signal_add_on_click : function(){
+		dashboardEditorPanel_var.signalGrid.jq.datagrid("appendRow", {
+			sender: '',
+			signal: '',
+			accepter: '',
+			slot: ''
+		});
+		var lastIndex = dashboardEditorPanel_var.signalGrid.jq.datagrid("getRows").length - 1;
+		for(var i=0;i<lastIndex;i++){
+			dashboardEditorPanel_var.signalGrid.jq.datagrid('endEdit', i);
+		}
+		dashboardEditorPanel_var.signalGrid.jq.datagrid('beginEdit', lastIndex);
 	},
 	
 	signal_delete_on_click : function(){
+		var row = dashboardEditorPanel_var.signalGrid.jq.datagrid('getSelected');
+        if (row) {
+            var index = dashboardEditorPanel_var.signalGrid.jq.datagrid('getRowIndex', row);
+            dashboardEditorPanel_var.signalGrid.jq.datagrid('deleteRow', index);
+        }
 	}
 };
 
