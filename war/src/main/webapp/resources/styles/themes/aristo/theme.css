@@ -1085,6 +1085,46 @@ a {
 {
 	background-position: -16px -304px;
 }
+.ui-icon-dashboard-edit
+{
+	background-position: -32px -304px;
+}
+.ui-icon-dashboard-signal
+{
+	background-position: -48px -304px;
+}
+.ui-icon-dashboard-buddy
+{
+	background-position: -64px -304px;
+}
+.ui-icon-dashboard-tab
+{
+	background-position: -80px -304px;
+}
+.ui-icon-dashboard-layout-horizontal
+{
+	background-position: -96px -304px;
+}
+.ui-icon-dashboard-layout-vertical
+{
+	background-position: -112px -304px;
+}
+.ui-icon-dashboard-layout-grid
+{
+	background-position: -128px -304px;
+}
+.ui-icon-dashboard-layout-broke
+{
+	background-position: -144px -304px;
+}
+.ui-icon-dashboard-resize
+{
+	background-position: -160px -304px;
+}
+.ui-icon-dashboard-preview
+{
+	background-position: -176px -304px;
+}
 
 .ui-icon-system-cut
 {

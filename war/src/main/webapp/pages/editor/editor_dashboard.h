@@ -17,26 +17,28 @@
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-top">
-			<fly:pushbutton id="dashboard_edit_component" icon="ui-icon-editor-edit-component" 
+			<fly:pushbutton id="dashboard_edit_component" icon="ui-icon-dashboard-edit" 
 				onclick="" title="编辑控件" />
-			<fly:pushbutton id="dashboard_edit_signal_slot" icon="ui-icon-editor-edit-signal-slot" 
+			<fly:pushbutton id="dashboard_edit_signal_slot" icon="ui-icon-dashboard-signal" 
 				onclick="" title="编辑信号/槽" />
-			<fly:pushbutton id="dashboard_edit_buddy" icon="ui-icon-editor-edit-buddy" 
+			<fly:pushbutton id="dashboard_edit_buddy" icon="ui-icon-dashboard-buddy" 
 				onclick="" title="编辑伙伴" />
-			<fly:pushbutton id="dashboard_edit_tab_sequence" icon="ui-icon-editor-edit-tab-sequence" 
+			<fly:pushbutton id="dashboard_edit_tab_sequence" icon="ui-icon-dashboard-tab" 
 				onclick="" title="编辑Tab顺序" />
 			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="dashboard_layout_horizontal" icon="ui-icon-editor-layout-horizontal" 
+			<fly:pushbutton id="dashboard_layout_horizontal" icon="ui-icon-dashboard-layout-horizontal" 
 				onclick="" title="水平布局" />
-			<fly:pushbutton id="dashboard_layout_vertical" icon="ui-icon-editor-layout-vertical" 
+			<fly:pushbutton id="dashboard_layout_vertical" icon="ui-icon-dashboard-layout-vertical" 
 				onclick="" title="垂直布局" />
-			<fly:pushbutton id="dashboard_layout_grid" icon="ui-icon-editor-layout-grid" 
+			<fly:pushbutton id="dashboard_layout_grid" icon="ui-icon-dashboard-layout-grid" 
 				onclick="" title="栅格布局" />
-			<fly:pushbutton id="dashboard_layout_broke" icon="ui-icon-editor-layout-broke" 
+			<fly:pushbutton id="dashboard_layout_broke" icon="ui-icon-dashboard-layout-broke" 
 				onclick="" title="打破布局" />
 			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="dashboard_resize" icon="ui-icon-editor-resize" 
+			<fly:pushbutton id="dashboard_resize" icon="ui-icon-dashboard-resize" 
 				onclick="" title="调整尺寸" />
+			<fly:pushbutton id="dashboard_preview" icon="ui-icon-dashboard-preview" 
+				onclick="" title="预览" />
 		</div>
 		
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
