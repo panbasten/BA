@@ -786,7 +786,11 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 		        	field: 'sender',
 	                title: '发送者',
 	                width: 150,
-	                editor: 'text'
+	                editor: {
+		        		type: 'combobox',
+		        		options: {
+		        		}
+		        	}
 		      	}
 		        ,{
 		        	field: 'signal',
@@ -1090,7 +1094,10 @@ Plywet.editors.dashboard.action = {
 	},
 	preview : function(){
 		console.log("preview");
-	}
+	},
+	save : function(){
+    	console.log("save");
+    }
 };
 
 

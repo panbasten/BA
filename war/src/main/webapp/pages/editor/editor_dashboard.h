@@ -39,6 +39,8 @@
 				onclick="Plywet.editors.dashboard.action.resize();" title="调整尺寸" />
 			<fly:pushbutton id="dashboard_preview" icon="ui-icon-dashboard-preview" 
 				onclick="Plywet.editors.dashboard.action.preview();" title="预览" />
+			<fly:pushbutton id="dashboard_save" icon="ui-icon-save" 
+				onclick="Plywet.editors.dashboard.action.save();" title="保存" />
 		</div>
 		
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
