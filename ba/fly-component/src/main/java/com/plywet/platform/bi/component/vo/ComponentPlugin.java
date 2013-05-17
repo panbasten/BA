@@ -36,8 +36,7 @@ public class ComponentPlugin {
 	private List<ComponentSignal> signals = new ArrayList<ComponentSignal>();
 
 	private List<ComponentSlot> slots = new ArrayList<ComponentSlot>();
-	
-	
+
 	private ComponentPlugin(Node componentNode) throws Exception {
 		this.id = XMLHandler.getTagAttribute(componentNode, "id");
 		this.description = PropertyUtils.getCodedTranslation(XMLUtils
@@ -74,6 +73,34 @@ public class ComponentPlugin {
 						"attributeGroup")) {
 					addAttributeGroup(ComponentAttributeGroup
 							.instance(childnode));
+				}
+			}
+		}
+
+		// 信号
+		Node signalsNode = XMLHandler.getSubNode(componentNode, "signals");
+		if (signalsNode != null) {
+			NodeList children = signalsNode.getChildNodes();
+			Node childnode;
+
+			for (int i = 0; i < children.getLength(); i++) {
+				childnode = children.item(i);
+				if (childnode.getNodeName().equalsIgnoreCase("signal")) {
+					addSignal(ComponentSignal.instance(childnode));
+				}
+			}
+		}
+
+		// 槽
+		Node slotsNode = XMLHandler.getSubNode(componentNode, "slots");
+		if (slotsNode != null) {
+			NodeList children = slotsNode.getChildNodes();
+			Node childnode;
+
+			for (int i = 0; i < children.getLength(); i++) {
+				childnode = children.item(i);
+				if (childnode.getNodeName().equalsIgnoreCase("slot")) {
+					addSlot(ComponentSlot.instance(childnode));
 				}
 			}
 		}
@@ -141,6 +168,14 @@ public class ComponentPlugin {
 			return attributesMap.containsKey(name.toLowerCase());
 		}
 		return false;
+	}
+
+	public void addSignal(ComponentSignal signal) {
+		signals.add(signal);
+	}
+
+	public void addSlot(ComponentSlot slot) {
+		slots.add(slot);
 	}
 
 	public static ComponentPlugin instance(Node componentNode) throws Exception {
