@@ -33,6 +33,11 @@ public class ComponentPlugin {
 	private List<ComponentAttributeInterface> attributes = new ArrayList<ComponentAttributeInterface>();;
 	private Map<String, ComponentAttributeInterface> attributesMap = new HashMap<String, ComponentAttributeInterface>();
 
+	private List<ComponentSignal> signals = new ArrayList<ComponentSignal>();
+
+	private List<ComponentSlot> slots = new ArrayList<ComponentSlot>();
+	
+	
 	private ComponentPlugin(Node componentNode) throws Exception {
 		this.id = XMLHandler.getTagAttribute(componentNode, "id");
 		this.description = PropertyUtils.getCodedTranslation(XMLUtils
