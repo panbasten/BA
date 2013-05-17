@@ -20,4 +20,15 @@
 		&fly-attribute-border
 	</attributes>
 	
+	<signals>
+		&fly-signal-base
+		&fly-signal-key
+		&fly-signal-mouse
+		&fly-signal-input
+	</signals>
+	
+	<slots>
+		
+	</slots>
+	
 </component>

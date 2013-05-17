@@ -1,0 +1,24 @@
+<signal>
+	<name>focus</name>
+    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Focus</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Focus</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</signal>
+<signal>
+	<name>blur</name>
+    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Blur</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Blur</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</signal>

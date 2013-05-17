@@ -226,10 +226,16 @@
 	border:0;
 	padding:0;
 }
-.ui-datagrid-body .ui-datagrid-editable .ui-datagrid-editable-input{
+.ui-datagrid-body .ui-datagrid-editable .ui-datagrid-editable-input {
 	width:100%;
 	font-size:12px;
 	border:1px solid #A4BED4;
-	background:none repeat scroll 0 0 transparent;
+	background:none repeat scroll 0 0 #fff;
 	margin:1px;
+	color: #000;
+}
+
+.ui-datagrid-body .ui-datagrid-editable input.ui-combo-text {
+	background:none repeat scroll 0 0 #fff;
+	color: #000;
 }

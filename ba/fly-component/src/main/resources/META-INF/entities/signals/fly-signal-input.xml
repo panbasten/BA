@@ -1,0 +1,17 @@
+<signal>
+	<name>change</name>
+    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Change</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Change</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+		<parameter>
+			<name>oldValue</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.OldValue</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.OldValue</tooltip>
+		</parameter>
+	</parameters>
+</signal>

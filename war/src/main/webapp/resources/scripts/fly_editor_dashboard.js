@@ -282,7 +282,10 @@ Plywet.widget.DashboardEditor.prototype.clearDomPropPanel = function() {
 };
 
 Plywet.widget.DashboardEditor.prototype.clearDomsProp = function(){
+	// 所有dom对象的属性集合
 	this.domsProp = undefined;
+	this.senderDoms = undefined;
+	this.accepterDoms = undefined;
 };
 
 Plywet.widget.DashboardEditor.prototype.addSelected = function(domId,dom) {
@@ -723,7 +726,9 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	this.script = data.script;
 	this.domStructure = $(data.domStructure);
 	
-	this.domsProp = null;
+	this.clearDomsProp();
+	
+	var _self = this;
 	
 	this.editorContent.html(this.dom);
 	if(this.script){
@@ -789,6 +794,14 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 	                editor: {
 		        		type: 'combobox',
 		        		options: {
+		        			loader:function(data, onsuccess, onerror) {
+		        				var newData = _self.getSenders();
+		        				var data1 = [{value:'1',text:'测试1'},{value:'2',text:'测试2'}];
+		        				onsuccess(data1);
+		        			},
+		        			onSelect:function(e){
+		        				console.log(e);
+		        			}
 		        		}
 		        	}
 		      	}
@@ -796,7 +809,14 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 		        	field: 'signal',
 	                title: '信号',
 	                width: 150,
-	                editor: 'text'
+	                editor: {
+		        		type: 'combobox',
+		        		options: {
+		        			loader:function(data, onsuccess, onerror) {
+		        				onsuccess(data);
+		        			}
+		        		}
+		        	}
 		      	}
 		        ,{
 		        	field: 'accepter',
@@ -888,6 +908,32 @@ Plywet.widget.DashboardEditor.prototype.flush = function(data) {
 
 Plywet.widget.DashboardEditor.prototype.getPlugin = function(type) {
 	return this.dashboardStepBar.find(Plywet.escapeClientId("leaf:"+type));
+};
+
+/**
+ * 获得消息发出者，满足条件如下：
+ * 首先，设置了ID
+ * 其次，消息发出者的插件类型具有至少1个信号；
+ */
+Plywet.widget.DashboardEditor.prototype.getSenders = function() {
+	if(!this.senderDoms){
+		this.initDomsProp();
+	}
+	
+	console.log(this.domsProp);
+	var newData = [];
+};
+
+Plywet.widget.DashboardEditor.prototype.getSenderSignal = function(sender) {
+	
+};
+
+Plywet.widget.DashboardEditor.prototype.getAccepters = function() {
+	
+};
+
+Plywet.widget.DashboardEditor.prototype.getAccepterSlot = function(accepter) {
+	
 };
 
 Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
@@ -1020,7 +1066,7 @@ Plywet.editors.dashboard.action = {
 	struct_on_select : function(node){
 
 		// 显示属性
-		props = dashboardEditorPanel_var.getDomPropById(node.id).props;
+		var props = dashboardEditorPanel_var.getDomPropById(node.id).props;
 		
 		dashboardEditorPanel_var.domProp.loadData(props);
 		

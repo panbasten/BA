@@ -1,0 +1,65 @@
+<slot>
+	<name>show</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotLongDesc.Show</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotlTooltipDesc.Show</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</slot>
+
+<slot>
+	<name>hide</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotLongDesc.Hide</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotlTooltipDesc.Hide</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</slot>
+
+<slot>
+	<name>enable</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotLongDesc.Enable</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotlTooltipDesc.Enable</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</slot>
+
+
+<slot>
+	<name>disable</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotLongDesc.Disable</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotlTooltipDesc.Disable</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</slot>
+
+<slot>
+	<name>flush</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotLongDesc.Flush</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SlotlTooltipDesc.Flush</tooltip>
+	<parameters>
+		<parameter>
+			<name>value</name>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+		</parameter>
+	</parameters>
+</slot>
