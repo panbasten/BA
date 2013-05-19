@@ -107,7 +107,7 @@ public class ComponentPlugin {
 	}
 
 	/**
-	 * 得到JSON格式的属性集
+	 * 获得JSON格式的属性集
 	 * 
 	 * @return
 	 */
@@ -118,6 +118,40 @@ public class ComponentPlugin {
 			ja.add(attr.toJSONObject());
 		}
 		return ja;
+	}
+
+	/**
+	 * 获得JSON格式的信号集
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public JSONArray getSignalsJSONArray() {
+		if (!signals.isEmpty()) {
+			JSONArray ja = new JSONArray();
+			for (ComponentSignal s : signals) {
+				ja.add(s.toJSONObject());
+			}
+			return ja;
+		}
+		return null;
+	}
+
+	/**
+	 * 获得JSON格式的槽集
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public JSONArray getSlotsJSONArray() {
+		if (!slots.isEmpty()) {
+			JSONArray ja = new JSONArray();
+			for (ComponentSlot s : slots) {
+				ja.add(s.toJSONObject());
+			}
+			return ja;
+		}
+		return null;
 	}
 
 	public void setDefaultAttributesForNode(Node node) {

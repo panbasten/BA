@@ -28,7 +28,7 @@
 	</signals>
 	
 	<slots>
-		
+		&fly-slots-base
 	</slots>
 	
 </component>

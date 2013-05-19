@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.component.components.breadCrumb.BreadCrumbMeta;
@@ -139,6 +140,14 @@ public class BIReportResource {
 
 					Map dataMap = new HashMap();
 					dataMap.put("props", cp.getAttributesJSONArray());
+					JSONArray ja = cp.getSignalsJSONArray();
+					if (ja != null) {
+						dataMap.put("signals", ja);
+					}
+					ja = cp.getSlotsJSONArray();
+					if (ja != null) {
+						dataMap.put("slots", ja);
+					}
 					plugin.setData(dataMap);
 
 					browseMeta.addContent(plugin);

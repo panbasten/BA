@@ -1,8 +1,6 @@
 package com.plywet.platform.bi.component.core;
 
-import org.json.simple.JSONObject;
-
-public interface ComponentAttributeInterface {
+public interface ComponentAttributeInterface extends ComponentObjectInterface {
 
 	public String getName();
 
@@ -15,7 +13,5 @@ public interface ComponentAttributeInterface {
 	public String getTooltip();
 
 	public void setTooltip(String tooltip);
-
-	public JSONObject toJSONObject();
 
 }
