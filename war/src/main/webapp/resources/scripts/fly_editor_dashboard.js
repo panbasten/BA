@@ -983,8 +983,13 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		        				onsuccess(_self.senderOptions);
 		        			},
 		        			onSelect:function(target){
-		        				var senderDom = _self.senderDoms[target.value];
-		        				console.log($(this).combobox("getValues"));
+		        				var senderDom = _self.senderDoms[target.value],
+		        					selectValue = $(this).combobox("getValues"),
+		        					signalDom = $(this).parents("td[field='sender']").first()
+		        					.next("td[field='signal']").first()
+		        					.find(".ui-combobox-f").first();
+		        				var aa = $(signalDom).combobox("reload","url");
+		        				console.log(aa);
 		        			}
 		        		}
 		        	}
@@ -997,6 +1002,7 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		        		type: 'combobox',
 		        		options: {
 		        			loader:function(data, onsuccess, onerror) {
+		        				console.log(data);
 		        				onsuccess(data);
 		        			}
 		        		}
