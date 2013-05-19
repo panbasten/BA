@@ -415,39 +415,45 @@ Plywet.widget.FlowChartUtils = {
 	 * @param direction 方向
 	 * @param canvasObj 该Step元素的父对象的canvas容器
 	 * @param arrowType 箭头类型
+	 * @param style 样式集
 	 */
 	drawArrow : {
 		
-		factory : function(x,y,arc,direction,canvasObj,arrowType){
+		factory : function(x,y,arc,direction,canvasObj,arrowType,style){
 			// type1:圆形箭头
 			if(arrowType == "circularity"){
-				Plywet.widget.FlowChartUtils.drawArrow.circularity(x,y,arc,direction,canvasObj);
+				Plywet.widget.FlowChartUtils.drawArrow.circularity(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// type2:简单箭头
 			else if(arrowType == "simple"){
-				Plywet.widget.FlowChartUtils.drawArrow.simple(x,y,arc,direction,canvasObj);
+				Plywet.widget.FlowChartUtils.drawArrow.simple(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// type3:实心菱形箭头
 			else if(arrowType == "solid-diamond"){
-				Plywet.widget.FlowChartUtils.drawArrow.solidDiamond(x,y,arc,direction,canvasObj);
+				Plywet.widget.FlowChartUtils.drawArrow.solidDiamond(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// type4:空心菱形箭头
 			else if(arrowType == "hollow-diamond"){
-				Plywet.widget.FlowChartUtils.drawArrow.hollowDiamond(x,y,arc,direction,canvasObj);
+				Plywet.widget.FlowChartUtils.drawArrow.hollowDiamond(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// 通用箭头
 			else {
-				Plywet.widget.FlowChartUtils.drawArrow.normal(x,y,arc,direction,canvasObj);
+				Plywet.widget.FlowChartUtils.drawArrow.normal(x,y,arc,direction,canvasObj,style);
 			}
 		},
 		
 		// type1:圆形箭头
-		circularity : function(x,y,arc,direction,canvasObj){
+		circularity : function(x,y,arc,direction,canvasObj,style){
 			var ctx = canvasObj.ctx;
+			
+			if(style){
+				if(style.strokeStyle) ctx.strokeStyle = style.strokeStyle;
+				if(style.fillStyle) ctx.fillStyle = style.fillStyle;
+			}
 			
 			ctx.beginPath();
 			var r = Plywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale, 3);
@@ -455,10 +461,16 @@ Plywet.widget.FlowChartUtils = {
 			ctx.fill();
 		},
 		// type2:简单箭头
-		simple : function(x,y,arc,direction,canvasObj){
+		simple : function(x,y,arc,direction,canvasObj,style){
 			var ctx = canvasObj.ctx;
 			
 			ctx.save();
+			
+			if(style){
+				if(style.strokeStyle) ctx.strokeStyle = style.strokeStyle;
+				if(style.fillStyle) ctx.fillStyle = style.fillStyle;
+			}
+			
 			ctx.translate(x,y);
 			arc = isNaN(arc)?0:arc;
 			ctx.rotate(Math.atan(arc));
@@ -485,27 +497,38 @@ Plywet.widget.FlowChartUtils = {
 			ctx.restore();
 		},
 		// type3:实心菱形箭头
-		solidDiamond : function(x,y,arc,direction,canvasObj){
+		solidDiamond : function(x,y,arc,direction,canvasObj,style){
 			var ctx = canvasObj.ctx;
 			
 			// TODO
 		},
 		// type4:空心菱形箭头
-		hollowDiamond : function(x,y,arc,direction,canvasObj){
+		hollowDiamond : function(x,y,arc,direction,canvasObj,style){
 			var ctx = canvasObj.ctx;
 			
 			// TODO
 		},
 		// 通用箭头
-		normal : function(x,y,arc,direction,canvasObj){
+		normal : function(x,y,arc,direction,canvasObj,style){
 			var ctx = canvasObj.ctx;
 			
 			ctx.save();
+			
+			if(style){
+				if(style.strokeStyle) ctx.strokeStyle = style.strokeStyle;
+				if(style.fillStyle) ctx.fillStyle = style.fillStyle;
+			}
+			
 			ctx.translate(x,y);
 			arc = isNaN(arc)?0:arc;
 			ctx.rotate(Math.atan(arc));
+			
+			var scale = 1;
+			if(canvasObj.config){
+				scale = canvasObj.config.scale || 1;
+			}
 	
-			var side = Plywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale, 6);
+			var side = Plywet.widget.FlowChartUtils.scaleLength(scale, 6);
 			var r = side/2/Math.cos(Math.PI/6);
 			var reverse = side/2*Math.tan(Math.PI/6);
 			

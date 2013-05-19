@@ -246,24 +246,23 @@ Plywet.widget.DashboardEditor = function(cfg) {
 	// Dashboard节点Bar
 	this.dashboardStepBar = $(Plywet.escapeClientId("dashboardStepBar"));
 	
+	this.drawStyle = {
+		drawRectFillStyle : {strokeStyle:'#f00',fillStyle:'#f00',isFill:true},
+		drawRectStyle : {strokeStyle:'#f00'},
+		dropRectStyle : {strokeStyle:'#0972a5',fillStyle:'#0972a5',isFill:true},
+		drawResizerStyle : {fillStyle:'#a0a0a0'},
+		drawLineStyle : {strokeStyle:'#00f',fillStyle:'#00f'}
+	};
+	
 	this.component = {
 		selected : {},
-		drawStyle : {
-			drawRectFillStyle : {strokeStyle:'#f00',fillStyle:'#f00',isFill:true},
-			drawRectStyle : {strokeStyle:'#f00'},
-			dropRectStyle : {strokeStyle:'#0972a5',fillStyle:'#0972a5',isFill:true},
-			drawResizerStyle : {fillStyle:'#a0a0a0'}
-		},
 		clearSelected : function(){
 			this.selected = {};
 		},
 		addSelected : function(domId,dom,_self) {
-			
 			if(!dom){
 				dom = _self.getDomPropById(domId);
 			}
-			console.log(domId);
-			console.log(dom);
 			this.selected[domId]=dom;
 		},
 		isSelected : function(domId) {
@@ -291,6 +290,29 @@ Plywet.widget.DashboardEditor = function(cfg) {
 //			}
 //			return size;
 //		}
+	};
+	
+	this.signalSlot = {
+		selected : {},
+		clearSelected : function(){
+			this.selected = {};
+		},
+		addSelected : function(domId,dom,_self) {
+			if(!dom){
+				dom = _self.getDomPropById(domId);
+			}
+			// 判断是否有signal属性
+			while(dom){
+				if(dom.signals){
+					break;
+				}else{
+					dom = dom.parent;
+				}
+			}
+			if(dom){
+				this.selected[domId]=dom;
+			}
+		}
 	};
 	
 	this.off = {x:5,y:5};
@@ -389,12 +411,14 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					if(dim){
 						// 如果拖动ID与目标ID相同--false
 						if(dim.id == _self.mouseMovingDom.id){
+							_self.mouseMovingCoords = undefined;
 							_self.mouseMovingDom = undefined;
 							break;
 						}
 						// 不能拖入直接父元素
 						if(dim.parent){
 							if(dim.parent.id == _self.mouseMovingDom.id){
+								_self.mouseMovingCoords = undefined;
 								_self.mouseMovingDom = undefined;
 								break;
 							}
@@ -404,6 +428,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 						var movingDomParent = _self.mouseMovingDom.parent;
 						while(movingDomParent){
 							if(dim.id == movingDomParent.id){
+								_self.mouseMovingCoords = undefined;
 								_self.mouseMovingDom = undefined;
 								break;
 							}else{
@@ -429,11 +454,17 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					}
 				}
 				
-				_self.redraw({"drawMove":true});
+				_self.redraw();
 			}
 			
 			function onMouseMoveForSignalSlot(_self){
-				// TODO
+				while(_self.mouseMovingDom){
+					if(_self.mouseMovingDom.slots){
+						break;
+					}else{
+						_self.mouseMovingDom = _self.mouseMovingDom.parent;
+					}
+				}
 				_self.redraw();
 			}
 			
@@ -495,13 +526,25 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					
 				}
 				
+				_self.mouseMovingCoords = undefined;
 				_self.mouseMovingDom = undefined;
 				_self.holder = false;
 				_self.redraw();
 			}
 			
 			function onMouseUpForSignalSlot(_self){
-				// TODO
+				if(_self.mouseMovingDom){
+					// TODO 添加
+				}else{
+					// 只能单选，首先清空选中
+					_self.signalSlot.clearSelected();
+					// 增加选中，判断节点具有signal属性
+					_self.signalSlot.addSelected(_self.mouseUpDom.id,_self.mouseUpDom,_self);
+				}
+				
+				_self.mouseMovingCoords = undefined;
+				_self.mouseMovingDom = undefined;
+				_self.holder = false;
 				_self.redraw();
 			}
 			
@@ -531,6 +574,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			_self.editorWrapper.removeClass("ui-state-highlight");
 			
 			_self.appender = false;
+			_self.mouseMovingCoords = undefined;
 			_self.mouseMovingDom = undefined;
 			_self.redraw();
 		},
@@ -564,6 +608,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			}
 			
 			_self.appender = false;
+			_self.mouseMovingCoords = undefined;
 			_self.mouseMovingDom = undefined;
 			_self.redraw();
 		}
@@ -802,13 +847,19 @@ Plywet.widget.DashboardEditor.prototype.getData = function() {
 	data.script = this.script;
 	data.domStructure = this.domStructure;
 	data.reportInfo = this.reportInfo;
-	data.reportInfo.component = this.component;
+	data.reportInfo.component = {
+		selected : this.component.selected
+	};
+	data.reportInfo.signalSlot = {
+		selected : this.signalSlot.selected
+	};
 	
 	data.reportInfo.domsProp = this.domsProp;
 	data.reportInfo.senderDoms = this.senderDoms;
 	data.reportInfo.senderOptions = this.senderOptions;
 	data.reportInfo.accepterDoms = this.accepterDoms;
 	data.reportInfo.accepterOptions = this.accepterOptions;
+	
 	return data;
 };
 
@@ -828,9 +879,17 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	this.reportInfo.editorState = this.reportInfo.editorState || "component";
 	
 	// 在编辑组件状态时：选中的对象
-	this.reportInfo.component = this.reportInfo.component || {};
-	this.reportInfo.component.selected = this.reportInfo.component.selected || {};
-	this.component.selected = this.reportInfo.component.selected;
+	if(this.reportInfo.component){
+		this.component.selected = this.reportInfo.component.selected || {};
+	}else{
+		this.component.selected = {};
+	}
+	// 在信号组件状态时：选中的对象
+	if(this.reportInfo.signalSlot){
+		this.signalSlot.selected = this.reportInfo.signalSlot.selected || {};
+	}else{
+		this.signalSlot.selected = {};
+	}
 	
 	this.domsProp = this.reportInfo.domsProp;
 	this.senderDoms = this.reportInfo.senderDoms;
@@ -871,6 +930,7 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		// 重新加载树
 		this.domStructureTree.loadData([getNodeStructure(this.domStructure, this)]);
 		
+		// 只有在编辑状态才能选择树节点
 		if(this.reportInfo.editorState == "component"){
 			if(this.component.selected){
 				for(var comp in this.component.selected){
@@ -1125,9 +1185,8 @@ Plywet.widget.DashboardEditor.prototype.getAccepterSlot = function(accepter) {
 	
 };
 
-Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
+Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	
-	cfg = cfg || {};
 	this.ctx.clearRect(0,0,this.width+10,this.height+10);
 	this.ctx.lineWidth=1;
 	
@@ -1146,38 +1205,67 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	function redrawForComponent(){
 		var dim, mavingOff;
 		
-		if(cfg.drawMove){
+		if(_self.mouseMovingDom){
 			mavingOff = {
 				x : _self.off.x + _self.mouseMovingCoords.x - _self.mouseDownCoords.x,
 				y : _self.off.y + _self.mouseMovingCoords.y - _self.mouseDownCoords.y
 			};
 		}
 		
+		// 绘制所有选中节点
 		for(var selectedId in _self.component.selected){
 			dim = _self.component.selected[selectedId];
 			if(dim){
-				// 绘制选中框
+				// 绘制选中节点的边框
 				redrawSelectedComponents(dim);
 				
-				// 绘制拖动框
-				if(cfg.drawMove){
+				// 绘制选中节点的拖动框
+				if(_self.mouseMovingDom){
 					redrawMovingComponents(dim, mavingOff);
 				}
 			}
 		}
 		
-		// 绘制布局的外框
+		// 绘制所有布局的提示外框
 		if(_self.domsProp){
 			redrawLayoutBorder(_self.domsProp);
 		}
 		
+		// 绘制拖动目标对象的边框
 		if(_self.mouseMovingDom){
 			redrawMovingTargetComponents();
 		}
 	}
 	
 	function redrawForSignalSlot(){
-		// TODO
+		var dim;
+		
+		// 绘制所有选中节点
+		for(var selectedId in _self.signalSlot.selected){
+			dim = _self.signalSlot.selected[selectedId];
+			if(dim){
+				// 绘制选中节点的边框
+				redrawSelectedComponents(dim);
+				
+				// 绘制目标节点
+				if(_self.mouseMovingDom){
+					redrawMovingTargetComponents();
+				}
+				
+				// 绘制联系，起点->终点
+				var startPoint = {
+					x : dim.offsetLeft + _self.off.x + (dim.offsetWidth / 2),
+					y : dim.offsetTop + _self.off.y + (dim.offsetHeight / 2)
+				},
+				endPoint = _self.mouseMovingCoords;
+				
+				if(endPoint){
+					redrawSignalLine(startPoint, endPoint);
+				}
+				
+				break;
+			}
+		}
 	}
 	
 	function redrawForBuddy(){
@@ -1186,6 +1274,26 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 	
 	function redrawForTabSequence(){
 		// TODO
+	}
+	
+	function redrawSignalLine(startPoint, endPoint){
+		_self.ctx.save();
+		_self.ctx.lineWidth = 1;
+		_self.ctx.strokeStyle = _self.drawStyle.drawLineStyle.strokeStyle;
+		
+		_self.ctx.beginPath();
+		Plywet.widget.FlowChartUtils.drawLine.factory(_self.ctx, "line", 
+				startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+		_self.ctx.stroke();
+		
+		
+		var arc = (endPoint.y-startPoint.y) / (endPoint.x-startPoint.x);
+		
+		Plywet.widget.FlowChartUtils.drawArrow.factory(endPoint.x, endPoint.y,
+				arc,(endPoint.x>=startPoint.x),{ctx:_self.ctx},"normal",_self.drawStyle.drawLineStyle);
+		
+		_self.ctx.restore();
+		
 	}
 	
 	function redrawLayoutBorder(domsProp){
@@ -1207,7 +1315,7 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 		if(dim){
 			Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 					{x:(dim.offsetLeft+2),y:(dim.offsetTop+2),width:(dim.offsetWidth-4),height:(dim.offsetHeight-4)}, 
-					_self.component.drawStyle.drawRectStyle, "line", _self.off);
+					_self.drawStyle.drawRectStyle, "line", _self.off);
 		}
 	}
 	
@@ -1216,20 +1324,20 @@ Plywet.widget.DashboardEditor.prototype.redraw = function(cfg) {
 		if(dim){
 			Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
-				_self.component.drawStyle.dropRectStyle, "line", _self.off);
+				_self.drawStyle.dropRectStyle, "line", _self.off);
 		}
 	}
 	
 	function redrawMovingComponents(dim, mavingOff) {
 		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
-				_self.component.drawStyle.drawRectStyle, "dotted", mavingOff);
+				_self.drawStyle.drawRectStyle, "dotted", mavingOff);
 	}
 	
 	function redrawSelectedComponents(dim) {
 		Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight},
-				_self.off,_self.component.drawStyle.drawResizerStyle);
+				_self.off,_self.drawStyle.drawResizerStyle);
 	}
 
 };
@@ -1271,10 +1379,8 @@ Plywet.editors.dashboard.action = {
     },
     
 	struct_on_select : function(node){
-
 		// 显示属性
 		var props = dashboardEditorPanel_var.getDomPropById(node.id).props;
-		
 		dashboardEditorPanel_var.domProp.loadData(props);
 		
 		// 页面点击独立处理这部分
@@ -1283,7 +1389,6 @@ Plywet.editors.dashboard.action = {
 			dashboardEditorPanel_var.component.addSelected(node.id,undefined,dashboardEditorPanel_var);
 			dashboardEditorPanel_var.redraw();
 		}
-		
 	},
 	
 	signal_add_on_click : function(){
