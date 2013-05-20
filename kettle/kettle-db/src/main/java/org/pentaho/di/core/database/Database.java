@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.sql.BatchUpdateException;
 import java.sql.Blob;
 import java.sql.CallableStatement;
@@ -1626,6 +1627,35 @@ public class Database implements VariableSpace, LoggingObjectInterface
 	public Result execStatement(String sql) throws KettleDatabaseException
 	{
 		return execStatement(sql, null, null);
+	}
+	
+	public Result execStatement(String rawsql, Object[] data) throws KettleDatabaseException
+	{
+		if (data != null) {
+			RowMetaInterface params = new RowMeta();
+			for (Object d : data) {
+				int type = ValueMetaInterface.TYPE_STRING;
+				if (d == null || d instanceof String) {
+				} else if (d instanceof Long || d instanceof Integer) {
+					type = ValueMetaInterface.TYPE_INTEGER;
+				} else if (d instanceof Double){
+					type = ValueMetaInterface.TYPE_NUMBER;
+				} else if (d instanceof BigDecimal){
+					type = ValueMetaInterface.TYPE_BIGNUMBER;
+				} else if (d instanceof Date) {
+					type = ValueMetaInterface.TYPE_DATE;
+				} else if (d instanceof Boolean) {
+					type = ValueMetaInterface.TYPE_BOOLEAN;
+				} else if (d instanceof byte[]) {
+					type = ValueMetaInterface.TYPE_BINARY;
+				}
+				
+				params.addValueMeta(new ValueMeta("", type));
+			}
+			
+			execStatement(rawsql, params, data);
+		}
+		return execStatement(rawsql, null, null);
 	}
 	
 	public Result execStatement(String rawsql, RowMetaInterface params, Object[] data) throws KettleDatabaseException

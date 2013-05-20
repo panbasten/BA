@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 
@@ -78,14 +79,47 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	/**
 	 * 执行sql语句
 	 * 
-	 * @param sql
+	 * @param rawsql
+	 * @param params
+	 * @param data
 	 * @throws KettleDatabaseException
 	 */
-	public void execSql(String sql, boolean commit)
+	public void execSql(String rawsql, RowMetaInterface params, Object[] data)
 			throws KettleDatabaseException {
-		sql = StringUtils.replace(sql, "\\", "\\\\");
+		execSql(rawsql, params, data, true);
+	}
+
+	public void execSql(String rawsql, RowMetaInterface params, Object[] data,
+			boolean commit) throws KettleDatabaseException {
 		try {
-			getRepository().connectionDelegate.getDatabase().execStatement(sql);
+			getRepository().connectionDelegate.getDatabase().execStatement(
+					rawsql, params, data);
+			if (commit) {
+				getRepository().connectionDelegate.getDatabase().commit();
+			}
+		} catch (Exception e) {
+			logger.error("exec sql exception:", e);
+			getRepository().connectionDelegate.getDatabase().rollback();
+		}
+	}
+
+	/**
+	 * 执行sql语句
+	 * 
+	 * @param rawsql
+	 * @param data
+	 * @throws KettleDatabaseException
+	 */
+	public void execSql(String rawsql, Object[] data)
+			throws KettleDatabaseException {
+		execSql(rawsql, data, true);
+	}
+
+	public void execSql(String rawsql, Object[] data, boolean commit)
+			throws KettleDatabaseException {
+		try {
+			getRepository().connectionDelegate.getDatabase().execStatement(
+					rawsql, data);
 			if (commit) {
 				getRepository().connectionDelegate.getDatabase().commit();
 			}
@@ -105,8 +139,21 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 		execSql(sql, true);
 	}
 
+	public void execSql(String sql, boolean commit)
+			throws KettleDatabaseException {
+		try {
+			getRepository().connectionDelegate.getDatabase().execStatement(sql);
+			if (commit) {
+				getRepository().connectionDelegate.getDatabase().commit();
+			}
+		} catch (Exception e) {
+			logger.error("exec sql exception:", e);
+			getRepository().connectionDelegate.getDatabase().rollback();
+		}
+	}
+
 	/**
-	 * 替换sql中的参数占位符
+	 * 简单替换sql中的参数占位符
 	 * 
 	 * @param sql
 	 * @param params
@@ -124,7 +171,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	}
 
 	/**
-	 * 替换sql中的参数占位符
+	 * 简单替换sql中的参数占位符
 	 * 
 	 * @param sql
 	 * @param params

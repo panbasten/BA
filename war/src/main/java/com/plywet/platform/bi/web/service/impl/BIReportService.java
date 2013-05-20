@@ -82,7 +82,7 @@ public class BIReportService extends AbstractDirectoryServices implements
 				.createAdaptor(BIReportAdaptor.class);
 
 		Object[] report = adaptor.getReportObject(String.valueOf(id));
-		// 如果是引用，再次查询
+		// 如果是引用，再次查询 TODO
 
 		if (report != null) {
 			Object[] rtn = new Object[] { report[0], report[2] };
@@ -90,6 +90,14 @@ public class BIReportService extends AbstractDirectoryServices implements
 		}
 
 		return null;
+	}
+
+	public void saveReportObject(Long id, String xml) {
+		BIReportAdaptor adaptor = BIAdaptorFactory
+				.createAdaptor(BIReportAdaptor.class);
+		// TODO 如果id不存在，插入一条记录
+		
+		
 	}
 
 }

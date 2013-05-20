@@ -1017,7 +1017,6 @@
 			<name>JBoss Public Maven Repository Group</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
 		</repository>
-
 	</repositories>
 
 	<pluginRepositories>
