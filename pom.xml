@@ -973,49 +973,129 @@
 			<id>pentaho-repo</id>
 			<name>Pentaho Maven Repository</name>
 			<url>http://repository.pentaho.org/artifactory/repo</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>prime-repo</id>
 			<name>PrimeFaces Maven Repository</name>
 			<url>http://repository.primefaces.org</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Repository for Maven</name>
 			<url>http://download.java.net/maven/2/</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository for Maven</name>
 			<url>http://repository.jboss.org/maven2</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>jboss</id>
 			<name>jboss</name>
 			<url>http://repository.jboss.org/maven2</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>ibiblio</id>
 			<name>ibiblio</name>
 			<url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>maven</id>
 			<name>maven</name>
 			<url>http://repo1.maven.org/maven2</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>EclipseLink Repo</id>
 			<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>java.net</id>
 			<url>http://download.java.net/maven/2</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
 	</repositories>
 
