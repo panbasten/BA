@@ -60,13 +60,13 @@ public class ComponentSlot implements ComponentObjectInterface {
 	public String getShowName() {
 		String rtn = this.description;
 		if (!this.params.isEmpty()) {
-			rtn += "[";
+			rtn += " [ ";
 			rtn += this.params.get(0).getDescription();
 			for (int i = 1; i < this.params.size(); i++) {
 				rtn += ", ";
 				rtn += this.params.get(i).getDescription();
 			}
-			rtn += "]";
+			rtn += " ]";
 		}
 		return rtn;
 	}

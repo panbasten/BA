@@ -986,10 +986,19 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		        				var senderDom = _self.senderDoms[target.value],
 		        					selectValue = $(this).combobox("getValues"),
 		        					signalDom = $(this).parents("td[field='sender']").first()
-		        					.next("td[field='signal']").first()
-		        					.find(".ui-combobox-f").first();
-		        				var aa = $(signalDom).combobox("reload","url");
-		        				console.log(aa);
+		        						.next("td[field='signal']").first()
+		        						.find(".ui-combobox-f").first();
+		        				
+		        				var targetDom = _self.getDomPropById(selectValue).signals;
+		        				var targetOptions = [];
+		        				for(var i=0;i<targetDom.length;i++){
+		        					var opt = {};
+		        					opt.value = targetDom[i].name;
+		        					opt.text = targetDom[i].displayName;
+		        					targetOptions.push(opt);
+		        				}
+		        				
+		        				$(signalDom).combobox("loadData",targetOptions);
 		        			}
 		        		}
 		        	}
@@ -999,13 +1008,14 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	                title: '信号',
 	                width: 150,
 	                editor: {
-		        		type: 'combobox',
-		        		options: {
-		        			loader:function(data, onsuccess, onerror) {
-		        				console.log(data);
-		        				onsuccess(data);
-		        			}
-		        		}
+		        		type: 'combobox'
+//		        		options: {
+//		        			loader:function(data, onsuccess, onerror) {
+//		        				console.log("signal--------------");
+//		        				console.log(data);
+//		        				onsuccess(data);
+//		        			}
+//		        		}
 		        	}
 		      	}
 		        ,{

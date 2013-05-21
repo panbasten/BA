@@ -5,8 +5,8 @@
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.NewValue</description>
+			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.NewValue</tooltip>
 		</parameter>
 		<parameter>
 			<name>oldValue</name>
