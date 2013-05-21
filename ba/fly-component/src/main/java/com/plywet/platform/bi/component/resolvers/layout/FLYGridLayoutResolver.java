@@ -123,14 +123,14 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 				return true;
 			for (int si = 0; si < subNodeChildList.getLength(); si++) {
 				Node n = subNodeChildList.item(si);
-				if ("#text".equals(n.getNodeName())) {
+				if (XMLUtils.isTextNode(n)) {
 					if (Utils.isEmpty(Utils.trim(XMLUtils.toXMLString(n)))) {
 						continue;
 					}
 				}
 				return false;
 			}
-			
+
 			return true;
 
 		} catch (TransformerException e) {

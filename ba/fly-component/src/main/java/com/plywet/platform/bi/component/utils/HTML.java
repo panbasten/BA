@@ -37,8 +37,7 @@ public class HTML {
 	public static final String COMPONENT_TYPE_BASE_P = "p";
 	public static final String COMPONENT_TYPE_BASE_FONT = "font";
 	public static final String COMPONENT_TYPE_BASE_SPAN = "span";
-	
-	
+
 	public static final String COMPONENT_CATEGORY_BASE = "Base";
 	public static final String COMPONENT_CATEGORY_SPACERS = "Spacers";
 	public static final String COMPONENT_CATEGORY_BUTTONS = "Buttons";
@@ -209,6 +208,7 @@ public class HTML {
 	public static final String ATTR_GEOMETRY = "geometry";
 	public static final String ATTR_X = "x";
 	public static final String ATTR_Y = "y";
+	public static final String ATTR_FREE_LAYOUT = "freeLayout";
 
 	public static final String ATTR_MARGIN_GROUP = "marginGroup";
 	public static final String ATTR_MARGIN = "margin";
@@ -553,9 +553,13 @@ public class HTML {
 		String style = "";
 		if (PageTemplateResolverType.containComponentAttribute(node
 				.getNodeName(), ATTR_GEOMETRY)) {
-
-			style += addStyleInteger(node, attrs, ATTR_X, "left");
-			style += addStyleInteger(node, attrs, ATTR_Y, "top");
+			// 如果拥有freeLayout
+			String v = getTagAttribute(node, ATTR_FREE_LAYOUT, attrs);
+			if (Utils.isBoolean(v)) {
+				style += "position:absolute;";
+				style += addStyleInteger(node, attrs, ATTR_X, "left");
+				style += addStyleInteger(node, attrs, ATTR_Y, "top");
+			}
 			style += addStyle(node, attrs, ATTR_WIDTH, "width");
 			style += addStyle(node, attrs, ATTR_HEIGHT, "height");
 

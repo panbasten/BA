@@ -198,11 +198,11 @@ public class XMLUtils {
 
 		String nodeName = node.getNodeName();
 
-		if (nodeName.equals("#text")) {
+		if (XMLUtils.isTextNode(node)) {
 			return Const.NVL(node.getNodeValue(), "");
 		}
 
-		if (!nodeName.equals("#document")) {
+		if (!isDocument(node)) {
 			str = str + "<" + nodeName;
 			NamedNodeMap nnm = node.getAttributes();
 			if (nnm != null) {
@@ -224,11 +224,19 @@ public class XMLUtils {
 			}
 		}
 
-		if (!nodeName.equals("#document")) {
+		if (!isDocument(node)) {
 			str = str + "</" + nodeName + ">";
 			str = str + Const.CR;
 		}
 		return str;
 
+	}
+
+	public static boolean isTextNode(Node node) {
+		return "#text".equals(node.getNodeName());
+	}
+
+	public static boolean isDocument(Node node) {
+		return "#document".equals(node.getNodeName());
 	}
 }

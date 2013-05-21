@@ -320,6 +320,9 @@ Plywet.widget.DashboardEditor = function(cfg) {
 	// 鼠标一次按下抬起操作
 	this.holder = false;
 	
+	// 鼠标类型，调整位置：position ( move ); 调整尺寸：8个方向（e-resize,w-resize,n-resize,s-resize,ne-resize,nw-resize）
+	this.mouseType = "";
+	
 	this.initEditor();
 	
 };
@@ -387,9 +390,9 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			_self.redraw();
 		})
 		.bind("mousemove", function(e){
+			_self.mouseMovingCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 			if(_self.holder){
 				
-				_self.mouseMovingCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
 				_self.mouseMovingDom = _self.getDomByMouseCoords(_self.mouseMovingCoords);
 				
 				if(_self.reportInfo.editorState == "component"){
@@ -402,6 +405,40 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					onMouseMoveForTabSequence(_self);
 				}
 			
+			} else {
+				if(_self.reportInfo.editorState == "component"){
+					// 在鼠标没有holder住时进行鼠标状态判断
+					// 判断是否是选中对象的调整块
+					var mt = isResizeBlock(_self.mouseMovingCoords);
+					if(mt){
+						if(_self.mouseType != mt[1]){
+							_self.mouseType = mt[1];
+							var cursor = mt[1]+"-resize";
+							_self.editorWrapper.css('cursor',cursor);
+						}
+					}else{
+						if(_self.mouseType != ""){
+							_self.mouseType = "";
+							_self.editorWrapper.css('cursor','auto');
+						}
+					}
+				}
+			}
+			
+			function isResizeBlock(c){
+				for(var selectedId in _self.component.selected){
+					var dim = _self.component.selected[selectedId],
+						resizers = dim.resizers;
+					for(var r in resizers){
+						if(c.x>=resizers[r].x 
+								&& c.x<=(resizers[r].x+resizers[r].width)
+								&& c.y>=resizers[r].y 
+								&& c.y<=(resizers[r].y+resizers[r].height)){
+							return [selectedId, r];
+						}
+					}
+				}
+				return undefined;
 			}
 			
 			function onMouseMoveForComponent(_self){
@@ -411,14 +448,12 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					if(dim){
 						// 如果拖动ID与目标ID相同--false
 						if(dim.id == _self.mouseMovingDom.id){
-							_self.mouseMovingCoords = undefined;
 							_self.mouseMovingDom = undefined;
 							break;
 						}
 						// 不能拖入直接父元素
 						if(dim.parent){
 							if(dim.parent.id == _self.mouseMovingDom.id){
-								_self.mouseMovingCoords = undefined;
 								_self.mouseMovingDom = undefined;
 								break;
 							}
@@ -428,7 +463,6 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 						var movingDomParent = _self.mouseMovingDom.parent;
 						while(movingDomParent){
 							if(dim.id == movingDomParent.id){
-								_self.mouseMovingCoords = undefined;
 								_self.mouseMovingDom = undefined;
 								break;
 							}else{
@@ -643,6 +677,23 @@ Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
 		}
 		return undefined;
 	}
+};
+
+/**
+ * 通过ID获得选项
+ * @param id 节点ID
+ * @param type 选项类型：signals, slots
+ */
+Plywet.widget.DashboardEditor.prototype.getOptionsById = function(id,type) {
+	var targetDom = this.getDomPropById(id)[type],
+		targetOptions = [];
+	for(var i=0;i<targetDom.length;i++){
+		var opt = {};
+		opt.value = targetDom[i].name;
+		opt.text = targetDom[i].displayName;
+		targetOptions.push(opt);
+	}
+	return targetOptions;
 };
 
 /**
@@ -989,16 +1040,7 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		        						.next("td[field='signal']").first()
 		        						.find(".ui-combobox-f").first();
 		        				
-		        				var targetDom = _self.getDomPropById(selectValue).signals;
-		        				var targetOptions = [];
-		        				for(var i=0;i<targetDom.length;i++){
-		        					var opt = {};
-		        					opt.value = targetDom[i].name;
-		        					opt.text = targetDom[i].displayName;
-		        					targetOptions.push(opt);
-		        				}
-		        				
-		        				$(signalDom).combobox("loadData",targetOptions);
+		        				$(signalDom).combobox("loadData",_self.getOptionsById(selectValue, "signals"));
 		        			}
 		        		}
 		        	}
@@ -1008,14 +1050,16 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	                title: '信号',
 	                width: 150,
 	                editor: {
-		        		type: 'combobox'
-//		        		options: {
-//		        			loader:function(data, onsuccess, onerror) {
-//		        				console.log("signal--------------");
-//		        				console.log(data);
-//		        				onsuccess(data);
-//		        			}
-//		        		}
+		        		type: 'combobox',
+		        		options: {
+		        			loader:function(data, onsuccess, onerror) {
+		        				var senderDom = $(this).parents("td[field='signal']").first()
+        								.prev("td[field='sender']").first()
+        								.find(".ui-combobox-f").first(),
+        							senderValue = $(senderDom).combobox("getValues");
+		        				console.log(senderValue);
+		        			}
+		        		}
 		        	}
 		      	}
 		        ,{
@@ -1029,8 +1073,14 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		        				_self.initAccepters();
 		        				onsuccess(_self.accepterOptions);
 		        			},
-		        			onSelect:function(e){
-		        				var accepterDom = _self.accepterDoms[e.value];
+		        			onSelect:function(target){
+		        				var accepterDom = _self.accepterDoms[target.value],
+			        				selectValue = $(this).combobox("getValues"),
+		        					signalDom = $(this).parents("td[field='sender']").first()
+		        						.next("td[field='signal']").first()
+		        						.find(".ui-combobox-f").first();
+		        				
+		        				$(signalDom).combobox("loadData",_self.getOptionsById(selectValue, "slots"));
 		        			}
 		        		}
 		        	}
@@ -1220,12 +1270,13 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	
 	function redrawForComponent(){
 		var dim, mavingOff;
-		
-		if(_self.mouseMovingDom){
-			mavingOff = {
-				x : _self.off.x + _self.mouseMovingCoords.x - _self.mouseDownCoords.x,
-				y : _self.off.y + _self.mouseMovingCoords.y - _self.mouseDownCoords.y
-			};
+		if(_self.mouseType == ""){
+			if(_self.mouseMovingCoords){
+				mavingOff = {
+					x : _self.off.x + _self.mouseMovingCoords.x - _self.mouseDownCoords.x,
+					y : _self.off.y + _self.mouseMovingCoords.y - _self.mouseDownCoords.y
+				};
+			}
 		}
 		
 		// 绘制所有选中节点
@@ -1236,8 +1287,10 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 				redrawSelectedComponents(dim);
 				
 				// 绘制选中节点的拖动框
-				if(_self.mouseMovingDom){
-					redrawMovingComponents(dim, mavingOff);
+				if(_self.mouseType == ""){
+					if(_self.mouseMovingCoords){
+						redrawMovingComponents(dim, mavingOff);
+					}
 				}
 			}
 		}
@@ -1248,8 +1301,10 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 		}
 		
 		// 绘制拖动目标对象的边框
-		if(_self.mouseMovingDom){
-			redrawMovingTargetComponents();
+		if(_self.mouseType == ""){
+			if(_self.mouseMovingDom){
+				redrawMovingTargetComponents();
+			}
 		}
 	}
 	
@@ -1351,9 +1406,10 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	}
 	
 	function redrawSelectedComponents(dim) {
-		Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
+		var resizers = Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight},
 				_self.off,_self.drawStyle.drawResizerStyle);
+		dim.resizers = resizers;
 	}
 
 };

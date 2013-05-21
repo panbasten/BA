@@ -187,7 +187,7 @@ public class BIReportDashboardResource {
 			throws TransformerException {
 		Node temp = sourceNode.getNextSibling();
 		while (temp != null) {
-			if ("#text".equals(temp.getNodeName())) {
+			if (XMLUtils.isTextNode(temp)) {
 				if (Utils.isEmpty(Utils.trim(XMLUtils.toXMLString(temp)))) {
 					temp = temp.getNextSibling();
 				}

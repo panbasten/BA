@@ -3,6 +3,7 @@ package com.plywet.platform.bi.component.resolvers.layout;
 import java.util.List;
 
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -44,10 +45,8 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node subNode = nodeList.item(i);
 
-			String subNodeName = subNode.getNodeName();
-
 			// 如果是文字，判断是否为空，如果为空则不单独起一行
-			if (subNodeName.equals("#text")) {
+			if (XMLUtils.isTextNode(subNode)) {
 				if (Utils.isEmpty(Const.removeTAB(Const.removeCRLF(subNode
 						.getNodeValue())))) {
 					continue;

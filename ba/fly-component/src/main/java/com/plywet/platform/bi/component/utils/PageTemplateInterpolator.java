@@ -249,8 +249,7 @@ public class PageTemplateInterpolator {
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node subNode = nodeList.item(i);
-				String subNodeName = subNode.getNodeName();
-				if (!subNodeName.equals("#text")) {
+				if (!XMLUtils.isTextNode(subNode)) {
 					idx = modifySubDomForEditor(subNode, prefix, idx++);
 				}
 			}

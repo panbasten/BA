@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.xml.XMLHandler;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -226,7 +227,7 @@ public class PageTemplateResolverType {
 						node, html, script, attrs, fileUrl);
 				return;
 			}
-		} else if (nodeName.equals("#text")) {
+		} else if (XMLUtils.isTextNode(node)) {
 			html.writeText(PageTemplateInterpolator.interpolateExpressions(
 					Const.removeTAB(Const.removeCRLF(node.getNodeValue())),
 					attrs));
