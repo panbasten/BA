@@ -411,7 +411,8 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					// 判断是否是选中对象的调整块
 					var mt = isResizeBlock(_self.mouseMovingCoords);
 					if(mt){
-						if(_self.mouseType != mt[1]){
+						_self.mouseMovingDom = mt[0];
+						if( _self.mouseType != mt[1] ){
 							_self.mouseType = mt[1];
 							var cursor = mt[1]+"-resize";
 							_self.editorWrapper.css('cursor',cursor);
@@ -434,7 +435,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 								&& c.x<=(resizers[r].x+resizers[r].width)
 								&& c.y>=resizers[r].y 
 								&& c.y<=(resizers[r].y+resizers[r].height)){
-							return [selectedId, r];
+							return [dim, r];
 						}
 					}
 				}
@@ -442,50 +443,54 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			}
 			
 			function onMouseMoveForComponent(_self){
-				// 判断拖动的元素能否放置在目标组件中
-				for(var selectedId in _self.component.selected){
-					var dim = _self.component.selected[selectedId];
-					if(dim){
-						// 如果拖动ID与目标ID相同--false
-						if(dim.id == _self.mouseMovingDom.id){
-							_self.mouseMovingDom = undefined;
-							break;
-						}
-						// 不能拖入直接父元素
-						if(dim.parent){
-							if(dim.parent.id == _self.mouseMovingDom.id){
+				// 只有当鼠标不是调整状态是默认状态时
+				if(_self.mouseType == ""){
+					// 判断拖动的元素能否放置在目标组件中
+					for(var selectedId in _self.component.selected){
+						var dim = _self.component.selected[selectedId];
+						if(dim){
+							// 如果拖动ID与目标ID相同--false
+							if(dim.id == _self.mouseMovingDom.id){
 								_self.mouseMovingDom = undefined;
 								break;
 							}
-						}
-						
-						// 不能拖入子元素
-						var movingDomParent = _self.mouseMovingDom.parent;
-						while(movingDomParent){
-							if(dim.id == movingDomParent.id){
-								_self.mouseMovingDom = undefined;
-								break;
-							}else{
-								movingDomParent = movingDomParent.parent;
-							}
-						}
-						
-						// GridItem只能拖入GridLayout或者GridItem
-						if(dim.type=="fly:GridLayoutItem"){
-							while(_self.mouseMovingDom){
-								if(_self.mouseMovingDom.type=="fly:GridLayoutItem" || 
-									_self.mouseMovingDom.type=="fly:GridLayout"){
+							// 不能拖入直接父元素
+							if(dim.parent){
+								if(dim.parent.id == _self.mouseMovingDom.id){
+									_self.mouseMovingDom = undefined;
 									break;
-								}else{
-									_self.mouseMovingDom = _self.mouseMovingDom.parent;
-									
 								}
 							}
-							if(!_self.mouseMovingDom){
-								break;
+							
+							// 不能拖入子元素
+							var movingDomParent = _self.mouseMovingDom.parent;
+							while(movingDomParent){
+								if(dim.id == movingDomParent.id){
+									_self.mouseMovingDom = undefined;
+									break;
+								}else{
+									movingDomParent = movingDomParent.parent;
+								}
+							}
+							
+							// GridItem只能拖入GridLayout或者GridItem
+							if(dim.type=="fly:GridLayoutItem"){
+								while(_self.mouseMovingDom){
+									if(_self.mouseMovingDom.type=="fly:GridLayoutItem" || 
+										_self.mouseMovingDom.type=="fly:GridLayout"){
+										break;
+									}else{
+										_self.mouseMovingDom = _self.mouseMovingDom.parent;
+										
+									}
+								}
+								if(!_self.mouseMovingDom){
+									break;
+								}
 							}
 						}
 					}
+				
 				}
 				
 				_self.redraw();
@@ -529,35 +534,40 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			}
 			
 			function onMouseUpForComponent(_self){
-				// 鼠标抬起对象是可接受的放置对象时，进行移动操作 
-				if(_self.mouseMovingDom){
-					var sources = [];
-					for(var selectedId in _self.component.selected){
-						if(_self.component.selected[selectedId]){
-							sources.push(selectedId);
+				// 只有当鼠标不是调整状态是默认状态时
+				if(_self.mouseType == ""){
+					
+					// 鼠标抬起对象是可接受的放置对象时，进行移动操作 
+					if(_self.mouseMovingDom){
+						var sources = [];
+						for(var selectedId in _self.component.selected){
+							if(_self.component.selected[selectedId]){
+								sources.push(selectedId);
+							}
 						}
-					}
-					_self.move(sources,_self.mouseMovingDom.id);
-				} else {
-					// 鼠标抬起对象是选中对象，将鼠标抬起对象设置为选中对象的父对象
-					if(_self.component.isSelected(_self.mouseUpDom.id)){
-						// 选择父对象
-						_self.mouseUpDom = _self.mouseUpDom.parent;
-					}
-					
-					// 选择一个树节点
-					_self.domStructureTree.select(_self.mouseUpDom.id);
-					
-					// 如果按下shift，认为是多选
-					if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
-					}else{
-						// 如果选择对象已经被选中，不清除所有选中
-						if(!_self.component.isSelected(_self.mouseUpDom.id)){
-							_self.component.clearSelected();
+						_self.move(sources,_self.mouseMovingDom.id);
+					} else {
+						// 鼠标抬起对象是选中对象，将鼠标抬起对象设置为选中对象的父对象
+						if(_self.component.isSelected(_self.mouseUpDom.id)){
+							// 选择父对象
+							_self.mouseUpDom = _self.mouseUpDom.parent;
 						}
+						
+						// 选择一个树节点
+						_self.domStructureTree.select(_self.mouseUpDom.id);
+						
+						// 如果按下shift，认为是多选
+						if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
+						}else{
+							// 如果选择对象已经被选中，不清除所有选中
+							if(!_self.component.isSelected(_self.mouseUpDom.id)){
+								_self.component.clearSelected();
+							}
+						}
+						_self.component.addSelected(_self.mouseUpDom.id,_self.mouseUpDom,_self);
+						
 					}
-					_self.component.addSelected(_self.mouseUpDom.id,_self.mouseUpDom,_self);
-					
+				
 				}
 				
 				_self.mouseMovingCoords = undefined;
@@ -1306,6 +1316,25 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 				redrawMovingTargetComponents();
 			}
 		}
+		// 绘制调整尺寸对象的边框
+		else{
+			if(_self.mouseMovingDom){
+				redrawResizeTargetComponents();
+			}
+		}
+	}
+	
+	function redrawResizeTargetComponents(){
+		var x = _self.mouseMovingDom.offsetLeft + _self.off.x,
+			y = _self.mouseMovingDom.offsetTop + _self.off.y,
+			width = _self.mouseMovingDom.offsetWidth,
+			height = _self.mouseMovingDom.offsetHeight;
+		
+		// TODO
+		console.log(x);
+		console.log(y);
+		console.log(width);
+		console.log(height);
 	}
 	
 	function redrawForSignalSlot(){
