@@ -104,16 +104,13 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE
 					+ " WHERE "
 					+ KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID + " = ?";
-			delSql = replaceParam(delSql, String.valueOf(uid));
-			this.execSql(delSql);
+			this.execSql(delSql, new Object[] { uid });
 
 			String insertSql = "INSERT INTO "
 					+ KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE
-					+ " VALUES(?," + uid + ")";
+					+ " VALUES(?,?)";
 			for (Long rid : roleIds) {
-				String execSql = this.replaceParam(insertSql, String
-						.valueOf(rid));
-				this.execSql(execSql);
+				this.execSql(insertSql, new Object[] { rid, uid });
 			}
 			getRepository().commit();
 		} catch (KettleException e) {

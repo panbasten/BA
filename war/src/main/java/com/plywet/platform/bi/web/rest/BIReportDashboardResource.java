@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.xml.transform.TransformerException;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.xml.XMLUtils;
@@ -32,11 +33,15 @@ import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.report.meta.TemplateMeta;
 import com.plywet.platform.bi.web.cache.TemplateCache;
+import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.service.BIReportDelegates;
 
 @Service("bi.resource.reportDashboardResource")
 @Path("/dashboard")
 public class BIReportDashboardResource {
+	
+	private final Logger logger = Logger.getLogger(BIReportDashboardResource.class);
+	
 	@Resource(name = "bi.service.reportService")
 	private BIReportDelegates reportService;
 
@@ -69,6 +74,26 @@ public class BIReportDashboardResource {
 			return getDashboardJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("创建Dashboard编辑页面出现错误。", ex);
+		}
+	}
+
+	@GET
+	@Path("/save/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String saveDashboardEditor(
+			@CookieParam("repository") String repository,
+			@PathParam("id") String id) throws BIException {
+		try {
+			TemplateMeta templateMeta = TemplateCache.get(id);
+			Document doc = templateMeta.getDoc();
+			
+			XMLUtils.toXMLString(doc);
+
+			return ActionMessage.instance().success("保存仪表板【" + "】成功!")
+					.toJSONString();
+		} catch (Exception ex) {
+			logger.error("保存仪表板[" + id + "]出现错误。");
+			throw new BIException("保存仪表板[" + id + "]出现错误。", ex);
 		}
 	}
 
