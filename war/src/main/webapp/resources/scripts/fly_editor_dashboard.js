@@ -411,7 +411,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 					// 判断是否是选中对象的调整块
 					var mt = isResizeBlock(_self.mouseMovingCoords);
 					if(mt){
-						_self.mouseMovingDom = mt[0];
+						_self.mouseDownDom = mt[0];
 						if( _self.mouseType != mt[1] ){
 							_self.mouseType = mt[1];
 							var cursor = mt[1]+"-resize";
@@ -490,7 +490,6 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 							}
 						}
 					}
-				
 				}
 				
 				_self.redraw();
@@ -568,6 +567,11 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 						
 					}
 				
+				}
+				// 调整尺寸
+				else{
+					var newSize = _self.getNewSize(_self.mouseDownDom, _self.mouseUpCoords);
+					_self.resized(_self.mouseDownDom.id,newSize);
 				}
 				
 				_self.mouseMovingCoords = undefined;
@@ -846,6 +850,36 @@ Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
 		}
 		return rtn;
 	}
+};
+
+/**
+ * 改变元素尺寸
+ * @param 
+ */
+Plywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
+	if(!target){
+		return;
+	}
+	
+	// 设置tab为修改状态 
+	Plywet.editors.dashboard.action.modify();
+	
+	var _self = this;
+	Plywet.ab({
+		type : "get",
+		url: "rest/dashboard/resized/"+this.reportInfo.id,
+		params: {
+			target :	target,
+			x : newSize.x,
+			y : newSize.y,
+			width : newSize.width,
+			height : newSize.height
+		},
+		onsuccess : function(data, status, xhr){
+			_self.reInitEditor(data);
+			_self.redraw();
+		}
+	});
 };
 
 /**
@@ -1261,6 +1295,59 @@ Plywet.widget.DashboardEditor.prototype.getAccepterSlot = function(accepter) {
 	
 };
 
+Plywet.widget.DashboardEditor.prototype.getNewSize = function(dim, coords){
+	var x = dim.offsetLeft,
+		y = dim.offsetTop,
+		w = dim.offsetWidth,
+		h = dim.offsetHeight,
+		cx = coords.x - this.off.x,
+		cy = coords.y - this.off.y,
+		tmp;
+	
+	if(this.mouseType == "s"){
+		h = cy - y;
+	}else if(this.mouseType == "n"){
+		tmp = y - cy;
+		y = cy;
+		h = h + tmp;
+	}else if(this.mouseType == "w"){
+		tmp = x - cx;
+		x = cx;
+		w = w + tmp;
+	}else if(this.mouseType == "e"){
+		w = cx - x;
+	}else if(this.mouseType == "nw"){
+		tmp = y - cy;
+		y = cy;
+		h = h + tmp;
+		
+		tmp = x - cx;
+		x = cx;
+		w = w + tmp;
+	}else if(this.mouseType == "ne"){
+		tmp = y - cy;
+		y = cy;
+		h = h + tmp;
+		
+		w = cx - x;
+	}else if(this.mouseType == "sw"){
+		h = cy - y;
+		
+		tmp = x - cx;
+		x = cx;
+		w = w + tmp;
+	}else if(this.mouseType == "se"){
+		h = cy - y;
+		
+		w = cx - x;
+	}
+	
+	h=(h<10)?10:h;
+	w=(w<10)?10:w;
+	
+	return {x:x,y:y,width:w,height:h};
+};
+
 Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	
 	this.ctx.clearRect(0,0,this.width+10,this.height+10);
@@ -1325,16 +1412,12 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	}
 	
 	function redrawResizeTargetComponents(){
-		var x = _self.mouseMovingDom.offsetLeft + _self.off.x,
-			y = _self.mouseMovingDom.offsetTop + _self.off.y,
-			width = _self.mouseMovingDom.offsetWidth,
-			height = _self.mouseMovingDom.offsetHeight;
 		
-		// TODO
-		console.log(x);
-		console.log(y);
-		console.log(width);
-		console.log(height);
+		var newSize = _self.getNewSize(_self.mouseDownDom, _self.mouseMovingCoords);
+		
+		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+				{x:newSize.x,y:newSize.y,width:newSize.width,height:newSize.height}, 
+				_self.drawStyle.dropRectStyle, "line", _self.off);
 	}
 	
 	function redrawForSignalSlot(){

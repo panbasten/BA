@@ -963,10 +963,6 @@
 				<updatePolicy>never</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
-			<snapshots>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</snapshots>
 		</repository>
 
 		<repository>
@@ -977,10 +973,6 @@
 				<updatePolicy>never</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
-			<snapshots>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</snapshots>
 		</repository>
 		<repository>
 			<id>prime-repo</id>

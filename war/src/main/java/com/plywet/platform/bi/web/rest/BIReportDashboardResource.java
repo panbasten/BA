@@ -39,9 +39,10 @@ import com.plywet.platform.bi.web.service.BIReportDelegates;
 @Service("bi.resource.reportDashboardResource")
 @Path("/dashboard")
 public class BIReportDashboardResource {
-	
-	private final Logger logger = Logger.getLogger(BIReportDashboardResource.class);
-	
+
+	private final Logger logger = Logger
+			.getLogger(BIReportDashboardResource.class);
+
 	@Resource(name = "bi.service.reportService")
 	private BIReportDelegates reportService;
 
@@ -86,7 +87,7 @@ public class BIReportDashboardResource {
 		try {
 			TemplateMeta templateMeta = TemplateCache.get(id);
 			Document doc = templateMeta.getDoc();
-			
+
 			XMLUtils.toXMLString(doc);
 
 			return ActionMessage.instance().success("保存仪表板【" + "】成功!")
@@ -94,6 +95,45 @@ public class BIReportDashboardResource {
 		} catch (Exception ex) {
 			logger.error("保存仪表板[" + id + "]出现错误。");
 			throw new BIException("保存仪表板[" + id + "]出现错误。", ex);
+		}
+	}
+
+	@GET
+	@Path("/resized/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String resizedDashboard(@PathParam("id") String id,
+			@QueryParam("target") String target, @QueryParam("x") String x,
+			@QueryParam("y") String y, @QueryParam("width") String width,
+			@QueryParam("height") String height) throws BIException {
+		try {
+			TemplateMeta templateMeta = TemplateCache.get(id);
+			Document doc = templateMeta.getDoc();
+			Node targetNode = getNodeWithEditorId(doc, target);
+			String targetType = XMLUtils.getTagOrAttribute(targetNode,
+					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_TYPE);
+			ComponentPlugin targetPlugin = PageTemplateResolverType
+					.getPlugin(targetType);
+
+			// 如果为空，表示目标节点为HTML元素
+			if (targetPlugin == null) {
+				// 判断是否绝对定位，设置top, left属性
+				// TODO
+			} else {
+				// 判断是否自由布局，设置top, left属性
+				boolean freeLayout = Utils.isBoolean(XMLUtils
+						.getTagOrAttribute(targetNode, HTML.ATTR_FREE_LAYOUT));
+				if (freeLayout) {
+					XMLUtils.setAttribute(targetNode, HTML.ATTR_X, x);
+					XMLUtils.setAttribute(targetNode, HTML.ATTR_Y, y);
+				}
+				
+				XMLUtils.setAttribute(targetNode, HTML.ATTR_WIDTH, width);
+				XMLUtils.setAttribute(targetNode, HTML.ATTR_HEIGHT, height);
+			}
+
+			return getDashboardJson(id, templateMeta).toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("调整Dashboard页面元素出现错误。", ex);
 		}
 	}
 
