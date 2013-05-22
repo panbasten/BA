@@ -120,15 +120,17 @@ public class BIReportDashboardResource {
 				// TODO
 			} else {
 				// 判断是否自由布局，设置top, left属性
-				boolean freeLayout = Utils.isBoolean(XMLUtils
-						.getTagOrAttribute(targetNode, HTML.ATTR_FREE_LAYOUT));
+				boolean freeLayout = Utils.toBoolean(XMLUtils
+						.getTagOrAttribute(targetNode, HTML.ATTR_FREE_LAYOUT),
+						false);
 				if (freeLayout) {
 					XMLUtils.setAttribute(targetNode, HTML.ATTR_X, x);
 					XMLUtils.setAttribute(targetNode, HTML.ATTR_Y, y);
 				}
-				
+
 				XMLUtils.setAttribute(targetNode, HTML.ATTR_WIDTH, width);
 				XMLUtils.setAttribute(targetNode, HTML.ATTR_HEIGHT, height);
+				
 			}
 
 			return getDashboardJson(id, templateMeta).toJSONString();

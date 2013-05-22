@@ -1,0 +1,37 @@
+<attributeGroup>
+
+	<name>overflowGroup</name>
+	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.overflowGroup</description>
+	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.overflowGroup</tooltip>
+
+	<attribute>
+		<name>overflow</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Overflow</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Overflow</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Overflow</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>overflow-x</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Overflow</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.OverflowX</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.OverflowX</tooltip>
+	</attribute>
+	
+	<attribute>
+		<name>overflow-y</name>
+		<required>false</required>
+		<type>java.lang.String</type>
+		<editorType>combobox</editorType>
+		<editorOptionEnum>Overflow</editorOptionEnum>
+	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.OverflowY</description>
+		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.OverflowY</tooltip>
+	</attribute>
+
+</attributeGroup>

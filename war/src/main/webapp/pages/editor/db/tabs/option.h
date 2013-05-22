@@ -1,4 +1,4 @@
-<fly:composition>
+<fly:composition freeLayout="N">
 	<fly:verticalLayout>
 		<fly:labelObject text="命名参数" />
 		

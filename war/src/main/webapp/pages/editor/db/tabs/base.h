@@ -1,4 +1,4 @@
-<fly:composition>
+<fly:composition freeLayout="N">
 	<fly:gridLayout column="4">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="连接名称" />

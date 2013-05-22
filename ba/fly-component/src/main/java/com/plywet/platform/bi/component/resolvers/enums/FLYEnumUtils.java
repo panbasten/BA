@@ -20,6 +20,8 @@ public class FLYEnumUtils {
 				.getEnumJSONArray());
 		enumMap.put(FLYFontWeightEnum.COMPONENT_ENUM_NAME, FLYFontWeightEnum
 				.getEnumJSONArray());
+		enumMap.put(FLYOverflowEnum.COMPONENT_ENUM_NAME, FLYOverflowEnum
+				.getEnumJSONArray());
 	}
 
 	public static JSONArray getEnumJSONArray(String enumName) {

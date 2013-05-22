@@ -953,7 +953,7 @@
 		</plugins>
 	</build>
 
-	<!--  -->
+	<!-- 
 	<repositories>
 		<repository>
 			<id>fly-public</id>
@@ -1101,17 +1101,17 @@
 
 	<distributionManagement>
 		<repository>
-			<id>hb-releases</id>
-			<name>Yonyou HB Release Repository</name>
+			<id>fly-releases</id>
+			<name>Flywet Release Repository</name>
 			<url>http://10.11.46.192:8081/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>hb-snapshots</id>
-			<name>Yonyou HB Snapshot Repository</name>
+			<id>fly-snapshots</id>
+			<name>Flywet Snapshot Repository</name>
 			<url>http://10.11.46.192:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+	 -->
 
 	<scm>
 		<connection>scm:svn:https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</connection>

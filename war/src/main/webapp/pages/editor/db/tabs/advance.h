@@ -1,4 +1,4 @@
-<fly:composition>
+<fly:composition freeLayout="N">
 	<fly:verticalLayout>
 		<fly:fieldSet title="标识符">
 			<fly:gridLayout column="4" itemWidth="35%,15%,35%,15%">

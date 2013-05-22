@@ -1,4 +1,4 @@
-<fly:composition>
+<fly:composition freeLayout="N">
 	<fly:labelObject buddy="${formId}:username" text="用户名" width="30%" />
 	<fly:inputText id="${formId}:username" name="${formId}:username" type="text" value="${dbMeta.username}" width="60%" />
 

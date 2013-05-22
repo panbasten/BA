@@ -209,6 +209,10 @@ public class HTML {
 	public static final String ATTR_X = "x";
 	public static final String ATTR_Y = "y";
 	public static final String ATTR_FREE_LAYOUT = "freeLayout";
+	
+	public static final String ATTR_OVERFLOW = "overflow";
+	public static final String ATTR_OVERFLOW_X = "overflow-x";
+	public static final String ATTR_OVERFLOW_Y = "overflow-y";
 
 	public static final String ATTR_MARGIN_GROUP = "marginGroup";
 	public static final String ATTR_MARGIN = "margin";
@@ -555,7 +559,7 @@ public class HTML {
 				.getNodeName(), ATTR_GEOMETRY)) {
 			// 如果拥有freeLayout
 			String v = getTagAttribute(node, ATTR_FREE_LAYOUT, attrs);
-			if (Utils.isBoolean(v)) {
+			if (Utils.toBoolean(v, false)) {
 				style += "position:absolute;";
 				style += addStyleInteger(node, attrs, ATTR_X, "left");
 				style += addStyleInteger(node, attrs, ATTR_Y, "top");
