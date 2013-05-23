@@ -28,6 +28,7 @@ public class BIAdaptorFactory {
 		return createAdaptor(intf, ContextHolder.getRepositoryType());
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T createAdaptor(Class<T> intf, String repositoryType) {
 		Class<?> targetClazz = null;
 		for (Class<?> clazz : allClasses) {

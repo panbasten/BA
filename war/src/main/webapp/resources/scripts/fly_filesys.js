@@ -83,7 +83,7 @@ Plywet.filesys = {
 				maximizable : true
 			});
 	},
-	rename	: function() {
+	rename : function() {
 		var selItem = this.getOneSelected();
 		var targetId = "rename_dialog_" + selItem.category + "_" + selItem.type;
 		
@@ -185,7 +185,11 @@ Plywet.filesys = {
 		}
 		return true;
 	},
-	getOneSelected:function() {
+	
+	/**
+	 * 获得一个选中节点
+	 */
+	getOneSelected : function() {
 		var fsbpvar = window["editorContent-navi-filesys-bp_var"];
 		if (this.checkSelected()) {
 			var selItems = fsbpvar.getSelections();
@@ -266,53 +270,6 @@ Plywet.filesys = {
 				maximizable : true
 			});
 	},
-	editHost:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var targetId = "create_dialog_" + currentCase.category + "_" + currentCase.rootId;
-		
-		var selItem = this.getOneSelected();
-		var id = selItem.id;
-		
-		Plywet.cw("Dialog",targetId + "_var",{
-				id : targetId,
-				header : "编辑主机",
-				width : 700,
-				height : 400,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/host/setting?hostId=" + id,
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "确定",
-					title : "确定",
-					events: {
-						click:function(){
-							Plywet.ab({
-								type : "POST",
-								url : "rest/host/setting",
-								source:"fs_host_form",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
-								}
-							});
-						}
-					}				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
-	},
 	removeHost:function(){
 		var selItem = this.getOneSelected();
 		Plywet.ab({
@@ -365,22 +322,63 @@ Plywet.filesys = {
 				maximizable : true
 			});
 	},
-	editFsLocal:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var targetId = "create_dialog_" + currentCase.category + "_" + currentCase.rootId;
-		
+	removeFsLocal:function(){
 		var selItem = this.getOneSelected();
+		Plywet.ab({
+			type : "DELETE",
+			url : "rest/fslocal/" + selItem.id,
+			onsuccess:function(data, status, xhr) {
+						alert(data.messages[0]);
+					}
+		});
+	},
+	add:function(){
+		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var category =  currentCase.category;
+		if ("local" == category) {
+			this.addFsLocal();
+		} else {
+			this.addHost();
+		}
+	},
+	
+	/**
+	 * 编辑一个文件夹
+	 */
+	edit : function(){
+		var _self = this;
+		
+		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var category = currentCase.category;
+		
+		// 打开的dialog的id
+		var targetId = "dialog_" + currentCase.category;
+		
+		// 获得选择项
+		var selItem = _self.getOneSelected();
+		if(!selItem){
+			Plywet.dialog.prompt("请先选中一个对象。");
+			return;
+		}
 		var id = selItem.id;
 		
-		Plywet.cw("Dialog",targetId + "_var",{
+		if ("local" == category) {
+			editFsLocal();
+		} else {
+			editFtp();
+		}
+		
+		function editFsLocal(){
+			
+			Plywet.cw("Dialog", targetId + "_var",{
 				id : targetId,
-				header : "编辑根目录",
-				width : 700,
-				height : 400,
+				header : "编辑根目录属性",
+				width : 350,
+				height : 165,
 				autoOpen : true,
 				showHeader : true,
 				modal : true,
-				url : "rest/fslocal/setting?rootId=" + id,
+				url : "rest/fs/items/edit/"+id+"?targetId="+targetId+":content",
 				footerButtons : [{
 					componentType : "fly:PushButton",
 					type : "button",
@@ -412,33 +410,50 @@ Plywet.filesys = {
 				closable : true,
 				maximizable : true
 			});
-	},
-	removeFsLocal:function(){
-		var selItem = this.getOneSelected();
-		Plywet.ab({
-			type : "DELETE",
-			url : "rest/fslocal/" + selItem.id,
-			onsuccess:function(data, status, xhr) {
-						alert(data.messages[0]);
-					}
-		});
-	},
-	add:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var category =  currentCase.category;
-		if ("local" == category) {
-			this.addFsLocal();
-		} else {
-			this.addHost();
 		}
-	},
-	edit:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var category =  currentCase.category;
-		if ("local" == category) {
-			this.editFsLocal();
-		} else {
-			this.editHost();
+		
+		function editFtp(){
+
+			Plywet.cw("Dialog",targetId + "_var",{
+					id : targetId,
+					header : "编辑主机",
+					width : 700,
+					height : 400,
+					autoOpen : true,
+					showHeader : true,
+					modal : true,
+					url : "rest/host/setting?hostId=" + id,
+					footerButtons : [{
+						componentType : "fly:PushButton",
+						type : "button",
+						label : "确定",
+						title : "确定",
+						events: {
+							click:function(){
+								Plywet.ab({
+									type : "POST",
+									url : "rest/host/setting",
+									source:"fs_host_form",
+									onsuccess:function(data, status, xhr) {
+										if (data.state == 0) {
+											window[targetId + "_var"].hide();
+										}
+									}
+								});
+							}
+						}
+					},{
+						componentType : "fly:PushButton",
+						type : "button",
+						label : "取消",
+						title : "取消",
+						events : {
+							"click" : "hide"
+						}
+					}],
+					closable : true,
+					maximizable : true
+				});
 		}
 	},
 	remove:function(){

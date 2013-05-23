@@ -718,6 +718,18 @@ Plywet.cookie = function (k, v, o) {
 		C.write(k, v, o);
 };
 
+Plywet.dialog = {
+	prompt : function(text){
+		Plywet.cw("ConfirmDialog",null,{type:"prompt",text:text});
+	},
+	warning : function(text){
+		Plywet.cw("ConfirmDialog",null,{type:"warning",text:text});
+	},
+	error : function(text){
+		Plywet.cw("ConfirmDialog",null,{type:"error",text:text});
+	}
+};
+
 Plywet.Logger = {
 	/**
      * 日志：info
@@ -1073,9 +1085,9 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 				}
 			}
 			if(json.state == 0){
-				Plywet.cw("ConfirmDialog",null,{type:"prompt",text:text});
+				Plywet.dialog.prompt(text);
 			}else{
-				Plywet.cw("ConfirmDialog",null,{type:"error",text:text});
+				Plywet.dialog.error(text);
 			}
 		}
 	}

@@ -24,7 +24,7 @@ public class FLYLabelObjectResolver extends BaseComponentResolver implements
 		html.startElement(HTML.COMPONENT_TYPE_BASE_LABEL);
 		String buddyStr = HTML.getTagAttribute(node, HTML.ATTR_BUDDY, attrs);
 		if (buddyStr != null) {
-			html.writeAttribute(HTML.ATTR_BUDDY, buddyStr);
+			html.writeAttribute(HTML.ATTR_FOR, buddyStr);
 		}
 
 		HTML.writeStyleAttribute(node, html, attrs);
