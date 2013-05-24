@@ -37,7 +37,9 @@ import com.plywet.platform.bi.delegates.vo.FilesysType;
 import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
+import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.service.BIFileSystemDelegate;
+import com.plywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.filesysResource")
 @Path("/fs")
@@ -364,30 +366,25 @@ public class BIFileSystemResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/items/editsubmit")
-	public String openEditSubmit() throws BIJSONException {
+	public String openEditSubmit(String body) throws BIJSONException {
+		ActionMessage am = new ActionMessage();
 		try {
-			// 获得页面
-			// FLYVariableResolver attrsMap = composeVariableMap(dataStr);
-			// attrsMap.addVariable("srcName", srcName);
-			// FLYVariableResolver attrsMap = new FLYVariableResolver();
-			// Object[] domString = PageTemplateInterpolator.interpolate(
-			// TEMPLATE_FILESYS_RENAME, attrsMap);
-			//
-			// // 设置响应
-			// AjaxResultEntity emptyEntity = new AjaxResultEntity();
-			// emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-			// emptyEntity.setTargetId(targetId);
-			//
-			// AjaxResultEntity content = AjaxResultEntity.instance()
-			// .setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
-			// targetId).setDomAndScript(domString);
-			//
-			// return AjaxResult.instance().addEntity(emptyEntity).addEntity(
-			// content).toJSONString();
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+//			long rootId = Long.parseLong(paramContext.getParameter("rootId"));
+//			String workPath = paramContext.getParameter("path");
+//			String category = paramContext.getParameter("category");
+//			String dirName = paramContext.getParameter("dirName");
+//
+//			FileObject fileObj = filesysService.composeVfsObject(category,
+//					workPath + "/" + dirName, rootId);
+//			fileObj.createFolder();
+			am.addMessage("编辑目录成功");
 		} catch (Exception e) {
-			log.error("打开编辑界面出现问题。");
+			am.addErrorMessage("编辑目录出现错误。");
 		}
-		return ActionMessage.instance().failure("打开编辑界面出现问题。").toJSONString();
+		return am.toJSONString();
 	}
 
 	/**
