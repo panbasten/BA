@@ -327,15 +327,20 @@ public class BIFileSystemResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/items/edit/{id}")
+	@Path("/items/edit/{category}/{id}")
 	public String openEditDialog(@PathParam("id") String id,
+			@PathParam("category") String category,
 			@QueryParam("targetId") String targetId) throws BIJSONException {
 		try {
 			// 获得页面
-			// FLYVariableResolver attrsMap = composeVariableMap(dataStr);
-			// attrsMap.addVariable("srcName", srcName);
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 			attrsMap.addVariable("id", id);
+			attrsMap.addVariable("category", category);
+
+			FilesysDirectory dir = filesysService.getFilesysObject(category,
+					Long.valueOf(id));
+			attrsMap.addVariable("dir", dir);
+
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TEMPLATE_FILESYS_EDIT, attrsMap);
 
@@ -355,7 +360,7 @@ public class BIFileSystemResource {
 		}
 		return ActionMessage.instance().failure("打开编辑界面出现问题。").toJSONString();
 	}
-	
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/items/editsubmit")
@@ -364,21 +369,21 @@ public class BIFileSystemResource {
 			// 获得页面
 			// FLYVariableResolver attrsMap = composeVariableMap(dataStr);
 			// attrsMap.addVariable("srcName", srcName);
-//			FLYVariableResolver attrsMap = new FLYVariableResolver();
-//			Object[] domString = PageTemplateInterpolator.interpolate(
-//					TEMPLATE_FILESYS_RENAME, attrsMap);
-//
-//			// 设置响应
-//			AjaxResultEntity emptyEntity = new AjaxResultEntity();
-//			emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-//			emptyEntity.setTargetId(targetId);
-//
-//			AjaxResultEntity content = AjaxResultEntity.instance()
-//					.setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
-//							targetId).setDomAndScript(domString);
-//
-//			return AjaxResult.instance().addEntity(emptyEntity).addEntity(
-//					content).toJSONString();
+			// FLYVariableResolver attrsMap = new FLYVariableResolver();
+			// Object[] domString = PageTemplateInterpolator.interpolate(
+			// TEMPLATE_FILESYS_RENAME, attrsMap);
+			//
+			// // 设置响应
+			// AjaxResultEntity emptyEntity = new AjaxResultEntity();
+			// emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
+			// emptyEntity.setTargetId(targetId);
+			//
+			// AjaxResultEntity content = AjaxResultEntity.instance()
+			// .setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
+			// targetId).setDomAndScript(domString);
+			//
+			// return AjaxResult.instance().addEntity(emptyEntity).addEntity(
+			// content).toJSONString();
 		} catch (Exception e) {
 			log.error("打开编辑界面出现问题。");
 		}

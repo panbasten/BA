@@ -362,99 +362,46 @@ Plywet.filesys = {
 		}
 		var id = selItem.id;
 		
-		if ("local" == category) {
-			editFsLocal();
-		} else {
-			editFtp();
-		}
-		
-		function editFsLocal(){
-			
-			Plywet.cw("Dialog", targetId + "_var",{
-				id : targetId,
-				header : "编辑根目录属性",
-				width : 350,
-				height : 165,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/fs/items/edit/"+id+"?targetId="+targetId+":content",
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "确定",
-					title : "确定",
-					events: {
-						click:function(){
-							Plywet.ab({
-								type : "POST",
-								url : "rest/fslocal/setting",
-								source:"fs_fslocal_form",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
+		Plywet.cw("Dialog", targetId + "_var",{
+			id : targetId,
+			header : "编辑根目录属性",
+			width : 350,
+			height : 165,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/fs/items/edit/"+category+"/"+id+"?targetId="+targetId+":content",
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "确定",
+				title : "确定",
+				events: {
+					click:function(){
+						Plywet.ab({
+							type : "post",
+							formId:"fs_edit_form",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[targetId + "_var"].hide();
 								}
-							});
-						}
-					}
-				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
-		}
-		
-		function editFtp(){
-
-			Plywet.cw("Dialog",targetId + "_var",{
-					id : targetId,
-					header : "编辑主机",
-					width : 700,
-					height : 400,
-					autoOpen : true,
-					showHeader : true,
-					modal : true,
-					url : "rest/host/setting?hostId=" + id,
-					footerButtons : [{
-						componentType : "fly:PushButton",
-						type : "button",
-						label : "确定",
-						title : "确定",
-						events: {
-							click:function(){
-								Plywet.ab({
-									type : "POST",
-									url : "rest/host/setting",
-									source:"fs_host_form",
-									onsuccess:function(data, status, xhr) {
-										if (data.state == 0) {
-											window[targetId + "_var"].hide();
-										}
-									}
-								});
 							}
-						}
-					},{
-						componentType : "fly:PushButton",
-						type : "button",
-						label : "取消",
-						title : "取消",
-						events : {
-							"click" : "hide"
-						}
-					}],
-					closable : true,
-					maximizable : true
-				});
-		}
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : false
+		});
+		
 	},
 	remove:function(){
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();

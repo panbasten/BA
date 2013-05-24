@@ -55,6 +55,23 @@ public class BIFileSystemService implements BIFileSystemDelegate {
 	}
 
 	@Override
+	public FilesysDirectory getFilesysObject(String category, long rootId)
+			throws BIException {
+		try {
+
+			BIFileSystemCategory cate = BIFileSystemCategory
+					.getCategoryByCode(category);
+			FilesysDirectory fd = cate.getFsAdaptor().getRootDirectoryById(
+					rootId);
+
+			return fd;
+		} catch (Exception e) {
+			log.error("获得文件系统对象失败。", e);
+			throw new BIException("获得文件系统对象失败。");
+		}
+	}
+
+	@Override
 	public FileObject composeVfsObject(String category, String workDir,
 			long rootId) throws BIException {
 		try {

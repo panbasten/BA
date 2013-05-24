@@ -926,52 +926,48 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
     ajaxType=ajaxType.toLowerCase();
     
     if(ajaxType == 'post') {
-    	var form=null, sourceId = null;
-        
-        // 如果source存在，表示为提交元素
-    	if (cfg.source) {
-	        if(typeof(cfg.source) == 'string') {
-	            sourceId = cfg.source;
-	        } else {
-	            sourceId = $(cfg.source).attr('id');
-	        }
-    	}
+    	var form=null;
         
         // 如果formId存在，表示为提交表单
         if(cfg.formId) {
             form = $(Plywet.escapeClientId(cfg.formId));//Explicit form is defined
         }
-        else {
-        	if (cfg.source) {
-	            form = $(Plywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
-	
-	            //source has no parent form so use first form in document
-	            if(form.length == 0) {
-	                form = $('form').eq(0);
-	            }
-        	}
+        else if (cfg.source){
+        	var sourceId = null;
+        	// 如果source存在，表示为提交元素
+	        if(typeof(cfg.source) == 'string') {
+	            sourceId = cfg.source;
+	        } else {
+	            sourceId = $(cfg.source).attr('id');
+	        }
+            form = $(Plywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
+        }
+        
+        //source has no parent form so use first form in document
+        if(!form || form.length == 0) {
+            form = $('form').eq(0);
         }
         
         if(cfg.formAction){
         	ajaxURL = cfg.formAction;
         }else{
-        	if(form!=null){
-        		ajaxURL = form.attr('action');
-        	}
+        	ajaxURL = form.attr('action');
         }
         
-        if(form!=null){
-        	if ($.fn.form) {
-	        	//form ajax submit
-	        	form.form("submit", {
-	        		url : ajaxURL
-	        	});
-	        	return;
-        	} else {
-        		ajaxParams = form.serialize();
-        	}
-        	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
-        }
+        console.log(form);
+        console.log(ajaxURL);
+        
+    	if ($.fn.form) {
+    		console.log($.fn.form);
+        	//form ajax submit
+        	form.form("submit", {
+        		url : ajaxURL
+        	});
+        	return;
+    	} else {
+    		ajaxParams = form.serialize();
+    	}
+    	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
     }
 
     //params

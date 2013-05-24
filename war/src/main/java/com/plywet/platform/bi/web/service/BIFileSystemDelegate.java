@@ -40,6 +40,17 @@ public interface BIFileSystemDelegate {
 			throws BIException;
 
 	/**
+	 * 通过ID获得文件系统目录
+	 * 
+	 * @param category
+	 * @param rootId
+	 * @return
+	 * @throws BIException
+	 */
+	public FilesysDirectory getFilesysObject(String category, long rootId)
+			throws BIException;
+
+	/**
 	 * 拼装vfs文件
 	 * 
 	 * @param category
