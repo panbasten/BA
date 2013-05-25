@@ -54,7 +54,7 @@ public class FilesysDirectory {
 	}
 
 	public FilesysDirectory setNotes(String notes) {
-		this.notes = notes;
+		this.notes = Const.NVL(notes, "");
 		return this;
 	}
 }
