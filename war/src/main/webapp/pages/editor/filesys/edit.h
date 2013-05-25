@@ -6,7 +6,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:inputText id="desc" type="text" validate="required:true" value="${dir.desc}" />
+			<fly:inputText id="desc" name="desc" type="text" validate="required:true" value="${dir.desc}" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -14,7 +14,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:inputText id="path" type="text" validate="required:true" value="${dir.path}" />
+			<fly:inputText id="path" name="path" type="text" validate="required:true" value="${dir.path}" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -22,7 +22,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<textarea id="notes" rows="3" style="margin:5px;">
+			<textarea id="notes" name="notes" rows="3" style="margin:5px;">
 				${dir.notes}
 			</textarea>
 		</fly:gridLayoutItem>

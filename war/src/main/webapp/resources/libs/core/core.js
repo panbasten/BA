@@ -954,14 +954,70 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         	ajaxURL = form.attr('action');
         }
         
-        console.log(form);
-        console.log(ajaxURL);
-        
     	if ($.fn.form) {
-    		console.log($.fn.form);
         	//form ajax submit
         	form.form("submit", {
-        		url : ajaxURL
+        		url : ajaxURL,
+        		dataType : "json",
+        		onSubmit : function(data){
+	        		if(cfg.modal){
+	        			if(cfg.modalMessage){
+	        				Plywet.desktop.changeMarkText(cfg.modalMessage);
+	        			}
+	        			Plywet.desktop.triggerMark(true);
+	        		}
+	                if(cfg.beforeSend) {
+	                    cfg.beforeSend.call(this, data);
+	                }
+	                
+	                Plywet.Logger.debug('Request form before send:' + status + '.');
+        		},
+        		success : function(data){
+        			
+        			// 失败
+        			if(data && data.state == 1){
+            			if(cfg.onerror) {
+            				cfg.onerror.call(data);
+            			}
+          
+            			Plywet.ajax.AjaxResponse.call(this, data);
+            			Plywet.Logger.error('Request form return with error:' + status + '.');
+        			}
+        			// 成功
+        			else {
+	        			Plywet.Logger.debug('Response form received succesfully.');
+	                    
+	                    var parsed;
+	                    //call user callback
+	                    if(cfg.onsuccess) {
+	                        parsed = cfg.onsuccess.call(this, data);
+	                    }
+	
+	                    //extension callback that might parse response
+	                    if(ext && ext.onsuccess && !parsed) {
+	                        parsed = ext.onsuccess.call(this, data); 
+	                    }
+	
+	                    //do not execute default handler as response already has been parsed
+	                    if(parsed) {
+	                        return;
+	                    } 
+	                    else {
+	                        Plywet.ajax.AjaxResponse.call(this, data);
+	                        Plywet.Logger.debug('DOM is updated.');
+	                    }
+	                    
+        			}
+        		}
+//        		},
+//        		onLoadError : function(data){
+//        			if(cfg.onerror) {
+//                        cfg.onerror.call(data);
+//                    }
+//            
+//                    Plywet.Logger.error('Request form return with error:' + status + '.');
+//        		}
+        		
         	});
         	return;
     	} else {

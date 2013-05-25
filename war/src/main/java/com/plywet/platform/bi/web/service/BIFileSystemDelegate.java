@@ -51,6 +51,26 @@ public interface BIFileSystemDelegate {
 			throws BIException;
 
 	/**
+	 * 更新文件系统目录
+	 * 
+	 * @param category
+	 * @param dir
+	 * @throws BIException
+	 */
+	public void updateFilesysObject(String category, FilesysDirectory dir)
+			throws BIException;
+	
+	/**
+	 * 创建文件系统目录
+	 * 
+	 * @param category
+	 * @param dir
+	 * @throws BIException
+	 */
+	public void createFilesysObject(String category, FilesysDirectory dir)
+			throws BIException;
+
+	/**
 	 * 拼装vfs文件
 	 * 
 	 * @param category

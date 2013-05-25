@@ -327,6 +327,73 @@ public class BIFileSystemResource {
 		return ActionMessage.instance().failure(msg).toJSONString();
 	}
 
+	/**
+	 * 打开创建目录设置页面
+	 * 
+	 * @param targetId
+	 *            页面容器ID
+	 * @param dataStr
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/items/create/{category}")
+	public String openCreateDialog(@PathParam("category") String category,
+			@QueryParam("targetId") String targetId) throws Exception {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+			attrsMap.addVariable("category", category);
+
+			FilesysDirectory dir = FilesysDirectory.instance();
+			attrsMap.addVariable("dir", dir);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_FILESYS_CREATE, attrsMap);
+
+			// 设置响应
+			AjaxResultEntity emptyEntity = new AjaxResultEntity();
+			emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
+			emptyEntity.setTargetId(targetId);
+
+			AjaxResultEntity content = AjaxResultEntity.instance()
+					.setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
+							targetId).setDomAndScript(domString);
+
+			return AjaxResult.instance().addEntity(emptyEntity).addEntity(
+					content).toJSONString();
+		} catch (Exception e) {
+			log.error("打开新增界面出现问题。");
+		}
+		return ActionMessage.instance().failure("打开新增界面出现问题。").toJSONString();
+
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/items/createsubmit")
+	public String openCreateSubmit(String body) throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			String category = paramContext.getParameter("category");
+			String path = paramContext.getParameter("path");
+			String desc = paramContext.getParameter("desc");
+			String notes = paramContext.getParameter("notes");
+
+			FilesysDirectory dir = FilesysDirectory.instance().setPath(path)
+					.setDesc(desc).setNotes(notes);
+			filesysService.createFilesysObject(category, dir);
+			am.addMessage("编辑目录成功");
+		} catch (Exception e) {
+			am.addErrorMessage("编辑目录出现错误。");
+		}
+		return am.toJSONString();
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/items/edit/{category}/{id}")
@@ -372,14 +439,15 @@ public class BIFileSystemResource {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-//			long rootId = Long.parseLong(paramContext.getParameter("rootId"));
-//			String workPath = paramContext.getParameter("path");
-//			String category = paramContext.getParameter("category");
-//			String dirName = paramContext.getParameter("dirName");
-//
-//			FileObject fileObj = filesysService.composeVfsObject(category,
-//					workPath + "/" + dirName, rootId);
-//			fileObj.createFolder();
+			long rootId = Long.parseLong(paramContext.getParameter("rootId"));
+			String category = paramContext.getParameter("category");
+			String path = paramContext.getParameter("path");
+			String desc = paramContext.getParameter("desc");
+			String notes = paramContext.getParameter("notes");
+
+			FilesysDirectory dir = FilesysDirectory.instance().setId(rootId)
+					.setPath(path).setDesc(desc).setNotes(notes);
+			filesysService.updateFilesysObject(category, dir);
 			am.addMessage("编辑目录成功");
 		} catch (Exception e) {
 			am.addErrorMessage("编辑目录出现错误。");
@@ -411,37 +479,6 @@ public class BIFileSystemResource {
 				TEMPLATE_FILESYS_RENAME, attrsMap);
 
 		// 设置响应
-		AjaxResultEntity emptyEntity = new AjaxResultEntity();
-		emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-		emptyEntity.setTargetId(targetId);
-
-		AjaxResultEntity content = AjaxResultEntity.instance().setOperation(
-				Utils.RESULT_OPERATION_APPEND).setTargetId(targetId)
-				.setDomAndScript(domString);
-
-		return AjaxResult.instance().addEntity(emptyEntity).addEntity(content)
-				.toJSONString();
-	}
-
-	/**
-	 * 打开创建目录设置页面
-	 * 
-	 * @param targetId
-	 *            页面容器ID
-	 * @param dataStr
-	 * @return
-	 * @throws Exception
-	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/items/create")
-	public String openCreate(@QueryParam("targetId") String targetId,
-			@QueryParam("data") String dataStr) throws Exception {
-		FLYVariableResolver attrsMap = composeVariableMap(dataStr);
-
-		Object[] domString = PageTemplateInterpolator.interpolate(
-				TEMPLATE_FILESYS_CREATE, attrsMap);
-
 		AjaxResultEntity emptyEntity = new AjaxResultEntity();
 		emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
 		emptyEntity.setTargetId(targetId);

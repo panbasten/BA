@@ -72,6 +72,33 @@ public class BIFileSystemService implements BIFileSystemDelegate {
 	}
 
 	@Override
+	public void updateFilesysObject(String category, FilesysDirectory dir)
+			throws BIException {
+		try {
+			BIFileSystemCategory cate = BIFileSystemCategory
+					.getCategoryByCode(category);
+			cate.getFsAdaptor().updateRootDirectory(dir);
+		} catch (Exception e) {
+			log.error("更新文件系统对象失败。", e);
+			throw new BIException("更新文件系统对象失败。");
+		}
+	}
+
+	@Override
+	public void createFilesysObject(String category, FilesysDirectory dir)
+			throws BIException {
+		try {
+			BIFileSystemCategory cate = BIFileSystemCategory
+					.getCategoryByCode(category);
+			dir.setFsType(Integer.valueOf(cate.getId()).longValue());
+			cate.getFsAdaptor().addRootDirectory(dir);
+		} catch (Exception e) {
+			log.error("新增文件系统对象失败。", e);
+			throw new BIException("新增文件系统对象失败。");
+		}
+	}
+
+	@Override
 	public FileObject composeVfsObject(String category, String workDir,
 			long rootId) throws BIException {
 		try {

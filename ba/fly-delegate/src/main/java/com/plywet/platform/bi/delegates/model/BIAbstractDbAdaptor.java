@@ -97,9 +97,10 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 			if (commit) {
 				getRepository().connectionDelegate.getDatabase().commit();
 			}
-		} catch (Exception e) {
+		} catch (KettleDatabaseException e) {
 			logger.error("exec sql exception:", e);
 			getRepository().connectionDelegate.getDatabase().rollback();
+			throw e;
 		}
 	}
 
@@ -123,9 +124,10 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 			if (commit) {
 				getRepository().connectionDelegate.getDatabase().commit();
 			}
-		} catch (Exception e) {
+		} catch (KettleDatabaseException e) {
 			logger.error("exec sql exception:", e);
 			getRepository().connectionDelegate.getDatabase().rollback();
+			throw e;
 		}
 	}
 
@@ -146,9 +148,10 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 			if (commit) {
 				getRepository().connectionDelegate.getDatabase().commit();
 			}
-		} catch (Exception e) {
+		} catch (KettleDatabaseException e) {
 			logger.error("exec sql exception:", e);
 			getRepository().connectionDelegate.getDatabase().rollback();
+			throw e;
 		}
 	}
 

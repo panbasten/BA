@@ -226,127 +226,60 @@ Plywet.filesys = {
 			url : "rest/fsop/paste?currentCase="+Plywet.toJSONString(currentCase)+"&operateCase="+Plywet.toJSONString(operateCase)
 		});
 	},
-	addHost:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var targetId = "create_dialog_" + currentCase.category + "_" + currentCase.rootId;
-		
-		Plywet.cw("Dialog",targetId + "_var",{
-				id : targetId,
-				header : "新增主机",
-				width : 700,
-				height : 400,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/host/setting",
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "确定",
-					title : "确定",
-					events: {
-						click:function(){
-							Plywet.ab({
-								type : "POST",
-//								url : "rest/host/setting",
-								source:"fs_host_form",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
-								}
-							});
-						}
-					}				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
-	},
-	removeHost:function(){
-		var selItem = this.getOneSelected();
-		Plywet.ab({
-			type : "DELETE",
-			url : "rest/host/" + selItem.id
-		});
-	},
-	addFsLocal:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var targetId = "create_dialog_" + currentCase.category + "_" + currentCase.rootId;
-		
-		Plywet.cw("Dialog",targetId + "_var",{
-				id : targetId,
-				header : "新增根目录",
-				width : 700,
-				height : 400,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/fslocal/setting",
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "确定",
-					title : "确定",
-					events: {
-						click:function(){
-							Plywet.ab({
-								type : "POST",
-								url : "rest/fslocal/setting",
-								source:"fs_fslocal_form",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
-								}
-							});
-						}
-					}
-				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
-	},
-	removeFsLocal:function(){
-		var selItem = this.getOneSelected();
-		Plywet.ab({
-			type : "DELETE",
-			url : "rest/fslocal/" + selItem.id,
-			onsuccess:function(data, status, xhr) {
-						alert(data.messages[0]);
-					}
-		});
-	},
-	add:function(){
+	create:function(){
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
 		var category =  currentCase.category;
-		if ("local" == category) {
-			this.addFsLocal();
-		} else {
-			this.addHost();
-		}
+		
+		// 打开的dialog的id
+		var targetId = "dialog_" + currentCase.category;
+		
+		Plywet.cw("Dialog", targetId + "_var",{
+			id : targetId,
+			header : "新增根目录属性",
+			width : 350,
+			height : 165,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/fs/items/create/"+category+"?targetId="+targetId+":content",
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "确定",
+				title : "确定",
+				events: {
+					click:function(){
+						Plywet.ab({
+							type : "post",
+							formId:"fs_create_form",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[targetId + "_var"].hide();
+									// TODO 更新当前目录内容
+								}
+							}
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : false,
+			resizable : false
+		});
 	},
 	
 	/**
 	 * 编辑一个文件夹
 	 */
 	edit : function(){
-		var _self = this;
 		
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
 		var category = currentCase.category;
@@ -355,7 +288,7 @@ Plywet.filesys = {
 		var targetId = "dialog_" + currentCase.category;
 		
 		// 获得选择项
-		var selItem = _self.getOneSelected();
+		var selItem = this.getOneSelected();
 		if(!selItem){
 			Plywet.dialog.prompt("请先选中一个对象。");
 			return;
@@ -384,6 +317,7 @@ Plywet.filesys = {
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[targetId + "_var"].hide();
+									// TODO 更新当前目录内容
 								}
 							}
 						});
@@ -399,17 +333,26 @@ Plywet.filesys = {
 				}
 			}],
 			closable : true,
-			maximizable : false
+			maximizable : false,
+			resizable : false
 		});
 		
 	},
 	remove:function(){
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var category =  currentCase.category;
-		if ("local" == category) {
-			this.removeFsLocal();
-		} else {
-			this.removeHost();
+		var category = currentCase.category;
+		
+		// 获得选择项
+		var selItem = this.getOneSelected();
+		if(!selItem){
+			Plywet.dialog.prompt("请先选中一个对象。");
+			return;
 		}
+		var id = selItem.id;
+		
+		Plywet.ab({
+			type : "DELETE",
+			url : "rest/fs/items/remove/"+category+"/"+id
+		});
 	}
 };

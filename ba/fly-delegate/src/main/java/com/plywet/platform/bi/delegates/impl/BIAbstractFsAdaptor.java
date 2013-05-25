@@ -21,7 +21,7 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 		try {
 			String sql = "INSERT INTO "
 					+ KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY
-					+ " VALUES(?,?,?,?)";
+					+ " VALUES(?,?,?,?,?)";
 
 			execSql(
 					sql,
@@ -30,8 +30,8 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 									.getNextBatchId(
 											KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY,
 											KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY),
-							directory.getPath(), directory.getDesc(),
-							directory.getNotes() });
+							directory.getFsType(), directory.getPath(),
+							directory.getDesc(), directory.getNotes() });
 		} catch (KettleException e) {
 			logger.error("add local directory exception:", e);
 			throw new BIKettleException(e);
@@ -124,11 +124,9 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 	}
 
 	protected FilesysDirectory createFilesysDirectory(Object[] obj) {
-		FilesysDirectory filesysDirectory = new FilesysDirectory();
-		filesysDirectory.setId(Long.parseLong(obj[0].toString()));
-		filesysDirectory.setPath(obj[1].toString());
-		filesysDirectory.setDesc(obj[2].toString());
-		filesysDirectory.setNotes(obj[3].toString());
+		FilesysDirectory filesysDirectory = FilesysDirectory.instance().setId(
+				(Long) obj[0]).setPath((String) obj[1])
+				.setDesc((String) obj[2]).setNotes((String) obj[3]);
 		return filesysDirectory;
 	}
 }

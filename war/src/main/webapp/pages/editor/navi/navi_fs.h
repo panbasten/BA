@@ -5,7 +5,7 @@
 			</ul>
 		</div>
 		<div class="ui-toolbar-group-right">
-            <fly:pushbutton icon="ui-icon-folder-open" label="新增" title="新增" onclick="Plywet.filesys.add()" />
+            <fly:pushbutton icon="ui-icon-folder-open" label="新增" title="新增" onclick="Plywet.filesys.create()" />
             <fly:pushbutton icon="ui-icon-folder-open" label="编辑" title="编辑" onclick="Plywet.filesys.edit()" />
             <fly:pushbutton icon="ui-icon-folder-open" label="移除" title="移除" onclick="Plywet.filesys.remove()" />
             <fly:pushbutton icon="ui-icon-folder-open" label="创建目录" title="创建目录" onclick="Plywet.filesys.createDir()" />

@@ -57,7 +57,11 @@
 				}
 			}
 			if (options.success) {
-				options.success(data);
+				if(options.dataType == "json"){
+					options.success(jQuery.parseJSON(data));
+				}else{
+					options.success(data);
+				}
 			}
 			setTimeout(function() {
 				frame.unbind();
