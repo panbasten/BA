@@ -95,15 +95,13 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 												"0")));
 
 				String extSql = "SELECT "
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_EXTATTR_FID
+						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE
 						+ ","
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_EXTATTR_ATTR_NAME
-						+ ","
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_EXTATTR_ATTR_VALUE
+						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR
 						+ " FROM "
-						+ KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE_EXTATTR
+						+ KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE_ATTRIBUTE
 						+ " WHERE "
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_EXTATTR_FID
+						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE
 						+ " = " + ft.getId();
 				List<RowMetaAndData> extRmds = getRowsWithMeta(extSql);
 				if (!Utils.isEmpty(extRmds)) {
@@ -112,12 +110,12 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 						pair
 								.setName(extRmd
 										.getString(
-												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_EXTATTR_ATTR_NAME,
+												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE,
 												null));
 						pair
 								.setValue(extRmd
 										.getString(
-												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_EXTATTR_ATTR_VALUE,
+												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR,
 												null));
 						ft.addExtAttr(pair);
 					}

@@ -6,12 +6,12 @@
 	<artifactId>war</artifactId>
 	<packaging>war</packaging>
 	<name>BA平台War源代码</name>
-	<version>8.0-SNAPSHOT</version>
+	<version>8.0.0</version>
 	<description>BA平台War源代码</description>
 	<parent>
 		<artifactId>platform</artifactId>
 		<groupId>com.plywet</groupId>
-		<version>8.0-SNAPSHOT</version>
+		<version>8.0.0</version>
 	</parent>
 	
 	

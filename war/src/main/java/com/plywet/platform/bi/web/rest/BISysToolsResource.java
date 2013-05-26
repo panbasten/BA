@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.core.exception.BIException;
-import com.plywet.platform.bi.core.model.NameValuePair;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
 import com.plywet.platform.bi.web.entity.AjaxResult;
@@ -56,19 +55,13 @@ public class BISysToolsResource {
 						continue;
 					}
 					for (FunctionType child : children) {
-						List<NameValuePair> extAttrs = child.getExtAttrs();
-						StringBuffer data = new StringBuffer();
-						if (!Utils.isEmpty(extAttrs)) {
-							for (NameValuePair pair : extAttrs) {
-								data.append("data-" + pair.getName() + "=\""
-										+ pair.getValue() + "\"");
-							}
-						}
 
 						sb
-								.append("<div class=\"func-item-con\" onmouseover=\"$(this).addClass('ui-state-hover')\" onmouseout=\"$(this).removeClass('ui-state-hover')\">");
+								.append("<div id=\"func_"
+										+ child.getId()
+										+ "\" class=\"func-item-con\" onmouseover=\"$(this).addClass('ui-state-hover')\" onmouseout=\"$(this).removeClass('ui-state-hover')\">");
 						sb
-								.append("<div class=\"func-item\" data-data=\""
+								.append("<div class=\"func-item\" ext=\""
 										+ child.getExtAttrString()
 										+ "\" onclick='Plywet.sysTools.openTool(this)' style=\"background:url('resources/images/functype/"
 										+ child.getCode()

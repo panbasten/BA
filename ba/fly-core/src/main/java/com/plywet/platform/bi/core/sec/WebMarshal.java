@@ -5,18 +5,73 @@ import java.io.InputStream;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.pentaho.di.core.Const;
+import org.pentaho.di.i18n.BaseMessages;
+import org.pentaho.di.version.BuildVersion;
+
+import com.plywet.platform.bi.core.exception.BISecurityException;
 import com.plywet.platform.bi.core.utils.FileUtils;
 
 public class WebMarshal {
+
+	private static Class<?> PKG = WebMarshal.class;
 
 	public static final String OS_NAME = "os.name";
 	public static final String OS_ARCH = "os.arch";
 	public static final String OS_VER = "os.version";
 
-	public static String[] getSysProperty() {
-		return new String[] { System.getProperty(OS_NAME),
-				System.getProperty(OS_ARCH), 
-				System.getProperty(OS_VER) };
+	public static final String LIC_FILE_NAME = "ba.lic";
+
+	private String os_name;
+	private String os_arch;
+	private String os_version;
+
+	private String version;
+	private String revision;
+	private String build_date;
+	private String build_user;
+
+	private static WebMarshal webMarshal;
+
+	public static final WebMarshal getInstance() {
+		if (webMarshal != null)
+			return webMarshal;
+		webMarshal = new WebMarshal();
+
+		return webMarshal;
+	}
+
+	private WebMarshal() {
+		initOsProperty();
+		initBuildVersion();
+	}
+
+	public void initOsProperty() {
+		this.os_name = System.getProperty(OS_NAME);
+		this.os_arch = System.getProperty(OS_ARCH);
+		this.os_version = System.getProperty(OS_VER);
+	}
+
+	public void initBuildVersion() {
+		this.version = BuildVersion.getInstance().getVersion();
+		this.revision = BuildVersion.getInstance().getRevision();
+		this.build_date = BuildVersion.getInstance().getBuildDate();
+		this.build_user = BuildVersion.getInstance().getBuildUser();
+	}
+
+	/**
+	 * 获得License文件内容
+	 * 
+	 * @throws BISecurityException
+	 */
+	private void getLicenseFile() throws BISecurityException {
+		String licFilePath = Const.getKettleDirectory() + Const.FILE_SEPARATOR
+				+ LIC_FILE_NAME;
+		if (!FileUtils.isFileExist(licFilePath)) {
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.No.License"));
+		}
+
 	}
 
 	public static boolean checkAppLicense(String licPathName) {

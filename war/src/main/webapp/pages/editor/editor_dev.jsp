@@ -171,7 +171,9 @@
 		
 		<div class="ui-layout-south fly-south">
 			<span style="margin-left:10px;font-weight:bold;">当前位置:&nbsp;</span><span>当前操作位置-转换区</span>
-			<div style="float:right;"><span id="idUser" class="fly-userinfo">用户:Admin</span><div class="fly-exit"></div></div>
+			<div style="float:right;"><span id="idUser" class="fly-userinfo">用户:Admin</span>
+			<div class="fly-exit"></div>
+		</div>
 		</div>
 		
 		<div class="fly-container" >

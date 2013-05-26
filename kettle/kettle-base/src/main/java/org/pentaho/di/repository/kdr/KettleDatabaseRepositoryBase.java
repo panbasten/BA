@@ -387,10 +387,11 @@ public class KettleDatabaseRepositoryBase {
 	public static final String FIELD_FUNC_TYPE_HELPTEXT = "HELPTEXT";
 	public static final String FIELD_FUNC_TYPE_TYPE_INDEX = "TYPE_INDEX";
 	
-	public static final String TABLE_R_FUNC_TYPE_EXTATTR = "R_FUNC_TYPE_EXTATTR";
-	public static final String FIELD_FUNC_TYPE_EXTATTR_FID = "FID";
-	public static final String FIELD_FUNC_TYPE_EXTATTR_ATTR_NAME = "ATTR_NAME";
-	public static final String FIELD_FUNC_TYPE_EXTATTR_ATTR_VALUE = "ATTR_VALUE";
+	public static final String TABLE_R_FUNC_TYPE_ATTRIBUTE = "R_FUNC_TYPE_ATTRIBUTE";
+	public static final String FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE_ATTR = "ID_FUNC_TYPE_ATTR";
+	public static final String FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE = "ID_FUNC_TYPE";
+	public static final String FIELD_FUNC_TYPE_ATTRIBUTE_CODE = "CODE";
+	public static final String FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR = "VALUE_STR";
 	
 	public static final String TABLE_R_FILESYS_TYPE = "R_FILESYS_TYPE";
 	public static final String FIELD_FILESYS_TYPE_ID_FS_TYPE = "ID_FS_TYPE";

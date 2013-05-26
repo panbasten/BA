@@ -18,8 +18,8 @@ Plywet = {
      * 解析json串为javascript对象
      */
     parseJSON : function(str) {
-    	try { return $.parseJSON ? $.parseJSON(str) : window["eval"]("("+ str +")") || {}; }
-		catch (e) { return {}; }
+    	try { return $.parseJSON(str);  }
+		catch (e) { return window["eval"]("("+ str +")") || {}; }
     },
     
     /**

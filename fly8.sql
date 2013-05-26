@@ -331,7 +331,7 @@ CREATE TABLE `r_filesys_directory` (
 
 LOCK TABLES `r_filesys_directory` WRITE;
 /*!40000 ALTER TABLE `r_filesys_directory` DISABLE KEYS */;
-INSERT INTO `r_filesys_directory` VALUES (1,1,'C:\\_D','数据存储根目录','用于存放数据文件的根目录'),(2,1,'C:\\_D\\_bak','数据存储临时目录','用于存放数据文件的临时目录'),(3,2,'10.11.46.181','FTP测试接口机_181','FTP测试接口机_181'),(4,3,'10.11.46.181','SFTP测试接口机_181','SFTP测试接口机_181'),(5,4,'https://ciastudypattern.googlecode.com/svn/trunk/','存放文档的SVN','存放文档的SVN'),(6,5,'','存放文档的GIT','存放文档的GIT');
+INSERT INTO `r_filesys_directory` VALUES (1,1,'C:\\Qt','数据存储根目录','用于存放数据文件的根目录'),(2,1,'C:\\_D\\_bak','数据存储临时目录','用于存放数据文件的临时目录'),(3,2,'10.11.46.181','FTP测试接口机_181','FTP测试接口机_181'),(4,3,'10.11.46.181','SFTP测试接口机_181','SFTP测试接口机_181'),(5,4,'https://ciastudypattern.googlecode.com/svn/trunk/','存放文档的SVN','存放文档的SVN'),(6,5,'','存放文档的GIT','存放文档的GIT');
 /*!40000 ALTER TABLE `r_filesys_directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,26 +389,29 @@ INSERT INTO `r_func_type` VALUES (0,'root','根',NULL,'功能的根节点',0),(1,'trans
 UNLOCK TABLES;
 
 --
--- Table structure for table `r_func_type_extattr`
+-- Table structure for table `r_func_type_attribute`
 --
 
-DROP TABLE IF EXISTS `r_func_type_extattr`;
+DROP TABLE IF EXISTS `r_func_type_attribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_func_type_extattr` (
-  `fid` bigint(20) NOT NULL,
-  `attr_name` varchar(64) NOT NULL,
-  `attr_value` varchar(255) DEFAULT NULL
+CREATE TABLE `r_func_type_attribute` (
+  `ID_FUNC_TYPE_ATTR` bigint(20) NOT NULL,
+  `ID_FUNC_TYPE` int(11) NOT NULL,
+  `CODE` varchar(255) NOT NULL,
+  `VALUE_STR` mediumtext,
+  PRIMARY KEY (`ID_FUNC_TYPE_ATTR`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `r_func_type_extattr`
+-- Dumping data for table `r_func_type_attribute`
 --
 
-LOCK TABLES `r_func_type_extattr` WRITE;
-/*!40000 ALTER TABLE `r_func_type_extattr` DISABLE KEYS */;
-/*!40000 ALTER TABLE `r_func_type_extattr` ENABLE KEYS */;
+LOCK TABLES `r_func_type_attribute` WRITE;
+/*!40000 ALTER TABLE `r_func_type_attribute` DISABLE KEYS */;
+INSERT INTO `r_func_type_attribute` VALUES (0,1003,'url','rest/about'),(1,1003,'title','关于');
+/*!40000 ALTER TABLE `r_func_type_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1486,4 +1489,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-05-23 19:13:59
+-- Dump completed on 2013-05-27  1:42:16
