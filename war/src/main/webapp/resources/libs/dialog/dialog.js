@@ -657,35 +657,3 @@ Plywet.widget.ConfirmDialog.prototype.createContentDom =function(cfg){
 	 $(contentDom).append(span);
 	 cfg.content=contentDom;
 }
-
-Plywet.widget.PromptDialog=function(cfg){
-	var _self = this;
-	cfg.id=(cfg.id)?cfg.id:"widget_"+(Plywet.windex++);
-    cfg.draggable = false;
-    cfg.resizable = false;
-    cfg.modal = true;
-    cfg.realRemove = true;
-    cfg.autoOpen = true;
-    cfg.footerButtons = [{
-		componentType : "fly:PushButton",
-		type : "button",
-		label : "确定",
-		title : "确定",
-		events : {
-    		click:function(event){
-				Plywet.invokeFunction(cfg.confirmFunc,event,"");
-				_self.hide();
-			}
-    	}
-	},{
-		componentType : "fly:PushButton",
-		type : "button",
-		label : "取消",
-		title : "取消",
-		events : {
-    		click:'hide'
-    	}
-	}];
-    Plywet.widget.Dialog.call(this, cfg);
-};
-Plywet.widget.PromptDialog.prototype = Plywet.widget.Dialog.prototype;

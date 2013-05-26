@@ -81,7 +81,14 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			throws BIPageException {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
 		html.writeAttribute(HTML.ATTR_TYPE, FLYButtonMeta.BUTTON_TYPE_BUTTON);
+
+		String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
+		if (HTML.ATTR_STATE_DISABLED.equalsIgnoreCase(state)) {
+			html.writeAttribute(HTML.ATTR_DISABLED, HTML.ATTR_DISABLED);
+		}
+
 		html.writeAttribute(HTML.ATTR_CLASS, resolveStyleClass(node, attrs));
+		html.writeAttribute(HTML.ATTR_STYLE, HTML.getStyle(node, attrs));
 
 		// mouseOver
 		String mouseOverEvent = "$(this).addClass('ui-state-hover');"
@@ -99,11 +106,6 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 				HTML.ATTR_TYPE, HTML.ATTR_ON_MOUSE_OVER,
 				HTML.ATTR_ON_MOUSE_OUT, HTML.ATTR_STATE, HTML.ATTR_ICON,
 				HTML.ATTR_ICON_POS, HTML.ATTR_LABEL }, html, attrs);
-
-		if (HTML.ATTR_STATE_DISABLED.equalsIgnoreCase(HTML.getTagAttribute(
-				node, HTML.ATTR_STATE, attrs))) {
-			html.writeAttribute(HTML.ATTR_DISABLED, HTML.ATTR_DISABLED);
-		}
 
 		// icon
 		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON, attrs);

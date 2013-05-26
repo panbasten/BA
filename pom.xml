@@ -40,9 +40,9 @@
 		<application.name>享元BA平台</application.name>
 		<application.description>该平台是享元公司的BA业务平台</application.description>
 		<company.name>北京享元科技软件技术有限公司</company.name>
-		<company.url>http://www.yonyou.com</company.url>
+		<company.url>http://www.plywet.com</company.url>
 
-		<Compile-User>Peter Pan</Compile-User>
+		<Compile-User>Plywet</Compile-User>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Platform -->

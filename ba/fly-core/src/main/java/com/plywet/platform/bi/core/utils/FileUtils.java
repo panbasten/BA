@@ -57,6 +57,17 @@ public class FileUtils {
 	}
 
 	/**
+	 * 工具方法：判断文件是否存在
+	 * 
+	 * @param strFilePath
+	 * @return
+	 */
+	public static boolean isFileExist(String strFilePath) {
+		File f = new File(strFilePath);
+		return f.exists();
+	}
+
+	/**
 	 * 工具方法：从磁盘上读取图片文件，存储到一个BufferedImage对象中
 	 * 
 	 * @param data

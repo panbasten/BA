@@ -72,6 +72,19 @@ public class BIFileSystemService implements BIFileSystemDelegate {
 	}
 
 	@Override
+	public void removeFilesysObject(String category, String id)
+			throws BIException {
+		try {
+			BIFileSystemCategory cate = BIFileSystemCategory
+					.getCategoryByCode(category);
+			cate.getFsAdaptor().deleteRootDirectory(Long.valueOf(id));
+		} catch (Exception e) {
+			log.error("删除文件系统对象失败。", e);
+			throw new BIException("删除文件系统对象失败。");
+		}
+	}
+
+	@Override
 	public void updateFilesysObject(String category, FilesysDirectory dir)
 			throws BIException {
 		try {

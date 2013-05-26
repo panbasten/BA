@@ -195,7 +195,6 @@ public class HTML {
 	public static final String ATTR_STATE_DISABLED = "disabled";
 	public static final String ATTR_STATE_READONLY = "readonly";
 	public static final String ATTR_STATE_ACTIVE = "active";
-	public static final String ATTR_STATE_NOT_DISPLAY = "notDisplay";
 
 	public static final String ATTR_FONT = "font";
 	public static final String ATTR_FONT_FAMILY = "fontFamily";
@@ -469,14 +468,6 @@ public class HTML {
 				attr = attr.trim();
 				attr = PageTemplateInterpolator.evaluate(attr, attrs);
 			}
-		}
-
-		// 如果为空，取默认值
-		if (Utils.isEmpty(attr)) {
-			Object defaultValue = PageTemplateResolverType
-					.getComponentDefaultAttribute(node.getNodeName(), attribute);
-			if (defaultValue != null)
-				attr = String.valueOf(defaultValue);
 		}
 
 		return attr;

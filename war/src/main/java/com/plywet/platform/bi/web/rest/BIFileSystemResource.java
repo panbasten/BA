@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ws.rs.CookieParam;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -118,6 +119,7 @@ public class BIFileSystemResource {
 							ID_EDITOR_CONTENT_NAVI_FILESYS_BP).setData(browse);
 			browseResult.setCmd("flush".equals(act) ? "this.flush"
 					: "widget.BrowsePanel");
+			browseResult.addScript("Plywet.filesys.controlBtn();");
 
 			return AjaxResult.instance().addEntity(fileSysBCResult).addEntity(
 					browseResult).toJSONString();
@@ -169,7 +171,8 @@ public class BIFileSystemResource {
 					.setOperation(Utils.RESULT_OPERATION_CUSTOM).setTargetId(
 							ID_EDITOR_CONTENT_NAVI_FILESYS_BP).setData(browse);
 			browseResult.setCmd("this.flush");
-
+			browseResult.addScript("Plywet.filesys.controlBtn('root');");
+			
 			return AjaxResult.instance().addEntity(fileSysBCResult).addEntity(
 					browseResult).toJSONString();
 		} catch (Exception ex) {
@@ -313,6 +316,7 @@ public class BIFileSystemResource {
 					.setOperation(Utils.RESULT_OPERATION_CUSTOM).setTargetId(
 							ID_EDITOR_CONTENT_NAVI_FILESYS_BP).setData(browse);
 			browseResult.setCmd("this.flush");
+			browseResult.addScript("Plywet.filesys.controlBtn('item');");
 
 			return AjaxResult.instance().addEntity(fileSysBCResult).addEntity(
 					browseResult).toJSONString();
@@ -387,9 +391,9 @@ public class BIFileSystemResource {
 			FilesysDirectory dir = FilesysDirectory.instance().setPath(path)
 					.setDesc(desc).setNotes(notes);
 			filesysService.createFilesysObject(category, dir);
-			am.addMessage("编辑目录成功");
+			am.addMessage("新增目录成功");
 		} catch (Exception e) {
-			am.addErrorMessage("编辑目录出现错误。");
+			am.addErrorMessage("新增目录出现错误。");
 		}
 		return am.toJSONString();
 	}
@@ -451,6 +455,21 @@ public class BIFileSystemResource {
 			am.addMessage("编辑目录成功");
 		} catch (Exception e) {
 			am.addErrorMessage("编辑目录出现错误。");
+		}
+		return am.toJSONString();
+	}
+
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/items/remove/{category}/{id}")
+	public String remove(@PathParam("category") String category,
+			@PathParam("id") String id) throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			filesysService.removeFilesysObject(category, id);
+			am.addMessage("删除目录成功");
+		} catch (Exception e) {
+			am.addErrorMessage("删除目录出现错误。");
 		}
 		return am.toJSONString();
 	}

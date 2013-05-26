@@ -146,20 +146,6 @@ public abstract class SimpleComponentMeta extends BaseComponentMeta implements
 	 * 
 	 * @param display
 	 */
-	public void setNotDisplay(boolean notDisplay) {
-		checkState();
-		state.put(HTML.ATTR_STATE_NOT_DISPLAY, notDisplay);
-	}
-
-	public void notDisplay() {
-		setNotDisplay(true);
-	}
-
-	/**
-	 * 定义是否显示
-	 * 
-	 * @param display
-	 */
 	public void setActive(boolean active) {
 		checkState();
 		state.put(HTML.ATTR_STATE_ACTIVE, active);

@@ -1,5 +1,6 @@
 package com.plywet.platform.bi.web.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -107,6 +108,14 @@ public class AjaxResultEntity {
 
 	public AjaxResultEntity setScript(List<String> script) {
 		this.script = script;
+		return this;
+	}
+
+	public AjaxResultEntity addScript(String script) {
+		if (this.script == null) {
+			this.script = new ArrayList<String>();
+		}
+		this.script.add(script);
 		return this;
 	}
 

@@ -1,0 +1,471 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>暴风影音HD WIFI传输</title>
+<link href="scripts/uploadify.css" rel="stylesheet" type="text/css"
+	media="screen" />
+<style type="text/css">
+html,body,div,p,fieldset,input,button,input,h1,h2,h3,fieldset,form {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset,img {
+	border: 0;
+}
+
+em {
+	font-style: normal;
+}
+
+body {
+	text-align: left;
+	font: 12px/2 微软雅黑,Tahoma,Helvetica,Arial,宋体,sans-serif;
+	color: #4D4D4D;
+	background-color: #FFFFFF
+}
+
+.t_ipt,.btn,.point,.t_file,.uploadifyButton,#bt input,.uploadifyError,.uploadifyQueue .completed,.uploadifyQueueItem,.file_box_head,.file_box_bom,.op_del
+	{
+	background: url(images/bg.jpg) -999em -999em no-repeat;
+}
+
+.toclose {
+	text-indent: -999em;
+	overflow: hidden;
+	display: block;
+}
+
+.t_ipt {
+	overflow: hidden;
+	width: 290px;
+	height: 26px;
+	line-height: 26px;
+	padding: 4px 13px 4px 7px;
+	font-size: 14px;
+	vertical-align: middle;
+	margin-right: 8px;
+	float: left;
+	background-position: 0 0
+}
+
+.t_ipt input {
+	border: none;
+	background: none;
+	width: 292px;
+	height: 24px;
+	line-height: 24px;
+	color: #7D7D7D
+}
+
+.btn,.t_ipt input,input,.uploadifyButton {
+	border: none;
+	font-family: 微软雅黑,Tahoma,Helvetica,Arial,宋体,sans-serif;
+}
+
+.btn,#bt input {
+	cursor: pointer;
+	color: #353535
+}
+
+.fbd {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+	cursor: default;
+}
+
+.obtn,#bt input {
+	margin-top: 10px;
+	width: 120px;
+	height: 41px;
+	background-position: -185px -40px;
+	font-size: 14px;
+	padding-left: 30px;
+}
+
+.cont {
+	width: 582px;
+	margin: 0 auto;
+	padding-left: 150px;
+}
+
+.header {
+	margin-top: 0px;
+	border-bottom: 0px
+}
+
+.header .cont {
+	position: relative;
+	bottom: -1px;
+	height: 214px;
+	border-bottom: 1px solid #FFFFFF;
+	padding-left: 209px;
+	width: 680px;
+	background: url(images/wifi-logo.png) no-repeat 147px 50%;
+}
+
+.header h1 {
+	position: absolute;
+	padding-top: 120px;
+	padding-left: 115px;
+	font-size: 30px;
+	color: #FFFFFF
+}
+
+.header h2 {
+	position: absolute;
+	padding-top: 160px;
+	padding-left: 115px;
+	font-size: 18px;
+	color: #AEFF00
+}
+
+.point,#text {
+	display: block;
+	overflow: hidden;
+	width: 240px;
+	clear: both;
+	height: 24px;
+	line-height: 24px;
+	font-size: 14px;
+	margin-top: 4px;
+	background-position: -99px -207px;
+	color: #CA8A00
+}
+
+.point_err {
+	padding-left: 25px;
+	background-position: -315px 0;
+	color: #B42323
+}
+
+.point_ok {
+	background-position: -99px -255px;
+	color: #49A300
+}
+
+.uploadify {
+	margin-bottom: 8px;
+}
+
+.upbox {
+	position: relative;
+	width: 389px;
+	height: 34px
+}
+
+.demo-box {
+	position: relative
+}
+
+.info_box {
+	height: 94px
+}
+
+.t_file,.fileName {
+	padding-left: 25px;
+}
+
+.t_file_uping {
+	background: url(images/loading.gif) 0 50% no-repeat;
+	margin-top: 31px
+}
+
+.t_file_ok {
+	background-position: -315px -24px
+}
+
+.data {
+	margin-left: 8px;
+	color: #2874FF;
+	font-weight: normal;
+}
+
+.type-file-file {
+	position: absolute;
+	top: 0;
+	right: 0; *
+	right: -4px;
+	height: 34px;
+	line-height: 34px;
+	filter: alpha(opacity : 0);
+	opacity: 0;
+	width: 389px
+}
+
+.upbox2 {
+	width: 71px;
+	height: 128px
+}
+
+#bt {
+	display: block;
+}
+
+.uploadify {
+	float: left;
+}
+
+.uploadifyQueueItem {
+	clear: both
+}
+
+#text {
+	position: absolute;
+	top: 42px;
+	width: auto;
+}
+
+.fileName {
+	display: inline
+}
+
+.c_over {
+	color: #49A300
+}
+
+.c_uping {
+	color: #2874FF
+}
+
+#file_upload {
+	margin-bottom: 10px;
+	margin-top: 15px;
+	height: 40px !important;
+	float: none
+}
+
+#file_upload_button {
+	display: block;
+	width: 89px;
+	height: 34px;
+	line-height: 33px;
+	background-position: 0 -40px;
+	text-indent: 16px;
+	color: #353535;
+	padding: 0
+}
+
+#file_upload_queue {
+	width: 484px;
+	margin-bottom: 10px;
+	clear: both;
+}
+
+.file_box_head {
+	width: 484px;
+	height: 30px;
+	background-position: 0 -109px;
+	background-color: #D4DAE0;
+}
+
+.file_box_head h3 {
+	width: 484px;
+	padding-top: 0;
+	line-height: 30px;
+	text-indent: 12px;
+	font-size: 14px;
+	font-weight: normal;
+	background-color: #D4DAE0;
+}
+
+.uploadifyQueueItem {
+	position: relative;
+	height: 23px;
+	width: 482px;
+	max-width: 484px;
+	padding: 5px 0;
+	margin: 0;
+	background-color: #F9F9F9;
+	border-radius: 0;
+	text-shadow: 1px 1px 0 #E7E7E7
+}
+
+.uploadifyProgress {
+	display: none
+}
+
+.fileName {
+	position: absolute;
+	top: 5px;
+	left: 2px;
+	width: 250px;
+	height: 18px;
+	overflow: hidden;
+	display: block;
+	padding-left: 8px;
+	font: 12px/2 微软雅黑,Tahoma,Helvetica,Arial,宋体,sans-serif;
+}
+
+.data {
+	position: absolute;
+	top: 6px;
+	left: 235px;
+	width: 170px;
+	text-align: center;
+	font-size: 12px
+}
+
+.cancel {
+	position: absolute;
+	top: 4px;
+	left: 397px;
+	font-size: 12px
+}
+
+.cancel img {
+	vertical-align: middle;
+	margin-right: 4px
+}
+
+.cancel a {
+	background-position: -462px -69px;
+	color: #4F4E4E;
+	text-decoration: none
+}
+
+.cancel a:hover {
+	color: #B42323
+}
+
+.jscroll-e {
+	background-color: #F9F9F9 !important;
+}
+
+.file_box {
+	width: 484px;
+	margin-bottom: 10px;
+	clear: both;
+}
+
+.file_box_cont {
+	width: 482px;
+	position: relative;
+	height: 170px;
+	overflow: hidden;
+	border-bottom-width: 0;
+	background-color: #F9F9F9;
+	padding-top: 5px;
+	border-right: 1px solid #D9D9D9;
+	border-left: 1px solid #D9D9D9;
+	border-top-width: 0
+}
+
+.file_box_bom {
+	display: block;
+	height: 10px;
+	overflow: hidden;
+	background-position: 0 -95px;
+}
+
+.jspDrag,.jspDrag div {
+	border: none !important;
+	display: block;
+	width: 5px !important;
+	overflow: hidden;
+	background: #8C8C8C url(images/scrollbar.png) no-repeat !important;
+}
+
+.jspDrag div {
+	background: url(images/scrollbar.png) no-repeat -5px bottom !important;
+	height: 100% !important;
+}
+</style>
+<script src="scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="scripts/jquery.uploadify.js"></script>
+<script type="text/javascript" src="scripts/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="scripts/jquery.jscrollpane.js"></script>
+<link type="text/css" href="scripts/jquery.jscrollpane.css"
+	rel="stylesheet" media="all" />
+
+</head>
+<body>
+
+<script type="text/javascript">
+				$(function() {
+				$('#file_upload').uploadify({
+								  'swf'  : 'images/uploadify.swf',
+								  'uploader':'scripts/uploadify.html',
+								  'checkExisting':false,
+								  'fileTypeExts':'*.*',
+								  'fileTypeDesc': '请选择*',
+								  'debug':false,
+								  'cancelImage' : 'images/cancel.png',
+								  'removeCompleted':false,
+								  'removeTimeout': 0.1,
+								  'auto':false,
+								  'multi':true,
+								  'requeueErrors':false,
+								  'queueID': 'upload_queue',
+								  'width':120,
+								  'height':30,
+								  'buttonText':"添加文件",
+								  'onSelect': function(file){
+                                            if(file.size>=2*1024*1024*1024-1024){
+                                            alert(file.name+'文件超出2G大小，不支持上传！');
+                                            $('#file_upload').uploadifyCancel(file.id);
+                                            return false;
+                                            }
+								  },
+								  'onUploadStart':function(file){
+								  		button("cancel");
+										$("#error_msg").show();
+								  },
+								  'onDialogClose':function(filesSelected,filesQueued,queueLength){
+								  		jscroll();
+								  },
+								  'onUploadComplete':function(file){
+								  		$('#file_upload').uploadifyUpload();
+								  },
+								  'onUploadProgress':function(file,fileBytesLoaded,fileTotalBytes){
+								  },
+								  'onUploadSuccess':function(file,data,response){
+								  },
+								  'onQueueComplete':function(){
+								  		 button("upload");
+										 $("#error_msg").hide();
+								  }
+								});});
+				function jscroll(){
+					$(function()
+					{
+						$('#filesss').jScrollPane();
+					});
+				}
+				function cancelfile(){
+                    $('#file_upload').uploadifyCancel('*');
+				}
+				function upload(){
+					$('#file_upload').uploadifyUpload('');
+				}
+				function button(type){
+					var upload='<input id="btt" class="btn obtn" type="button" name="btt" value="发送" onclick="upload()" />';
+					var cancel='<input id="btt" class="btn obtn" type="button" name="btt" value="取消" onclick="cancelfile()" />';
+					if(type=="cancel"){
+						$('#bt').html(cancel);
+					}else{
+						$('#bt').html(upload);
+					}
+				}
+				$(function(){
+					button("upload");
+				})
+</script>
+<div class="header">
+<div class="cont">
+<h1>暴风影音HD wifi传输</h1>
+<h2>已链接您的ipad，您可以将媒体文件传输到你的手机上</h2>
+</div>
+</div>
+<div class="main">
+<div class="cont"><input id="file_upload" type="file"
+	name="Filedata" />
+<div class="file_box_head">
+<h3>文件列表</h3>
+</div>
+<div class="file_box_cont scroll-pane" id="filesss">
+<div class="file_list" id="upload_queue"></div>
+</div>
+<span class="file_box_bom"></span> <span id="bt"></span></div>
+</div>
+</html>

@@ -66,6 +66,26 @@ Plywet.editors.toolbarButton = {
 				$(Plywet.escapeClientId(id[i])).addClass("ui-state-disabled").attr("disabled","disabled");
 			}
 		}
+	},
+	
+	show : function(id){
+		if(typeof(id)=="string"){
+			$(Plywet.escapeClientId(id)).show();
+		}else if(id instanceof Array){
+			for(var i=0;i<id.length;i++){
+				$(Plywet.escapeClientId(id[i])).show();
+			}
+		}
+	},
+	
+	hide : function(id){
+		if(typeof(id)=="string"){
+			$(Plywet.escapeClientId(id)).hide();
+		}else if(id instanceof Array){
+			for(var i=0;i<id.length;i++){
+				$(Plywet.escapeClientId(id[i])).hide();
+			}
+		}
 	}
 };
 

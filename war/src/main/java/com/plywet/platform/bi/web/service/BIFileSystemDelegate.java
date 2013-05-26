@@ -59,7 +59,7 @@ public interface BIFileSystemDelegate {
 	 */
 	public void updateFilesysObject(String category, FilesysDirectory dir)
 			throws BIException;
-	
+
 	/**
 	 * 创建文件系统目录
 	 * 
@@ -68,6 +68,16 @@ public interface BIFileSystemDelegate {
 	 * @throws BIException
 	 */
 	public void createFilesysObject(String category, FilesysDirectory dir)
+			throws BIException;
+
+	/**
+	 * 移出文件系统目录
+	 * 
+	 * @param category
+	 * @param id
+	 * @throws BIException
+	 */
+	public void removeFilesysObject(String category, String id)
 			throws BIException;
 
 	/**

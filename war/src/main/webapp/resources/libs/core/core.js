@@ -1201,6 +1201,16 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 						}
 					}
 				}
+			}else{
+				if(opera.script){
+					for(var j=0;j<opera.script.length;j++){
+						try{
+							eval(opera.script[j]);
+						}catch(e){
+							Plywet.Logger.error(opera.script[j]);
+						}
+					}
+				}
 			}
 		}
 	}
