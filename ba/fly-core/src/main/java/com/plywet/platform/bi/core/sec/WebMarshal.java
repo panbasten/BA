@@ -31,9 +31,11 @@ public class WebMarshal {
 	private String build_date;
 	private String build_user;
 
+	private String mac_address;
+
 	private static WebMarshal webMarshal;
 
-	public static final WebMarshal getInstance() {
+	public static final WebMarshal getInstance() throws BISecurityException {
 		if (webMarshal != null)
 			return webMarshal;
 		webMarshal = new WebMarshal();
@@ -41,18 +43,28 @@ public class WebMarshal {
 		return webMarshal;
 	}
 
-	private WebMarshal() {
-		initOsProperty();
-		initBuildVersion();
+	private WebMarshal() throws BISecurityException {
+		try {
+			initOsProperty();
+			initBuildVersion();
+			initMacAddress();
+		} catch (Exception e) {
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.Cann.Get.Machine.Code"));
+		}
 	}
 
-	public void initOsProperty() {
+	private void initMacAddress() throws Exception {
+		this.mac_address = Const.getMACAddress();
+	}
+
+	private void initOsProperty() {
 		this.os_name = System.getProperty(OS_NAME);
 		this.os_arch = System.getProperty(OS_ARCH);
 		this.os_version = System.getProperty(OS_VER);
 	}
 
-	public void initBuildVersion() {
+	private void initBuildVersion() {
 		this.version = BuildVersion.getInstance().getVersion();
 		this.revision = BuildVersion.getInstance().getRevision();
 		this.build_date = BuildVersion.getInstance().getBuildDate();
