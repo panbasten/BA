@@ -17,5 +17,6 @@ public class SignProviderTest extends TestCase {
 
 		v = SignProvider.verify(kg.getPubKey(), PLAIN_TEXT + "1", signText);
 		assertFalse(v);
+		
 	}
 }
