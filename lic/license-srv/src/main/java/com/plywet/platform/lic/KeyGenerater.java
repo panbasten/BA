@@ -18,6 +18,12 @@ public class KeyGenerater {
 
 	private String pubKey;
 
+	public static KeyGenerater instance(String randonKey) {
+		KeyGenerater kg = new KeyGenerater();
+		kg.generater(randonKey);
+		return kg;
+	}
+
 	public void generater(String randonKey) {
 		try {
 
