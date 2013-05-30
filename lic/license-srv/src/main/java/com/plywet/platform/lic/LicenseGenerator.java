@@ -22,6 +22,10 @@ public class LicenseGenerator {
 
 	public static final String MARK_ALL_MAC = "-ALL-";
 
+	public static final String TRIAL_CUSTOMER = "-TRIAL-";
+
+	public static final int TRIAL_EXPIRED_DATE = 15;
+
 	/**
 	 * 用户全称
 	 */
@@ -81,6 +85,14 @@ public class LicenseGenerator {
 		return text;
 	}
 
+	public void setTrialVersion() {
+		this.customerFullName = TRIAL_CUSTOMER;
+		this.macAddress = MARK_ALL_MAC;
+		for (LicenseEnums le : LicenseEnums.values()) {
+			this.addLicense(le.getId(), TRIAL_EXPIRED_DATE);
+		}
+	}
+
 	public String getLicenseText() throws BILicenseException {
 		if (StringUtils.isEmpty(this.customerFullName)) {
 			throw new BILicenseException("Lic.Message.Cannot.Generate.License");
@@ -100,7 +112,7 @@ public class LicenseGenerator {
 
 		// 采用zip压缩获得字节码
 		byte[] zip = zipCompress(text.toString());
-		
+
 		// 使用BASE64转string
 		return Base64.encodeBytes(zip);
 	}
