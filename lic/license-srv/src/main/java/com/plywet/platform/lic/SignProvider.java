@@ -1,4 +1,4 @@
-package com.plywet.platform.bi.core.sec;
+package com.plywet.platform.lic;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

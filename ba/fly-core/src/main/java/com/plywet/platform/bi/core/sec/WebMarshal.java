@@ -1,9 +1,9 @@
 package com.plywet.platform.bi.core.sec;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.pentaho.di.core.Const;
 import org.pentaho.di.i18n.BaseMessages;
@@ -33,6 +33,10 @@ public class WebMarshal {
 
 	private String mac_address;
 
+	private String customerFullName;
+
+	private List<String[]> authModules = new ArrayList<String[]>();
+
 	private static WebMarshal webMarshal;
 
 	public static final WebMarshal getInstance() throws BISecurityException {
@@ -48,23 +52,67 @@ public class WebMarshal {
 			initOsProperty();
 			initBuildVersion();
 			initMacAddress();
+			checkLicense();
+		} catch (BISecurityException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new BISecurityException(BaseMessages.getString(PKG,
 					"Lic.Message.Cann.Get.Machine.Code"));
 		}
 	}
 
-	private void initMacAddress() throws Exception {
-		this.mac_address = Const.getMACAddress();
+	private final void checkLicense() throws BISecurityException {
+		String lic = getLicenseFileString();
+		try {
+			List<String[]> licList = SignProvider.decodeLicense(lic);
+			if (licList == null) {
+				throw new BISecurityException(BaseMessages.getString(PKG,
+						"Lic.Message.Invalid.License"));
+			}
+
+			this.customerFullName = licList.get(0)[0];
+
+			if (!this.mac_address.equalsIgnoreCase(licList.get(0)[1])) {
+				throw new BISecurityException(BaseMessages.getString(PKG,
+						"Lic.Message.Invalid.License"));
+			}
+
+			this.authModules.clear();
+			for (int i = 1; i < licList.size(); i++) {
+				this.authModules.add(licList.get(i));
+			}
+
+		} catch (BISecurityException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.Load.License.Fail"));
+		}
+
 	}
 
-	private void initOsProperty() {
+	private final void initMacAddress() throws BISecurityException {
+
+		try {
+			this.mac_address = Const.getMACAddress();
+		} catch (Exception e) {
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.Cann.Get.Machine.Code"));
+		}
+
+		if (this.mac_address == null) {
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.Cann.Get.Machine.Code"));
+		}
+	}
+
+	private final void initOsProperty() {
 		this.os_name = System.getProperty(OS_NAME);
 		this.os_arch = System.getProperty(OS_ARCH);
 		this.os_version = System.getProperty(OS_VER);
 	}
 
-	private void initBuildVersion() {
+	private final void initBuildVersion() {
 		this.version = BuildVersion.getInstance().getVersion();
 		this.revision = BuildVersion.getInstance().getRevision();
 		this.build_date = BuildVersion.getInstance().getBuildDate();
@@ -76,7 +124,7 @@ public class WebMarshal {
 	 * 
 	 * @throws BISecurityException
 	 */
-	private void getLicenseFile() throws BISecurityException {
+	private final String getLicenseFileString() throws BISecurityException {
 		String licFilePath = Const.getKettleDirectory() + Const.FILE_SEPARATOR
 				+ LIC_FILE_NAME;
 		if (!FileUtils.isFileExist(licFilePath)) {
@@ -84,54 +132,50 @@ public class WebMarshal {
 					"Lic.Message.No.License"));
 		}
 
-	}
-
-	public static boolean checkAppLicense(String licPathName) {
 		try {
-
-			// 获得License文件
-			InputStream fis = FileUtils.getInputStream(licPathName,
-					WebMarshal.class);
-			int nDataPos = 0, nFileLen = fis.available();
-			byte[] data = new byte[nFileLen];
-			if (fis.read(data) != nFileLen) {
-				fis.close();
-				return false;
-			}
-
-			fis.close();
-
-			for (int i = 0; i < nFileLen; i++) {
-				if (data[i] == 0) {
-					nDataPos = i + 1;
-					break;
-				}
-			}
-
-			String strKey = "ufbq2010";
-			SecretKeySpec sksSpec = new SecretKeySpec(strKey.getBytes(),
-					"Blowfish");
-			Cipher cipher = Cipher.getInstance("Blowfish/ECB/PKCS5Padding");
-			cipher.init(javax.crypto.Cipher.DECRYPT_MODE, sksSpec);
-			byte[] result = cipher.doFinal(data, nDataPos, nFileLen - nDataPos);
-			String strResult = new String(result, "UTF-8");
-
-			// System.out.println(strResult);
-			// MAC: A20-D7ED1-D7EEFF
-			// BeginDate: 2010-10-28
-			// UsefulLife: 30
-			// License: XXXXX-XXXXX-XXXXX
-			String lpszAPKInfo, lpszMAC = "", lpszKey = "";
-			// lpszAPKInfo = "APK=" + Comm.GetFileNameFromUrl(strApkPathName,
-			// true);
-			// lpszAPKInfo += ";ID=" + getFileMD5(strApkPathName);
-			int nPos1 = strResult.indexOf("MAC:");
-			int nPos2 = strResult.indexOf('\n', nPos1 + 4);
+			InputStream is = new FileInputStream(licFilePath);
+			return FileUtils.getString(is);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.No.License"));
 		}
 
-		return false;
+	}
+
+	public String getOsName() {
+		return os_name;
+	}
+
+	public String getOsArch() {
+		return os_arch;
+	}
+
+	public String getOsVersion() {
+		return os_version;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public String getRevision() {
+		return revision;
+	}
+
+	public String getBuildDate() {
+		return build_date;
+	}
+
+	public String getBuildUser() {
+		return build_user;
+	}
+
+	public String getCustomerFullName() {
+		return customerFullName;
+	}
+
+	public List<String[]> getAuthModules() {
+		return authModules;
 	}
 
 }

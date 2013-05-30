@@ -56,8 +56,9 @@ public enum LicenseEnums {
 				+ this.code + ".HelpText");
 	}
 
-	public String getLicenseSignText(String userMessage) {
-		return Signaturer.sign(kg.getPriKey(), userMessage + this.code);
+	public String getLicenseSignText(String userMessage, LicenseObject lo) {
+		return Signaturer.sign(kg.getPriKey(), userMessage + this.code
+				+ lo.getExpiredDateString() + lo.getConcurrentString());
 	}
 
 	public int getId() {
@@ -70,6 +71,10 @@ public enum LicenseEnums {
 
 	public String getCode() {
 		return code;
+	}
+
+	public String getCodeBase64() {
+		return Base64.encodeObject(this.code);
 	}
 
 	public String getCategory() {

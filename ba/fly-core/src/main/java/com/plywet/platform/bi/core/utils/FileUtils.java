@@ -4,12 +4,15 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,6 +25,7 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.commons.lang.StringUtils;
+import org.pentaho.di.core.Const;
 
 /**
  * 操作文件系统的工具类
@@ -41,6 +45,35 @@ public class FileUtils {
 			inputStream = new FileInputStream(fileName);
 		}
 		return inputStream;
+	}
+
+	public static String getString(InputStream is) throws IOException {
+		String sLine = null, str = "";
+		InputStreamReader bis = null;
+
+		try {
+
+			bis = new InputStreamReader(new BufferedInputStream(is, 500));
+			BufferedReader buff = new BufferedReader(bis);
+
+			while ((sLine = buff.readLine()) != null) {
+				if (Const.isEmpty(sLine)) {
+					str = str + Const.CR;
+				} else {
+					str = str + Const.CR + sLine;
+				}
+			}
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+				if (bis != null)
+					bis.close();
+			} catch (Exception e) {
+			}
+		}
+
+		return str;
 	}
 
 	/**

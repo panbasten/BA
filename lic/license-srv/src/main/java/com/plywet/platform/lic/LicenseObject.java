@@ -37,12 +37,14 @@ public class LicenseObject {
 	}
 
 	private String getExpiredDateBase64String() {
+		return Base64.encodeObject(getExpiredDateString());
+	}
+
+	public String getExpiredDateString() {
 		if (this.expiredDate == null) {
 			this.expiredDate = new Date();
 		}
-
-		return Base64.encodeObject(StringUtil
-				.getFormattedDateTime(this.expiredDate));
+		return StringUtil.getFormattedDateTime(this.expiredDate);
 	}
 
 	public LicenseObject setConcurrent(int concurrent) {
@@ -51,16 +53,22 @@ public class LicenseObject {
 	}
 
 	private String getConcurrentBase64String() {
-		return Base64.encodeObject(String.valueOf(this.concurrent));
+		return Base64.encodeObject(getConcurrentString());
+	}
+
+	public String getConcurrentString() {
+		return String.valueOf(this.concurrent);
 	}
 
 	public String getLicenseText(String userMessage) throws BILicenseException {
 		if (this.licenseType == null) {
 			throw new BILicenseException("Lic.Message.No.Model");
 		}
-		String text = this.licenseType.getLicenseSignText(userMessage);
+		String text = this.licenseType.getLicenseSignText(userMessage, this);
 		text = text + ",";
 		text = text + this.licenseType.getIdBase64();
+		text = text + ",";
+		text = text + this.licenseType.getCodeBase64();
 		text = text + ",";
 		text = text + getExpiredDateBase64String();
 		text = text + ",";

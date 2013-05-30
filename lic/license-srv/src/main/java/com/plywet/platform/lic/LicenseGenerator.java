@@ -1,7 +1,13 @@
 package com.plywet.platform.lic;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.axis.utils.StringUtils;
 
@@ -71,7 +77,7 @@ public class LicenseGenerator {
 	private String getUserMessage() {
 		String text = Base64.encodeObject(this.customerFullName);
 		text = text + ",";
-		text = Base64.encodeObject(this.macAddress);
+		text = text + Base64.encodeObject(this.macAddress);
 		return text;
 	}
 
@@ -92,7 +98,105 @@ public class LicenseGenerator {
 			text.append(lo.getLicenseText(userMessage));
 		}
 
-		return text.toString();
+		// 采用zip压缩获得字节码
+		byte[] zip = zipCompress(text.toString());
+		
+		// 使用BASE64转string
+		return Base64.encodeBytes(zip);
+	}
+
+	/**
+	 * 压缩字符串为 byte[] 保存为字符串
+	 * 
+	 * @param str
+	 *            压缩前的文本
+	 * @return
+	 */
+	private byte[] zipCompress(String str) {
+		if (str == null)
+			return null;
+
+		byte[] compressed;
+		ByteArrayOutputStream out = null;
+		ZipOutputStream zout = null;
+
+		try {
+			out = new ByteArrayOutputStream();
+			zout = new ZipOutputStream(out);
+			zout.putNextEntry(new ZipEntry("0"));
+			zout.write(str.getBytes());
+			zout.closeEntry();
+			compressed = out.toByteArray();
+		} catch (IOException e) {
+			compressed = null;
+		} finally {
+			if (zout != null) {
+				try {
+					zout.close();
+				} catch (IOException e) {
+				}
+			}
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+
+		return compressed;
+	}
+
+	/**
+	 * 将压缩后的 byte[] 数据解压缩
+	 * 
+	 * @param compressed
+	 *            压缩后的 byte[] 数据
+	 * @return 解压后的字符串
+	 */
+	public String zipDecompress(byte[] compressed) {
+		if (compressed == null)
+			return null;
+
+		ByteArrayOutputStream out = null;
+		ByteArrayInputStream in = null;
+		ZipInputStream zin = null;
+		String decompressed;
+		try {
+			out = new ByteArrayOutputStream();
+			in = new ByteArrayInputStream(compressed);
+			zin = new ZipInputStream(in);
+			zin.getNextEntry();
+			byte[] buffer = new byte[1024];
+			int offset = -1;
+			while ((offset = zin.read(buffer)) != -1) {
+				out.write(buffer, 0, offset);
+			}
+			decompressed = out.toString();
+		} catch (IOException e) {
+			decompressed = null;
+		} finally {
+			if (zin != null) {
+				try {
+					zin.close();
+				} catch (IOException e) {
+				}
+			}
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
+			}
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+
+		return decompressed;
 	}
 
 }
