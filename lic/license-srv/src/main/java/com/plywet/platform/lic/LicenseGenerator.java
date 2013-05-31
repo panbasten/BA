@@ -85,6 +85,14 @@ public class LicenseGenerator {
 		}
 	}
 
+	public void addModuleLicenses(String module) {
+		for (LicenseEnums le : LicenseEnums.values()) {
+			if (le.getCode().startsWith(module)) {
+				this.addLicense(le.getId());
+			}
+		}
+	}
+
 	public LicenseObject addLicense(int id, int expiredDate, int concurrent) {
 		LicenseObject lo = addLicense(id, expiredDate)
 				.setConcurrent(concurrent);

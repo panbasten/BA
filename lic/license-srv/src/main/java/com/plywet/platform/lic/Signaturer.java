@@ -25,7 +25,7 @@ public class Signaturer {
 			Signature signet = java.security.Signature
 					.getInstance("MD5withRSA");
 			signet.initSign(prikey);
-			signet.update(plainText.getBytes());
+			signet.update(Base64.encodeObject(plainText).getBytes());
 			String signed = Base64.encodeBytes(signet.sign());
 			return signed;
 

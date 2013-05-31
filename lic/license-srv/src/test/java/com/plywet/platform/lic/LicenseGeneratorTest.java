@@ -24,8 +24,8 @@ public class LicenseGeneratorTest extends TestCase {
 		LicenseGenerator lg = LicenseGenerator.instance();
 		lg.setCustomerFullName("只用DI的用户");
 		lg.setAllMacAddress();
-		lg.addBaseLicenses();
-		lg.addLicenses(new int[] { 302, 303 }, 30);
+		lg.addModuleLicenses(LicenseEnums.LIC_CATEGORY_SYS);
+		lg.addModuleLicenses(LicenseEnums.LIC_CATEGORY_DI);
 		createLicenseFile(lg, "di");
 	}
 
