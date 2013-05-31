@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.pentaho.di.core.Const;
 
 import com.plywet.platform.bi.core.exception.BISecurityException;
 import com.plywet.platform.bi.core.model.NameValuePair;
@@ -107,7 +108,21 @@ public class FunctionType {
 	}
 
 	public void setAuth() throws BISecurityException {
-		this.auth = WebMarshal.getInstance().checkModuleByCode(moduleCode);
+		if (!moduleCode.contains(",")) {
+			this.auth = WebMarshal.getInstance().checkModuleByCode(moduleCode);
+			return;
+		}
+
+		String[] moduleCodes = moduleCode.split(",");
+		this.auth = "";
+		int idx = 0;
+		while (!this.auth.equals(WebMarshal.CHECK_MODULE_OK)
+				&& idx < moduleCodes.length && !Const.isEmpty(moduleCodes[idx])) {
+			this.auth = WebMarshal.getInstance().checkModuleByCode(
+					moduleCodes[idx]);
+			idx++;
+		}
+
 	}
 
 	public List<FunctionType> getChildren() {

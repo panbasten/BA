@@ -436,6 +436,7 @@ a.active .ui-navi-icon-systools{
 	float: left;
 	margin-left: 15px;
 	padding: 5px;
+	cursor: pointer;
 }
 
 .fly-editor-systools .ui-state-hover{
@@ -445,10 +446,9 @@ a.active .ui-navi-icon-systools{
 .fly-editor-systools .func-item{
 	width: 32px;
 	height: 32px;
-	background: url("../images/entities/CCV.png") no-repeat;
+	background: url("../images/functype/default.png") no-repeat;
 	margin: 0 auto;
 	margin-bottom: 5px;
-	cursor: pointer;
 }
 
 .fly-editor-systools .func-title-con .func-item-text{

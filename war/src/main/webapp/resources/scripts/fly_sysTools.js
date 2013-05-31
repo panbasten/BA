@@ -1,6 +1,7 @@
 Plywet.sysTools = {
 	openTool:function(src){
 		var target = $(src);
+		console.log(target);
 		var data = Plywet.parseJSON(target.attr('ext'));
 		if(!data){
 			return;

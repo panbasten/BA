@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.sec.WebMarshal;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
 import com.plywet.platform.bi.web.entity.AjaxResult;
@@ -55,20 +56,39 @@ public class BISysToolsResource {
 						continue;
 					}
 					for (FunctionType child : children) {
+						if (child.getAuth().equals(WebMarshal.CHECK_MODULE_OK)) {
 
-						sb
-								.append("<div id=\"func_"
-										+ child.getId()
-										+ "\" class=\"func-item-con\" onmouseover=\"$(this).addClass('ui-state-hover')\" onmouseout=\"$(this).removeClass('ui-state-hover')\">");
-						sb
-								.append("<div class=\"func-item\" ext=\""
-										+ child.getExtAttrString()
-										+ "\" onclick='Plywet.sysTools.openTool(this)' style=\"background:url('resources/images/functype/"
-										+ child.getCode()
-										+ ".png') no-repeat\"></div>");
-						sb.append("<div class=\"func-item-text\">"
-								+ child.getDesc() + "</div>");
-						sb.append("</div>");
+							sb
+									.append("<div id=\"func_"
+											+ child.getId()
+											+ "\" class=\"func-item-con\" ext=\""
+											+ child.getExtAttrString()
+											+ "\" title=\""
+											+ child.getDesc()
+											+ "\" onclick=\"Plywet.sysTools.openTool(this)\" onmouseover=\"$(this).addClass('ui-state-hover')\" onmouseout=\"$(this).removeClass('ui-state-hover')\">");
+							sb
+									.append("<div class=\"func-item\" style=\"background:url('resources/images/functype/"
+											+ child.getCode()
+											+ ".png') no-repeat\"></div>");
+							sb.append("<div class=\"func-item-text\">"
+									+ child.getDesc() + "</div>");
+							sb.append("</div>");
+
+						} else {
+							sb
+									.append("<div id=\"func_"
+											+ child.getId()
+											+ "\" class=\"func-item-con ui-state-disabled\" title=\""
+											+ child.getAuth()
+											+ "\">");
+							sb
+									.append("<div class=\"func-item\" style=\"background:url('resources/images/functype/"
+											+ child.getCode()
+											+ ".png') no-repeat\"></div>");
+							sb.append("<div class=\"func-item-text\">"
+									+ child.getDesc() + "</div>");
+							sb.append("</div>");
+						}
 					}
 					sb.append("</div>");
 
