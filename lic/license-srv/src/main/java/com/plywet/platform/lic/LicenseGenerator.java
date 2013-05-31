@@ -24,6 +24,8 @@ public class LicenseGenerator {
 
 	public static final String TRIAL_CUSTOMER = "-TRIAL-";
 
+	public static final String BASE_CUSTOMER = "-BASE-";
+
 	public static final int TRIAL_EXPIRED_DATE = 15;
 
 	/**
@@ -64,6 +66,12 @@ public class LicenseGenerator {
 		return lo;
 	}
 
+	public void addLicenses(int[] ids) {
+		for (int id : ids) {
+			addLicense(id);
+		}
+	}
+
 	public LicenseObject addLicense(int id, int expiredDate) {
 		LicenseObject lo = LicenseObject.instance().setExpiredDate(expiredDate)
 				.setLicenseType(LicenseEnums.getLicenseEnumById(id));
@@ -71,11 +79,31 @@ public class LicenseGenerator {
 		return lo;
 	}
 
+	public void addLicenses(int[] ids, int expiredDate) {
+		for (int id : ids) {
+			addLicense(id, expiredDate);
+		}
+	}
+
 	public LicenseObject addLicense(int id, int expiredDate, int concurrent) {
 		LicenseObject lo = addLicense(id, expiredDate)
 				.setConcurrent(concurrent);
 		this.licenses.put(id, lo);
 		return lo;
+	}
+
+	public void addLicenses(int[] ids, int expiredDate, int concurrent) {
+		for (int id : ids) {
+			addLicense(id, expiredDate, concurrent);
+		}
+	}
+
+	public void addBaseLicenses() {
+		for (LicenseEnums le : LicenseEnums.values()) {
+			if (le.getCode().contains("Base")) {
+				this.addLicense(le.getId());
+			}
+		}
 	}
 
 	private String getUserMessage() {
@@ -91,6 +119,13 @@ public class LicenseGenerator {
 		for (LicenseEnums le : LicenseEnums.values()) {
 			this.addLicense(le.getId(), TRIAL_EXPIRED_DATE);
 		}
+	}
+
+	public void setBaseVersion() {
+		this.customerFullName = BASE_CUSTOMER;
+		this.macAddress = MARK_ALL_MAC;
+
+		this.addBaseLicenses();
 	}
 
 	public String getLicenseText() throws BILicenseException {

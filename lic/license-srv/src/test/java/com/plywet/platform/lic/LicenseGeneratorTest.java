@@ -9,14 +9,31 @@ import junit.framework.TestCase;
 public class LicenseGeneratorTest extends TestCase {
 
 	public void testCreateTrialLicenseFile() {
-
 		LicenseGenerator lg = LicenseGenerator.instance();
 		lg.setTrialVersion();
+		createLicenseFile(lg, "trial");
+	}
 
+	public void testCreateBaseLicenseFile() {
+		LicenseGenerator lg = LicenseGenerator.instance();
+		lg.setBaseVersion();
+		createLicenseFile(lg, "base");
+	}
+
+	public void testCreateLicenseFile() {
+		LicenseGenerator lg = LicenseGenerator.instance();
+		lg.setCustomerFullName("只用DI的用户");
+		lg.setAllMacAddress();
+		lg.addBaseLicenses();
+		lg.addLicenses(new int[] { 302, 303 }, 30);
+		createLicenseFile(lg, "di");
+	}
+
+	private void createLicenseFile(LicenseGenerator lg, String subfix) {
 		try {
 			String lic = lg.getLicenseText();
 
-			File licFile = new File("c:/_d/ba.lic");
+			File licFile = new File("c:/_d/ba.lic." + subfix);
 			if (licFile.exists()) {
 				licFile.delete();
 			}
