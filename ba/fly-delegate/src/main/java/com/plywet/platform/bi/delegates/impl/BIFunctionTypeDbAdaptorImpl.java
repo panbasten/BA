@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
-import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 
 import com.plywet.platform.bi.core.model.NameValuePair;
@@ -23,21 +22,6 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 	private final Logger logger = Logger
 			.getLogger(BIFunctionTypeDbAdaptorImpl.class);
 
-	/*
-	 * @Override public List<Object[]> getFunctionLevelOne() throws
-	 * DIKettleException { try { String sql = "SELECT " +
-	 * quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE) + "," +
-	 * quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE) + "," +
-	 * quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION) +
-	 * " FROM " + quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE) +
-	 * " WHERE " +
-	 * quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT) +
-	 * " = 0" + " ORDER BY " +
-	 * quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX); return
-	 * getRows(sql); } catch (KettleException e) { throw new
-	 * DIKettleException(e); } }
-	 */
-
 	@Override
 	public List<FunctionType> getFunctionByParent(long id)
 			throws BIKettleException {
@@ -46,6 +30,8 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE
 					+ ","
 					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE
+					+ ","
+					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE
 					+ ","
 					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION
 					+ ","
@@ -77,6 +63,11 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 										KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE,
 										null));
 				ft
+						.setModuleCode(rmd
+								.getString(
+										KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE,
+										null));
+				ft
 						.setDesc(rmd
 								.getString(
 										KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION,
@@ -104,6 +95,7 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE
 						+ " = " + ft.getId();
 				List<RowMetaAndData> extRmds = getRowsWithMeta(extSql);
+
 				if (!Utils.isEmpty(extRmds)) {
 					for (RowMetaAndData extRmd : extRmds) {
 						NameValuePair pair = new NameValuePair();
@@ -120,10 +112,14 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 						ft.addExtAttr(pair);
 					}
 				}
+
+				// 添加权限
+				ft.setAuth();
+
 				fts.add(ft);
 			}
 			return fts;
-		} catch (KettleException e) {
+		} catch (Exception e) {
 			logger.error("get function type exception:", e);
 			throw new BIKettleException(e);
 		}

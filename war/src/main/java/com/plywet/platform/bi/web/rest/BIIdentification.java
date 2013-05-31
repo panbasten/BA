@@ -17,6 +17,8 @@ import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.exception.BISecurityException;
+import com.plywet.platform.bi.core.sec.WebMarshal;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
@@ -55,6 +57,12 @@ public class BIIdentification {
 			repository = paramContext.getParameter("repository");
 			String username = paramContext.getParameter("username");
 			String password = paramContext.getParameter("password");
+
+			try {
+				WebMarshal.getInstance();
+			} catch (BISecurityException e) {
+				am.addErrorMessage(e.getMessage().trim());
+			}
 
 			if (Utils.isEmpty(repository)) {
 				am.addErrorMessage("请选择一个资源库");

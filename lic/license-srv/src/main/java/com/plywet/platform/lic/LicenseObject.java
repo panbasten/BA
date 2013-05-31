@@ -62,7 +62,7 @@ public class LicenseObject {
 
 	public String getLicenseText(String userMessage) throws BILicenseException {
 		if (this.licenseType == null) {
-			throw new BILicenseException("Lic.Message.No.Model");
+			throw new BILicenseException("Lic.Message.No.Module");
 		}
 		String text = this.licenseType.getLicenseSignText(userMessage, this);
 		text = text + ",";

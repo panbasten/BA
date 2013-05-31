@@ -2,10 +2,14 @@ package com.plywet.platform.bi.core.sec;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.version.BuildVersion;
 
@@ -20,7 +24,12 @@ public class WebMarshal {
 	public static final String OS_ARCH = "os.arch";
 	public static final String OS_VER = "os.version";
 
-	public static final String LIC_FILE_NAME = "ba.lic";
+	private static final String LIC_FILE_NAME = "ba.lic";
+	private static final String MARK_ALL_MAC = "-ALL-";
+
+	public static final String TRIAL_CUSTOMER = "-TRIAL-";
+	
+	public static final String CHECK_MODULE_OK = "OK";
 
 	private String os_name;
 	private String os_arch;
@@ -35,14 +44,21 @@ public class WebMarshal {
 
 	private String customerFullName;
 
-	private List<String[]> authModules = new ArrayList<String[]>();
+	private Map<Integer, LicenseControlObject> authModuleById = new HashMap<Integer, LicenseControlObject>();
+	private Map<String, LicenseControlObject> authModuleByCode = new HashMap<String, LicenseControlObject>();
 
 	private static WebMarshal webMarshal;
 
 	public static final WebMarshal getInstance() throws BISecurityException {
 		if (webMarshal != null)
 			return webMarshal;
-		webMarshal = new WebMarshal();
+
+		try {
+			webMarshal = new WebMarshal();
+		} catch (BISecurityException e) {
+			webMarshal = null;
+			throw e;
+		}
 
 		return webMarshal;
 	}
@@ -61,6 +77,44 @@ public class WebMarshal {
 		}
 	}
 
+	public String checkModuleById(int id) {
+		LicenseControlObject lco = authModuleById.get(Integer.valueOf(id));
+		if (lco != null) {
+			if (lco.getExpiredDate().compareTo(new Date()) > 0) {
+				return CHECK_MODULE_OK;
+			}
+			return BaseMessages.getString(PKG,
+					"Lic.Message.Extended.Auth.Module");
+		}
+		return BaseMessages.getString(PKG, "Lic.Message.No.Auth.Module");
+	}
+
+	public boolean isModuleById(int id) {
+		if (CHECK_MODULE_OK.equals(checkModuleById(id))) {
+			return true;
+		}
+		return false;
+	}
+
+	public String checkModuleByCode(String code) {
+		LicenseControlObject lco = authModuleByCode.get(code);
+		if (lco != null) {
+			if (lco.getExpiredDate().compareTo(new Date()) > 0) {
+				return CHECK_MODULE_OK;
+			}
+			return BaseMessages.getString(PKG,
+					"Lic.Message.Extended.Auth.Module");
+		}
+		return BaseMessages.getString(PKG, "Lic.Message.No.Auth.Module");
+	}
+
+	public boolean isModuleByCode(String code) {
+		if (CHECK_MODULE_OK.equals(checkModuleByCode(code))) {
+			return true;
+		}
+		return false;
+	}
+
 	private final void checkLicense() throws BISecurityException {
 		String lic = getLicenseFileString();
 		try {
@@ -72,14 +126,19 @@ public class WebMarshal {
 
 			this.customerFullName = licList.get(0)[0];
 
-			if (!this.mac_address.equalsIgnoreCase(licList.get(0)[1])) {
+			if (!this.mac_address.equalsIgnoreCase(licList.get(0)[1])
+					&& !MARK_ALL_MAC.equals(licList.get(0)[1])) {
 				throw new BISecurityException(BaseMessages.getString(PKG,
 						"Lic.Message.Invalid.License"));
 			}
 
-			this.authModules.clear();
+			this.authModuleById.clear();
+			this.authModuleByCode.clear();
 			for (int i = 1; i < licList.size(); i++) {
-				this.authModules.add(licList.get(i));
+				LicenseControlObject lco = new LicenseControlObject(licList
+						.get(i));
+				this.authModuleById.put(Integer.valueOf(lco.getId()), lco);
+				this.authModuleByCode.put(lco.getCode(), lco);
 			}
 
 		} catch (BISecurityException e) {
@@ -174,8 +233,36 @@ public class WebMarshal {
 		return customerFullName;
 	}
 
-	public List<String[]> getAuthModules() {
-		return authModules;
+	class LicenseControlObject {
+		private int id;
+		private String code;
+
+		private Date expiredDate;
+		private int concurrent = -1;
+
+		public LicenseControlObject(String[] lic) throws ParseException {
+			this.id = Integer.valueOf(lic[0]);
+			this.code = lic[1];
+			this.expiredDate = StringUtil.getParseDateTime(lic[2]);
+			this.concurrent = Integer.valueOf(lic[3]);
+		}
+
+		public int getId() {
+			return id;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public Date getExpiredDate() {
+			return expiredDate;
+		}
+
+		public int getConcurrent() {
+			return concurrent;
+		}
+
 	}
 
 }

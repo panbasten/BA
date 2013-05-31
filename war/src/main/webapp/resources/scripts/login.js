@@ -49,6 +49,11 @@ Plywet.Login = {
 		Plywet.ab({
 			formId: "login",
 			formAction: "rest/identification",
+			beforeSend : function(){
+				$("#loginBtn").attr("disabled","disabled")
+					.addClass("ui-login-button-disabled");
+				$("#errors").html("正在登陆...");
+			},
 			onsuccess: function(data, status, xhr){
 				if(data.state == 0){
 					var cookieJson = Plywet.parseJSON(data.data);
@@ -68,10 +73,14 @@ Plywet.Login = {
 					var msg = "";
 					if(data.messages){
 						for(var i=0;i<data.messages.length;i++){
-							msg = msg + data.messages[i] + "<br/>";
+							msg = msg + "&#9830;" + data.messages[i] + "<br/>";
 						}
 					}
 					$("#errors").html(msg);
+					$("#loginBtn").removeAttr("disabled")
+						.blur()
+						.removeClass("ui-login-button-disabled")
+						.removeClass("ui-login-button-hover");
 				}
 				return true;
 			}

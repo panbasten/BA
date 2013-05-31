@@ -4,6 +4,7 @@
 	<component>fly-base-composition.xml</component>
 	<component>fly-base-foreach.xml</component>
 	<component>fly-base-include.xml</component>
+	<component>fly-base-test.xml</component>
 	
 	<!-- spacers -->
 	<component>fly-horizontalspacer.xml</component>

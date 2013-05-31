@@ -3,37 +3,51 @@ package com.plywet.platform.lic;
 import org.pentaho.di.i18n.BaseMessages;
 
 public enum LicenseEnums {
+	SYS_BASE(1, "SYS.Base", LicenseEnums.LIC_CATEGORY_SYS) {
+	},
+	SYS_ADVANCE(2, "SYS.Advance", LicenseEnums.LIC_CATEGORY_SYS) {
+	},
 	DB_BASE(101, "DB.Base", LicenseEnums.LIC_CATEGORY_DB) {
 	},
-	DI_BASE(201, "DI.Base", LicenseEnums.LIC_CATEGORY_DI) {
+	DB_ADVANCE(102, "DB.Advance", LicenseEnums.LIC_CATEGORY_DB) {
 	},
-	DI_TRANS_EDITOR(202, "DI.Trans.Editor", LicenseEnums.LIC_CATEGORY_DI) {
+	DOMAIN_BASE(201, "DN.Base", LicenseEnums.LIC_CATEGORY_DN) {
 	},
-	DI_JOB_EDITOR(203, "DI.Job.Editor", LicenseEnums.LIC_CATEGORY_DI) {
+	DOMAIN_META(202, "DN.Meta", LicenseEnums.LIC_CATEGORY_DN) {
 	},
-	BA_BASE(301, "BA.Base", LicenseEnums.LIC_CATEGORY_BA) {
+	DOMAIN_OLAP(203, "DN.Olap", LicenseEnums.LIC_CATEGORY_DN) {
 	},
-	BA_REPORT_EDITOR(302, "BA.Report.Editor", LicenseEnums.LIC_CATEGORY_BA) {
+	DI_BASE(301, "DI.Base", LicenseEnums.LIC_CATEGORY_DI) {
 	},
-	BA_PIVOT_REPORT_EDITOR(303, "BA.PivotReport.Editor",
+	DI_TRANS_EDITOR(302, "DI.Trans.Editor", LicenseEnums.LIC_CATEGORY_DI) {
+	},
+	DI_JOB_EDITOR(303, "DI.Job.Editor", LicenseEnums.LIC_CATEGORY_DI) {
+	},
+	BA_BASE(401, "BA.Base", LicenseEnums.LIC_CATEGORY_BA) {
+	},
+	BA_REPORT_EDITOR(402, "BA.Report.Editor", LicenseEnums.LIC_CATEGORY_BA) {
+	},
+	BA_OLAP_REPORT_EDITOR(403, "BA.OlapReport.Editor",
 			LicenseEnums.LIC_CATEGORY_BA) {
 	},
-	BA_WORD_REPORT_EDITOR(304, "BA.WordReport.Editor",
+	BA_WORD_REPORT_EDITOR(404, "BA.WordReport.Editor",
 			LicenseEnums.LIC_CATEGORY_BA) {
 	},
-	BA_DASHBOARD_EDITOR(305, "BA.DashBoard.Editor",
+	BA_DASHBOARD_EDITOR(405, "BA.DashBoard.Editor",
 			LicenseEnums.LIC_CATEGORY_BA) {
 	},
-	FS_BASE(401, "FS.Base", LicenseEnums.LIC_CATEGORY_FS) {
+	FS_BASE(501, "FS.Base", LicenseEnums.LIC_CATEGORY_FS) {
 	},
-	FS_LOCAL_EDITOR(402, "FS.Local.Editor", LicenseEnums.LIC_CATEGORY_FS) {
+	FS_LOCAL(502, "FS.Local", LicenseEnums.LIC_CATEGORY_FS) {
 	},
-	FS_FTP_EDITOR(403, "FS.FTP.Editor", LicenseEnums.LIC_CATEGORY_FS) {
+	FS_FTP(503, "FS.FTP", LicenseEnums.LIC_CATEGORY_FS) {
 	};
 
 	private static final String KEY = "PLYWET@2013";
 
+	public static final String LIC_CATEGORY_SYS = "SYS";
 	public static final String LIC_CATEGORY_DB = "DB";
+	public static final String LIC_CATEGORY_DN = "DN";
 	public static final String LIC_CATEGORY_DI = "DI";
 	public static final String LIC_CATEGORY_BA = "BA";
 	public static final String LIC_CATEGORY_FS = "FS";

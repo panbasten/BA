@@ -382,6 +382,7 @@ public class KettleDatabaseRepositoryBase {
 	public static final String TABLE_R_FUNC_TYPE = "R_FUNC_TYPE";
 	public static final String FIELD_FUNC_TYPE_ID_FUNC_TYPE = "ID_FUNC_TYPE";
 	public static final String FIELD_FUNC_TYPE_CODE = "CODE";
+	public static final String FIELD_FUNC_TYPE_MODULE_CODE = "MODULE_CODE";
 	public static final String FIELD_FUNC_TYPE_DESCRIPTION = "DESCRIPTION";
 	public static final String FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT = "ID_FUNC_TYPE_PARENT";
 	public static final String FIELD_FUNC_TYPE_HELPTEXT = "HELPTEXT";

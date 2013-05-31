@@ -42,7 +42,7 @@ public class BIBaseResource {
 		try {
 			List<FunctionType> funcs = pageDelegates
 					.getNavigatorsLevelOne(repository);
-
+			
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("editorId", ID_EDITOR_NAVIS);
 			attrsMap.addVariable("browseEntities", funcs);

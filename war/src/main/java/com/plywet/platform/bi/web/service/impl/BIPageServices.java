@@ -118,6 +118,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 				.createAdaptor(BIFunctionTypeAdaptor.class);
 		List<FunctionType> functionTypes = functionTypeDelegate
 				.getFunctionByParent(0L);
+		
 		return functionTypes;
 	}
 

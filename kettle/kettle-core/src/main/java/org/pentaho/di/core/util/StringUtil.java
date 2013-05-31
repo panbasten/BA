@@ -29,6 +29,7 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -529,6 +530,11 @@ public class StringUtil
 		return getFormattedDateTime(date, false);
 	}
 	
+	public static Date getParseDateTime(String date) throws ParseException
+	{
+		return getParseDateTime(date, false);
+	}
+	
 	/**
 	 * Giving back a date/time string in the format following the rule
 	 * from the most to the least significant
@@ -545,6 +551,17 @@ public class StringUtil
 			dateFormat = new SimpleDateFormat(Const.GENERALIZED_DATE_TIME_FORMAT);
 		}
 		return dateFormat.format(date);
+	}
+	
+	public static Date getParseDateTime(String date, boolean milliseconds) throws ParseException
+	{
+		DateFormat dateFormat =null;
+		if (milliseconds) {
+			dateFormat = new SimpleDateFormat(Const.GENERALIZED_DATE_TIME_FORMAT_MILLIS);
+		} else {
+			dateFormat = new SimpleDateFormat(Const.GENERALIZED_DATE_TIME_FORMAT);
+		}
+		return dateFormat.parse(date);
 	}
 	
 	/**

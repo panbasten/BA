@@ -81,6 +81,13 @@ label {
     box-shadow: 0px 0px 0px;
 }
 
+.ui-login-button-disabled {
+	color: #FFFFFF;
+    background:url("../images/login/button.disabled.bg.png") no-repeat !important;
+    box-shadow: 0px 0px 0px;
+    cursor: auto !important;
+}
+
 #document {
 	background:url("../images/login/center.bg.png") no-repeat;
 	width: 955px;
@@ -279,6 +286,7 @@ div.section {
 	text-align: left;
 	float:left;
 	width: 100px;
+	height: 25px;
 }
 .ui-loging-title{
 	width: 75px;

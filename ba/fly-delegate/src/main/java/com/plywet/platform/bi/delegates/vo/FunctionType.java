@@ -5,16 +5,21 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.plywet.platform.bi.core.exception.BISecurityException;
 import com.plywet.platform.bi.core.model.NameValuePair;
+import com.plywet.platform.bi.core.sec.WebMarshal;
 import com.plywet.platform.bi.core.utils.Utils;
 
 public class FunctionType {
 	private long id;
 	private String code;
+	private String moduleCode;
 	private String desc;
 	private long parentId;
 	private String helpText;
 	private int index;
+
+	private String auth;
 
 	private List<FunctionType> children = new ArrayList<FunctionType>();
 	private List<NameValuePair> extAttrs = new ArrayList<NameValuePair>();
@@ -57,6 +62,14 @@ public class FunctionType {
 		this.code = code;
 	}
 
+	public String getModuleCode() {
+		return moduleCode;
+	}
+
+	public void setModuleCode(String moduleCode) {
+		this.moduleCode = moduleCode;
+	}
+
 	public String getDesc() {
 		return desc;
 	}
@@ -87,6 +100,14 @@ public class FunctionType {
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+
+	public String getAuth() {
+		return auth;
+	}
+
+	public void setAuth() throws BISecurityException {
+		this.auth = WebMarshal.getInstance().checkModuleByCode(moduleCode);
 	}
 
 	public List<FunctionType> getChildren() {
