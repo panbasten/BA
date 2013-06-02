@@ -723,3 +723,44 @@ div.ui-fs-sftp-icon {
 	position: absolute;
 	margin: 0;
 }
+
+.fly-systools-about-title {
+	background: url("../images/default/about_title.png") no-repeat;
+}
+
+.fly-systools-about-bold{
+	font-size: larger;
+	font-weight: bold;
+}
+
+.fly-module-icon {
+	width:54px;
+	height:50px;
+	margin:5px;
+	float:left;
+}
+
+.fly-module-icon-disabled {
+	opacity: .3;
+    filter: Alpha(Opacity=30);
+}
+
+.fly-module-icon-db {
+	background: url("../images/modules/db.png") no-repeat;
+}
+
+.fly-module-icon-dn {
+	background: url("../images/modules/dn.png") no-repeat;
+}
+
+.fly-module-icon-di {
+	background: url("../images/modules/di.png") no-repeat;
+}
+
+.fly-module-icon-ba {
+	background: url("../images/modules/ba.png") no-repeat;
+}
+
+.fly-module-icon-fs {
+	background: url("../images/modules/fs.png") no-repeat;
+}

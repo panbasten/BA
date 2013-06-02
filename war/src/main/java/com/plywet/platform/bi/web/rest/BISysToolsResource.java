@@ -11,10 +11,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.i18n.BaseMessages;
 import org.springframework.stereotype.Service;
 
+import com.plywet.platform.bi.component.utils.FLYVariableResolver;
+import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.sec.WebMarshal;
+import com.plywet.platform.bi.core.utils.DateUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
 import com.plywet.platform.bi.web.entity.AjaxResult;
@@ -28,8 +32,12 @@ public class BISysToolsResource {
 
 	private static final String ID_EDITOR_CONTENT_NAVI_SYSTOOLS_BP = "editorContent-navi-systools-bp";
 
+	private static final String ABOUT_TEMPLATE = "editor/sys/about.h";
+
 	@Resource(name = "bi.service.pageServices")
 	private BIPageDelegates pageDelegates;
+
+	private static Class<?> PKG = BISysToolsResource.class;
 
 	@GET
 	@Path("/navi")
@@ -79,8 +87,7 @@ public class BISysToolsResource {
 									.append("<div id=\"func_"
 											+ child.getId()
 											+ "\" class=\"func-item-con ui-state-disabled\" title=\""
-											+ child.getAuth()
-											+ "\">");
+											+ child.getAuth() + "\">");
 							sb
 									.append("<div class=\"func-item\" style=\"background:url('resources/images/functype/"
 											+ child.getCode()
@@ -111,6 +118,76 @@ public class BISysToolsResource {
 		} catch (Exception ex) {
 			logger.error("创建导航的功能内容页面出现错误。");
 			throw new BIException("创建导航的功能内容页面出现错误。", ex);
+		}
+	}
+
+	@GET
+	@Path("/about")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openSetting(@CookieParam("repository") String repository,
+			@QueryParam("targetId") String targetId) throws BIException {
+		try {
+
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+
+			WebMarshal wm = WebMarshal.getInstance();
+
+			String ver = BaseMessages.getString(PKG,
+					"Page.SysTools.About.License.Version", wm
+							.getLicVersionString());
+			attrsMap.addVariable("licVersion", ver);
+
+			int diff = DateUtils.diffDays(wm.getMinValidDate());
+
+			String validDays = "";
+			if (diff > 1000 || diff < 0) {
+			} else {
+				validDays = BaseMessages.getString(PKG,
+						"Page.SysTools.About.License.Valid.Days", String
+								.valueOf(diff));
+			}
+			attrsMap.addVariable("validDays", validDays);
+
+			attrsMap.addVariable("customer", wm.getCustomerFullName());
+
+			String version = BaseMessages.getString(PKG,
+					"Page.SysTools.About.Server.Version", wm.getVersion());
+			attrsMap.addVariable("version", version);
+
+			String licTerms = BaseMessages.getString(PKG,
+					"Page.SysTools.About.License.Terms");
+			attrsMap.addVariable("licTerms", licTerms);
+
+			String licTo = BaseMessages.getString(PKG,
+					"Page.SysTools.About.License.To");
+			attrsMap.addVariable("licTo", licTo);
+
+			String[] moduleCodes = wm.getModuleCodes();
+			for (int m = 0; m < moduleCodes.length; m++) {
+				moduleCodes[m] = moduleCodes[m].toLowerCase();
+			}
+			attrsMap.addVariable("moduleCodes", moduleCodes);
+			attrsMap.addVariable("moduleValids", wm.getModuleValids());
+			attrsMap.addVariable("moduleHelpTexts", wm.getModuleHelpTexts());
+
+			String[] licCopyright = new String[] {
+					BaseMessages.getString(PKG,
+							"Page.SysTools.About.License.Copyright.Line1"),
+					BaseMessages.getString(PKG,
+							"Page.SysTools.About.License.Copyright.Line2"),
+					BaseMessages.getString(PKG,
+							"Page.SysTools.About.License.Copyright.Line3"),
+					BaseMessages.getString(PKG,
+							"Page.SysTools.About.License.Copyright.Line4"), };
+			attrsMap.addVariable("licCopyright", licCopyright);
+
+			// 返回页面控制
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					ABOUT_TEMPLATE, attrsMap);
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建导航页面出现错误。", ex);
 		}
 	}
 

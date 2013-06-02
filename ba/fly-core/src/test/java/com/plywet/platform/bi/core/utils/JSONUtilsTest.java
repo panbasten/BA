@@ -1,4 +1,4 @@
-package com.plywet.platform.bi.utils;
+package com.plywet.platform.bi.core.utils;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

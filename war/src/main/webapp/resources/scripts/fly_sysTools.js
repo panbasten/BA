@@ -10,7 +10,7 @@ Plywet.sysTools = {
 		var height = data.height||400;
 		var width = data.width||700;
 		
-		var dialogId = target.parent().attr("id") + "_dialog";
+		var dialogId = target.attr("id") + "_dialog";
 		Plywet.cw("Dialog", dialogId+"_var", {
 				id : dialogId,
 				header : data.title,

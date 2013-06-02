@@ -15,6 +15,13 @@ public class AjaxResult {
 		return new AjaxResult();
 	}
 
+	/**
+	 * 实例化Dialog的内容
+	 * 
+	 * @param targetId
+	 * @param domAndScript
+	 * @return
+	 */
 	public static AjaxResult instanceDialogContent(String targetId,
 			Object[] domAndScript) {
 		AjaxResult ar = new AjaxResult();

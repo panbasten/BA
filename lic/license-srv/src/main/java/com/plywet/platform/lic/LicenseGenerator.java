@@ -22,9 +22,13 @@ public class LicenseGenerator {
 
 	public static final String MARK_ALL_MAC = "-ALL-";
 
-	public static final String TRIAL_CUSTOMER = "-TRIAL-";
+	public static final String TRIAL_VERSION = "-TRIAL-";
 
-	public static final String BASE_CUSTOMER = "-BASE-";
+	public static final String BASE_VERSION = "-BASE-";
+
+	public static final String OFFICIAL_VERSION = "-OFFICIAL-";
+
+	public static final String UNREGISTERED_CUSTOMER = "-UNREGISTERED-";
 
 	public static final int TRIAL_EXPIRED_DATE = 15;
 
@@ -32,6 +36,11 @@ public class LicenseGenerator {
 	 * 用户全称
 	 */
 	private String customerFullName;
+
+	/**
+	 * 版本
+	 */
+	private String version = OFFICIAL_VERSION;
 
 	/**
 	 * MAC地址
@@ -118,11 +127,14 @@ public class LicenseGenerator {
 		String text = Base64.encodeObject(this.customerFullName);
 		text = text + ",";
 		text = text + Base64.encodeObject(this.macAddress);
+		text = text + ",";
+		text = text + Base64.encodeObject(this.version);
 		return text;
 	}
 
 	public void setTrialVersion() {
-		this.customerFullName = TRIAL_CUSTOMER;
+		this.customerFullName = UNREGISTERED_CUSTOMER;
+		this.version = TRIAL_VERSION;
 		this.macAddress = MARK_ALL_MAC;
 		for (LicenseEnums le : LicenseEnums.values()) {
 			this.addLicense(le.getId(), TRIAL_EXPIRED_DATE);
@@ -130,7 +142,8 @@ public class LicenseGenerator {
 	}
 
 	public void setBaseVersion() {
-		this.customerFullName = BASE_CUSTOMER;
+		this.customerFullName = UNREGISTERED_CUSTOMER;
+		this.version = BASE_VERSION;
 		this.macAddress = MARK_ALL_MAC;
 
 		this.addBaseLicenses();
@@ -143,7 +156,8 @@ public class LicenseGenerator {
 		if (StringUtils.isEmpty(this.macAddress)) {
 			throw new BILicenseException("Lic.Message.Cannot.Generate.License");
 		}
-		String userMessage = this.customerFullName + this.macAddress;
+		String userMessage = this.customerFullName + this.macAddress
+				+ this.version;
 
 		StringBuffer text = new StringBuffer();
 		text.append(getUserMessage());

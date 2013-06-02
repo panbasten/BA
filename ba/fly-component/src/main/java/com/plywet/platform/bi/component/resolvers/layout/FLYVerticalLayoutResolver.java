@@ -33,6 +33,8 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 			renderItems(node, html, script, attrs, fileUrl);
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
+		} catch (BIPageException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new BIPageException("VerticalLayout解析出现错误。");
 		}

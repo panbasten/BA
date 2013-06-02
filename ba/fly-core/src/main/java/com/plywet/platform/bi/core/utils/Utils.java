@@ -69,14 +69,6 @@ public class Utils {
 	public static final String JSON_NULL = "{}";
 
 	/**
-	 * 通用的date/time格式 see also method StringUtil.getFormattedDateTime()
-	 */
-	public static final String GENERALIZED_DATE_FORMAT = "yyyy-MM-dd";
-	public static final String GENERALIZED_TIME_FORMAT = "HH:mm:ss";
-	public static final String GENERALIZED_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	public static final String GENERALIZED_DATE_TIME_FORMAT_MILLIS = "yyyy-MM-dd HH:mm:ss.SSS";
-
-	/**
 	 * 默认环境的locale（系统默认）
 	 */
 	public static final Locale DEFAULT_LOCALE = Locale.getDefault();
@@ -285,7 +277,7 @@ public class Utils {
 	}
 
 	public static boolean isDate(String str) {
-		return isDate(str, GENERALIZED_DATE_FORMAT);
+		return isDate(str, DateUtils.GENERALIZED_DATE_FORMAT);
 	}
 
 	public static boolean isDate(String str, String mask) {
@@ -793,7 +785,7 @@ public class Utils {
 
 	public static final Date convertStringToDate(String str)
 			throws BIConvertException {
-		return convertStringToDate(str, GENERALIZED_DATE_FORMAT);
+		return convertStringToDate(str, DateUtils.GENERALIZED_DATE_FORMAT);
 	}
 
 	public static final Date convertStringToDate(String str, String mask)

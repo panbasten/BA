@@ -90,13 +90,14 @@ public class SignProvider {
 
 			// 第一个字符片段是用户信息
 			String[] customer = lics[0].split(",");
+			String userMessage = "";
 			for (int i = 0; i < customer.length; i++) {
 				customer[i] = (String) decodeToObject(customer[i]);
+				userMessage = userMessage + customer[i];
 			}
 			rtn.add(customer);
 
 			// 后续字段是模块license信息
-			String userMessage = customer[0] + customer[1];
 			for (int i = 1; i < lics.length; i++) {
 				String[] lic = lics[i].split(",");
 				Integer modelId = (Integer) decodeToObject(lic[1]);

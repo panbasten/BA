@@ -24,26 +24,47 @@ public class ForEachResolver extends BaseComponentResolver implements
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
-		String varStr = HTML.getTagAttribute(node, ATTRIBUTE_VAR, attrs);
-		String indexVarStr = HTML.getTagAttribute(node, ATTRIBUTE_INDEX_VAR,
-				attrs);
-		String sizeVarStr = HTML.getTagAttribute(node, ATTRIBUTE_SIZE_VAR,
-				attrs);
-		Collection<?> items = (Collection<?>) HTML.getTagAttributeObject(node,
-				ATTRIBUTE_ITEMS, attrs);
-		if (items != null && items.size() > 0) {
-			if (sizeVarStr != null) {
-				attrs.addVariable(sizeVarStr, items.size());
-			}
-			int index = 0;
-			for (Iterator<?> itet = items.iterator(); itet.hasNext();) {
-				attrs.addVariable(varStr, itet.next());
-				if (indexVarStr != null) {
-					attrs.addVariable(indexVarStr, index);
+		try {
+			String varStr = HTML.getTagAttribute(node, ATTRIBUTE_VAR, attrs);
+			String indexVarStr = HTML.getTagAttribute(node,
+					ATTRIBUTE_INDEX_VAR, attrs);
+			String sizeVarStr = HTML.getTagAttribute(node, ATTRIBUTE_SIZE_VAR,
+					attrs);
+			Object obj = HTML.getTagAttributeObject(node, ATTRIBUTE_ITEMS,
+					attrs);
+			if (obj instanceof Object[]) {
+				Object[] items = (Object[]) obj;
+				if (items != null && items.length > 0) {
+					if (sizeVarStr != null) {
+						attrs.addVariable(sizeVarStr, items.length);
+					}
+					for (int i = 0; i < items.length; i++) {
+						attrs.addVariable(varStr, items[i]);
+						if (indexVarStr != null) {
+							attrs.addVariable(indexVarStr, i);
+						}
+						super.renderSub(node, html, script, attrs, fileUrl);
+					}
 				}
-				index++;
-				super.renderSub(node, html, script, attrs, fileUrl);
+			} else {
+				Collection<?> items = (Collection<?>) obj;
+				if (items != null && items.size() > 0) {
+					if (sizeVarStr != null) {
+						attrs.addVariable(sizeVarStr, items.size());
+					}
+					int index = 0;
+					for (Iterator<?> itet = items.iterator(); itet.hasNext();) {
+						attrs.addVariable(varStr, itet.next());
+						if (indexVarStr != null) {
+							attrs.addVariable(indexVarStr, index);
+						}
+						index++;
+						super.renderSub(node, html, script, attrs, fileUrl);
+					}
+				}
 			}
+		} catch (Exception e) {
+			throw new BIPageException("ForEach解析出现错误。");
 		}
 	}
 
