@@ -182,18 +182,20 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/menu/menu.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/layout/layout.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/breadcrumb/breadcrumb.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/browsePanel/browsePanel.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/button/button.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/easytabs/easytabs.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/scrollbar/scrollbar.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/search/search.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/popup/popup.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/flowchart/excanvas.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/flowchart/flowchart.utils.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/flowchart/flowchart.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/layout/layout.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/popup/popup.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/scrollbar/scrollbar.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/search/search.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/button/button.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/browsePanel/browsePanel.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/gridlayout/gridlayout.js</include>
+										
 										
 										
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/drag/jquery.draggable.js</include>
@@ -207,11 +209,14 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/number/jquery.numberbox.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.pagination.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.datagrid.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/treegrid/jquery.treegrid.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/form/jquery.form.js</include>
 										
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_browse.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_trans.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_dashboard.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_database.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_filesys.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_sysTools.js</include>

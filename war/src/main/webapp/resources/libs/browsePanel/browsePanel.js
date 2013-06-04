@@ -134,4 +134,4 @@ Plywet.widget.BrowsePanel.prototype={
 	getCurrentData:function() {
 		return this.cfg.attrs;
 	}
-}
+};

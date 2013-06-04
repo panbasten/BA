@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.sec.WebMarshal;
 import com.plywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.intf.BIFilesysTypeAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
@@ -36,13 +37,17 @@ public class BIFileSystemService implements BIFileSystemDelegate {
 			return Collections.emptyList();
 		}
 
+		WebMarshal wm = WebMarshal.getInstance();
+
 		List<FilesysType> filesysTypes = new ArrayList<FilesysType>();
 		for (Object[] obj : rs) {
-			FilesysType filesysType = new FilesysType();
-			filesysType.setId(Long.parseLong(obj[0].toString()));
-			filesysType.setCode(obj[1].toString());
-			filesysType.setDesc(obj[2].toString());
-			filesysTypes.add(filesysType);
+			if (wm.isModuleByCode(WebMarshal.LIC_CATEGORY_FS, (String) obj[1])) {
+				FilesysType filesysType = new FilesysType();
+				filesysType.setId((Long) obj[0]);
+				filesysType.setCode((String) obj[1]);
+				filesysType.setDesc((String) obj[2]);
+				filesysTypes.add(filesysType);
+			}
 		}
 
 		return filesysTypes;

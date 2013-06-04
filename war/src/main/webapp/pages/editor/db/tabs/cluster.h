@@ -7,7 +7,8 @@
 		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:partitioned" name="${formId}:partitioned" type="checkbox" 
 				value="${dbMeta.partitioned}"
-				interaction="[{method:'enable',val:true,param:['${formId}:partitioningInformations']}]" />
+				interaction="[{method:'enable',val:true,param:['${formId}:partitioningInformations']}]"
+				class="ui-layout-div ui-helper-clearfix" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	

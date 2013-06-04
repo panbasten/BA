@@ -1,9 +1,11 @@
 package com.plywet.platform.bi.component.resolvers.layout;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.xml.XMLUtils;
 import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
@@ -15,6 +17,7 @@ import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.HTMLWriter;
 import com.plywet.platform.bi.core.exception.BIPageException;
+import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 
 public class FLYGridLayoutResolver extends BaseComponentResolver implements
@@ -26,45 +29,74 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 
 	public static final String ATTR_ITEM_WIDTH = "itemWidth";
 
+	private static final String GRID_LAYOUT_CLASS = "ui-grid-layout "
+			+ HTML.LAYOUT_CLASS;
+
+	private static final String GRID_LAYOUT_ITEM_CLASS = "ui-grid-layout-item "
+			+ HTML.LAYOUT_ITEM_CLASS;
+
+	private static final String GRID_LAYOUT_ITEM_EMPTY = "ui-grid-layout-item-empty";
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
-		html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
+		try {
+			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
-		HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
+			String weightVar = HTML.getTagAttribute(node, HTML.TAG_WEIGHT_VAR,
+					attrs);
+			String id = HTML.getId(node, attrs);
 
-		HTML.writeStyleAttribute(node, html, attrs);
+			html.writeAttribute(HTML.ATTR_ID, id);
 
-		String columnStr = HTML.getTagAttribute(node, ATTR_COLUMN, attrs);
-		String itemWidthStr = HTML
-				.getTagAttribute(node, ATTR_ITEM_WIDTH, attrs);
-		int column = 1;
-		if (columnStr != null) {
-			column = Integer.valueOf(columnStr);
-		}
-		int[] itemWidth;
-		if (itemWidthStr != null) {
-			String[] itemWidthStrArr = itemWidthStr.split(",");
-			itemWidth = new int[itemWidthStrArr.length];
-			for (int i = 0; i < itemWidthStrArr.length; i++) {
-				if (itemWidthStrArr[i].endsWith("%")) {
-					itemWidth[i] = Integer.valueOf(itemWidthStrArr[i]
-							.substring(0, itemWidthStrArr[i].length() - 1));
-				} else {
-					itemWidth[i] = Integer.valueOf(itemWidthStrArr[i]);
-				}
+			HTML.writeStyleClassAttribute(node, html, attrs, GRID_LAYOUT_CLASS);
+
+			HTML.writeStyleAttribute(node, html, attrs);
+
+			String columnStr = HTML.getTagAttribute(node, ATTR_COLUMN, attrs);
+			String itemWidthStr = HTML.getTagAttribute(node, ATTR_ITEM_WIDTH,
+					attrs);
+			int column = 1;
+			if (columnStr != null) {
+				column = Integer.valueOf(columnStr);
 			}
-		} else {
-			int per = (int) Math.floor(100 / column);
-			itemWidth = new int[] { per };
+			int[] itemWidth;
+			if (itemWidthStr != null) {
+				String[] itemWidthStrArr = itemWidthStr.split(",");
+				itemWidth = new int[itemWidthStrArr.length];
+				for (int i = 0; i < itemWidthStrArr.length; i++) {
+					if (itemWidthStrArr[i].endsWith("%")) {
+						itemWidth[i] = Integer.valueOf(itemWidthStrArr[i]
+								.substring(0, itemWidthStrArr[i].length() - 1));
+					} else {
+						itemWidth[i] = Integer.valueOf(itemWidthStrArr[i]);
+					}
+				}
+			} else {
+				int per = (int) Math.floor(100 / column);
+				itemWidth = new int[] { per };
+			}
+
+			HTML.writeAttributes(node.getAttributes(), new String[] {
+					ATTR_COLUMN, ATTR_ITEM_WIDTH }, html, attrs);
+
+			renderItems(node, html, script, attrs, fileUrl, column, itemWidth);
+
+			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
+
+			Map<String, Object> map = HTML.getAttributesMap(node
+					.getAttributes(), attrs);
+			JSONObject jo = JSONUtils.convertToJSONObject(map);
+			jo.put(HTML.ATTR_ID, id);
+
+			script.add("Plywet.cw('GridLayout','" + Const.NVL(weightVar, "")
+					+ "'," + jo.toJSONString() + ");");
+		} catch (BIPageException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BIPageException("解析栅格布局出现错误。", e);
 		}
-
-		HTML.writeAttributes(node.getAttributes(), new String[] { ATTR_COLUMN,
-				ATTR_ITEM_WIDTH }, html, attrs);
-
-		renderItems(node, html, script, attrs, fileUrl, column, itemWidth);
-
-		html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 	}
 
 	private void renderItems(Node node, HTMLWriter html, List<String> script,
@@ -89,7 +121,7 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 				}
 
 				html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
-				html.writeAttribute(HTML.ATTR_CLASS, HTML.LAYOUT_ITEM_CLASS);
+				html.writeAttribute(HTML.ATTR_CLASS, GRID_LAYOUT_ITEM_CLASS);
 
 				String style = Const.NVL(HTML.getTagAttribute(subNode,
 						HTML.ATTR_STYLE, attrs), "");
@@ -101,8 +133,8 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 						new String[] { ATTR_COLS }, html, attrs);
 
 				if (isEmptyItem(subNode)) {
-					html
-							.writeText("<div class='ui-grid-layout-item-empty'>--空--</div>");
+					html.writeText("<div class='" + GRID_LAYOUT_ITEM_EMPTY
+							+ "'>--空--</div>");
 				} else {
 					super.renderSub(subNode, html, script, attrs, fileUrl);
 				}

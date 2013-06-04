@@ -3,7 +3,9 @@ package com.plywet.platform.bi.component.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.pentaho.di.core.util.UUIDUtil;
 import org.pentaho.di.core.xml.XMLHandler;
+import org.pentaho.pms.util.Const;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -208,7 +210,7 @@ public class HTML {
 	public static final String ATTR_X = "x";
 	public static final String ATTR_Y = "y";
 	public static final String ATTR_FREE_LAYOUT = "freeLayout";
-	
+
 	public static final String ATTR_OVERFLOW = "overflow";
 	public static final String ATTR_OVERFLOW_X = "overflow-x";
 	public static final String ATTR_OVERFLOW_Y = "overflow-y";
@@ -444,6 +446,14 @@ public class HTML {
 		}
 		return disMap.containsKey(nodeName);
 
+	}
+
+	public static String getId(Node node, FLYVariableResolver attrs) {
+		String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
+		if (Const.isEmpty(id)) {
+			id = "id-" + UUIDUtil.getUUIDAsString();
+		}
+		return id;
 	}
 
 	/**

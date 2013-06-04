@@ -22,7 +22,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<textarea id="notes" name="notes" rows="3" style="margin:5px;">
+			<textarea id="notes" name="notes" rows="4">
 				${dir.notes}
 			</textarea>
 		</fly:gridLayoutItem>

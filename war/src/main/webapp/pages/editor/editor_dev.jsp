@@ -100,6 +100,8 @@
 			src="<%=path%>/resources/libs/button/button.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/browsePanel/browsePanel.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/gridlayout/gridlayout.js"></script>
 		
 
 		<script type="text/javascript"

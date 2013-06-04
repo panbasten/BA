@@ -7,6 +7,7 @@
 		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:usingConnectionPool" name="${formId}:usingConnectionPool" type="checkbox" 
 					value="${dbMeta.usingConnectionPool}"
+					class="ui-layout-div ui-helper-clearfix"
 					interaction="[{method:'enable',val:true,param:['${formId}:initialPoolSize','${formId}:maximumPoolSize','${formId}:poolingParameters']}]" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
@@ -20,6 +21,7 @@
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:initialPoolSize" name="${formId}:initialPoolSize" type="text" 
 						value="${dbMeta.initialPoolSize}"
+						class="ui-layout-div ui-helper-clearfix"
 						disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 				
@@ -29,6 +31,7 @@
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:maximumPoolSize" name="${formId}:maximumPoolSize" type="text" 
 						value="${dbMeta.maximumPoolSize}"
+						class="ui-layout-div ui-helper-clearfix"
 						disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 			</fly:gridLayout>
@@ -47,7 +50,7 @@
 		
 		<fly:labelObject text="描述" />
 		
-		<div id="${formId}:description" style="width:100%;height:50px;margin:5px;" class="ui-show-description-panel">
+		<div id="${formId}:description" style="width:100%;height:50px;" class="ui-show-description-panel">
 		</div>
 	</fly:verticalLayout>
 

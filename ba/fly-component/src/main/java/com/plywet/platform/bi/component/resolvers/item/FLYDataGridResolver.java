@@ -34,8 +34,7 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			String weightVar = HTML.getTagAttribute(node, HTML.TAG_WEIGHT_VAR,
 					attrs);
-			String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
-
+			String id = HTML.getId(node, attrs);
 			html.writeAttribute(HTML.ATTR_ID, id);
 
 			HTML.writeStyleAttribute(node, html, attrs);
@@ -47,6 +46,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 					.getAttributes(), new String[] { ATTR_COLUMNS,
 					ATTR_TOOLBAR, ATTR_DATA }, attrs);
 			JSONObject jo = JSONUtils.convertToJSONObject(map);
+			// id
+			jo.put(HTML.ATTR_ID, id);
 			// column,toolbar
 			JSONArray columns = (JSONArray) HTML.getTagAttributeObject(node,
 					ATTR_COLUMNS, attrs);
@@ -71,7 +72,7 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 		} catch (BIPageException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new BIPageException(e);
+			throw new BIPageException("解析数据表格出现错误", e);
 		}
 	}
 

@@ -27,12 +27,12 @@ public class WebMarshal {
 	private static final String LIC_FILE_NAME = "ba.lic";
 	private static final String MARK_ALL_MAC = "-ALL-";
 
-	private static final String LIC_CATEGORY_SYS = "SYS";
-	private static final String LIC_CATEGORY_DB = "DB";
-	private static final String LIC_CATEGORY_DN = "DN";
-	private static final String LIC_CATEGORY_DI = "DI";
-	private static final String LIC_CATEGORY_BA = "BA";
-	private static final String LIC_CATEGORY_FS = "FS";
+	public static final String LIC_CATEGORY_SYS = "SYS";
+	public static final String LIC_CATEGORY_DB = "DB";
+	public static final String LIC_CATEGORY_DN = "DN";
+	public static final String LIC_CATEGORY_DI = "DI";
+	public static final String LIC_CATEGORY_BA = "BA";
+	public static final String LIC_CATEGORY_FS = "FS";
 
 	public static final String TRIAL_VERSION = "-TRIAL-";
 	public static final String BASE_VERSION = "-BASE-";
@@ -112,8 +112,12 @@ public class WebMarshal {
 		return false;
 	}
 
+	public String checkModuleByCode(String categroy, String model) {
+		return checkModuleByCode(categroy + "." + model);
+	}
+
 	public String checkModuleByCode(String code) {
-		LicenseControlObject lco = authModuleByCode.get(code);
+		LicenseControlObject lco = authModuleByCode.get(code.toUpperCase());
 		if (lco != null) {
 			if (lco.getExpiredDate().compareTo(new Date()) > 0) {
 				return CHECK_MODULE_OK;
@@ -126,6 +130,13 @@ public class WebMarshal {
 
 	public boolean isModuleByCode(String code) {
 		if (CHECK_MODULE_OK.equals(checkModuleByCode(code))) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isModuleByCode(String categroy, String model) {
+		if (CHECK_MODULE_OK.equals(checkModuleByCode(categroy, model))) {
 			return true;
 		}
 		return false;
@@ -200,7 +211,7 @@ public class WebMarshal {
 				LicenseControlObject lco = new LicenseControlObject(licList
 						.get(i));
 				this.authModuleById.put(Integer.valueOf(lco.getId()), lco);
-				this.authModuleByCode.put(lco.getCode(), lco);
+				this.authModuleByCode.put(lco.getCode().toUpperCase(), lco);
 
 				if (this.minValidDate.compareTo(lco.getExpiredDate()) > 0) {
 					this.minValidDate = lco.getExpiredDate();
