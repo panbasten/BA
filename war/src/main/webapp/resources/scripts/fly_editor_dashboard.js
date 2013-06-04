@@ -871,7 +871,6 @@ Plywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
 		},
 		onsuccess : function(data, status, xhr){
 			_self.reInitEditor(data);
-			_self.redraw();
 		}
 	});
 };
@@ -902,7 +901,6 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 		},
 		onsuccess : function(data, status, xhr){
 			_self.reInitEditor(data);
-			_self.redraw();
 		}
 	});
 };
@@ -925,7 +923,6 @@ Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
 		},
 		onsuccess : function(data, status, xhr){
 			_self.reInitEditor(data);
-			_self.redraw();
 		}
 	});
 };
