@@ -45,6 +45,7 @@
           tabClass: "",
           panelClass: "",
           onBeforeSelect: "",
+          onAfterSelect: "",
           onSave: "",
           onDiscard: "",
           cache: true,
@@ -341,6 +342,10 @@
       } else if ( ! settings.cache ){
         activateTab($clicked, $targetPanel, ajaxUrl, callback);
       }
+      
+      if(settings.onAfterSelect){
+	      eval(settings.onAfterSelect+"(plugin.getActiveTab());");
+	  }
     };
 
     // Toggle tab collapsed state and fire callback

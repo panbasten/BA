@@ -892,7 +892,7 @@ Plywet.ajax.AjaxUtils = {
     },
     
     /**
-     * 清空指定位置页面元素
+     * 清空指定位置里面的所有页面元素
      * 
      */
     emptyElement: function(target) {

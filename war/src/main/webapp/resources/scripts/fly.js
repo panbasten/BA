@@ -110,6 +110,7 @@ Plywet.desktop = {
 		// 创建编辑器总体Tab页面
 		Plywet.cw("EasyTabs","diEditorPageTabs",{
 			id : "editorContent",
+//			animate:false,
 			createTab: "<li><a class='ui-tab-a' href='##tabId'><div class='ui-tab-left'></div><div class='ui-tab-middle'>#modifyTag<span class='ui-tab-text'>#tabText</span>#closeButton</div><div class='ui-tab-right'></div></a></li>",
 			onBeforeSelect : "Plywet.editors.changeEditor",
 			onSave : "Plywet.editors.saveTab",

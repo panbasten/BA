@@ -44,8 +44,11 @@
 		</div>
 		
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
-			style="margin:0 5px;position:relative;overflow:auto;">
+			style="margin:0 5px;overflow:auto;">
 				<!-- margin 需要处理按字号处理高度，还要考虑是否有边框，以及边框宽度 -->
+				<div id="${editorId}EditorPanelWrapper" class="fly-editor-wrapper fly-dashboard-editor-wrapper">
+					<div id="${editorId}EditorPanelContent" class="fly-editor-content fly-dashboard-editor-content"></div>
+				</div>
 		</div>
 		
 		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">

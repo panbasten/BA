@@ -4,21 +4,10 @@ Plywet.editors.dashboard = {
 		$tabo.data("exdata",dashboardEditorPanel_var.getData())
 	},
 	reloadStatus : function ($taba) {
-		
 		if (typeof($taba.data("exdata"))=='undefined')return;
 		var tabData = $taba.data("exdata");
 
-		if (typeof dashboardEditorPanel_var == 'undefined') {
-			Plywet.cw("DashboardEditor","dashboardEditorPanel_var",{
-				id: "dashboardEditorPanel",
-				structureId: "dashboardStructPanel",
-				propId: "dashboardPropBar",
-				data: tabData
-			});
-		} else {
-			dashboardEditorPanel_var.reInitEditor(tabData);
-		}
-		
+		dashboardEditorPanel_var.reInitEditor(tabData);
 	},
 	resize : function(){
 		// TODO 工具箱的滚动按钮
@@ -146,6 +135,12 @@ Plywet.editors.dashboard = {
 					step:80,
 					scrollType:'vertical'
 				});
+				Plywet.cw("DashboardEditor","dashboardEditorPanel_var",{
+					id: "dashboardEditorPanel",
+					structureId: "dashboardStructPanel",
+					propId: "dashboardPropBar"
+				});
+				
 				// 拖拽
 				$(".fly-dashboard-step-plugin").draggable({
 					revert:true,
@@ -234,6 +229,8 @@ Plywet.widget.DashboardEditor = function(cfg) {
 	// 设计器ID
 	this.id = this.cfg.id;
 	this.eidtor = $(Plywet.escapeClientId(this.id));
+	this.editorWrapper = $(Plywet.escapeClientId(this.id+"Wrapper"));
+	this.editorContent = $(Plywet.escapeClientId(this.id+"Content"));
 	
 	// 结构框的ID
 	this.structureId = this.cfg.structureId;
@@ -355,10 +352,7 @@ Plywet.widget.DashboardEditor.prototype.clearDomsProp = function(){
 };
 
 Plywet.widget.DashboardEditor.prototype.initEditor = function() {
-	this.editorWrapper = $("<div id='"+this.id+"Wrapper' class='fly-editor-wrapper fly-dashboard-editor-wrapper'></div>").appendTo(this.eidtor);
-	this.editorContent = $("<div id='"+this.id+"Content' class='fly-editor-content fly-dashboard-editor-content'></div>");
-	this.editorContent.appendTo(this.editorWrapper);
-	
+
 	if ($.browser.msie && $.browser.version < 9){ // excanvas hack
     	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-editor-canvas fly-dashboard-editor-canvas'></canvas>");
     	this.editorCanvas.appendTo(this.editorWrapper);
@@ -962,6 +956,9 @@ Plywet.widget.DashboardEditor.prototype.getData = function() {
  * 重新加载数据
  */
 Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
+	if(!data){
+		return;
+	}
 	/**
 	 * 恢复数据 Start
 	 */
@@ -991,13 +988,20 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	this.senderOptions = this.reportInfo.senderOptions;
 	this.accepterDoms = this.reportInfo.accepterDoms;
 	this.accepterOptions = this.reportInfo.accepterOptions;
+	
+	this.width = parseInt(this.domStructure.attr("width"));
+	this.height = parseInt(this.domStructure.attr("height"));
+	changeSize(this.width, this.height, this);
+	
 	/**
 	 * 恢复数据 End
 	 */
-	
 	var _self = this;
-	
-	this.editorContent.html(this.dom);
+//	Plywet.ajax.AjaxUtils.emptyElement.call(this, this.editorContent);
+	console.log(this.editorContent);
+	this.editorContent.empty();
+	this.editorContent.append(this.dom);
+//	Plywet.ajax.AjaxUtils.appendElement.call(this, this.editorContent, this.dom);
 	if(this.script){
 		for(var j=0;j<this.script.length;j++){
 			try{
@@ -1007,10 +1011,6 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 			}
 		}
 	}
-	
-	this.width = parseInt(this.domStructure.attr("width"));
-	this.height = parseInt(this.domStructure.attr("height"));
-	changeSize(this.width, this.height, this);
 	
 	// 1.DOM结构树
 	if(!this.domStructureTree){
@@ -1187,7 +1187,6 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 			}
 		}
 		
-		_self.redraw();
 	}
 	
 	function getNodeStructure(node, _self) {
@@ -1354,15 +1353,16 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	this.ctx.lineWidth=1;
 	
 	var _self = this;
-	
-	if(this.reportInfo.editorState == "component"){
-		redrawForComponent();
-	} else if(this.reportInfo.editorState == "signal_slot"){
-		redrawForSignalSlot();
-	} else if(this.reportInfo.editorState == "buddy"){
-		redrawForBuddy();
-	} else if(this.reportInfo.editorState == "tab_sequence"){
-		redrawForTabSequence();
+	if(this.reportInfo){
+		if(this.reportInfo.editorState == "component"){
+			redrawForComponent();
+		} else if(this.reportInfo.editorState == "signal_slot"){
+			redrawForSignalSlot();
+		} else if(this.reportInfo.editorState == "buddy"){
+			redrawForBuddy();
+		} else if(this.reportInfo.editorState == "tab_sequence"){
+			redrawForTabSequence();
+		}
 	}
 	
 	function redrawForComponent(){
