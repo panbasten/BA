@@ -15,7 +15,6 @@ Plywet.widget.GridLayout.prototype = {
 		this.jq.each(function(){
 			var column = _self.cfg.column;
 			var items = $(this).children(".ui-grid-layout-item");
-			console.log(items);
 			for(var i=0;i<items.size();){
 				var itemsLine = [];
 				var idx = 0,maxHeight = 0;

@@ -28,7 +28,7 @@ public class FLYLabelObjectResolver extends BaseComponentResolver implements
 		}
 
 		HTML.writeStyleAttribute(node, html, attrs);
-		HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
+		HTML.writeStyleClassAttribute(node, html, attrs, LABLE_STYLE_CLASS);
 		HTML.writeAttributes(node.getAttributes(), html, attrs);
 
 		html.writeText(Const.NVL(HTML.getTagAttribute(node, HTML.ATTR_TEXT,

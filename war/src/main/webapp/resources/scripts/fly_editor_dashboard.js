@@ -7,6 +7,8 @@ Plywet.editors.dashboard = {
 		if (typeof($taba.data("exdata"))=='undefined')return;
 		var tabData = $taba.data("exdata");
 
+		// 使其显示，再进行操作
+		$("#dashboard").show();
 		dashboardEditorPanel_var.reInitEditor(tabData);
 	},
 	resize : function(){
@@ -994,11 +996,8 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	 * 恢复数据 End
 	 */
 	var _self = this;
-//	Plywet.ajax.AjaxUtils.emptyElement.call(this, this.editorContent);
-	console.log(this.editorContent);
 	this.editorContent.empty();
 	this.editorContent.append(this.dom);
-//	Plywet.ajax.AjaxUtils.appendElement.call(this, this.editorContent, this.dom);
 	if(this.script){
 		for(var j=0;j<this.script.length;j++){
 			try{
