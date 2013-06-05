@@ -494,6 +494,18 @@ div.ui-fs-ftp-icon {
 div.ui-fs-sftp-icon {
 	background-image: url("../images/desktop/bi.file.system.ftp.png");
 }
+
+div.ui-fs-local-folder-icon
+{
+	background-image: url("../images/files/local.folder.png");
+}
+
+div.ui-fs-local-ftp-icon,
+div.ui-fs-local-sftp-icon
+{
+	background-image: url("../images/files/ftp.folder.png");
+}
+
 #plugin_panel .ui-browsepanel-itemcon span p {
 	font-size: 0.85em;
     line-height: 1.1em;

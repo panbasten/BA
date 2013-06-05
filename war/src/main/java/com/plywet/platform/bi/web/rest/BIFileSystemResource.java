@@ -1,5 +1,6 @@
 package com.plywet.platform.bi.web.rest;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -172,7 +173,7 @@ public class BIFileSystemResource {
 							ID_EDITOR_CONTENT_NAVI_FILESYS_BP).setData(browse);
 			browseResult.setCmd("this.flush");
 			browseResult.addScript("Plywet.filesys.controlBtn('root');");
-			
+
 			return AjaxResult.instance().addEntity(fileSysBCResult).addEntity(
 					browseResult).toJSONString();
 		} catch (Exception ex) {
@@ -218,7 +219,7 @@ public class BIFileSystemResource {
 	}
 
 	/**
-	 * 列出某category下某个目录的子
+	 * 列出某category下某个目录的子页面
 	 * 
 	 * @param category
 	 * @param dataStr
@@ -275,6 +276,9 @@ public class BIFileSystemResource {
 			FileObject fileObj = filesysService.composeVfsObject(category,
 					workDir, rootId);
 			FileObject[] children = fileObj.getChildren();
+
+			// 排序
+
 			BrowseMeta browse = new BrowseMeta();
 
 			for (FileObject child : children) {
@@ -291,11 +295,11 @@ public class BIFileSystemResource {
 						.addAttribute(HTML.ATTR_NAME, child.getName()
 								.getBaseName());
 				node.addAttribute(HTML.ATTR_SRC, "/fs/items/list/" + category);
-				node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, "ui-fs-"
-						+ category + "-icon");
 				node.addExtendAttribute("rootId", String.valueOf(rootId));
 
 				if (isFolder) {
+					node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, "ui-fs-"
+							+ category + "-folder-icon");
 					node.addEvent("mouseup",
 							"Plywet.browse.showOperationForDir");
 					node.addEvent("dblclick", "Plywet.browse.changeDir");
@@ -552,6 +556,13 @@ public class BIFileSystemResource {
 		attrsMap.addVariable("path", workPath);
 		attrsMap.addVariable("category", category);
 		return attrsMap;
+	}
+
+	class SampleComparator implements Comparator {
+
+		public int compare(Object o1, Object o2) {
+			return toInt(o1) - toInt(o2);
+		}
 	}
 
 }
