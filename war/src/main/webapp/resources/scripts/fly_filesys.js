@@ -138,6 +138,7 @@ Plywet.filesys = {
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
 		var category =  currentCase.category;
 		var targetId = "create_dialog_folder";
+		console.log(currentCase);
 		
 		Plywet.cw("Dialog",targetId+"_var",{
 			id : targetId,
@@ -166,7 +167,7 @@ Plywet.filesys = {
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[targetId + "_var"].hide();
-									_self.flush(category);
+									_self.flushDir(category,{rootId:currentCase.rootId,path:currentCase.path});
 								}
 							}
 						});
@@ -388,6 +389,16 @@ Plywet.filesys = {
 		Plywet.ab({
 			type : "get",
 			url : "rest/fs/root/"+category
+		});
+	},
+	
+	flushDir:function(category,data){
+		Plywet.ab({
+			type : "get",
+			url : "rest/fs/items/list/"+category,
+			params : {
+				data : Plywet.toJSONString(data)
+			}
 		});
 	},
 	

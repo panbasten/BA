@@ -10,5 +10,7 @@
 	</fly:gridLayout>
 
 	<fly:inputText id="category" name="category" type="hidden" value="${category}" />
+	<fly:inputText id="rootId" name="rootId" type="hidden" value="${rootId}" />
+	<fly:inputText id="path" name="path" type="hidden" value="${path}" />
 
 </form>

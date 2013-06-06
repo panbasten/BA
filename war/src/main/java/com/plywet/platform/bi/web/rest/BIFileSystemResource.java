@@ -364,15 +364,14 @@ public class BIFileSystemResource {
 	public String openFolderCreateDialog(
 			@PathParam("category") String category,
 			@QueryParam("targetId") String targetId,
-			@QueryParam("rootId") String rootId,
-			@QueryParam("path") String path) throws Exception {
+			@QueryParam("rootId") String rootId, @QueryParam("path") String path)
+			throws Exception {
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 			attrsMap.addVariable("category", category);
-
-			FilesysDirectory dir = FilesysDirectory.instance();
-			attrsMap.addVariable("dir", dir);
+			attrsMap.addVariable("rootId", rootId);
+			attrsMap.addVariable("path", path);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TEMPLATE_FILESYS_FOLDER_CREATE, attrsMap);
@@ -405,9 +404,16 @@ public class BIFileSystemResource {
 
 			String category = paramContext.getParameter("category");
 			String desc = paramContext.getParameter("desc");
+			long rootId = Long.parseLong(paramContext.getParameter("rootId"));
+			String path = paramContext.getParameter("path");
 
-//			FilesysDirectory dir = FilesysDirectory.instance().setDesc(desc);
-//			filesysService.createFilesysObject(category, dir);
+			if (Const.isEmpty(desc)) {
+				return am.addErrorMessage("新增目录名称不能为空。").toJSONString();
+			}
+
+			FileObject fileObj = filesysService.composeVfsObject(category, path
+					+ "/" + desc, rootId);
+			fileObj.createFolder();
 			am.addMessage("新增目录成功");
 		} catch (Exception e) {
 			am.addErrorMessage("新增目录出现错误。");
