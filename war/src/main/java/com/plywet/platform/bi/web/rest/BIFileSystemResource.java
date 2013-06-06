@@ -1,5 +1,6 @@
 package com.plywet.platform.bi.web.rest;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.component.components.breadCrumb.BreadCrumbMeta;
@@ -259,9 +261,13 @@ public class BIFileSystemResource {
 
 			List<String> dirs = FileUtils.dirSplit(workDir);
 
-			for (String dir : dirs) {
-				bcee = new BreadCrumbNodeMeta("", dir, "/fs/items/list/"
-						+ category, "/" + dir);
+			for (int i = 0; i < dirs.size(); i++) {
+				String dir = "";
+				for (int j = 0; j <= i; j++) {
+					dir += ("/" + dirs.get(j));
+				}
+				bcee = new BreadCrumbNodeMeta("", dirs.get(i),
+						"/fs/items/list/" + category, dir);
 				bcee.addExtendAttribute("rootId", String.valueOf(rootId));
 				bce.addContent(bcee);
 				bce.addEvent("click", "Plywet.browse.changeDir");
@@ -278,6 +284,7 @@ public class BIFileSystemResource {
 			FileObject[] children = fileObj.getChildren();
 
 			// 排序
+			Arrays.sort(children, new FileObjectComparator());
 
 			BrowseMeta browse = new BrowseMeta();
 
@@ -304,6 +311,11 @@ public class BIFileSystemResource {
 							"Plywet.browse.showOperationForDir");
 					node.addEvent("dblclick", "Plywet.browse.changeDir");
 				} else {
+					String ext = child.getName().getExtension();
+					if (!Const.isEmpty(ext)) {
+						node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE,
+								"ui-fs-file-" + ext.toLowerCase() + "-icon");
+					}
 					node.addEvent("mouseup",
 							"Plywet.browse.showOperationForFile");
 					node.addEvent("dblclick", "Plywet.browse.openFile");
@@ -558,10 +570,38 @@ public class BIFileSystemResource {
 		return attrsMap;
 	}
 
-	class SampleComparator implements Comparator {
+	/**
+	 * 目录及文件排序
+	 * 
+	 * @author PeterPan
+	 * 
+	 */
+	class FileObjectComparator implements Comparator<FileObject> {
 
-		public int compare(Object o1, Object o2) {
-			return toInt(o1) - toInt(o2);
+		public int compare(FileObject fo1, FileObject fo2) {
+			try {
+				if (fo1 != null && fo2 != null) {
+					boolean isFolder1 = fo1.getType().equals(FileType.FOLDER), isFolder2 = fo2
+							.getType().equals(FileType.FOLDER);
+					// fo1是文件夹，fo2不是
+					if (isFolder1 && !isFolder2) {
+						return -1;
+					}
+					// fo2是文件夹，fo1不是
+					else if (isFolder2 && !isFolder1) {
+						return 1;
+					}
+					// 比较名称
+					else {
+						String name1 = fo1.getName().getBaseName(), name2 = fo2
+								.getName().getBaseName();
+						return name1.compareToIgnoreCase(name2);
+					}
+				}
+			} catch (FileSystemException e) {
+				log.error("文件对象排序出现错误。");
+			}
+			return 0;
 		}
 	}
 
