@@ -133,50 +133,58 @@ Plywet.filesys = {
 				maximizable : true
 			});
 	},
-	createDir	: function() {
+	createDir : function() {
+		var _self = this;
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var targetId = "create_dialog_" + currentCase.category + "_" + currentCase.rootId;
+		var category =  currentCase.category;
+		var targetId = "create_dialog_folder";
 		
-		Plywet.cw("Dialog",targetId + "_var",{
-				id : targetId,
-				header : "新建目录",
-				width : 700,
-				height : 400,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/fs/items/create?data="+Plywet.toJSONString(currentCase),
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "确定",
-					title : "确定",
-					events: {
-						click:function(){
-							Plywet.ab({
-								type : "post",
-								url : "rest/fsop/create",
-								source:"fs_create_form",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
+		Plywet.cw("Dialog",targetId+"_var",{
+			id : targetId,
+			header : "新建目录",
+			width : 500,
+			height : 50,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/fs/items/folder/create/"+category,
+			params : {
+				targetId : targetId+":content",
+				rootId : currentCase.rootId,
+				path : currentCase.path
+			},
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "确定",
+				title : "确定",
+				events: {
+					click:function(){
+						Plywet.ab({
+							type : "post",
+							source:"fs_folder_create_form",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[targetId + "_var"].hide();
+									_self.flush(category);
 								}
-							});
-						}
+							}
+						});
 					}
-				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : false,
+			resizable : false
+		});
 	},
 	checkSelected:function() {
 		var fsbpvar = window["editorContent-navi-filesys-bp_var"];

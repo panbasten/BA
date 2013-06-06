@@ -73,12 +73,16 @@ Plywet.extend(Plywet.widget.Dialog, Plywet.widget.BaseWidget);
 Plywet.widget.Dialog.prototype.ajax = function() {
 	if(this.cfg.url){
 		var _self = this;
+		var params;
+		if(this.cfg.params){
+			params = this.cfg.params;
+		}else{
+			params = {targetId : this.content.attr("id")};
+		}
 		Plywet.ab({
 			type : "get",
 			url : this.cfg.url,
-			params : {
-				targetId : this.content.attr("id")
-			},
+			params : params,
 			beforeSend : function(){
 				_self.content.append("<div class='ui-dialog-content-loader-text'>正则加载...</div><div class='ui-dialog-content-loader'></div>");
 			}

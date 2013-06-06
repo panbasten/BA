@@ -56,6 +56,9 @@ public class BIFileSystemResource {
 	private static final String TEMPLATE_FILESYS_EDIT = "editor/filesys/edit.h";
 	private static final String TEMPLATE_FILESYS_RENAME = "editor/filesys/rename.h";
 	private static final String TEMPLATE_FILESYS_CREATE = "editor/filesys/create.h";
+
+	private static final String TEMPLATE_FILESYS_FOLDER_CREATE = "editor/filesys/folder_create.h";
+
 	private static final String TEMPLATE_FILESYS_UPLOAD = "editor/filesys/upload.h";
 
 	@Resource(name = "bi.service.filesystemService")
@@ -345,6 +348,71 @@ public class BIFileSystemResource {
 		}
 
 		return ActionMessage.instance().failure(msg).toJSONString();
+	}
+
+	/**
+	 * 为具体文件系统添加一个文件夹，弹出一个创建页面
+	 * 
+	 * @param category
+	 * @param targetId
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/items/folder/create/{category}")
+	public String openFolderCreateDialog(
+			@PathParam("category") String category,
+			@QueryParam("targetId") String targetId,
+			@QueryParam("rootId") String rootId,
+			@QueryParam("path") String path) throws Exception {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+			attrsMap.addVariable("category", category);
+
+			FilesysDirectory dir = FilesysDirectory.instance();
+			attrsMap.addVariable("dir", dir);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_FILESYS_FOLDER_CREATE, attrsMap);
+
+			// 设置响应
+			AjaxResultEntity emptyEntity = new AjaxResultEntity();
+			emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
+			emptyEntity.setTargetId(targetId);
+
+			AjaxResultEntity content = AjaxResultEntity.instance()
+					.setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
+							targetId).setDomAndScript(domString);
+
+			return AjaxResult.instance().addEntity(emptyEntity).addEntity(
+					content).toJSONString();
+		} catch (Exception e) {
+			log.error("打开新增界面出现问题。");
+		}
+		return ActionMessage.instance().failure("打开新增界面出现问题。").toJSONString();
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/items/folder/createsubmit")
+	public String openFolderCreateSubmit(String body) throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			String category = paramContext.getParameter("category");
+			String desc = paramContext.getParameter("desc");
+
+//			FilesysDirectory dir = FilesysDirectory.instance().setDesc(desc);
+//			filesysService.createFilesysObject(category, dir);
+			am.addMessage("新增目录成功");
+		} catch (Exception e) {
+			am.addErrorMessage("新增目录出现错误。");
+		}
+		return am.toJSONString();
 	}
 
 	/**
