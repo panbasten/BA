@@ -33,7 +33,7 @@ Plywet.filesys = {
 	},
 	uploadFile	: function() {
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
-		var targetId = "upload_dialog_" + currentCase.category + "_" + currentCase.rootId;
+		var targetId = "upload_dialog_" + currentCase.category;
 		
 		Plywet.cw("Dialog",targetId + "_var",{
 				id : targetId,

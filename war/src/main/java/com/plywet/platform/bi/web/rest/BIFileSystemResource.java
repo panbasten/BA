@@ -1,5 +1,6 @@
 package com.plywet.platform.bi.web.rest;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,10 +8,12 @@ import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,10 +25,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.log4j.Logger;
+import org.apache.wink.common.internal.utils.MediaTypeUtils;
 import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.springframework.stereotype.Service;
@@ -41,6 +48,7 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.FileUtils;
 import com.plywet.platform.bi.core.utils.JSONUtils;
+import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.vo.FilesysDirectory;
@@ -635,6 +643,79 @@ public class BIFileSystemResource {
 
 		return AjaxResult.instance().addEntity(emptyEntity).addEntity(content)
 				.toJSONString();
+	}
+	
+	/**
+	 * 文件上传 支持多文件的上传
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@Path("/upload")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
+	public String uploadFiles(@Context HttpServletRequest request)
+			throws Exception {
+		ActionMessage resultMsg = new ActionMessage();
+
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(4096); // 设置缓冲区大小，这里是4kb
+
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		String fileSizeMax = PropertyUtils.getProperty("fs.upload.maxsize");
+		upload.setFileSizeMax(Long.parseLong(fileSizeMax));
+
+		List<FileItem> items = upload.parseRequest(request);// 得到所有的文件
+		// 提取参数
+		Map<String, String> dataObj = extractParams(items);
+
+		long rootId = Long.parseLong(dataObj.get("rootId"));
+		String workDir = dataObj.get("path");
+		String category = dataObj.get("category");
+
+		// 遍历文件并逐次上传
+		for (FileItem item : items) {
+			if (item.isFormField()) {
+				continue;
+			}
+
+			InputStream is = null;
+			OutputStream os = null;
+
+			File fullFile = new File(item.getName());
+			try {
+				String destFileStr = FileUtils.dirAppend(workDir, fullFile
+						.getName());
+				FileObject destFileObj = filesysService.composeVfsObject(
+						category, destFileStr, rootId);
+
+				is = item.getInputStream();
+				os = destFileObj.getContent().getOutputStream();
+
+				byte[] bytes = new byte[1024];
+				int in = 0;
+				while ((in = is.read(bytes)) != -1) {
+					os.write(bytes);
+				}
+				os.flush();
+			} catch (IOException ioe) {
+				log.error("read or write file exception:", ioe);
+				resultMsg.addErrorMessage("上传文件" + fullFile.getName() + "失败");
+				return resultMsg.toJSONString();
+			} finally {
+				if (os != null) {
+					os.close();
+				}
+				if (is != null) {
+					is.close();
+				}
+				item.delete();
+			}
+		}
+		resultMsg.addMessage("上传操作成功");
+		return resultMsg.toJSONString();
 	}
 
 	private FLYVariableResolver composeVariableMap(String dataStr)
