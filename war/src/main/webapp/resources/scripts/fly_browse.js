@@ -45,7 +45,7 @@ Plywet.browse = {
 			type : "get",
 			url : "rest/"+data.attrs.src,
 			params: {
-				"data": Plywet.toJSONString($.extend({},data.data,data.attrs))
+				"data":Plywet.toJSONString($.extend({},data.data,data.attrs))
 			}
 		});
 	},

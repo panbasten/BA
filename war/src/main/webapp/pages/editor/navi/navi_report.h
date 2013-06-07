@@ -15,5 +15,4 @@
 	</div>
 	<div id="editorContent-navi-report-bp" class="fly-editor-content-height-browse-panel">
 	</div>
-	<iframe id="space_frame"></iframe>
 </div>

@@ -850,3 +850,7 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 .fly-module-icon-fs {
 	background: url("../images/modules/fs.png") no-repeat;
 }
+
+.ui-space-frame {
+	display:none;
+}

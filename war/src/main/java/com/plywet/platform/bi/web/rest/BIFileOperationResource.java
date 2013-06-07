@@ -130,38 +130,6 @@ public class BIFileOperationResource {
 		return resultMsg.toJSONString();
 	}
 
-	/**
-	 * 创建目录
-	 * 
-	 * @param body
-	 *            目录配置信息
-	 * @return
-	 * @throws Exception
-	 */
-	@POST
-	@Path("/create")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String createFolder(String body) throws Exception {
-		ActionMessage am = new ActionMessage();
-		try {
-			ParameterContext paramContext = BIWebUtils
-					.fillParameterContext(body);
-
-			long rootId = Long.parseLong(paramContext.getParameter("rootId"));
-			String workPath = paramContext.getParameter("path");
-			String category = paramContext.getParameter("category");
-			String dirName = paramContext.getParameter("dirName");
-
-			FileObject fileObj = filesysService.composeVfsObject(category,
-					workPath + "/" + dirName, rootId);
-			fileObj.createFolder();
-			am.addMessage("创建目录" + fileObj.getName().getBaseName() + "成功");
-		} catch (Exception e) {
-			am.addErrorMessage("创建目录操作失败");
-		}
-		return am.toJSONString();
-	}
-
 	private Map<String, String> extractParams(List<FileItem> items)
 			throws UnsupportedEncodingException, Exception {
 		Map<String, String> params = new HashMap<String, String>();
@@ -210,52 +178,6 @@ public class BIFileOperationResource {
 			am.addErrorMessage("删除操作失败");
 		}
 		return am.toJSONString();
-	}
-
-	/**
-	 * 下载文件
-	 * 
-	 * @param dataStr
-	 *            文件标识信息
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	@GET
-	@Path("/download")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public void download(@QueryParam("data") String dataStr,
-			@Context HttpServletRequest request,
-			@Context HttpServletResponse response) throws IOException {
-		InputStream is = null;
-
-		try {
-			JSONObject dataObj = JSONUtils.convertStringToJSONObject(dataStr);
-			long rootId = Long.parseLong(dataObj.get("rootId").toString());
-			String workPath = dataObj.get("path").toString();
-			String category = dataObj.get("category").toString();
-			// 拼装文件信息
-			FileObject fileObj = filesysService.composeVfsObject(category,
-					workPath, rootId);
-
-			is = fileObj.getContent().getInputStream();
-			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Disposition", "attachment;filename=\""
-					+ fileObj.getName().getBaseName() + "\"");
-			byte[] b = new byte[1024];
-			int i;
-			OutputStream os = response.getOutputStream();
-			while ((i = is.read(b)) != -1) {
-				os.write(b, 0, i);
-			}
-			os.flush();
-		} catch (Exception e) {
-			log.error("download file exception:", e);
-		} finally {
-			if (is != null) {
-				is.close();
-			}
-		}
 	}
 
 	/**

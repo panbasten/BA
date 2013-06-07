@@ -1,10 +1,16 @@
 package com.plywet.platform.bi.web.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.vfs.FileObject;
@@ -642,6 +649,58 @@ public class BIFileSystemResource {
 		attrsMap.addVariable("path", workPath);
 		attrsMap.addVariable("category", category);
 		return attrsMap;
+	}
+
+	/**
+	 * 下载文件
+	 * 
+	 * @param dataStr
+	 *            文件标识信息
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@GET
+	@Path("/download")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public void download(@QueryParam("data") String dataStr,
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response, String body)
+			throws IOException {
+		InputStream is = null;
+
+		try {
+			JSONObject dataObj = JSONUtils.convertStringToJSONObject(dataStr);
+			long rootId = Long.parseLong(dataObj.get("rootId").toString());
+			String workPath = dataObj.get("path").toString();
+			String category = dataObj.get("category").toString();
+			// 拼装文件信息
+			FileObject fileObj = filesysService.composeVfsObject(category,
+					workPath, rootId);
+
+			is = fileObj.getContent().getInputStream();
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+			String fileName = Const.replace(fileObj.getName().getBaseName(),
+					" ", "%20");
+			// 保证另存为文件名为中文
+			response.setHeader("Content-Disposition", "attachment;filename="
+					+ new String(fileName.getBytes(), "ISO8859_1"));
+			byte[] b = new byte[1024];
+			int i;
+			OutputStream os = response.getOutputStream();
+			while ((i = is.read(b)) != -1) {
+				os.write(b, 0, i);
+			}
+			os.flush();
+		} catch (Exception e) {
+			log.error("download file exception:", e);
+		} finally {
+			if (is != null) {
+				is.close();
+			}
+		}
 	}
 
 	/**

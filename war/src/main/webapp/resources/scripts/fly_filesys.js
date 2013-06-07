@@ -20,16 +20,16 @@ Plywet.filesys = {
 			return;
 		}
 		var selItem = this.getOneSelected();
-		$('#space_frame').attr("src","rest/fsop/download?data="+Plywet.toJSONString(selItem));
-		/*
-		Plywet.ab({
-			type : "get",
-			url : "rest/fsop/download",
-			params: {
-				"data": Plywet.toJSONString(selItem)
-			}
-		});
-		*/
+		if(selItem.type == "node"){
+			Plywet.dialog.error("系统无法下载文件夹，请选中一个文件对象进行下载。");
+		}else{
+			selItem = {
+				rootId : selItem.rootId,
+				path : selItem.path,
+				category : selItem.category
+			};
+			$(Plywet.escapeClientId("filesys-space-frame")).attr("src","rest/fs/download?data="+encodeURIComponent(Plywet.toJSONString(selItem)));
+		}
 	},
 	uploadFile	: function() {
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();

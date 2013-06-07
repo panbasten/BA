@@ -21,5 +21,5 @@
 	</div>
 	<div id="editorContent-navi-filesys-bp" class="fly-editor-content-height-browse-panel">
 	</div>
-	<iframe id="space_frame"></iframe>
+	<iframe id="filesys-space-frame" class="ui-space-frame"></iframe>
 </div>
