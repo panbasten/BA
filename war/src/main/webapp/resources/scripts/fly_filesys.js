@@ -31,62 +31,83 @@ Plywet.filesys = {
 			$(Plywet.escapeClientId("filesys-space-frame")).attr("src","rest/fs/download?data="+encodeURIComponent(Plywet.toJSONString(selItem)));
 		}
 	},
+	uploadResult : function(target) {
+		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var targetId = "upload_dialog_" + currentCase.category;
+		
+		console.log(target);
+		
+		var msg = target["document"];
+		console.log(msg);
+		if(msg && msg != ""){
+			msg = Plywet.parseJSON(msg);
+			// 清空
+			$(target.document).find("pre").first().html("");
+			
+			window[targetId + "_var"].hide();
+			this.flushDir(currentCase.category,{rootId:currentCase.rootId,path:currentCase.path});
+			
+			Plywet.ajax.ShowMessage(msg);
+		}
+	},
 	uploadFile	: function() {
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
 		var targetId = "upload_dialog_" + currentCase.category;
 		
+		var parentDir = {
+			rootId : currentCase.rootId,
+			path : currentCase.path,
+			category : currentCase.category
+		};
+		
 		Plywet.cw("Dialog",targetId + "_var",{
-				id : targetId,
-				header : "文件上传",
-				width : 700,
-				height : 400,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/fs/items/upload?data="+Plywet.toJSONString(currentCase),
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "新增",
-					title : "新增",
-					events: {
-						click:function(){
-							$('#files_div').append('<input type="file" name="file"></input>');
-						}
+			id : targetId,
+			header : "文件上传",
+			width : 400,
+			height : 300,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/fs/items/upload?data="+encodeURIComponent(Plywet.toJSONString(parentDir)),
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "新增",
+				title : "新增",
+				events: {
+					click:function(){
+						var layout = $(Plywet.escapeClientId("fs_upload_form")).find(".ui-grid-layout");
+						var num = layout.find("label").size() + 1;
+						layout.append('<div class="ui-grid-layout-item ui-layout-float ui-helper-clearfix" style="width: 30%; height: 28px;">' +
+								'<label class="ui-label-default ui-helper-clearfix" for="fs'+num+'" style="margin:5px 30px 5px 5px;float:right;" text="上传文件'+num+'：" buddy="fs'+num+'">上传文件'+num+'：</label>' +
+								'</div>');
+						layout.append('<div class="ui-grid-layout-item ui-layout-float ui-helper-clearfix" style="width: 70%; height: 28px;">' +
+								'<input id="fs'+num+'" type="file" size="30" name="fs'+num+'">' +
+								'</div>');
 					}
-				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "上传",
-					title : "上传",
-					events: {
-						click:function(){
-							$("#fs_upload_form").submit();
-							/*Plywet.ab({
-								type : "post",
-								url : "rest/fsop/upload",
-								source:"fs_upload_form",
-								onsuccess:function(data, status, xhr) {
-									alert(data.messages[0]);
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
-								}
-							});*/
-						}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "上传",
+				title : "上传",
+				events: {
+					click:function(){
+						$(Plywet.escapeClientId("fs_upload_form")).submit();
 					}
-				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : true
+		});
 	},
 	rename : function() {
 		var selItem = this.getOneSelected();

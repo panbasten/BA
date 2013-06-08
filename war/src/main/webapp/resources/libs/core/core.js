@@ -1117,6 +1117,28 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 };
 
 /**
+ * 显示ajax的信息
+ */
+Plywet.ajax.ShowMessage = function(json){
+	if(json.state != undefined && json.messages != undefined){
+		var text = "";
+		if(typeof(json.messages)=="string"){
+			text = text + json.messages;
+		}else if(json.messages instanceof Array){
+			text = text + json.messages[0];
+			for(var i=1;i<json.messages.lenght;i++){
+				text = text + "<br/>" + json.messages[i];
+			}
+		}
+		if(json.state == 0){
+			Plywet.dialog.prompt(text);
+		}else{
+			Plywet.dialog.error(text);
+		}
+	}
+};
+
+/**
  * ajax响应，自动更新相应区域
  * @param responseJSON 相应的json
  */
@@ -1125,22 +1147,7 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 	if(Plywet.isObjNull(json)){return;}
 	
 	if(json instanceof Object){
-		if(json.state != undefined && json.messages != undefined){
-			var text = "";
-			if(typeof(json.messages)=="string"){
-				text = text + json.messages;
-			}else if(json.messages instanceof Array){
-				text = text + json.messages[0];
-				for(var i=1;i<json.messages.lenght;i++){
-					text = text + "<br/>" + json.messages[i];
-				}
-			}
-			if(json.state == 0){
-				Plywet.dialog.prompt(text);
-			}else{
-				Plywet.dialog.error(text);
-			}
-		}
+		Plywet.ajax.ShowMessage(json);
 	}
 	
 	if(json instanceof Array){

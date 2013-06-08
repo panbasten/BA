@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -26,8 +25,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
@@ -48,7 +45,6 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.FileUtils;
 import com.plywet.platform.bi.core.utils.JSONUtils;
-import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.plywet.platform.bi.delegates.vo.FilesysDirectory;
@@ -644,7 +640,7 @@ public class BIFileSystemResource {
 		return AjaxResult.instance().addEntity(emptyEntity).addEntity(content)
 				.toJSONString();
 	}
-	
+
 	/**
 	 * 文件上传 支持多文件的上传
 	 * 
@@ -652,7 +648,7 @@ public class BIFileSystemResource {
 	 * @return
 	 * @throws Exception
 	 */
-	@Path("/upload")
+	@Path("/action/upload")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
@@ -660,16 +656,10 @@ public class BIFileSystemResource {
 			throws Exception {
 		ActionMessage resultMsg = new ActionMessage();
 
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setSizeThreshold(4096); // 设置缓冲区大小，这里是4kb
-
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		String fileSizeMax = PropertyUtils.getProperty("fs.upload.maxsize");
-		upload.setFileSizeMax(Long.parseLong(fileSizeMax));
-
-		List<FileItem> items = upload.parseRequest(request);// 得到所有的文件
+		// 得到所有的文件
+		List<FileItem> items = BIWebUtils.extractFileItems(request);
 		// 提取参数
-		Map<String, String> dataObj = extractParams(items);
+		Map<String, String> dataObj = BIWebUtils.extractFormField(items);
 
 		long rootId = Long.parseLong(dataObj.get("rootId"));
 		String workDir = dataObj.get("path");
@@ -677,7 +667,7 @@ public class BIFileSystemResource {
 
 		// 遍历文件并逐次上传
 		for (FileItem item : items) {
-			if (item.isFormField()) {
+			if (item.isFormField() || Const.isEmpty(item.getName())) {
 				continue;
 			}
 
@@ -695,8 +685,7 @@ public class BIFileSystemResource {
 				os = destFileObj.getContent().getOutputStream();
 
 				byte[] bytes = new byte[1024];
-				int in = 0;
-				while ((in = is.read(bytes)) != -1) {
+				while (is.read(bytes) != -1) {
 					os.write(bytes);
 				}
 				os.flush();
@@ -714,7 +703,8 @@ public class BIFileSystemResource {
 				item.delete();
 			}
 		}
-		resultMsg.addMessage("上传操作成功");
+		if (resultMsg.state())
+			resultMsg.addMessage("上传操作成功");
 		return resultMsg.toJSONString();
 	}
 
