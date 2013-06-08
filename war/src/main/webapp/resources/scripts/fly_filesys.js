@@ -35,14 +35,12 @@ Plywet.filesys = {
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
 		var targetId = "upload_dialog_" + currentCase.category;
 		
-		console.log(target);
-		
-		var msg = target["document"];
-		console.log(msg);
+		var msg = $(document.getElementById('fs_upload_space_frame').contentWindow.document.body).find("pre");
+		msg = $(msg).html();
 		if(msg && msg != ""){
 			msg = Plywet.parseJSON(msg);
 			// 清空
-			$(target.document).find("pre").first().html("");
+			$(document.getElementById('fs_upload_space_frame').contentWindow.document.body).html("");
 			
 			window[targetId + "_var"].hide();
 			this.flushDir(currentCase.category,{rootId:currentCase.rootId,path:currentCase.path});
@@ -159,7 +157,6 @@ Plywet.filesys = {
 		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
 		var category =  currentCase.category;
 		var targetId = "create_dialog_folder";
-		console.log(currentCase);
 		
 		Plywet.cw("Dialog",targetId+"_var",{
 			id : targetId,
