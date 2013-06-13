@@ -24,4 +24,9 @@
 		<title>NHL 2007</title>
 		<maxPlayers>16</maxPlayers>
 	</game>
+	
+	<fly:game system="Xbox" id="005">
+		<title>NHL 2007</title>
+		<maxPlayers>16</maxPlayers>
+	</fly:game>
 </videoGames>

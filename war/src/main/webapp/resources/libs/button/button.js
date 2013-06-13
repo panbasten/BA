@@ -108,6 +108,7 @@ Plywet.widget.PushButton.prototype.isActive = function(){
 };
 
 Plywet.widget.PushButton.prototype.initEvents = function(){
+	
 	// mouseOver
 	this.jq.bind("mouseover",this.cfg,function(event){
 		$(this).addClass('ui-state-hover');
@@ -126,4 +127,6 @@ Plywet.widget.PushButton.prototype.initEvents = function(){
 	
 	// other event
 	Plywet.attachBehaviors(this.jq,Plywet.assembleBehaviors(this.cfg.events,["mouseover","mouseout"]),this.cfg);
+	Plywet.attachBehaviorsOn(this.jq, this.cfg);
+	
 };

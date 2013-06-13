@@ -206,6 +206,14 @@ public class PageTemplateResolverType {
 		return categories;
 	}
 
+	public static String convertComponentPluginName(String name) {
+		ComponentPlugin plugin = getPlugin(name);
+		if (plugin != null) {
+			return plugin.getId();
+		}
+		return name;
+	}
+
 	public static List<String> getCategoryNames() throws BIPageException {
 		init();
 		return categoryNames;

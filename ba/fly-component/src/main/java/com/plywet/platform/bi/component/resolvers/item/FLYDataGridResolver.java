@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.xml.XMLUtils;
 import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,6 +15,7 @@ import com.plywet.platform.bi.component.resolvers.BaseComponentResolver;
 import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.HTMLWriter;
+import com.plywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.exception.BIPageException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
@@ -79,26 +81,54 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	@SuppressWarnings("unchecked")
 	private void parserSubNode(JSONObject jo, Node node,
 			FLYVariableResolver attrs) throws BIPageException, BIJSONException {
-		Node columns = this.getFirstSubNode(node,
-				HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_COLUMNS);
+		Node columns = XMLUtils.selectSingleNode(node, XMLUtils
+				.getTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_COLUMNS));
 		if (columns != null) {
 			jo.put(ATTR_COLUMNS, parserColumns(columns, attrs));
+		}
+
+		Node toolbar = XMLUtils.selectSingleNode(node, XMLUtils
+				.getTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_TOOLBAR));
+		if (toolbar != null) {
+			jo.put(ATTR_TOOLBAR, parserToolbar(toolbar, attrs));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private JSONArray parserColumns(Node node, FLYVariableResolver attrs)
+	private JSONArray parserToolbar(Node node, FLYVariableResolver attrs)
 			throws BIPageException, BIJSONException {
 		JSONArray ja = new JSONArray();
 		NodeList nodeList = node.getChildNodes();
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node subNode = nodeList.item(i);
-				String subNodeName = subNode.getNodeName();
-				if (subNodeName.equalsIgnoreCase(HTML.COMPONENT_TYPE_FLY_PREFIX
-						+ ATTR_ROW)) {
-					ja.add(parserColumnsRow(subNode, attrs));
+				if (!XMLUtils.isTextNode(subNode)) {
+					ja.add(parserToolbarElement(subNode, attrs));
 				}
+			}
+		}
+		return ja;
+	}
+
+	private JSONObject parserToolbarElement(Node node, FLYVariableResolver attrs)
+			throws BIPageException, BIJSONException {
+		Map<String, Object> map = HTML.getAttributesMap(node.getAttributes(),
+				null, attrs);
+		map.put("componentType", PageTemplateResolverType
+				.convertComponentPluginName(node.getNodeName()));
+		return JSONUtils.convertToJSONObject(map);
+	}
+
+	@SuppressWarnings("unchecked")
+	private JSONArray parserColumns(Node node, FLYVariableResolver attrs)
+			throws BIPageException, BIJSONException {
+		JSONArray ja = new JSONArray();
+		// 获得所有行
+		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
+				.getTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_ROW));
+		if (nodeList != null) {
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				ja.add(parserColumnsRow(nodeList.item(i), attrs));
 			}
 		}
 		return ja;
@@ -108,15 +138,11 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	private JSONArray parserColumnsRow(Node node, FLYVariableResolver attrs)
 			throws BIPageException, BIJSONException {
 		JSONArray ja = new JSONArray();
-		NodeList nodeList = node.getChildNodes();
+		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
+				.getTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_COLUMN));
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
-				Node subNode = nodeList.item(i);
-				String subNodeName = subNode.getNodeName();
-				if (subNodeName.equalsIgnoreCase(HTML.COMPONENT_TYPE_FLY_PREFIX
-						+ ATTR_COLUMN)) {
-					ja.add(parserColumnsRowColumn(subNode, attrs));
-				}
+				ja.add(parserColumnsRowColumn(nodeList.item(i), attrs));
 			}
 		}
 		return ja;

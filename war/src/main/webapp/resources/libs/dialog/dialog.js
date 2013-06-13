@@ -84,7 +84,7 @@ Plywet.widget.Dialog.prototype.ajax = function() {
 			url : this.cfg.url,
 			params : params,
 			beforeSend : function(){
-				_self.content.append("<div class='ui-dialog-content-loader-text'>正则加载...</div><div class='ui-dialog-content-loader'></div>");
+				_self.content.append("<div class='ui-dialog-content-loader-text'>正在加载...</div><div class='ui-dialog-content-loader'></div>");
 			}
 		});
 	}

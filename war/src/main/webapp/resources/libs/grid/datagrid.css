@@ -60,9 +60,8 @@
 	background:url('images/datagrid_sort_asc.gif') no-repeat center center;
 }
 .ui-datagrid-toolbar{
-	height:28px;
-	background:#efefef;
-	padding:1px 2px;
+	background:#ccc url('images/ui_datagrid_bg_rownumber.png') repeat-x left bottom;
+	padding:2px 5px;
 	border-bottom:1px solid #ccc;
 }
 .ui-datagrid-btn-separator{
@@ -123,7 +122,7 @@
 	padding:3px 0px;
 }
 .ui-datagrid-td-rownumber{
-	background:#c4c4c4 url('images/ui_datagrid_bg_rownumber.png') repeat-x left bottom;
+	background:#ccc url('images/ui_datagrid_bg_rownumber.png') repeat-x left bottom;
 }
 .ui-datagrid-cell-rownumber{
 	width:25px;

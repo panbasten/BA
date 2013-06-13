@@ -1,4 +1,7 @@
 Plywet = {
+	eventNames : ["click","blur","focus","change","dblclick",
+	              "keydown","keypress","keyup","mousedown",
+	              "mousemove","mouseout","mouseover","mouseup"],
 	
 	/**
 	 * 获得符合jQuery标准的ID
@@ -165,6 +168,12 @@ Plywet = {
                 fn.call(element, event, event.data);
             });
         });
+    },
+    
+    attachBehaviorsOn : function(element, behaviors){
+    	for(var i=0;i<Plywet.eventNames.length;i++){
+    		eval("if(behaviors.on"+Plywet.eventNames[i]+"){ element.attr('on"+Plywet.eventNames[i]+"', behaviors.on"+Plywet.eventNames[i]+"); }");
+    	}
     },
     
     assembleBehaviors : function(behaviors,exclude){

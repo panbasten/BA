@@ -82,20 +82,6 @@ public abstract class BaseComponentResolver implements
 		return required;
 	}
 
-	public Node getFirstSubNode(Node node, String nodeName) {
-		NodeList nodeList = node.getChildNodes();
-		if (nodeList != null) {
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				Node subNode = nodeList.item(i);
-				String subNodeName = subNode.getNodeName();
-				if (nodeName.equalsIgnoreCase(subNodeName)) {
-					return subNode;
-				}
-			}
-		}
-		return null;
-	}
-
 	public Object getJSONAttribute(Object data) throws BIJSONException {
 		if (data instanceof ComponentDataInterface) {
 			return ((ComponentDataInterface) data).getFormDataJo();

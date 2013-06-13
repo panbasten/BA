@@ -95,8 +95,8 @@ public class HTML {
 	public static final String COMPONENT_TYPE_PANEL = COMPONENT_TYPE_FLY_PREFIX
 			+ "Panel";
 
-	public static final String COMPONENT_TYPE_GRID = COMPONENT_TYPE_FLY_PREFIX
-			+ "Grid";
+	public static final String COMPONENT_TYPE_DATA_GRID = COMPONENT_TYPE_FLY_PREFIX
+			+ "DataGrid";
 	public static final String COMPONENT_TYPE_VALIDATE_BOX = COMPONENT_TYPE_FLY_PREFIX
 			+ "ValidateBox";
 	public static final String COMPONENT_TYPE_NUMBER_BOX = COMPONENT_TYPE_FLY_PREFIX

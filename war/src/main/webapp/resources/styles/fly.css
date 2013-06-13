@@ -301,6 +301,7 @@
 	background-repeat:no-repeat;
 	float:right;
 	margin:5px 20px;
+	cursor:pointer;
 }
 /*导航小图标*/
 .ui-navi-icon{

@@ -104,6 +104,16 @@ public class XMLUtils {
 	}
 
 	/**
+	 * 获得节点标签的XPath表达式
+	 * 
+	 * @param tagName
+	 * @return
+	 */
+	public static String getTagExpress(String tagName) {
+		return "//*[name()='" + tagName + "']";
+	}
+
+	/**
 	 * 查找节点，返回符合条件的节点集
 	 * 
 	 * @param node

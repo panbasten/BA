@@ -93,6 +93,11 @@ Plywet.desktop = {
 			}
 		});
 		
+		// 4.退出按钮
+		$(".fly-exit").bind("click", function(){
+			window.location='login';
+		});
+		
 	},
 	
 	resize : function() {

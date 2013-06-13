@@ -30,6 +30,11 @@ public class XmlUtilsTest extends TestCase {
 		Node n1 = XMLUtils.selectSingleNode(test, "//game[@system='PS2']");
 
 		assertEquals(n, n1);
+
+		Node n2 = XMLUtils.selectSingleNode(test, XMLUtils
+				.getTagExpress("fly:game"));
+		String n2System = XMLUtils.getTagOrAttribute(n2, "system");
+		assertEquals(n2System, "Xbox");
 	}
 
 	public void testDeleteSingleNode() throws Exception {

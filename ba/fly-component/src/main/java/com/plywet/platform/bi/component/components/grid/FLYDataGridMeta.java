@@ -10,7 +10,7 @@ import com.plywet.platform.bi.component.core.ComponentMetaInterface;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 
-public class FLYGridMeta extends BaseComponentMeta implements
+public class FLYDataGridMeta extends BaseComponentMeta implements
 		ComponentMetaInterface {
 
 	private List<List<ColumnObjectData>> columns;
@@ -22,7 +22,7 @@ public class FLYGridMeta extends BaseComponentMeta implements
 
 	@Override
 	public String getComponentType() {
-		return HTML.COMPONENT_TYPE_GRID;
+		return HTML.COMPONENT_TYPE_DATA_GRID;
 	}
 
 	public void addColumn(int rowIdx, ColumnObjectData col) {
