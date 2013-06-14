@@ -1,6 +1,5 @@
 package com.plywet.platform.bi.web.model;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,13 +55,11 @@ public class ParameterContext {
 	 *            参数名
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public String getParameter(String paramName) {
 		if (StringUtils.isEmpty(paramName)) {
 			return null;
 		}
-		List<String> paramValues = parameterHolder.get(URLEncoder
-				.encode(paramName));
+		List<String> paramValues = parameterHolder.get(paramName);
 		if (paramValues == null || paramValues.isEmpty()) {
 			return null;
 		}
@@ -77,14 +74,12 @@ public class ParameterContext {
 	 *            参数名
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public List<String> getParameterValues(String paramName) {
 		if (StringUtils.isEmpty(paramName)) {
 			return null;
 		}
 
-		List<String> paramValues = parameterHolder.get(URLEncoder
-				.encode(paramName));
+		List<String> paramValues = parameterHolder.get(paramName);
 		return paramValues;
 	}
 

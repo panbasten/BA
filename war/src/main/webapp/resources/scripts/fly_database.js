@@ -12,17 +12,5 @@ Plywet.database = {
 				accessType : accessType
 			}
 		});
-	},
-	option_add_on_click : function(formId){
-		var grid = $(Plywet.escapeClientId(formId+":options"));
-		grid.datagrid("appendRow",{
-			'key' : '',
-			'value' : ''
-		});
-		var lastIndex = grid.datagrid("getRows").length - 1;
-		for(var i=0;i<lastIndex;i++){
-			grid.datagrid('endEdit', i);
-		}
-		grid.datagrid('beginEdit', lastIndex);
 	}
 };

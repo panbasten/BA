@@ -39,7 +39,7 @@
 		
 		<fly:labelObject text="命名参数" />
 		
-		<fly:dataGrid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" selectable="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
+		<fly:dataGrid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="key" title="参数名" width="150" align="center" />

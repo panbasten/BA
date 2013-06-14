@@ -14,7 +14,7 @@
 	
 	<fly:verticalLayout>
 		<fly:labelObject text="命名参数" />
-		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" selectable="false" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
+		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="partitionId" title="分区ID" width="100" editor="text" align="center" />
@@ -25,6 +25,10 @@
 					<fly:column field="password" title="密码" width="100" editor="text" align="center" />
 				</fly:row>
 			</fly:columns>
+			<fly:toolbar>
+				<fly:pushbutton id="${formId}:partitioningInformations:append" icon="ui-icon-plusthick" onclick="Plywet.editors.toolbarButton.addRow('${formId}:partitioningInformations');" title="添加" />
+				<fly:pushbutton id="${formId}:partitioningInformations:remove" icon="ui-icon-closethick" onclick="Plywet.editors.toolbarButton.deleteRow('${formId}:partitioningInformations');" title="删除" />
+			</fly:toolbar>
 		</fly:dataGrid>
 	</fly:verticalLayout>
 

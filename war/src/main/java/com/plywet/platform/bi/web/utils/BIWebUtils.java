@@ -93,5 +93,5 @@ public class BIWebUtils {
 		}
 		return params;
 	}
-	
+
 }

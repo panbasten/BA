@@ -36,7 +36,7 @@
 		
 		<fly:inputText id="${formId}:preferredSchemaName" name="${formId}:preferredSchemaName" type="text" value="${dbMeta.preferredSchemaName}" />
 		
-		<fly:labelObject buddy="${formId}:connectionType" text="请输入连接成功后要执行的SQL语句，用分号(;)隔开" />
+		<fly:labelObject buddy="${formId}:connectSQL" text="请输入连接成功后要执行的SQL语句，用分号(;)隔开" />
 		
 		<textarea id="${formId}:connectSQL" name="${formId}:connectSQL" style="width:100%;" rows="6">
 			${dbMeta.connectSQL}

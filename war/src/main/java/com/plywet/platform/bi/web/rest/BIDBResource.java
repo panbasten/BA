@@ -16,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.database.BaseDatabaseMeta;
 import org.pentaho.di.core.database.DatabaseConnectionPoolParameter;
 import org.pentaho.di.core.database.DatabaseMeta;
@@ -130,7 +131,7 @@ public class BIDBResource {
 
 			// 3.连接区
 			List<String> settings = new ArrayList<String>();
-			setConnectionSettings(settings, dbMeta);
+			getConnectionSettings(settings, dbMeta);
 			attrsMap.addVariable("connectionSettings", settings);
 
 			// 返回页面控制
@@ -165,15 +166,72 @@ public class BIDBResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public void saveSetting(@CookieParam("repository") String repository,
 			@PathParam("id") String id, String body) {
-		// List<InPart> parts = bimp.getParts();
 		try {
+			String DB_PREFIX = "db_" + id + ":";
+
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
-			String aaa = paramContext.getParameter("db_1:id");
-			System.out.println(id);
+			DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(repository, Long
+					.valueOf(id));
+
+			// 1.Base
+			setBase(dbMeta, paramContext, DB_PREFIX);
+
+			// 2.Advance
+			setAdvance(dbMeta, paramContext, DB_PREFIX);
+
+			// 3.option
+
+			// 4.pool
+
+			// 5.cluster
+
 		} catch (Exception e) {
 
 		}
+	}
+
+	private void setBase(DatabaseMeta dbMeta, ParameterContext paramContext,
+			String DB_PREFIX) {
+		dbMeta.setName(Const.NVL(paramContext.getParameter(DB_PREFIX + "name"),
+				""));
+		dbMeta.setDatabaseType(paramContext.getParameter(DB_PREFIX
+				+ "connectionType"));
+		dbMeta.setAccessType(Integer.valueOf(paramContext
+				.getParameter(DB_PREFIX + "accessType")));
+
+		setConnectionSettings(dbMeta, paramContext, DB_PREFIX);
+	}
+
+	private void setAdvance(DatabaseMeta dbMeta, ParameterContext paramContext,
+			String DB_PREFIX) {
+		boolean SUPPORTS_BOOLEAN_DATA_TYPE = Utils.toBoolean(paramContext
+				.getParameter(DB_PREFIX + "SUPPORTS_BOOLEAN_DATA_TYPE"), false);
+		dbMeta.getAttributes().put("SUPPORTS_BOOLEAN_DATA_TYPE",
+				String.valueOf(SUPPORTS_BOOLEAN_DATA_TYPE));
+
+		boolean QUOTE_ALL_FIELDS = Utils.toBoolean(paramContext
+				.getParameter(DB_PREFIX + "QUOTE_ALL_FIELDS"), false);
+		dbMeta.getAttributes().put("QUOTE_ALL_FIELDS",
+				String.valueOf(QUOTE_ALL_FIELDS));
+
+		boolean FORCE_IDENTIFIERS_TO_LOWERCASE = Utils.toBoolean(paramContext
+				.getParameter(DB_PREFIX + "FORCE_IDENTIFIERS_TO_LOWERCASE"),
+				false);
+		dbMeta.getAttributes().put("FORCE_IDENTIFIERS_TO_LOWERCASE",
+				String.valueOf(FORCE_IDENTIFIERS_TO_LOWERCASE));
+
+		boolean FORCE_IDENTIFIERS_TO_UPPERCASE = Utils.toBoolean(paramContext
+				.getParameter(DB_PREFIX + "FORCE_IDENTIFIERS_TO_UPPERCASE"),
+				false);
+		dbMeta.getAttributes().put("FORCE_IDENTIFIERS_TO_UPPERCASE",
+				String.valueOf(FORCE_IDENTIFIERS_TO_UPPERCASE));
+
+		dbMeta.setPreferredSchemaName(Const.NVL(paramContext
+				.getParameter(DB_PREFIX + "preferredSchemaName"), ""));
+
+		dbMeta.setConnectSQL(Const.NVL(paramContext.getParameter(DB_PREFIX
+				+ "connectSQL"), ""));
 	}
 
 	/**
@@ -217,7 +275,7 @@ public class BIDBResource {
 			attrsMap.addVariable("accessTypes", opts.getOptions());
 			// 3.数据库连接设置
 			List<String> settings = new ArrayList<String>();
-			setConnectionSettings(settings, dbMeta);
+			getConnectionSettings(settings, dbMeta);
 
 			// 4.属性
 			attrsMap.addVariable("connectionProperties", GridDataObject
@@ -253,7 +311,13 @@ public class BIDBResource {
 		return props;
 	}
 
-	private void setConnectionSettings(List<String> settings,
+	/**
+	 * 获取数据库链接设置
+	 * 
+	 * @param settings
+	 * @param dbMeta
+	 */
+	private void getConnectionSettings(List<String> settings,
 			DatabaseMeta dbMeta) {
 
 		String accessTypeDesc = dbMeta.getAccessTypeDesc();
@@ -283,6 +347,85 @@ public class BIDBResource {
 
 		if (dbMeta.getDatabaseInterface() instanceof MySQLDatabaseMeta) {
 			settings.add("MYSQL.h");
+		}
+	}
+
+	private void setConnectionSettings(DatabaseMeta dbMeta,
+			ParameterContext paramContext, String DB_PREFIX) {
+		String accessTypeDesc = dbMeta.getAccessTypeDesc();
+		String databaseTypeName = dbMeta.getDatabaseInterface().getPluginName();
+		if ("Plugin".equals(accessTypeDesc)) {
+			if ("SAPR3".equals(databaseTypeName)) {
+				// SAPR3.h
+				dbMeta.setHostname(Const.NVL(paramContext
+						.getParameter(DB_PREFIX + "hostname"), ""));
+				dbMeta.getAttributes().put(
+						"SAPSystemNumber",
+						Const.NVL(paramContext.getParameter(DB_PREFIX
+								+ "SAPSystemNumber"), ""));
+				dbMeta.getAttributes().put(
+						"SAPClient",
+						Const.NVL(paramContext.getParameter(DB_PREFIX
+								+ "SAPClient"), ""));
+				dbMeta.getAttributes().put(
+						"SAPLanguage",
+						Const.NVL(paramContext.getParameter(DB_PREFIX
+								+ "SAPLanguage"), ""));
+			} else {
+				// Native.h
+				dbMeta.setHostname(Const.NVL(paramContext
+						.getParameter(DB_PREFIX + "hostname"), ""));
+				dbMeta.setDBName(Const.NVL(paramContext.getParameter(DB_PREFIX
+						+ "databaseName"), ""));
+				dbMeta.setDBPort(Const.NVL(paramContext.getParameter(DB_PREFIX
+						+ "databasePortNumberString"), ""));
+			}
+		} else {
+			// accessTypeDesc + .h
+			// JNDI.h
+			if ("JNDI".equals(accessTypeDesc)) {
+				dbMeta.setDBName(Const.NVL(paramContext.getParameter(DB_PREFIX
+						+ "databaseName"), ""));
+			}
+			// ODBC.h
+			else if ("ODBC".equals(accessTypeDesc)) {
+				dbMeta.setDBName(Const.NVL(paramContext.getParameter(DB_PREFIX
+						+ "databaseName"), ""));
+			}
+			// OCI.h
+			else if ("OCI".equals(accessTypeDesc)) {
+				dbMeta.setDBName(Const.NVL(paramContext.getParameter(DB_PREFIX
+						+ "databaseName"), ""));
+			}
+		}
+
+		if ("ORACLE".equals(databaseTypeName)) {
+			// ORACLE.h
+			dbMeta.setDataTablespace(Const.NVL(paramContext
+					.getParameter(DB_PREFIX + "dataTablespace"), ""));
+			dbMeta.setIndexTablespace(Const.NVL(paramContext
+					.getParameter(DB_PREFIX + "indexTablespace"), ""));
+		}
+
+		if ("INFORMIX".equals(databaseTypeName)
+				&& !"ODBC".equals(accessTypeDesc)) {
+			// INFORMIX.h
+			dbMeta.setServername(Const.NVL(paramContext.getParameter(DB_PREFIX
+					+ "servername"), ""));
+		}
+
+		if (!"JNDI".equals(accessTypeDesc)) {
+			// User.h
+			dbMeta.setUsername(Const.NVL(paramContext.getParameter(DB_PREFIX
+					+ "username"), ""));
+			dbMeta.setPassword(Const.NVL(paramContext.getParameter(DB_PREFIX
+					+ "password"), ""));
+		}
+
+		if (dbMeta.getDatabaseInterface() instanceof MySQLDatabaseMeta) {
+			// MYSQL.h
+			dbMeta.setStreamingResults(Utils.toBoolean(paramContext
+					.getParameter(DB_PREFIX + "streamingResults"), false));
 		}
 	}
 }

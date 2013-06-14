@@ -872,7 +872,7 @@ Plywet.ajax.AjaxUtils = {
         var serializedParams = '';
 		
         for(var param in params) {
-            serializedParams = serializedParams + "&" + param + "=" + encodeURIComponent(params[param]);
+            serializedParams = serializedParams + "&" + encodeURIComponent(param) + "=" + encodeURIComponent(params[param]);
         }
         return serializedParams;
     },
