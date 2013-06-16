@@ -15,7 +15,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:inputText id="fs2" name="fs2" type="file" size="30" style="border:0 none;" />
+			<fly:inputText id="fs2" name="fs2" type="file" size="30" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -23,7 +23,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:inputText id="fs3" name="fs3" type="file" size="30" style="border:0 none;" />
+			<fly:inputText id="fs3" name="fs3" type="file" size="30" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -31,7 +31,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:inputText id="fs4" name="fs4" type="file" size="30" style="border:0 none;" />
+			<fly:inputText id="fs4" name="fs4" type="file" size="30" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -39,7 +39,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:inputText id="fs5" name="fs5" type="file" size="30" style="border:0 none;" />
+			<fly:inputText id="fs5" name="fs5" type="file" size="30" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 

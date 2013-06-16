@@ -58,6 +58,7 @@ Plywet.editors.dashboard = {
 						,	paneSelector : "#dashboardStepBar"
 						,	togglerTip_open:		"关闭工具箱"
 						,	togglerTip_closed:		"打开工具箱"
+						,	sliderTip:				"弹出工具箱"
 						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-e'></div>"
 						,	resizable:				false
 //						,	initClosed:				true
@@ -67,6 +68,7 @@ Plywet.editors.dashboard = {
 						,	paneSelector : "#dashboardPropBar"
 						,	togglerTip_open:		"关闭属性框"
 						,	togglerTip_closed:		"打开属性框"
+						,	sliderTip:				"弹出属性箱"
 						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-w'></div>"
 						,	resizerTip:		"调整属性框宽度"
 						,	childOptions: {
@@ -119,6 +121,10 @@ Plywet.editors.dashboard = {
 								,	paneSelector : 			"#dashboardSignalBar"
 								,	slideTrigger_open:		"click"
 								,	spacing_closed:			16
+								,	togglerTip_open:		"关闭信号/槽框"
+								,	togglerTip_closed:		"打开信号/槽框"
+								,	sliderTip:				"弹出信号/槽框"
+								,  	resizerTip:				"调整信号/槽框高度"
 								,	togglerAlign_closed:	"right"
 								,	togglerLength_closed:	36
 								,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-n'></div>"

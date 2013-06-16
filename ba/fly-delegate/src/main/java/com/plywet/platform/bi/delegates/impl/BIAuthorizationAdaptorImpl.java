@@ -29,11 +29,9 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 			getRepository().connectionDelegate
 					.performDelete(
 							"DELETE FROM "
-									+ this
-											.quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
+									+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
 									+ " WHERE "
-									+ this
-											.quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
+									+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
 									+ " = ? ", new LongObjectId(rid));
 			getRepository().commit();
 		} catch (KettleException e) {
@@ -47,11 +45,15 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 	public List<Authorization> getAuthorization(long rid)
 			throws BIKettleException {
 		String sql = "SELECT "
-				+ KettleDatabaseRepository.FIELD_AUTHORIZATION_RID + ","
-				+ KettleDatabaseRepository.FIELD_AUTHORIZATION_FID + ","
-				+ KettleDatabaseRepository.FIELD_AUTHORIZATION_PERMISSION
-				+ " FROM " + KettleDatabaseRepository.TABLE_R_AUTHORIZATION
-				+ " WHERE " + KettleDatabaseRepository.FIELD_AUTHORIZATION_RID
+				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
+				+ ","
+				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_FID)
+				+ ","
+				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_PERMISSION)
+				+ " FROM "
+				+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
+				+ " WHERE "
+				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
 				+ " = ?";
 		sql = this.replaceParam(sql, String.valueOf(rid));
 
@@ -93,12 +95,13 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 		}
 
 		try {
-			getRepository().connectionDelegate.performDelete(
-					"DELETE FROM "
-							+ KettleDatabaseRepository.TABLE_R_AUTHORIZATION
-							+ " WHERE "
-							+ KettleDatabaseRepository.FIELD_AUTHORIZATION_RID
-							+ " = ?", new LongObjectId(rid));
+			getRepository().connectionDelegate
+					.performDelete(
+							"DELETE FROM "
+									+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
+									+ " WHERE "
+									+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
+									+ " = ?", new LongObjectId(rid));
 
 			for (Authorization auth : auths) {
 				RowMetaAndData rmd = new RowMetaAndData();

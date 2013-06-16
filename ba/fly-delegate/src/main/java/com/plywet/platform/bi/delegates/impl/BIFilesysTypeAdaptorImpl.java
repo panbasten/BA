@@ -18,13 +18,13 @@ public class BIFilesysTypeAdaptorImpl extends BIAbstractDbAdaptor implements
 	public List<Object[]> getAllFilesysType() throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_TYPE_ID_FS_TYPE
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_TYPE_ID_FS_TYPE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_TYPE_CODE
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_TYPE_CODE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FILESYS_TYPE_DESCRIPTION
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_TYPE_DESCRIPTION)
 					+ " FROM "
-					+ KettleDatabaseRepositoryBase.TABLE_R_FILESYS_TYPE;
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FILESYS_TYPE);
 			return getRows(sql);
 		} catch (KettleException e) {
 			throw new BIKettleException(e);

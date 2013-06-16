@@ -96,11 +96,11 @@ Plywet.editors.trans = {
 						size:					"auto"
 						,	minSize:				50
 						,	hideTogglerOnSlide:		true		// hide the toggler when pane is 'slid open'
-						,	slideTrigger_open:		"mouseover"
-						,	livePaneResizing:		true
+						,	slideTrigger_open:		"click"
+//						,	livePaneResizing:		true
 						,	spacing_closed:			16
 						,	togglerAlign_closed:	"top"
-						,	togglerLength_closed:	16
+						,	togglerLength_closed:	36
 						//	effect defaults - overridden on some panes
 						,	fxName:					"slide"		// none, slide, drop, scale
 						,	fxSpeed_open:			750
@@ -120,25 +120,28 @@ Plywet.editors.trans = {
 						,	paneSelector : "#transStepBar"
 						,	togglerTip_open:		"关闭工具箱"
 						,	togglerTip_closed:		"打开工具箱"
+						,	sliderTip:				"弹出工具箱"
+						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-e'></div>"
 						,	resizable:				false
 	//					,	initClosed:				true
-						,	fxSettings_open:		{ easing: "easeOutBounce" }
 					}
 					, east : {
 						size : 250
 						,	paneSelector : "#transPropBar"
 						,	togglerTip_open:		"关闭属性框"
 						,	togglerTip_closed:		"打开属性框"
+						,	sliderTip:				"弹出属性箱"
+						,	togglerContent_closed: 	"<div class='ui-layout-toggler-closed-icon ui-icon ui-icon-circle-triangle-w'></div>"
 						,	resizerTip:		"调整属性框宽度"
 						,	childOptions: {
 							defaults: {
 								size:					"auto"
 								,	contentSelector:	".ui-widget-content"
 								,	minSize : 				30
-//								,	animatePaneSizing: 		true
-//								,	fxSpeed_size:			750
-//								,	fxSettings_size:		{ easing: "easeInQuint" }
-								,	livePaneResizing:		true
+								,	animatePaneSizing: 		true
+								,	fxSpeed_size:			750
+								,	fxSettings_size:		{ easing: "easeInQuint" }
+//								,	livePaneResizing:		true
 								,	onresize_end:			function(){
 										transEditorPanel_var.autoChangeSize();
 									}

@@ -8,7 +8,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>享元 BI 操作平台</title>
+		<title>享元 BA 操作平台</title>
         
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
@@ -82,14 +82,14 @@
 						<div class="ui-loging-title"></div>
 						<form id="login" style="margin:0;">
 						<fieldset style="width:215px;">
-							<div>
+							<div id="repositoryDiv" style="display:none;">
 								<h1 class="ui-login-label"><label for="repository">资源库</label></h1>
 								<select id="repository" name="repository" style="width:135px;" class="ui-login-widget">
 								</select>
 							</div>
 							<div>
 								<h1 class="ui-login-label"><label for="username">用户名</label></h1>
-								<input id="username" name="username" class="ui-login-widget" value="" />
+								<input id="username" name="username" class="ui-login-widget" value="guest" />
 							</div>
 							<div>
 								<h1 class="ui-login-label"><label for="password">密　码</label></h1>
@@ -100,12 +100,7 @@
 								
 							</div>
 							<div class="buttonBox">
-								<input id="loginBtn" class="ui-login-button ui-login-button-default" 
-									onmouseover="$(this).addClass('ui-login-button-hover');" 
-									onmouseout="$(this).removeClass('ui-login-button-hover');"
-									onfocus="$(this).addClass('ui-login-button-hover');" 
-									onblur="$(this).removeClass('ui-login-button-hover');"
-									value="" type="button" />
+								<div id="loginBtn" class="ui-login-button ui-login-button-default"></div>
 							</div>
 						</fieldset>
 						</form>
@@ -113,9 +108,11 @@
 					
 				</div>
 				<div id="footer">
-					北京享元科技软件技术有限公司&#160;&#160;&#160;&#160;&#160;&#160;
-					<br />
-					版权所有(2013)©，如需转载，请注明来源&#160;&#160;&#160;&#160;&#160;&#160;
+					<div id="footerBox">
+						北京享元科技软件技术有限公司
+						<br />
+						版权所有(2013)©，如需转载，请注明来源
+					</div>
 				</div>
 			</div>
 		</div>

@@ -21,37 +21,23 @@ Plywet.Login = {
 		}
 	},
 	
-	closeWebPage : function() {  
-        if (Plywet.browserDetect.msie) {  
-            if (Plywet.browserDetect.isIE6) {  
-                window.opener = null; 
-                window.close();  
-            }  
-            else {  
-                window.open('', '_top'); 
-                window.top.close();  
-            }  
-        }  
-        else if (Plywet.browserDetect.mozilla) {
-        	if(window["editorPageHandle"]){
-        		window.location.href = 'about:blank';  
-        	}
-            //window.history.go(-2);  
-        }  
-        else {  
-            window.opener = null;   
-            window.open('', '_self', '');  
-            window.close();  
-        }  
-    },
+	pageBlocked : function() {
+		$("#errors").html("浏览器阻止弹出系统首页，请将该网站加入授信站点，并且允许浏览器弹出该网址窗口，然后再次登录。");
+		$("#loginBtn").blur()
+			.removeClass("ui-login-button-disabled")
+			.removeClass("ui-login-button-hover")
+			.bind("click", function(){
+				Plywet.Login.loginAction();
+			});
+	},
 	
 	loginAction : function(){
 		Plywet.ab({
 			formId: "login",
 			formAction: "rest/identification",
 			beforeSend : function(){
-				$("#loginBtn").attr("disabled","disabled")
-					.addClass("ui-login-button-disabled");
+				$("#loginBtn").addClass("ui-login-button-disabled")
+				.unbind("click");
 				$("#errors").html("正在登陆...");
 			},
 			onsuccess: function(data, status, xhr){
@@ -60,15 +46,66 @@ Plywet.Login = {
 					for(var p in cookieJson){
 						Plywet.CookieUtils.write(p,cookieJson[p]);
 					}
+					// 判断是否是子页面
 					//window.location = "editor";
+					
 					if (Plywet.browserDetect.msie){
 						window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
-					}else{
-						window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
-						window["editorPageHandle"].moveTo(0, 0);
-						window["editorPageHandle"].resizeTo(window.screen.availWidth, window.screen.availHeight);
+						var num = 0;
+						function checkWebPageForIE(){
+							if(window["editorPageHandle"]){
+								clearInterval(interval);
+								if (Plywet.browserDetect.isIE6) {  
+									window.opener = null; 
+									window.close();  
+								}  
+								else {  
+									window.open('', '_top'); 
+									window.top.close();  
+					            }
+							}else{
+								num = num + 1;
+								if(num>10){
+									clearInterval(interval);
+									Plywet.Login.pageBlocked();
+								}
+							}
+						}
+						var interval = setInterval(checkWebPageForIE, 500);
+					
+					}else if (Plywet.browserDetect.webkit){
+						window["editorPageHandle"] = window.open("editor","","left=0,top=0,width="+window.screen.availWidth+",height="+window.screen.availHeight+",modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
+						var num = 0;
+						function checkWebPageForWebkit(){
+							if (window["editorPageHandle"] && window["editorPageHandle"].outerHeight > 0){
+								clearInterval(interval);
+								window.opener = null;
+					            window.open('', '_self', '');
+								window.close();
+							}else{
+								num = num + 1;
+								if(num>10){
+									clearInterval(interval);
+									Plywet.Login.pageBlocked();
+								}
+							}
+						}
+						var interval = setInterval(checkWebPageForWebkit, 500);
+						
+					}else if (Plywet.browserDetect.mozilla){
+						try{
+							window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
+							window["editorPageHandle"].moveTo(0, 0);
+							window["editorPageHandle"].resizeTo(window.screen.availWidth, window.screen.availHeight);
+					
+							window.location.href = 'about:blank';
+						}
+						catch(e){
+							Plywet.Login.pageBlocked();
+						}
 					}
-					setTimeout("Plywet.Login.closeWebPage();",500);
+						
+					window["editorPageHandle"].focus();
 				}else{
 					var msg = "";
 					if(data.messages){
@@ -77,8 +114,7 @@ Plywet.Login = {
 						}
 					}
 					$("#errors").html(msg);
-					$("#loginBtn").removeAttr("disabled")
-						.blur()
+					$("#loginBtn").blur()
 						.removeClass("ui-login-button-disabled")
 						.removeClass("ui-login-button-hover");
 				}
@@ -101,6 +137,9 @@ Plywet.Login = {
 			onsuccess: function(data, status, xhr){
 				for(var i=0;i<data.length;i++){
 					$("#repository").append("<option value=\""+data[i]+"\" >"+data[i]+"</option>");
+				}
+				if(data.length > 1){
+					$("#repositoryDiv").show();
 				}
 				return true;
 			}
@@ -130,8 +169,16 @@ Plywet.Login = {
 		
 		
 		// 登录按钮
-		$("#loginBtn").bind("click", function(){
+		$("#loginBtn").live("click", function(){
 			Plywet.Login.loginAction();
+		}).live("mouseover", function(){
+			$(this).addClass('ui-login-button-hover');
+		}).live("mouseout", function(){
+			$(this).removeClass('ui-login-button-hover');
+		}).live("focus", function(){
+			$(this).addClass('ui-login-button-hover');
+		}).live("blur", function(){
+			$(this).removeClass('ui-login-button-hover');
 		});
 		
 		$(document).keydown(function(e){

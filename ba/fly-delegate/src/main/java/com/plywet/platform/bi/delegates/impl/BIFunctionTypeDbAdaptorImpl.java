@@ -27,25 +27,25 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_HELPTEXT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_HELPTEXT)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX)
 					+ " FROM "
-					+ KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE)
 					+ " WHERE "
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT)
 					+ " = " + id + " ORDER BY "
-					+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX;
+					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX);
 			List<RowMetaAndData> rmds = getRowsWithMeta(sql);
 			if (Utils.isEmpty(rmds)) {
 				return Collections.emptyList();
@@ -86,13 +86,13 @@ public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
 												"0")));
 
 				String extSql = "SELECT "
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE
+						+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE)
 						+ ","
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR
+						+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR)
 						+ " FROM "
-						+ KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE_ATTRIBUTE
+						+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE_ATTRIBUTE)
 						+ " WHERE "
-						+ KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE
+						+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE)
 						+ " = " + ft.getId();
 				List<RowMetaAndData> extRmds = getRowsWithMeta(extSql);
 

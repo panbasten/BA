@@ -42,10 +42,11 @@ public class BIRoleAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public List<Role> getAllRoles() throws BIKettleException {
 		String sql = "SELECT "
-				+ KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE + ","
-				+ KettleDatabaseRepositoryBase.FIELD_ROLE_NAME + ","
-				+ KettleDatabaseRepositoryBase.FIELD_ROLE_DESCRIPTION
-				+ " FROM " + KettleDatabaseRepositoryBase.TABLE_R_ROLE;
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_NAME) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_DESCRIPTION)
+				+ " FROM "
+				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_ROLE);
 		List<Object[]> rows = null;
 		try {
 			rows = getRepository().connectionDelegate.getRows(sql);
@@ -131,17 +132,22 @@ public class BIRoleAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public List<IUser> getUsers(long roleId) throws BIKettleException {
 		String sql = "SELECT "
-				+ KettleDatabaseRepositoryBase.FIELD_USER_ID_USER + ","
-				+ KettleDatabaseRepositoryBase.FIELD_USER_LOGIN + ","
-				+ KettleDatabaseRepositoryBase.FIELD_USER_PASSWORD + ","
-				+ KettleDatabaseRepositoryBase.FIELD_USER_NAME + ","
-				+ KettleDatabaseRepositoryBase.FIELD_USER_DESCRIPTION + ","
-				+ KettleDatabaseRepositoryBase.FIELD_USER_ENABLED + " FROM "
-				+ KettleDatabaseRepositoryBase.TABLE_R_USER + " WHERE "
-				+ KettleDatabaseRepositoryBase.FIELD_USER_ID_USER + " IN("
-				+ "SELECT " + KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID
-				+ " FROM " + KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE
-				+ " WHERE " + KettleDatabaseRepositoryBase.FIELD_USER_ROLE_RID
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ID_USER) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_LOGIN) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_PASSWORD) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_NAME) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_DESCRIPTION)
+				+ "," + quote(KettleDatabaseRepositoryBase.FIELD_USER_ENABLED)
+				+ " FROM "
+				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER)
+				+ " WHERE "
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ID_USER)
+				+ " IN(" + "SELECT "
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID)
+				+ " FROM "
+				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE)
+				+ " WHERE "
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_RID)
 				+ " = " + roleId + ")";
 		List<Object[]> rows = null;
 		try {

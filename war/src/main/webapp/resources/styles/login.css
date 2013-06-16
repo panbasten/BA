@@ -217,9 +217,14 @@ div.section {
 	margin-top:10px;
 	width: 100%;
 	height:64px;
-	text-align: right;
-	color: white;
 	padding-top: 15px;
+}
+
+#footerBox {
+	float: right;
+	text-align: right;
+	margin-right:20px;
+	color: white;
 }
 
 #login fieldset {

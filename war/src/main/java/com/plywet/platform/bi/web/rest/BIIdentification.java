@@ -70,9 +70,9 @@ public class BIIdentification {
 			if (Utils.isEmpty(username)) {
 				am.addErrorMessage("请输入用户名");
 			}
-			if (Utils.isEmpty(password)) {
-				am.addErrorMessage("请输入登录密码");
-			}
+//			if (Utils.isEmpty(password)) {
+//				am.addErrorMessage("请输入登录密码");
+//			}
 
 			if (!am.state()) {
 				return am.toJSONString();

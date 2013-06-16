@@ -101,13 +101,14 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String delSql = "DELETE FROM "
-					+ KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE)
 					+ " WHERE "
-					+ KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID + " = ?";
+					+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID)
+					+ " = ?";
 			this.execSql(delSql, new Object[] { uid });
 
 			String insertSql = "INSERT INTO "
-					+ KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE)
 					+ " VALUES(?,?)";
 			for (Long rid : roleIds) {
 				this.execSql(insertSql, new Object[] { rid, uid });
@@ -135,16 +136,20 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public List<Role> getRelateRoles(long uid) throws BIKettleException {
 		String sql = "SELECT "
-				+ KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE + ","
-				+ KettleDatabaseRepositoryBase.FIELD_ROLE_NAME + ","
-				+ KettleDatabaseRepositoryBase.FIELD_ROLE_DESCRIPTION
-				+ " FROM " + KettleDatabaseRepositoryBase.TABLE_R_ROLE
-				+ " WHERE " + KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_NAME) + ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_DESCRIPTION)
+				+ " FROM "
+				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_ROLE)
+				+ " WHERE "
+				+ quote(KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE)
 				+ " IN(" + "SELECT "
-				+ KettleDatabaseRepositoryBase.FIELD_USER_ROLE_RID + " FROM "
-				+ KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE + " WHERE "
-				+ KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID + " = "
-				+ uid + ")";
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_RID)
+				+ " FROM "
+				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE)
+				+ " WHERE "
+				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID)
+				+ " = " + uid + ")";
 		List<Object[]> rows = null;
 		try {
 			rows = getRepository().connectionDelegate.getRows(sql);

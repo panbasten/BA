@@ -57,8 +57,22 @@
 										<copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/browsePanel/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
+		                                <!-- 
+		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/contextmenu/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                -->
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/dialog/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/grid/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/layout/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/menu/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/scrollbar/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
@@ -72,12 +86,8 @@
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/menu/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
-		                                
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/validate/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
-		                                </copy>
-		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
-		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/grid/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 									</tasks>
 								</configuration>

@@ -1,6 +1,5 @@
 package com.plywet.platform.bi.delegates.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,19 +26,19 @@ public class BIReportAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_TYPE
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_TYPE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_IS_REF
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_IS_REF)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_DESCRIPTION
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_DESCRIPTION)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_STATUS
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_STATUS)
 					+ " FROM "
-					+ KettleDatabaseRepositoryBase.TABLE_R_REPORT
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_REPORT)
 					+ " WHERE "
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT_DIRECTORY
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT_DIRECTORY)
 					+ " = " + dirId;
 			return getRows(sql);
 		} catch (KettleException e) {
@@ -52,23 +51,25 @@ public class BIReportAdaptorImpl extends BIAbstractDbAdaptor implements
 	public Object[] getReportObject(String id) throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT_DIRECTORY
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT_DIRECTORY)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_OBJECT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_OBJECT)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_TYPE
-					+ "," + KettleDatabaseRepositoryBase.FIELD_REPORT_IS_REF
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_TYPE)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REF_REPORT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_IS_REF)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_DESCRIPTION
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REF_REPORT)
 					+ ","
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_STATUS
-					+ " FROM " + KettleDatabaseRepositoryBase.TABLE_R_REPORT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_DESCRIPTION)
+					+ ","
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_STATUS)
+					+ " FROM "
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_REPORT)
 					+ " WHERE "
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT)
 					+ " = " + id;
 			return getOneRow(sql);
 		} catch (KettleException e) {
@@ -81,10 +82,12 @@ public class BIReportAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = "UPDATE "
-					+ KettleDatabaseRepositoryBase.TABLE_R_REPORT + " SET "
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_OBJECT
-					+ " = '?'" + " WHERE "
-					+ KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT
+					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_REPORT)
+					+ " SET "
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_REPORT_OBJECT)
+					+ " = '?'"
+					+ " WHERE "
+					+ quote(KettleDatabaseRepositoryBase.FIELD_REPORT_ID_REPORT)
 					+ " = ?";
 
 			RowMetaInterface rowMeta = new RowMeta();

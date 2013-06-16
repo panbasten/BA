@@ -7,7 +7,7 @@
 <html>
 	<head>
 		
-		<title>享元 BI 设计器平台</title>
+		<title>享元 BA 设计器平台</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
