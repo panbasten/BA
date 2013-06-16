@@ -1402,7 +1402,7 @@ CREATE TABLE `r_user` (
 
 LOCK TABLES `r_user` WRITE;
 /*!40000 ALTER TABLE `r_user` DISABLE KEYS */;
-INSERT INTO `r_user` VALUES (1,'admin','2be98afc86aa7f2e4cb79ce71da9fa6d4','Administrator','User manager','Y'),(2,'guest','2be98afc86aa7f2e4cb79ce77cb97bcce','Guest account','Read-only guest account','Y');
+INSERT INTO `r_user` VALUES (1,'admin','2be98afc86aa7f2e4cb79ce61d68bacd1','Administrator','User manager','Y'),(2,'guest','2be98afc86aa7f2e4cb79ce77cb97bcce','Guest account','Read-only guest account','Y'),(3,'yuce','2be98afc86aa7f2e4cb79ce10c787acdf','YU CE','YU CE','Y');
 /*!40000 ALTER TABLE `r_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1490,4 +1490,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-06-03  6:44:49
+-- Dump completed on 2013-06-16 17:45:00
