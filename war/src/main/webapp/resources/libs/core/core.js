@@ -1463,3 +1463,17 @@ Plywet.interaction = {
 	}
 };
 
+
+// TODO
+Customer = {
+	changeLogo : function(){
+		document.title="气候预测工作平台";
+	},
+	changeSlideShow : function(){
+//		var ht = "";
+//		ht = ht + "";
+//		Plywet.Login.section.slideShow.html(ht);
+		
+	}
+};
+

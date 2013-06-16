@@ -125,12 +125,23 @@ Plywet.Login = {
 	
 	resize: function(){
 		var win = Plywet.getWindowScroll();
-		var h = Math.max(0,(win.height-580));
-		$("#document").css("margin-top",h+"px");
+		var h = Math.max(0,(win.height-580)),
+			w = Math.max(0,(win.width-1120));
+		$("#document").css({
+			"margin-top":h+"px",
+			"margin-left":w+"px"
+		});
+		var num = Math.floor(Math.random()*1.999+1);
+		$(Plywet.escapeClientId("document-img"))
+			.attr("src", "resources/images/pics/login"+num+".jpg")
+			.width(win.width+20).height(win.height+20);
 	},
 	
 	initPage: function(){
-		// 1.加载资源库名称
+		// 1.替换标识文字
+		Customer.changeLogo();
+		
+		// 2.加载资源库名称
 		Plywet.ab({
 			type: "get",
 			url: "rest/identification/repositoryNames",
@@ -145,30 +156,39 @@ Plywet.Login = {
 			}
 		});
 		
-		// 2.加载内容
-		if ($.browser.msie == true && ($.browser.version == '7.0' || $.browser.version == '8.0')) {
-			Plywet.Login.section.transitionEffect = 'none';
-	    } else {
-	    	Plywet.Login.section.transitionEffect = 'scrollLeft';
-	    }
+		// 3.加载滚动内容
+		Plywet.ab({
+			type: "get",
+			url: "rest/identification/slides",
+			onsuccess: function(data, status, xhr){
+				if ($.browser.msie == true && ($.browser.version == '7.0' || $.browser.version == '8.0')) {
+					Plywet.Login.section.transitionEffect = 'none';
+			    } else {
+			    	Plywet.Login.section.transitionEffect = 'scrollLeft';
+			    }
+				
+				Plywet.Login.section.slideShow = $("#section");
+				
+				// 加载客户内容
+				Customer.changeSlideShow();
+				
+				Plywet.Login.section.slideShow.after("<div id='section-paging' class='section-paging'>");
+				Plywet.Login.section.slideShow.cycle({
+			        fx          	: Plywet.Login.section.transitionEffect,
+			        pager       	: "#section-paging",
+			        timeout     	: 0,
+			        cleartype   	: true,
+			        cleartypeNoBg	: true,
+			        onPagerEvent	: Plywet.Login.section.resetSlideshowCounter
+			    });
+				Plywet.Login.section.startSlideshow();
+			    
+				Plywet.Login.section.slideShow.mouseenter(function(){ Plywet.Login.section.pauseSlideshow(); });
+				Plywet.Login.section.slideShow.mouseleave(function(){ Plywet.Login.section.startSlideshow(); });
+			}
+		});
 		
-		Plywet.Login.section.slideShow = $("#section");
-		Plywet.Login.section.slideShow.after("<div id='section-paging' class='section-paging'>");
-		Plywet.Login.section.slideShow.cycle({
-	        fx          	: Plywet.Login.section.transitionEffect,
-	        pager       	: "#section-paging",
-	        timeout     	: 0,
-	        cleartype   	: true,
-	        cleartypeNoBg	: true,
-	        onPagerEvent	: Plywet.Login.section.resetSlideshowCounter
-	    });
-		Plywet.Login.section.startSlideshow();
-	    
-		Plywet.Login.section.slideShow.mouseenter(function(){ Plywet.Login.section.pauseSlideshow(); });
-		Plywet.Login.section.slideShow.mouseleave(function(){ Plywet.Login.section.startSlideshow(); });
-		
-		
-		// 登录按钮
+		// 4.登录按钮
 		$("#loginBtn").live("click", function(){
 			Plywet.Login.loginAction();
 		}).live("mouseover", function(){
@@ -187,7 +207,7 @@ Plywet.Login = {
 			}
 		});
 		
-		// 调整尺寸
+		// 5.调整尺寸
 		Plywet.Login.resize();
 	}
 };

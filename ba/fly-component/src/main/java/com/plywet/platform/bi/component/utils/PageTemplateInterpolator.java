@@ -190,7 +190,6 @@ public class PageTemplateInterpolator {
 		}
 
 		int idx = 0;
-
 		idx = modifySubDomForEditor(dom, prefix, idx);
 
 		XMLUtils.setAttribute(dom,

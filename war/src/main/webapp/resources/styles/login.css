@@ -7,11 +7,12 @@ body {
     /*text-shadow: 0 0 3px #666666;*/
 	line-height: 1.25em;
 	color: #D3D4D5;
-	position: relative;
 	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	overflow: hidden;
+	margin: 0;
+	padding: 0;
 }
 
 a {
@@ -86,6 +87,15 @@ label {
     background:url("../images/login/button.disabled.bg.png") no-repeat !important;
     box-shadow: 0px 0px 0px;
     cursor: auto !important;
+}
+
+#document-wrapper{
+	position:absolute;
+}
+
+#document-bg {
+	position:absolute;
+	z-index:-1;
 }
 
 #document {
@@ -308,49 +318,19 @@ div.section {
     width: 202px;
 }
 
-#slide1{
-	background: url("../images/login/section/architecture.png") no-repeat scroll 0 0 transparent;
-}
-
-#slide1 p {
-	font-size: 36px;
-    line-height: 1em;
-    margin: 40px 0 0 40px;
-    color: #D3D4D5;
-    font-weight: bold;
-    text-shadow: 1px 1px 1px #C89F40;
-}
-
-#slide1 .slide-ba {
-	font-size: 26px;
-}
-
-#slide2,#slide3{
-	background: url("../images/login/section/mascot.png") no-repeat scroll 0 0 transparent;
-}
-
-#slide2 p,#slide3 p{
+.slide p.slide-p{
 	font-size: 16px;
 	font-weight: bold;
     line-height: 1em;
-	margin: 25px 0 0 170px;
 }
 
-#slide2 ul,#slide3 ul{
+.slide ul.slide-ul{
 	font-size: 14px;
 	line-height: 1.5em;
-	margin: 15px 0 0 150px;
-}
-#slide2 ul{
-	color: #9CA839;
-}
-#slide3 ul{
-	color: #4066C4
 }
 
-#slide4 p{
+.slide p.slide-single-p{
 	font-size: 24px;
 	font-weight: bold;
     line-height: 1em;
-	margin: 65px 0 0 40px;
 }

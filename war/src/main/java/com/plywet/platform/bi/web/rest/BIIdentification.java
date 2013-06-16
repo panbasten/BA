@@ -1,8 +1,10 @@
 package com.plywet.platform.bi.web.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -10,12 +12,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.pentaho.di.repository.IUser;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.filerep.KettleFileRepository;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
+import com.plywet.platform.bi.component.utils.FLYVariableResolver;
+import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BISecurityException;
 import com.plywet.platform.bi.core.sec.WebMarshal;
@@ -24,6 +30,7 @@ import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.model.ParameterContext;
+import com.plywet.platform.bi.web.service.BIReportDelegates;
 import com.plywet.platform.bi.web.utils.BISecurityUtils;
 import com.plywet.platform.bi.web.utils.BIWebUtils;
 
@@ -32,6 +39,9 @@ import com.plywet.platform.bi.web.utils.BIWebUtils;
 public class BIIdentification {
 	private final Logger log = Logger.getLogger(BIIdentification.class);
 
+	@Resource(name = "bi.service.reportService")
+	private BIReportDelegates reportService;
+
 	@GET
 	@Path("/repositoryNames")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -39,6 +49,31 @@ public class BIIdentification {
 		try {
 			String[] repNames = BIEnvironmentDelegate.instance().getRepNames();
 			return JSONUtils.toJsonString(repNames);
+		} catch (Exception ex) {
+			throw new BIException("活动资源库命名出现错误。", ex);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/slides")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSlideShows() throws BIException {
+		try {
+			// 获得报表对象
+//			Object[] report = reportService.getReportObject(Long.valueOf(id));
+//			Document doc = PageTemplateInterpolator
+//					.getDomWithContent((String) report[1]);
+//			Object[] domString = PageTemplateInterpolator.interpolate("report:"
+//					+ id, doc, FLYVariableResolver.instance());
+//
+//			JSONObject jo = new JSONObject();
+//			jo.put("dom", (String) domString[0]);
+//			jo.put("script", JSONUtils
+//					.convertToJSONArray((List<String>) domString[1]));
+//
+//			return JSONUtils.toJsonString(jo.toJSONString());
+			return "";
 		} catch (Exception ex) {
 			throw new BIException("活动资源库命名出现错误。", ex);
 		}
@@ -70,9 +105,9 @@ public class BIIdentification {
 			if (Utils.isEmpty(username)) {
 				am.addErrorMessage("请输入用户名");
 			}
-//			if (Utils.isEmpty(password)) {
-//				am.addErrorMessage("请输入登录密码");
-//			}
+			if (Utils.isEmpty(password)) {
+				am.addErrorMessage("请输入登录密码");
+			}
 
 			if (!am.state()) {
 				return am.toJSONString();
