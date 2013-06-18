@@ -3,7 +3,7 @@
 		<fly:foreach items="${browseEntities}" var="entity">
 			<fly:test var="${entity.auth == 'OK'}">
 				<li category="${entity.code}" id="${entity.id}">
-					<a href="#editorContent-navi-${entity.code}">
+					<a href="#editorContent-navi-${entity.code}" data-data="${entity.desc}">
 						<div class="ui-navi-icon ui-navi-icon-${entity.code}"></div>
 						${entity.desc}
 					</a>

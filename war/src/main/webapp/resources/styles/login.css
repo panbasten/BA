@@ -108,6 +108,14 @@ label {
 	vertical-align:middle;
 }
 
+.chrome #document,
+.safari #document,
+.firefox #document,
+.mozilla #document{
+	opacity: .95;
+    filter: Alpha(Opacity=95);
+}
+
 #document2 {
 	width:654px;
 	height:343px;
@@ -125,7 +133,7 @@ label {
 
 #header {
 	float: left;
-	width: 100%;
+	width: 655px;
 	height: 50px;
 	background: url("../images/login/hdr.bg.png") 0 0 repeat-x;
 }
@@ -150,7 +158,7 @@ div.overlay-widget {
 
 #container {
 	float: left;
-	width: 100%;
+	width: 655px;
 	background: transparent;
 	/*background: url(../images/login/container.bg.jpg) 0 0 repeat-x;*/
 }

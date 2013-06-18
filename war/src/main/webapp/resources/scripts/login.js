@@ -126,7 +126,7 @@ Plywet.Login = {
 	resize: function(){
 		var win = Plywet.getWindowScroll();
 		var h = Math.max(0,(win.height-580)),
-			w = Math.max(0,(win.width-1120));
+			w = Math.max(0,(win.width-1160));
 		$("#document").css({
 			"margin-top":h+"px",
 			"margin-left":w+"px"
@@ -138,6 +138,9 @@ Plywet.Login = {
 	},
 	
 	initPage: function(){
+		
+		Plywet.env();
+		
 		// 1.替换标识文字
 		Customer.changeLogo();
 		

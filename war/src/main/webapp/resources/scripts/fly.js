@@ -42,7 +42,8 @@ Plywet.desktop = {
 			oncomplete : function(xhr, status){
 				// 创建导航页的选项卡
 				Plywet.cw("EasyTabs","diEditorNaviTabs",{
-					id : "navis"
+					id : "navis",
+					onBeforeSelect : "Plywet.desktop.changePositionTextByNavi",
 				});
 				
 				// 滚动页签放在设置页面尺寸之后再初始化，根据变化后的尺寸计算
@@ -69,6 +70,9 @@ Plywet.desktop = {
 						}
 					});
 				}
+				
+				// 设置当前位置
+				Plywet.desktop.changePositionTextByNaviFirst();
 			}
 		});
 		
@@ -94,7 +98,7 @@ Plywet.desktop = {
 		});
 		
 		// 4.退出按钮
-		$(".fly-exit").bind("click", function(){
+		$(Plywet.escapeClientId("fly-exit")).bind("click", function(){
 			window.location='login';
 		});
 		
@@ -149,6 +153,40 @@ Plywet.desktop = {
 		$(".fly-editor-content-height-browse-panel").height(this.contentHeight-33);
 		
 		diEditorNaviScroll.reinit();
+	},
+	
+	/**
+	 * 改变位置文字
+	 * @param text 文字
+	 * @param saveLast 是否保存上一个位置
+	 */
+	changePositionText : function(text,saveLast){
+		var pos = $("#posText");
+		if(saveLast){
+			var last = pos.data("posLast") || [];
+			last.push(pos.html());
+			pos.data("posLast",last);
+		}
+		pos.html(text||"");
+	},
+	
+	/**
+	 * 恢复最后一个位置文字
+	 */
+	restorePositionText : function(){
+		var last = pos.data("posLast");
+		if(last){
+			pos.html(last.pop());
+		}
+	},
+	
+	changePositionTextByNavi : function($taba){
+		Plywet.desktop.changePositionText($taba.data("data"));
+	},
+	
+	changePositionTextByNaviFirst : function(){
+		var naviFirst = $(Plywet.escapeClientId("navigator-ul")).find("a").first();
+		Plywet.desktop.changePositionText(naviFirst.data("data"));
 	},
 	
 	changeMarkText : function (text) {

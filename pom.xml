@@ -954,7 +954,7 @@
 		</plugins>
 	</build>
 
-	<!-- 
+	<!--  -->
 	<repositories>
 		<repository>
 			<id>fly-public</id>
@@ -1112,7 +1112,7 @@
 			<url>http://10.11.46.192:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	 -->
+	
 
 	<scm>
 		<connection>scm:svn:https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</connection>
