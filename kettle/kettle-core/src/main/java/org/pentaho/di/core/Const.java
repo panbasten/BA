@@ -169,7 +169,7 @@ public class Const
   /**
    * the default comma separated list of base plugin folders.
    */
-	public static final String DEFAULT_PLUGIN_BASE_FOLDERS = "plugins," + (Const.isEmpty(getDIHomeDirectory())?"":getDIHomeDirectory() + FILE_SEPARATOR  + "plugins,") + getKettleDirectory() + FILE_SEPARATOR + "plugins";
+	public static final String DEFAULT_PLUGIN_BASE_FOLDERS = "plugins," + (Const.isEmpty(getBAHomeDirectory())?"":getBAHomeDirectory() + FILE_SEPARATOR  + "plugins,") + getKettleDirectory() + FILE_SEPARATOR + "plugins";
 
 	/**
 	 * Default minimum date range...
@@ -1370,9 +1370,10 @@ public class Const
    *
    * @return The path to the users home directory, or the System property {@code PLYWET_HOME} if set.
    */
-  public static final String getUserHomeDirectory() {
-    return NVL(System.getProperty("PLYWET_HOME"), System.getProperty("user.home"));
-  }
+	public static final String getUserHomeDirectory()
+	{
+		return NVL(System.getProperty("PLYWET_HOME"), System.getProperty("user.home"));
+	}
 
 	/**
 	 * Determines the Kettle directory in the user's home directory.
@@ -1386,8 +1387,8 @@ public class Const
 	/** 
 	 * Returns the value of DI_HOME.
 	 */
-	public static final String getDIHomeDirectory() {
-	      return System.getProperty("DI_HOME");
+	public static final String getBAHomeDirectory() {
+	      return System.getProperty("BA_HOME");
 	}
     
     /**

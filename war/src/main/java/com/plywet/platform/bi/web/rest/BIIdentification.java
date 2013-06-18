@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,7 +29,6 @@ import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.model.ParameterContext;
-import com.plywet.platform.bi.web.service.BIReportDelegates;
 import com.plywet.platform.bi.web.utils.BISecurityUtils;
 import com.plywet.platform.bi.web.utils.BIWebUtils;
 
@@ -39,8 +37,7 @@ import com.plywet.platform.bi.web.utils.BIWebUtils;
 public class BIIdentification {
 	private final Logger log = Logger.getLogger(BIIdentification.class);
 
-	@Resource(name = "bi.service.reportService")
-	private BIReportDelegates reportService;
+	private static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
 
 	@GET
 	@Path("/repositoryNames")
@@ -61,19 +58,18 @@ public class BIIdentification {
 	public String getSlideShows() throws BIException {
 		try {
 			// 获得报表对象
-//			Object[] report = reportService.getReportObject(Long.valueOf(id));
-//			Document doc = PageTemplateInterpolator
-//					.getDomWithContent((String) report[1]);
-//			Object[] domString = PageTemplateInterpolator.interpolate("report:"
-//					+ id, doc, FLYVariableResolver.instance());
-//
-//			JSONObject jo = new JSONObject();
-//			jo.put("dom", (String) domString[0]);
-//			jo.put("script", JSONUtils
-//					.convertToJSONArray((List<String>) domString[1]));
-//
-//			return JSONUtils.toJsonString(jo.toJSONString());
-			return "";
+			Document doc = PageTemplateInterpolator
+					.getDom(TEMPLATE_SYS_LOGIN_SLIDE);
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_SYS_LOGIN_SLIDE, doc, FLYVariableResolver
+							.instance());
+
+			JSONObject jo = new JSONObject();
+			jo.put("dom", (String) domString[0]);
+			jo.put("script", JSONUtils
+					.convertToJSONArray((List<String>) domString[1]));
+
+			return jo.toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("活动资源库命名出现错误。", ex);
 		}

@@ -137,7 +137,7 @@ public class BISysToolsResource {
 							.getLicVersionString());
 			attrsMap.addVariable("licVersion", ver);
 
-			int diff = DateUtils.diffDays(wm.getMinValidDate());
+			int diff = DateUtils.diffDays(wm.getMaxValidDate());
 
 			String validDays = "";
 			if (diff > 1000 || diff < 0) {

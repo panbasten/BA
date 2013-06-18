@@ -24,7 +24,7 @@ public class SignProviderTest extends TestCase {
 
 	public void testDecodeLicense() {
 		LicenseGenerator lg = LicenseGenerator.instance().setCustomerFullName(
-				"Plywet研发中心").setMacAddress("00:11:22:33:44:55");
+				"Plywet研发中心").setMacAddress("00:11:22:33:44:55,11:11:22:33:44:55");
 		lg.addLicense(101);
 		lg.addLicense(201, 30);
 
@@ -36,7 +36,7 @@ public class SignProviderTest extends TestCase {
 			assertEquals(decode.size(), 3);
 			
 			assertEquals(decode.get(0)[0], "Plywet研发中心");
-			assertEquals(decode.get(0)[1], "00:11:22:33:44:55");
+			assertEquals(decode.get(0)[1], "00:11:22:33:44:55,11:11:22:33:44:55");
 			
 			assertEquals(decode.get(1)[0], "101");
 

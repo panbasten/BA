@@ -61,16 +61,35 @@ public class WebMarshal {
 	private Map<Integer, LicenseControlObject> authModuleById = new HashMap<Integer, LicenseControlObject>();
 	private Map<String, LicenseControlObject> authModuleByCode = new HashMap<String, LicenseControlObject>();
 
-	private Date minValidDate;
+	/**
+	 * 最大失效日期
+	 */
+	private Date maxValidDate;
 
 	private static WebMarshal webMarshal;
 
+	/**
+	 * 获取机器码<br>
+	 * 1.所有网卡的mac地址，以逗号分隔 <br>
+	 * 2.进行加密 <br>
+	 * TODO Const.getMACAddress()改造
+	 * 
+	 * @return
+	 */
+	public static final String getMachineCode() {
+		return "";
+	}
+
 	public static final WebMarshal getInstance() throws BISecurityException {
-		if (webMarshal != null)
+
+		if (webMarshal != null) {
+			webMarshal.checkMaxValidDate();
 			return webMarshal;
+		}
 
 		try {
 			webMarshal = new WebMarshal();
+			webMarshal.checkMaxValidDate();
 		} catch (BISecurityException e) {
 			webMarshal = null;
 			throw e;
@@ -116,6 +135,12 @@ public class WebMarshal {
 		return checkModuleByCode(categroy + "." + model);
 	}
 
+	/**
+	 * 通过代码校验模块是否有被授权，并且授权是否超期
+	 * 
+	 * @param code
+	 * @return
+	 */
 	public String checkModuleByCode(String code) {
 		LicenseControlObject lco = authModuleByCode.get(code.toUpperCase());
 		if (lco != null) {
@@ -186,6 +211,13 @@ public class WebMarshal {
 		return text;
 	}
 
+	private final void checkMaxValidDate() throws BISecurityException {
+		if (webMarshal.getMaxValidDate().compareTo(new Date()) < 0) {
+			throw new BISecurityException(BaseMessages.getString(PKG,
+					"Lic.Message.Extended.Auth"));
+		}
+	}
+
 	private final void checkLicense() throws BISecurityException {
 		String lic = getLicenseFileString();
 		try {
@@ -198,23 +230,26 @@ public class WebMarshal {
 			this.customerFullName = licList.get(0)[0];
 			this.licVersion = licList.get(0)[2];
 
-			if (!this.mac_address.equalsIgnoreCase(licList.get(0)[1])
-					&& !MARK_ALL_MAC.equals(licList.get(0)[1])) {
+			// 判断mac地址，解析出来的mac地址是多值，以逗号分隔
+			String lic_mac = licList.get(0)[1];
+			if (!MARK_ALL_MAC.equals(lic_mac)
+					&& (lic_mac.toLowerCase().indexOf(
+							this.mac_address.toLowerCase()) < 0)) {
 				throw new BISecurityException(BaseMessages.getString(PKG,
 						"Lic.Message.Invalid.License"));
 			}
 
 			this.authModuleById.clear();
 			this.authModuleByCode.clear();
-			this.minValidDate = Const.MAX_DATE;
+			this.maxValidDate = Const.MIN_DATE;
 			for (int i = 1; i < licList.size(); i++) {
 				LicenseControlObject lco = new LicenseControlObject(licList
 						.get(i));
 				this.authModuleById.put(Integer.valueOf(lco.getId()), lco);
 				this.authModuleByCode.put(lco.getCode().toUpperCase(), lco);
 
-				if (this.minValidDate.compareTo(lco.getExpiredDate()) > 0) {
-					this.minValidDate = lco.getExpiredDate();
+				if (this.maxValidDate.compareTo(lco.getExpiredDate()) < 0) {
+					this.maxValidDate = lco.getExpiredDate();
 				}
 
 				// 注册模块
@@ -325,8 +360,8 @@ public class WebMarshal {
 		return licVersion;
 	}
 
-	public Date getMinValidDate() {
-		return minValidDate;
+	public Date getMaxValidDate() {
+		return maxValidDate;
 	}
 
 	public String getLicVersionString() {
