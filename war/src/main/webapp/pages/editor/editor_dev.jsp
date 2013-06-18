@@ -175,7 +175,7 @@
 			<span style="margin-left:10px;font-weight:bold;">当前位置:&nbsp;</span><span id="posText"></span>
 			<div style="float:right;">
 				<div class="fly-user"></div>
-				<span id="idUser" class="fly-userinfo">用户:Admin</span>
+				<span id="idUser" class="fly-userinfo"></span>
 				<div id="fly-exit" class="fly-exit"></div>
 			</div>
 		</div>
