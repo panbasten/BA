@@ -29,6 +29,7 @@ import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.plywet.platform.bi.web.entity.ActionMessage;
+import com.plywet.platform.bi.web.i18n.BIWebMessages;
 import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.utils.BISecurityUtils;
 import com.plywet.platform.bi.web.utils.BIWebUtils;
@@ -41,7 +42,7 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
 
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
-	
+
 	@GET
 	@Path("/repositoryNames")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -53,7 +54,7 @@ public class BIIdentification {
 			throw new BIException("活动资源库命名出现错误。", ex);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/slides")
@@ -75,6 +76,18 @@ public class BIIdentification {
 			return jo.toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("活动资源库命名出现错误。", ex);
+		}
+	}
+
+	@GET
+	@Path("/messages")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getMessages(@CookieParam("user") String userInfo)
+			throws BIException {
+		try {
+			return BIWebMessages.getMessages().toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("获得页面多语资源出现错误。", ex);
 		}
 	}
 
