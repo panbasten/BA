@@ -1,7 +1,7 @@
 <fly:composition freeLayout="N">
 
 	<div class="slide" style="background: url('resources/images/login/custom/slide1.png') no-repeat scroll 0 0 transparent;">
-		<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;">气候预测<br/><br/>工作平台<br/></p>
+		<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;"><font>气候预测</font><br/><br/><font>工作平台</font><br/></p>
 	</div>
 	<div class="slide" style="background: url('resources/images/login/section/mascot.png') no-repeat scroll 0 0 transparent;">
 		<p class="slide-p" style="margin: 25px 0 0 170px;">预测平台网络共享</p>

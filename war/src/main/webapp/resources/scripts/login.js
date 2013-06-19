@@ -162,7 +162,7 @@ Plywet.Login = {
 		// 3.加载滚动内容
 		Plywet.ab({
 			type: "get",
-			url: "rest/base/slides",
+			url: "rest/identification/slides",
 			onsuccess: function(data, status, xhr){
 				if ($.browser.msie == true && ($.browser.version == '7.0' || $.browser.version == '8.0')) {
 					Plywet.Login.section.transitionEffect = 'none';

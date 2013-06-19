@@ -40,6 +40,8 @@ public class BIIdentification {
 
 	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
 
+	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
+	
 	@GET
 	@Path("/repositoryNames")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -47,6 +49,30 @@ public class BIIdentification {
 		try {
 			String[] repNames = BIEnvironmentDelegate.instance().getRepNames();
 			return JSONUtils.toJsonString(repNames);
+		} catch (Exception ex) {
+			throw new BIException("活动资源库命名出现错误。", ex);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/slides")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSlideShows() throws BIException {
+		try {
+			// 获得登陆滚动页面
+			Document doc = PageTemplateInterpolator
+					.getDom(TEMPLATE_SYS_LOGIN_SLIDE);
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_SYS_LOGIN_SLIDE, doc, FLYVariableResolver
+							.instance());
+
+			JSONObject jo = new JSONObject();
+			jo.put("dom", (String) domString[0]);
+			jo.put("script", JSONUtils
+					.convertToJSONArray((List<String>) domString[1]));
+
+			return jo.toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("活动资源库命名出现错误。", ex);
 		}
