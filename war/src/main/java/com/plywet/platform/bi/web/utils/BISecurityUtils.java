@@ -11,7 +11,7 @@ public class BISecurityUtils {
 	 * @param user
 	 * @return
 	 */
-	public static String createCookieString(Map<String, String> map) {
+	public static String createCookieString(Map<String, Object> map) {
 		return JSONObject.toJSONString(map);
 	}
 

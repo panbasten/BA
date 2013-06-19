@@ -646,6 +646,19 @@ Plywet = {
 		}
 	},
 	
+	render : function(target,dom,script){
+		$(target).append(dom);
+		if(script){
+			for(var j=0;j<script.length;j++){
+				try{
+					eval(script[j]);
+				}catch(e){
+					Plywet.Logger.error(script[j]);
+				}
+			}
+		}
+	},
+	
     locales : {},
     
     zindex : 1000,
@@ -1468,12 +1481,6 @@ Plywet.interaction = {
 Customer = {
 	changeLogo : function(){
 		document.title="气候预测工作平台";
-	},
-	changeSlideShow : function(){
-//		var ht = "";
-//		ht = ht + "";
-//		Plywet.Login.section.slideShow.html(ht);
-		
 	}
 };
 

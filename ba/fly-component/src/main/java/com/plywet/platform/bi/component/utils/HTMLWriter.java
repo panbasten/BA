@@ -95,27 +95,43 @@ public class HTMLWriter {
 			}
 		}
 
+		private boolean checkSingleTag(String tag) {
+			for (String com : HTML.SINGLE_COMPONENT) {
+				if (com.equalsIgnoreCase(tag))
+					return true;
+			}
+			return false;
+		}
+
 		public String toString() {
 			String s = "";
-			if (this.tag != null && !"".equals(this.tag)) {
+			if (checkSingleTag(this.tag)) {
 				s += "<";
 				s += this.tag;
 				s += getAttributesString();
-				s += ">";
-			}
-			if (subEls != null) {
-				for (HTMLElement e : subEls) {
-					s += e.toString();
+				s += "/>";
+			} else {
+				if (this.tag != null && !"".equals(this.tag)) {
+					s += "<";
+					s += this.tag;
+					s += getAttributesString();
+					s += ">";
+				}
+				if (subEls != null) {
+					for (HTMLElement e : subEls) {
+						s += e.toString();
+					}
+				}
+				if (this.text != null) {
+					s += this.text;
+				}
+				if (this.tag != null && !"".equals(this.tag)) {
+					s += "</";
+					s += this.tag;
+					s += ">";
 				}
 			}
-			if (this.text != null) {
-				s += this.text;
-			}
-			if (this.tag != null && !"".equals(this.tag)) {
-				s += "</";
-				s += this.tag;
-				s += ">";
-			}
+
 			return s;
 		}
 

@@ -53,6 +53,16 @@ public class BIWebUtils {
 		return context;
 	}
 
+	public static String decode(String paramsString)
+			throws UnsupportedEncodingException {
+		return URLDecoder.decode(paramsString, Const.XML_ENCODING);
+	}
+
+	public static String decode(String paramsString, String charset)
+			throws UnsupportedEncodingException {
+		return URLDecoder.decode(paramsString, charset);
+	}
+
 	/**
 	 * 获得文件类型的列表，包括文件和参数
 	 * 

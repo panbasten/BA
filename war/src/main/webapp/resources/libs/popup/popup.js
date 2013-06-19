@@ -3,7 +3,7 @@
  * @date 2012-10-10
  */
 Plywet.widget.Popup=function(cfg){
-	this.cfg = cfg;
+	this.cfg = cfg || {};
 	this.id = this.cfg.id;
 	this.jqId = Plywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
@@ -35,6 +35,12 @@ Plywet.widget.Popup.prototype={
 		var _self=this;
 		this.jq=$("<div></div>");
 		this.jq.addClass('ui-popup-con');
+		if(this.cfg.width){
+			this.jq.width(this.cfg.width);
+		}
+		if(this.cfg.height){
+			this.jq.height(this.cfg.height);
+		}
 		this.jq.blur(function(){
 			_self.hide();
 		});
@@ -76,5 +82,8 @@ Plywet.widget.Popup.prototype={
 	},
 	disctroy:function(){
 		this.jq.remove();
+	},
+	render:function(dom, script){
+		Plywet.render(this.jq, dom, script);
 	}
 };

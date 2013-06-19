@@ -112,6 +112,8 @@ public class HTML {
 	public static final String COMPONENT_TYPE_COMBO_TREE = COMPONENT_TYPE_FLY_PREFIX
 			+ "ComboTree";
 
+	public static final String[] SINGLE_COMPONENT = new String[] { COMPONENT_TYPE_BASE_BR };
+
 	public static final String TAG_ATTRITUDES = "attrs";
 	public static final String TAG_CONTENT = "items";
 	public static final String TAG_HTML = "html";

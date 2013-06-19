@@ -1,7 +1,11 @@
 <fly:composition freeLayout="N">
 
 	<div class="slide" style="background: url('resources/images/login/section/architecture.png') no-repeat scroll 0 0 transparent;">
-		<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;">享<br/>元<br/><font style="font-size:26px;">BA</font></p>
+		<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;">
+			<font>享</font><br/>
+			<font>元</font><br/>
+			<font style="font-size:26px;">BA</font>
+		</p>
 	</div>
 	<div class="slide" style="background: url('resources/images/login/section/mascot.png') no-repeat scroll 0 0 transparent;">
 		<p class="slide-p" style="margin: 25px 0 0 170px;">您的企业是否面临这样的数据？</p>

@@ -162,7 +162,7 @@ Plywet.Login = {
 		// 3.加载滚动内容
 		Plywet.ab({
 			type: "get",
-			url: "rest/identification/slides",
+			url: "rest/base/slides",
 			onsuccess: function(data, status, xhr){
 				if ($.browser.msie == true && ($.browser.version == '7.0' || $.browser.version == '8.0')) {
 					Plywet.Login.section.transitionEffect = 'none';
@@ -171,9 +171,12 @@ Plywet.Login = {
 			    }
 				
 				Plywet.Login.section.slideShow = $("#section");
+				console.log(data.dom);
+				console.log(data.script);
 				
-				// 加载客户内容
-				Customer.changeSlideShow();
+				// 加载滑动内容
+				Plywet.Login.section.slideShow.empty();
+				Plywet.render(Plywet.Login.section.slideShow, data.dom, data.script);
 				
 				Plywet.Login.section.slideShow.after("<div id='section-paging' class='section-paging'>");
 				Plywet.Login.section.slideShow.cycle({
@@ -192,7 +195,7 @@ Plywet.Login = {
 		});
 		
 		// 4.登录按钮
-		$("#loginBtn").live("click", function(){
+		$("#loginBtn").bind("click", function(){
 			Plywet.Login.loginAction();
 		}).live("mouseover", function(){
 			$(this).addClass('ui-login-button-hover');

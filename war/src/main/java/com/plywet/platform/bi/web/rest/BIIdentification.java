@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -37,7 +38,7 @@ import com.plywet.platform.bi.web.utils.BIWebUtils;
 public class BIIdentification {
 	private final Logger log = Logger.getLogger(BIIdentification.class);
 
-	private static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
+	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
 
 	@GET
 	@Path("/repositoryNames")
@@ -51,27 +52,37 @@ public class BIIdentification {
 		}
 	}
 
+	/**
+	 * 创建用户信息弹出页
+	 * 
+	 * @throws BIException
+	 */
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/slides")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getSlideShows() throws BIException {
+	@Path("/usersettingpage")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String createUserSettingPage(@CookieParam("user") String userInfo)
+			throws BIException {
 		try {
-			// 获得报表对象
+			JSONObject user = JSONUtils.convertStringToJSONObject(BIWebUtils
+					.decode(userInfo));
+			FLYVariableResolver resolver = FLYVariableResolver.instance();
+			resolver.addVariable("user", user);
+
 			Document doc = PageTemplateInterpolator
-					.getDom(TEMPLATE_SYS_LOGIN_SLIDE);
+					.getDom(TEMPLATE_SYS_USER_INFO);
 			Object[] domString = PageTemplateInterpolator.interpolate(
-					TEMPLATE_SYS_LOGIN_SLIDE, doc, FLYVariableResolver
-							.instance());
+					TEMPLATE_SYS_USER_INFO, doc, resolver);
 
 			JSONObject jo = new JSONObject();
+			jo.put("username", user.get("username"));
 			jo.put("dom", (String) domString[0]);
 			jo.put("script", JSONUtils
 					.convertToJSONArray((List<String>) domString[1]));
 
 			return jo.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("活动资源库命名出现错误。", ex);
+			throw new BIException("创建用户信息弹出页出现错误。", ex);
 		}
 	}
 
@@ -121,7 +132,7 @@ public class BIIdentification {
 				return am.toJSONString();
 			}
 
-			String cookie = populateCookie(repository, username, rep);
+			String cookie = populateCookie(repository, user, rep);
 			am.setData(cookie);
 		} catch (Exception ex) {
 			log.error("identifacation exception:", ex);
@@ -133,10 +144,12 @@ public class BIIdentification {
 		return am.toJSONString();
 	}
 
-	private String populateCookie(String repository, String username,
-			Repository rep) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("username", username);
+	private String populateCookie(String repository, IUser user, Repository rep)
+			throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("username", user.getUsername());
+		map.put("user", JSONUtils.convertToJSONObject(user.getUserInfo())
+				.toJSONString());
 		map.put("repository", repository);
 		if (rep instanceof KettleDatabaseRepository) {
 			map.put("repositoryType", "db");

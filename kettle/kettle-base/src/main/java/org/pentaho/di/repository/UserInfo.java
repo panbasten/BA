@@ -22,13 +22,15 @@
 
 package org.pentaho.di.repository;
 
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * Created on 7-apr-2004
  *
  */
 
-public class UserInfo implements IUser{
+public class UserInfo implements IUser {
 	// private static Class<?> PKG = UserInfo.class; // for i18n purposes,
 	// needed by Translator2!! $NON-NLS-1$
 
@@ -41,20 +43,21 @@ public class UserInfo implements IUser{
 	private String username; // Long name
 	private String description; // Description
 	private boolean enabled; // Enabled: yes or no
+
 	/**
 	 * copy constructor
 	 * 
 	 * @param copyFrom
 	 */
 	public UserInfo(IUser copyFrom) {
-	  this.id = copyFrom.getObjectId();
-	  this.login = copyFrom.getLogin();
-	  this.password = copyFrom.getPassword();
-	  this.username = copyFrom.getUsername();
-	  this.description = copyFrom.getDescription();
-	  this.enabled = copyFrom.isEnabled();
+		this.id = copyFrom.getObjectId();
+		this.login = copyFrom.getLogin();
+		this.password = copyFrom.getPassword();
+		this.username = copyFrom.getUsername();
+		this.description = copyFrom.getDescription();
+		this.enabled = copyFrom.isEnabled();
 	}
-	
+
 	public UserInfo(String login, String password, String username,
 			String description, boolean enabled) {
 		this.login = login;
@@ -167,5 +170,16 @@ public class UserInfo implements IUser{
 	 */
 	public void setName(String name) {
 		this.login = name;
+	}
+
+	public Map<String, String> getUserInfo() {
+		Map<String, String> userInfo = new HashMap<String, String>();
+		userInfo.put("login", this.getLogin());
+		userInfo.put("username", this.getUsername());
+		userInfo.put("description", this.getDescription());
+		if (this.getObjectId() != null)
+			userInfo.put("id", this.getObjectId().getId());
+		userInfo.put("name", this.getName());
+		return userInfo;
 	}
 }

@@ -84,15 +84,19 @@ Plywet.desktop = {
 		// 3.加载用户信息弹出页
 		Plywet.ab({
 			type : "get",
-			url : "rest/base/usersettingpage",
+			url : "rest/identification/usersettingpage",
 			beforeSend : function(){
 				Plywet.desktop.changeMarkText("正在加载用户信息页面...");
 			},
-			oncomplete : function(xhr, status){
+			onsuccess : function(data, xhr, status){
+				$("#idUser").html(data.username);
 				Plywet.cw("Popup","userPopup_var",{
 					id: "idUserPopup",
-					targetId: "idUser"
+					targetId: "idUser",
+					width: 150,
+					height: 100
 				});
+				userPopup_var.render(data.dom, data.script);
 				Plywet.desktop.initComplete();
 			}
 		});

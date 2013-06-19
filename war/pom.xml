@@ -50,10 +50,12 @@
 						<version>1.6</version>
 						<executions>
 							<execution>
-								<id>copy-images</id>
+								<id>copy-files</id>
 								<phase>compile</phase>
 								<configuration>
 									<tasks>
+										<!-- images -->
+										
 										<copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/browsePanel/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
@@ -88,6 +90,11 @@
 		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/validate/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                
+		                                <!-- custom -->
+		                                <copy todir="${project.build.directory}/${project.build.finalName}" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/customizations/${customizations.directory}/webapp" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 									</tasks>
 								</configuration>
@@ -240,7 +247,7 @@
 					<plugin>
 						<groupId>com.plywet.platform.dk</groupId>
 						<artifactId>dk-build-plugin</artifactId>
-						<version>1.0-SNAPSHOT</version>
+						<version>1.0</version>
 						 <executions>
 						    <execution>
 						      <id>replcace jsp template</id>

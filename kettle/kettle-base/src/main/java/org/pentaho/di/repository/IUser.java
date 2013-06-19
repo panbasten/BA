@@ -21,6 +21,9 @@
  ******************************************************************************/
 
 package org.pentaho.di.repository;
+
+import java.util.Map;
+
 /**
  * Repository User object
  * @author rmansoor
@@ -101,4 +104,6 @@ public interface IUser {
    * The name of the user maps to the login id.
    */
   public void setName(String name);
+  
+  public Map<String, String> getUserInfo();
 }

@@ -349,10 +349,10 @@ a.active .ui-navi-icon-systools{
 .fly-user{
 	width:19px;
 	height:19px;
-	background-image: url("../images/default/exit.png");	
+	background-image: url("../images/default/user.png");	
 	background-repeat:no-repeat;
 	float:left;
-	margin:5px 10px;
+	margin:5px;
 	cursor:pointer;
 }
 .fly-userinfo{
