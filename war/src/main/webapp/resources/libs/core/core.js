@@ -1476,11 +1476,3 @@ Plywet.interaction = {
 	}
 };
 
-
-// TODO
-Customer = {
-	changeLogo : function(){
-		document.title="气候预测工作平台";
-	}
-};
-

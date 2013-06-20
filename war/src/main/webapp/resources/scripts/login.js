@@ -1,4 +1,5 @@
 Plywet.Login = {
+	messages : null,
 	section: {
 		slideShow : null,
 		slideShowId : null,
@@ -137,12 +138,27 @@ Plywet.Login = {
 			.width(win.width+20).height(win.height+20);
 	},
 	
+	changeWebText : function(){
+		document.title=Plywet.Login.messages["msg_page_title"];
+		$("#companyName").html(Plywet.Login.messages["msg_page_company_name"]);
+		$("#companyCopyright").html(Plywet.Login.messages["msg_page_company_copyright"]);
+		$("#companyOthers").html(Plywet.Login.messages["msg_page_company_others"]);
+	},
+	
 	initPage: function(){
 		
 		Plywet.env();
 		
 		// 1.替换标识文字
-		Customer.changeLogo();
+		Plywet.ab({
+			type: "get",
+			url: "rest/identification/messages",
+			onsuccess: function(data, status, xhr){
+				Plywet.Login.messages = data;
+				Plywet.Login.changeWebText();
+			}
+		});
+		
 		
 		// 2.加载资源库名称
 		Plywet.ab({
@@ -171,8 +187,6 @@ Plywet.Login = {
 			    }
 				
 				Plywet.Login.section.slideShow = $("#section");
-				console.log(data.dom);
-				console.log(data.script);
 				
 				// 加载滑动内容
 				Plywet.Login.section.slideShow.empty();

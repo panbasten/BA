@@ -82,7 +82,7 @@ public class BIIdentification {
 	@GET
 	@Path("/messages")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getMessages(@CookieParam("user") String userInfo)
+	public String getMessages()
 			throws BIException {
 		try {
 			return BIWebMessages.getMessages().toJSONString();

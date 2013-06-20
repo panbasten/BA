@@ -8,7 +8,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>享元 BA 操作平台</title>
+		<title></title>
         
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
@@ -94,9 +94,11 @@
 					</div>
 					<div id="footer">
 						<div id="footerBox">
-							北京享元科技软件技术有限公司
+							<font id="companyName"></font>
 							<br />
-							版权所有(2013)©，如需转载，请注明来源
+							<font id="companyCopyright"></font>
+							<br />
+							<font id="companyOthers"></font>
 						</div>
 					</div>
 				</div>
