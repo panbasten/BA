@@ -7,7 +7,7 @@
 <html>
 	<head>
 		
-		<title>享元 BA 设计器平台</title>
+		<title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
@@ -172,7 +172,7 @@
 		</div>
 		
 		<div class="ui-layout-south fly-south">
-			<span style="margin-left:10px;font-weight:bold;">当前位置:&nbsp;</span><span id="posText"></span>
+			<span id="posName" style="margin-left:10px;font-weight:bold;"></span><span id="posText"></span>
 			<div style="float:right;">
 				<div class="fly-user"></div>
 				<span id="idUser" class="fly-userinfo"></span>

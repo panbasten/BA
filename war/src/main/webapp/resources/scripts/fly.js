@@ -1,4 +1,10 @@
 Plywet.desktop = {
+	messages : null,
+	changeWebText : function() {
+		document.title=Plywet.desktop.messages["msg_page_title"];
+		console.log(Plywet.desktop.messages);
+		$("#posName").html(Plywet.desktop.messages["msg_page_position_name"]);
+	},
 	initPage : function () {
 		// 设置浏览器环境
 		Plywet.env();
@@ -32,6 +38,15 @@ Plywet.desktop = {
 		diEditorLayout = $("body").layout( layoutSettings_diEditor );
 		
 		// 通过ajax队列加载
+		// 0.替换标识文字
+		Plywet.ab({
+			type: "get",
+			url: "rest/identification/messages",
+			onsuccess: function(data, status, xhr){
+				Plywet.desktop.messages = data;
+				Plywet.desktop.changeWebText();
+			}
+		});
 		// 1.加载导航页
 		Plywet.ab({
 			type : "get",

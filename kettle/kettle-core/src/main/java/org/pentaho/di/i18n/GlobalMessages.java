@@ -137,7 +137,7 @@ public class GlobalMessages extends AbstractMessageHandler
         return packageName + "_" + getLocaleString(locale);
     }
 
-    protected static String buildBundleName(String packageName)
+    public static String buildBundleName(String packageName)
     {
         return packageName + "." + BUNDLE_NAME;
     }
