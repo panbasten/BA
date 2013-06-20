@@ -54,14 +54,14 @@
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="${formId}:transversion" name="${formId}:transversion" type="text"
-				value="${transMeta.name}" />
+				value="${transMeta.transversion}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="创建者" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			${transMeta.name}
+			${transMeta.createdUser}
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
@@ -75,7 +75,7 @@
 			<fly:labelObject buddy="${formId}:name" text="最后修改者" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			${transMeta.name}
+			${transMeta.modifiedUser}
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
