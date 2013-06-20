@@ -259,6 +259,10 @@ public class BITransJobResource {
 			throws BIException {
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+			attrsMap.addVariable("formId", "trans_" + id);
+			Long idL = Long.parseLong(id);
+			TransMeta transMeta = pageDelegates.loadTransformation(repository, idL);
+			attrsMap.addVariable("transMeta", transMeta);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TRANS_SETTING_TEMPLATE, attrsMap);
