@@ -867,3 +867,9 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 .ui-space-frame {
 	display:none;
 }
+
+.ui-label-single select,
+.ui-label-single input,
+.ui-label-single textarea{
+	margin-bottom : 10px;
+}

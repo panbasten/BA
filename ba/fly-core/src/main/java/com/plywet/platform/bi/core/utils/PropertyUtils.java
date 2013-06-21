@@ -22,6 +22,8 @@ public class PropertyUtils {
 	public static final String UI_DIALOG_PREFIX = "ui.dialog.";
 	public static final String UI_DIALOG_POSTION_SUFFIX = ".position";
 
+	public static final String PAGE_I18N_PACKAGE_NAME = "page.i18n.package.name";
+
 	/**
 	 * 属性配置集合
 	 */

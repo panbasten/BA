@@ -68,12 +68,12 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 			HTML.writeStyleAttribute(node, html, attrs);
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_INPUT);
-			if (isRequired(node, attrs)) {
-				html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
-				html.writeAttribute(HTML.ATTR_CLASS, HTML.REQUIRED_CLASS);
-				html.writeText("*");
-				html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
-			}
+//			if (isRequired(node, attrs)) {
+//				html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
+//				html.writeAttribute(HTML.ATTR_CLASS, HTML.REQUIRED_CLASS);
+//				html.writeText("*");
+//				html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
+//			}
 		} catch (Exception e) {
 			throw new BIPageException("InputText解析出现错误。");
 		}

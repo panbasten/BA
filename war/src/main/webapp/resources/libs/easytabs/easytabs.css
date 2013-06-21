@@ -6,7 +6,7 @@
 .ui-tab-container ul.ui-tabs li a:hover { background-color: #eee; text-decoration: none;}
 .ui-tab-container ul.ui-tabs li.active { background: #fff; padding-top: 6px; position: relative; top: 1px; border-color: #cccccc; }
 .ui-tab-container ul.ui-tabs li a.active { font-weight: bold; }
-.ui-tab-container .ui-tab-panel-container { background: #fff; border: 1px solid #cccccc; padding: 10px; }
+.ui-tab-container .ui-tab-panel-container { background: #fff; border: 1px solid #cccccc; padding: 5px; }
 
 /* Styles for Tabs on Side */
 .ui-tab-side-container { background: #fff; border: 1px solid #cccccc; height: 120px; }

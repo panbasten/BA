@@ -316,12 +316,12 @@ public class PageTemplateInterpolator {
 			} else if (result instanceof Expression) {
 				Expression expr = (Expression) result;
 				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result == null ? ("${" + expr.getExpressionString() + "}")
+				return result == null ? ""
 						: result.toString();
 			} else if (result instanceof ExpressionString) {
 				ExpressionString expr = (ExpressionString) result;
 				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result == null ? ("${" + expr.getExpressionString() + "}")
+				return result == null ? ""
 						: result.toString();
 			} else {
 				throw new RuntimeException(
