@@ -171,12 +171,24 @@ a {
     filter: Alpha(Opacity=70);
     font-weight: normal;
 }
-.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled
-{
-    opacity: .15;
-    filter: Alpha(Opacity=15);
+fieldset.ui-state-disabled,
+.ui-widget-content fieldset.ui-state-disabled {
+	opacity: 1;
+    filter: Alpha(Opacity=100);
+}
+fieldset.ui-state-disabled legend,
+.ui-widget-content fieldset.ui-state-disabled legend {
+	opacity: .4;
+    filter: Alpha(Opacity=40);
     background-image: none;
 }
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled
+{
+    opacity: .4;
+    filter: Alpha(Opacity=40);
+    background-image: none;
+}
+
 
 /* Icons
 ----------------------------------*/

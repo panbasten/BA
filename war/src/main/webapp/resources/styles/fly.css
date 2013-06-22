@@ -870,6 +870,7 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 
 .ui-label-single select,
 .ui-label-single input,
-.ui-label-single textarea{
+.ui-label-single textarea,
+.ui-label-single div.ui-datagrid {
 	margin-bottom : 10px;
 }

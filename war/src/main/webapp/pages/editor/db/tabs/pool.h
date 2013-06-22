@@ -8,36 +8,36 @@
 			<fly:inputText id="${formId}:usingConnectionPool" name="${formId}:usingConnectionPool" type="checkbox" 
 					value="${dbMeta.usingConnectionPool}"
 					class="ui-layout-div ui-helper-clearfix"
-					interaction="[{method:'enable',val:true,param:['${formId}:initialPoolSize','${formId}:maximumPoolSize','${formId}:poolingParameters']}]" />
+					interaction="[{method:'enable',val:true,param:['${formId}:poolSize','${formId}:initialPoolSize','${formId}:maximumPoolSize','${formId}:poolingParameters']}]" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	
 	<fly:verticalLayout>
-		<fly:fieldSet title="连接池大小">
+		<fly:fieldSet title="连接池大小" id="${formId}:poolSize" disabled="${!dbMeta.usingConnectionPool}">
 			<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%">
 				<fly:gridLayoutItem>
-					<fly:labelObject buddy="${formId}:initialPoolSize" text="初始化大小" />
+					<fly:labelObject buddy="${formId}:initialPoolSize" text="初始化大小" disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:initialPoolSize" name="${formId}:initialPoolSize" type="text" 
 						value="${dbMeta.initialPoolSize}"
-						class="ui-layout-div ui-helper-clearfix"
+						class="ui-helper-clearfix"
 						disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 				
 				<fly:gridLayoutItem>
-					<fly:labelObject buddy="${formId}:maximumPoolSize" text="最大空闲空间" />
+					<fly:labelObject buddy="${formId}:maximumPoolSize" text="最大空闲空间" disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:maximumPoolSize" name="${formId}:maximumPoolSize" type="text" 
 						value="${dbMeta.maximumPoolSize}"
-						class="ui-layout-div ui-helper-clearfix"
+						class="ui-helper-clearfix"
 						disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 			</fly:gridLayout>
 		</fly:fieldSet>
 		
-		<fly:labelObject text="命名参数" />
+		<fly:labelObject text="命名参数" buddy="${formId}:poolingParameters" disabled="${!dbMeta.usingConnectionPool}" />
 		
 		<fly:dataGrid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
 			<fly:columns>

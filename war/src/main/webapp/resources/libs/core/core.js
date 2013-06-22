@@ -1444,9 +1444,13 @@ Plywet.interaction = {
 				if(target.data("componentType")){
 					eval("target."+target.data("componentType")+"('enable');");
 				}else{
-					target.removeAttr("disabled");
-					target.removeClass("ui-state-disabled");
+					if(target.attr("tagName")=="FIELDSET"){
+					}else{
+						target.removeAttr("disabled");
+						target.removeClass("ui-state-disabled");
+					}
 				}
+				$("label[for='"+param[i]+"']").removeClass("ui-state-disabled");
 			}
 		}else{
 			for(var i=0;i<param.length;i++){
@@ -1454,9 +1458,13 @@ Plywet.interaction = {
 				if(target.data("componentType")){
 					eval("target."+target.data("componentType")+"('disabled');");
 				}else{
-					target.attr("disabled","");
-					target.addClass("ui-state-disabled");
+					if(target.attr("tagName")=="FIELDSET"){
+					}else{
+						target.attr("disabled","");
+						target.addClass("ui-state-disabled");
+					}
 				}
+				$("label[for='"+param[i]+"']").addClass("ui-state-disabled");
 			}
 		}
 	},

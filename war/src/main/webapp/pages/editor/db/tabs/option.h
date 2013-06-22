@@ -1,6 +1,6 @@
 <fly:composition freeLayout="N">
 	<fly:verticalLayout>
-		<fly:labelObject text="命名参数" />
+		<fly:labelObject text="命名参数" buddy="${formId}:options" />
 		
 		<fly:dataGrid id="${formId}:options" singleSelect="true" data="${connectionProperties}" height="280">
 			<fly:columns>

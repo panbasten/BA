@@ -13,7 +13,7 @@
 	</fly:gridLayout>
 	
 	<fly:verticalLayout>
-		<fly:labelObject text="命名参数" />
+		<fly:labelObject text="命名参数" buddy="${formId}:partitioningInformations" disabled="${!dbMeta.partitioned}" />
 		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
 			<fly:columns>
 				<fly:row>

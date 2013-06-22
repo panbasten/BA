@@ -28,7 +28,7 @@
 			</fly:verticalLayout>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:fieldSet id="${formId}:connectionFieldset" title="设置">
+			<fly:fieldSet id="${formId}:connectionFieldset" title="设置" style="margin-left:10px;margin-top:5px;">
 				<fly:horizontalLayout id="${formId}:connection">
 					<fly:include src="setting/_setting.h" />
 				</fly:horizontalLayout>

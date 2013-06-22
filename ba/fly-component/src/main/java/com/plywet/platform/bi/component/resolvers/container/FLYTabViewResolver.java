@@ -44,8 +44,12 @@ public class FLYTabViewResolver extends BaseComponentResolver implements
 		HTML.writeStyleAttribute(node, html, attrs);
 
 		// TODO 更换各种方向
-		HTML.writeStyleClassAttribute(node, html, attrs,
-				TAB_CONTAINER_STYLE_CLASS);
+		String disabled = HTML.getTagAttribute(node, HTML.ATTR_DISABLED, attrs);
+		String styleClass = TAB_CONTAINER_STYLE_CLASS;
+		if (Boolean.parseBoolean(disabled)) {
+			styleClass = HTML.STATE_DISABLED_CLASS + " " + styleClass;
+		}
+		HTML.writeStyleClassAttribute(node, html, attrs, styleClass);
 
 		FLYTabViewMeta tabView = new FLYTabViewMeta();
 		tabView.setId(id);

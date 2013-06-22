@@ -7,7 +7,7 @@ Plywet.database = {
 			type : "GET",
 			url : "rest/db/connectionsetting/" + id,
 			params : {
-				targetId : formId+":connection",
+				targetId : formId+":connection:Content",
 				connectionType : connectionType,
 				accessType : accessType
 			}

@@ -24,8 +24,14 @@ public class FLYFieldSetResolver extends BaseComponentResolver implements
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_FIELDSET);
 
-		HTML.writeStyleClassAttribute(node, html, attrs, FIELDSET_STYLE_CLASS);
 		HTML.writeStyleAttribute(node, html, attrs);
+
+		String disabled = HTML.getTagAttribute(node, HTML.ATTR_DISABLED, attrs);
+		String styleClass = FIELDSET_STYLE_CLASS;
+		if (Boolean.parseBoolean(disabled)) {
+			styleClass = HTML.STATE_DISABLED_CLASS + " " + styleClass;
+		}
+		HTML.writeStyleClassAttribute(node, html, attrs, styleClass);
 
 		HTML.writeAttributes(node.getAttributes(), html, attrs);
 

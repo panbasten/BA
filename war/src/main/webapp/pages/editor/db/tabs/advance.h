@@ -6,28 +6,28 @@
 					<fly:labelObject buddy="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" text="支持布尔数据类型" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
-					<fly:inputText id="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" name="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" type="checkbox" value="${dbMeta.attributes['SUPPORTS_BOOLEAN_DATA_TYPE']}" class="ui-layout-div ui-helper-clearfix" />
+					<fly:inputText id="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" name="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" type="checkbox" value="${dbMeta.attributes['SUPPORTS_BOOLEAN_DATA_TYPE']}" class="ui-helper-clearfix" />
 				</fly:gridLayoutItem>
 				
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:QUOTE_ALL_FIELDS" text="标识符使用引号括起来" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
-					<fly:inputText id="${formId}:QUOTE_ALL_FIELDS" name="${formId}:QUOTE_ALL_FIELDS" type="checkbox" value="${dbMeta.attributes['QUOTE_ALL_FIELDS']}" class="ui-layout-div ui-helper-clearfix" />
+					<fly:inputText id="${formId}:QUOTE_ALL_FIELDS" name="${formId}:QUOTE_ALL_FIELDS" type="checkbox" value="${dbMeta.attributes['QUOTE_ALL_FIELDS']}" class="ui-helper-clearfix" />
 				</fly:gridLayoutItem>
 				
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE" text="强制标识符使用小写字母" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
-					<fly:inputText id="${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE" name="${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE" type="checkbox" value="${dbMeta.attributes['FORCE_IDENTIFIERS_TO_LOWERCASE']}" class="ui-layout-div ui-helper-clearfix" />
+					<fly:inputText id="${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE" name="${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE" type="checkbox" value="${dbMeta.attributes['FORCE_IDENTIFIERS_TO_LOWERCASE']}" class="ui-helper-clearfix" />
 				</fly:gridLayoutItem>
 				
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE" text="强制标识符使用大写字母" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
-					<fly:inputText id="${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE" name="${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE" type="checkbox" value="${dbMeta.attributes['FORCE_IDENTIFIERS_TO_UPPERCASE']}" class="ui-layout-div ui-helper-clearfix" />
+					<fly:inputText id="${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE" name="${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE" type="checkbox" value="${dbMeta.attributes['FORCE_IDENTIFIERS_TO_UPPERCASE']}" class="ui-helper-clearfix" />
 				</fly:gridLayoutItem>
 			</fly:gridLayout>
 		</fly:fieldSet>

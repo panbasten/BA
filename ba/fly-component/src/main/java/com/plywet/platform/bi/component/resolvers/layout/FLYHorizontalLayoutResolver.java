@@ -2,6 +2,7 @@ package com.plywet.platform.bi.component.resolvers.layout;
 
 import java.util.List;
 
+import org.pentaho.di.core.Const;
 import org.w3c.dom.Node;
 
 import com.plywet.platform.bi.component.core.ComponentResolverInterface;
@@ -14,6 +15,9 @@ import com.plywet.platform.bi.core.exception.BIPageException;
 public class FLYHorizontalLayoutResolver extends BaseComponentResolver
 		implements ComponentResolverInterface {
 
+	private static final String HORIZONTAL_LAYOUT_CLASS = "ui-horizontal-layout "
+			+ HTML.LAYOUT_CLASS;;
+
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
@@ -21,12 +25,18 @@ public class FLYHorizontalLayoutResolver extends BaseComponentResolver
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
 			HTML.writeStyleAttribute(node, html, attrs);
-			HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
+			HTML.writeStyleClassAttribute(node, html, attrs,
+					HORIZONTAL_LAYOUT_CLASS);
 
 			HTML.writeAttributes(node.getAttributes(), html, attrs);
 
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			html.writeAttribute(HTML.ATTR_CLASS, HTML.LAYOUT_SINGLE_CLASS);
+
+			String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
+			if (!Const.isEmpty(id)) {
+				html.writeAttribute(HTML.ATTR_ID, id + ":Content");
+			}
 
 			super.renderSub(node, html, script, attrs, fileUrl);
 
@@ -39,5 +49,4 @@ public class FLYHorizontalLayoutResolver extends BaseComponentResolver
 			throw new BIPageException("HorizontalLayout解析出现错误。");
 		}
 	}
-
 }

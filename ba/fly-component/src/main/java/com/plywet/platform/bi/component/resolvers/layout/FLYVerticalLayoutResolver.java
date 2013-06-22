@@ -19,6 +19,9 @@ import com.plywet.platform.bi.core.utils.Utils;
 public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
+	private static final String VERTICAL_LAYOUT_CLASS = "ui-vertical-layout "
+			+ HTML.LAYOUT_CLASS;
+
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
@@ -26,7 +29,7 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
 			HTML.writeStyleAttribute(node, html, attrs);
-			HTML.writeStyleClassAttribute(node, html, attrs, HTML.LAYOUT_CLASS);
+			HTML.writeStyleClassAttribute(node, html, attrs, VERTICAL_LAYOUT_CLASS);
 
 			HTML.writeAttributes(node.getAttributes(), html, attrs);
 
