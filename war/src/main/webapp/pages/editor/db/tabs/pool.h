@@ -26,7 +26,7 @@
 				</fly:gridLayoutItem>
 				
 				<fly:gridLayoutItem>
-					<fly:labelObject buddy="${formId}:maximumPoolSize" text="最大空闲空间" disabled="${!dbMeta.usingConnectionPool}" />
+					<fly:labelObject buddy="${formId}:maximumPoolSize" text="最大空闲空间" class="for-grid-layout-item" disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:maximumPoolSize" name="${formId}:maximumPoolSize" type="text" 

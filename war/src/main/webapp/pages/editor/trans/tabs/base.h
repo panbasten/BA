@@ -3,16 +3,17 @@
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="转换名称" />
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:name" name="${formId}:name" type="text" 
 				validate="required:true"
+				style="margin-right:20px;"
 				value="${transMeta.name}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:filename" text="转换文件名称" />
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:filename" name="${formId}:filename" type="text"
 				value="${transMeta.filename}" />
 		</fly:gridLayoutItem>
@@ -20,7 +21,7 @@
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:directoryId" text="目录" />
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:directoryId" name="${formId}:directoryId" type="text"
 				value="" />
 		</fly:gridLayoutItem>
@@ -28,7 +29,7 @@
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:description" text="描述" />
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:description" name="${formId}:description" type="text"
 				value="${transMeta.description}" />
 		</fly:gridLayoutItem>
@@ -36,7 +37,7 @@
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:extendedDescription" text="扩展描述" />
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:extendedDescription" name="${formId}:extendedDescription" type="text"
 				value="${transMeta.extendedDescription}" />
 		</fly:gridLayoutItem>
@@ -50,7 +51,7 @@
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject buddy="${formId}:transversion" text="版本" />
+			<fly:labelObject buddy="${formId}:transversion" class="for-grid-layout-item" text="版本" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="${formId}:transversion" name="${formId}:transversion" type="text"
@@ -61,28 +62,28 @@
 			<fly:labelObject buddy="${formId}:name" text="创建者" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			${transMeta.createdUser}
+			<div class="ui-show-text">${transMeta.createdUser}</div>
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject buddy="${formId}:name" text="创建日期" />
+			<fly:labelObject buddy="${formId}:name" class="for-grid-layout-item" text="创建日期" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			${transMeta.name}
+			<div class="ui-show-text">${transMeta.name}</div>
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="最后修改者" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			${transMeta.modifiedUser}
+			<div class="ui-show-text">${transMeta.modifiedUser}</div>
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject buddy="${formId}:name" text="最后修改日期" />
+			<fly:labelObject buddy="${formId}:name" class="for-grid-layout-item" text="最后修改日期" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			${transMeta.name}
+			<div class="ui-show-text">${transMeta.name}</div>
 		</fly:gridLayoutItem>
 		
 	</fly:gridLayout>

@@ -684,6 +684,11 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 .ui-dialog .ui-dialog-content * {
 	color: #fff;
 }
+.ui-dialog .ui-dialog-content label,
+.ui-dialog .ui-dialog-content legend {
+	color: #ccc;
+}
+
 .ui-dialog .ui-dialog-content .ui-tab-container .ui-tab-panel-container {
 	background: none repeat scroll 0 0 transparent;
 	border: 1px solid #cccccc;
@@ -873,4 +878,20 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 .ui-label-single textarea,
 .ui-label-single div.ui-datagrid {
 	margin-bottom : 10px;
+}
+
+.ui-grid-layout-item select,
+.ui-grid-layout-item input,
+.ui-grid-layout-item textarea,
+.ui-grid-layout-item div.ui-datagrid{
+	margin-bottom : 10px;
+}
+.ui-grid-layout .ui-grid-layout-item div.ui-show-text {
+	height:20px;
+	margin-top:3px;
+	margin-bottom:9px;
+}
+
+label.for-grid-layout-item {
+	margin-left: 15px;
 }
