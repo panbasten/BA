@@ -2,7 +2,6 @@ Plywet.desktop = {
 	messages : null,
 	changeWebText : function() {
 		document.title=Plywet.desktop.messages["msg_page_title"];
-		console.log(Plywet.desktop.messages);
 		$("#posName").html(Plywet.desktop.messages["msg_page_position_name"]);
 	},
 	initPage : function () {

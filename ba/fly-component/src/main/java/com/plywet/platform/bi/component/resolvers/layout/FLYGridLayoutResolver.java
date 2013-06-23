@@ -1,5 +1,6 @@
 package com.plywet.platform.bi.component.resolvers.layout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 	public static final String ATTR_COLS = "cols";
 
 	public static final String ATTR_ITEM_WIDTH = "itemWidth";
+	
+	public static final String ATTR_ITEM_MARGIN = "itemMargin";
 
 	private static final String GRID_LAYOUT_CLASS = "ui-grid-layout "
 			+ HTML.LAYOUT_CLASS;
@@ -81,7 +84,10 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 			HTML.writeAttributes(node.getAttributes(), new String[] {
 					ATTR_COLUMN, ATTR_ITEM_WIDTH }, html, attrs);
 
-			renderItems(node, html, script, attrs, fileUrl, column, itemWidth);
+			List<String> subScript = new ArrayList<String>();
+
+			renderItems(node, html, subScript, attrs, fileUrl, column,
+					itemWidth);
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
@@ -89,9 +95,12 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 					.getAttributes(), attrs);
 			JSONObject jo = JSONUtils.convertToJSONObject(map);
 			jo.put(HTML.ATTR_ID, id);
+			jo.put(ATTR_COLUMN, columnStr);
+			jo.put(ATTR_ITEM_WIDTH, itemWidthStr);
 
 			script.add("Plywet.cw('GridLayout','" + Const.NVL(weightVar, "")
 					+ "'," + jo.toJSONString() + ");");
+			script.addAll(subScript);
 		} catch (BIPageException e) {
 			throw e;
 		} catch (Exception e) {
@@ -129,8 +138,9 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 				style = HTML.getShowStyle(subNode, attrs) + style;
 				html.writeAttribute(HTML.ATTR_STYLE, style);
 
-				HTML.writeAttributes(subNode.getAttributes(),
-						new String[] { ATTR_COLS }, html, attrs);
+				HTML
+						.writeAttributes(subNode.getAttributes(), null, html,
+								attrs);
 
 				if (isEmptyItem(subNode)) {
 					html.writeText("<div class='" + GRID_LAYOUT_ITEM_EMPTY

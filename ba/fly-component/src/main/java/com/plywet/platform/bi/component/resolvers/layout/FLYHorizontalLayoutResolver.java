@@ -14,6 +14,8 @@ import com.plywet.platform.bi.core.exception.BIPageException;
 
 public class FLYHorizontalLayoutResolver extends BaseComponentResolver
 		implements ComponentResolverInterface {
+	
+	public static final String ATTR_ITEM_MARGIN = "itemMargin";
 
 	private static final String HORIZONTAL_LAYOUT_CLASS = "ui-horizontal-layout "
 			+ HTML.LAYOUT_CLASS;;

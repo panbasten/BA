@@ -1,6 +1,6 @@
 <fly:composition freeLayout="N">
 
-	<fly:gridLayout column="4">
+	<fly:gridLayout column="4" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:partitioned" text="使用集群" />
 		</fly:gridLayoutItem>
@@ -12,7 +12,7 @@
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	
-	<fly:verticalLayout>
+	<fly:verticalLayout margin="10">
 		<fly:labelObject text="命名参数" buddy="${formId}:partitioningInformations" disabled="${!dbMeta.partitioned}" />
 		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
 			<fly:columns>

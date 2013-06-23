@@ -1,7 +1,7 @@
 <fly:composition freeLayout="N">
-	<fly:verticalLayout>
+	<fly:verticalLayout margin="10">
 		<fly:fieldSet title="标识符">
-			<fly:gridLayout column="4" itemWidth="35%,15%,35%,15%">
+			<fly:gridLayout column="4" itemWidth="35%,15%,35%,15%" itemMargin="10">
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" text="支持布尔数据类型" />
 				</fly:gridLayoutItem>
@@ -32,11 +32,11 @@
 			</fly:gridLayout>
 		</fly:fieldSet>
 		
-		<fly:labelObject buddy="${formId}:preferredSchemaName" text="默认模式名称（在没有其他模式名时使用）" />
+		<fly:labelObject buddy="${formId}:preferredSchemaName" text="默认模式名称（在没有其他模式名时使用）" marginTop="10" />
 		
 		<fly:inputText id="${formId}:preferredSchemaName" name="${formId}:preferredSchemaName" type="text" value="${dbMeta.preferredSchemaName}" />
 		
-		<fly:labelObject buddy="${formId}:connectSQL" text="请输入连接成功后要执行的SQL语句，用分号(;)隔开" />
+		<fly:labelObject buddy="${formId}:connectSQL" text="请输入连接成功后要执行的SQL语句，用分号(;)隔开" marginTop="10" />
 		
 		<textarea id="${formId}:connectSQL" name="${formId}:connectSQL" style="width:100%;" rows="6">
 			${dbMeta.connectSQL}

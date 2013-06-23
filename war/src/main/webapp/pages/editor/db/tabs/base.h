@@ -1,5 +1,5 @@
 <fly:composition freeLayout="N">
-	<fly:gridLayout column="4">
+	<fly:gridLayout column="4" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="连接名称" />
 		</fly:gridLayoutItem>
@@ -11,7 +11,7 @@
 				value="${dbMeta.name}" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
-	<fly:gridLayout column="2" itemWidth="40%,60%">
+	<fly:gridLayout column="2" itemWidth="40%,60%" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0">
 				<fly:labelObject buddy="${formId}:connectionType" text="连接类型"></fly:labelObject>
@@ -19,17 +19,16 @@
 					onchange="Plywet.database.changeConnectionType('${formId}')">
 					<fly:options items="${dbTypes}" value="ids[0]" label="name" />
 				</fly:selectMenu>
-				<fly:labelObject buddy="${formId}:accessType" text="连接方式"></fly:labelObject>
+				<fly:labelObject buddy="${formId}:accessType" text="连接方式" marginTop="10"></fly:labelObject>
 				<fly:selectMenu id="${formId}:accessType" name="${formId}:accessType" size="4" value="${dbMeta.accessType}"
-					onchange="Plywet.database.changeConnectionType('${formId}')"
-					margin-bottom="10">
+					onchange="Plywet.database.changeConnectionType('${formId}')">
 					<fly:options items="${accessTypes}" value="0" label="1" />
 				</fly:selectMenu>
 			</fly:verticalLayout>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:fieldSet id="${formId}:connectionFieldset" title="设置" style="margin-left:10px;margin-top:5px;">
-				<fly:horizontalLayout id="${formId}:connection">
+			<fly:fieldSet id="${formId}:connectionFieldset" title="设置" marginTop="5">
+				<fly:horizontalLayout id="${formId}:connection" class="db-connection-setting">
 					<fly:include src="setting/_setting.h" />
 				</fly:horizontalLayout>
 			</fly:fieldSet>

@@ -1,6 +1,6 @@
 <fly:composition freeLayout="N">
 
-	<fly:gridLayout column="4">
+	<fly:gridLayout column="4" margin="10">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:usingConnectionPool" text="使用连接池" />
 		</fly:gridLayoutItem>
@@ -12,9 +12,9 @@
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	
-	<fly:verticalLayout>
+	<fly:verticalLayout margin="10">
 		<fly:fieldSet title="连接池大小" id="${formId}:poolSize" disabled="${!dbMeta.usingConnectionPool}">
-			<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%">
+			<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%" itemMargin="10">
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:initialPoolSize" text="初始化大小" disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
@@ -37,7 +37,7 @@
 			</fly:gridLayout>
 		</fly:fieldSet>
 		
-		<fly:labelObject text="命名参数" buddy="${formId}:poolingParameters" disabled="${!dbMeta.usingConnectionPool}" />
+		<fly:labelObject text="命名参数" buddy="${formId}:poolingParameters" disabled="${!dbMeta.usingConnectionPool}" marginTop="10" />
 		
 		<fly:dataGrid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
 			<fly:columns>
@@ -48,7 +48,7 @@
 			</fly:columns>
 		</fly:dataGrid>
 		
-		<fly:labelObject text="描述" />
+		<fly:labelObject text="描述" marginTop="10" />
 		
 		<div id="${formId}:description" style="width:100%;height:50px;" class="ui-show-description-panel">
 		</div>
