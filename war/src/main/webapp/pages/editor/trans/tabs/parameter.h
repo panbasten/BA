@@ -1,8 +1,8 @@
 <fly:composition freeLayout="N">
 	<fly:verticalLayout margin="10">
-		<fly:labelObject text="命名参数" buddy="${formId}:options" />
+		<fly:labelObject text="命名参数" buddy="${formId}:parameters" />
 
-		<fly:dataGrid id="${formId}:options" singleSelect="true" data="${connectionProperties}" height="280">
+		<fly:dataGrid id="${formId}:parameters" singleSelect="true" data="${parameters}" height="280">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="key" title="参数名" width="150" editor="text" align="center" />

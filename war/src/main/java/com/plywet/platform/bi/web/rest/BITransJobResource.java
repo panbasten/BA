@@ -288,11 +288,20 @@ public class BITransJobResource {
 									.getOptions());
 
 			// 命名参数
-			String[] key = transMeta.listParameters();
+			String[] keyArr = transMeta.listParameters();
 
-			attrsMap.addVariable("partitioningInformations", GridDataObject
-					.instance().putObjects(dbMeta.getPartitioningInformation())
-					.setMinRows(HTML.DEFAULT_GRID_ROW_NUMBER));
+			GridDataObject gd = GridDataObject.instance().setMinRows(
+					HTML.DEFAULT_GRID_ROW_NUMBER);
+			for (String key : keyArr) {
+				NamedParameterObject np = NamedParameterObject.instance();
+				np.setKey(key);
+				np.setValue(transMeta.getParameterDefault(key));
+				np.setDesc(transMeta.getParameterDescription(key));
+				
+				gd.putObject(np);
+			}
+
+			attrsMap.addVariable("parameters", gd);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TRANS_SETTING_TEMPLATE, attrsMap);
@@ -498,5 +507,39 @@ public class BITransJobResource {
  * 
  */
 class NamedParameterObject {
-	// TODO
+	private String key;
+	private String value;
+	private String desc;
+
+	public static final NamedParameterObject instance() {
+		return new NamedParameterObject();
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public NamedParameterObject setKey(String key) {
+		this.key = key;
+		return this;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public NamedParameterObject setValue(String value) {
+		this.value = value;
+		return this;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public NamedParameterObject setDesc(String desc) {
+		this.desc = desc;
+		return this;
+	}
+
 }
