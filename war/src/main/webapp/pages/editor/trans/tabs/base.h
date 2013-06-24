@@ -1,5 +1,5 @@
 <fly:composition freeLayout="N">
-	<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%">
+	<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="转换名称" />
 		</fly:gridLayoutItem>
@@ -8,14 +8,6 @@
 				validate="required:true"
 				style="margin-right:20px;"
 				value="${transMeta.name}" />
-		</fly:gridLayoutItem>
-		
-		<fly:gridLayoutItem>
-			<fly:labelObject buddy="${formId}:filename" text="转换文件名称" />
-		</fly:gridLayoutItem>
-		<fly:gridLayoutItem cols="3">
-			<fly:inputText id="${formId}:filename" name="${formId}:filename" type="text"
-				value="${transMeta.filename}" />
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
@@ -38,7 +30,7 @@
 			<fly:labelObject buddy="${formId}:extendedDescription" text="扩展描述" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
-			<fly:inputText id="${formId}:extendedDescription" name="${formId}:extendedDescription" type="text"
+			<fly:inputTextarea id="${formId}:extendedDescription" name="${formId}:extendedDescription"
 				value="${transMeta.extendedDescription}" />
 		</fly:gridLayoutItem>
 		
@@ -46,8 +38,10 @@
 			<fly:labelObject buddy="${formId}:transstatus" text="状态" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:inputText id="${formId}:transstatus" name="${formId}:transstatus" type="text"
-				value="${transMeta.transstatus}" />
+			<fly:selectMenu id="${formId}:transstatus" name="${formId}:transstatus" type="text"
+				value="${transMeta.transstatus}">
+				<fly:options items="${transStatusOptions}" value="0" label="1" />
+			</fly:selectMenu>
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
