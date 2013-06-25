@@ -412,3 +412,18 @@
 		}
 	});
 })(jQuery);
+
+
+Plywet.widget.ComboBox = function(cfg) {
+	this.cfg = cfg;
+	this.id = this.cfg.id;
+	this.jqId = Plywet.escapeClientId(this.id);
+	this.jq = $(this.jqId);
+	this.init();
+};
+Plywet.extend(Plywet.widget.ComboBox, Plywet.widget.BaseWidget);
+Plywet.widget.ComboBox.prototype = {
+	init : function() {
+		this.jq.combobox(this.cfg);
+	}
+};

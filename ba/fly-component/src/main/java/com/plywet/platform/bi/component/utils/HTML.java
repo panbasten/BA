@@ -19,7 +19,7 @@ public class HTML {
 	public static final int DEFAULT_GRID_ROW_NUMBER = 5;
 
 	public static final String COMPONENT_TYPE_FLY_PREFIX = "fly:";
-
+	
 	public static final String COMPONENT_TYPE_COMPLEX = "base:complex";
 	public static final String COMPONENT_TYPE_NULL = "base:null";
 	public static final String COMPONENT_TYPE_BASE_A = "a";
@@ -254,6 +254,8 @@ public class HTML {
 	public static final String ATTR_BORDER_RIGHT_STYLE = "borderRightStyle";
 
 	public static final String ATTR_SHOW = "show";
+	
+	public static final String DATA_GRID_SUFFIX = ":rows";
 
 	public static String[] CLICK_EVENT = { ATTR_ON_CLICK };
 

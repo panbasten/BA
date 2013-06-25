@@ -987,6 +987,26 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 	        			}
 	        			Plywet.desktop.triggerMark(true);
 	        		}
+	        		// 判断是否有DataGrid对象
+	        		$(this).find(".ui-datagrid .ui-datagrid-original").each(
+        				function(idx, dom){
+        					var $dom = $(dom);
+        					var options = $dom.datagrid("options");
+        					var domValue = $(this).find(Plywet.escapeClientId(options.id+":rows"));
+        					if(!domValue || domValue.length == 0){
+        						domValue = $("<input id='"+options.id+":rows' name='"+options.id+":rows' type='hidden'>");
+        						domValue.appendTo($(this));
+        					}
+        					// 如果是checkbox选择
+        					console.log($dom.datagrid("options").checkOnSelect);
+        					if(!$dom.datagrid("options").checkOnSelect){
+        						var ch = $dom.datagrid("getChecked");
+        						domValue.val(Plywet.toJSONString($dom.datagrid("getChecked")));
+        					}else{
+        						domValue.val(Plywet.toJSONString($dom.datagrid("getData").rows));
+        					}
+        				});
+	        		
 	                if(cfg.beforeSend) {
 	                    cfg.beforeSend.call(this, data);
 	                }

@@ -10,6 +10,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.pentaho.di.core.Const;
 
 import com.plywet.platform.bi.core.exception.BIConvertException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
@@ -60,6 +61,12 @@ public class JSONUtils {
 			throws Exception {
 		JSONParser parser = new JSONParser();
 		return (JSONObject) parser.parse(obj);
+	}
+
+	public static JSONArray convertStringToJSONArray(String obj)
+			throws Exception {
+		JSONParser parser = new JSONParser();
+		return (JSONArray) parser.parse(obj);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -253,5 +260,21 @@ public class JSONUtils {
 		}
 		return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
 				">", "&gt;").replaceAll("\"", "\\\\\"");
+	}
+
+	public static boolean isJSONEmpty(JSONObject jo, String key) {
+		Object v = jo.get(key);
+		if (v instanceof String) {
+			return Const.isEmpty(((String) v).trim());
+		}
+		return true;
+	}
+
+	public static String NVL_JSON(JSONObject jo, String key, String def) {
+		Object v = jo.get(key);
+		if (v instanceof String) {
+			return Const.NVL(((String) v).trim(), def);
+		}
+		return def;
 	}
 }

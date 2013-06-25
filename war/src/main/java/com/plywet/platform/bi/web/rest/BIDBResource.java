@@ -16,11 +16,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.database.BaseDatabaseMeta;
 import org.pentaho.di.core.database.DatabaseConnectionPoolParameter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.database.MySQLDatabaseMeta;
+import org.pentaho.di.core.database.PartitionDatabaseMeta;
 import org.pentaho.di.core.plugins.DatabasePluginType;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
@@ -33,6 +36,7 @@ import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
@@ -156,7 +160,7 @@ public class BIDBResource {
 			return AjaxResult.instance().addEntity(acc).addEntity(empty)
 					.addEntity(content).toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建导航页面出现错误。", ex);
+			throw new BIException("改变链接设置出现错误。", ex);
 		}
 	}
 
@@ -165,7 +169,7 @@ public class BIDBResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public void saveSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) {
+			@PathParam("id") String id, String body) throws BIException {
 		try {
 			String DB_PREFIX = "db_" + id + ":";
 
@@ -181,13 +185,88 @@ public class BIDBResource {
 			setAdvance(dbMeta, paramContext, DB_PREFIX);
 
 			// 3.option
+			setOption(dbMeta, paramContext, DB_PREFIX);
 
 			// 4.pool
+			setPooling(dbMeta, paramContext, DB_PREFIX);
 
 			// 5.cluster
+			setCluster(dbMeta, paramContext, DB_PREFIX);
 
 		} catch (Exception e) {
+			throw new BIException("保存数据库设置出现错误。", e);
+		}
+	}
 
+	private void setCluster(DatabaseMeta dbMeta, ParameterContext paramContext,
+			String DB_PREFIX) throws Exception {
+		boolean partitioned = paramContext.getBooleanParameter(DB_PREFIX
+				+ "partitioned");
+		dbMeta.setPartitioned(partitioned);
+
+		if (partitioned) {
+			JSONArray ja = JSONUtils.convertStringToJSONArray(paramContext
+					.getParameter(DB_PREFIX + "partitioningInformations"
+							+ HTML.DATA_GRID_SUFFIX));
+
+			List<PartitionDatabaseMeta> pdms = new ArrayList<PartitionDatabaseMeta>();
+			for (int i = 0; i < ja.size(); i++) {
+				JSONObject jo = (JSONObject) ja.get(i);
+				String partitionId = JSONUtils.NVL_JSON(jo, "partitionId", "");
+				String hostname = JSONUtils.NVL_JSON(jo, "hostname", "");
+				String port = JSONUtils.NVL_JSON(jo, "port", "");
+				String databaseName = JSONUtils
+						.NVL_JSON(jo, "databaseName", "");
+				String username = JSONUtils.NVL_JSON(jo, "username", "");
+				String password = JSONUtils.NVL_JSON(jo, "password", "");
+				
+				// TODO
+			}
+		}
+	}
+
+	private void setPooling(DatabaseMeta dbMeta, ParameterContext paramContext,
+			String DB_PREFIX) throws Exception {
+		boolean usingConnectionPool = paramContext
+				.getBooleanParameter(DB_PREFIX + "usingConnectionPool");
+		dbMeta.setUsingConnectionPool(usingConnectionPool);
+
+		if (usingConnectionPool) {
+			int initialPoolSize = paramContext.getIntParameter(DB_PREFIX
+					+ "initialPoolSize", 0);
+			dbMeta.setInitialPoolSize(initialPoolSize);
+
+			int maximumPoolSize = paramContext.getIntParameter(DB_PREFIX
+					+ "maximumPoolSize", 0);
+			dbMeta.setMaximumPoolSize(maximumPoolSize);
+
+			JSONArray ja = JSONUtils.convertStringToJSONArray(paramContext
+					.getParameter(DB_PREFIX + "poolingParameters"
+							+ HTML.DATA_GRID_SUFFIX));
+			Properties properties = new Properties();
+			for (int i = 0; i < ja.size(); i++) {
+				JSONObject jo = (JSONObject) ja.get(i);
+				if (!JSONUtils.isJSONEmpty(jo, "key")) {
+					properties.put(JSONUtils.NVL_JSON(jo, "key", ""), JSONUtils
+							.NVL_JSON(jo, "value", ""));
+				}
+			}
+			dbMeta.setConnectionPoolingProperties(properties);
+		}
+	}
+
+	private void setOption(DatabaseMeta dbMeta, ParameterContext paramContext,
+			String DB_PREFIX) throws Exception {
+		JSONArray ja = JSONUtils.convertStringToJSONArray(paramContext
+				.getParameter(DB_PREFIX + "options" + HTML.DATA_GRID_SUFFIX));
+		String dbType = dbMeta.getPluginId();
+
+		for (int i = 0; i < ja.size(); i++) {
+			JSONObject jo = (JSONObject) ja.get(i);
+			if (!JSONUtils.isJSONEmpty(jo, "key")) {
+				dbMeta.addExtraOption(dbType, (String) jo.get("key"), JSONUtils
+						.NVL_JSON(jo, "value", ""));
+			}
 		}
 	}
 

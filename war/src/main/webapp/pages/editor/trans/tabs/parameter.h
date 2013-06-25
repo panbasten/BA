@@ -11,8 +11,8 @@
 				</fly:row>
 			</fly:columns>
 			<fly:toolbar>
-				<fly:pushbutton id="${formId}:options:append" icon="ui-icon-plusthick" onclick="Plywet.editors.toolbarButton.addRow('${formId}:options');" title="添加" />
-				<fly:pushbutton id="${formId}:options:remove" icon="ui-icon-closethick" onclick="Plywet.editors.toolbarButton.deleteRow('${formId}:options');" title="删除" />
+				<fly:pushbutton id="${formId}:options:append" icon="ui-icon-plusthick" onclick="Plywet.editors.toolbarButton.addRow('${formId}:parameters');" title="添加" />
+				<fly:pushbutton id="${formId}:options:remove" icon="ui-icon-closethick" onclick="Plywet.editors.toolbarButton.deleteRow('${formId}:parameters');" title="删除" />
 			</fly:toolbar>
 		</fly:dataGrid>
 	</fly:verticalLayout>

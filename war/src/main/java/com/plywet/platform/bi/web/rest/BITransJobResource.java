@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -297,7 +298,7 @@ public class BITransJobResource {
 				np.setKey(key);
 				np.setValue(transMeta.getParameterDefault(key));
 				np.setDesc(transMeta.getParameterDescription(key));
-				
+
 				gd.putObject(np);
 			}
 
@@ -310,7 +311,27 @@ public class BITransJobResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建导航页面出现错误。", ex);
+			throw new BIException("创建转换设置页面出现错误。", ex);
+		}
+	}
+
+	@POST
+	@Path("/trans/{id}/setting/save")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String saveSetting(@CookieParam("repository") String repository,
+			@PathParam("id") String id, String body) throws BIException {
+		try {
+
+			String FORM_PREFIX = "trans_" + id + ":";
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+			TransMeta transMeta = pageDelegates.loadTransformation(repository,
+					Long.parseLong(id));
+
+			return "";
+		} catch (Exception e) {
+			throw new BIException("保存转换设置页面出现错误。", e);
 		}
 	}
 

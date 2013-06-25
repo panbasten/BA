@@ -284,7 +284,7 @@
 				}
 				return false;
 			});
-		$(target).hide().appendTo(gridPanel.children("div.ui-datagrid-view"));
+		$(target).addClass("ui-datagrid-original").hide().appendTo(gridPanel.children("div.ui-datagrid-view"));
 		var columns = getColumns();
 		var view = gridPanel.children("div.ui-datagrid-view");
 		var view1 = view.children("div.ui-datagrid-view1");

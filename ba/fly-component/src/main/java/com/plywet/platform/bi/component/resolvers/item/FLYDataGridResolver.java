@@ -152,6 +152,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 			FLYVariableResolver attrs) throws BIPageException, BIJSONException {
 		Map<String, Object> map = HTML.getAttributesMap(node.getAttributes(),
 				null, attrs);
+		map.put(HTML.ATTR_WIDTH, HTML.getTagAttribute(node, HTML.ATTR_WIDTH,
+				attrs));
 		return JSONUtils.convertToJSONObject(map);
 	}
 
