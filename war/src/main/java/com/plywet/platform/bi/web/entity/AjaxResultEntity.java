@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import com.plywet.platform.bi.component.core.ComponentMetaInterface;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
+import com.plywet.platform.bi.core.utils.Utils;
 
 public class AjaxResultEntity {
 	/**
@@ -45,6 +46,22 @@ public class AjaxResultEntity {
 
 	public static AjaxResultEntity instance() {
 		return new AjaxResultEntity();
+	}
+
+	public static AjaxResultEntity instanceEmpty(String targetId) {
+		AjaxResultEntity emptyEntity = new AjaxResultEntity();
+		emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
+		emptyEntity.setTargetId(targetId);
+		return emptyEntity;
+	}
+
+	public static AjaxResultEntity instanceAppend(String targetId,
+			Object[] domString) {
+		AjaxResultEntity emptyEntity = new AjaxResultEntity();
+		emptyEntity.setOperation(Utils.RESULT_OPERATION_APPEND);
+		emptyEntity.setTargetId(targetId);
+		emptyEntity.setDomAndScript(domString);
+		return emptyEntity;
 	}
 
 	public AjaxResultEntity() {

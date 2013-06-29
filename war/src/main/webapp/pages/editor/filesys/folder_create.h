@@ -1,6 +1,6 @@
 <form action="rest/fs/items/folder/createsubmit" method="post" id="fs_folder_create_form">
 
-	<fly:gridLayout column="2" itemWidth="30%,70%">
+	<fly:gridLayout column="2" itemWidth="30%,70%" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="desc" text="文件夹名称" />
 		</fly:gridLayoutItem>

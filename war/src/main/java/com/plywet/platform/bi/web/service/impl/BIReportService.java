@@ -14,7 +14,6 @@ import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.enums.BIReportCategory;
 import com.plywet.platform.bi.delegates.intf.BIReportAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
-import com.plywet.platform.bi.web.service.AbstractDirectoryServices;
 import com.plywet.platform.bi.web.service.BIReportDelegates;
 
 @Service("bi.service.reportService")

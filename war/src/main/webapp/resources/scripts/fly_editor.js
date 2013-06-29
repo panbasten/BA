@@ -23,6 +23,31 @@ Plywet.editors = {
 	}
 };
 
+Plywet.editors.item = {
+	// 检查是否选中
+	checkSelected : function(target) {
+		var bpvar = (typeof(target)=="string")?(window[target]):target;
+		var selItems = bpvar.getSelections();
+		if (!selItems || selItems.length == 0) {
+			return false;
+		}
+		if (selItems.length > 1) {
+			return false;
+		}
+		return true;
+	},
+	// 获得一个选中节点
+	getOneSelected : function(target) {
+		var bpvar = (typeof(target)=="string")?(window[target]):target;
+		if (this.checkSelected(target)) {
+			var selItems = bpvar.getSelections();
+			return selItems[0];	
+		}
+		
+		return null;
+	},
+};
+
 Plywet.editors.toolbarButton = {
 	isActive : function(id){
 		return $(Plywet.escapeClientId(id)).hasClass("ui-state-active");

@@ -1,3 +1,41 @@
+// 导航按钮
+Plywet.transjob = {
+	ids : {
+		bpVarName : "editorContent-navi-trans-bp_var"
+	},
+	createDir : function(){
+		var _self = this;
+		var currentCase = window[Plywet.transjob.ids.bpVarName].getCurrentData();
+		console.log(currentCase);
+		var targetId = "create_dialog_folder";
+	},
+	create : function(){
+	},
+	edit : function(){
+		if (!Plywet.editors.item.checkSelected(Plywet.transjob.ids.bpVarName)) {
+			Plywet.dialog.warning("请先选中一个对象。");
+			return;
+		}
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+	},
+	remove : function(){
+		if (!Plywet.editors.item.checkSelected(Plywet.transjob.ids.bpVarName)) {
+			Plywet.dialog.warning("请先选中一个对象。");
+			return;
+		}
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+	},
+	uploadFile : function(){
+	},
+	downloadFile : function(){
+		if (!Plywet.editors.item.checkSelected(Plywet.transjob.ids.bpVarName)) {
+			Plywet.dialog.warning("请先选中一个对象。");
+			return;
+		}
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+	}
+};
+
 // 转换
 Plywet.editors.trans = {
 	type : "trans",
@@ -446,7 +484,7 @@ Plywet.editors.trans.action = {
     		var flow = canvasObj.getChildCanvasByIndex(0);
     		Plywet.ab({
     			type : "post",
-    			url : "rest/transjob/trans/"+transId+"/save",
+    			url : "rest/trans/"+transId+"/save",
     			modal : true,
     			modalMessage : "正在保存...",
     			params : {
@@ -467,7 +505,7 @@ Plywet.editors.trans.action = {
     		var transId = clicked.data("exdata").data.extendData.transId;
     		Plywet.ab({
     			type : "post",
-    			url : "rest/transjob/trans/"+transId+"/save",
+    			url : "rest/trans/"+transId+"/save",
     			modal : true,
     			modalMessage : "正在保存...",
     			params : {
@@ -483,7 +521,7 @@ Plywet.editors.trans.action = {
     	var transId = clicked.data("exdata").data.extendData.transId;
     	Plywet.ab({
 			type : "get",
-			url : "rest/transjob/trans/"+transId+"/discard"
+			url : "rest/trans/"+transId+"/discard"
 		});
     },
     
@@ -643,7 +681,7 @@ Plywet.editors.trans.action = {
 			height : h,
 			autoOpen : true,
 			showHeader : true,
-			url : "rest/transjob/transstep/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/"+model.provider,
+			url : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/"+model.provider,
 			footerButtons : [{
 				componentType : "fly:PushButton",
 				type : "button",

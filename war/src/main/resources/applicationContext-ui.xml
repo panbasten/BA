@@ -24,6 +24,8 @@
 				<ref bean="bi.resource.dbResource" />
 				<ref bean="bi.resource.domainResource" />
 				
+				<ref bean="bi.resource.transResource" />
+				
 				<ref bean="bi.resource.reportResource" />
 				<ref bean="bi.resource.reportDashboardResource" />
 				

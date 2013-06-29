@@ -388,20 +388,12 @@ public class BIFileSystemResource {
 					TEMPLATE_FILESYS_FOLDER_CREATE, attrsMap);
 
 			// 设置响应
-			AjaxResultEntity emptyEntity = new AjaxResultEntity();
-			emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-			emptyEntity.setTargetId(targetId);
-
-			AjaxResultEntity content = AjaxResultEntity.instance()
-					.setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
-							targetId).setDomAndScript(domString);
-
-			return AjaxResult.instance().addEntity(emptyEntity).addEntity(
-					content).toJSONString();
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开新增界面出现问题。");
+			log.error("打开创建目录界面出现问题。");
 		}
-		return ActionMessage.instance().failure("打开新增界面出现问题。").toJSONString();
+		return ActionMessage.instance().failure("打开创建目录界面出现问题。").toJSONString();
 	}
 
 	@POST
@@ -458,16 +450,8 @@ public class BIFileSystemResource {
 					TEMPLATE_FILESYS_CREATE, attrsMap);
 
 			// 设置响应
-			AjaxResultEntity emptyEntity = new AjaxResultEntity();
-			emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-			emptyEntity.setTargetId(targetId);
-
-			AjaxResultEntity content = AjaxResultEntity.instance()
-					.setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
-							targetId).setDomAndScript(domString);
-
-			return AjaxResult.instance().addEntity(emptyEntity).addEntity(
-					content).toJSONString();
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
 		} catch (Exception e) {
 			log.error("打开新增界面出现问题。");
 		}
@@ -519,16 +503,8 @@ public class BIFileSystemResource {
 					TEMPLATE_FILESYS_EDIT, attrsMap);
 
 			// 设置响应
-			AjaxResultEntity emptyEntity = new AjaxResultEntity();
-			emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-			emptyEntity.setTargetId(targetId);
-
-			AjaxResultEntity content = AjaxResultEntity.instance()
-					.setOperation(Utils.RESULT_OPERATION_APPEND).setTargetId(
-							targetId).setDomAndScript(domString);
-
-			return AjaxResult.instance().addEntity(emptyEntity).addEntity(
-					content).toJSONString();
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
 		} catch (Exception e) {
 			log.error("打开编辑界面出现问题。");
 		}
@@ -599,15 +575,7 @@ public class BIFileSystemResource {
 				TEMPLATE_FILESYS_RENAME, attrsMap);
 
 		// 设置响应
-		AjaxResultEntity emptyEntity = new AjaxResultEntity();
-		emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-		emptyEntity.setTargetId(targetId);
-
-		AjaxResultEntity content = AjaxResultEntity.instance().setOperation(
-				Utils.RESULT_OPERATION_APPEND).setTargetId(targetId)
-				.setDomAndScript(domString);
-
-		return AjaxResult.instance().addEntity(emptyEntity).addEntity(content)
+		return AjaxResult.instanceDialogContent(targetId, domString)
 				.toJSONString();
 	}
 
@@ -629,15 +597,7 @@ public class BIFileSystemResource {
 		Object[] domString = PageTemplateInterpolator.interpolate(
 				TEMPLATE_FILESYS_UPLOAD, attrsMap);
 
-		AjaxResultEntity emptyEntity = new AjaxResultEntity();
-		emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-		emptyEntity.setTargetId(targetId);
-
-		AjaxResultEntity content = AjaxResultEntity.instance().setOperation(
-				Utils.RESULT_OPERATION_APPEND).setTargetId(targetId)
-				.setDomAndScript(domString);
-
-		return AjaxResult.instance().addEntity(emptyEntity).addEntity(content)
+		return AjaxResult.instanceDialogContent(targetId, domString)
 				.toJSONString();
 	}
 

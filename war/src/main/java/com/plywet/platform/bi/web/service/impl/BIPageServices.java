@@ -10,9 +10,7 @@ import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
 import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.Repository;
-import org.pentaho.di.repository.RepositoryElementInterface;
 import org.pentaho.di.repository.RepositoryElementMetaInterface;
-import org.pentaho.di.trans.TransMeta;
 import org.springframework.stereotype.Service;
 
 import com.plywet.platform.bi.component.components.breadCrumb.BreadCrumbMeta;
@@ -23,12 +21,9 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.plywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
-import com.plywet.platform.bi.web.cache.TransOrJobMetaCache;
-import com.plywet.platform.bi.web.service.AbstractDirectoryServices;
 import com.plywet.platform.bi.web.service.BIPageDelegates;
 
 /**
@@ -95,7 +90,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 				node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, "ui-"
 						+ category + "-icon");
 				node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
-				node.addAttribute(HTML.ATTR_SRC, "transjob/" + category + "/"
+				node.addAttribute(HTML.ATTR_SRC, category + "/"
 						+ sub.getObjectId().getId());
 				node.addEvent("mouseup", "Plywet.browse.showOperationForFile");
 				node.addEvent("dblclick", "Plywet.browse.openFile");
@@ -118,7 +113,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 				.createAdaptor(BIFunctionTypeAdaptor.class);
 		List<FunctionType> functionTypes = functionTypeDelegate
 				.getFunctionByParent(0L);
-		
+
 		return functionTypes;
 	}
 
@@ -183,78 +178,6 @@ public class BIPageServices extends AbstractDirectoryServices implements
 		}
 
 		return null;
-	}
-
-	/**
-	 * 保存资源库对象，包括：RepositoryObjectType枚举类型中的
-	 * 
-	 * @param repository
-	 * @param repositoryElement
-	 * @throws BIKettleException
-	 */
-	@Override
-	public void save(String repository,
-			RepositoryElementInterface repositoryElement)
-			throws BIKettleException {
-		Repository rep = null;
-		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			rep.save(repositoryElement, null, null);
-		} catch (Exception ex) {
-			log.error("通过ID获得转换出现异常", ex);
-		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
-		}
-	}
-
-	/**
-	 * 通过ID获得转换
-	 * 
-	 * @param id
-	 * @throws BIKettleException
-	 */
-	@Override
-	public TransMeta loadTransformation(String repository, Long id)
-			throws BIKettleException {
-		TransMeta transMeta = TransOrJobMetaCache.getTrans(repository, id);
-		if (transMeta == null) {
-			Repository rep = null;
-			try {
-				rep = BIEnvironmentDelegate.instance().borrowRep(repository,
-						null);
-				transMeta = rep.loadTransformation(new LongObjectId(id), null);
-				TransOrJobMetaCache.putTrans(repository, id, transMeta);
-			} catch (Exception ex) {
-				log.error("通过ID获得转换出现异常", ex);
-			} finally {
-				BIEnvironmentDelegate.instance().returnRep(repository, rep);
-			}
-		}
-		return transMeta;
-	}
-
-	/**
-	 * 通过ID清除缓存
-	 * 
-	 * @param id
-	 * @throws BIKettleException
-	 */
-	@Override
-	public TransMeta clearCacheTransformation(String repository, Long id) {
-		return TransOrJobMetaCache.clearTrans(repository, id);
-	}
-
-	/**
-	 * 更新转换
-	 * 
-	 * @param repository
-	 * @param id
-	 * @param transMeta
-	 */
-	@Override
-	public void updateCacheTransformation(String repository, Long id,
-			TransMeta transMeta) {
-		TransOrJobMetaCache.putTrans(repository, id, transMeta);
 	}
 
 }

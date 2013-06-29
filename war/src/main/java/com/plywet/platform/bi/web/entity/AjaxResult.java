@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.simple.JSONArray;
 
 import com.plywet.platform.bi.core.exception.BIJSONException;
-import com.plywet.platform.bi.core.utils.Utils;
 
 public class AjaxResult {
 	private List<AjaxResultEntity> entitys = new ArrayList<AjaxResultEntity>();
@@ -26,13 +25,11 @@ public class AjaxResult {
 			Object[] domAndScript) {
 		AjaxResult ar = new AjaxResult();
 		// 1.清空内容区
-		AjaxResultEntity empty = AjaxResultEntity.instance().setOperation(
-				Utils.RESULT_OPERATION_EMPTY).setTargetId(targetId);
+		AjaxResultEntity empty = AjaxResultEntity.instanceEmpty(targetId);
 
 		// 2.添加内容页
-		AjaxResultEntity content = AjaxResultEntity.instance().setOperation(
-				Utils.RESULT_OPERATION_APPEND).setTargetId(targetId)
-				.setDomAndScript(domAndScript);
+		AjaxResultEntity content = AjaxResultEntity.instanceAppend(targetId,
+				domAndScript);
 		return ar.addEntity(empty).addEntity(content);
 	}
 

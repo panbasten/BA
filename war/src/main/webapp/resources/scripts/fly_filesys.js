@@ -1,25 +1,28 @@
 Plywet.filesys = {
 	fsopContext:{},
 	ids : {
+		bpVarName : "editorContent-navi-filesys-bp_var",
 		rootBtns : ["fs-btn-create","fs-btn-edit","fs-btn-remove"],
 		itemBtns : ["fs-btn-create-dir","fs-btn-upload-file","fs-btn-download-file"]
 	},
 	tb : Plywet.editors.toolbarButton,
 	delFile	: function() {
-		if (!this.checkSelected()) {
+		if (!Plywet.editors.item.checkSelected(Plywet.filesys.ids.bpVarName)) {
+			Plywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		Plywet.ab({
 			type : "DELETE",
 			url : "rest/fsop/delete?data=" + Plywet.toJSONString(selItem)
 		});
 	},
 	downloadFile	: function() {
-		if (!this.checkSelected()) {
+		if (!Plywet.editors.item.checkSelected(Plywet.filesys.ids.bpVarName)) {
+			Plywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		if(selItem.type == "node"){
 			Plywet.dialog.error("系统无法下载文件夹，请选中一个文件对象进行下载。");
 		}else{
@@ -32,7 +35,7 @@ Plywet.filesys = {
 		}
 	},
 	uploadResult : function(target) {
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var targetId = "upload_dialog_" + currentCase.category;
 		
 		var msg = $(document.getElementById('fs_upload_space_frame').contentWindow.document.body).find("pre");
@@ -49,7 +52,7 @@ Plywet.filesys = {
 		}
 	},
 	uploadFile	: function() {
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var targetId = "upload_dialog_" + currentCase.category;
 		
 		var parentDir = {
@@ -108,7 +111,7 @@ Plywet.filesys = {
 		});
 	},
 	rename : function() {
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		var targetId = "rename_dialog_" + selItem.category + "_" + selItem.type;
 		
 		Plywet.cw("Dialog",targetId + "_var",{
@@ -154,7 +157,7 @@ Plywet.filesys = {
 	},
 	createDir : function() {
 		var _self = this;
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var category =  currentCase.category;
 		var targetId = "create_dialog_folder";
 		
@@ -162,7 +165,7 @@ Plywet.filesys = {
 			id : targetId,
 			header : "新建目录",
 			width : 500,
-			height : 50,
+			height : 70,
 			autoOpen : true,
 			showHeader : true,
 			modal : true,
@@ -205,52 +208,27 @@ Plywet.filesys = {
 			resizable : false
 		});
 	},
-	checkSelected:function() {
-		var fsbpvar = window["editorContent-navi-filesys-bp_var"];
-		
-		var selItems = fsbpvar.getSelections();
-		if (!selItems || selItems.length == 0) {
-			return false;
-		}
-		if (selItems.length > 1) {
-			return false;
-		}
-		return true;
-	},
-	
-	/**
-	 * 获得一个选中节点
-	 */
-	getOneSelected : function() {
-		var fsbpvar = window["editorContent-navi-filesys-bp_var"];
-		if (this.checkSelected()) {
-			var selItems = fsbpvar.getSelections();
-			return selItems[0];	
-		}
-		
-		return null;
-	},
 	
 	cut:function(){
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		if (selItem) {
-			var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+			var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 			this.fsopContext = currentCase;
 			this.fsopContext['path'] = selItem.path;
 			this.fsopContext['operation'] = 'CUT';
 		}
 	},
 	copy:function(){
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		if (selItem) {
-			var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+			var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 			this.fsopContext = currentCase;
 			this.fsopContext['path'] = selItem.path;
 			this.fsopContext['operation'] = 'COPY';
 		}
 	},
 	paste:function(){
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var operateCase = this.fsopContext;
 		
 		Plywet.ab({
@@ -260,7 +238,7 @@ Plywet.filesys = {
 	},
 	create:function(){
 		var _self = this;
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var category =  currentCase.category;
 		
 		// 打开的dialog的id
@@ -314,14 +292,14 @@ Plywet.filesys = {
 	 */
 	edit : function(){
 		var _self = this;
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var category = currentCase.category;
 		
 		// 打开的dialog的id
 		var targetId = "dialog_" + currentCase.category;
 		
 		// 获得选择项
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		if(!selItem){
 			Plywet.dialog.warning("请先选中一个对象。");
 			return;
@@ -373,11 +351,11 @@ Plywet.filesys = {
 	},
 	remove:function(){
 		var _self = this;
-		var currentCase = window["editorContent-navi-filesys-bp_var"].getCurrentData();
+		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var category = currentCase.category;
 		
 		// 获得选择项
-		var selItem = this.getOneSelected();
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.filesys.ids.bpVarName);
 		if(!selItem){
 			Plywet.dialog.warning("请先选中一个对象。");
 			return;

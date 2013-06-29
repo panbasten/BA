@@ -2,13 +2,9 @@ package com.plywet.platform.bi.web.service;
 
 import java.util.List;
 
-import org.pentaho.di.repository.RepositoryElementInterface;
-import org.pentaho.di.trans.TransMeta;
-
 import com.plywet.platform.bi.component.components.browse.BrowseMeta;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
-import com.plywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
 
 /**
@@ -64,42 +60,4 @@ public interface BIPageDelegates extends BIDirectoryDelegates {
 	public List<FunctionType> getFunctionsByParent(String repository,
 			long parentId) throws BIException;
 
-	/**
-	 * 保存资源库对象，包括：RepositoryObjectType枚举类型中的
-	 * 
-	 * @param repository
-	 * @param repositoryElement
-	 * @throws BIKettleException
-	 */
-	public void save(String repository,
-			RepositoryElementInterface repositoryElement)
-			throws BIKettleException;
-
-	/**
-	 * 通过ID获得转换
-	 * 
-	 * @param id
-	 * @throws BIKettleException
-	 */
-	public TransMeta loadTransformation(String repository, Long id)
-			throws BIKettleException;
-
-	/**
-	 * 清除缓存
-	 * 
-	 * @param repository
-	 * @param id
-	 * @return
-	 */
-	public TransMeta clearCacheTransformation(String repository, Long id);
-
-	/**
-	 * 更新转换缓存
-	 * 
-	 * @param repository
-	 * @param id
-	 * @param transMeta
-	 */
-	public void updateCacheTransformation(String repository, Long id,
-			TransMeta transMeta);
 }
