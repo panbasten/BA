@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
-import com.plywet.platform.bi.component.components.button.FLYButtonMeta;
 import com.plywet.platform.bi.component.core.ComponentResolverInterface;
 import com.plywet.platform.bi.component.resolvers.BaseComponentResolver;
 import com.plywet.platform.bi.component.utils.FLYVariableResolver;
@@ -16,11 +15,14 @@ import com.plywet.platform.bi.core.utils.Utils;
 public class FLYPushButtonResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
+	public static final String BUTTON_TYPE_BUTTON = "button";
+	public static final String BUTTON_TYPE_SEPARATOR = "separator";
+
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		String type = HTML.getTagAttribute(node, HTML.ATTR_TYPE, attrs);
-		if (FLYButtonMeta.BUTTON_TYPE_SEPARATOR.equalsIgnoreCase(type)) {
+		if (BUTTON_TYPE_SEPARATOR.equalsIgnoreCase(type)) {
 			renderSeparatorType(node, html, script, attrs);
 		} else {
 			renderButtonType(node, html, script, attrs);
@@ -80,7 +82,7 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			List<String> script, FLYVariableResolver attrs)
 			throws BIPageException {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
-		html.writeAttribute(HTML.ATTR_TYPE, FLYButtonMeta.BUTTON_TYPE_BUTTON);
+		html.writeAttribute(HTML.ATTR_TYPE, BUTTON_TYPE_BUTTON);
 
 		String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
 		if (HTML.ATTR_STATE_DISABLED.equalsIgnoreCase(state)) {

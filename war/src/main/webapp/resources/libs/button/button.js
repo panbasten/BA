@@ -92,6 +92,8 @@ Plywet.widget.PushButton.prototype.init = function() {
 				this.text.html("ui-text");
 			}
 			this.jq.append(this.text);
+			
+			// TODO 下拉列表
 		}
 		
 		this.parent.append(this.jq);

@@ -159,7 +159,7 @@ Plywet.filesys = {
 		var _self = this;
 		var currentCase = window[Plywet.filesys.ids.bpVarName].getCurrentData();
 		var category =  currentCase.category;
-		var targetId = "create_dialog_folder";
+		var targetId = "fs_create_dialog_folder";
 		
 		Plywet.cw("Dialog",targetId+"_var",{
 			id : targetId,

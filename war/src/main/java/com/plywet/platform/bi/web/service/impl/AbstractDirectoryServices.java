@@ -21,14 +21,42 @@ public abstract class AbstractDirectoryServices {
 	private final Logger log = Logger
 			.getLogger(AbstractDirectoryServices.class);
 
-	protected BreadCrumbMeta parentDirectories(String repository, Long rootId,
-			Long id, String tital, String prefixPath) throws BIException {
+	public abstract Long getRootDirectoryId();
+
+	public RepositoryDirectoryInterface getRootDirectory() {
+		RepositoryDirectory root = new RepositoryDirectory();
+		root.setObjectId(new LongObjectId(getRootDirectoryId()));
+		return root;
+	}
+
+	public RepositoryDirectoryInterface getDirecotry(String repository, long id)
+			throws BIException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+
+			RepositoryDirectoryInterface root = getRootDirectory();
+
+			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
+					root).findDirectory(new LongObjectId(id));
+
+			return rd;
+
+		} catch (KettleException e) {
+			log.error("创建父目录页面出现错误。");
+			throw new BIException("创建父目录页面出现错误。");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
+
+	protected BreadCrumbMeta parentDirectories(String repository, Long id,
+			String tital, String prefixPath) throws BIException {
 		Repository rep = null;
 		try {
 			BreadCrumbMeta bce = new BreadCrumbMeta();
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectory root = new RepositoryDirectory();
-			root.setObjectId(new LongObjectId(rootId));
+			RepositoryDirectoryInterface root = getRootDirectory();
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
 			bce.addEvent("click", "Plywet.browse.changeDir");
@@ -60,13 +88,12 @@ public abstract class AbstractDirectoryServices {
 		}
 	}
 
-	protected void subDirectory(String repository, Long rootId, Long id,
-			BrowseMeta browse, String prefixPath) throws BIException {
+	protected void subDirectory(String repository, Long id, BrowseMeta browse,
+			String prefixPath) throws BIException {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectory root = new RepositoryDirectory();
-			root.setObjectId(new LongObjectId(rootId));
+			RepositoryDirectoryInterface root = getRootDirectory();
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
 			for (RepositoryDirectoryInterface subrd : rd.getChildren()) {

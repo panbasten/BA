@@ -6,8 +6,55 @@ Plywet.transjob = {
 	createDir : function(){
 		var _self = this;
 		var currentCase = window[Plywet.transjob.ids.bpVarName].getCurrentData();
-		console.log(currentCase);
-		var targetId = "create_dialog_folder";
+		var targetId = "tj_create_dialog_folder";
+		var dirId = currentCase.dirId;
+		
+		Plywet.cw("Dialog",targetId+"_var",{
+			id : targetId,
+			header : "新建目录",
+			width : 500,
+			height : 70,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/transjob/dir/create/"+dirId,
+			params : {
+				targetId : targetId+":content",
+				rootId : currentCase.rootId,
+				path : currentCase.path
+			},
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "确定",
+				title : "确定",
+				events: {
+					click:function(){
+						Plywet.ab({
+							type : "post",
+							source:"tj_folder_create_form",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[targetId + "_var"].hide();
+									_self.flushDir(dirId);
+								}
+							}
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : false,
+			resizable : false
+		});
 	},
 	create : function(){
 	},
@@ -23,7 +70,36 @@ Plywet.transjob = {
 			Plywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
+		var _self = this;
+		
+		var currentCase = window[Plywet.transjob.ids.bpVarName].getCurrentData();
+		var dirId = currentCase.dirId;
+		
 		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+		var url,text;
+		if(selItem.type=='node'){
+			url = "rest/transjob/dir/remove/"+selItem.id;
+			text = "确认删除目录【"+selItem.displayName+"】？";
+		}else{
+			url = "rest/"+selItem.category+"/"+selItem.id+"/remove";
+			text = "确认删除对象【"+selItem.displayName+"】？";
+		}
+		
+		Plywet.cw("ConfirmDialog",null,{type:"confirm",text:text,
+			confirmFunc:function(e,v){
+				if(v){
+					Plywet.ab({
+						type : "get",
+						url : url,
+						onsuccess:function(data, status, xhr) {
+							if (data.state == 0) {
+								_self.flushDir(dirId);
+							}
+						}
+					});
+				}
+			}
+		});
 	},
 	uploadFile : function(){
 	},
@@ -33,6 +109,13 @@ Plywet.transjob = {
 			return;
 		}
 		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+	},
+	
+	flushDir : function(id){
+		Plywet.ab({
+			type : "get",
+			url : "rest/transjob/dir/"+id
+		});
 	}
 };
 

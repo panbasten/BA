@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.plywet.platform.bi.core.utils.Utils;
-
 /**
  * 请求参数的上下文模型
  * 
@@ -97,6 +95,15 @@ public class ParameterContext {
 		String v = getParameter(paramName);
 		try {
 			return Integer.valueOf(v);
+		} catch (Exception e) {
+			return def;
+		}
+	}
+
+	public long getLongParameter(String paramName, long def) {
+		String v = getParameter(paramName);
+		try {
+			return Long.valueOf(v);
 		} catch (Exception e) {
 			return def;
 		}

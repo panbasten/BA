@@ -10,6 +10,7 @@ import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
 import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.Repository;
+import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.repository.RepositoryElementMetaInterface;
 import org.springframework.stereotype.Service;
 
@@ -47,15 +48,13 @@ public class BIPageServices extends AbstractDirectoryServices implements
 	@Override
 	public BreadCrumbMeta getParentDirectories(String repository, Long id)
 			throws BIException {
-		return parentDirectories(repository, DIRECTORY_ROOT_ID, id, "转换/作业",
-				FILE_PATH_PREFIX);
+		return parentDirectories(repository, id, "转换/作业", FILE_PATH_PREFIX);
 	}
 
 	@Override
 	public void getSubDirectory(String repository, Long id, BrowseMeta browse)
 			throws BIException {
-		subDirectory(repository, DIRECTORY_ROOT_ID, id, browse,
-				FILE_PATH_PREFIX);
+		subDirectory(repository, id, browse, FILE_PATH_PREFIX);
 	}
 
 	@Override
@@ -180,4 +179,54 @@ public class BIPageServices extends AbstractDirectoryServices implements
 		return null;
 	}
 
+	@Override
+	public void removeDirectoryObject(String repository, long dirId)
+			throws BIException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
+					dirId);
+			if (dir.getChildren() != null && dir.getChildren().size() > 0) {
+				throw new BIException("该目录非空，请先清空内部元素！");
+			}
+			rep.deleteRepositoryDirectory(dir);
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			log.error("保存目录出现错误。");
+			throw new BIException("保存目录现错误。");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
+
+	@Override
+	public void newDirectoryObject(String repository, long parentDirId,
+			String name) throws BIException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
+					parentDirId);
+			if (dir.findChild(name) != null) {
+				throw new BIException("目录名称重复！");
+			}
+			rep.createRepositoryDirectory(dir, name);
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			log.error("保存目录出现错误。");
+			throw new BIException("保存目录现错误。");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
+
+	@Override
+	public Long getRootDirectoryId() {
+		return DIRECTORY_ROOT_ID;
+	}
 }

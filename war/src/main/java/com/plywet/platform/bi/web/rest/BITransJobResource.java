@@ -61,12 +61,32 @@ public class BITransJobResource {
 	}
 
 	@GET
+	@Path("/dir/remove/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String removeDirectory(@CookieParam("repository") String repository,
+			@PathParam("id") String id) throws BIException {
+		ActionMessage am = new ActionMessage();
+		try {
+			pageDelegates.removeDirectoryObject(repository, Long.valueOf(id));
+		} catch (BIException e) {
+			logger.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
+		} catch (Exception e) {
+			logger.error("删除目录出现问题。");
+			am.addErrorMessage("删除目录出现问题。");
+		}
+
+		return am.toJSONString();
+	}
+
+	@GET
 	@Path("/dir/create/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openDirectoryCreateDialog(
 			@CookieParam("repository") String repository,
 			@PathParam("id") String id, @QueryParam("targetId") String targetId)
 			throws BIException {
+		String msg = "";
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
@@ -78,16 +98,22 @@ public class BITransJobResource {
 			// 设置响应
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
+		} catch (BIException e) {
+			logger.error(e.getMessage());
+			msg = e.getMessage();
 		} catch (Exception e) {
 			logger.error("打开创建目录界面出现问题。");
+			msg = "打开创建目录界面出现问题。";
 		}
-		return ActionMessage.instance().failure("打开创建目录界面出现问题。").toJSONString();
+		return ActionMessage.instance().failure(msg).toJSONString();
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dir/createsubmit")
-	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
+	public String openDirectoryCreateSubmit(
+			@CookieParam("repository") String repository, String body)
+			throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
@@ -95,11 +121,16 @@ public class BITransJobResource {
 
 			String desc = paramContext.getParameter("desc");
 
-			long dirId = paramContext.getIntParameter("dirId", 0);
+			// 默认是根目录
+			long dirId = paramContext.getLongParameter("dirId",
+					BIPageServices.DIRECTORY_ROOT_ID);
 
 			if (Const.isEmpty(desc)) {
 				return am.addErrorMessage("新增目录名称不能为空。").toJSONString();
 			}
+
+			// 保存目录
+			pageDelegates.newDirectoryObject(repository, dirId, desc);
 
 			am.addMessage("新增目录成功");
 		} catch (Exception e) {

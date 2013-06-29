@@ -28,15 +28,13 @@ public class BIReportService extends AbstractDirectoryServices implements
 	@Override
 	public BreadCrumbMeta getParentDirectories(String repository, Long id)
 			throws BIException {
-		return parentDirectories(repository, DIRECTORY_ROOT_ID_REPORT, id,
-				"报表", FILE_PATH_PREFIX);
+		return parentDirectories(repository, id, "报表", FILE_PATH_PREFIX);
 	}
 
 	@Override
 	public void getSubDirectory(String repository, Long id, BrowseMeta browse)
 			throws BIException {
-		subDirectory(repository, DIRECTORY_ROOT_ID_REPORT, id, browse,
-				FILE_PATH_PREFIX);
+		subDirectory(repository, id, browse, FILE_PATH_PREFIX);
 	}
 
 	@Override
@@ -95,8 +93,12 @@ public class BIReportService extends AbstractDirectoryServices implements
 		BIReportAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIReportAdaptor.class);
 		// TODO 如果id不存在，插入一条记录
-		
-		
+
+	}
+
+	@Override
+	public Long getRootDirectoryId() {
+		return DIRECTORY_ROOT_ID_REPORT;
 	}
 
 }
