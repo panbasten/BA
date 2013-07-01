@@ -29,6 +29,9 @@ Plywet = {
      * 解析参数
      * 1)首先从target对象中的data-options中解析参数
      * 2)其次从opts中解析参数
+     * 
+     * @param param 参数名称数组，例如：["id", "icon", {plant:"boolean"}]
+     * 				对于boolean和number类型的需要特殊指定
      */
     parseOptions : function(target, param) {
 		var t = $(target);

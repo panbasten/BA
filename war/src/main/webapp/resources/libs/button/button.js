@@ -1,3 +1,160 @@
+(function($) {
+	
+	function _initSeparator(target){
+		var separator = $("<span></span>").insertAfter(target);
+		$(target).addClass("ui-button-original").hide().appendTo(separator);
+		separator.addClass("ui-separator")
+			.append($("<span class='ui-icon ui-icon-grip-dotted-vertical-narrow'></span>"));
+	
+		return separator;
+	}
+	
+	function _initButton(target){
+		var btn = $("<button type='button'></button>").insertAfter(target);
+		$(target).addClass("ui-button-original").hide().appendTo(btn);
+		
+		var opts = $.data(target, "pushbutton").options;
+		
+		var iconCls = opts.iconCls,
+			iconAlign = opts.iconAlign,
+			label = opts.label,
+			clazz = "";
+		
+		// 有文字，无图片
+		if(label && iconCls == undefined){
+			clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
+		}
+		// 有文字，有图片
+		else if(label && iconCls){
+			if(iconAlign == "right"){
+				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
+			}else{
+				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
+			}
+		}
+		// 无文字，只有图片
+		else if(label== undefined && iconCls){
+			clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
+		}
+		
+		if(opts.state == "disabled"){
+			clazz = clazz + " ui-state-disabled";
+		}else if(opts.state == "active"){
+			clazz = clazz + " ui-state-active";
+		}
+		
+		btn.addClass(clazz);
+		
+		// 设置图片
+		if(iconCls){
+			if(iconAlign == "right"){
+				$("<span></span>").addClass("ui-button-icon-right ui-icon "+iconCls).appendTo(btn);
+			}else{
+				$("<span></span>").addClass("ui-button-icon-left ui-icon "+iconCls).appendTo(btn);
+			}
+		}
+		
+		// 设置文字
+		var labelSpan = $("<span></span>").addClass("ui-button-text").appendTo(btn);
+		if(label){
+			labelSpan.html(label);
+		}else{
+			labelSpan.html("text");
+		}
+		
+		// TODO 下拉列表
+		
+		return btn;
+	}
+	
+	function _init(target){
+		var opts = $.data(target, "pushbutton").options;
+		var t = $(target);
+		
+		// 清空对象内容
+		t.empty();
+		
+		// 设置ID
+		t.attr("id", (opts.id)?(opts.id):"");
+		
+		if(opts.title){
+			t.attr("title", opts.title);
+		}
+		
+		// 根据类型设置
+		if (opts.type == "separator") {
+			return _initSeparator(target);
+		}else{
+			return _initButton(target);
+		}
+	}
+	
+	function _toggle(target, state){
+		var t = $.data(target, "pushbutton");
+		if (state) {
+		}else{
+		}
+	}
+	
+	$.fn.pushbutton = function(options, param) {
+		if(typeof options == "string"){
+			return $.fn.pushbutton.methods[options](this, param);
+		}
+		options = options || {};
+		return this.each(function() {
+			var t = $.data(this, "pushbutton");
+			if(t){
+				$.extend(t.options, options);
+			}else{
+				var btn = _init(this);
+				$.data(this, "pushbutton", {
+					options : $.extend(
+							{},
+							$.fn.pushbutton.defaults,
+							$.fn.pushbutton.parseOptions(this),
+							options
+						),
+					button : btn
+				});
+			}
+		});
+	};
+	
+	$.fn.pushbutton.methods = {
+		options : function(jq) {
+			return $.data(jq[0], "pushbutton").options;
+		},
+		enable : function(jq) {
+			return jq.each(function(){
+				_toggle(this, false);
+			});
+		},
+		disable : function(jq) {
+			return jq.each(function(){
+				_toggle(this, true);
+			});
+		}
+	};
+	
+	$.fn.pushbutton.parseOptions = function(target) {
+		var t = $(target);
+		return $.extend(
+				{},
+				Plywet.parseOptions(target, ["id", "type", "state", "title", "label", "iconCls", "iconAlign"])
+			);
+	};
+	
+	$.fn.pushbutton.defaults = {
+		id : null,
+		type : "button",
+		label : null,
+		iconCls : null,
+		iconAlign : "left"
+	};
+	
+})(jQuery);
+
+
 Plywet.widget.PushButton=function(cfg){
 	this.cfg = cfg;
 	this.id = this.cfg.id;
