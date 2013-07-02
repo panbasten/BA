@@ -403,6 +403,15 @@
 		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.SwitchCase</tooltip>
 		<iconfile>SWC.png</iconfile>
 	</step>
+	
+	<!-- Utility -->
+	<step id="ExecProcess">
+		<description>i18n:org.pentaho.di.trans.step:BaseStep.TypeLongDesc.ExecProcess</description>
+		<classname>org.pentaho.di.trans.steps.execprocess.ExecProcessMeta</classname>
+		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Utility</category>
+		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.ExecProcess</tooltip>
+		<iconfile>RPL.png</iconfile>
+	</step>
 
 	<!-- 
 	<step id="SocketReader">
@@ -1116,14 +1125,6 @@
 		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Transform</category>
 		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.SetValueField</tooltip>
 		<iconfile>SVF.png</iconfile>
-	</step>
-
-	<step id="ExecProcess">
-		<description>i18n:org.pentaho.di.trans.step:BaseStep.TypeLongDesc.ExecProcess</description>
-		<classname>org.pentaho.di.trans.steps.execprocess.ExecProcessMeta</classname>
-		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Utility</category>
-		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.ExecProcess</tooltip>
-		<iconfile>RPL.png</iconfile>
 	</step>
 
 	<step id="ParallelGzipCsvInput">

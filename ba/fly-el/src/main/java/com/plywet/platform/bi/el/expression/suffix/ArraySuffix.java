@@ -9,8 +9,7 @@ import javax.servlet.jsp.el.ELException;
 import javax.servlet.jsp.el.FunctionMapper;
 import javax.servlet.jsp.el.VariableResolver;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.plywet.platform.bi.el.BeanInfoIndexedProperty;
 import com.plywet.platform.bi.el.BeanInfoManager;
@@ -74,7 +73,7 @@ import com.plywet.platform.bi.el.expression.Expression;
 
 public class ArraySuffix extends ValueSuffix {
 
-	private static Log log = LogFactory.getLog(ArraySuffix.class);
+	private final Logger log = Logger.getLogger(ArraySuffix.class);
 
 	static Object[] sNoArgs = new Object[0];
 
@@ -129,21 +128,17 @@ public class ArraySuffix extends ValueSuffix {
 
 		// Check for null value
 		if (pValue == null) {
-			if (log.isWarnEnabled()) {
-				log.warn(MessageUtil.getMessageWithArgs(
-						Constants.CANT_GET_INDEXED_VALUE_OF_NULL,
-						getOperatorSymbol()));
-				return null;
-			}
+			log.warn(MessageUtil.getMessageWithArgs(
+					Constants.CANT_GET_INDEXED_VALUE_OF_NULL,
+					getOperatorSymbol()));
+			return null;
 		}
 
 		// Evaluate the index
 		else if ((indexVal = evaluateIndex(pResolver, functions)) == null) {
-			if (log.isWarnEnabled()) {
-				log.warn(MessageUtil.getMessageWithArgs(
-						Constants.CANT_GET_NULL_INDEX, getOperatorSymbol()));
-				return null;
-			}
+			log.warn(MessageUtil.getMessageWithArgs(
+					Constants.CANT_GET_NULL_INDEX, getOperatorSymbol()));
+			return null;
 		}
 
 		// See if it's a Map
@@ -156,65 +151,48 @@ public class ArraySuffix extends ValueSuffix {
 		else if (pValue instanceof List || pValue.getClass().isArray()) {
 			Integer indexObj = Coercions.coerceToInteger(indexVal);
 			if (indexObj == null) {
-				if (log.isErrorEnabled()) {
-					String message = MessageUtil.getMessageWithArgs(
-							Constants.BAD_INDEX_VALUE, getOperatorSymbol(),
-							indexVal.getClass().getName());
-					log.error(message);
-					throw new ELException(message);
-				}
-				return null;
+				String message = MessageUtil.getMessageWithArgs(
+						Constants.BAD_INDEX_VALUE, getOperatorSymbol(),
+						indexVal.getClass().getName());
+				log.error(message);
+				throw new ELException(message);
 			} else if (pValue instanceof List) {
 				try {
 					return ((List) pValue).get(indexObj.intValue());
 				} catch (ArrayIndexOutOfBoundsException aob) {
-					if (log.isWarnEnabled()) {
-						log.warn(MessageUtil.getMessageWithArgs(
-								Constants.EXCEPTION_ACCESSING_LIST, indexObj),
-								aob);
-					}
+					log.warn(MessageUtil.getMessageWithArgs(
+							Constants.EXCEPTION_ACCESSING_LIST, indexObj), aob);
 					return null;
 				} catch (IndexOutOfBoundsException iob) {
-					if (log.isWarnEnabled()) {
-						log.warn(MessageUtil.getMessageWithArgs(
-								Constants.EXCEPTION_ACCESSING_LIST, indexObj),
-								iob);
-					}
+					log.warn(MessageUtil.getMessageWithArgs(
+							Constants.EXCEPTION_ACCESSING_LIST, indexObj), iob);
 					return null;
 				} catch (Throwable t) {
-					if (log.isErrorEnabled()) {
-						String message = MessageUtil.getMessageWithArgs(
-								Constants.EXCEPTION_ACCESSING_LIST, indexObj);
-						log.error(message, t);
-						throw new ELException(message, t);
-					}
-					return null;
+					String message = MessageUtil.getMessageWithArgs(
+							Constants.EXCEPTION_ACCESSING_LIST, indexObj);
+					log.error(message, t);
+					throw new ELException(message, t);
 				}
 			} else {
 				try {
 					return Array.get(pValue, indexObj.intValue());
 				} catch (ArrayIndexOutOfBoundsException aob) {
-					if (log.isWarnEnabled()) {
-						log.warn(MessageUtil.getMessageWithArgs(
-								Constants.EXCEPTION_ACCESSING_ARRAY, indexObj),
-								aob);
-					}
+					log
+							.warn(MessageUtil.getMessageWithArgs(
+									Constants.EXCEPTION_ACCESSING_ARRAY,
+									indexObj), aob);
 					return null;
 				} catch (IndexOutOfBoundsException iob) {
-					if (log.isWarnEnabled()) {
-						log.warn(MessageUtil.getMessageWithArgs(
-								Constants.EXCEPTION_ACCESSING_ARRAY, indexObj),
-								iob);
-					}
+					log
+							.warn(MessageUtil.getMessageWithArgs(
+									Constants.EXCEPTION_ACCESSING_ARRAY,
+									indexObj), iob);
 					return null;
 				} catch (Throwable t) {
-					if (log.isErrorEnabled()) {
-						String message = MessageUtil.getMessageWithArgs(
-								Constants.EXCEPTION_ACCESSING_ARRAY, indexObj);
-						log.error(message, t);
-						throw new ELException(message, t);
-					}
-					return null;
+					String message = MessageUtil.getMessageWithArgs(
+							Constants.EXCEPTION_ACCESSING_ARRAY, indexObj);
+					log.error(message, t);
+					throw new ELException(message, t);
 				}
 			}
 		}
@@ -232,36 +210,26 @@ public class ArraySuffix extends ValueSuffix {
 			try {
 				return property.getReadMethod().invoke(pValue, sNoArgs);
 			} catch (InvocationTargetException exc) {
-				if (log.isErrorEnabled()) {
-					String message = MessageUtil.getMessageWithArgs(
-							Constants.ERROR_GETTING_PROPERTY, indexStr, pValue
-									.getClass().getName());
-					Throwable t = exc.getTargetException();
-					log.warn(message, t);
-					throw new ELException(message, t);
-				}
-				return null;
+				String message = MessageUtil.getMessageWithArgs(
+						Constants.ERROR_GETTING_PROPERTY, indexStr, pValue
+								.getClass().getName());
+				Throwable t = exc.getTargetException();
+				log.warn(message, t);
+				throw new ELException(message, t);
 			} catch (Throwable t) {
-				if (log.isErrorEnabled()) {
-					String message = MessageUtil.getMessageWithArgs(
-							Constants.ERROR_GETTING_PROPERTY, indexStr, pValue
-									.getClass().getName());
-					log.warn(message, t);
-					throw new ELException(message, t);
-				}
-				return null;
+				String message = MessageUtil.getMessageWithArgs(
+						Constants.ERROR_GETTING_PROPERTY, indexStr, pValue
+								.getClass().getName());
+				log.warn(message, t);
+				throw new ELException(message, t);
 			}
 		} else {
-			if (log.isErrorEnabled()) {
-				String message = MessageUtil.getMessageWithArgs(
-						Constants.CANT_FIND_INDEX, indexVal, pValue.getClass()
-								.getName(), getOperatorSymbol());
-				log.error(message);
-				throw new ELException(message);
-			}
-			return null;
+			String message = MessageUtil.getMessageWithArgs(
+					Constants.CANT_FIND_INDEX, indexVal, pValue.getClass()
+							.getName(), getOperatorSymbol());
+			log.error(message);
+			throw new ELException(message);
 		}
-		return null;
 	}
 
 	@Override

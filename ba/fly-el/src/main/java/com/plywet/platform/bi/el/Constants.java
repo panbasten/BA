@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 public class Constants {
 	// 资源文件
 	static ResourceBundle sResources = ResourceBundle
-			.getBundle("com.plywet.platform.bilatform.bi.el.Resources");
+			.getBundle("com.plywet.platform.bi.el.Resources");
 
 	// -------------------------------------
 	// 从资源文件绑定的信息

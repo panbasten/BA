@@ -371,6 +371,7 @@ public class BITransResource {
 						StepPluginType.class, stepTypeId);
 				stepMeta = new StepMeta(stepName, (StepMetaInterface) registry
 						.loadClass(plugin));
+				stepMeta.getStepMetaInterface().setDefault();
 				transMeta.addStep(stepMeta);
 			}
 
@@ -378,6 +379,7 @@ public class BITransResource {
 
 			attrsMap.addVariable("transMeta", transMeta);
 			attrsMap.addVariable("stepMeta", stepMeta);
+			attrsMap.addVariable("stepMetaInterface", stepMeta.getStepMetaInterface());
 
 			String formId = "form:" + targetId;
 			attrsMap.addVariable("formId", formId);
