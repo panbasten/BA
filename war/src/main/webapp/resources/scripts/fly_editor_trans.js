@@ -757,8 +757,10 @@ Plywet.editors.trans.action = {
     			h = pos[1];
     		}
     	}
-    	Plywet.cw("Dialog",null,{
-			id : "dialog-"+model.id,
+    	
+    	var dialogId = "dialog-trans-step";
+    	Plywet.cw("Dialog",dialogId+"_var",{
+			id : dialogId,
 			header : model.bText[0],
 			width : w,
 			height : h,
@@ -773,8 +775,14 @@ Plywet.editors.trans.action = {
 				events : {
 					"click" : function(){
 						Plywet.ab({
-							formId : "",
-							formAction : ""
+							formId : "form:"+dialogId,
+							formAction : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/save",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[dialogId + "_var"].hide();
+									// TODO 刷新页面
+								}
+							}
 						});
 					}
 				}

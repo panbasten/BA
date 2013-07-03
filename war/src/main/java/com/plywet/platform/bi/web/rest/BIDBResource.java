@@ -38,6 +38,7 @@ import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
+import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.model.ParameterContext;
@@ -193,6 +194,8 @@ public class BIDBResource {
 			// 5.cluster
 			setCluster(dbMeta, paramContext, DB_PREFIX);
 
+			// 保存到数据库 TODO
+
 		} catch (Exception e) {
 			throw new BIException("保存数据库设置出现错误。", e);
 		}
@@ -219,7 +222,7 @@ public class BIDBResource {
 						.NVL_JSON(jo, "databaseName", "");
 				String username = JSONUtils.NVL_JSON(jo, "username", "");
 				String password = JSONUtils.NVL_JSON(jo, "password", "");
-				
+
 				// TODO
 			}
 		}

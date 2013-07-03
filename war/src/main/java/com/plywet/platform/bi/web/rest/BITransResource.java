@@ -17,6 +17,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
@@ -39,6 +42,7 @@ import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.PropertyUtils;
 import com.plywet.platform.bi.web.entity.ActionMessage;
@@ -55,9 +59,9 @@ public class BITransResource {
 	private final Logger logger = Logger.getLogger(BITransResource.class);
 
 	private static Class<?> PKG = BITransResource.class;
-	
+
 	private static final String TRANS_SETTING_TEMPLATE = "editor/trans/setting.h";
-	
+
 	private static final String TRANS_STEP_TEMPLATE_PREFIX = "editor/trans/steps/";
 
 	@Resource(name = "bi.service.transServices")
@@ -70,13 +74,15 @@ public class BITransResource {
 	 * @param id
 	 * @param body
 	 * @return
+	 * @throws BIJSONException
 	 * @throws BIException
 	 */
 	@POST
 	@Path("/{id}/save")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String saveTrans(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIException {
+			@PathParam("id") String id, String body) throws BIJSONException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			Long idL = Long.parseLong(id);
 			ParameterContext paramContext = BIWebUtils
@@ -97,12 +103,12 @@ public class BITransResource {
 			// 更新缓存
 			transDelegates
 					.updateCacheTransformation(repository, idL, transMeta);
-			return ActionMessage.instance().success(
-					"保存转换【" + transMeta.getName() + "】成功!").toJSONString();
+			return am.success("保存转换【" + transMeta.getName() + "】成功!")
+					.toJSONString();
 		} catch (Exception ex) {
 			logger.error("保存转换[" + id + "]出现错误。");
-			throw new BIException("保存转换[" + id + "]出现错误。", ex);
 		}
+		return am.failure("保存转换[" + id + "]出现错误。").toJSONString();
 	}
 
 	private void modifyTrans(TransMeta transMeta, FlowChartData data)
@@ -261,7 +267,9 @@ public class BITransResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String saveSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIException {
+			@PathParam("id") String id, String body) throws BIJSONException {
+		ActionMessage am = ActionMessage.instance();
+		String name = id;
 		try {
 
 			String FORM_PREFIX = "trans_" + id + ":";
@@ -269,10 +277,72 @@ public class BITransResource {
 					.fillParameterContext(body);
 			TransMeta transMeta = transDelegates.loadTransformation(repository,
 					Long.parseLong(id));
+			name = paramContext.getParameter(FORM_PREFIX + "name");
 
-			return "";
+			// 1.Base
+			setSettingBase(transMeta, paramContext, FORM_PREFIX);
+
+			// 2.NamedParameter
+			setSettingNamedParameter(transMeta, paramContext, FORM_PREFIX);
+
+			// 保存transMeta
+
+			return am.success("保存转换【" + name + "】设置成功！").toJSONString();
 		} catch (Exception e) {
-			throw new BIException("保存转换设置页面出现错误。", e);
+			logger.error("保存转换【" + name + "】设置出现错误。");
+		}
+
+		return am.failure("保存转换【" + name + "】设置出现错误。").toJSONString();
+	}
+
+	private void setSettingBase(TransMeta transMeta,
+			ParameterContext paramContext, String FORM_PREFIX) {
+		// name
+		String name = paramContext.getParameter(FORM_PREFIX + "name");
+		transMeta.setName(name);
+
+		// directoryId TODO
+
+		// description
+		String description = paramContext.getParameter(FORM_PREFIX
+				+ "description");
+		transMeta.setDescription(description);
+
+		// extendedDescription
+		String extendedDescription = paramContext.getParameter(FORM_PREFIX
+				+ "extendedDescription");
+		transMeta.setExtendedDescription(extendedDescription);
+
+		// transstatus
+		int transstatus = paramContext.getIntParameter(FORM_PREFIX
+				+ "transstatus", 0);
+		transMeta.setTransstatus(transstatus);
+
+		// transversion
+		String transversion = paramContext.getParameter(FORM_PREFIX
+				+ "transversion");
+		transMeta.setTransversion(transversion);
+
+		// 修改者，修改时间 TODO
+
+	}
+
+	private void setSettingNamedParameter(TransMeta transMeta,
+			ParameterContext paramContext, String FORM_PREFIX) throws Exception {
+		JSONArray ja = JSONUtils.convertStringToJSONArray(paramContext
+				.getParameter(FORM_PREFIX + "parameters"
+						+ HTML.DATA_GRID_SUFFIX));
+
+		transMeta.clearParameters();
+
+		for (int i = 0; i < ja.size(); i++) {
+			JSONObject jo = (JSONObject) ja.get(i);
+			String key = JSONUtils.NVL_JSON(jo, "key", "");
+			String value = JSONUtils.NVL_JSON(jo, "value", "");
+			String desc = JSONUtils.NVL_JSON(jo, "desc", "");
+			if (!Const.isEmpty(key)) {
+				transMeta.addParameterDefinition(key, value, desc);
+			}
 		}
 	}
 
@@ -305,7 +375,7 @@ public class BITransResource {
 		Map<String, FlowStep> stepMap = new HashMap<String, FlowStep>();
 		for (StepMeta stepMeta : transMeta.getSteps()) {
 			PictureStep s = new PictureStep();
-			s.setId(stepMeta.getObjectId().getId());
+			s.setId(stepMeta.getName());
 			s.addAttribute(PictureStep.D_X, stepMeta.getLocation().x);
 			s.addAttribute(PictureStep.D_Y, stepMeta.getLocation().y);
 			s.addAttribute(PictureStep.B_TEXT, new String[] { stepMeta
@@ -326,20 +396,47 @@ public class BITransResource {
 			}
 
 			els.addStep(s);
-			stepMap.put(stepMeta.getObjectId().getId(), s);
+			stepMap.put(stepMeta.getName(), s);
 		}
 
 		int hnr = transMeta.nrTransHops();
 		for (int i = 0; i < hnr; i++) {
 			TransHopMeta hopMeta = transMeta.getTransHop(i);
 			FlowHop h = new FlowHop();
-			h.setFromEl(stepMap
-					.get(hopMeta.getFromStep().getObjectId().getId()));
-			h.setToEl(stepMap.get(hopMeta.getToStep().getObjectId().getId()));
+			h.setId("transHop_" + i);
+			h.setFromEl(stepMap.get(hopMeta.getFromStep().getName()));
+			h.setToEl(stepMap.get(hopMeta.getToStep().getName()));
 			els.addHop(h);
 		}
 
 		return meta.getFormJo().toJSONString();
+	}
+
+	@POST
+	@Path("/step/{transId}/{stepMetaName}/save")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void saveTransStep(@CookieParam("repository") String repository,
+			@PathParam("transId") String transId,
+			@PathParam("stepMetaName") String stepMetaName, String body) {
+		try {
+
+			String FORM_PREFIX = "form:dialog-trans-step:";
+
+			Long idL = Long.valueOf(transId);
+			TransMeta transMeta = transDelegates.loadTransformation(repository,
+					idL);
+
+			StepMeta stepMeta = transMeta.findStep(stepMetaName);
+
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			// 设置具体的stepMeta TODO
+
+		} catch (Exception e) {
+
+		}
 	}
 
 	/**
@@ -379,9 +476,13 @@ public class BITransResource {
 
 			attrsMap.addVariable("transMeta", transMeta);
 			attrsMap.addVariable("stepMeta", stepMeta);
-			attrsMap.addVariable("stepMetaInterface", stepMeta.getStepMetaInterface());
+			attrsMap.addVariable("stepMetaInterface", stepMeta
+					.getStepMetaInterface());
 
-			String formId = "form:" + targetId;
+			attrsMap.addVariable("transId", transId);
+			attrsMap.addVariable("stepMetaName", stepName);
+
+			String formId = "form:dialog-trans-step";
 			attrsMap.addVariable("formId", formId);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(

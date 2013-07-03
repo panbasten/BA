@@ -6,7 +6,7 @@
 			<fly:columns>
 				<fly:row>
 					<fly:column field="key" title="参数名" width="150" editor="text" align="center" />
-					<fly:column field="value" title="值" width="150" editor="text" align="center" />
+					<fly:column field="value" title="默认值" width="150" editor="text" align="center" />
 					<fly:column field="desc" title="描述" width="300" editor="text" align="center" />
 				</fly:row>
 			</fly:columns>

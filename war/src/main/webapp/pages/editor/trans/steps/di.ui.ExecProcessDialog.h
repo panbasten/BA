@@ -1,5 +1,5 @@
 <form id="${formId}" class="fly-dialog-form" method="post">
-	<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%" itemMargin="10">
+	<fly:gridLayout column="4" itemWidth="15%,34%,15%,34%" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:labelObject buddy="${formId}:name" text="步骤名称" />
 		</fly:gridLayoutItem>
@@ -7,6 +7,10 @@
 			<fly:inputText id="${formId}:name" name="${formId}:name" type="text"
 				validate="required:true"
 				value="${stepMeta.name}" />
+			<fly:inputText id="${formId}:transId" name="${formId}:transId" type="hidden"
+				value="${transId}" />
+			<fly:inputText id="${formId}:stepMetaName" name="${formId}:stepMetaName" type="hidden"
+				value="${stepMetaName}" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -18,17 +22,17 @@
 				value="${stepMetaInterface.processField}" />
 		</fly:gridLayoutItem>
 
-		<fly:gridLayoutItem cols="3">
+		<fly:gridLayoutItem cols="2">
 			<fly:labelObject buddy="${formId}:failwhennotsuccess" text="如果执行失败返回执行结果" />
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="2">
 			<fly:inputText id="${formId}:failwhennotsuccess" name="${formId}:failwhennotsuccess" type="checkbox"
 				value="${stepMetaInterface.failWhenNotSuccess}" />
 		</fly:gridLayoutItem>
 
 	</fly:gridLayout>
 
-	<fly:fieldSet title="输出字段">
+	<fly:fieldSet title="输出字段" margin="10">
 		<fly:gridLayout column="2" itemWidth="40%,60%" itemMargin="10">
 
 			<fly:gridLayoutItem>
