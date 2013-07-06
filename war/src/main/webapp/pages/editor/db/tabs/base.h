@@ -5,7 +5,7 @@
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:id" name="${formId}:id" type="hidden" 
-				value="${dbMeta.objectId.id}" />
+				value="${dbId}" />
 			<fly:inputText id="${formId}:name" name="${formId}:name" type="text" 
 				validate="required:true"
 				value="${dbMeta.name}" />

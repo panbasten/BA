@@ -7,6 +7,7 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -36,6 +37,7 @@ import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.plywet.platform.bi.core.exception.BIException;
+import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.JSONUtils;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.web.entity.ActionMessage;
@@ -61,6 +63,25 @@ public class BIDBResource {
 	@Resource(name = "bi.service.databaseServices")
 	private BIDatabaseDelegates dbDelegates;
 
+	private String buildNaviContent(String repository, boolean isNew)
+			throws BIException {
+		try {
+			BrowseMeta browseMeta = new BrowseMeta();
+			dbDelegates.getNavigatorsDatabase(repository, browseMeta);
+			browseMeta.addClass("fly-browsepanel");
+
+			AjaxResultEntity browseResult = AjaxResultEntity.instance()
+					.setOperation(Utils.RESULT_OPERATION_CUSTOM).setTargetId(
+							ID_EDITOR_CONTENT_NAVI_DB_BP).setData(browseMeta);
+			browseResult.setCmd(isNew ? "widget.BrowsePanel" : "this.flush");
+
+			return AjaxResult.instance().addEntity(browseResult).toJSONString();
+		} catch (Exception e) {
+			log.error("创建导航的数据库连接内容页面出现错误");
+			throw new BIException("创建导航的数据库连接内容页面出现错误", e);
+		}
+	}
+
 	/**
 	 * 创建数据库页面
 	 * 
@@ -71,21 +92,15 @@ public class BIDBResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviContentDatabase(
 			@CookieParam("repository") String repository) throws BIException {
-		try {
-			BrowseMeta browseMeta = new BrowseMeta();
-			dbDelegates.getNavigatorsDatabase(repository, browseMeta);
-			browseMeta.addClass("fly-browsepanel");
+		return buildNaviContent(repository, true);
+	}
 
-			AjaxResultEntity browseResult = AjaxResultEntity.instance()
-					.setOperation(Utils.RESULT_OPERATION_CUSTOM).setTargetId(
-							ID_EDITOR_CONTENT_NAVI_DB_BP).setData(browseMeta);
-			browseResult.setCmd("widget.BrowsePanel");
-
-			return AjaxResult.instance().addEntity(browseResult).toJSONString();
-		} catch (Exception e) {
-			log.error("创建导航的数据库连接内容页面出现错误");
-			throw new BIException("创建导航的数据库连接内容页面出现错误", e);
-		}
+	@GET
+	@Path("/flush")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String flushNaviContentDatabase(
+			@CookieParam("repository") String repository) throws BIException {
+		return buildNaviContent(repository, false);
 	}
 
 	/**
@@ -109,8 +124,13 @@ public class BIDBResource {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 
 			// 1.取得数据库元数据
-			DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(repository, Long
-					.valueOf(id));
+			DatabaseMeta dbMeta = null;
+			if (id.equals("create")) {
+				dbMeta = initDatabaseMeta();
+			} else {
+				dbMeta = dbDelegates.getDatabaseMeta(repository, Long
+						.valueOf(id));
+			}
 			dbMeta.setDatabaseType(connectionType);
 			int accessTypeInt = Integer.valueOf(accessType);
 			attrsMap.addVariable("dbMeta", dbMeta);
@@ -165,19 +185,51 @@ public class BIDBResource {
 		}
 	}
 
+	private void checkDatabaseMeta(DatabaseMeta dbMeta,
+			ParameterContext paramContext, String DB_PREFIX, String repository)
+			throws BIException {
+		String oldName = Const.NVL(dbMeta.getName(), "");
+		String newName = Const.NVL(paramContext
+				.getParameter(DB_PREFIX + "name"), "");
+		if (Const.isEmpty(newName)) {
+			throw new BIException("数据库链接名称不能为空");
+		}
+
+		if (!oldName.equals(newName)) {
+			boolean exist = dbDelegates.existDatabaseMeta(repository, newName);
+			if (exist) {
+				throw new BIException("数据库链接名称重复");
+			}
+		}
+
+	}
+
 	@POST
 	@Path("/object/{id}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void saveSetting(@CookieParam("repository") String repository,
+	public String saveSetting(@CookieParam("repository") String repository,
 			@PathParam("id") String id, String body) throws BIException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			String DB_PREFIX = "db_" + id + ":";
 
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
-			DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(repository, Long
-					.valueOf(id));
+			DatabaseMeta dbMeta = null;
+			if (id.equals("create")) {
+				dbMeta = initDatabaseMeta();
+			} else {
+				dbMeta = dbDelegates.getDatabaseMeta(repository, Long
+						.valueOf(id));
+			}
+
+			// 判断是否要在保存成功后删除原有数据源对象
+			String oldName = Const.NVL(dbMeta.getName(), "");
+			String newName = Const.NVL(paramContext.getParameter(DB_PREFIX
+					+ "name"), "");
+
+			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
 
 			// 1.Base
 			setBase(dbMeta, paramContext, DB_PREFIX);
@@ -194,11 +246,23 @@ public class BIDBResource {
 			// 5.cluster
 			setCluster(dbMeta, paramContext, DB_PREFIX);
 
-			// 保存到数据库 TODO
+			// 保存到数据库
+			dbDelegates.saveDatabaseMeta(repository, dbMeta);
 
+			// 删除旧名称的数据库对象
+			if (!oldName.equals(newName) && !Const.isEmpty(oldName)) {
+				dbDelegates.deleteDatabaseMeta(repository, oldName);
+			}
+
+			return am.success("保存数据库设置成功！").toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return am.failure(e.getMessage()).toJSONString();
 		} catch (Exception e) {
-			throw new BIException("保存数据库设置出现错误。", e);
+			log.error("保存数据库设置出现错误。");
+			return am.failure("保存数据库设置出现错误！").toJSONString();
 		}
+
 	}
 
 	private void setCluster(DatabaseMeta dbMeta, ParameterContext paramContext,
@@ -316,6 +380,49 @@ public class BIDBResource {
 				+ "connectSQL"), ""));
 	}
 
+	private DatabaseMeta initDatabaseMeta() {
+		DatabaseMeta dbMeta = new DatabaseMeta();
+		dbMeta.initializeVariablesFrom(null);
+		return dbMeta;
+	}
+
+	@DELETE
+	@Path("/object/{name}/remove")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String removeSetting(@CookieParam("repository") String repository,
+			@PathParam("name") String name) throws BIJSONException {
+		ActionMessage am = ActionMessage.instance();
+		try {
+			dbDelegates.deleteDatabaseMeta(repository, name);
+			return am.success("删除数据库设置成功！").toJSONString();
+		} catch (Exception ex) {
+			log.error("删除数据库设置出现错误。");
+			return am.failure("删除数据库设置出现错误。").toJSONString();
+
+		}
+	}
+
+	@GET
+	@Path("/create")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openSetting(@CookieParam("repository") String repository,
+			@QueryParam("targetId") String targetId) throws BIException {
+		try {
+			DatabaseMeta dbMeta = initDatabaseMeta();
+
+			FLYVariableResolver attrsMap = createDatabaseSettingVariables(dbMeta);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					DB_SETTING_TEMPLATE, attrsMap);
+
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建导航页面出现错误。", ex);
+		}
+
+	}
+
 	/**
 	 * 打开数据库连接设置
 	 * 
@@ -332,44 +439,11 @@ public class BIDBResource {
 			throws BIException {
 		try {
 
-			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-
 			// 初始化数据
-			// 1.数据库元数据
 			DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(repository, Long
 					.valueOf(id));
-			attrsMap.addVariable("dbMeta", dbMeta);
-			String formId = "db_" + dbMeta.getObjectId().getId();
-			attrsMap.addVariable("formId", formId);
-			// 2.数据库插件
-			PluginRegistry registry = PluginRegistry.getInstance();
-			final List<PluginInterface> dbTypes = registry
-					.getPlugins(DatabasePluginType.class);
-			attrsMap.addVariable("dbTypes", dbTypes);
 
-			int[] accessTypes = dbMeta.getDatabaseInterface()
-					.getAccessTypeList();
-			OptionsData opts = new OptionsData();
-			for (int accType : accessTypes) {
-				opts.addOption(String.valueOf(accType), DatabaseMeta
-						.getAccessTypeDescLong(accType));
-			}
-			attrsMap.addVariable("accessTypes", opts.getOptions());
-			// 3.数据库连接设置
-			List<String> settings = new ArrayList<String>();
-			getConnectionSettings(settings, dbMeta);
-
-			// 4.属性
-			attrsMap.addVariable("connectionProperties", GridDataObject
-					.instance(dbMeta.getConnectionProperties()).setMinRows(
-							HTML.DEFAULT_GRID_ROW_NUMBER));
-			attrsMap.addVariable("poolingParameters", GridDataObject
-					.instance(getConnectionPoolParameters(dbMeta)));
-			attrsMap.addVariable("partitioningInformations", GridDataObject
-					.instance().putObjects(dbMeta.getPartitioningInformation())
-					.setMinRows(HTML.DEFAULT_GRID_ROW_NUMBER));
-
-			attrsMap.addVariable("connectionSettings", settings);
+			FLYVariableResolver attrsMap = createDatabaseSettingVariables(dbMeta);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					DB_SETTING_TEMPLATE, attrsMap);
@@ -380,6 +454,51 @@ public class BIDBResource {
 		} catch (Exception ex) {
 			throw new BIException("创建导航页面出现错误。", ex);
 		}
+	}
+
+	private FLYVariableResolver createDatabaseSettingVariables(
+			DatabaseMeta dbMeta) {
+		FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+
+		// 1.数据库元数据
+		attrsMap.addVariable("dbMeta", dbMeta);
+		String id = (dbMeta.getObjectId() == null) ? "create" : dbMeta
+				.getObjectId().getId();
+		String formId = "db_" + id;
+		attrsMap.addVariable("dbId", id);
+		attrsMap.addVariable("formId", formId);
+
+		// 2.数据库插件
+		PluginRegistry registry = PluginRegistry.getInstance();
+		final List<PluginInterface> dbTypes = registry
+				.getPlugins(DatabasePluginType.class);
+		attrsMap.addVariable("dbTypes", dbTypes);
+
+		int[] accessTypes = dbMeta.getDatabaseInterface().getAccessTypeList();
+		OptionsData opts = new OptionsData();
+		for (int accType : accessTypes) {
+			opts.addOption(String.valueOf(accType), DatabaseMeta
+					.getAccessTypeDescLong(accType));
+		}
+		attrsMap.addVariable("accessTypes", opts.getOptions());
+
+		// 3.数据库连接设置
+		List<String> settings = new ArrayList<String>();
+		getConnectionSettings(settings, dbMeta);
+
+		// 4.属性
+		attrsMap.addVariable("connectionProperties", GridDataObject.instance(
+				dbMeta.getConnectionProperties()).setMinRows(
+				HTML.DEFAULT_GRID_ROW_NUMBER));
+		attrsMap.addVariable("poolingParameters", GridDataObject
+				.instance(getConnectionPoolParameters(dbMeta)));
+		attrsMap.addVariable("partitioningInformations", GridDataObject
+				.instance().putObjects(dbMeta.getPartitioningInformation())
+				.setMinRows(HTML.DEFAULT_GRID_ROW_NUMBER));
+
+		attrsMap.addVariable("connectionSettings", settings);
+
+		return attrsMap;
 	}
 
 	private Properties getConnectionPoolParameters(DatabaseMeta dbMeta) {

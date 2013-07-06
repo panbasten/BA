@@ -47,7 +47,8 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 				browseMeta.addContent(node);
 			}
 		} catch (Exception ex) {
-			log.error("获得数据库对象出现异常", ex);
+			log.error("获得数据库对象列表出现异常", ex);
+			throw new BIException("获得数据库对象列表出现异常");
 		} finally {
 			BIEnvironmentDelegate.instance().returnRep(repository, rep);
 		}
@@ -56,17 +57,62 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 
 	@Override
 	public DatabaseMeta getDatabaseMeta(String repository, Long id)
-			throws BIKettleException {
+			throws BIException {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
 			return rep.loadDatabaseMeta(new LongObjectId(id), null);
 		} catch (Exception ex) {
 			log.error("获得数据库对象出现异常", ex);
+			throw new BIException("获得数据库对象出现异常");
 		} finally {
 			BIEnvironmentDelegate.instance().returnRep(repository, rep);
 		}
-		return null;
+	}
+
+	@Override
+	public void saveDatabaseMeta(String repository, DatabaseMeta databaseMeta)
+			throws BIException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep.save(databaseMeta, null, null);
+		} catch (Exception ex) {
+			log.error("保存数据库对象出现异常", ex);
+			throw new BIException("保存数据库对象出现异常");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
+
+	@Override
+	public void deleteDatabaseMeta(String repository, String dbName)
+			throws BIException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep.deleteDatabaseMeta(dbName);
+		} catch (Exception ex) {
+			log.error("删除数据库对象出现异常", ex);
+			throw new BIException("删除数据库对象出现异常");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
+
+	@Override
+	public boolean existDatabaseMeta(String repository, String dbName)
+			throws BIKettleException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			return rep.getDatabaseID(dbName) != null;
+		} catch (Exception ex) {
+			log.error("判断数据库对象是否存在出现异常", ex);
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+		return false;
 	}
 
 }

@@ -1001,7 +1001,6 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         						domValue.appendTo($(this));
         					}
         					// 如果是checkbox选择
-        					console.log($dom.datagrid("options").checkOnSelect);
         					if(!$dom.datagrid("options").checkOnSelect){
         						var ch = $dom.datagrid("getChecked");
         						domValue.val(Plywet.toJSONString($dom.datagrid("getChecked")));

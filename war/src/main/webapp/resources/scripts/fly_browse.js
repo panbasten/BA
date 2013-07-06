@@ -198,40 +198,7 @@ Plywet.browse = {
 		}
 		// 数据库文件打开数据库配置页面
 		else if(category=="db"){
-			Plywet.cw("Dialog","dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var",{
-				id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
-				header : "编辑【"+displayName+"】",
-				width : 700,
-				height : 400,
-				autoOpen : true,
-				showHeader : true,
-				modal : true,
-				url : "rest/"+data.attrs.src,
-				footerButtons : [{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "确定",
-					title : "确定",
-					events : {
-						"click" : function(){
-							Plywet.ab({
-								formId : "db_"+data.data.id,
-								formAction : "rest/"+data.attrs.src+"/save"
-							});
-						}
-					}
-				},{
-					componentType : "fly:PushButton",
-					type : "button",
-					label : "取消",
-					title : "取消",
-					events : {
-						"click" : "hide"
-					}
-				}],
-				closable : true,
-				maximizable : true
-			});
+			Plywet.database.editObject(category,data.data.type,data.data.id,displayName);
 		}
 	}
 };

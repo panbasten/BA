@@ -10,7 +10,7 @@
             <fly:pushbutton id="fs-btn-edit" icon="ui-icon-folder-open" show="N"
             	label="编辑" title="编辑" onclick="Plywet.filesys.edit()" />
             <fly:pushbutton id="fs-btn-remove" icon="ui-icon-folder-open" show="N"
-            	label="移除" title="移除" onclick="Plywet.filesys.remove()" />
+            	label="删除" title="删除" onclick="Plywet.filesys.remove()" />
             <fly:pushbutton id="fs-btn-create-dir" icon="ui-icon-folder-open" show="N"
             	label="创建目录" title="创建目录" onclick="Plywet.filesys.createDir()" />
             <fly:pushbutton id="fs-btn-upload-file" icon="ui-icon-folder-open" show="N"
