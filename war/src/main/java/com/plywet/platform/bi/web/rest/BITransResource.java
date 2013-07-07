@@ -56,7 +56,7 @@ import com.plywet.platform.bi.web.utils.BIWebUtils;
 @Path("/trans")
 public class BITransResource {
 
-	private final Logger logger = Logger.getLogger(BITransResource.class);
+	private final Logger log = Logger.getLogger(BITransResource.class);
 
 	private static Class<?> PKG = BITransResource.class;
 
@@ -106,7 +106,7 @@ public class BITransResource {
 			return am.success("保存转换【" + transMeta.getName() + "】成功!")
 					.toJSONString();
 		} catch (Exception ex) {
-			logger.error("保存转换[" + id + "]出现错误。");
+			log.error("保存转换[" + id + "]出现错误。");
 		}
 		return am.failure("保存转换[" + id + "]出现错误。").toJSONString();
 	}
@@ -190,7 +190,7 @@ public class BITransResource {
 			return sm;
 
 		} catch (Exception ex) {
-			logger.error("创建步骤[" + pluginName + "]出现错误。");
+			log.error("创建步骤[" + pluginName + "]出现错误。");
 			throw new BIException("创建步骤[" + pluginName + "]出现错误。", ex);
 		}
 	}
@@ -289,7 +289,7 @@ public class BITransResource {
 
 			return am.success("保存转换【" + name + "】设置成功！").toJSONString();
 		} catch (Exception e) {
-			logger.error("保存转换【" + name + "】设置出现错误。");
+			log.error("保存转换【" + name + "】设置出现错误。");
 		}
 
 		return am.failure("保存转换【" + name + "】设置出现错误。").toJSONString();
@@ -354,6 +354,24 @@ public class BITransResource {
 		Long idL = Long.parseLong(id);
 		transDelegates.clearCacheTransformation(repository, idL);
 		return ActionMessage.instance().success().toJSONString();
+	}
+
+	@GET
+	@Path("/{id}/save")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String saveTrans(@CookieParam("repository") String repository,
+			@QueryParam("val") String val) throws BIJSONException {
+		ActionMessage am = ActionMessage.instance();
+		try {
+
+			return am.success("保存转换成功！").toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return am.failure(e.getMessage()).toJSONString();
+		} catch (Exception e) {
+			log.error("保存转换出现错误。");
+			return am.failure("保存转换出现错误！").toJSONString();
+		}
 	}
 
 	@GET
