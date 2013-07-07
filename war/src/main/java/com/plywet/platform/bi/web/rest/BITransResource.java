@@ -79,7 +79,8 @@ public class BITransResource {
 	 */
 	@POST
 	@Path("/{id}/save")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String saveTrans(@CookieParam("repository") String repository,
 			@PathParam("id") String id, String body) throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
@@ -354,24 +355,6 @@ public class BITransResource {
 		Long idL = Long.parseLong(id);
 		transDelegates.clearCacheTransformation(repository, idL);
 		return ActionMessage.instance().success().toJSONString();
-	}
-
-	@GET
-	@Path("/{id}/save")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String saveTrans(@CookieParam("repository") String repository,
-			@QueryParam("val") String val) throws BIJSONException {
-		ActionMessage am = ActionMessage.instance();
-		try {
-
-			return am.success("保存转换成功！").toJSONString();
-		} catch (BIException e) {
-			log.error(e.getMessage());
-			return am.failure(e.getMessage()).toJSONString();
-		} catch (Exception e) {
-			log.error("保存转换出现错误。");
-			return am.failure("保存转换出现错误！").toJSONString();
-		}
 	}
 
 	@GET

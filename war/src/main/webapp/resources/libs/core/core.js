@@ -967,23 +967,26 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
             form = $(Plywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
         }
         
-        //source has no parent form so use first form in document
-        if(!form || form.length == 0) {
-            form = $('form').eq(0);
-        }
+//        //source has no parent form so use first form in document
+//        if(!form || form.length == 0) {
+//            form = $('form').eq(0);
+//        }
         
         if(cfg.formAction){
         	ajaxURL = cfg.formAction;
-        }else{
+        }else if(form && form.length>0){
         	ajaxURL = form.attr('action');
-        }
+        }else if(cfg.url){
+    		ajaxURL = cfg.url;
+    	}
         
-    	if ($.fn.form) {
+    	if (form && form.length>0 && $.fn.form) {
         	//form ajax submit
         	form.form("submit", {
         		url : ajaxURL,
         		dataType : "json",
         		onSubmit : function(data){
+        		console.log(data);
 	        		if(cfg.modal){
 	        			if(cfg.modalMessage){
 	        				Plywet.desktop.changeMarkText(cfg.modalMessage);
@@ -1062,11 +1065,13 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 //        		}
         		
         	});
+        	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
         	return;
     	} else {
-    		ajaxParams = form.serialize();
+    		if(form && form.length>0){
+    			ajaxParams = form.serialize();
+    		}
     	}
-    	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
     }
 
     //params

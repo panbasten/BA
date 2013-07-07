@@ -566,7 +566,7 @@ Plywet.editors.trans.action = {
     		var transId = canvasObj.config.data.extendData.transId;
     		var flow = canvasObj.getChildCanvasByIndex(0);
     		Plywet.ab({
-    			type : "GET",
+    			type : "post",
     			url : "rest/trans/"+transId+"/save",
     			modal : true,
     			modalMessage : "正在保存...",
