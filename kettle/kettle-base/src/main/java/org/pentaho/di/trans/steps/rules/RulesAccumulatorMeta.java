@@ -31,6 +31,7 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMetaInterface;
@@ -124,6 +125,13 @@ public class RulesAccumulatorMeta extends BaseStepMeta implements StepMetaInterf
   @Override
   public void check(List<CheckResultInterface> remarks, TransMeta transMeta, StepMeta stepMeta, RowMetaInterface prev,
       String[] input, String[] output, RowMetaInterface info) {
+  }
+  
+  @Override
+  public void loadPage(Map<String, List<String>> parameterHolder)
+  	throws KettlePageException
+  {
+  	// TODO
   }
 
   @Override

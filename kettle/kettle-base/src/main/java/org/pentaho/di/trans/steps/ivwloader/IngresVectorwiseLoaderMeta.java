@@ -33,6 +33,7 @@ import org.pentaho.di.core.database.Database;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.core.xml.XMLHandler;
@@ -232,6 +233,13 @@ public class IngresVectorwiseLoaderMeta extends BaseStepMeta implements StepMeta
     retval.append("    </fields>").append(Const.CR); //$NON-NLS-1$
 
     return retval.toString();
+  }
+  
+  @Override
+  public void loadPage(Map<String, List<String>> parameterHolder)
+  	throws KettlePageException
+  {
+  	// TODO
   }
 
   @Override

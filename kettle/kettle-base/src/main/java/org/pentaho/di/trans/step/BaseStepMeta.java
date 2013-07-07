@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.KettleAttribute;
 import org.pentaho.di.core.KettleAttributeInterface;
@@ -76,6 +77,8 @@ public class BaseStepMeta implements Cloneable, StepAttributesInterface
 	public static final LoggingObjectInterface loggingObject = new SimpleLoggingObject("Step metadata", LoggingObjectType.STEPMETA, null);
 		
 	public static final String STEP_ATTRIBUTES_FILE = "step-attributes.xml";
+	
+	public static final String FORM_PREFIX = "form:dialog-trans-step:";
 	
 	private boolean changed;
 	
@@ -865,4 +868,70 @@ public class BaseStepMeta implements Cloneable, StepAttributesInterface
     public Object loadReferencedObject(int index, Repository rep, VariableSpace space) throws KettleException {
       return null;
     }
+    
+    /**
+	 * 从参数上下文中根据参数名获取对应的参数值 如果对应的值为多个则返回第一个
+	 * 
+	 * @param paramName
+	 *            参数名
+	 * @return
+	 */
+	public String getParameter(Map<String, List<String>> parameterHolder, String paramName) {
+		if (StringUtils.isEmpty(paramName)) {
+			return null;
+		}
+		List<String> paramValues = parameterHolder.get(FORM_PREFIX + paramName);
+		if (paramValues == null || paramValues.isEmpty()) {
+			return null;
+		}
+
+		return paramValues.get(0);
+	}
+
+	/**
+	 * 从参数上下文中根据参数名获取对应的多个值
+	 * 
+	 * @param paramName
+	 *            参数名
+	 * @return
+	 */
+	public List<String> getParameterValues(Map<String, List<String>> parameterHolder, String paramName) {
+		if (StringUtils.isEmpty(paramName)) {
+			return null;
+		}
+
+		List<String> paramValues = parameterHolder.get(FORM_PREFIX + paramName);
+		return paramValues;
+	}
+
+	public String getStringParameter(Map<String, List<String>> parameterHolder, String paramName, String def) {
+		String v = getParameter(parameterHolder, paramName);
+		if (v != null && !"".equals(v.trim())) {
+			return v.trim();
+		}
+		return def;
+	}
+
+	public int getIntParameter(Map<String, List<String>> parameterHolder, String paramName, int def) {
+		String v = getParameter(parameterHolder, paramName);
+		try {
+			return Integer.valueOf(v);
+		} catch (Exception e) {
+			return def;
+		}
+	}
+
+	public long getLongParameter(Map<String, List<String>> parameterHolder, String paramName, long def) {
+		String v = getParameter(parameterHolder, paramName);
+		try {
+			return Long.valueOf(v);
+		} catch (Exception e) {
+			return def;
+		}
+	}
+
+	public boolean getBooleanParameter(Map<String, List<String>> parameterHolder, String paramName) {
+		String v = getParameter(parameterHolder, paramName);
+		return (v != null);
+	}
 }

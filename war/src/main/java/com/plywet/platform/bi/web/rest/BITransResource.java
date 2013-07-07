@@ -419,21 +419,24 @@ public class BITransResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public void saveTransStep(@CookieParam("repository") String repository,
 			@PathParam("transId") String transId,
-			@PathParam("stepMetaName") String stepMetaName, String body) {
+			@PathParam("stepMetaName") String stepMetaName,
+			@QueryParam("dx") String dx, @QueryParam("dy") String dy,
+			String body) {
 		try {
-
-			String FORM_PREFIX = "form:dialog-trans-step:";
 
 			Long idL = Long.valueOf(transId);
 			TransMeta transMeta = transDelegates.loadTransformation(repository,
 					idL);
 
 			StepMeta stepMeta = transMeta.findStep(stepMetaName);
+			stepMeta.setLocation(Integer.valueOf(dx), Integer.valueOf(dy));
 
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			// 设置具体的stepMeta TODO
+			// 设置具体的stepMeta
+			stepMeta.getStepMetaInterface().loadPage(
+					paramContext.getParameterHolder());
 
 		} catch (Exception e) {
 

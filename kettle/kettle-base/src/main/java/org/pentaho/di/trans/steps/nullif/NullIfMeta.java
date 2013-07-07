@@ -31,6 +31,7 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMeta;
 import org.pentaho.di.core.row.RowMetaInterface;
@@ -96,6 +97,13 @@ public class NullIfMeta extends BaseStepMeta implements StepMetaInterface
     public void setFieldValue(String[] fieldValue)
     {
         this.fieldValue = fieldValue;
+    }
+    
+    @Override
+    public void loadPage(Map<String, List<String>> parameterHolder)
+    	throws KettlePageException
+    {
+    	// TODO
     }
  	
 	public void loadXML(Node stepnode, List<DatabaseMeta> databases, Map<String, Counter> counters)

@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.util.PluginPropertyHandler.LoadXml;
 import org.pentaho.di.core.util.PluginPropertyHandler.ReadFromPreferences;
@@ -49,151 +50,170 @@ import org.w3c.dom.Node;
  * 
  */
 /**
- * @author <a href="mailto:michael.gugerell@aschauer-edv.at">Michael Gugerell(asc145)</a>
+ * @author <a href="mailto:michael.gugerell@aschauer-edv.at">Michael
+ *         Gugerell(asc145)</a>
  * 
  */
-public abstract class AbstractStepMeta extends BaseStepMeta implements StepMetaInterface {
+public abstract class AbstractStepMeta extends BaseStepMeta implements
+		StepMetaInterface {
 
-    private static final String CONNECTION_NAME = "connection";
+	private static final String CONNECTION_NAME = "connection";
 
-    private final PluginPropertyFactory propertyFactory = new PluginPropertyFactory(new KeyValueSet());
+	private final PluginPropertyFactory propertyFactory = new PluginPropertyFactory(
+			new KeyValueSet());
 
-    private DatabaseMeta dbMeta;
+	private DatabaseMeta dbMeta;
 
-    private StringPluginProperty connectionName;
+	private StringPluginProperty connectionName;
 
-    /**
-     * Default constructor.
-     */
-    public AbstractStepMeta() {
-        super();
-        this.connectionName = this.propertyFactory.createString(CONNECTION_NAME);
-    }
+	/**
+	 * Default constructor.
+	 */
+	public AbstractStepMeta() {
+		super();
+		this.connectionName = this.propertyFactory
+				.createString(CONNECTION_NAME);
+	}
 
-    /**
-     * @return the propertyFactory
-     */
-    public PluginPropertyFactory getPropertyFactory() {
-        return this.propertyFactory;
-    }
+	/**
+	 * @return the propertyFactory
+	 */
+	public PluginPropertyFactory getPropertyFactory() {
+		return this.propertyFactory;
+	}
 
-    /**
-     * @return the properties
-     */
-    public KeyValueSet getProperties() {
-        return this.propertyFactory.getProperties();
-    }
+	/**
+	 * @return the properties
+	 */
+	public KeyValueSet getProperties() {
+		return this.propertyFactory.getProperties();
+	}
 
-    /**
-     * Saves properties to preferences.
-     * 
-     * @throws BackingStoreException
-     *             ...
-     */
-    public void saveAsPreferences() throws BackingStoreException {
-        final Preferences node = Preferences.userNodeForPackage(this.getClass());
-        this.getProperties().walk(new SaveToPreferences(node));
-        node.flush();
-    }
+	/**
+	 * Saves properties to preferences.
+	 * 
+	 * @throws BackingStoreException
+	 *             ...
+	 */
+	public void saveAsPreferences() throws BackingStoreException {
+		final Preferences node = Preferences
+				.userNodeForPackage(this.getClass());
+		this.getProperties().walk(new SaveToPreferences(node));
+		node.flush();
+	}
 
-    /**
-     * Read properties from preferences.
-     */
-    public void readFromPreferences() {
-        final Preferences node = Preferences.userNodeForPackage(this.getClass());
-        this.getProperties().walk(new ReadFromPreferences(node));
-    }
+	/**
+	 * Read properties from preferences.
+	 */
+	public void readFromPreferences() {
+		final Preferences node = Preferences
+				.userNodeForPackage(this.getClass());
+		this.getProperties().walk(new ReadFromPreferences(node));
+	}
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.pentaho.di.trans.step.StepMetaInterface#loadXML(org.w3c.dom.Node, java.util.List, java.util.Map)
-     */
-    public void loadXML(final Node node, final List<DatabaseMeta> databaseMeta, final Map<String, Counter> counters)
-            throws KettleXMLException {
-        this.getProperties().walk(new LoadXml(node));
-        initDbMeta(databaseMeta);
-    }
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.pentaho.di.trans.step.StepMetaInterface#loadXML(org.w3c.dom.Node,
+	 *      java.util.List, java.util.Map)
+	 */
+	public void loadXML(final Node node, final List<DatabaseMeta> databaseMeta,
+			final Map<String, Counter> counters) throws KettleXMLException {
+		this.getProperties().walk(new LoadXml(node));
+		initDbMeta(databaseMeta);
+	}
 
-    /**
-     * @param databaseList
-     *            A list of available DatabaseMeta in this transformation.
-     */
-    private void initDbMeta(final List<DatabaseMeta> databaseList) {
-        if (!StringUtils.isEmpty(this.connectionName.getValue())) {
-            this.dbMeta = DatabaseMeta.findDatabase(databaseList, this.connectionName.getValue());
-        }
-    }
+	@Override
+	public void loadPage(Map<String, List<String>> parameterHolder)
+			throws KettlePageException {
+		// TODO
+	}
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.pentaho.di.trans.step.BaseStepMeta#getXML()
-     */
-    @Override
-    public String getXML() throws KettleException {
-        return PluginPropertyHandler.toXml(this.getProperties());
-    }
+	/**
+	 * @param databaseList
+	 *            A list of available DatabaseMeta in this transformation.
+	 */
+	private void initDbMeta(final List<DatabaseMeta> databaseList) {
+		if (!StringUtils.isEmpty(this.connectionName.getValue())) {
+			this.dbMeta = DatabaseMeta.findDatabase(databaseList,
+					this.connectionName.getValue());
+		}
+	}
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.pentaho.di.trans.step.StepMetaInterface#readRep(org.pentaho.di.repository.Repository, long,
-     *      java.util.List, java.util.Map)
-     */
-    public void readRep(final Repository repo, final ObjectId stepId, final List<DatabaseMeta> databaseList,
-            final Map<String, Counter> counters) throws KettleException {
-    	PluginPropertyHandler.walk(this.getProperties(), new ReadFromRepository(repo, stepId));
-        initDbMeta(databaseList);
-    }
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.pentaho.di.trans.step.BaseStepMeta#getXML()
+	 */
+	@Override
+	public String getXML() throws KettleException {
+		return PluginPropertyHandler.toXml(this.getProperties());
+	}
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.pentaho.di.trans.step.StepMetaInterface#saveRep(org.pentaho.di.repository.Repository, long, long)
-     */
-    public void saveRep(final Repository repo, final ObjectId transformationId, final ObjectId stepId) throws KettleException {
-        final SaveToRepository handler = new SaveToRepository(repo, transformationId, stepId);
-        PluginPropertyHandler.walk(this.getProperties(), handler);
-    }
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.pentaho.di.trans.step.StepMetaInterface#readRep(org.pentaho.di.repository.Repository,
+	 *      long, java.util.List, java.util.Map)
+	 */
+	public void readRep(final Repository repo, final ObjectId stepId,
+			final List<DatabaseMeta> databaseList,
+			final Map<String, Counter> counters) throws KettleException {
+		PluginPropertyHandler.walk(this.getProperties(),
+				new ReadFromRepository(repo, stepId));
+		initDbMeta(databaseList);
+	}
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.pentaho.di.trans.step.StepMetaInterface#getStepData()
-     */
-    public StepDataInterface getStepData() {
-        // you may be override this.
-        return new GenericStepData();
-    }
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.pentaho.di.trans.step.StepMetaInterface#saveRep(org.pentaho.di.repository.Repository,
+	 *      long, long)
+	 */
+	public void saveRep(final Repository repo, final ObjectId transformationId,
+			final ObjectId stepId) throws KettleException {
+		final SaveToRepository handler = new SaveToRepository(repo,
+				transformationId, stepId);
+		PluginPropertyHandler.walk(this.getProperties(), handler);
+	}
 
-    /**
-     * @return the connectionName
-     */
-    public StringPluginProperty getConnectionName() {
-        return this.connectionName;
-    }
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.pentaho.di.trans.step.StepMetaInterface#getStepData()
+	 */
+	public StepDataInterface getStepData() {
+		// you may be override this.
+		return new GenericStepData();
+	}
 
-    /**
-     * @param connectionName
-     *            the connectionName to set
-     */
-    public void setConnectionName(final StringPluginProperty connectionName) {
-        this.connectionName = connectionName;
-    }
+	/**
+	 * @return the connectionName
+	 */
+	public StringPluginProperty getConnectionName() {
+		return this.connectionName;
+	}
 
-    /**
-     * @return the dbMeta
-     */
-    public DatabaseMeta getDbMeta() {
-        return this.dbMeta;
-    }
+	/**
+	 * @param connectionName
+	 *            the connectionName to set
+	 */
+	public void setConnectionName(final StringPluginProperty connectionName) {
+		this.connectionName = connectionName;
+	}
 
-    /**
-     * @param dbMeta
-     *            the dbMeta to set
-     */
-    public void setDbMeta(final DatabaseMeta dbMeta) {
-        this.dbMeta = dbMeta;
-    }
+	/**
+	 * @return the dbMeta
+	 */
+	public DatabaseMeta getDbMeta() {
+		return this.dbMeta;
+	}
+
+	/**
+	 * @param dbMeta
+	 *            the dbMeta to set
+	 */
+	public void setDbMeta(final DatabaseMeta dbMeta) {
+		this.dbMeta = dbMeta;
+	}
 }

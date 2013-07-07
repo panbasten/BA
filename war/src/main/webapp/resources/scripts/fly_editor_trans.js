@@ -572,11 +572,12 @@ Plywet.editors.trans.action = {
     			modalMessage : "正在保存...",
     			params : {
     				val : flow.getElsValue()
+    			},
+    			onsuccess : function(){
+    				diEditorPageTabs.setTabModify(null, false);
     			}
     		});
     	}
-    	
-    	diEditorPageTabs.setTabModify(null, false);
     },
     
     // @Override 必要方法：用于在Tab发生修改时，点击保存按钮调用的方法。
@@ -777,6 +778,10 @@ Plywet.editors.trans.action = {
 						Plywet.ab({
 							formId : "form:"+dialogId,
 							formAction : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/save",
+							params : {
+								dx : model.dx,
+								dy : model.dy
+							},
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[dialogId + "_var"].hide();

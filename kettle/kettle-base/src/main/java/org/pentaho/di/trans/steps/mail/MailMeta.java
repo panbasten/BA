@@ -33,6 +33,7 @@ import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.encryption.Encr;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.core.xml.XMLHandler;
@@ -156,6 +157,13 @@ public class MailMeta extends BaseStepMeta implements StepMetaInterface
 	{
 		super(); // allocate BaseStepMeta
 	}
+    
+    @Override
+    public void loadPage(Map<String, List<String>> parameterHolder)
+    	throws KettlePageException
+    {
+    	// TODO
+    }
 
 	public void loadXML(Node stepnode, List<DatabaseMeta> databases, Map<String, Counter> counters)
 	throws KettleXMLException

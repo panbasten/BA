@@ -371,6 +371,13 @@ public class GaInputStepMeta extends BaseStepMeta implements StepMetaInterface {
 
 		return retval.toString();
 	}
+    
+    @Override
+    public void loadPage(Map<String, List<String>> parameterHolder)
+    	throws KettlePageException
+    {
+    	// TODO
+    }
 
 	public void loadXML(Node stepnode, List<DatabaseMeta> databases, Map<String, Counter> counters) throws KettleXMLException {
 

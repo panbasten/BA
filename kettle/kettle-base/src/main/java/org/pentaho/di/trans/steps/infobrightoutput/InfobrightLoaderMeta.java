@@ -30,6 +30,7 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.repository.ObjectId;
@@ -162,6 +163,13 @@ public class InfobrightLoaderMeta extends TableOutputMeta implements StepMetaInt
     } catch(Exception e) {
       throw new KettleXMLException("Unable to load step info from XML", e);
     }
+  }
+  
+  @Override
+  public void loadPage(Map<String, List<String>> parameterHolder)
+  	throws KettlePageException
+  {
+  	// TODO
   }
 
   @Override

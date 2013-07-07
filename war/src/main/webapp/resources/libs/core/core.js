@@ -967,11 +967,6 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
             form = $(Plywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
         }
         
-//        //source has no parent form so use first form in document
-//        if(!form || form.length == 0) {
-//            form = $('form').eq(0);
-//        }
-        
         if(cfg.formAction){
         	ajaxURL = cfg.formAction;
         }else if(form && form.length>0){
@@ -981,19 +976,34 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
     	}
         
     	if (form && form.length>0 && $.fn.form) {
+    		
+    		//params
+    	    if(cfg.params) {
+    	        ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(cfg.params);
+    	    }
+    	    if(ext && ext.params) {
+    	        ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(ext.params);
+    	    }
+    	    
+    	    if(ajaxParams && ajaxParams.length > 0){
+    	    	if(ajaxURL.indexOf("?")<0){
+    	    		ajaxURL = ajaxURL + "?";
+    	    	}
+    	    	ajaxURL = ajaxURL + ajaxParams;
+    	    }
+    		
         	//form ajax submit
         	form.form("submit", {
         		url : ajaxURL,
         		dataType : "json",
         		onSubmit : function(data){
-        		console.log(data);
 	        		if(cfg.modal){
 	        			if(cfg.modalMessage){
 	        				Plywet.desktop.changeMarkText(cfg.modalMessage);
 	        			}
 	        			Plywet.desktop.triggerMark(true);
 	        		}
-	        		// 判断是否有DataGrid对象
+	        		// 判断是否有DataGrid对象  TODO 合并到jqueryForm中
 	        		$(this).find(".ui-datagrid .ui-datagrid-original").each(
         				function(idx, dom){
         					var $dom = $(dom);
@@ -1067,12 +1077,12 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         	});
         	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
         	return;
-    	} else {
-    		if(form && form.length>0){
-    			ajaxParams = form.serialize();
-    		}
     	}
     }
+    
+    if(form && form.length>0){
+		ajaxParams = form.serialize();
+	}
 
     //params
     if(cfg.params) {

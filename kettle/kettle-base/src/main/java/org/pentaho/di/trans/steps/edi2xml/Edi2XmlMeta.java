@@ -62,6 +62,13 @@ public class Edi2XmlMeta extends BaseStepMeta implements StepMetaInterface {
 		}
 
 	}
+	
+	@Override
+    public void loadPage(Map<String, List<String>> parameterHolder)
+    	throws KettlePageException
+    {
+    	// TODO
+    }
 
 	public void readRep(Repository rep, ObjectId id_step, List<DatabaseMeta> databases, Map<String, Counter> counters) throws KettleException {
 		try {

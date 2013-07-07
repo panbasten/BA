@@ -48,6 +48,10 @@ public class ParameterContext {
 		}
 	}
 
+	public Map<String, List<String>> getParameterHolder() {
+		return parameterHolder;
+	}
+
 	/**
 	 * 从参数上下文中根据参数名获取对应的参数值 如果对应的值为多个则返回第一个
 	 * 

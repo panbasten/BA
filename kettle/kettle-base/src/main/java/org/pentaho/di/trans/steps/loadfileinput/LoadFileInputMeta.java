@@ -32,6 +32,7 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.fileinput.FileInputList;
@@ -484,6 +485,12 @@ public class LoadFileInputMeta extends BaseStepMeta implements StepMetaInterface
         this.encoding = encoding;
     }
 
+    @Override
+    public void loadPage(Map<String, List<String>> parameterHolder)
+    	throws KettlePageException
+    {
+    	// TODO
+    }
     
     public void loadXML(Node stepnode, List<DatabaseMeta> databases, Map<String, Counter> counters)
 	throws KettleXMLException

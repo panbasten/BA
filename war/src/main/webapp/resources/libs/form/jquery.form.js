@@ -25,6 +25,7 @@
 				});
 		var t = form.attr("target"), a = form.attr("action");
 		form.attr("target", frameId);
+		
 		try {
 			frame.appendTo("body");
 			frame.bind("load", cb);
