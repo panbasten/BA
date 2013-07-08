@@ -767,6 +767,7 @@ Plywet.editors.trans.action = {
 			height : h,
 			autoOpen : true,
 			showHeader : true,
+			modal : true,
 			url : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/"+model.provider,
 			footerButtons : [{
 				componentType : "fly:PushButton",

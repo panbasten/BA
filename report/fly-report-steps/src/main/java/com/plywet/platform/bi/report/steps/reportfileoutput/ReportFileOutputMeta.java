@@ -7,6 +7,7 @@ import org.pentaho.di.core.CheckResultInterface;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.repository.ObjectId;
@@ -71,6 +72,13 @@ public class ReportFileOutputMeta extends BaseStepMeta implements
 	public void setDefault() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void loadPage(Map<String, List<String>> parameterHolder)
+			throws KettlePageException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -33,6 +33,7 @@ import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMetaInterface;
@@ -348,6 +349,13 @@ public class MondrianInputMeta extends BaseStepMeta implements StepMetaInterface
 		} catch (Exception e) {
 			throw new KettleException(e); //$NON-NLS-1$
 		}
+	}
+
+	@Override
+	public void loadPage(Map<String, List<String>> parameterHolder)
+			throws KettlePageException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

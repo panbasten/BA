@@ -30,6 +30,7 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.Counter;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMeta;
@@ -330,4 +331,11 @@ public class OlapInputMeta extends BaseStepMeta implements StepMetaInterface
 		data.outputRowMeta = this.createRowMeta(data.olapHelper.getHeaderValues(), data.olapHelper.getCellValues()).clone(); 
     		
     }
+
+	@Override
+	public void loadPage(Map<String, List<String>> parameterHolder)
+			throws KettlePageException {
+		// TODO Auto-generated method stub
+		
+	}
 }
