@@ -29,6 +29,7 @@ import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.web.entity.ActionMessage;
 import com.plywet.platform.bi.web.entity.AjaxResult;
 import com.plywet.platform.bi.web.entity.AjaxResultEntity;
+import com.plywet.platform.bi.web.functions.DIFunctions;
 import com.plywet.platform.bi.web.model.ParameterContext;
 import com.plywet.platform.bi.web.service.BIPageDelegates;
 import com.plywet.platform.bi.web.service.impl.BIPageServices;
@@ -56,6 +57,8 @@ public class BITransJobResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviContentTrans(
 			@CookieParam("repository") String repository) throws BIException {
+		// 注册方法
+		DIFunctions.register();
 		return buildNaviContent(repository, BIPageServices.DIRECTORY_ROOT_ID,
 				true);
 	}

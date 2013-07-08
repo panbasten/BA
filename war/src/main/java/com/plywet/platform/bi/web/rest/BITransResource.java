@@ -23,7 +23,6 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
-import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
@@ -37,7 +36,6 @@ import com.plywet.platform.bi.component.components.flow.FlowHop;
 import com.plywet.platform.bi.component.components.flow.FlowStep;
 import com.plywet.platform.bi.component.components.flow.step.PictureStep;
 import com.plywet.platform.bi.component.components.grid.GridDataObject;
-import com.plywet.platform.bi.component.components.selectMenu.OptionsData;
 import com.plywet.platform.bi.component.utils.FLYVariableResolver;
 import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.component.utils.PageTemplateInterpolator;
@@ -219,22 +217,6 @@ public class BITransResource {
 			TransMeta transMeta = transDelegates.loadTransformation(repository,
 					idL);
 			attrsMap.addVariable("transMeta", transMeta);
-
-			// 转换状态选项
-			attrsMap
-					.addVariable(
-							"transStatusOptions",
-							OptionsData
-									.instance(
-											new String[] {
-													"",
-													BaseMessages
-															.getString(PKG,
-																	"Page.Trans.Transstatus.Draft.Label"),
-													BaseMessages
-															.getString(PKG,
-																	"Page.Trans.Transstatus.Production.Label") })
-									.getOptions());
 
 			// 命名参数
 			String[] keyArr = transMeta.listParameters();

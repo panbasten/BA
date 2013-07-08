@@ -19,8 +19,21 @@ public class FLYFunctionMapper implements FunctionMapper {
 
 	private Map<String, Method> mappings = new HashMap<String, Method>();
 
+	private Map<String, String> prefixes = new HashMap<String, String>();
+
 	private FLYFunctionMapper() {
 		registerFunctions(null, FLYSystemFunctions.class);
+	}
+
+	public void register(String prefix, Class<?> clazz) {
+		if (prefix != null && !"".equals(prefix.trim())) {
+			prefixes.put(prefix.trim(), "");
+			registerFunctions(prefix.trim(), clazz);
+		}
+	}
+
+	public boolean contains(String prefix) {
+		return prefixes.containsKey(prefix);
 	}
 
 	private void registerFunctions(String prefix, Class<?> clazz) {

@@ -40,7 +40,7 @@
 		<fly:gridLayoutItem>
 			<fly:selectMenu id="${formId}:transstatus" name="${formId}:transstatus" type="text"
 				value="${transMeta.transstatus}">
-				<fly:options items="${transStatusOptions}" value="0" label="1" />
+				<fly:options items="${di:transStatusOptions()}" value="0" label="1" />
 			</fly:selectMenu>
 		</fly:gridLayoutItem>
 		
