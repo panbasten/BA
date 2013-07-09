@@ -215,12 +215,13 @@ fieldset.ui-state-disabled legend,
 	background-image: url("images/ui-icons_898989_256x384.png");
 }
 
-.ui-state-default .ui-icon, .hover .ui-icon
+.ui-dialog-content .ui-state-default .ui-icon,
+.ui-dialog-content .hover .ui-icon
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
 }
-.ui-state-hover .ui-icon, 
-.ui-state-focus .ui-icon
+.ui-dialog-content .ui-icon, 
+.ui-dialog-content .ui-icon
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
 }

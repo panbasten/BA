@@ -38,10 +38,10 @@
 			<fly:labelObject buddy="${formId}:transstatus" text="状态" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:selectMenu id="${formId}:transstatus" name="${formId}:transstatus" type="text"
+			<fly:comboBox id="${formId}:transstatus" name="${formId}:transstatus" type="text"
 				value="${transMeta.transstatus}">
 				<fly:options items="${di:transStatusOptions()}" value="0" label="1" />
-			</fly:selectMenu>
+			</fly:comboBox>
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>

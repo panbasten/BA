@@ -63,7 +63,7 @@
 			cls : "ui-combo-p",
 			style : {
 				position : "absolute",
-				zIndex : 10
+				zIndex : 9999
 			},
 			onOpen : function() {
 				$(this).panel("resize");

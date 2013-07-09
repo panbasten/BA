@@ -66,7 +66,7 @@ Plywet.widget.Dialog = function(cfg) {
     if(this.cfg.autoMaximized){
     	this.toggleMaximize();
     }
-}
+};
 
 Plywet.extend(Plywet.widget.Dialog, Plywet.widget.BaseWidget);
 
@@ -210,12 +210,42 @@ Plywet.widget.Dialog.prototype.enableModality = function() {
             return false;
         }
     });
-}
+};
+
+Plywet.widget.Dialog.prototype.destroy = function(){
+	console.log(this.jq);
+	if ($.fn.combo) {
+		this.jq.find(".ui-combo-f").combo("destroy");
+	}
+	if ($.fn.combobox) {
+		this.jq.find(".ui-combobox-f").combobox("destroy");
+	}
+	if ($.fn.combotree) {
+		this.jq.find(".ui-combotree-f").combotree("destroy");
+	}
+	if ($.fn.combogrid) {
+		this.jq.find(".ui-combogrid-f").combogrid("destroy");
+	}
+	if ($.fn.spinner) {
+		this.jq.find("ui-.spinner-f").spinner("destroy");
+	}
+	if ($.fn.timespinner) {
+		this.jq.find(".ui-timespinner-f").timespinner("destroy");
+	}
+	if ($.fn.numberbox) {
+		this.jq.find(".ui-numberbox-f").numberbox("destroy");
+	}
+	if ($.fn.numberspinner) {
+		this.jq.find(".ui-numberspinner-f").numberspinner("destroy");
+	}
+	
+	this.jq.remove();
+};
 
 Plywet.widget.Dialog.prototype.disableModality = function(){
     $(document.body).children(this.jqId + '_modal').remove();
     $(document).unbind(this.blockEvents).unbind('keydown.dialog');
-}
+};
 
 Plywet.widget.Dialog.prototype.syncWindowResize = function() {
     $(window).resize(function() {
@@ -224,7 +254,7 @@ Plywet.widget.Dialog.prototype.syncWindowResize = function() {
             ,'height': $(document).height()
         });
     });
-}
+};
 
 Plywet.widget.Dialog.prototype.show = function() {
     if(this.visible) {
@@ -241,7 +271,7 @@ Plywet.widget.Dialog.prototype.show = function() {
         
         this._show();
     }
-}
+};
 
 Plywet.widget.Dialog.prototype._show = function() {
     //replace visibility hidden with display none for effect support
@@ -270,14 +300,14 @@ Plywet.widget.Dialog.prototype._show = function() {
     
     if(this.cfg.modal)
         this.enableModality();
-}
+};
 
 Plywet.widget.Dialog.prototype.postShow = function() {   
     //execute user defined callback
     if(this.cfg.onShow) {
         this.cfg.onShow.call(this);
     }
-}
+};
 
 Plywet.widget.Dialog.prototype.hide = function() {   
     if(!this.visible) {
@@ -306,17 +336,17 @@ Plywet.widget.Dialog.prototype.hide = function() {
     });
     
     if(this.realRemove) {
-    	this.jq.remove();
+    	this.destroy();
     }
     
     if(this.cfg.modal) {
         this.disableModality();
     }
-}
+};
 
 Plywet.widget.Dialog.prototype.focusFirstInput = function() {
     this.jq.find(':not(:submit):not(:button):input:visible:enabled:first').focus();
-}
+};
 
 Plywet.widget.Dialog.prototype.bindEvents = function() {   
     var _self = this;
@@ -351,7 +381,7 @@ Plywet.widget.Dialog.prototype.bindEvents = function() {
 	        e.preventDefault();
 	    });
     }
-}
+};
 
 Plywet.widget.Dialog.prototype.setupDraggable = function() {    
     this.jq.draggable({
@@ -359,7 +389,7 @@ Plywet.widget.Dialog.prototype.setupDraggable = function() {
         handle: '.ui-dialog-titlebar',
         containment : 'document'
     });
-}
+};
 
 Plywet.widget.Dialog.prototype.setupResizable = function() {
     var _self = this;
@@ -378,7 +408,7 @@ Plywet.widget.Dialog.prototype.setupResizable = function() {
     });
     
     this.resizers = this.jq.children('.ui-resizable-handle');
-}
+};
 
 Plywet.widget.Dialog.prototype.initPosition = function() {
     //reset
@@ -416,7 +446,7 @@ Plywet.widget.Dialog.prototype.initPosition = function() {
     }
     
     this.positionInitialized = true;
-}
+};
 
 Plywet.widget.Dialog.prototype.onHide = function(event, ui) {
     if(this.cfg.onHide) {
@@ -430,11 +460,11 @@ Plywet.widget.Dialog.prototype.onHide = function(event, ui) {
             closeBehavior.call(this);
         }
     }
-}
+};
 
 Plywet.widget.Dialog.prototype.moveToTop = function() {
     this.jq.css('z-index', ++Plywet.zindex);
-}
+};
 
 /**
  * 改变子元素尺寸
@@ -444,7 +474,7 @@ Plywet.widget.Dialog.prototype.resizeSub = function() {
 		.each(function() {
 			$(this).triggerHandler("_resize", [ true ]);
 		});
-}
+};
 
 Plywet.widget.Dialog.prototype.toggleMaximize = function() {
     
@@ -489,7 +519,7 @@ Plywet.widget.Dialog.prototype.toggleMaximize = function() {
         }
         this.maximized = true;
     }
-}
+};
 
 Plywet.widget.Dialog.prototype.saveState = function() {
     this.state = {
@@ -501,7 +531,7 @@ Plywet.widget.Dialog.prototype.saveState = function() {
     this.state.offset = this.jq.offset();
     this.state.windowScrollLeft = win.scrollLeft();
     this.state.windowScrollTop = win.scrollTop();
-}
+};
 
 Plywet.widget.Dialog.prototype.restoreState = function(includeOffset) {
     this.jq.width(this.state.width).height("auto");
@@ -512,7 +542,7 @@ Plywet.widget.Dialog.prototype.restoreState = function(includeOffset) {
        top: this.state.offset.top + (win.scrollTop() - this.state.windowScrollTop)
        ,left: this.state.offset.left + (win.scrollLeft() - this.state.windowScrollLeft)
     });
-}
+};
 
 Plywet.widget.Dialog.prototype.loadContents = function() {
     var options = {
@@ -555,7 +585,7 @@ Plywet.widget.Dialog.prototype.loadContents = function() {
     options.params = params;
 
     Plywet.ajax.AjaxRequest(options);
-}
+};
 
 /**
  * PrimeFaces ConfirmDialog Widget
@@ -638,17 +668,18 @@ Plywet.widget.ConfirmDialog = function(cfg) {
     }
     this.createContentDom(cfg);
     Plywet.widget.Dialog.call(this, cfg);
-}
+};
 
 Plywet.widget.ConfirmDialog.prototype = Plywet.widget.Dialog.prototype;
 
 Plywet.widget.ConfirmDialog.prototype.changeTitle = function(title){
 	this.jq.find("div.ui-dialog-titlebar span").html(title);
-}
+};
 
 Plywet.widget.ConfirmDialog.prototype.changeContent = function(img,content){
 	this.jq.find("div.ui-dialog-content p").html('<span class="ui-icon ui-icon-'+img+'" style="float: left; margin: 0pt 7px 20px 0pt;"></span>'+content);
-}
+};
+
 Plywet.widget.ConfirmDialog.prototype.createContentDom =function(cfg){
 	 var contentDom=document.createElement("div");
 	 $(contentDom).addClass(cfg.type);
@@ -660,4 +691,4 @@ Plywet.widget.ConfirmDialog.prototype.createContentDom =function(cfg){
 	 $(contentDom).append(icon);
 	 $(contentDom).append(span);
 	 cfg.content=contentDom;
-}
+};

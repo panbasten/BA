@@ -84,7 +84,7 @@ public class FLYSelectMenuResolver extends BaseComponentResolver implements
 		}
 	}
 
-	private void getOptions(Node node, HTMLWriter html, List<String> script,
+	protected void getOptions(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String val) {
 		// 子节点类型，一种是option，一种是options
 		NodeList nodeList = node.getChildNodes();

@@ -419,6 +419,13 @@ Plywet.widget.ComboBox = function(cfg) {
 	this.id = this.cfg.id;
 	this.jqId = Plywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
+	
+	// width
+	var w = this.jq.width();
+	if(w>0){
+		this.cfg.width = w;
+	}
+	
 	this.init();
 };
 Plywet.extend(Plywet.widget.ComboBox, Plywet.widget.BaseWidget);

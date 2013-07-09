@@ -701,10 +701,6 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 .ui-dialog .ui-dialog-content select,
 .ui-dialog .ui-dialog-content textarea {
 	background: none repeat scroll 0 0 transparent;
-	border: 1px solid #cccccc;
-	-moz-border-radius: 5px; 
-	-webkit-border-radius: 5px; 
-	border-radius: 5px;
 }
 .ui-dialog .ui-dialog-content input:focus,
 .ui-dialog .ui-dialog-content select:focus,

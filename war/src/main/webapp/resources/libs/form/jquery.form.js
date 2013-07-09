@@ -206,28 +206,28 @@
 		target.reset();
 		var t = $(target);
 		if ($.fn.combo) {
-			t.find(".combo-f").combo("reset");
+			t.find(".ui-combo-f").combo("reset");
 		}
 		if ($.fn.combobox) {
-			t.find(".combobox-f").combobox("reset");
+			t.find(".ui-combobox-f").combobox("reset");
 		}
 		if ($.fn.combotree) {
-			t.find(".combotree-f").combotree("reset");
+			t.find(".ui-combotree-f").combotree("reset");
 		}
 		if ($.fn.combogrid) {
-			t.find(".combogrid-f").combogrid("reset");
+			t.find(".ui-combogrid-f").combogrid("reset");
 		}
 		if ($.fn.spinner) {
-			t.find(".spinner-f").spinner("reset");
+			t.find(".ui-spinner-f").spinner("reset");
 		}
 		if ($.fn.timespinner) {
-			t.find(".timespinner-f").timespinner("reset");
+			t.find(".ui-timespinner-f").timespinner("reset");
 		}
 		if ($.fn.numberbox) {
-			t.find(".numberbox-f").numberbox("reset");
+			t.find(".ui-numberbox-f").numberbox("reset");
 		}
 		if ($.fn.numberspinner) {
-			t.find(".numberspinner-f").numberspinner("reset");
+			t.find(".ui-numberspinner-f").numberspinner("reset");
 		}
 		validate(target);
 	}
