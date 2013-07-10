@@ -213,7 +213,6 @@ Plywet.widget.Dialog.prototype.enableModality = function() {
 };
 
 Plywet.widget.Dialog.prototype.destroy = function(){
-	console.log(this.jq);
 	if ($.fn.combo) {
 		this.jq.find(".ui-combo-f").combo("destroy");
 	}

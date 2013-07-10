@@ -399,16 +399,20 @@ public class BITransResource {
 	@Path("/step/{transId}/{stepMetaName}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void saveTransStep(@CookieParam("repository") String repository,
+	public String saveTransStep(@CookieParam("repository") String repository,
 			@PathParam("transId") String transId,
 			@PathParam("stepMetaName") String stepMetaName,
 			@QueryParam("dx") String dx, @QueryParam("dy") String dy,
-			String body) {
+			String body) throws BIJSONException {
+		ActionMessage am = ActionMessage.instance();
+		String transName = transId;
 		try {
 
 			Long idL = Long.valueOf(transId);
 			TransMeta transMeta = transDelegates.loadTransformation(repository,
 					idL);
+
+			transName = transMeta.getName();
 
 			StepMeta stepMeta = transMeta.findStep(stepMetaName);
 			stepMeta.setLocation(Integer.valueOf(dx), Integer.valueOf(dy));
@@ -419,10 +423,16 @@ public class BITransResource {
 			// 设置具体的stepMeta
 			stepMeta.getStepMetaInterface().loadPage(
 					paramContext.getParameterHolder());
+			return am.success(
+					"保存转换【" + transName + "】步骤【" + stepMetaName + "】设置成功！")
+					.toJSONString();
 
 		} catch (Exception e) {
-
+			log.error("保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。");
 		}
+		return am.failure(
+				"保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。")
+				.toJSONString();
 	}
 
 	/**

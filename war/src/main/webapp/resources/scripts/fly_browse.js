@@ -128,7 +128,8 @@ Plywet.browse = {
 	openFileSettingByContext : function(event){
 		var data = Plywet.browse.TEMP.contextObjectData;
 		var category = data.data.category;
-		Plywet.cw("Dialog","dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var",{
+		var dialog_var = "dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var";
+		Plywet.cw("Dialog",dialog_var,{
 			id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
 			header : "设置【"+data.attrs.displayName+"】",
 			width : 700,
@@ -145,8 +146,14 @@ Plywet.browse = {
 				events : {
 					"click" : function(){
 						Plywet.ab({
-							formId : "db_"+data.data.id,
+							formId : category+"_"+data.data.id,
 							formAction : "rest/"+data.attrs.src+"/setting/save",
+							onsuccess: function (data, status, xhr) {
+								if (data.state == 0) {
+                                	window[dialog_var].hide();
+                                	// 刷新页面 TODO
+                                }
+							}
 						});
 					}
 				}

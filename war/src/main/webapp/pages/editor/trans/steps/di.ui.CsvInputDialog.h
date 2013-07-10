@@ -1,7 +1,6 @@
-<form id="${formId}" class="fly-dialog-form" method="post">
+<form id="${formId}" class="fly-dialog-form">
 	<fly:tabView id="${formId}_tab" >
 		<fly:tab id="tab_base" title="基本">
-
 
 			<fly:gridLayout column="4" itemWidth="20%,29%,20%,29%" itemMargin="10">
 				<fly:gridLayoutItem>

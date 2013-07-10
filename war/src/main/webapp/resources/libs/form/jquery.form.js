@@ -188,16 +188,16 @@
 					}
 				});
 		if ($.fn.combo) {
-			$(".combo-f", target).combo("clear");
+			$(".ui-combo-f", target).combo("clear");
 		}
 		if ($.fn.combobox) {
-			$(".combobox-f", target).combobox("clear");
+			$(".ui-combobox-f", target).combobox("clear");
 		}
 		if ($.fn.combotree) {
-			$(".combotree-f", target).combotree("clear");
+			$(".ui-combotree-f", target).combotree("clear");
 		}
 		if ($.fn.combogrid) {
-			$(".combogrid-f", target).combogrid("clear");
+			$(".ui-combogrid-f", target).combogrid("clear");
 		}
 		validate(target);
 	}

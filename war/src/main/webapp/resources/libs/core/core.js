@@ -991,7 +991,6 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
     	    	}
     	    	ajaxURL = ajaxURL + ajaxParams;
     	    }
-    		
         	//form ajax submit
         	form.form("submit", {
         		url : ajaxURL,
@@ -1029,7 +1028,6 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 	                Plywet.Logger.debug('Request form before send:' + status + '.');
         		},
         		success : function(data){
-        			
         			// 失败
         			if(data && data.state == 1){
             			if(cfg.onerror) {
@@ -1206,6 +1204,8 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 	if(Plywet.isObjNull(json)){return;}
 	
 	if(json instanceof Object){
+		// 如果是成功，显示提升框，如果是错误，显示提升对话框
+		// TODO
 		Plywet.ajax.ShowMessage(json);
 	}
 	
