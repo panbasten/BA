@@ -1,4 +1,4 @@
-<form id="${formId}" class="fly-dialog-form">
+<form id="${formId}" class="fly-dialog-form" method="post">
 	<fly:tabView id="${formId}_tab" >
 		<fly:tab id="tab_base" title="基本">
 
