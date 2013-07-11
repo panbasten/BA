@@ -1,5 +1,5 @@
 <div id="editorContent-navi-${entity.code}" class="fly-editor-tab">
-	<div id="editorContent-navi-report-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
+	<div id="editorContent-navi-${entity.code}-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
 		<div class="ui-toolbar-group-left" style="width: 20%;">
 			<ul>
 			</ul>
@@ -13,6 +13,6 @@
 			<fly:pushbutton icon="ui-icon-folder-open" label="下载" title="下载" onclick="Plywet.filesys.downloadFile()" />
 		</div>
 	</div>
-	<div id="editorContent-navi-report-bp" class="fly-editor-content-height-browse-panel">
+	<div id="editorContent-navi-${entity.code}-bp" class="fly-editor-content-height-browse-panel">
 	</div>
 </div>

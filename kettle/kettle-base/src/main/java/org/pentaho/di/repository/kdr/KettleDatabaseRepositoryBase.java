@@ -406,18 +406,6 @@ public class KettleDatabaseRepositoryBase {
 	public static final String FIELD_FILESYS_DIRECTORY_DESCRIPTION = "DESCRIPTION";
 	public static final String FIELD_FILESYS_DIRECTORY_NOTES = "NOTES";
 	
-	public static final String TABLE_R_HOST = "R_HOST";
-	public static final String FIELD_HOST_ID_HOST = "ID_HOST";
-	public static final String FIELD_HOST_CODE = "CODE";
-	public static final String FIELD_HOST_DESCRIPTION = "DESCRIPTION";
-	public static final String FIELD_HOST_IP = "IP";
-	public static final String FIELD_HOST_PORT = "PORT";
-	public static final String FIELD_HOST_USERNAME = "USERNAME";
-	public static final String FIELD_HOST_PASSWORD = "PASSWORD";
-	public static final String FIELD_HOST_TYPE = "TYPE";
-	public static final String FIELD_HOST_NOTES = "NOTES";
-	public static final String FIELD_HOST_MODE = "MODE";
-	
 	public static final String TABLE_R_REPORT = "R_REPORT";
 	public static final String FIELD_REPORT_ID_REPORT = "ID_REPORT";
 	public static final String FIELD_REPORT_ID_REPORT_DIRECTORY = "ID_REPORT_DIRECTORY";
@@ -432,6 +420,18 @@ public class KettleDatabaseRepositoryBase {
 	public static final String FIELD_REPORT_CREATE_DATE = "CREATE_DATE";
 	public static final String FIELD_REPORT_MODIFIED_USER = "MODIFIED_USER";
 	public static final String FIELD_REPORT_MODIFIED_DATE = "MODIFIED_DATE";
+	
+	public static final String TABLE_R_DOMAIN = "R_DOMAIN";
+	public static final String FIELD_DOMAIN_ID_DOMAIN = "ID_DOMAIN";
+	public static final String FIELD_DOMAIN_ID_DOMAIN_DIRECTORY = "ID_DOMAIN_DIRECTORY";
+	public static final String FIELD_DOMAIN_DOMAIN_TYPE = "DOMAIN_TYPE";
+	public static final String FIELD_DOMAIN_DESCRIPTION = "DESCRIPTION";
+	public static final String FIELD_DOMAIN_DOMAIN_VERSION = "DOMAIN_VERSION";
+	public static final String FIELD_DOMAIN_DOMAIN_STATUS = "DOMAIN_STATUS";
+	public static final String FIELD_DOMAIN_CREATE_USER = "CREATE_USER";
+	public static final String FIELD_DOMAIN_CREATE_DATE = "CREATE_DATE";
+	public static final String FIELD_DOMAIN_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_DOMAIN_MODIFIED_DATE = "MODIFIED_DATE";
 	
 	public static final String TABLE_R_ROLE = "R_ROLE";
 	public static final String FIELD_ROLE_ID_ROLE = "ID_ROLE";
@@ -494,7 +494,8 @@ public class KettleDatabaseRepositoryBase {
     		, TABLE_R_FUNC_TYPE
     		, TABLE_R_FILESYS_TYPE
     		, TABLE_R_FILESYS_DIRECTORY
-    		, TABLE_R_HOST
+    		, TABLE_R_REPORT
+    		, TABLE_R_DOMAIN
     		, TABLE_R_USER_ROLE
     		, TABLE_R_AUTHORIZATION
          };

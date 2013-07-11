@@ -93,8 +93,8 @@ public class BIReportResource {
 			return AjaxResult.instance().addEntity(transBCResult).addEntity(
 					browseResult).toJSONString();
 		} catch (Exception ex) {
-			logger.error("创建导航的转换内容页面出现错误。");
-			throw new BIException("创建导航的转换内容页面出现错误。", ex);
+			logger.error("创建导航的报表内容页面出现错误。");
+			throw new BIException("创建导航的报表内容页面出现错误。", ex);
 		}
 	}
 

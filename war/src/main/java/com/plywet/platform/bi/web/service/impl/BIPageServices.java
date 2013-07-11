@@ -48,7 +48,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 	@Override
 	public BreadCrumbMeta getParentDirectories(String repository, Long id)
 			throws BIException {
-		return parentDirectories(repository, id, "转换/作业", FILE_PATH_PREFIX);
+		return parentDirectories(repository, id, "数据整合", FILE_PATH_PREFIX);
 	}
 
 	@Override
