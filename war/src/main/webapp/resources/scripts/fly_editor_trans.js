@@ -31,8 +31,8 @@ Plywet.transjob = {
 				events: {
 					click:function(){
 						Plywet.ab({
-							type : "post",
-							source:"tj_folder_create_form",
+							formId:"tj_folder_create_form",
+							formAction:"rest/transjob/dir/createsubmit",
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[targetId + "_var"].hide();

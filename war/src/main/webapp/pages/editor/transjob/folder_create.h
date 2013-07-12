@@ -1,4 +1,4 @@
-<form action="rest/transjob/dir/createsubmit" method="post" id="tj_folder_create_form">
+<form method="post" id="tj_folder_create_form">
 
 	<fly:gridLayout column="2" itemWidth="30%,70%" itemMargin="10">
 		<fly:gridLayoutItem>
