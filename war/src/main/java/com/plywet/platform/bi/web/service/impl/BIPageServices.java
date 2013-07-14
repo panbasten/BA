@@ -22,7 +22,11 @@ import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.exception.BIJSONException;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
+import com.plywet.platform.bi.delegates.enums.BIDirectoryCategory;
+import com.plywet.platform.bi.delegates.enums.BIReportCategory;
+import com.plywet.platform.bi.delegates.intf.BIDomainAdaptor;
 import com.plywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
+import com.plywet.platform.bi.delegates.intf.BIReportAdaptor;
 import com.plywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.plywet.platform.bi.delegates.vo.FunctionType;
 import com.plywet.platform.bi.web.service.BIPageDelegates;
@@ -41,27 +45,113 @@ public class BIPageServices extends AbstractDirectoryServices implements
 
 	private static final String ICON_PATH = "resources/images/entities/";
 
-	public final static String FILE_PATH_PREFIX = "/transjob/dir/";
-
-	public final static long DIRECTORY_ROOT_ID = 0L;
-
 	@Override
-	public BreadCrumbMeta getParentDirectories(String repository, Long id)
-			throws BIException {
-		return parentDirectories(repository, id, "数据整合", FILE_PATH_PREFIX);
+	public BreadCrumbMeta getParentDirectories(String repository, Long id,
+			BIDirectoryCategory category) throws BIException {
+		return parentDirectories(repository, id, category.getDescription(), "/"
+				+ category.getId() + "/dir/", category);
 	}
 
 	@Override
-	public void getSubDirectory(String repository, Long id, BrowseMeta browse)
-			throws BIException {
-		subDirectory(repository, id, browse, FILE_PATH_PREFIX);
+	public void getSubDirectory(String repository, Long id, BrowseMeta browse,
+			BIDirectoryCategory category) throws BIException {
+		subDirectory(repository, id, browse, "/" + category.getId() + "/dir/",
+				category);
 	}
 
 	@Override
 	public void getSubDirectoryObject(String repository, Long id,
+			BrowseMeta browse, BIDirectoryCategory category) throws BIException {
+		// DI
+		if (category == BIDirectoryCategory.DI) {
+			getSubDirectoryObjectForDI(repository, id, browse);
+		}
+		// REPORT
+		else if (category == BIDirectoryCategory.REPORT) {
+			getSubDirectoryObjectForReport(repository, id, browse);
+		}
+		// DOMAIN
+		else if (category == BIDirectoryCategory.DOMAIN) {
+			getSubDirectoryObjectForDomain(repository, id, browse);
+		}
+	}
+
+	private void getSubDirectoryObjectForDomain(String repository, Long id,
 			BrowseMeta browse) throws BIException {
-		getSubDirctoryObjectByType(repository, Utils.CATEGORY_TRANS, id, browse);
-		getSubDirctoryObjectByType(repository, Utils.CATEGORY_JOB, id, browse);
+		// 获得该子目录下面的报表对象
+		BIDomainAdaptor adaptor = BIAdaptorFactory
+				.createAdaptor(BIDomainAdaptor.class);
+		List<Object[]> rows = adaptor
+				.getSubDirectoryObjects(String.valueOf(id));
+
+		if (rows == null) {
+			return;
+		}
+
+		for (Object[] r : rows) {
+			BrowseNodeMeta node = new BrowseNodeMeta();
+			String domainId = String.valueOf(r[0]);
+			String category = BIReportCategory.getCategoryById(
+					((Long) r[1]).intValue()).getCategory();
+			node.setId(domainId);
+			node.setCategory(category);
+			node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, String
+					.valueOf(r[3]));
+			String style = "ui-" + category + "-icon";
+			if (Utils.toBoolean(String.valueOf(r[2]), false)) {
+				style += "-ref";
+			}
+
+			node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, style);
+			node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
+			node.addAttribute(HTML.ATTR_SRC, category + "/open/" + domainId);
+			node.addEvent("mouseup", "Plywet.browse.showOperationForFile");
+			node.addEvent("dblclick", "Plywet.browse.openFile");
+			browse.addContent(node);
+		}
+	}
+
+	private void getSubDirectoryObjectForReport(String repository, Long id,
+			BrowseMeta browse) throws BIException {
+		// 获得该子目录下面的报表对象
+		BIReportAdaptor adaptor = BIAdaptorFactory
+				.createAdaptor(BIReportAdaptor.class);
+		List<Object[]> rows = adaptor
+				.getSubDirectoryObjects(String.valueOf(id));
+
+		if (rows == null) {
+			return;
+		}
+
+		for (Object[] r : rows) {
+			BrowseNodeMeta node = new BrowseNodeMeta();
+			String reportId = String.valueOf(r[0]);
+			String category = BIReportCategory.getCategoryById(
+					((Long) r[1]).intValue()).getCategory();
+			node.setId(reportId);
+			node.setCategory(category);
+			node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, String
+					.valueOf(r[3]));
+			String style = "ui-" + category + "-icon";
+			if (Utils.toBoolean(String.valueOf(r[2]), false)) {
+				style += "-ref";
+			}
+
+			node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, style);
+			node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
+			node.addAttribute(HTML.ATTR_SRC, category + "/open/" + reportId);
+			node.addEvent("mouseup", "Plywet.browse.showOperationForFile");
+			node.addEvent("dblclick", "Plywet.browse.openFile");
+			browse.addContent(node);
+		}
+	}
+
+	private void getSubDirectoryObjectForDI(String repository, Long id,
+			BrowseMeta browse) throws BIException {
+		getSubDirctoryObjectByType(repository, Utils.CATEGORY_DI_TRANS, id,
+				browse);
+		getSubDirctoryObjectByType(repository, Utils.CATEGORY_DI_JOB, id,
+				browse);
 	}
 
 	private void getSubDirctoryObjectByType(String repository, String category,
@@ -71,10 +161,10 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
 
 			List<RepositoryElementMetaInterface> repObjects = null;
-			if (Utils.CATEGORY_TRANS.equals(category)) {
+			if (Utils.CATEGORY_DI_TRANS.equals(category)) {
 				repObjects = rep.getTransformationObjects(new LongObjectId(id),
 						false);
-			} else if (Utils.CATEGORY_JOB.equals(category)) {
+			} else if (Utils.CATEGORY_DI_JOB.equals(category)) {
 				repObjects = rep.getJobObjects(new LongObjectId(id), false);
 			}
 			if (repObjects == null) {
@@ -170,9 +260,9 @@ public class BIPageServices extends AbstractDirectoryServices implements
 
 		PluginRegistry registry = PluginRegistry.getInstance();
 
-		if (Utils.CATEGORY_TRANS.equals(category)) {
+		if (Utils.CATEGORY_DI_TRANS.equals(category)) {
 			return registry.getCategories(StepPluginType.class);
-		} else if (Utils.CATEGORY_JOB.equals(category)) {
+		} else if (Utils.CATEGORY_DI_JOB.equals(category)) {
 			return registry.getCategories(JobEntryPluginType.class);
 		}
 
@@ -180,13 +270,13 @@ public class BIPageServices extends AbstractDirectoryServices implements
 	}
 
 	@Override
-	public void removeDirectoryObject(String repository, long dirId)
-			throws BIException {
+	public void removeDirectoryObject(String repository, long dirId,
+			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
 			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
-					dirId);
+					dirId, category);
 			if (dir.getChildren() != null && dir.getChildren().size() > 0) {
 				throw new BIException("该目录非空，请先清空内部元素！");
 			}
@@ -204,12 +294,12 @@ public class BIPageServices extends AbstractDirectoryServices implements
 
 	@Override
 	public void newDirectoryObject(String repository, long parentDirId,
-			String name) throws BIException {
+			String name, BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
 			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
-					parentDirId);
+					parentDirId, category);
 			if (dir.findChild(name) != null) {
 				throw new BIException("目录名称重复！");
 			}
@@ -223,10 +313,5 @@ public class BIPageServices extends AbstractDirectoryServices implements
 		} finally {
 			BIEnvironmentDelegate.instance().returnRep(repository, rep);
 		}
-	}
-
-	@Override
-	public Long getRootDirectoryId() {
-		return DIRECTORY_ROOT_ID;
 	}
 }

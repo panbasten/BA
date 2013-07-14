@@ -311,8 +311,8 @@
 	background-repeat:no-repeat;
 	background-position:bottom;
 }
-.ui-navi-icon-transjob{
-	background-image: url("../images/desktop/navi_trans.png");	
+.ui-navi-icon-di{
+	background-image: url("../images/desktop/navi_di.png");	
 }
 .ui-navi-icon-db{
 	background-image: url("../images/desktop/navi_db.png");
@@ -330,8 +330,8 @@
 	background-image: url("../images/desktop/navi_systools.png");
 }
 
-a.active .ui-navi-icon-transjob{
-	background-image: url("../images/desktop/navi_trans_active.png");	
+a.active .ui-navi-icon-di{
+	background-image: url("../images/desktop/navi_di_active.png");	
 }
 a.active .ui-navi-icon-db{
 	background-image: url("../images/desktop/navi_db_active.png");

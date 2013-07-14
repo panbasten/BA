@@ -30,7 +30,7 @@ public class LicenseGenerator {
 
 	public static final String UNREGISTERED_CUSTOMER = "-UNREGISTERED-";
 
-	public static final int TRIAL_EXPIRED_DATE = 15;
+	public static final int TRIAL_EXPIRED_DATE = 90;
 
 	/**
 	 * 用户全称

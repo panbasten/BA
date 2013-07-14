@@ -2,7 +2,7 @@ package com.plywet.platform.bi.web.service;
 
 import com.plywet.platform.bi.core.exception.BIException;
 
-public interface BIReportDelegates extends BIDirectoryDelegates {
+public interface BIReportDelegates {
 
 	/**
 	 * 通过报表ID获得报表内容对象

@@ -183,8 +183,8 @@ Plywet.filesys = {
 				events: {
 					click:function(){
 						Plywet.ab({
-							type : "post",
-							source:"fs_folder_create_form",
+							formId:"fs_folder_create_form",
+							formAction:"rest/fs/items/folder/createsubmit",
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[targetId + "_var"].hide();

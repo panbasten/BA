@@ -12,4 +12,14 @@ public enum Permission {
 		this.val = val;
 		this.desc = desc;
 	}
+
+	public int getVal() {
+		return val;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+	
+	
 }

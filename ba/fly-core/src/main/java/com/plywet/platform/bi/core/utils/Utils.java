@@ -34,8 +34,11 @@ public class Utils {
 	/**
 	 * 浏览类别
 	 */
-	public static final String CATEGORY_TRANS = "trans";
-	public static final String CATEGORY_JOB = "job";
+	public static final String CATEGORY_DI = "di";
+	public static final String CATEGORY_DI_TRANS = "trans";
+	public static final String CATEGORY_DI_JOB = "job";
+	public static final String CATEGORY_REPORT = "report";
+	public static final String CATEGORY_DOMAIN = "domain";
 	public static final String CATEGORY_DB = "db";
 	public static final String CATEGORY_FILESYSTEM = "fs";
 	public static final String CATEGORY_SYSTOOLS = "systools";

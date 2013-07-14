@@ -147,6 +147,10 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_database.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/fly_domain.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/fly_report.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_filesys.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_sysTools.js"></script>

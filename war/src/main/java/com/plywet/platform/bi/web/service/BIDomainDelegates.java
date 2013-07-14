@@ -2,7 +2,7 @@ package com.plywet.platform.bi.web.service;
 
 import com.plywet.platform.bi.core.exception.BIException;
 
-public interface BIDomainDelegates extends BIDirectoryDelegates {
+public interface BIDomainDelegates {
 	/**
 	 * 通过语义定义ID获得模型对象
 	 * 

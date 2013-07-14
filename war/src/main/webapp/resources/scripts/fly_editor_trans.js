@@ -1,11 +1,11 @@
 // 导航按钮
-Plywet.transjob = {
+Plywet.di = {
 	ids : {
 		bpVarName : "editorContent-navi-trans-bp_var"
 	},
 	createDir : function(){
 		var _self = this;
-		var currentCase = window[Plywet.transjob.ids.bpVarName].getCurrentData();
+		var currentCase = window[Plywet.di.ids.bpVarName].getCurrentData();
 		var targetId = "tj_create_dialog_folder";
 		var dirId = currentCase.dirId;
 		
@@ -17,7 +17,7 @@ Plywet.transjob = {
 			autoOpen : true,
 			showHeader : true,
 			modal : true,
-			url : "rest/transjob/dir/create/"+dirId,
+			url : "rest/di/dir/create/"+dirId,
 			params : {
 				targetId : targetId+":content",
 				rootId : currentCase.rootId,
@@ -32,7 +32,7 @@ Plywet.transjob = {
 					click:function(){
 						Plywet.ab({
 							formId:"tj_folder_create_form",
-							formAction:"rest/transjob/dir/createsubmit",
+							formAction:"rest/di/dir/createsubmit",
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[targetId + "_var"].hide();
@@ -59,26 +59,26 @@ Plywet.transjob = {
 	create : function(){
 	},
 	edit : function(){
-		if (!Plywet.editors.item.checkSelected(Plywet.transjob.ids.bpVarName)) {
+		if (!Plywet.editors.item.checkSelected(Plywet.di.ids.bpVarName)) {
 			Plywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.di.ids.bpVarName);
 	},
 	remove : function(){
-		if (!Plywet.editors.item.checkSelected(Plywet.transjob.ids.bpVarName)) {
+		if (!Plywet.editors.item.checkSelected(Plywet.di.ids.bpVarName)) {
 			Plywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
 		var _self = this;
 		
-		var currentCase = window[Plywet.transjob.ids.bpVarName].getCurrentData();
+		var currentCase = window[Plywet.di.ids.bpVarName].getCurrentData();
 		var dirId = currentCase.dirId;
 		
-		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.di.ids.bpVarName);
 		var url,text;
 		if(selItem.type=='node'){
-			url = "rest/transjob/dir/remove/"+selItem.id;
+			url = "rest/di/dir/remove/"+selItem.id;
 			text = "确认删除目录【"+selItem.displayName+"】？";
 		}else{
 			url = "rest/"+selItem.category+"/"+selItem.id+"/remove";
@@ -104,17 +104,17 @@ Plywet.transjob = {
 	uploadFile : function(){
 	},
 	downloadFile : function(){
-		if (!Plywet.editors.item.checkSelected(Plywet.transjob.ids.bpVarName)) {
+		if (!Plywet.editors.item.checkSelected(Plywet.di.ids.bpVarName)) {
 			Plywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = Plywet.editors.item.getOneSelected(Plywet.transjob.ids.bpVarName);
+		var selItem = Plywet.editors.item.getOneSelected(Plywet.di.ids.bpVarName);
 	},
 	
 	flushDir : function(id){
 		Plywet.ab({
 			type : "get",
-			url : "rest/transjob/dir/"+id
+			url : "rest/di/dir/"+id
 		});
 	}
 };
@@ -199,7 +199,7 @@ Plywet.editors.trans = {
 		// 加载转换页
 		Plywet.ab({
 			type : "get",
-			url : "rest/transjob/trans/editor",
+			url : "rest/di/trans/editor",
 			beforeSend : function(){
 				Plywet.desktop.changeMarkText("正在注册转换设计器页面...");
 			},

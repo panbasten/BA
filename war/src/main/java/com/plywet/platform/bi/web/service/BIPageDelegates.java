@@ -60,25 +60,4 @@ public interface BIPageDelegates extends BIDirectoryDelegates {
 	public List<FunctionType> getFunctionsByParent(String repository,
 			long parentId) throws BIException;
 
-	/**
-	 * 新建一个目录
-	 * 
-	 * @param repository
-	 * @param parentDirId
-	 * @param name
-	 * @throws BIException
-	 */
-	public void newDirectoryObject(String repository, long parentDirId,
-			String name) throws BIException;
-
-	/**
-	 * 删除一个目录
-	 * 
-	 * @param repository
-	 * @param dirId
-	 * @throws BIException
-	 */
-	public void removeDirectoryObject(String repository, long dirId)
-			throws BIException;
-
 }

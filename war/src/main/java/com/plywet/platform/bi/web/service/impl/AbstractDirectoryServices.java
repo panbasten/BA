@@ -15,27 +15,27 @@ import com.plywet.platform.bi.component.utils.HTML;
 import com.plywet.platform.bi.core.exception.BIException;
 import com.plywet.platform.bi.core.utils.Utils;
 import com.plywet.platform.bi.delegates.BIEnvironmentDelegate;
+import com.plywet.platform.bi.delegates.enums.BIDirectoryCategory;
 
 public abstract class AbstractDirectoryServices {
 
 	private final Logger log = Logger
 			.getLogger(AbstractDirectoryServices.class);
 
-	public abstract Long getRootDirectoryId();
-
-	public RepositoryDirectoryInterface getRootDirectory() {
+	public RepositoryDirectoryInterface getRootDirectory(
+			BIDirectoryCategory category) {
 		RepositoryDirectory root = new RepositoryDirectory();
-		root.setObjectId(new LongObjectId(getRootDirectoryId()));
+		root.setObjectId(new LongObjectId(category.getRootId()));
 		return root;
 	}
 
-	public RepositoryDirectoryInterface getDirecotry(String repository, long id)
-			throws BIException {
+	public RepositoryDirectoryInterface getDirecotry(String repository,
+			long id, BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
 
-			RepositoryDirectoryInterface root = getRootDirectory();
+			RepositoryDirectoryInterface root = getRootDirectory(category);
 
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
@@ -51,12 +51,13 @@ public abstract class AbstractDirectoryServices {
 	}
 
 	protected BreadCrumbMeta parentDirectories(String repository, Long id,
-			String tital, String prefixPath) throws BIException {
+			String tital, String prefixPath, BIDirectoryCategory category)
+			throws BIException {
 		Repository rep = null;
 		try {
 			BreadCrumbMeta bce = new BreadCrumbMeta();
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface root = getRootDirectory();
+			RepositoryDirectoryInterface root = getRootDirectory(category);
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
 			bce.addEvent("click", "Plywet.browse.changeDir");
@@ -89,11 +90,11 @@ public abstract class AbstractDirectoryServices {
 	}
 
 	protected void subDirectory(String repository, Long id, BrowseMeta browse,
-			String prefixPath) throws BIException {
+			String prefixPath, BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface root = getRootDirectory();
+			RepositoryDirectoryInterface root = getRootDirectory(category);
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
 			for (RepositoryDirectoryInterface subrd : rd.getChildren()) {
