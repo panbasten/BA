@@ -1,4 +1,3 @@
-
 /**
  * Extend an object with the members of another
  * @param {Object} a The object to be extended
