@@ -20,7 +20,7 @@
 				<ref bean="bi.resource.baseResource" />
 				<ref bean="bi.resource.filesysResource" />
 				<ref bean="bi.resource.sysToolsResource" />
-				<ref bean="bi.resource.transJobResource" />
+				<ref bean="bi.resource.diResource" />
 				<ref bean="bi.resource.dbResource" />
 				<ref bean="bi.resource.domainResource" />
 				

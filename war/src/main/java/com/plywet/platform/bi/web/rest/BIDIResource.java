@@ -30,7 +30,7 @@ import com.plywet.platform.bi.web.entity.AjaxResultEntity;
 import com.plywet.platform.bi.web.functions.DIFunctions;
 import com.plywet.platform.bi.web.service.BIPageDelegates;
 
-@Service("bi.resource.transJobResource")
+@Service("bi.resource.diResource")
 @Path("/di")
 public class BIDIResource extends AbastractDirectoryResource {
 	private final Logger logger = Logger.getLogger(BIDIResource.class);
