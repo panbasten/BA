@@ -1378,12 +1378,12 @@ $.fn.layout = function (opts) {
 				,	overflowY:	$N.css("overflowY")
 				});
 				// ALSO SAVE <HTML> CSS
-				var $H = $("html");
-				$H.data(css, {
+				var $HTML = $("html");
+				$HTML.data(css, {
 					height:		"auto" // FF would return a fixed px-size!
-				,	overflow:	$H.css("overflow")
-				,	overflowX:	$H.css("overflowX")
-				,	overflowY:	$H.css("overflowY")
+				,	overflow:	$HTML.css("overflow")
+				,	overflowX:	$HTML.css("overflowX")
+				,	overflowY:	$HTML.css("overflowY")
 				});
 			}
 			else // handle props normally for non-body elements
