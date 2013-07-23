@@ -1,12 +1,12 @@
 // 导航按钮
 Plywet.di = {
 	ids : {
-		bpVarName : "editorContent-navi-trans-bp_var"
+		bpVarName : "editorContent-navi-di-bp_var"
 	},
 	createDir : function(){
 		var _self = this;
 		var currentCase = window[Plywet.di.ids.bpVarName].getCurrentData();
-		var targetId = "tj_create_dialog_folder";
+		var targetId = "create_dialog_folder";
 		var dirId = currentCase.dirId;
 		
 		Plywet.cw("Dialog",targetId+"_var",{
@@ -31,7 +31,7 @@ Plywet.di = {
 				events: {
 					click:function(){
 						Plywet.ab({
-							formId:"tj_folder_create_form",
+							formId:"folder_create_form",
 							formAction:"rest/di/dir/createsubmit",
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
