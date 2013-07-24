@@ -854,7 +854,7 @@
 		}
 	};
 	$.fn.treegrid.parseOptions = function(options) {
-		return $.extend( {}, $.fn.datagrid.parseOptions(options), Plywet
+		return $.extend( {}, $.fn.datagrid.parseOptions(options), Flywet
 				.parseOptions(options, [ "treeField", {
 					animate : "boolean"
 				} ]));
@@ -1268,21 +1268,21 @@
 		});
 })(jQuery);
 
-Plywet.widget.EasyTreeGrid=function(cfg){
+Flywet.widget.EasyTreeGrid=function(cfg){
 	this.cfg=cfg;
 	this.id=cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
     this.jq.treegrid(cfg);
 };
 
-Plywet.extend(Plywet.widget.EasyTreeGrid, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.EasyTreeGrid, Flywet.widget.BaseWidget);
 
-Plywet.widget.EasyTreeGrid.prototype.loadData=function(data){
+Flywet.widget.EasyTreeGrid.prototype.loadData=function(data){
 	this.jq.treegrid("setUrlData", data);
 	this.jq.treegrid("reload");
 };
 
-Plywet.widget.EasyTreeGrid.prototype.resize=function(size){
+Flywet.widget.EasyTreeGrid.prototype.resize=function(size){
 	this.jq.treegrid("resize", size);
 };

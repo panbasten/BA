@@ -108,7 +108,7 @@
 
 	$.fn.menubutton.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, $.fn.linkbutton.parseOptions(target), Plywet
+		return $.extend( {}, $.fn.linkbutton.parseOptions(target), Flywet
 				.parseOptions(target, [ "menu", {
 					plain : "boolean",
 					duration : "number"

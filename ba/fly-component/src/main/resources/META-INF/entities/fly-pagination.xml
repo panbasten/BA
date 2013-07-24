@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:Pagination">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Pagination</description>
-	<classname>com.plywet.platform.bi.component.resolvers.item.FLYPaginationResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.Pagination</description>
+	<classname>com.flywet.platform.bi.component.resolvers.item.FLYPaginationResolver</classname>
 	<category>Item</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Pagination</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Pagination</tooltip>
 	<iconfile>pagination.png</iconfile>
 </component>

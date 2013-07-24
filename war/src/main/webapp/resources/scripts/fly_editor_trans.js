@@ -1,15 +1,15 @@
 // 导航按钮
-Plywet.di = {
+Flywet.di = {
 	ids : {
 		bpVarName : "editorContent-navi-di-bp_var"
 	},
 	createDir : function(){
 		var _self = this;
-		var currentCase = window[Plywet.di.ids.bpVarName].getCurrentData();
+		var currentCase = window[Flywet.di.ids.bpVarName].getCurrentData();
 		var targetId = "create_dialog_folder";
 		var dirId = currentCase.dirId;
 		
-		Plywet.cw("Dialog",targetId+"_var",{
+		Flywet.cw("Dialog",targetId+"_var",{
 			id : targetId,
 			header : "新建目录",
 			width : 500,
@@ -30,7 +30,7 @@ Plywet.di = {
 				title : "确定",
 				events: {
 					click:function(){
-						Plywet.ab({
+						Flywet.ab({
 							formId:"folder_create_form",
 							formAction:"rest/di/dir/createsubmit",
 							onsuccess:function(data, status, xhr) {
@@ -59,23 +59,23 @@ Plywet.di = {
 	create : function(){
 	},
 	edit : function(){
-		if (!Plywet.editors.item.checkSelected(Plywet.di.ids.bpVarName)) {
-			Plywet.dialog.warning("请先选中一个对象。");
+		if (!Flywet.editors.item.checkSelected(Flywet.di.ids.bpVarName)) {
+			Flywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = Plywet.editors.item.getOneSelected(Plywet.di.ids.bpVarName);
+		var selItem = Flywet.editors.item.getOneSelected(Flywet.di.ids.bpVarName);
 	},
 	remove : function(){
-		if (!Plywet.editors.item.checkSelected(Plywet.di.ids.bpVarName)) {
-			Plywet.dialog.warning("请先选中一个对象。");
+		if (!Flywet.editors.item.checkSelected(Flywet.di.ids.bpVarName)) {
+			Flywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
 		var _self = this;
 		
-		var currentCase = window[Plywet.di.ids.bpVarName].getCurrentData();
+		var currentCase = window[Flywet.di.ids.bpVarName].getCurrentData();
 		var dirId = currentCase.dirId;
 		
-		var selItem = Plywet.editors.item.getOneSelected(Plywet.di.ids.bpVarName);
+		var selItem = Flywet.editors.item.getOneSelected(Flywet.di.ids.bpVarName);
 		var url,text;
 		if(selItem.type=='node'){
 			url = "rest/di/dir/remove/"+selItem.id;
@@ -85,10 +85,10 @@ Plywet.di = {
 			text = "确认删除对象【"+selItem.displayName+"】？";
 		}
 		
-		Plywet.cw("ConfirmDialog",null,{type:"confirm",text:text,
+		Flywet.cw("ConfirmDialog",null,{type:"confirm",text:text,
 			confirmFunc:function(e,v){
 				if(v){
-					Plywet.ab({
+					Flywet.ab({
 						type : "get",
 						url : url,
 						onsuccess:function(data, status, xhr) {
@@ -104,15 +104,15 @@ Plywet.di = {
 	uploadFile : function(){
 	},
 	downloadFile : function(){
-		if (!Plywet.editors.item.checkSelected(Plywet.di.ids.bpVarName)) {
-			Plywet.dialog.warning("请先选中一个对象。");
+		if (!Flywet.editors.item.checkSelected(Flywet.di.ids.bpVarName)) {
+			Flywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = Plywet.editors.item.getOneSelected(Plywet.di.ids.bpVarName);
+		var selItem = Flywet.editors.item.getOneSelected(Flywet.di.ids.bpVarName);
 	},
 	
 	flushDir : function(id){
-		Plywet.ab({
+		Flywet.ab({
 			type : "get",
 			url : "rest/di/dir/"+id
 		});
@@ -120,7 +120,7 @@ Plywet.di = {
 };
 
 // 转换
-Plywet.editors.trans = {
+Flywet.editors.trans = {
 	type : "trans",
 	resize : function(){
 		// TODO 
@@ -132,36 +132,36 @@ Plywet.editors.trans = {
 			var canvasObj = transEditorPanel_var.flowChart;
 			if(canvasObj && canvasObj.childCanvas){
 				var flow = canvasObj.getChildCanvasByIndex(0);
-				$tabo.data("exdata").data = Plywet.parseJSON(flow.getElsValue());
+				$tabo.data("exdata").data = Flywet.parseJSON(flow.getElsValue());
 			}
 		}
 	},
 	reloadStatus : function ($taba) {
 		if (typeof($taba.data("exdata"))=='undefined')return;
 		var canvasData = {
-			onClearAll: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj)",
-			onModify: "Plywet.editors.trans.action.modify(canvasObj,flowObj)",
+			onClearAll: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj)",
+			onModify: "Flywet.editors.trans.action.modify(canvasObj,flowObj)",
 			canvasEls : {},
 			defaultAttributes: {
 				onInitStep: {
-					onContextMenu: "Plywet.editors.trans.action.stepContent(canvasObj,flowObj,this)",
-					onDblClick: "Plywet.editors.trans.action.stepDblclick(canvasObj,flowObj,this)",
+					onContextMenu: "Flywet.editors.trans.action.stepContent(canvasObj,flowObj,this)",
+					onDblClick: "Flywet.editors.trans.action.stepDblclick(canvasObj,flowObj,this)",
 					sWidth: 32,
 					sHeight: 32,
 					bTextStyle: "#ffffff",
 					acceptAll: true,
-					onEndHop: "Plywet.editors.trans.action.checkEndHop(setting,this)",
-					onRope: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
-					onClick: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
+					onEndHop: "Flywet.editors.trans.action.checkEndHop(setting,this)",
+					onRope: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
+					onClick: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
 				},
 				onInitHop: {
-					onDblClick: "Plywet.editors.trans.action.hopDblclick(canvasObj,flowObj,this)",
-					onContextMenu: "Plywet.editors.trans.action.hopContext(canvasObj,flowObj,this)",
+					onDblClick: "Flywet.editors.trans.action.hopDblclick(canvasObj,flowObj,this)",
+					onContextMenu: "Flywet.editors.trans.action.hopContext(canvasObj,flowObj,this)",
 					style: "#2e83ff",
 					textStyle: "#ffffff",
 					arrowEndType: "default",
-					onRope: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
-					onClick: "Plywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
+					onRope: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
+					onClick: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
 				}
 			}
 		};
@@ -176,8 +176,8 @@ Plywet.editors.trans = {
 		if(tabData.extendData) canvasData.extendData=tabData.extendData;
 		
 		if (typeof transEditorPanel_var == 'undefined') {
-			var $panelSize = Plywet.getElementDimensions($(Plywet.escapeClientId("transEditorPanel")));
-			Plywet.cw("FlowChart","transEditorPanel_var",{
+			var $panelSize = Flywet.getElementDimensions($(Flywet.escapeClientId("transEditorPanel")));
+			Flywet.cw("FlowChart","transEditorPanel_var",{
 				id: "transEditorPanel",
 				oid: "transThumbContent",
 				canvasConfig: {
@@ -192,16 +192,16 @@ Plywet.editors.trans = {
 		}
 	},
 	register : function(){
-		if(Plywet.editors.register[Plywet.editors.trans.type]){
+		if(Flywet.editors.register[Flywet.editors.trans.type]){
 			return;
 		}
 		
 		// 加载转换页
-		Plywet.ab({
+		Flywet.ab({
 			type : "get",
 			url : "rest/di/trans/editor",
 			beforeSend : function(){
-				Plywet.desktop.changeMarkText("正在注册转换设计器页面...");
+				Flywet.desktop.changeMarkText("正在注册转换设计器页面...");
 			},
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
@@ -289,10 +289,10 @@ Plywet.editors.trans = {
 					.width($transLayout.getPaneSize("center", false, "vert"));
 				$("#transThumbContent").width($transLayout.getPaneSize("east")-2);
 				
-				Plywet.cw("EasyTabs","diEditorTransStepBar",{
+				Flywet.cw("EasyTabs","diEditorTransStepBar",{
 					id : "transStepBar"
 				});
-				Plywet.cw("Scrollbar","transStepBarScroll",{
+				Flywet.cw("Scrollbar","transStepBarScroll",{
 					id:'transStepBar',
 					tabGroup:'transStepBar-ul',
 					step:80,
@@ -321,7 +321,7 @@ Plywet.editors.trans = {
 					},
 					onDrop: function(e,source,data){
 						$("#transEditorPanel").removeClass("ui-state-highlight");
-						Plywet.editors.trans.action.appendEl($(source).data("data"),data);
+						Flywet.editors.trans.action.appendEl($(source).data("data"),data);
 					}
 				});
 				
@@ -409,11 +409,11 @@ Plywet.editors.trans = {
 						} ]
 					} ]
 				};
-				var tree = new Plywet.widget.EasyTree(config);
+				var tree = new Flywet.widget.EasyTree(config);
 				
 				$trans.hide();
 				
-				Plywet.editors.register[Plywet.editors.trans.type] = "Y";
+				Flywet.editors.register[Flywet.editors.trans.type] = "Y";
 			}
 		});
 	},
@@ -483,8 +483,8 @@ Plywet.editors.trans = {
 /**
  * 转换的按钮操作
  */
-Plywet.editors.trans.action = {
-	tb : Plywet.editors.toolbarButton,
+Flywet.editors.trans.action = {
+	tb : Flywet.editors.toolbarButton,
 	editorPrefix : "trans",
 	ids : {
 		operations : ["run","runstep","runreturn","pause","stop","validate","analize","runstep"],
@@ -565,7 +565,7 @@ Plywet.editors.trans.action = {
     	if(canvasObj && canvasObj.childCanvas){
     		var transId = canvasObj.config.data.extendData.transId;
     		var flow = canvasObj.getChildCanvasByIndex(0);
-    		Plywet.ab({
+    		Flywet.ab({
     			type : "post",
     			url : "rest/trans/"+transId+"/save",
     			modal : true,
@@ -587,14 +587,14 @@ Plywet.editors.trans.action = {
     		this.save("trans");
     	}else{
     		var transId = clicked.data("exdata").data.extendData.transId;
-    		Plywet.ab({
+    		Flywet.ab({
     			type : "post",
     			url : "rest/trans/"+transId+"/save",
     			modal : true,
     			modalMessage : "正在保存...",
     			params : {
     				clear : true,
-    				val : Plywet.toJSONString(clicked.data("exdata").data)
+    				val : Flywet.toJSONString(clicked.data("exdata").data)
     			}
     		});
     	}
@@ -603,7 +603,7 @@ Plywet.editors.trans.action = {
     // @Override 必要方法：用于在Tab发生修改时，点击放弃按钮调用的方法。
     discardTab : function (clicked) {
     	var transId = clicked.data("exdata").data.extendData.transId;
-    	Plywet.ab({
+    	Flywet.ab({
 			type : "get",
 			url : "rest/trans/"+transId+"/discard"
 		});
@@ -613,8 +613,8 @@ Plywet.editors.trans.action = {
     	var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var flow = canvasObj.getChildCanvasByIndex(0);
-    		var realOffset = Plywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale,10);
-    		var realPos = Plywet.widget.FlowChartUtils.arcScalePoint(canvasObj.config,{
+    		var realOffset = Flywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale,10);
+    		var realPos = Flywet.widget.FlowChartUtils.arcScalePoint(canvasObj.config,{
     			x:(pos.x-realOffset),
     			y:(pos.y-realOffset)
     		});
@@ -760,7 +760,7 @@ Plywet.editors.trans.action = {
     	}
     	
     	var dialogId = "dialog-trans-step";
-    	Plywet.cw("Dialog",dialogId+"_var",{
+    	Flywet.cw("Dialog",dialogId+"_var",{
 			id : dialogId,
 			header : model.bText[0],
 			width : w,
@@ -776,7 +776,7 @@ Plywet.editors.trans.action = {
 				title : "确定",
 				events : {
 					"click" : function(){
-						Plywet.ab({
+						Flywet.ab({
 							formId : "form:"+dialogId,
 							formAction : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/save",
 							params : {

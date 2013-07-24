@@ -82,11 +82,6 @@
 		<classname>org.pentaho.di.core.database.HypersonicDatabaseMeta</classname>
 	</database-type>
 
-	<database-type id="INFOBRIGHT">
-		<description>Infobright</description>
-		<classname>org.pentaho.di.core.database.InfobrightDatabaseMeta</classname>
-	</database-type>
-
 	<database-type id="INFORMIX">
 		<description>Informix</description>
 		<classname>org.pentaho.di.core.database.InformixDatabaseMeta</classname>
@@ -141,6 +136,11 @@
 	<database-type id="MYSQL">
 		<description>MySQL</description>
 		<classname>org.pentaho.di.core.database.MySQLDatabaseMeta</classname>
+	</database-type>
+	
+	<database-type id="INFOBRIGHT">
+		<description>Infobright</description>
+		<classname>org.pentaho.di.core.database.InfobrightDatabaseMeta</classname>
 	</database-type>
 
 	<!-- 

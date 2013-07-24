@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.plywet</groupId>
+	<groupId>com.flywet</groupId>
 	<artifactId>platform</artifactId>
 	<packaging>pom</packaging>
 	<version>8.0.0</version>
@@ -37,13 +37,13 @@
 	</organization>
 
 	<properties>
-		<application.id>FlyBA</application.id>
+		<application.id>FLYBA</application.id>
 		<application.name>享元BA平台</application.name>
 		<application.description>该平台是享元公司的BA业务平台</application.description>
 		<company.name>北京享元科技软件技术有限公司</company.name>
-		<company.url>http://www.plywet.com</company.url>
+		<company.url>http://www.flywetba.com</company.url>
 
-		<Compile-User>Plywet</Compile-User>
+		<Compile-User>Flywet</Compile-User>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Platform -->
@@ -958,7 +958,7 @@
 	<repositories>
 		<repository>
 			<id>fly-public</id>
-			<name>Plywet Public Repository</name>
+			<name>Flywet Public Repository</name>
 			<url>http://10.11.46.192:8081/nexus/content/groups/public</url>
 			<releases>
 				<updatePolicy>never</updatePolicy>

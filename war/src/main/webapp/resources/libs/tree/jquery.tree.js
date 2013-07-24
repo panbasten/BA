@@ -14,7 +14,7 @@
         function _addOption(aa, jqobj){
             jqobj.children("li").each(function(){
                 var temp = $(this);
-                var jsonObj = $.extend({}, Plywet.parseOptions(this, ["id", "iconCls", "state"]), {
+                var jsonObj = $.extend({}, Flywet.parseOptions(this, ["id", "iconCls", "state"]), {
                     checked: (temp.attr("checked") ? true : undefined)
                 });
                 jsonObj.text = temp.children("span").html();
@@ -1204,7 +1204,7 @@
     };
     $.fn.tree.parseOptions = function(target){
         var t = $(target);
-        return $.extend({}, Plywet.parseOptions(target, ["url", "method", {
+        return $.extend({}, Flywet.parseOptions(target, ["url", "method", {
             checkbox: "boolean",
             cascadeCheck: "boolean",
             onlyLeafCheck: "boolean"
@@ -1285,23 +1285,23 @@
     };
 })(jQuery);
 
-Plywet.widget.EasyTree=function(cfg){
+Flywet.widget.EasyTree=function(cfg){
 	this.cfg=cfg;
 	this.id = cfg.id;
-    this.jqId = Plywet.escapeClientId(this.id);
+    this.jqId = Flywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
 	this.jq.tree(cfg);
 	this.loadData(cfg.els);
 };
 
-Plywet.extend(Plywet.widget.EasyTree, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.EasyTree, Flywet.widget.BaseWidget);
 
-Plywet.widget.EasyTree.prototype.loadData=function(data){
+Flywet.widget.EasyTree.prototype.loadData=function(data){
 	this.treedata=this.transdata(data?data:[]);
 	this.jq.tree("loadData",this.treedata);
 };
 
-Plywet.widget.EasyTree.prototype.transdata=function(initdata){
+Flywet.widget.EasyTree.prototype.transdata=function(initdata){
 	var rtn = [];
 	if(initdata){
 		rtn = _transdata(initdata);
@@ -1326,7 +1326,7 @@ Plywet.widget.EasyTree.prototype.transdata=function(initdata){
 	return rtn;
 };
 
-Plywet.widget.EasyTree.prototype.select=function(id){
+Flywet.widget.EasyTree.prototype.select=function(id){
 	var node = $("#"+this.id).tree("find",id);
 	$("#"+this.id).tree("select",node.target);
 };

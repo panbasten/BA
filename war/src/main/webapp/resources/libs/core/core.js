@@ -1,4 +1,4 @@
-Plywet = {
+Flywet = {
 	eventNames : ["click","blur","focus","change","dblclick",
 	              "keydown","keypress","keyup","mousedown",
 	              "mousemove","mouseout","mouseover","mouseup"],
@@ -46,7 +46,7 @@ Plywet = {
 			if (lastChar != "}") {
 				s = s + "}";
 			}
-			result = Plywet.parseJSON(s);
+			result = Flywet.parseJSON(s);
 		}
 		if (param) {
 			var paramObj = {};
@@ -119,16 +119,16 @@ Plywet = {
 			if(object===null)return 'null';				
 			var results=[];				
 			for(var property in object){
-				var value=Plywet.toJSONString(object[property]);					
+				var value=Flywet.toJSONString(object[property]);					
 				if(value!==undefined)
-				results.push(Plywet.toJSONString(property)+':'+value);
+				results.push(Flywet.toJSONString(property)+':'+value);
 			}
 			return '{'+results.join(',')+'}';				
 			break;				
 			case 'array':
 			var results=[];				
 			for(var i=0;i<object.length;i++){
-				var value=Plywet.toJSONString(object[i]);					
+				var value=Flywet.toJSONString(object[i]);					
 				if(value!==undefined)results.push(value);
 			}
 			return '['+results.join(',')+']';				
@@ -174,8 +174,8 @@ Plywet = {
     },
     
     attachBehaviorsOn : function(element, behaviors){
-    	for(var i=0;i<Plywet.eventNames.length;i++){
-    		eval("if(behaviors.on"+Plywet.eventNames[i]+"){ element.attr('on"+Plywet.eventNames[i]+"', behaviors.on"+Plywet.eventNames[i]+"); }");
+    	for(var i=0;i<Flywet.eventNames.length;i++){
+    		eval("if(behaviors.on"+Flywet.eventNames[i]+"){ element.attr('on"+Flywet.eventNames[i]+"', behaviors.on"+Flywet.eventNames[i]+"); }");
     	}
     },
     
@@ -197,7 +197,7 @@ Plywet = {
     				if(!atExclude){
 	    				rtn[b] = function(e,data){
 	    					var events = data.events || data.attrs.events;
-	        				Plywet.invokeFunction(events[e.type],e,data);
+	        				Flywet.invokeFunction(events[e.type],e,data);
 	    				};
     				}
     			}
@@ -212,7 +212,7 @@ Plywet = {
      * @param ext
      */
     ab : function(cfg, ext) {
-        Plywet.ajax.AjaxRequest(cfg, ext);
+        Flywet.ajax.AjaxRequest(cfg, ext);
     },
     
     /**
@@ -300,7 +300,7 @@ Plywet = {
 		,	y	= evt.pageY	// evt.clientY ?
 		;
 		// if X & Y are < 0, probably means is over an open SELECT
-		return (Plywet.browserDetect.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
+		return (Flywet.browserDetect.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
 	},
 	
 	/**
@@ -360,7 +360,7 @@ Plywet = {
 	 */
 	cssNum: function ($E, prop, allowAuto) {
 		if (!$E.jquery) $E = $($E);
-		var CSS = Plywet.setInvisibly($E)
+		var CSS = Flywet.setInvisibly($E)
 		,	p	= $.css($E[0], prop, true)
 		,	v	= allowAuto && p=="auto" ? p : (parseInt(p, 10) || 0);
 		$E.css( CSS ); // 重置
@@ -380,11 +380,11 @@ Plywet = {
 		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
 		if (outerWidth <= 0) return 0;
 
-		if (!Plywet.browserDetect.boxModel) return outerWidth;
+		if (!Flywet.browserDetect.boxModel) return outerWidth;
 
 		// strip border and padding from outerWidth to get CSS Width
-		var b = Plywet.borderWidth
-		,	n = Plywet.cssNum
+		var b = Flywet.borderWidth
+		,	n = Flywet.cssNum
 		,	W = outerWidth
 				- b($E, "Left")
 				- b($E, "Right")
@@ -407,11 +407,11 @@ Plywet = {
 		// a 'calculated' outerHeight can be passed so borders and/or padding are removed if needed
 		if (outerHeight <= 0) return 0;
 
-		if (!Plywet.browserDetect.boxModel) return outerHeight;
+		if (!Flywet.browserDetect.boxModel) return outerHeight;
 
 		// strip border and padding from outerHeight to get CSS Height
-		var b = Plywet.borderWidth
-		,	n = Plywet.cssNum
+		var b = Flywet.borderWidth
+		,	n = Flywet.cssNum
 		,	H = outerHeight
 			- b($E, "Top")
 			- b($E, "Bottom")
@@ -482,15 +482,15 @@ Plywet = {
 		,	x	= d.css = {}	// CSS hash
 		,	i	= {}			// TEMP insets
 		,	b, p				// TEMP border, padding
-		,	N	= Plywet.cssNum
+		,	N	= Flywet.cssNum
 		,	off = $E.offset()
 		;
 		d.offsetLeft = off.left;
 		d.offsetTop  = off.top;
 	
 		$.each("Left,Right,Top,Bottom".split(","), function (idx, e) { // e = edge
-			b = x["border" + e] = Plywet.borderWidth($E, e);
-			p = x["padding"+ e] = Plywet.cssNum($E, "padding"+e);
+			b = x["border" + e] = Flywet.borderWidth($E, e);
+			p = x["padding"+ e] = Flywet.cssNum($E, "padding"+e);
 			i[e] = b + p; // total offset of content from outer side
 			d["inset"+ e] = p;	// eg: insetLeft = paddingLeft
 		});
@@ -576,14 +576,14 @@ Plywet = {
 	 * 设置浏览器环境
 	 */
 	env : function (){
-		$("html").addClass(Plywet.browserDetect.OS + " " + Plywet.browserDetect.browser + " " + Plywet.browserDetect.browser_ver);
+		$("html").addClass(Flywet.browserDetect.OS + " " + Flywet.browserDetect.browser + " " + Flywet.browserDetect.browser_ver);
 	},
 	
 	/**
 	 * 创建对象快捷方式
 	 */
 	cw : function(widgetConstructor, widgetVar, cfg){
-		Plywet.createWidget(widgetConstructor, widgetVar, cfg);
+		Flywet.createWidget(widgetConstructor, widgetVar, cfg);
 	},
 	
 	/**
@@ -608,13 +608,13 @@ Plywet = {
 				var w = cfg[i];
 				if(w && w.componentType){
 					w.parent = parent;
-					Plywet.createWidget(w.componentType,w.id,w);
+					Flywet.createWidget(w.componentType,w.id,w);
 				}
 			}
 		}else{
 			if(cfg && cfg.componentType){
 				cfg.parent = parent;
-				Plywet.createWidget(cfg.componentType,cfg.id,cfg);
+				Flywet.createWidget(cfg.componentType,cfg.id,cfg);
 			}
 		}
 	},
@@ -626,14 +626,14 @@ Plywet = {
 		if(widgetConstructor.substring(0,4) == "fly:"){
 			widgetConstructor = widgetConstructor.substring(4);
 		}
-		if(Plywet.widget[widgetConstructor]) {
+		if(Flywet.widget[widgetConstructor]) {
 			if(widgetVar==undefined || widgetVar == null || widgetVar == ""){
-				widgetVar = "widget_"+(Plywet.windex++);
+				widgetVar = "widget_"+(Flywet.windex++);
 				cfg = cfg || {};
 				if(!cfg.id)cfg.id=widgetVar;
 				widgetVar=widgetVar+"_var";
 			}
-            window[widgetVar] = new Plywet.widget[widgetConstructor](cfg);
+            window[widgetVar] = new Flywet.widget[widgetConstructor](cfg);
         }
 	},
 	
@@ -656,7 +656,7 @@ Plywet = {
 				try{
 					eval(script[j]);
 				}catch(e){
-					Plywet.Logger.error(script[j]);
+					Flywet.Logger.error(script[j]);
 				}
 			}
 		}
@@ -669,7 +669,7 @@ Plywet = {
     windex : 0
 };
 
-Plywet.CookieUtils = {
+Flywet.CookieUtils = {
 	/**
 	 * 是否允许使用cookie
 	 */
@@ -729,12 +729,12 @@ Plywet.CookieUtils = {
 	 * 
 	 */
 	clear: function (name) {
-		Plywet.CookieUtils.write(name, '', {expires: -1});
+		Flywet.CookieUtils.write(name, '', {expires: -1});
 	}
 };
 
-Plywet.cookie = function (k, v, o) {
-	var C = Plywet.CookieUtils;
+Flywet.cookie = function (k, v, o) {
+	var C = Flywet.CookieUtils;
 	if (v === null)
 		C.clear(k);
 	else if (v === undefined)
@@ -743,19 +743,19 @@ Plywet.cookie = function (k, v, o) {
 		C.write(k, v, o);
 };
 
-Plywet.dialog = {
+Flywet.dialog = {
 	prompt : function(text){
-		Plywet.cw("ConfirmDialog",null,{type:"prompt",text:text});
+		Flywet.cw("ConfirmDialog",null,{type:"prompt",text:text});
 	},
 	warning : function(text){
-		Plywet.cw("ConfirmDialog",null,{type:"warning",text:text});
+		Flywet.cw("ConfirmDialog",null,{type:"warning",text:text});
 	},
 	error : function(text){
-		Plywet.cw("ConfirmDialog",null,{type:"error",text:text});
+		Flywet.cw("ConfirmDialog",null,{type:"error",text:text});
 	}
 };
 
-Plywet.Logger = {
+Flywet.Logger = {
 	/**
      * 日志：info
      * @param log
@@ -858,8 +858,8 @@ Plywet.Logger = {
 })(jQuery);
 
 
-Plywet.ajax = {};
-Plywet.widget = {};
+Flywet.ajax = {};
+Flywet.widget = {};
 
 
 
@@ -867,10 +867,10 @@ Plywet.widget = {};
  * 基本元件类
  * 
  ***************/
-Plywet.widget.BaseWidget = function() {};
+Flywet.widget.BaseWidget = function() {};
 
 // 获得jq对象
-Plywet.widget.BaseWidget.prototype.getJQ = function() {
+Flywet.widget.BaseWidget.prototype.getJQ = function() {
     return this.jq;
 };
 
@@ -878,7 +878,7 @@ Plywet.widget.BaseWidget.prototype.getJQ = function() {
 /**
  * ajax通用方法
  */
-Plywet.ajax.AjaxUtils = {
+Flywet.ajax.AjaxUtils = {
 	
 	/**
 	 * 序列化参数
@@ -943,8 +943,8 @@ Plywet.ajax.AjaxUtils = {
 /**
  * ajax请求
  */
-Plywet.ajax.AjaxRequest = function(cfg, ext) {
-    Plywet.Logger.debug('Initiating ajax request.');
+Flywet.ajax.AjaxRequest = function(cfg, ext) {
+    Flywet.Logger.debug('Initiating ajax request.');
     
     var ajaxURL=cfg.url,ajaxParams="",ajaxType=(cfg.type)?cfg.type:"post";
     ajaxType=ajaxType.toLowerCase();
@@ -954,7 +954,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         
         // 如果formId存在，表示为提交表单
         if(cfg.formId) {
-            form = $(Plywet.escapeClientId(cfg.formId));//Explicit form is defined
+            form = $(Flywet.escapeClientId(cfg.formId));//Explicit form is defined
         }
         else if (cfg.source){
         	var sourceId = null;
@@ -964,7 +964,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 	        } else {
 	            sourceId = $(cfg.source).attr('id');
 	        }
-            form = $(Plywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
+            form = $(Flywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
         }
         
         if(cfg.formAction){
@@ -979,10 +979,10 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
     		
     		//params
     	    if(cfg.params) {
-    	        ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(cfg.params);
+    	        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(cfg.params);
     	    }
     	    if(ext && ext.params) {
-    	        ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(ext.params);
+    	        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(ext.params);
     	    }
     	    
     	    if(ajaxParams && ajaxParams.length > 0){
@@ -998,16 +998,16 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         		onSubmit : function(data){
 	        		if(cfg.modal){
 	        			if(cfg.modalMessage){
-	        				Plywet.desktop.changeMarkText(cfg.modalMessage);
+	        				Flywet.desktop.changeMarkText(cfg.modalMessage);
 	        			}
-	        			Plywet.desktop.triggerMark(true);
+	        			Flywet.desktop.triggerMark(true);
 	        		}
 	        		// 判断是否有DataGrid对象  TODO 合并到jqueryForm中
 	        		$(this).find(".ui-datagrid .ui-datagrid-original").each(
         				function(idx, dom){
         					var $dom = $(dom);
         					var options = $dom.datagrid("options");
-        					var domValue = $(this).find(Plywet.escapeClientId(options.id+":rows"));
+        					var domValue = $(this).find(Flywet.escapeClientId(options.id+":rows"));
         					if(!domValue || domValue.length == 0){
         						domValue = $("<input id='"+options.id+":rows' name='"+options.id+":rows' type='hidden'>");
         						domValue.appendTo($(this));
@@ -1015,9 +1015,9 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         					// 如果是checkbox选择
         					if(!$dom.datagrid("options").checkOnSelect){
         						var ch = $dom.datagrid("getChecked");
-        						domValue.val(Plywet.toJSONString($dom.datagrid("getChecked")));
+        						domValue.val(Flywet.toJSONString($dom.datagrid("getChecked")));
         					}else{
-        						domValue.val(Plywet.toJSONString($dom.datagrid("getData").rows));
+        						domValue.val(Flywet.toJSONString($dom.datagrid("getData").rows));
         					}
         				});
 	        		
@@ -1025,7 +1025,7 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 	                    cfg.beforeSend.call(this, data);
 	                }
 	                
-	                Plywet.Logger.debug('Request form before send:' + status + '.');
+	                Flywet.Logger.debug('Request form before send:' + status + '.');
         		},
         		success : function(data){
         			// 失败
@@ -1034,12 +1034,12 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
             				cfg.onerror.call(data);
             			}
           
-            			Plywet.ajax.AjaxResponse.call(this, data);
-            			Plywet.Logger.error('Request form return with error:' + status + '.');
+            			Flywet.ajax.AjaxResponse.call(this, data);
+            			Flywet.Logger.error('Request form return with error:' + status + '.');
         			}
         			// 成功
         			else {
-	        			Plywet.Logger.debug('Response form received succesfully.');
+	        			Flywet.Logger.debug('Response form received succesfully.');
 	                    
 	                    var parsed;
 	                    //call user callback
@@ -1057,8 +1057,8 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 	                        return;
 	                    } 
 	                    else {
-	                        Plywet.ajax.AjaxResponse.call(this, data);
-	                        Plywet.Logger.debug('DOM is updated.');
+	                        Flywet.ajax.AjaxResponse.call(this, data);
+	                        Flywet.Logger.debug('DOM is updated.');
 	                    }
 	                    
         			}
@@ -1069,11 +1069,11 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 //                        cfg.onerror.call(data);
 //                    }
 //            
-//                    Plywet.Logger.error('Request form return with error:' + status + '.');
+//                    Flywet.Logger.error('Request form return with error:' + status + '.');
 //        		}
         		
         	});
-        	Plywet.Logger.debug('Form to post ' + form.attr('id') + '.');
+        	Flywet.Logger.debug('Form to post ' + form.attr('id') + '.');
         	return;
     	}
     }
@@ -1084,13 +1084,13 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
 
     //params
     if(cfg.params) {
-        ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(cfg.params);
+        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(cfg.params);
     }
     if(ext && ext.params) {
-        ajaxParams = ajaxParams + Plywet.ajax.AjaxUtils.serialize(ext.params);
+        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(ext.params);
     }
     
-    Plywet.Logger.debug('Post Data:' + ajaxParams);
+    Flywet.Logger.debug('Post Data:' + ajaxParams);
     var xhrOptions = {
         url : ajaxURL,
         type : ajaxType,
@@ -1101,25 +1101,25 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
         beforeSend: function(xhr, status) {
     		if(cfg.modal){
     			if(cfg.modalMessage){
-    				Plywet.desktop.changeMarkText(cfg.modalMessage);
+    				Flywet.desktop.changeMarkText(cfg.modalMessage);
     			}
-    			Plywet.desktop.triggerMark(true);
+    			Flywet.desktop.triggerMark(true);
     		}
             if(cfg.beforeSend) {
                 cfg.beforeSend.call(this, xhr, status);
             }
             
-            Plywet.Logger.debug('Request before send:' + status + '.');
+            Flywet.Logger.debug('Request before send:' + status + '.');
         },
         error: function(xhr, status, errorThrown) {
             if(cfg.onerror) {
                 cfg.onerror.call(xhr, status, errorThrown);
             }
     
-            Plywet.Logger.error('Request return with error:' + status + '.');
+            Flywet.Logger.error('Request return with error:' + status + '.');
         },
         success : function(data, status, xhr) {
-            Plywet.Logger.debug('Response received succesfully.');
+            Flywet.Logger.debug('Response received succesfully.');
             
             var parsed;
             //call user callback
@@ -1137,10 +1137,10 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
                 return;
             } 
             else {
-                Plywet.ajax.AjaxResponse.call(this, data);
+                Flywet.ajax.AjaxResponse.call(this, data);
             }
             
-            Plywet.Logger.debug('DOM is updated.');
+            Flywet.Logger.debug('DOM is updated.');
         },
         complete : function(xhr, status) {
             if(cfg.oncomplete) {
@@ -1152,13 +1152,13 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
             }
             
             if(cfg.modal){
-    			Plywet.desktop.triggerMark(false);
+    			Flywet.desktop.triggerMark(false);
     		}
             
-            Plywet.Logger.debug('Response completed.');
+            Flywet.Logger.debug('Response completed.');
             
             if(this.queued) {
-                Plywet.ajax.Queue.poll();
+                Flywet.ajax.Queue.poll();
             }
         }
     };
@@ -1169,14 +1169,14 @@ Plywet.ajax.AjaxRequest = function(cfg, ext) {
     	$.ajax(xhrOptions);
     }
     else {
-        Plywet.ajax.Queue.offer(xhrOptions);
+        Flywet.ajax.Queue.offer(xhrOptions);
     }
 };
 
 /**
  * 显示ajax的信息
  */
-Plywet.ajax.ShowMessage = function(json){
+Flywet.ajax.ShowMessage = function(json){
 	if(json.state != undefined && json.messages != undefined){
 		var text = "";
 		if(typeof(json.messages)=="string"){
@@ -1188,9 +1188,9 @@ Plywet.ajax.ShowMessage = function(json){
 			}
 		}
 		if(json.state == 0){
-			Plywet.dialog.prompt(text);
+			Flywet.dialog.prompt(text);
 		}else{
-			Plywet.dialog.error(text);
+			Flywet.dialog.error(text);
 		}
 	}
 };
@@ -1199,14 +1199,14 @@ Plywet.ajax.ShowMessage = function(json){
  * ajax响应，自动更新相应区域
  * @param responseJSON 相应的json
  */
-Plywet.ajax.AjaxResponse = function(json,target) {
+Flywet.ajax.AjaxResponse = function(json,target) {
 	
-	if(Plywet.isObjNull(json)){return;}
+	if(Flywet.isObjNull(json)){return;}
 	
 	if(json instanceof Object){
 		// 如果是成功，显示提升框，如果是错误，显示提升对话框
 		// TODO
-		Plywet.ajax.ShowMessage(json);
+		Flywet.ajax.ShowMessage(json);
 	}
 	
 	if(json instanceof Array){
@@ -1214,40 +1214,40 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 			var opera = json[i];
 			if(opera.operation){
 				var t;
-				if(!Plywet.isNull(opera.targetId)){
-					t = $(Plywet.escapeClientId(opera.targetId));
+				if(!Flywet.isNull(opera.targetId)){
+					t = $(Flywet.escapeClientId(opera.targetId));
 				}else if(target){
 					t = $(target);
 				}
 				if(t){
 					if(opera.operation=="update"){
-						Plywet.ajax.AjaxUtils.updateElement.call(this, t, opera.dom);
-						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is updated.');
+						Flywet.ajax.AjaxUtils.updateElement.call(this, t, opera.dom);
+						Flywet.Logger.debug('DOM ' + t.attr('id') + ' is updated.');
 					} else if(opera.operation=="append"){
-						Plywet.ajax.AjaxUtils.appendElement.call(this, t, opera.dom);
-						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is appended.');
+						Flywet.ajax.AjaxUtils.appendElement.call(this, t, opera.dom);
+						Flywet.Logger.debug('DOM ' + t.attr('id') + ' is appended.');
 					} else if(opera.operation=="remove"){
-						Plywet.ajax.AjaxUtils.removeElement.call(this, t);
-						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is removed.');
+						Flywet.ajax.AjaxUtils.removeElement.call(this, t);
+						Flywet.Logger.debug('DOM ' + t.attr('id') + ' is removed.');
 					} else if(opera.operation=="empty"){
-						Plywet.ajax.AjaxUtils.emptyElement.call(this, t);
-						Plywet.Logger.debug('DOM ' + t.attr('id') + ' is empty.');
+						Flywet.ajax.AjaxUtils.emptyElement.call(this, t);
+						Flywet.Logger.debug('DOM ' + t.attr('id') + ' is empty.');
 					} else if(opera.operation=="before"){
-						Plywet.ajax.AjaxUtils.beforeElement.call(this, t, opera.dom);
-						Plywet.Logger.debug('DOM ' + t.attr('id') + ' before.');
+						Flywet.ajax.AjaxUtils.beforeElement.call(this, t, opera.dom);
+						Flywet.Logger.debug('DOM ' + t.attr('id') + ' before.');
 					} else if(opera.operation=="after"){
-						Plywet.ajax.AjaxUtils.afterElement.call(this, t, opera.dom);
-						Plywet.Logger.debug('DOM ' + t.attr('id') + ' after.');
+						Flywet.ajax.AjaxUtils.afterElement.call(this, t, opera.dom);
+						Flywet.Logger.debug('DOM ' + t.attr('id') + ' after.');
 					} else if(opera.operation=="custom"){
-						if(!Plywet.isNull(opera.cmd)){
+						if(!Flywet.isNull(opera.cmd)){
 							var cfg = opera.data;
-							if(Plywet.isObjNull(json)){
+							if(Flywet.isObjNull(json)){
 								cfg = {};
 							}
 							cfg.id = t.attr('id');
 							// 初始化对象
 							if(opera.cmd.indexOf("widget.") == 0){
-								Plywet.cw(opera.cmd.substring(7), cfg.id+"_var", cfg);
+								Flywet.cw(opera.cmd.substring(7), cfg.id+"_var", cfg);
 							}
 							// 执行方法
 							else if(opera.cmd.indexOf("this.") == 0){
@@ -1261,7 +1261,7 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 							try{
 								eval(opera.script[j]);
 							}catch(e){
-								Plywet.Logger.error(opera.script[j]);
+								Flywet.Logger.error(opera.script[j]);
 							}
 						}
 					}
@@ -1272,7 +1272,7 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 						try{
 							eval(opera.script[j]);
 						}catch(e){
-							Plywet.Logger.error(opera.script[j]);
+							Flywet.Logger.error(opera.script[j]);
 						}
 					}
 				}
@@ -1284,7 +1284,7 @@ Plywet.ajax.AjaxResponse = function(json,target) {
 /**
  * ajax队列
  */
-Plywet.ajax.Queue = {
+Flywet.ajax.Queue = {
 		
     requests : new Array(),
     
@@ -1329,7 +1329,7 @@ Plywet.ajax.Queue = {
 /**
  * 浏览器检查
  */
-Plywet.browserDetect = {
+Flywet.browserDetect = {
 	init: function () {
 		// 浏览器标识
 		this.browser = this.searchString(this.dataBrowser) || "unknown";
@@ -1463,13 +1463,13 @@ Plywet.browserDetect = {
 		}
 	]
 };
-Plywet.browserDetect.init();
+Flywet.browserDetect.init();
 
-Plywet.interaction = {
+Flywet.interaction = {
 	action : function(val, act){
 		if(act){
 			for(var i=0;i<act.length;i++){
-				eval("Plywet.interaction."+act[i].method+"("+(val==act[i].val)+",val,act[i].param)");
+				eval("Flywet.interaction."+act[i].method+"("+(val==act[i].val)+",val,act[i].param)");
 			}
 		}
 	},
@@ -1477,7 +1477,7 @@ Plywet.interaction = {
 		var target;
 		if(march){
 			for(var i=0;i<param.length;i++){
-				target = $(Plywet.escapeClientId(param[i]));
+				target = $(Flywet.escapeClientId(param[i]));
 				if(target.data("componentType")){
 					eval("target."+target.data("componentType")+"('enable');");
 				}else{
@@ -1491,7 +1491,7 @@ Plywet.interaction = {
 			}
 		}else{
 			for(var i=0;i<param.length;i++){
-				target = $(Plywet.escapeClientId(param[i]));
+				target = $(Flywet.escapeClientId(param[i]));
 				if(target.data("componentType")){
 					eval("target."+target.data("componentType")+"('disabled');");
 				}else{
@@ -1509,12 +1509,12 @@ Plywet.interaction = {
 		var target;
 		if(march){
 			for(var i=0;i<param.length;i++){
-				target = $(Plywet.escapeClientId(param[i]));
+				target = $(Flywet.escapeClientId(param[i]));
 				target.show();
 			}
 		}else{
 			for(var i=0;i<param.length;i++){
-				target = $(Plywet.escapeClientId(param[i]));
+				target = $(Flywet.escapeClientId(param[i]));
 				target.hide();
 			}
 		}

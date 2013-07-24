@@ -195,7 +195,7 @@
 		}
 	};
 	$.fn.timespinner.parseOptions = function(target) {
-		return $.extend( {}, $.fn.spinner.parseOptions(target), Plywet
+		return $.extend( {}, $.fn.spinner.parseOptions(target), Flywet
 				.parseOptions(target, [ "separator", {
 					showSeconds : "boolean",
 					highlight : "number"

@@ -371,7 +371,7 @@
 	
 	$.fn.calendar.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "width", "height", {
+		return $.extend( {}, Flywet.parseOptions(target, [ "width", "height", {
 			firstDay : "number",
 			fit : "boolean",
 			border : "boolean"

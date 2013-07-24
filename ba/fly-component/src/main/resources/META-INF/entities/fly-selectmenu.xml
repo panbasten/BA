@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:SelectMenu">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.SelectMenu</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYSelectMenuResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.SelectMenu</description>
+	<classname>com.flywet.platform.bi.component.resolvers.input.FLYSelectMenuResolver</classname>
 	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.SelectMenu</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.SelectMenu</tooltip>
 	<iconfile>selectmenu.png</iconfile>
 	
 	<attributes>

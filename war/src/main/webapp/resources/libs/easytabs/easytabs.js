@@ -223,7 +223,7 @@
     // Remove tab and fire callback
     plugin.removeTab = function($clicked, callback) {
     	if($clicked.data('modify')){
-    		Plywet.cw("ConfirmDialog",null,{type:"confirm",text:plugin.resolverModifyCloseTip($clicked),
+    		Flywet.cw("ConfirmDialog",null,{type:"confirm",text:plugin.resolverModifyCloseTip($clicked),
     			footerButtons:[
 		    		{componentType : "fly:PushButton", type : "button", label : "保存", title : "保存并关闭", events : { 
 		    			click:function(e,d){
@@ -882,17 +882,17 @@
 
 })(jQuery);
 
-Plywet.widget.EasyTabs = function(cfg) {
+Flywet.widget.EasyTabs = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	this.easytabs= this.jq.easytabs(this.cfg);
 	
 	
 };
 
-Plywet.extend(Plywet.widget.EasyTabs, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.EasyTabs, Flywet.widget.BaseWidget);
 
 /**
  * 添加Tab节点
@@ -904,28 +904,28 @@ Plywet.extend(Plywet.widget.EasyTabs, Plywet.widget.BaseWidget);
  *	closePanel: 当关闭时是否同时关闭对应的Panel
  *	checkModify: 是否检查TAB的修改状态
  */
-Plywet.widget.EasyTabs.prototype.addTab = function(cfg){
+Flywet.widget.EasyTabs.prototype.addTab = function(cfg){
 	this.jq.easytabs("addTab",cfg);
 };
 
 /**
  * 匹配
  */
-Plywet.widget.EasyTabs.prototype.hasMatch = function(hash){
+Flywet.widget.EasyTabs.prototype.hasMatch = function(hash){
 	return this.jq.easytabs("hasMatch",hash);
 };
 
 /**
  * 选择
  */
-Plywet.widget.EasyTabs.prototype.select = function(tabSelector){
+Flywet.widget.EasyTabs.prototype.select = function(tabSelector){
 	this.jq.easytabs("select",tabSelector);
 };
 
 /**
  * 是否激活
  */
-Plywet.widget.EasyTabs.prototype.isActive = function(tabSelector){
+Flywet.widget.EasyTabs.prototype.isActive = function(tabSelector){
 	return this.jq.easytabs("isActive",tabSelector);
 };
 
@@ -934,6 +934,6 @@ Plywet.widget.EasyTabs.prototype.isActive = function(tabSelector){
  * @param tabSelector tab选择器，如果为空返回当前激活的Tab
  * @param modify 是否修改
  */
-Plywet.widget.EasyTabs.prototype.setTabModify = function(tabSelector,modify){
+Flywet.widget.EasyTabs.prototype.setTabModify = function(tabSelector,modify){
 	this.jq.easytabs("setTabModify",{tabSelector:tabSelector,modify:modify});
 };

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:TabView">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.TabView</description>
-	<classname>com.plywet.platform.bi.component.resolvers.container.FLYTabViewResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.TabView</description>
+	<classname>com.flywet.platform.bi.component.resolvers.container.FLYTabViewResolver</classname>
 	<category>Containers</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.TabView</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.TabView</tooltip>
 	<iconfile>tabview.png</iconfile>
 </component>

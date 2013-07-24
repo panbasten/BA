@@ -2,16 +2,16 @@
  * 浏览面板
  * yanghyc
  */
-Plywet.widget.BrowsePanel=function(cfg){
+Flywet.widget.BrowsePanel=function(cfg){
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);	
 	this.container;	
 	this.init();
 };
-Plywet.extend(Plywet.widget.BrowsePanel, Plywet.widget.BaseWidget);
-Plywet.widget.BrowsePanel.prototype={
+Flywet.extend(Flywet.widget.BrowsePanel, Flywet.widget.BaseWidget);
+Flywet.widget.BrowsePanel.prototype={
 	init:function(){
 		if(!this.container){
 			this._createContainer();
@@ -40,7 +40,7 @@ Plywet.widget.BrowsePanel.prototype={
 		return items;
 	},
 	getItem:function(id){
-		return this.container.find(Plywet.escapeClientId(id));
+		return this.container.find(Flywet.escapeClientId(id));
 	},
 	addItem:function(items){
 		if(!items) return;
@@ -83,7 +83,7 @@ Plywet.widget.BrowsePanel.prototype={
 				if(!active)
 					el.addClass("ui-state-active");
 				if(event.data && event.data.events && event.data.events["click"]){
-					Plywet.invokeFunction(event.data.events["click"],event,event.data);
+					Flywet.invokeFunction(event.data.events["click"],event,event.data);
 				}
 			});
 			
@@ -91,7 +91,7 @@ Plywet.widget.BrowsePanel.prototype={
 			itemDom.bind("mouseover",item,function(event){
 				$(this).addClass("ui-state-hover");
 				if(event.data && event.data.events && event.data.events["mouseover"]){
-					Plywet.invokeFunction(event.data.events["mouseover"],event,event.data);
+					Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
 				}
 			});
 			
@@ -99,12 +99,12 @@ Plywet.widget.BrowsePanel.prototype={
 			itemDom.bind("mouseout",item,function(event){
 				$(this).removeClass("ui-state-hover");
 				if(event.data && event.data.events && event.data.events["mouseout"]){
-					Plywet.invokeFunction(event.data.events["mouseout"],event,event.data);
+					Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
 				}
 			});
 			
 			// other event
-			Plywet.attachBehaviors(itemDom,Plywet.assembleBehaviors(item.attrs.events,["click","mouseover","mouseout"]),item);
+			Flywet.attachBehaviors(itemDom,Flywet.assembleBehaviors(item.attrs.events,["click","mouseover","mouseout"]),item);
 			
 			if(item.attrs.iconStyle){
 				$(icon).addClass(item.attrs.iconStyle);
@@ -115,7 +115,7 @@ Plywet.widget.BrowsePanel.prototype={
 				});
 			};
 			if(item.attrs.draggable){
-				new Plywet.widget.Drag({
+				new Flywet.widget.Drag({
         			id:item.id,
         			dom:itemDom,
         			targetid:item.attrs.targetid,

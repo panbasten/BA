@@ -1,53 +1,53 @@
 <signal>
 	<name>keydown</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.KeyDown</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.KeyDown</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.KeyDown</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.KeyDown</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 		<parameter>
 			<name>key</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Key</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Key</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Key</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Key</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 
 <signal>
 	<name>keyup</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.KeyUp</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.KeyUp</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.KeyUp</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.KeyUp</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 		<parameter>
 			<name>key</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Key</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Key</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Key</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Key</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 
 <signal>
 	<name>keypress</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.KeyPress</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.KeyPress</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.KeyPress</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.KeyPress</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 		<parameter>
 			<name>key</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Key</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Key</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Key</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Key</tooltip>
 		</parameter>
 	</parameters>
 </signal>

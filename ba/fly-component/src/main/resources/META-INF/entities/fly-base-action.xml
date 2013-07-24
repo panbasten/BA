@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:Action">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Action</description>
-	<classname>com.plywet.platform.bi.component.resolvers.base.ActionResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.Action</description>
+	<classname>com.flywet.platform.bi.component.resolvers.base.ActionResolver</classname>
 	<category>Base</category>
 	<ignoreInDesigner>true</ignoreInDesigner>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Action</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Action</tooltip>
 	<iconfile>action.png</iconfile>
 	
 	<attributes>
@@ -12,32 +12,32 @@
 			<name>sender</name>
 			<required>false</required>
 			<type>java.lang.String</type>
-		    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Sender</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Sender</tooltip>
+		    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Sender</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Sender</tooltip>
 		</attribute>
 		
 		<attribute>
 			<name>signal</name>
 			<required>false</required>
 			<type>java.lang.String</type>
-		    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Signal</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Signal</tooltip>
+		    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Signal</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Signal</tooltip>
 		</attribute>
 		
 		<attribute>
 			<name>accepter</name>
 			<required>false</required>
 			<type>java.lang.String</type>
-		    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Accepter</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Accepter</tooltip>
+		    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Accepter</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Accepter</tooltip>
 		</attribute>
 		
 		<attribute>
 			<name>slot</name>
 			<required>false</required>
 			<type>java.lang.String</type>
-		    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Slot</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Slot</tooltip>
+		    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Slot</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Slot</tooltip>
 		</attribute>
 	</attributes>
 	

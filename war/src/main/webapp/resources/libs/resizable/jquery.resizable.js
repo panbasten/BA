@@ -201,7 +201,7 @@
 	};
 	$.fn.resizable.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "handles", {
+		return $.extend( {}, Flywet.parseOptions(target, [ "handles", {
 			minWidth : "number",
 			minHeight : "number",
 			maxWidth : "number",

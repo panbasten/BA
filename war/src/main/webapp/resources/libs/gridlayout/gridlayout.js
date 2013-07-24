@@ -73,7 +73,7 @@
 				
 				itemsLine.push(item);
 				
-				dim = Plywet.getElementDimensions(item);
+				dim = Flywet.getElementDimensions(item);
 				
 				// 设置项目实际像素值
 				_resizeItemWidth(item,opts,dim.offsetWidth,idx,cols)
@@ -129,7 +129,7 @@
 		var t = $(target);
 		return $.extend(
 			{},
-			Plywet.parseOptions(target)
+			Flywet.parseOptions(target)
 		);
 	};
 	
@@ -147,15 +147,15 @@
 /**
  * 栅格布局
  */
-Plywet.widget.GridLayout = function(cfg) {
+Flywet.widget.GridLayout = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	this.init();
 };
-Plywet.extend(Plywet.widget.GridLayout, Plywet.widget.BaseWidget);
-Plywet.widget.GridLayout.prototype = {
+Flywet.extend(Flywet.widget.GridLayout, Flywet.widget.BaseWidget);
+Flywet.widget.GridLayout.prototype = {
 	init : function() {
 		this.jq.gridlayout(this.cfg);
 	}

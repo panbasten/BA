@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:ComboBox">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.ComboBox</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYComboBoxResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.ComboBox</description>
+	<classname>com.flywet.platform.bi.component.resolvers.input.FLYComboBoxResolver</classname>
 	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.ComboBox</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.ComboBox</tooltip>
 	<iconfile>combobox.png</iconfile>
 	
 	<attributes>

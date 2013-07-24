@@ -198,7 +198,7 @@ public class JobMeta extends ChangedFlag implements Cloneable, Comparable<JobMet
 
 	/**
 	 * If this is null, we load from the default shared objects file :
-	 * $PLYWET_HOME/.plywet/shared.xml
+	 * $FLYWET_HOME/.flywet/shared.xml
 	 */
 	protected String sharedObjectsFile;
 	

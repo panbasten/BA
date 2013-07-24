@@ -63,7 +63,7 @@
 	
 	<step id="MondrianInput">
 		<description>i18n:org.pentaho.di.trans.step:BaseStep.TypeLongDesc.MondrianInput</description>
-		<classname>com.plywet.platform.bi.mondrian.steps.mondrianinput.MondrianInputMeta</classname>
+		<classname>com.flywet.platform.bi.mondrian.steps.mondrianinput.MondrianInputMeta</classname>
 		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Input</category>
 		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.MondrianInput</tooltip>
 		<iconfile>MON.png</iconfile>
@@ -71,7 +71,7 @@
 
 	<step id="OlapInput">
 		<description>i18n:org.pentaho.di.trans.step:BaseStep.TypeLongDesc.OlapInput</description>
-		<classname>com.plywet.platform.bi.mondrian.steps.olapinput.OlapInputMeta</classname>
+		<classname>com.flywet.platform.bi.mondrian.steps.olapinput.OlapInputMeta</classname>
 		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Input</category>
 		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.OlapInput</tooltip>
 		<iconfile>MON.png</iconfile>
@@ -155,7 +155,7 @@
 	
 	<step id="ReportFileOutput">
 		<description>i18n:org.pentaho.di.trans.step:BaseStep.TypeLongDesc.ReportFileOutput</description>
-		<classname>com.plywet.platform.bi.report.steps.reportfileoutput.ReportFileOutputMeta</classname>
+		<classname>com.flywet.platform.bi.report.steps.reportfileoutput.ReportFileOutputMeta</classname>
 		<category>i18n:org.pentaho.di.trans.step:BaseStep.Category.Output</category>
 		<tooltip>i18n:org.pentaho.di.trans.step:BaseStep.TypeTooltipDesc.ReportFileOutput</tooltip>
 		<iconfile>RFO.png</iconfile>

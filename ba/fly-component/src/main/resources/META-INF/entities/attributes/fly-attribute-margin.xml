@@ -1,48 +1,48 @@
 <attributeGroup>
 
 	<name>marginGroup</name>
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.MarginGroup</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.MarginGroup</tooltip>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.MarginGroup</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.MarginGroup</tooltip>
 
 	<attribute>
 		<name>margin</name>
 		<required>false</required>
 		<type>java.lang.String</type>
 		<defaultValue>5</defaultValue>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Margin</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Margin</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Margin</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Margin</tooltip>
 	</attribute>
 
 	<attribute>
 		<name>marginTop</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginTop</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginTop</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginTop</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginTop</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>marginBottom</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginBottom</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginBottom</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginBottom</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginBottom</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>marginLeft</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginLeft</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginLeft</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginLeft</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginLeft</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>marginRight</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginRight</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginRight</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.MarginRight</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.MarginRight</tooltip>
 	</attribute>
 
 </attributeGroup>

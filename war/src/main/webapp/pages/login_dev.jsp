@@ -109,9 +109,9 @@
 	</body>
 	<script type="text/javascript">
 	$(document).ready( function() {
-		Plywet.Login.initPage();
+		Flywet.Login.initPage();
 		$(window).bind('resize', function() {
-			Plywet.Login.resize();
+			Flywet.Login.resize();
 		});
 	});
 	</script>

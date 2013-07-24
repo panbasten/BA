@@ -1,7 +1,7 @@
-Plywet.widget.FusionCharts = function(cfg){
+Flywet.widget.FusionCharts = function(cfg){
 	this.cfg = $.extend({autoOpen:true},cfg);
 	this.id = this.cfg.id;
-	this.jq = $(Plywet.escapeClientId(this.id));	
+	this.jq = $(Flywet.escapeClientId(this.id));	
 	
 	if (!document.getElementById) { return; }
 	
@@ -44,9 +44,9 @@ Plywet.widget.FusionCharts = function(cfg){
 	}
 };
 
-Plywet.extend(Plywet.widget.FusionCharts, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.FusionCharts, Flywet.widget.BaseWidget);
 
-Plywet.widget.FusionCharts.prototype = {
+Flywet.widget.FusionCharts.prototype = {
 	setAttribute: function(name, value){
 		this.attributes[name] = value;
 	},
@@ -127,7 +127,7 @@ Plywet.widget.FusionCharts.prototype = {
 	},
 	render: function(elementId){
 		if(elementId){
-			this.jq = (typeof elementId == 'string') ? $(Plywet.escapeClientId(elementId)) : $(elementId);
+			this.jq = (typeof elementId == 'string') ? $(Flywet.escapeClientId(elementId)) : $(elementId);
 		}
 		this.jq.html(this.getSWFHTML());
 		return true;		
@@ -136,7 +136,7 @@ Plywet.widget.FusionCharts.prototype = {
 
 // ------------ Fix for Out of Memory Bug in IE in FP9 ---------------//
 /* Fix for video streaming bug */
-Plywet.widget.FusionChartsUtil.cleanupSWFs = function() {
+Flywet.widget.FusionChartsUtil.cleanupSWFs = function() {
 	if (window.opera || !document.all) return;
 	var objects = document.getElementsByTagName("OBJECT");
 	for (var i=0; i < objects.length; i++) {
@@ -150,35 +150,35 @@ Plywet.widget.FusionChartsUtil.cleanupSWFs = function() {
 };
 
 // Fixes bug in fp9
-Plywet.widget.FusionChartsUtil.prepUnload = function() {
+Flywet.widget.FusionChartsUtil.prepUnload = function() {
 	__flash_unloadHandler = function(){};
 	__flash_savedUnloadHandler = function(){};
 	if (typeof window.onunload == 'function') {
 		var oldUnload = window.onunload;
 		window.onunload = function() {
-			Plywet.widget.FusionChartsUtil.cleanupSWFs();
+			Flywet.widget.FusionChartsUtil.cleanupSWFs();
 			oldUnload();
 		}
 	} else {
-		window.onunload = Plywet.widget.FusionChartsUtil.cleanupSWFs;
+		window.onunload = Flywet.widget.FusionChartsUtil.cleanupSWFs;
 	}
 };
 
 if (typeof window.onbeforeunload == 'function') {
 	var oldBeforeUnload = window.onbeforeunload;
 	window.onbeforeunload = function() {
-		Plywet.widget.FusionChartsUtil.prepUnload();
+		Flywet.widget.FusionChartsUtil.prepUnload();
 		oldBeforeUnload();
 	}
 } else {
-	window.onbeforeunload = Plywet.widget.FusionChartsUtil.prepUnload;
+	window.onbeforeunload = Flywet.widget.FusionChartsUtil.prepUnload;
 }
 
 /* Add Array.push if needed (ie5) */
 if (Array.prototype.push == null) { Array.prototype.push = function(item) { this[this.length] = item; return this.length; }}
 
 /* Function to return Flash Object from ID */
-Plywet.widget.FusionChartsUtil.getChartObject = function(id)
+Flywet.widget.FusionChartsUtil.getChartObject = function(id)
 {
   if (window.document[id]) {
       return window.document[id];
@@ -193,9 +193,9 @@ Plywet.widget.FusionChartsUtil.getChartObject = function(id)
 /*
  Function to update chart's data at client side
 */
-Plywet.widget.FusionChartsUtil.updateChartXML = function(chartId, strXML){
+Flywet.widget.FusionChartsUtil.updateChartXML = function(chartId, strXML){
 	//Get reference to chart object				
-	var chartObj = Plywet.widget.FusionChartsUtil.getChartObject(chartId);		
+	var chartObj = Flywet.widget.FusionChartsUtil.getChartObject(chartId);		
 	//Set dataURL to null
 	chartObj.SetVariable("_root.dataURL","");
 	//Set the flag

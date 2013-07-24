@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:Tree">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Tree</description>
-	<classname>com.plywet.platform.bi.component.resolvers.item.FLYTreeResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.Tree</description>
+	<classname>com.flywet.platform.bi.component.resolvers.item.FLYTreeResolver</classname>
 	<category>Item</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Tree</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Tree</tooltip>
 	<iconfile>tree.png</iconfile>
 </component>

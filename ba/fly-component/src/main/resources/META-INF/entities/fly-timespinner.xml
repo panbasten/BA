@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:TimeSpinner">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.TimeSpinner</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYTimeSpinnerResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.TimeSpinner</description>
+	<classname>com.flywet.platform.bi.component.resolvers.input.FLYTimeSpinnerResolver</classname>
 	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.TimeSpinner</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.TimeSpinner</tooltip>
 	<iconfile>timespinner.png</iconfile>
 </component>

@@ -201,9 +201,9 @@
 	
 	<script type="text/javascript">
 		$(document).ready( function() {
-			Plywet.desktop.initPage();
+			Flywet.desktop.initPage();
 			$(window).bind('resize', function() {
-				Plywet.desktop.resize();
+				Flywet.desktop.resize();
 			});
 			$(document).bind('contextmenu', function(e) {
 				return false;

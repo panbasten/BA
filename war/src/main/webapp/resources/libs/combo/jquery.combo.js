@@ -495,7 +495,7 @@
 	
 	$.fn.combo.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, $.fn.validatebox.parseOptions(target), Plywet
+		return $.extend( {}, $.fn.validatebox.parseOptions(target), Flywet
 				.parseOptions(target, [ "width", "height", "separator", {
 					panelWidth : "number",
 					editable : "boolean",

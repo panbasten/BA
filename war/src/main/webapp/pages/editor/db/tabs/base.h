@@ -16,12 +16,12 @@
 			<fly:verticalLayout margin="0">
 				<fly:labelObject buddy="${formId}:connectionType" text="连接类型"></fly:labelObject>
 				<fly:selectMenu id="${formId}:connectionType" name="${formId}:connectionType" size="10" value="${dbMeta.databaseInterface.pluginId}"
-					onchange="Plywet.database.changeConnectionType('${formId}')">
+					onchange="Flywet.database.changeConnectionType('${formId}')">
 					<fly:options items="${dbTypes}" value="ids[0]" label="name" />
 				</fly:selectMenu>
 				<fly:labelObject buddy="${formId}:accessType" text="连接方式" marginTop="10"></fly:labelObject>
 				<fly:selectMenu id="${formId}:accessType" name="${formId}:accessType" size="4" value="${dbMeta.accessType}"
-					onchange="Plywet.database.changeConnectionType('${formId}')">
+					onchange="Flywet.database.changeConnectionType('${formId}')">
 					<fly:options items="${accessTypes}" value="0" label="1" />
 				</fly:selectMenu>
 			</fly:verticalLayout>

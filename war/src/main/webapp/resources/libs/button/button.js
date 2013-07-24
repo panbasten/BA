@@ -140,7 +140,7 @@
 		var t = $(target);
 		return $.extend(
 				{},
-				Plywet.parseOptions(target, ["id", "type", "state", "title", "label", "iconCls", "iconAlign"])
+				Flywet.parseOptions(target, ["id", "type", "state", "title", "label", "iconCls", "iconAlign"])
 			);
 	};
 	
@@ -155,19 +155,19 @@
 })(jQuery);
 
 
-Plywet.widget.PushButton=function(cfg){
+Flywet.widget.PushButton=function(cfg){
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	
 	this.init();
 };
 
-Plywet.extend(Plywet.widget.PushButton, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.PushButton, Flywet.widget.BaseWidget);
 
-Plywet.widget.PushButton.prototype.init = function() {
+Flywet.widget.PushButton.prototype.init = function() {
 	if(this.cfg.parent || this.cfg.parentId){
-		this.parent = this.cfg.parent || $(Plywet.escapeClientId(this.cfg.parentId));
+		this.parent = this.cfg.parent || $(Flywet.escapeClientId(this.cfg.parentId));
 		this.jq = $(this.parent).find(this.jqId);
 		
 		if(this.jq.length > 0) return;
@@ -262,17 +262,17 @@ Plywet.widget.PushButton.prototype.init = function() {
 	
 };
 
-Plywet.widget.PushButton.prototype.isActive = function(){
+Flywet.widget.PushButton.prototype.isActive = function(){
 	return this.jq.hasClass("ui-state-active");
 };
 
-Plywet.widget.PushButton.prototype.initEvents = function(){
+Flywet.widget.PushButton.prototype.initEvents = function(){
 	
 	// mouseOver
 	this.jq.bind("mouseover",this.cfg,function(event){
 		$(this).addClass('ui-state-hover');
 		if(event.data && event.data.events && event.data.events["mouseover"]){
-			Plywet.invokeFunction(event.data.events["mouseover"],event,event.data);
+			Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
 		}
 	});
 	
@@ -280,12 +280,12 @@ Plywet.widget.PushButton.prototype.initEvents = function(){
 	this.jq.bind("mouseout",this.cfg,function(event){
 		$(this).removeClass('ui-state-hover');
 		if(event.data && event.data.events && event.data.events["mouseout"]){
-			Plywet.invokeFunction(event.data.events["mouseout"],event,event.data);
+			Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
 		}
 	});
 	
 	// other event
-	Plywet.attachBehaviors(this.jq,Plywet.assembleBehaviors(this.cfg.events,["mouseover","mouseout"]),this.cfg);
-	Plywet.attachBehaviorsOn(this.jq, this.cfg);
+	Flywet.attachBehaviors(this.jq,Flywet.assembleBehaviors(this.cfg.events,["mouseover","mouseout"]),this.cfg);
+	Flywet.attachBehaviorsOn(this.jq, this.cfg);
 	
 };

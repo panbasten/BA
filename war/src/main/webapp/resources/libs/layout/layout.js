@@ -395,7 +395,7 @@ $.layout.defaults = {
 	,	slideDelay_open:		300			// applies only for mouseenter event - 0 = instant open
 	,	slideDelay_close:		300			// applies only for mouseleave event (300ms is the minimum!)
 	,	hideTogglerOnSlide:		false		// when pane is slid-open, should the toggler show?
-	,	preventQuickSlideClose:	Plywet.browserDetect.webkit // Chrome triggers slideClosed as it is opening
+	,	preventQuickSlideClose:	Flywet.browserDetect.webkit // Chrome triggers slideClosed as it is opening
 	,	preventPrematureSlideClose: false	// handle incorrect mouseleave trigger, like when over a SELECT-list in IE
 	//	PANE-SPECIFIC TIPS & MESSAGES
 	,	tips: {
@@ -652,14 +652,14 @@ $.fn.layout = function (opts) {
 	var
 
 	// local aliases to global data
-	browser	= Plywet.browserDetect
+	browser	= Flywet.browserDetect
 ,	_c		= $.layout.config
 
 	// local aliases to utlity methods
-,	cssW	= Plywet.cssWidth
-,	cssH	= Plywet.cssHeight
-,	elDims	= Plywet.getElementDimensions
-,	elCSS	= Plywet.getElementCSS
+,	cssW	= Flywet.cssWidth
+,	cssH	= Flywet.cssHeight
+,	elDims	= Flywet.getElementDimensions
+,	elCSS	= Flywet.getElementCSS
 ,	evtObj	= $.layout.getEventObject
 ,	evtPane	= $.layout.parsePaneName
 
@@ -760,7 +760,7 @@ $.fn.layout = function (opts) {
 				}
 			}
 			catch (ex) {
-				Plywet.Logger.error( options.errors.callbackError.replace(/EVENT/, $.trim(pane +" "+ lng)) );
+				Flywet.Logger.error( options.errors.callbackError.replace(/EVENT/, $.trim(pane +" "+ lng)) );
 			}
 		}
 
@@ -929,7 +929,7 @@ $.fn.layout = function (opts) {
 			var	dim	= (dir === "horz" ? "height" : "width")
 			,	$P	= $Ps[pane]
 			,	$C	= dim === 'height' ? $Cs[pane] : false
-			,	vis	= Plywet.setInvisibly($P) // show pane invisibly if hidden
+			,	vis	= Flywet.setInvisibly($P) // show pane invisibly if hidden
 			,	szP	= $P.css(dim) // SAVE current pane size
 			,	szC	= $C ? $C.css(dim) : 0 // SAVE current content size
 			;
@@ -1196,7 +1196,7 @@ $.fn.layout = function (opts) {
 
 		// a center pane is required, so make sure it exists
 		if (!getPane("center").length) {
-			return Plywet.Logger.error( o.errors.centerPaneMissing );
+			return Flywet.Logger.error( o.errors.centerPaneMissing );
 		}
 
 		// TEMP state so isInitialized returns true during init process
@@ -1436,7 +1436,7 @@ $.fn.layout = function (opts) {
 				if ( $N.is(":visible") ) {
 					$.extend(sC, elDims( $N ));
 					if (sC.innerHeight < 1)
-						Plywet.Logger.error( o.errors.noContainerHeight.replace(/CONTAINER/, sC.ref) );
+						Flywet.Logger.error( o.errors.noContainerHeight.replace(/CONTAINER/, sC.ref) );
 				}
 			}
 		} catch (ex) {}
@@ -2076,7 +2076,7 @@ $.fn.layout = function (opts) {
 					// SET RESIZER LIMITS - used in drag()
 					setSizeLimits(pane); // update pane/resizer state
 					r = s.resizerPosition;
-					lastPos = Plywet.getElementDimensions($(e.data.target)).css[ side ];
+					lastPos = Flywet.getElementDimensions($(e.data.target)).css[ side ];
 
 					$R.addClass( resizerClass +" "+ resizerPaneClass ); // add drag classes
 					helperClassesSet = false; // reset logic var - see drag()
@@ -2090,7 +2090,7 @@ $.fn.layout = function (opts) {
 
 			,	onDrag: function (e) {
 					var holder = $(e.data.target),
-						ui = Plywet.getElementDimensions(holder);
+						ui = Flywet.getElementDimensions(holder);
 					if (!helperClassesSet) { // can only add classes after clone has been added to the DOM
 						//$(".ui-draggable-dragging")
 						holder
@@ -2132,7 +2132,7 @@ $.fn.layout = function (opts) {
 
 			,	onStopDrag: function (e) {
 					var holder = $(e.data.target),
-						ui = Plywet.getElementDimensions(holder);
+						ui = Flywet.getElementDimensions(holder);
 					holder
 						.removeClass( helperClass +" "+ helperPaneClass ) // add helper classes
 						.children().css("visibility","visible")	// hide toggler inside dragged resizer-bar
@@ -3054,7 +3054,7 @@ $.fn.layout = function (opts) {
 			close_NOW(); // close immediately onClick
 		else if (o.preventQuickSlideClose && s.isMoving)
 			return; // handle Chrome quick-close on slide-open
-		else if (o.preventPrematureSlideClose && evt && Plywet.isMouseOverElement(evt, $Ps[pane]))
+		else if (o.preventPrematureSlideClose && evt && Flywet.isMouseOverElement(evt, $Ps[pane]))
 			return; // handle incorrect mouseleave trigger, like when over a SELECT-list in IE
 		else if (evt) // trigger = mouseleave - use a delay
 			// 1 sec delay if 'opening', else .3 sec
@@ -3265,7 +3265,7 @@ $.fn.layout = function (opts) {
 				var	side = c.side.toLowerCase()
 				,	pos  = s.size + sC["inset"+ c.side]
 				;
-				if (Plywet.cssNum($R, side) != pos) $R.css( side, pos );
+				if (Flywet.cssNum($R, side) != pos) $R.css( side, pos );
 			}
 
 			// if was previously hidden due to noRoom, then RESET because NOW there is room
@@ -3433,10 +3433,10 @@ $.fn.layout = function (opts) {
 
 				// log attempts and alert the user of this *non-fatal error* 
 				if ( tries.length === 1) {
-					Plywet.Logger.debug(msg);
-					Plywet.Logger.debug(lastTry);
+					Flywet.Logger.debug(msg);
+					Flywet.Logger.debug(lastTry);
 				}
-				Plywet.Logger.debug(thisTry);
+				Flywet.Logger.debug(thisTry);
 				// after 4 tries, is as close as its gonna get!
 				if (tries.length > 3) break;
 
@@ -3476,7 +3476,7 @@ $.fn.layout = function (opts) {
 
 			// DEBUG - ALERT user/developer so they know there was a sizing problem
 			if (tries.length > 1)
-				Plywet.Logger.debug(msg +'\nSee the Error Console for details.');
+				Flywet.Logger.debug(msg +'\nSee the Error Console for details.');
 		}
 	}
 
@@ -3830,7 +3830,7 @@ $.fn.layout = function (opts) {
 				//paneLen = $P.outerWidth(); // s.outerWidth || 
 				paneLen = sC.innerWidth; // handle offscreen-panes
 				s.resizerLength = paneLen;
-				left = Plywet.cssNum($P, "left")
+				left = Flywet.cssNum($P, "left")
 				$R.css({
 					width:	cssW($R, paneLen) // account for borders & padding
 				,	height:	cssH($R, spacing) // ditto
@@ -3844,7 +3844,7 @@ $.fn.layout = function (opts) {
 					height:	cssH($R, paneLen) // account for borders & padding
 				,	width:	cssW($R, spacing) // ditto
 				,	top:	sC.insetTop + getPaneSize("north", true) // TODO: what if no North pane?
-				//,	top:	Plywet.cssNum($Ps["center"], "top")
+				//,	top:	Flywet.cssNum($Ps["center"], "top")
 				});
 			}
 
@@ -4368,7 +4368,7 @@ $.fn.layout = function (opts) {
 	// validate that container exists
 	var $N = $(this).eq(0); // FIRST matching Container element
 	if (!$N.length) {
-		return Plywet.Logger.error( options.errors.containerMissing );
+		return Flywet.Logger.error( options.errors.containerMissing );
 	};
 
 	// Users retrieve Instance of a layout with: $N.layout() OR $N.data("layout")
@@ -4462,7 +4462,7 @@ $.fn.layout = function (opts) {
  *	so if this is IE, use support.boxModel to test for quirks-mode (ONLY IE changes boxModel).
  */
 $(function(){
-	var b = Plywet.browserDetect;
+	var b = Flywet.browserDetect;
 	if (b.msie) b.boxModel = $.support.boxModel;
 });
 
@@ -4478,7 +4478,7 @@ $(function(){
  * and MIT (http://www.opensource.org/licenses/mit-license.php) licenses.
  *
  * @dependancies: UI Layout 1.3.0.rc30.1 or higher
- * @dependancies: Plywet.cookie (above)
+ * @dependancies: Flywet.cookie (above)
  *
  * @support: http://groups.google.com/group/jquery-ui-layout
  */
@@ -4555,7 +4555,7 @@ $.layout.state = {
 		,	oC	= $.extend(true, {}, oS.cookie, cookieOpts || null)
 		,	data = inst.state.stateData = inst.readState( keys || oS.stateKeys ) // read current panes-state
 		;
-		Plywet.CookieUtils.write( oC.name || o.name || "Layout", Plywet.toJSONString(data), oC );
+		Flywet.CookieUtils.write( oC.name || o.name || "Layout", Flywet.toJSONString(data), oC );
 		return $.extend(true, {}, data); // return COPY of state.stateData data
 	}
 
@@ -4566,7 +4566,7 @@ $.layout.state = {
 	 */
 ,	deleteCookie: function (inst) {
 		var o = inst.options;
-		Plywet.CookieUtils.clear( o.stateManagement.cookie.name || o.name || "Layout" );
+		Flywet.CookieUtils.clear( o.stateManagement.cookie.name || o.name || "Layout" );
 	}
 
 	/**
@@ -4576,9 +4576,9 @@ $.layout.state = {
 	 */
 ,	readCookie: function (inst) {
 		var o = inst.options;
-		var c = Plywet.CookieUtils.read( o.stateManagement.cookie.name || o.name || "Layout" );
+		var c = Flywet.CookieUtils.read( o.stateManagement.cookie.name || o.name || "Layout" );
 		// convert cookie string back to a hash and return it
-		return c ? Plywet.parseJSON(c) : {};
+		return c ? Flywet.parseJSON(c) : {};
 	}
 
 	/**
@@ -4793,10 +4793,10 @@ $.layout.buttons = {
 		,	err	= o.errors.addButtonError
 		;
 		if (!$E.length) { // element not found
-			Plywet.Logger.error(err +" "+ o.errors.selector +": "+ selector);
+			Flywet.Logger.error(err +" "+ o.errors.selector +": "+ selector);
 		}
 		else if ($.inArray(pane, $.layout.config.borderPanes) < 0) { // invalid 'pane' sepecified
-			Plywet.Logger.error(err +" "+ o.errors.pane +": "+ pane);
+			Flywet.Logger.error(err +" "+ o.errors.pane +": "+ pane);
 			$E = $("");  // NO BUTTON
 		}
 		else { // VALID
@@ -5060,7 +5060,7 @@ $.layout.browserZoom = {
 		,	s	= screen
 		,	d	= document
 		,	dE	= d.documentElement || d.body
-		,	b	= Plywet.browserDetect
+		,	b	= Flywet.browserDetect
 		,	v	= b.version
 		,	r, sW, cW
 		;

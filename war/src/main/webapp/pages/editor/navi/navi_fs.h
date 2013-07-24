@@ -6,17 +6,17 @@
 		</div>
 		<div class="ui-toolbar-group-right">
             <fly:pushbutton id="fs-btn-create" icon="ui-icon-folder-open" show="N"
-            	label="新增" title="新增" onclick="Plywet.filesys.create()" />
+            	label="新增" title="新增" onclick="Flywet.filesys.create()" />
             <fly:pushbutton id="fs-btn-edit" icon="ui-icon-folder-open" show="N"
-            	label="编辑" title="编辑" onclick="Plywet.filesys.edit()" />
+            	label="编辑" title="编辑" onclick="Flywet.filesys.edit()" />
             <fly:pushbutton id="fs-btn-remove" icon="ui-icon-folder-open" show="N"
-            	label="删除" title="删除" onclick="Plywet.filesys.remove()" />
+            	label="删除" title="删除" onclick="Flywet.filesys.remove()" />
             <fly:pushbutton id="fs-btn-create-dir" icon="ui-icon-folder-open" show="N"
-            	label="创建目录" title="创建目录" onclick="Plywet.filesys.createDir()" />
+            	label="创建目录" title="创建目录" onclick="Flywet.filesys.createDir()" />
             <fly:pushbutton id="fs-btn-upload-file" icon="ui-icon-folder-open" show="N"
-            	label="上传" title="上传" onclick="Plywet.filesys.uploadFile()" />
+            	label="上传" title="上传" onclick="Flywet.filesys.uploadFile()" />
             <fly:pushbutton id="fs-btn-download-file" icon="ui-icon-folder-open" show="N"
-            	label="下载" title="下载" onclick="Plywet.filesys.downloadFile()" />
+            	label="下载" title="下载" onclick="Flywet.filesys.downloadFile()" />
 		</div>
 	</div>
 	<div id="editorContent-navi-filesys-bp" class="fly-editor-content-height-browse-panel">

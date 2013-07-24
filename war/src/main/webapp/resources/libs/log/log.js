@@ -1,4 +1,4 @@
-Plywet.widget.Log = function(cfg) {
+Flywet.widget.Log = function(cfg) {
     this.cfg = cfg;
     this.id = this.cfg.id;
     this.jqId = PrimeFaces.escapeClientId(this.id);
@@ -28,9 +28,9 @@ Plywet.widget.Log = function(cfg) {
     this.postConstruct();
 };
 
-Plywet.extend(Plywet.widget.Log, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.Log, Flywet.widget.BaseWidget);
 
-Plywet.widget.Log.prototype.bindEvents = function() {
+Flywet.widget.Log.prototype.bindEvents = function() {
     var _self = this;
     
     //visuals
@@ -81,23 +81,23 @@ Plywet.widget.Log.prototype.bindEvents = function() {
     });
 };
 
-Plywet.widget.Log.prototype.info = function(msg) {
+Flywet.widget.Log.prototype.info = function(msg) {
     this.add(msg, 'info', 'ui-icon-info');
 };
 
-Plywet.widget.Log.prototype.warn = function(msg) {
+Flywet.widget.Log.prototype.warn = function(msg) {
     this.add(msg, 'warn', 'ui-icon-notice');
 };
 
-Plywet.widget.Log.prototype.debug = function(msg) {
+Flywet.widget.Log.prototype.debug = function(msg) {
     this.add(msg, 'debug', 'ui-icon-search');
 };
 
-Plywet.widget.Log.prototype.error = function(msg) {
+Flywet.widget.Log.prototype.error = function(msg) {
     this.add(msg, 'error', 'ui-icon-alert');
 };
 
-Plywet.widget.Log.prototype.add = function(msg, severity, icon) {
+Flywet.widget.Log.prototype.add = function(msg, severity, icon) {
     var visible = this.severity == severity || this.severity == 'all',
     style = visible ? 'display:block' : 'display:none';
     
@@ -107,11 +107,11 @@ Plywet.widget.Log.prototype.add = function(msg, severity, icon) {
     this.itemsContainer.append(item);
 };
 
-Plywet.widget.Log.prototype.filter = function(severity) {
+Flywet.widget.Log.prototype.filter = function(severity) {
     this.itemsContainer.children().hide().filter(severity).show();
 };
 
-Plywet.widget.Log.prototype.handleFilterClick = function(event, severityClass, severity, button) {
+Flywet.widget.Log.prototype.handleFilterClick = function(event, severityClass, severity, button) {
     this.filter(severityClass);
     this.filters.filter('.ui-state-active').removeClass('ui-state-active');
     button.addClass('ui-state-active').removeClass('ui-state-hover');

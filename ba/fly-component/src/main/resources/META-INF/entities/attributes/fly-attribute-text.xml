@@ -2,6 +2,6 @@
 	<name>text</name>
 	<required>false</required>
 	<type>java.lang.String</type>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Text</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Text</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Text</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Text</tooltip>
 </attribute>

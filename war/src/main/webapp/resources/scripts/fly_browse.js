@@ -1,19 +1,19 @@
-Plywet.browse = {
+Flywet.browse = {
 	TEMP : {},
 	showOperationForDir : function(event,data) {
 		if (event.which != 3) { //不是右键
 			return false;
 		}
-		Plywet.browse.TEMP.contextObjectData = data;
+		Flywet.browse.TEMP.contextObjectData = data;
 		if(window["menu_dir_var"] == undefined){
-			Plywet.cw("Menu","menu_dir_var",{
+			Flywet.cw("Menu","menu_dir_var",{
 				id : "menu_dir",
 				itemWidth : 120,
 				menuItems : [{
 					id : "menu_dir_open",
 					text : "<b>打开</b>",
 					iconCls : "ui-icon-system-open",
-					onClick : "Plywet.browse.changeDirByContext(event)"
+					onClick : "Flywet.browse.changeDirByContext(event)"
 				},{
 					type : "separator"
 				},{
@@ -38,14 +38,14 @@ Plywet.browse = {
 		menu_dir_var.show(event);
 	},
 	changeDirByContext : function(event) {
-		Plywet.browse.changeDir(event,Plywet.browse.TEMP.contextObjectData);
+		Flywet.browse.changeDir(event,Flywet.browse.TEMP.contextObjectData);
 	},
 	changeDir : function(event,data) {
-		Plywet.ab({
+		Flywet.ab({
 			type : "get",
 			url : "rest/"+data.attrs.src,
 			params: {
-				"data":Plywet.toJSONString($.extend({},data.data,data.attrs))
+				"data":Flywet.toJSONString($.extend({},data.data,data.attrs))
 			}
 		});
 	},
@@ -53,18 +53,18 @@ Plywet.browse = {
 		if (event.which != 3) { //不是右键
 			return false;
 		}
-		Plywet.browse.TEMP.contextObjectData = data;
+		Flywet.browse.TEMP.contextObjectData = data;
 		var category = data.data.category;
 		if(category=="trans" || category=="job"){
 			if(window["menu_file_var"] == undefined){
-				Plywet.cw("Menu","menu_file_var",{
+				Flywet.cw("Menu","menu_file_var",{
 					id : "menu_file",
 					itemWidth : 120,
 					menuItems : [{
 						id : "menu_file_open",
 						text : "<b>打开</b>",
 						iconCls : "ui-icon-system-open",
-						onClick : "Plywet.browse.openFileByContext(event)"
+						onClick : "Flywet.browse.openFileByContext(event)"
 					},{
 						type : "separator"
 					},{
@@ -89,21 +89,21 @@ Plywet.browse = {
 						id : "menu_file_attribute",
 						text : "属性",
 						iconCls : "ui-icon-system-setting",
-						onClick : "Plywet.browse.openFileSettingByContext(event)"
+						onClick : "Flywet.browse.openFileSettingByContext(event)"
 					}]
 				});
 			}
 			menu_file_var.show(event);
 		}else if(category=="db"){
 			if(window["menu_db_var"] == undefined){
-				Plywet.cw("Menu","menu_db_var",{
+				Flywet.cw("Menu","menu_db_var",{
 					id : "menu_db",
 					itemWidth : 120,
 					menuItems : [{
 						id : "menu_db_open",
 						text : "<b>打开</b>",
 						iconCls : "ui-icon-system-open",
-						onClick : "Plywet.browse.openFileByContext(event)"
+						onClick : "Flywet.browse.openFileByContext(event)"
 					},{
 						type : "separator"
 					},{
@@ -126,10 +126,10 @@ Plywet.browse = {
 		
 	},
 	openFileSettingByContext : function(event){
-		var data = Plywet.browse.TEMP.contextObjectData;
+		var data = Flywet.browse.TEMP.contextObjectData;
 		var category = data.data.category;
 		var dialog_var = "dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var";
-		Plywet.cw("Dialog",dialog_var,{
+		Flywet.cw("Dialog",dialog_var,{
 			id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
 			header : "设置【"+data.attrs.displayName+"】",
 			width : 700,
@@ -145,7 +145,7 @@ Plywet.browse = {
 				title : "确定",
 				events : {
 					"click" : function(){
-						Plywet.ab({
+						Flywet.ab({
 							formId : category+"_"+data.data.id,
 							formAction : "rest/"+data.attrs.src+"/setting/save",
 							onsuccess: function (data, status, xhr) {
@@ -171,7 +171,7 @@ Plywet.browse = {
 		});
 	},
 	openFileByContext : function(event) {
-		Plywet.browse.openFile(event,Plywet.browse.TEMP.contextObjectData);
+		Flywet.browse.openFile(event,Flywet.browse.TEMP.contextObjectData);
 	},
 	openFile : function(event,data) {
 		var superData = data,
@@ -185,7 +185,7 @@ Plywet.browse = {
 				diEditorPageTabs.select(tabName);
 				return;
 			}
-			Plywet.ab({
+			Flywet.ab({
 				type : "get",
 				modal : true,
 				modalMessage : "正在加载【"+displayName+"】...",
@@ -205,7 +205,7 @@ Plywet.browse = {
 		}
 		// 数据库文件打开数据库配置页面
 		else if(category=="db"){
-			Plywet.database.editObject(category,data.data.type,data.data.id,displayName);
+			Flywet.database.editObject(category,data.data.type,data.data.id,displayName);
 		}
 	}
 };

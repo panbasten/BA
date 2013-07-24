@@ -7,22 +7,22 @@
 		<div class="ui-toolbar-group-right">
 			<fly:pushbutton icon="ui-icon-folder-open"
             	label="新增" title="新增"
-            	onclick="Plywet.di.create()" />
+            	onclick="Flywet.di.create()" />
             <fly:pushbutton icon="ui-icon-folder-open"
             	label="编辑" title="编辑"
-            	onclick="Plywet.di.edit()" />
+            	onclick="Flywet.di.edit()" />
             <fly:pushbutton icon="ui-icon-folder-open"
             	label="删除" title="删除"
-            	onclick="Plywet.di.remove()" />
+            	onclick="Flywet.di.remove()" />
             <fly:pushbutton icon="ui-icon-folder-open"
             	label="创建目录" title="创建目录"
-            	onclick="Plywet.di.createDir()" />
+            	onclick="Flywet.di.createDir()" />
 			<fly:pushbutton icon="ui-icon-folder-open"
             	label="上传" title="上传"
-            	onclick="Plywet.di.uploadFile()" />
+            	onclick="Flywet.di.uploadFile()" />
             <fly:pushbutton icon="ui-icon-folder-open"
             	label="下载" title="下载"
-            	onclick="Plywet.di.downloadFile()" />
+            	onclick="Flywet.di.downloadFile()" />
 		</div>
 	</div>
 	<div id="editorContent-navi-${entity.code}-bp" class="fly-editor-content-height-browse-panel">

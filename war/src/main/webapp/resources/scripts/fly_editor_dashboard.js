@@ -1,5 +1,5 @@
 // 表单
-Plywet.editors.dashboard = {
+Flywet.editors.dashboard = {
 	saveStatus : function ($tabo) {
 		$tabo.data("exdata",dashboardEditorPanel_var.getData())
 	},
@@ -16,15 +16,15 @@ Plywet.editors.dashboard = {
 		
 	},
 	register : function(){
-		if(Plywet.editors.register["dashboard"]){
+		if(Flywet.editors.register["dashboard"]){
 			return;
 		}
 		
-		Plywet.ab({
+		Flywet.ab({
 			type : "get",
 			url: "rest/report/dashboard/editor",
 			beforeSend : function(){
-				Plywet.desktop.changeMarkText("正在注册表单设计器页面...");
+				Flywet.desktop.changeMarkText("正在注册表单设计器页面...");
 			},
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
@@ -134,16 +134,16 @@ Plywet.editors.dashboard = {
 				});
 				
 				
-				Plywet.cw("EasyTabs","diEditordashboardStepBar",{
+				Flywet.cw("EasyTabs","diEditordashboardStepBar",{
 					id : "dashboardStepBar"
 				});
-				Plywet.cw("Scrollbar","dashboardStepBarScroll",{
+				Flywet.cw("Scrollbar","dashboardStepBarScroll",{
 					id:'dashboardStepBar',
 					tabGroup:'dashboardStepBar-ul',
 					step:80,
 					scrollType:'vertical'
 				});
-				Plywet.cw("DashboardEditor","dashboardEditorPanel_var",{
+				Flywet.cw("DashboardEditor","dashboardEditorPanel_var",{
 					id: "dashboardEditorPanel",
 					structureId: "dashboardStructPanel",
 					propId: "dashboardPropBar"
@@ -164,7 +164,7 @@ Plywet.editors.dashboard = {
 				
 				$dashboard.hide();
 				
-				Plywet.editors.register["dashboard"] = "Y";
+				Flywet.editors.register["dashboard"] = "Y";
 			}
 		});
 	},
@@ -232,24 +232,24 @@ Plywet.editors.dashboard = {
 };
 
 
-Plywet.widget.DashboardEditor = function(cfg) {
+Flywet.widget.DashboardEditor = function(cfg) {
 	this.cfg = cfg;
 	// 设计器ID
 	this.id = this.cfg.id;
-	this.eidtor = $(Plywet.escapeClientId(this.id));
-	this.editorWrapper = $(Plywet.escapeClientId(this.id+"Wrapper"));
-	this.editorContent = $(Plywet.escapeClientId(this.id+"Content"));
+	this.eidtor = $(Flywet.escapeClientId(this.id));
+	this.editorWrapper = $(Flywet.escapeClientId(this.id+"Wrapper"));
+	this.editorContent = $(Flywet.escapeClientId(this.id+"Content"));
 	
 	// 结构框的ID
 	this.structureId = this.cfg.structureId;
-	this.structure = $(Plywet.escapeClientId(this.structureId));
+	this.structure = $(Flywet.escapeClientId(this.structureId));
 	
 	// 属性框的ID
 	this.propId = this.cfg.propId;
-	this.prop = $(Plywet.escapeClientId(this.propId));
+	this.prop = $(Flywet.escapeClientId(this.propId));
 	
 	// Dashboard节点Bar
-	this.dashboardStepBar = $(Plywet.escapeClientId("dashboardStepBar"));
+	this.dashboardStepBar = $(Flywet.escapeClientId("dashboardStepBar"));
 	
 	this.drawStyle = {
 		drawRectFillStyle : {strokeStyle:'#f00',fillStyle:'#f00',isFill:true},
@@ -336,21 +336,21 @@ Plywet.widget.DashboardEditor = function(cfg) {
  * 用于切换编辑器窗口的重新加载初始化页面
  * @param data 刷新数据
  */
-Plywet.widget.DashboardEditor.prototype.reInitEditor = function(data){
+Flywet.widget.DashboardEditor.prototype.reInitEditor = function(data){
 	this.clearDomsProp();
 	this.clearDomPropPanel();
 	this.reloadData(data);
 	this.redraw();
 };
 
-Plywet.widget.DashboardEditor.prototype.clearDomPropPanel = function() {
+Flywet.widget.DashboardEditor.prototype.clearDomPropPanel = function() {
 	// 如果没有选中的节点，或者选中的节点不再存在，清空
 	if(this.domProp){
 		this.domProp.loadData([]);
 	}
 };
 
-Plywet.widget.DashboardEditor.prototype.clearDomsProp = function(){
+Flywet.widget.DashboardEditor.prototype.clearDomsProp = function(){
 	// 所有dom对象的属性集合
 	this.domsProp = undefined;
 	this.senderDoms = undefined;
@@ -359,7 +359,7 @@ Plywet.widget.DashboardEditor.prototype.clearDomsProp = function(){
 	this.accepterOptions = undefined;
 };
 
-Plywet.widget.DashboardEditor.prototype.initEditor = function() {
+Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 
 	if ($.browser.msie && $.browser.version < 9){ // excanvas hack
     	this.editorCanvas = $("<div id='"+this.id+"Canvas' class='fly-editor-canvas fly-dashboard-editor-canvas'></canvas>");
@@ -379,7 +379,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 		.bind("mousedown", function(e){
 			_self.holder = true;
 			_self.initDomsProp();
-			_self.mouseDownCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+			_self.mouseDownCoords = Flywet.widget.FlowChartUtils.getMouseCoords(e);
 		})
 		.bind("mouseout", function(e){
 			_self.holder = false;
@@ -392,7 +392,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 			_self.redraw();
 		})
 		.bind("mousemove", function(e){
-			_self.mouseMovingCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+			_self.mouseMovingCoords = Flywet.widget.FlowChartUtils.getMouseCoords(e);
 			if(_self.holder){
 				
 				_self.mouseMovingDom = _self.getDomByMouseCoords(_self.mouseMovingCoords);
@@ -521,7 +521,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 		.bind("mouseup", function(e){
 			_self.initDomsProp();
 			
-			_self.mouseUpCoords = Plywet.widget.FlowChartUtils.getMouseCoords(e);
+			_self.mouseUpCoords = Flywet.widget.FlowChartUtils.getMouseCoords(e);
 			_self.mouseUpDom = _self.getDomByMouseCoords(_self.mouseUpCoords);
 			
 			if(_self.reportInfo.editorState == "component"){
@@ -671,7 +671,7 @@ Plywet.widget.DashboardEditor.prototype.initEditor = function() {
 /**
  * 通过坐标，获得Dom
  */
-Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
+Flywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
 	var dim = getSubDomByMouseCoords(this.domsProp);
 	if(!dim){
 		dim = this.domsProp[0];
@@ -700,7 +700,7 @@ Plywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
  * @param id 节点ID
  * @param type 选项类型：signals, slots
  */
-Plywet.widget.DashboardEditor.prototype.getOptionsById = function(id,type) {
+Flywet.widget.DashboardEditor.prototype.getOptionsById = function(id,type) {
 	var targetDom = this.getDomPropById(id)[type],
 		targetOptions = [];
 	for(var i=0;i<targetDom.length;i++){
@@ -715,7 +715,7 @@ Plywet.widget.DashboardEditor.prototype.getOptionsById = function(id,type) {
 /**
  * 通过编辑ID，获得DomProp
  */
-Plywet.widget.DashboardEditor.prototype.getDomPropById = function(id) {
+Flywet.widget.DashboardEditor.prototype.getDomPropById = function(id) {
 	this.initDomsProp();
 	return _getDomPropById(this.domsProp);
 	
@@ -738,20 +738,20 @@ Plywet.widget.DashboardEditor.prototype.getDomPropById = function(id) {
 /**
  * 初始化Dom的属性集
  */
-Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
+Flywet.widget.DashboardEditor.prototype.initDomsProp = function() {
 	
 	if(!this.domsProp) {
 		
 		this.domsProp = [];
 		
-		var editorDim = Plywet.getElementDimensions(this.editorContent);
+		var editorDim = Flywet.getElementDimensions(this.editorContent);
 		
 		initSubDomsProp($(this.domStructure), editorDim, this.editorContent, this.domsProp, undefined, this);
 		
 	}
 	
 	function initSubDomsProp(node, editorDim, dom, domsProp, parentDomProp, target) {
-		var domProp = Plywet.getElementDimensions(dom);
+		var domProp = Flywet.getElementDimensions(dom);
 			
 		domProp.offsetTop = domProp.offsetTop - editorDim.offsetTop;
 		domProp.offsetLeft = domProp.offsetLeft - editorDim.offsetLeft;
@@ -858,16 +858,16 @@ Plywet.widget.DashboardEditor.prototype.initDomsProp = function() {
  * 改变元素尺寸
  * @param 
  */
-Plywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
+Flywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
 	if(!target){
 		return;
 	}
 	
 	// 设置tab为修改状态 
-	Plywet.editors.dashboard.action.modify();
+	Flywet.editors.dashboard.action.modify();
 	
 	var _self = this;
-	Plywet.ab({
+	Flywet.ab({
 		type : "get",
 		url: "rest/dashboard/resized/"+this.reportInfo.id,
 		params: {
@@ -888,7 +888,7 @@ Plywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
  * @param sources 来源元素（集合）
  * @param target 目标元素
  */
-Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
+Flywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 	if(!sources || sources.length==0){
 		return;
 	}
@@ -897,10 +897,10 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 	}
 	
 	// 设置tab为修改状态 
-	Plywet.editors.dashboard.action.modify();
+	Flywet.editors.dashboard.action.modify();
 	
 	var _self = this;
-	Plywet.ab({
+	Flywet.ab({
 		type : "get",
 		url: "rest/dashboard/move/"+this.reportInfo.id,
 		params: {
@@ -913,16 +913,16 @@ Plywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 	});
 };
 
-Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
+Flywet.widget.DashboardEditor.prototype.append = function(source,target) {
 	if(!source || !target){
 		return;
 	}
 	
 	// 设置tab为修改状态 
-	Plywet.editors.dashboard.action.modify();
+	Flywet.editors.dashboard.action.modify();
 	
 	var _self = this;
-	Plywet.ab({
+	Flywet.ab({
 		type : "get",
 		url: "rest/dashboard/append/"+this.reportInfo.id,
 		params: {
@@ -935,7 +935,7 @@ Plywet.widget.DashboardEditor.prototype.append = function(source,target) {
 	});
 };
 
-Plywet.widget.DashboardEditor.prototype.getData = function() {
+Flywet.widget.DashboardEditor.prototype.getData = function() {
 	var data = {};
 	data.dom = this.dom;
 	data.script = this.script;
@@ -960,7 +960,7 @@ Plywet.widget.DashboardEditor.prototype.getData = function() {
 /**
  * 重新加载数据
  */
-Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
+Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	if(!data){
 		return;
 	}
@@ -1009,7 +1009,7 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 			try{
 				eval(this.script[j]);
 			}catch(e){
-				Plywet.Logger.error(this.script[j]);
+				Flywet.Logger.error(this.script[j]);
 			}
 		}
 	}
@@ -1019,10 +1019,10 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		var config = {
 			id : 			"dashboardStructPanelContent"
 			,dnd :			true
-			,onSelect : 	Plywet.editors.dashboard.action.struct_on_select
+			,onSelect : 	Flywet.editors.dashboard.action.struct_on_select
 			,els :			[getNodeStructure(this.domStructure, this)]
 		};
-		this.domStructureTree = new Plywet.widget.EasyTree(config);
+		this.domStructureTree = new Flywet.widget.EasyTree(config);
 	}else{
 		// 重新加载树
 		this.domStructureTree.loadData([getNodeStructure(this.domStructure, this)]);
@@ -1059,7 +1059,7 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 				{field:'propValue',title:'值',width:150,editor:'text'}
 			]]
 		};
-		this.domProp = new Plywet.widget.EasyTreeGrid(config);
+		this.domProp = new Flywet.widget.EasyTreeGrid(config);
 	}
 	
 	// 3.信号和槽列表
@@ -1147,20 +1147,20 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 			]
 		};
 		
-		this.signalGrid = new Plywet.widget.Grid(config);
+		this.signalGrid = new Flywet.widget.Grid(config);
 	} else {
 		// 重新加载
 	}
 	
 	// 4.修改控制栏状态
 	if(this.reportInfo.editorState == "component"){
-		Plywet.editors.dashboard.action.editorComponent(true);
+		Flywet.editors.dashboard.action.editorComponent(true);
 	}else if(this.reportInfo.editorState == "signal_slot"){
-		Plywet.editors.dashboard.action.editorSignalSlot(true);
+		Flywet.editors.dashboard.action.editorSignalSlot(true);
 	}else if(this.reportInfo.editorState == "buddy"){
-		Plywet.editors.dashboard.action.editorBuddy(true);
+		Flywet.editors.dashboard.action.editorBuddy(true);
 	}else if(this.reportInfo.editorState == "tab_sequence"){
-		Plywet.editors.dashboard.action.editorTab(true);
+		Flywet.editors.dashboard.action.editorTab(true);
 	}
 	
 	function changeSize(w, h, _self) {
@@ -1232,15 +1232,15 @@ Plywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	
 };
 
-Plywet.widget.DashboardEditor.prototype.getPlugin = function(type) {
-	return this.dashboardStepBar.find(Plywet.escapeClientId("leaf:"+type));
+Flywet.widget.DashboardEditor.prototype.getPlugin = function(type) {
+	return this.dashboardStepBar.find(Flywet.escapeClientId("leaf:"+type));
 };
 
 /**
  * 获得消息发出者，满足条件如下：
  * 消息发出者的插件类型具有至少1个信号；
  */
-Plywet.widget.DashboardEditor.prototype.initSenders = function() {
+Flywet.widget.DashboardEditor.prototype.initSenders = function() {
 	if(!this.senderDoms){
 		this.initDomsProp();
 		this.senderDoms = {};
@@ -1264,11 +1264,11 @@ Plywet.widget.DashboardEditor.prototype.initSenders = function() {
 	}
 };
 
-Plywet.widget.DashboardEditor.prototype.getSenderSignal = function(sender) {
+Flywet.widget.DashboardEditor.prototype.getSenderSignal = function(sender) {
 	
 };
 
-Plywet.widget.DashboardEditor.prototype.initAccepters = function() {
+Flywet.widget.DashboardEditor.prototype.initAccepters = function() {
 	if(!this.accepterDoms){
 		this.initDomsProp();
 		this.accepterDoms = {};
@@ -1292,11 +1292,11 @@ Plywet.widget.DashboardEditor.prototype.initAccepters = function() {
 	}
 };
 
-Plywet.widget.DashboardEditor.prototype.getAccepterSlot = function(accepter) {
+Flywet.widget.DashboardEditor.prototype.getAccepterSlot = function(accepter) {
 	
 };
 
-Plywet.widget.DashboardEditor.prototype.getNewSize = function(dim, coords){
+Flywet.widget.DashboardEditor.prototype.getNewSize = function(dim, coords){
 	var x = dim.offsetLeft,
 		y = dim.offsetTop,
 		w = dim.offsetWidth,
@@ -1349,7 +1349,7 @@ Plywet.widget.DashboardEditor.prototype.getNewSize = function(dim, coords){
 	return {x:x,y:y,width:w,height:h};
 };
 
-Plywet.widget.DashboardEditor.prototype.redraw = function() {
+Flywet.widget.DashboardEditor.prototype.redraw = function() {
 	
 	this.ctx.clearRect(0,0,this.width+10,this.height+10);
 	this.ctx.lineWidth=1;
@@ -1417,7 +1417,7 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 		
 		var newSize = _self.getNewSize(_self.mouseDownDom, _self.mouseMovingCoords);
 		
-		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+		Flywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 				{x:newSize.x,y:newSize.y,width:newSize.width,height:newSize.height}, 
 				_self.drawStyle.dropRectStyle, "line", _self.off);
 	}
@@ -1467,14 +1467,14 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 		_self.ctx.strokeStyle = _self.drawStyle.drawLineStyle.strokeStyle;
 		
 		_self.ctx.beginPath();
-		Plywet.widget.FlowChartUtils.drawLine.factory(_self.ctx, "line", 
+		Flywet.widget.FlowChartUtils.drawLine.factory(_self.ctx, "line", 
 				startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 		_self.ctx.stroke();
 		
 		
 		var arc = (endPoint.y-startPoint.y) / (endPoint.x-startPoint.x);
 		
-		Plywet.widget.FlowChartUtils.drawArrow.factory(endPoint.x, endPoint.y,
+		Flywet.widget.FlowChartUtils.drawArrow.factory(endPoint.x, endPoint.y,
 				arc,(endPoint.x>=startPoint.x),{ctx:_self.ctx},"normal",_self.drawStyle.drawLineStyle);
 		
 		_self.ctx.restore();
@@ -1498,7 +1498,7 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	
 	function redrawLayoutComponent(dim) {
 		if(dim){
-			Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+			Flywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 					{x:(dim.offsetLeft+2),y:(dim.offsetTop+2),width:(dim.offsetWidth-4),height:(dim.offsetHeight-4)}, 
 					_self.drawStyle.drawRectStyle, "line", _self.off);
 		}
@@ -1507,20 +1507,20 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 	function redrawMovingTargetComponents() {
 		var dim = _self.mouseMovingDom;
 		if(dim){
-			Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+			Flywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
 				_self.drawStyle.dropRectStyle, "line", _self.off);
 		}
 	}
 	
 	function redrawMovingComponents(dim, mavingOff) {
-		Plywet.widget.FlowChartUtils.drawRect(_self.ctx, 
+		Flywet.widget.FlowChartUtils.drawRect(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight}, 
 				_self.drawStyle.drawRectStyle, "dotted", mavingOff);
 	}
 	
 	function redrawSelectedComponents(dim) {
-		var resizers = Plywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
+		var resizers = Flywet.widget.FlowChartUtils.drawResizer(_self.ctx, 
 				{x:dim.offsetLeft,y:dim.offsetTop,width:dim.offsetWidth,height:dim.offsetHeight},
 				_self.off,_self.drawStyle.drawResizerStyle);
 		dim.resizers = resizers;
@@ -1528,8 +1528,8 @@ Plywet.widget.DashboardEditor.prototype.redraw = function() {
 
 };
 
-Plywet.editors.dashboard.action = {
-	tb : Plywet.editors.toolbarButton,
+Flywet.editors.dashboard.action = {
+	tb : Flywet.editors.toolbarButton,
 	editorPrefix : "dashboard",
 	ids : {
 		editors : ["editor_component","editor_signal_slot",

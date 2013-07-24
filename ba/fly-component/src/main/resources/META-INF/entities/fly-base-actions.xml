@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:Actions">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Actions</description>
-	<classname>com.plywet.platform.bi.component.resolvers.base.ActionsResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.Actions</description>
+	<classname>com.flywet.platform.bi.component.resolvers.base.ActionsResolver</classname>
 	<category>Base</category>
 	<ignoreInDesigner>true</ignoreInDesigner>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Actions</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Actions</tooltip>
 	<iconfile>actions.png</iconfile>
 	
 </component>

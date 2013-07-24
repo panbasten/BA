@@ -221,11 +221,11 @@
 						panel.options.loadingMessage));
 			}
 			// 获得页面执行相应的匹配操作
-			Plywet.ab({
+			Flywet.ab({
 				type : "get",
 				url : panel.options.href,
 				onsuccess : function(data) {
-					Plywet.ajax.AjaxResponse.call(this, data, body);
+					Flywet.ajax.AjaxResponse.call(this, data, body);
 					panel.options.onLoad.apply(target, arguments);
 					panel.isLoaded = true;
 					return true;
@@ -538,7 +538,7 @@
 				$.data(this, "componentType", "panel");
 			}
 			if (opts.content) {
-				Plywet.autocw(opts.content, this);
+				Flywet.autocw(opts.content, this);
 			}
 			_initHeader(this);
 			_initStyle(this);
@@ -634,7 +634,7 @@
 	};
 	$.fn.panel.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "id", "width",
+		return $.extend( {}, Flywet.parseOptions(target, [ "id", "width",
 				"height", "left", "top", "title", "iconCls", "cls",
 				"headerCls", "bodyCls", "tools", "href", {
 					cache : "boolean",

@@ -2,18 +2,18 @@
  * @author yanghyc
  * @date 2012-10-10
  */
-Plywet.widget.Popup=function(cfg){
+Flywet.widget.Popup=function(cfg){
 	this.cfg = cfg || {};
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
-	this.target = $(Plywet.escapeClientId(this.cfg.targetId));
+	this.target = $(Flywet.escapeClientId(this.cfg.targetId));
 	this.init();
 };
 
-Plywet.extend(Plywet.widget.Popup, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.Popup, Flywet.widget.BaseWidget);
 
-Plywet.widget.Popup.prototype={
+Flywet.widget.Popup.prototype={
 	init:function(){
 		var _self=this;
 		if(this.jq.length==0){
@@ -84,6 +84,6 @@ Plywet.widget.Popup.prototype={
 		this.jq.remove();
 	},
 	render:function(dom, script){
-		Plywet.render(this.jq, dom, script);
+		Flywet.render(this.jq, dom, script);
 	}
 };

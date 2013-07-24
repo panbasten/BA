@@ -1,8 +1,8 @@
 <attributeGroup>
 
 	<name>alignment</name>
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.Alignment</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.Alignment</tooltip>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.Alignment</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.Alignment</tooltip>
 
 	<attribute>
 		<name>alignHorizontal</name>
@@ -11,8 +11,8 @@
 		<defaultValue>left</defaultValue>
 		<editorType>combobox</editorType>
 		<editorOptionEnum>AlignHorizontal</editorOptionEnum>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignHorizontal</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignHorizontal</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignHorizontal</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignHorizontal</tooltip>
 	</attribute>
 	
 	<attribute>
@@ -22,8 +22,8 @@
 		<defaultValue>middle</defaultValue>
 		<editorType>combobox</editorType>
 		<editorOptionEnum>AlignVertical</editorOptionEnum>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignVertical</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignVertical</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.AlignVertical</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.AlignVertical</tooltip>
 	</attribute>
 
 </attributeGroup>

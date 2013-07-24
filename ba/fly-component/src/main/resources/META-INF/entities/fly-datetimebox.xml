@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:DateTimeBox">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.DateTimeBox</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYDateTimeBoxResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.DateTimeBox</description>
+	<classname>com.flywet.platform.bi.component.resolvers.input.FLYDateTimeBoxResolver</classname>
 	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.DateTimeBox</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.DateTimeBox</tooltip>
 	<iconfile>datetimebox.png</iconfile>
 </component>

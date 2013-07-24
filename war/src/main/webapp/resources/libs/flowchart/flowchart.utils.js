@@ -1,7 +1,7 @@
 /**
  * Clipboard Widget
  */
-Plywet.widget.FlowChartClipboard = new function(){
+Flywet.widget.FlowChartClipboard = new function(){
 	var steps = [];
 	var hops = [];
 	
@@ -38,7 +38,7 @@ Plywet.widget.FlowChartClipboard = new function(){
 /**
  * Resources Widget
  */
-Plywet.widget.FlowChartResources = new function(){
+Flywet.widget.FlowChartResources = new function(){
 	// 资源ID的Index
 	var resourceIndex = 0;
 	
@@ -86,7 +86,7 @@ Plywet.widget.FlowChartResources = new function(){
 /**
  * FlowChart Widget
  */
-Plywet.widget.FlowChartUtils = {
+Flywet.widget.FlowChartUtils = {
 		
 	/**
 	 * 画文字
@@ -100,7 +100,7 @@ Plywet.widget.FlowChartUtils = {
 				y2 : 0
 			};
 
-			var nf = Plywet.widget.FlowChartUtils.scaleLength(config.scale, 10);
+			var nf = Flywet.widget.FlowChartUtils.scaleLength(config.scale, 10);
 
 			var texts;
 			if(Object.prototype.toString.apply(text) === "[object Array]"){
@@ -145,10 +145,10 @@ Plywet.widget.FlowChartUtils = {
 		
 		ctx.globalAlpha = 1;
 		ctx.beginPath();
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+off.x,pos.y+off.y,pos.x+pos.width+off.x,pos.y+off.y);
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+pos.width+off.x,pos.y+off.y,pos.x+pos.width+off.x,pos.y+pos.height+off.y);
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+pos.width+off.x,pos.y+pos.height+off.y,pos.x+off.x,pos.y+pos.height+off.y);
-		Plywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+off.x,pos.y+pos.height+off.y,pos.x+off.x,pos.y+off.y);
+		Flywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+off.x,pos.y+off.y,pos.x+pos.width+off.x,pos.y+off.y);
+		Flywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+pos.width+off.x,pos.y+off.y,pos.x+pos.width+off.x,pos.y+pos.height+off.y);
+		Flywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+pos.width+off.x,pos.y+pos.height+off.y,pos.x+off.x,pos.y+pos.height+off.y);
+		Flywet.widget.FlowChartUtils.drawLine.factory(ctx,type,pos.x+off.x,pos.y+pos.height+off.y,pos.x+off.x,pos.y+off.y);
 		ctx.stroke();
 		
 		if (conf.isFill) {
@@ -187,7 +187,7 @@ Plywet.widget.FlowChartUtils = {
 			y=(targetSize.height-h)/2;
 		}
 		// 画整体元素区域
-		Plywet.widget.FlowChartUtils.drawRect(ctx,{x:x,y:y,width:w,height:h},{strokeStyle:"#999"},"dotted");
+		Flywet.widget.FlowChartUtils.drawRect(ctx,{x:x,y:y,width:w,height:h},{strokeStyle:"#999"},"dotted");
 		
 		var s = w/sWidth,
 		rtn={
@@ -350,7 +350,7 @@ Plywet.widget.FlowChartUtils = {
 			ctx.restore();
 			
 			if(config.outerControlType=="partMagnify"){
-				Plywet.widget.FlowChartUtils.drawText(config,ctx,"+",x,y);
+				Flywet.widget.FlowChartUtils.drawText(config,ctx,"+",x,y);
 			}
 		}
 	},
@@ -360,47 +360,47 @@ Plywet.widget.FlowChartUtils = {
 	 * @param canvasObj 该Step元素的父canvas对象
 	 */
 	drawSelectedRect : function(config, ctx, dx, dy, dWidth, dHeight,changable){
-		var nc = Plywet.widget.FlowChartUtils.scalePoint(config, {
+		var nc = Flywet.widget.FlowChartUtils.scalePoint(config, {
 			x : dx,
 			y : dy
 		});
-		var w = Plywet.widget.FlowChartUtils.scaleLength(config.scale, dWidth);
-		var h = Plywet.widget.FlowChartUtils.scaleLength(config.scale, dHeight);
+		var w = Flywet.widget.FlowChartUtils.scaleLength(config.scale, dWidth);
+		var h = Flywet.widget.FlowChartUtils.scaleLength(config.scale, dHeight);
 		if(changable){
 			ctx.strokeStyle = "#B6B6B6";
 			ctx.beginPath();
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3,nc.y-3,nc.x-3,nc.y-3+h+6,2,2);
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3,nc.y-3+h+6,nc.x-3+w+6,nc.y-3+h+6,2,2);
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3+w+6,nc.y-3+h+6,nc.x-3+w+6,nc.y-3,2,2);
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3+w+6,nc.y-3,nc.x-3,nc.y-3,2,2);
 		    ctx.stroke();
 
 		    ctx.strokeStyle = "#5581B9";
 		    ctx.beginPath();
-		    Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+		    Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 		    		nc.x-6-1,nc.y-6,nc.x,nc.y-6,2,2);
-		    Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+		    Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 		    		nc.x-6,nc.y-6-1,nc.x-6,nc.y,2,2);
-		    Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+		    Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 		    		nc.x-3+w+6+3+1,nc.y-3+h+6+3,nc.x-3+w+6+3-6,nc.y-3+h+6+3,2,2);
-		    Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+		    Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 		    		nc.x-3+w+6+3,nc.y-3+h+6+3-6+1,nc.x-3+w+6+3,nc.y-3+h+6+3,2,2);
 		    ctx.stroke();
 
 		}else{
 			ctx.strokeStyle = "#B6B6B6";
 			ctx.beginPath();
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3,nc.y-3,nc.x-3,nc.y-3+h+6,2,2);
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3,nc.y-3+h+6,nc.x-3+w+6,nc.y-3+h+6,2,2);
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3+w+6,nc.y-3+h+6,nc.x-3+w+6,nc.y-3,2,2);
-			Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
+			Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx,
 					nc.x-3+w+6,nc.y-3,nc.x-3,nc.y-3,2,2);
 		    ctx.stroke();
 
@@ -422,27 +422,27 @@ Plywet.widget.FlowChartUtils = {
 		factory : function(x,y,arc,direction,canvasObj,arrowType,style){
 			// type1:圆形箭头
 			if(arrowType == "circularity"){
-				Plywet.widget.FlowChartUtils.drawArrow.circularity(x,y,arc,direction,canvasObj,style);
+				Flywet.widget.FlowChartUtils.drawArrow.circularity(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// type2:简单箭头
 			else if(arrowType == "simple"){
-				Plywet.widget.FlowChartUtils.drawArrow.simple(x,y,arc,direction,canvasObj,style);
+				Flywet.widget.FlowChartUtils.drawArrow.simple(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// type3:实心菱形箭头
 			else if(arrowType == "solid-diamond"){
-				Plywet.widget.FlowChartUtils.drawArrow.solidDiamond(x,y,arc,direction,canvasObj,style);
+				Flywet.widget.FlowChartUtils.drawArrow.solidDiamond(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// type4:空心菱形箭头
 			else if(arrowType == "hollow-diamond"){
-				Plywet.widget.FlowChartUtils.drawArrow.hollowDiamond(x,y,arc,direction,canvasObj,style);
+				Flywet.widget.FlowChartUtils.drawArrow.hollowDiamond(x,y,arc,direction,canvasObj,style);
 			}
 			
 			// 通用箭头
 			else {
-				Plywet.widget.FlowChartUtils.drawArrow.normal(x,y,arc,direction,canvasObj,style);
+				Flywet.widget.FlowChartUtils.drawArrow.normal(x,y,arc,direction,canvasObj,style);
 			}
 		},
 		
@@ -456,7 +456,7 @@ Plywet.widget.FlowChartUtils = {
 			}
 			
 			ctx.beginPath();
-			var r = Plywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale, 3);
+			var r = Flywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale, 3);
 			ctx.arc(x,y,r,0,Math.PI*2,true);
 			ctx.fill();
 		},
@@ -475,7 +475,7 @@ Plywet.widget.FlowChartUtils = {
 			arc = isNaN(arc)?0:arc;
 			ctx.rotate(Math.atan(arc));
 	
-			var side = Plywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale, 6);
+			var side = Flywet.widget.FlowChartUtils.scaleLength(canvasObj.config.scale, 6);
 			var r = side/2/Math.cos(Math.PI/6);
 			var reverse = side/2*Math.tan(Math.PI/6);
 			
@@ -528,7 +528,7 @@ Plywet.widget.FlowChartUtils = {
 				scale = canvasObj.config.scale || 1;
 			}
 	
-			var side = Plywet.widget.FlowChartUtils.scaleLength(scale, 6);
+			var side = Flywet.widget.FlowChartUtils.scaleLength(scale, 6);
 			var r = side/2/Math.cos(Math.PI/6);
 			var reverse = side/2*Math.tan(Math.PI/6);
 			
@@ -563,7 +563,7 @@ Plywet.widget.FlowChartUtils = {
 				return;
 			}
 			if(type == "dotted"){
-				Plywet.widget.FlowChartUtils.drawLine.dashTo_(ctx, lastX, lastY, x, y, 6, 2);
+				Flywet.widget.FlowChartUtils.drawLine.dashTo_(ctx, lastX, lastY, x, y, 6, 2);
 			}else{
 				ctx.moveTo(x,y);
 				ctx.lineTo(lastX,lastY);
@@ -580,7 +580,7 @@ Plywet.widget.FlowChartUtils = {
 		    var dy = y2-y;
 			var a = Math.atan2(dy, dx);
 			var ca = Math.cos(a), sa = Math.sin(a);
-			var segLength = Plywet.widget.FlowChartUtils.getLineLength(dx, dy);
+			var segLength = Flywet.widget.FlowChartUtils.getLineLength(dx, dy);
 			
 			var tmpX = x;
 			var tmpY = y;
@@ -774,8 +774,8 @@ Plywet.widget.FlowChartUtils = {
 		var target = oe.target || oe.srcElement;
 		
 		if(jQuery.browser.msie) {
-			position.x = position.x - Plywet.widget.FlowChartUtils.getLeft(target);
-			position.y = position.y - Plywet.widget.FlowChartUtils.getTop(target);
+			position.x = position.x - Flywet.widget.FlowChartUtils.getLeft(target);
+			position.y = position.y - Flywet.widget.FlowChartUtils.getTop(target);
 		} else {
 			var canvasPos = $(target).position();
 			position.x = position.x - canvasPos.left;
@@ -798,8 +798,8 @@ Plywet.widget.FlowChartUtils = {
 		var target = oe.target || oe.srcElement;
 		
 		if(jQuery.browser.msie) {
-			position.x = position.x - Plywet.widget.FlowChartUtils.getLeft(target);
-			position.y = position.y - Plywet.widget.FlowChartUtils.getTop(target);
+			position.x = position.x - Flywet.widget.FlowChartUtils.getLeft(target);
+			position.y = position.y - Flywet.widget.FlowChartUtils.getTop(target);
 		} else {
 			var canvasPos = $(target).position();
 			position.x = position.x - canvasPos.left;
@@ -815,13 +815,13 @@ Plywet.widget.FlowChartUtils = {
      * @interface
      */
 	getMidPoint : function(config,dx,dy,dWidth,dHeight) {
-    	var nel = Plywet.widget.FlowChartUtils.scalePoint(config,{
+    	var nel = Flywet.widget.FlowChartUtils.scalePoint(config,{
     		x : dx,
     		y : dy
     	});
     	return {
-    		x : nel.x + Plywet.widget.FlowChartUtils.scaleLength(config.scale,dWidth) / 2,
-        	y : nel.y + Plywet.widget.FlowChartUtils.scaleLength(config.scale,dHeight) / 2
+    		x : nel.x + Flywet.widget.FlowChartUtils.scaleLength(config.scale,dWidth) / 2,
+        	y : nel.y + Flywet.widget.FlowChartUtils.scaleLength(config.scale,dHeight) / 2
     	};
     }
 };

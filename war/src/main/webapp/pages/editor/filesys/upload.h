@@ -46,5 +46,5 @@
 	<input type="hidden" id="rootId" name="rootId" value="${rootId}"></input>
 	<input type="hidden" id="path" name="path" value="${path}"></input>
 	<input type="hidden" id="category" name="category" value="${category}"></input>
-	<iframe id="fs_upload_space_frame" name="fs_upload_space_frame" class="ui-space-frame" onload="Plywet.filesys.uploadResult(this);"></iframe>
+	<iframe id="fs_upload_space_frame" name="fs_upload_space_frame" class="ui-space-frame" onload="Flywet.filesys.uploadResult(this);"></iframe>
 </form>

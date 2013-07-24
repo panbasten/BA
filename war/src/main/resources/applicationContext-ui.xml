@@ -8,7 +8,7 @@
  http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
 	<context:annotation-config />
-	<context:component-scan base-package="com.plywet.platform.bi" />
+	<context:component-scan base-package="com.flywet.platform.bi" />
 	<bean class="org.apache.wink.spring.Registrar">
 		<property name="classes">
 			<set value-type="java.lang.Class">

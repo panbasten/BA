@@ -1,17 +1,17 @@
 <signal>
 	<name>change</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Change</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Change</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Change</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Change</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.NewValue</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.NewValue</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.NewValue</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.NewValue</tooltip>
 		</parameter>
 		<parameter>
 			<name>oldValue</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.OldValue</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.OldValue</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.OldValue</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.OldValue</tooltip>
 		</parameter>
 	</parameters>
 </signal>

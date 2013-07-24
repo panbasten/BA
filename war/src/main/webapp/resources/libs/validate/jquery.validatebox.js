@@ -198,7 +198,7 @@
 	};
 	$.fn.validatebox.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "validType",
+		return $.extend( {}, Flywet.parseOptions(target, [ "validType",
 				"missingMessage", "invalidMessage", "tipPosition" ]), {
 			required : (t.attr("required") ? true : undefined)
 		});

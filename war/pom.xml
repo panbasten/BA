@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.plywet.platform</groupId>
+	<groupId>com.flywet.platform</groupId>
 	<artifactId>war</artifactId>
 	<packaging>war</packaging>
 	<name>BA平台War源代码</name>
@@ -10,7 +10,7 @@
 	<description>BA平台War源代码</description>
 	<parent>
 		<artifactId>platform</artifactId>
-		<groupId>com.plywet</groupId>
+		<groupId>com.flywet</groupId>
 		<version>8.0.0</version>
 	</parent>
 	
@@ -247,7 +247,7 @@
 					</plugin>
 					
 					<plugin>
-						<groupId>com.plywet.platform.dk</groupId>
+						<groupId>com.flywet.platform.dk</groupId>
 						<artifactId>dk-build-plugin</artifactId>
 						<version>1.0</version>
 						 <executions>
@@ -311,55 +311,55 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>com.plywet.platform.kettle</groupId>
+			<groupId>com.flywet.platform.kettle</groupId>
 			<artifactId>kettle-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.kettle</groupId>
+			<groupId>com.flywet.platform.kettle</groupId>
 			<artifactId>kettle-db</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.kettle</groupId>
+			<groupId>com.flywet.platform.kettle</groupId>
 			<artifactId>kettle-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.plywet.platform.mondrian</groupId>
+			<groupId>com.flywet.platform.mondrian</groupId>
 			<artifactId>mondrian-srv</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.mondrian</groupId>
+			<groupId>com.flywet.platform.mondrian</groupId>
 			<artifactId>mondrian-steps</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.plywet.platform.report</groupId>
+			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-report-srv</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.report</groupId>
+			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-report-steps</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.plywet.platform.ba</groupId>
+			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.ba</groupId>
+			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-component</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.plywet.platform.ba</groupId>
+			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>

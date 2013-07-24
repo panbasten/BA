@@ -2,18 +2,18 @@
  * 搜索框
  * yanghyc
  */
-Plywet.widget.Search=function(cfg){
+Flywet.widget.Search=function(cfg){
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	this.parent = cfg.parent;
 	this.defaultText = (cfg.defaultText)?cfg.defaultText:"Search";
 
 	this.init();
 };
-Plywet.extend(Plywet.widget.Search, Plywet.widget.BaseWidget);
-Plywet.widget.Search.prototype={
+Flywet.extend(Flywet.widget.Search, Flywet.widget.BaseWidget);
+Flywet.widget.Search.prototype={
 	init:function(){
 		if(this.jq.length==0){
 			this._creatContainer();

@@ -1,14 +1,14 @@
-Plywet.widget.BreadCrumb = function(cfg) {
+Flywet.widget.BreadCrumb = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	this.init();
 };
 
-Plywet.extend(Plywet.widget.BreadCrumb, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.BreadCrumb, Flywet.widget.BaseWidget);
 
-Plywet.widget.BreadCrumb.prototype = {
+Flywet.widget.BreadCrumb.prototype = {
 	init : function(){
 		this.jqUl = $(this.jq.find("ul").first());
 		this.jqUl.html("");
@@ -39,7 +39,7 @@ Plywet.widget.BreadCrumb.prototype = {
 
 
 
-Plywet.widget.BreadCrumb.prototype.flush = function(cfg){
+Flywet.widget.BreadCrumb.prototype.flush = function(cfg){
 	this.cfg = cfg;
 	this.init();
 };

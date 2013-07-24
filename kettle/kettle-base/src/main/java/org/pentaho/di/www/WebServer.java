@@ -125,7 +125,7 @@ public class WebServer
         	jaasRealm.setLoginModuleName(System.getProperty("loginmodulename"));
         	securityHandler.setUserRealm(jaasRealm);
         } else {
-        	// See if there is a kettle.pwd file in the PLYWET_HOME directory:
+        	// See if there is a kettle.pwd file in the FLYWET_HOME directory:
         	//
         	File homePwdFile = new File(Const.getKettleCartePasswordFile());
         	if (homePwdFile.exists()) {

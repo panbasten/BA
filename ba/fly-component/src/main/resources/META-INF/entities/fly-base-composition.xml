@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:Composition">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Composition</description>
-	<classname>com.plywet.platform.bi.component.resolvers.base.CompositionResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.Composition</description>
+	<classname>com.flywet.platform.bi.component.resolvers.base.CompositionResolver</classname>
 	<category>Base</category>
 	<ignoreInDesigner>true</ignoreInDesigner>
 	<container>true</container>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Composition</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Composition</tooltip>
 	<iconfile>composition.png</iconfile>
 	
 	<attributes>

@@ -108,7 +108,7 @@
 	
 	$.fn.linkbutton.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "id", "iconCls",
+		return $.extend( {}, Flywet.parseOptions(target, [ "id", "iconCls",
 				"iconAlign", {
 					plain : "boolean"
 				} ]), {

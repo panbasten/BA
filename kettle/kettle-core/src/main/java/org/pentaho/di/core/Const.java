@@ -150,7 +150,7 @@ public class Const
      * @deprecated Use {@link Const.getUserHomeDirectory()} instead.
      */
     @Deprecated
-    public static final String USER_HOME_DIRECTORY = NVL(System.getProperty("PLYWET_HOME"), System.getProperty("user.home"));
+    public static final String USER_HOME_DIRECTORY = NVL(System.getProperty("FLYWET_HOME"), System.getProperty("user.home"));
     
     /**
      * Path to the simple-jndi directory
@@ -1365,14 +1365,14 @@ public class Const
 	}
 
   /**
-   * Looks up the user's home directory (or PLYWET_HOME) for every invocation. This is no longer a static property so
+   * Looks up the user's home directory (or FLYWET_HOME) for every invocation. This is no longer a static property so
    * the value may be set after this class is loaded.
    *
-   * @return The path to the users home directory, or the System property {@code PLYWET_HOME} if set.
+   * @return The path to the users home directory, or the System property {@code FLYWET_HOME} if set.
    */
 	public static final String getUserHomeDirectory()
 	{
-		return NVL(System.getProperty("PLYWET_HOME"), System.getProperty("user.home"));
+		return NVL(System.getProperty("FLYWET_HOME"), System.getProperty("user.home"));
 	}
 
 	/**
@@ -1381,7 +1381,7 @@ public class Const
 	 */
 	public static final String getKettleDirectory()
 	{
-		return getUserHomeDirectory() + FILE_SEPARATOR + BasePropertyHandler.getProperty("userBaseDir", ".plywet");
+		return getUserHomeDirectory() + FILE_SEPARATOR + BasePropertyHandler.getProperty("userBaseDir", ".flywet");
 	}
 	
 	/** 
@@ -1436,7 +1436,7 @@ public class Const
 
 	/**
 	 * Returns the path to the Kettle Carte password file in the home directory:<p>
-	 * $PLYWET_HOME/.plywet/kettle.pwd<br>
+	 * $FLYWET_HOME/.flywet/kettle.pwd<br>
 	 * 
 	 * @return The Carte password file in the home directory.
 	 */
@@ -1459,8 +1459,8 @@ public class Const
 
 	/**
 	 * Replaces environment variables in a string.
-	 * For example if you set PLYWET_HOME as an environment variable, you can 
-	 * use %%PLYWET_HOME%% in dialogs etc. to refer to this value.
+	 * For example if you set FLYWET_HOME as an environment variable, you can 
+	 * use %%FLYWET_HOME%% in dialogs etc. to refer to this value.
 	 * This procedures looks for %%...%% pairs and replaces them including the 
 	 * name of the environment variable with the actual value.
 	 * In case the variable was not set, nothing is replaced!

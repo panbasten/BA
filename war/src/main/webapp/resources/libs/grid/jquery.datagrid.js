@@ -205,7 +205,7 @@
 			var columns = [];
 			$(target).children("thead").each(
 				function() {
-					var opt = Plywet.parseOptions(this, [ {
+					var opt = Flywet.parseOptions(this, [ {
 						frozen : "boolean"
 					} ]);
 					$(this).find("tr").each(
@@ -215,7 +215,7 @@
 							function() {
 								var th = $(this);
 								var col = $.extend({},
-									Plywet.parseOptions(this, [
+									Flywet.parseOptions(this, [
 										"field",
 										"align",
 										{
@@ -368,7 +368,7 @@
 			} else {
 				$("div.ui-datagrid-toolbar", panel).remove();
 				var tb = $("<div class=\"ui-datagrid-toolbar\"></div>").prependTo(panel);
-				Plywet.autocw(opts.toolbar, tb);
+				Flywet.autocw(opts.toolbar, tb);
 			}
 		} else {
 			$("div.ui-datagrid-toolbar", panel).remove();
@@ -2273,7 +2273,7 @@
 	$.fn.datagrid.parseOptions = function(target) {
 		var t = $(target);
 		return $.extend( {}, $.fn.panel.parseOptions(target), 
-			Plywet.parseOptions(target, 
+			Flywet.parseOptions(target, 
 				[ "url", "toolbar", "idField", "sortName", "mode",
 					"sortOrder", "pagePosition", {
 						fitColumns : "boolean",
@@ -2555,7 +2555,7 @@
 			if (!opts.url) {
 				return false;
 			}
-			Plywet.ab({
+			Flywet.ab({
 				type : opts.method,
 				url : opts.url,
 				params : data,
@@ -2683,10 +2683,10 @@
 	});
 })(jQuery);
 
-Plywet.widget.Grid = function(cfg) {
+Flywet.widget.Grid = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	this.jq.attr('title', cfg.title ? cfg.title : "");
 	this.cfg.columns[0] = cfg.singleSelect == false ? 
@@ -2696,4 +2696,4 @@ Plywet.widget.Grid = function(cfg) {
 	this.datagrid = this.jq.datagrid(this.cfg);
 };
 
-Plywet.extend(Plywet.widget.Grid, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.Grid, Flywet.widget.BaseWidget);

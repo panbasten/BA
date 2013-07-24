@@ -1,8 +1,8 @@
-Plywet.sysTools = {
+Flywet.sysTools = {
 	openTool:function(src){
 		var target = $(src);
 		console.log(target);
-		var data = Plywet.parseJSON(target.attr('ext'));
+		var data = Flywet.parseJSON(target.attr('ext'));
 		if(!data){
 			return;
 		}
@@ -11,7 +11,7 @@ Plywet.sysTools = {
 		var width = data.width||700;
 		
 		var dialogId = target.attr("id") + "_dialog";
-		Plywet.cw("Dialog", dialogId+"_var", {
+		Flywet.cw("Dialog", dialogId+"_var", {
 				id : dialogId,
 				header : data.title,
 				width : width,
@@ -27,7 +27,7 @@ Plywet.sysTools = {
 //					title : "确定",
 //					events: {
 //						click:function(){
-//							Plywet.ab({
+//							Flywet.ab({
 //								type : "POST",
 //								url : "rest/user/save",
 //								source:"user_form",

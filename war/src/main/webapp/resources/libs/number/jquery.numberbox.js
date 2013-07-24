@@ -209,7 +209,7 @@
 	$.fn.numberbox.parseOptions = function(target) {
 		var t = $(target);
 		return $.extend( {}, $.fn.validatebox.parseOptions(target), 
-			Plywet.parseOptions(target, [ "decimalSeparator", "groupSeparator",
+			Flywet.parseOptions(target, [ "decimalSeparator", "groupSeparator",
 				"suffix", {
 					min : "number",
 					max : "number",

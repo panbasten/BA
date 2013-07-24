@@ -1,7 +1,7 @@
-Plywet.widget.Scrollbar = function(cfg) {
+Flywet.widget.Scrollbar = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	
 	this.$container = this.jq;
@@ -15,20 +15,20 @@ Plywet.widget.Scrollbar = function(cfg) {
 	
 };
 
-Plywet.extend(Plywet.widget.Scrollbar, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.Scrollbar, Flywet.widget.BaseWidget);
 
-Plywet.widget.Scrollbar.prototype.reinit = function(){
+Flywet.widget.Scrollbar.prototype.reinit = function(){
 	this.currentTop = 0;
 	this.currentLeft = 0;
 	this._rePosition();
 	this.switchScroll();
 };
 
-Plywet.widget.Scrollbar.prototype._isVScroll = function() {
+Flywet.widget.Scrollbar.prototype._isVScroll = function() {
 	return this.type == 'vertical';
 };
 
-Plywet.widget.Scrollbar.prototype._createDom = function(){
+Flywet.widget.Scrollbar.prototype._createDom = function(){
 	this.$container.addClass('ui-scrollbar-container');
 	
 	var _self = this;
@@ -51,7 +51,7 @@ Plywet.widget.Scrollbar.prototype._createDom = function(){
 };
 
 
-Plywet.widget.Scrollbar.prototype._moveScrollbar2=function() {
+Flywet.widget.Scrollbar.prototype._moveScrollbar2=function() {
 	if(this._isVScroll()){
 		this.currentTop=this.currentTop-this.stepSize;
 		this.switchScroll();
@@ -64,7 +64,7 @@ Plywet.widget.Scrollbar.prototype._moveScrollbar2=function() {
 	
 };
 
-Plywet.widget.Scrollbar.prototype._moveScrollbar1 = function(){
+Flywet.widget.Scrollbar.prototype._moveScrollbar1 = function(){
 	if(this._isVScroll()){
 		this.currentTop=this.currentTop+this.stepSize;
 		this.switchScroll();
@@ -76,7 +76,7 @@ Plywet.widget.Scrollbar.prototype._moveScrollbar1 = function(){
 	}
 };
 
-Plywet.widget.Scrollbar.prototype.switchScroll = function(){
+Flywet.widget.Scrollbar.prototype.switchScroll = function(){
 	if (this._isVScroll()) {
 		if (this.containerHeight >= this.allTabsHeight) {
 			this.$scrollbar1.hide();
@@ -109,7 +109,7 @@ Plywet.widget.Scrollbar.prototype.switchScroll = function(){
 	}
 };
 
-Plywet.widget.Scrollbar.prototype._rePosition = function(){
+Flywet.widget.Scrollbar.prototype._rePosition = function(){
 	if (this._isVScroll()) {
 		this.containerHeight = this.$container.height();
 		

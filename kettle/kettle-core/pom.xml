@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.plywet.platform.kettle</groupId>
+	<groupId>com.flywet.platform.kettle</groupId>
 	<artifactId>kettle-core</artifactId>
 	<name>Kettle源代码-Core</name>
 	<version>8.0.0</version>
 	<description>Kettle源代码-Core</description>
 	<parent>
 		<artifactId>kettle</artifactId>
-		<groupId>com.plywet.platform</groupId>
+		<groupId>com.flywet.platform</groupId>
 		<version>8.0.0</version>
 	</parent>
 </project>

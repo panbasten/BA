@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:LinkButton">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.LinkButton</description>
-	<classname>com.plywet.platform.bi.component.resolvers.button.FLYLinkButtonResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.LinkButton</description>
+	<classname>com.flywet.platform.bi.component.resolvers.button.FLYLinkButtonResolver</classname>
 	<category>Buttons</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.LinkButton</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.LinkButton</tooltip>
 	<iconfile>linkbutton.png</iconfile>
 </component>

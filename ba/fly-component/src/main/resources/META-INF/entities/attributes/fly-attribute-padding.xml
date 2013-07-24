@@ -1,47 +1,47 @@
 <attributeGroup>
 
 	<name>paddingGroup</name>
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.PaddingGroup</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.PaddingGroup</tooltip>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.PaddingGroup</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.PaddingGroup</tooltip>
 
 	<attribute>
 		<name>padding</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Padding</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Padding</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Padding</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Padding</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>paddingTop</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingTop</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingTop</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingTop</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingTop</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>paddingBottom</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingBottom</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingBottom</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingBottom</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingBottom</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>paddingLeft</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingLeft</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingLeft</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingLeft</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingLeft</tooltip>
 	</attribute>
 	
 	<attribute>
 		<name>paddingRight</name>
 		<required>false</required>
 		<type>java.lang.Integer</type>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingRight</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingRight</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.PaddingRight</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.PaddingRight</tooltip>
 	</attribute>
 
 </attributeGroup>

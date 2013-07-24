@@ -54,7 +54,7 @@
 	};
 	$.fn.droppable.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "accept" ]), {
+		return $.extend( {}, Flywet.parseOptions(target, [ "accept" ]), {
 			disabled : (t.attr("disabled") ? true : undefined)
 		});
 	};

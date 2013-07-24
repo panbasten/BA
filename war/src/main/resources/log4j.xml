@@ -49,7 +49,7 @@
 	</appender>
 	
 	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${user.home}/.plywet/ba.log" />
+		<param name="File" value="${user.home}/.flywet/ba.log" />
 		
 		<param name="Threshold" value="DEBUG" />
 		<param name="MaxBackupIndex" value="8" />

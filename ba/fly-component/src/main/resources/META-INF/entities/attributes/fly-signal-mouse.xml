@@ -1,85 +1,85 @@
 <signal>
 	<name>click</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Click</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Click</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Click</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Click</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 <signal>
 	<name>dblclick</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.DblClick</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.DblClick</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.DblClick</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.DblClick</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 
 <signal>
 	<name>mousedown</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseDown</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseDown</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseDown</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseDown</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 <signal>
 	<name>mouseup</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseUp</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseUp</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseUp</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseUp</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 <signal>
 	<name>mousemove</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseMove</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseMove</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseMove</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseMove</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 <signal>
 	<name>mouseover</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseOver</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseOver</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseOver</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseOver</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>
 <signal>
 	<name>mouseout</name>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseOut</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseOut</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.MouseOut</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.MouseOut</tooltip>
 	<parameters>
 		<parameter>
 			<name>value</name>
-			<description>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
-			<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
+			<description>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalLongDesc.Param.Value</description>
+			<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.SignalTooltipDesc.Param.Value</tooltip>
 		</parameter>
 	</parameters>
 </signal>

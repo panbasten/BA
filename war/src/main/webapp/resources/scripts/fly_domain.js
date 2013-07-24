@@ -1,15 +1,15 @@
 // 导航按钮
-Plywet.domain = {
+Flywet.domain = {
 	ids : {
 		bpVarName : "editorContent-navi-domain-bp_var"
 	},
 	createDir : function(){
 		var _self = this;
-		var currentCase = window[Plywet.domain.ids.bpVarName].getCurrentData();
+		var currentCase = window[Flywet.domain.ids.bpVarName].getCurrentData();
 		var targetId = "domain_create_dialog_folder";
 		var dirId = currentCase.dirId;
 		
-		Plywet.cw("Dialog",targetId+"_var",{
+		Flywet.cw("Dialog",targetId+"_var",{
 			id : targetId,
 			header : "新建目录",
 			width : 500,
@@ -30,7 +30,7 @@ Plywet.domain = {
 				title : "确定",
 				events: {
 					click:function(){
-						Plywet.ab({
+						Flywet.ab({
 							formId:"domain_folder_create_form",
 							formAction:"rest/domain/dir/createsubmit",
 							onsuccess:function(data, status, xhr) {

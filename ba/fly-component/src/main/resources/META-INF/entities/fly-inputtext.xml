@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:InputText">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.InputText</description>
-	<classname>com.plywet.platform.bi.component.resolvers.input.FLYInputTextResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.InputText</description>
+	<classname>com.flywet.platform.bi.component.resolvers.input.FLYInputTextResolver</classname>
 	<category>Input</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.InputText</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.InputText</tooltip>
 	<iconfile>inputtext.png</iconfile>
 	
 	<attributes>

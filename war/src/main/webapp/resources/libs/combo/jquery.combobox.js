@@ -347,7 +347,7 @@
 	};
 	$.fn.combobox.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, $.fn.combo.parseOptions(target), Plywet
+		return $.extend( {}, $.fn.combo.parseOptions(target), Flywet
 				.parseOptions(target, [ "valueField", "textField", "mode",
 						"method", "url" ]));
 	};
@@ -414,10 +414,10 @@
 })(jQuery);
 
 
-Plywet.widget.ComboBox = function(cfg) {
+Flywet.widget.ComboBox = function(cfg) {
 	this.cfg = cfg;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	
 	// width
@@ -428,8 +428,8 @@ Plywet.widget.ComboBox = function(cfg) {
 	
 	this.init();
 };
-Plywet.extend(Plywet.widget.ComboBox, Plywet.widget.BaseWidget);
-Plywet.widget.ComboBox.prototype = {
+Flywet.extend(Flywet.widget.ComboBox, Flywet.widget.BaseWidget);
+Flywet.widget.ComboBox.prototype = {
 	init : function() {
 		this.jq.combobox(this.cfg);
 	}

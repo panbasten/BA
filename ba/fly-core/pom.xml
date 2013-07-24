@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>ba</artifactId>
-		<groupId>com.plywet.platform</groupId>
+		<groupId>com.flywet.platform</groupId>
 		<version>8.0.0</version>
 	</parent>
-	<groupId>com.plywet.platform.ba</groupId>
+	<groupId>com.flywet.platform.ba</groupId>
 	<artifactId>fly-core</artifactId>
 	<name>BA核心源码</name>
 	<version>8.0.0</version>

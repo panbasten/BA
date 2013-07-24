@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:Test">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.Test</description>
-	<classname>com.plywet.platform.bi.component.resolvers.base.TestResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.Test</description>
+	<classname>com.flywet.platform.bi.component.resolvers.base.TestResolver</classname>
 	<category>Base</category>
 	<container>true</container>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Test</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.Test</tooltip>
 	<iconfile>test.png</iconfile>
 	
 </component>

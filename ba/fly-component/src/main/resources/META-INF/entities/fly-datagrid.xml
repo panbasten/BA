@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component id="fly:DataGrid">
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeLongDesc.DataGrid</description>
-	<classname>com.plywet.platform.bi.component.resolvers.item.FLYDataGridResolver</classname>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.DataGrid</description>
+	<classname>com.flywet.platform.bi.component.resolvers.item.FLYDataGridResolver</classname>
 	<category>Item</category>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.DataGrid</tooltip>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.DataGrid</tooltip>
 	<iconfile>datagrid.png</iconfile>
 	
 	<attributes>

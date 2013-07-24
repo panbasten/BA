@@ -26,8 +26,8 @@
 				</fly:row>
 			</fly:columns>
 			<fly:toolbar>
-				<fly:pushbutton id="${formId}:partitioningInformations:append" icon="ui-icon-plusthick" onclick="Plywet.editors.toolbarButton.addRow('${formId}:partitioningInformations');" title="添加" />
-				<fly:pushbutton id="${formId}:partitioningInformations:remove" icon="ui-icon-closethick" onclick="Plywet.editors.toolbarButton.deleteRow('${formId}:partitioningInformations');" title="删除" />
+				<fly:pushbutton id="${formId}:partitioningInformations:append" icon="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:partitioningInformations');" title="添加" />
+				<fly:pushbutton id="${formId}:partitioningInformations:remove" icon="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:partitioningInformations');" title="删除" />
 			</fly:toolbar>
 		</fly:dataGrid>
 	</fly:verticalLayout>

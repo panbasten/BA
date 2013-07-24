@@ -142,7 +142,7 @@
 	};
 	$.fn.datetimebox.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, $.fn.datebox.parseOptions(target), Plywet
+		return $.extend( {}, $.fn.datebox.parseOptions(target), Flywet
 				.parseOptions(target, [ "timeSeparator", {
 					showSeconds : "boolean"
 				} ]));

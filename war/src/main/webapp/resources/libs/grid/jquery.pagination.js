@@ -192,7 +192,7 @@
 	};
 	$.fn.pagination.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ {
+		return $.extend( {}, Flywet.parseOptions(target, [ {
 			total : "number",
 			pageSize : "number",
 			pageNumber : "number"

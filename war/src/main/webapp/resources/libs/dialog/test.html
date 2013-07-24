@@ -29,14 +29,14 @@
   <body>
     <script>
 
-    	//Plywet.cw("ConfirmDialog",null,{type:"prompt",text:"确认:询问用户操作。"});
-    	//Plywet.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",confirmFunc:function(e,d){alert(d);}});
-    	Plywet.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",footerButtons:[
+    	//Flywet.cw("ConfirmDialog",null,{type:"prompt",text:"确认:询问用户操作。"});
+    	//Flywet.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",confirmFunc:function(e,d){alert(d);}});
+    	Flywet.cw("ConfirmDialog",null,{type:"confirm",text:"确认:询问用户操作。",footerButtons:[
     		{componentType : "fly:PushButton", type : "button", label : "保存并关闭", title : "保存并关闭", events : { click:function(e,d){console.log(e);console.log(d);} }},
     		{componentType : "fly:PushButton", type : "button", label : "关闭不保存", title : "关闭不保存", events : { click:function(e,d){console.log(e);d.target.hide();} }},
     		{componentType : "fly:PushButton", type : "button", label : "取消", title : "取消", events : { click:"hide" }}
     	]});
-//    	var obj=new Plywet.widget.ConfirmDialog({
+//    	var obj=new Flywet.widget.ConfirmDialog({
 //			id : "aaa",
 //			type:"confirm",
 //			text:"温馨提示:用于提示用户操作成功。",
@@ -58,7 +58,7 @@
 //		var Input=document.createElement("input");
 //		dom.appendChild(span);
 //		dom.appendChild(Input);
-//		var obj1=new Plywet.widget.PromptDialog({
+//		var obj1=new Flywet.widget.PromptDialog({
 //			id : "vvvv",
 //			header:"confirm",
 //			confirm:function(){alert('提交');},

@@ -18,29 +18,29 @@
 	<div id="${editorId}Content" class="fly-flow-content">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-top">
 			<fly:pushbutton id="dashboard_editor_component" icon="ui-icon-dashboard-edit"
-				onclick="Plywet.editors.dashboard.action.editorComponent();" title="编辑控件" state="active" />
+				onclick="Flywet.editors.dashboard.action.editorComponent();" title="编辑控件" state="active" />
 			<fly:pushbutton id="dashboard_editor_signal_slot" icon="ui-icon-dashboard-signal"
-				onclick="Plywet.editors.dashboard.action.editorSignalSlot();" title="编辑信号/槽" />
+				onclick="Flywet.editors.dashboard.action.editorSignalSlot();" title="编辑信号/槽" />
 			<fly:pushbutton id="dashboard_editor_buddy" icon="ui-icon-dashboard-buddy"
-				onclick="Plywet.editors.dashboard.action.editorBuddy();" title="编辑伙伴" />
+				onclick="Flywet.editors.dashboard.action.editorBuddy();" title="编辑伙伴" />
 			<fly:pushbutton id="dashboard_editor_tab_sequence" icon="ui-icon-dashboard-tab"
-				onclick="Plywet.editors.dashboard.action.editorTab();" title="编辑Tab顺序" />
+				onclick="Flywet.editors.dashboard.action.editorTab();" title="编辑Tab顺序" />
 			<fly:pushbutton type="separator" />
 			<fly:pushbutton id="dashboard_layout_horizontal" icon="ui-icon-dashboard-layout-horizontal" 
-				onclick="Plywet.editors.dashboard.action.layoutHorizontal();" title="水平布局" state="disabled" />
+				onclick="Flywet.editors.dashboard.action.layoutHorizontal();" title="水平布局" state="disabled" />
 			<fly:pushbutton id="dashboard_layout_vertical" icon="ui-icon-dashboard-layout-vertical" 
-				onclick="Plywet.editors.dashboard.action.layoutVertical();" title="垂直布局" state="disabled" />
+				onclick="Flywet.editors.dashboard.action.layoutVertical();" title="垂直布局" state="disabled" />
 			<fly:pushbutton id="dashboard_layout_grid" icon="ui-icon-dashboard-layout-grid" 
-				onclick="Plywet.editors.dashboard.action.layoutGrid();" title="栅格布局" state="disabled" />
+				onclick="Flywet.editors.dashboard.action.layoutGrid();" title="栅格布局" state="disabled" />
 			<fly:pushbutton id="dashboard_layout_broke" icon="ui-icon-dashboard-layout-broke" 
-				onclick="Plywet.editors.dashboard.action.layoutBroke();" title="打破布局" state="disabled" />
+				onclick="Flywet.editors.dashboard.action.layoutBroke();" title="打破布局" state="disabled" />
 			<fly:pushbutton type="separator" />
 			<fly:pushbutton id="dashboard_resize" icon="ui-icon-dashboard-resize" 
-				onclick="Plywet.editors.dashboard.action.resize();" title="调整尺寸" />
+				onclick="Flywet.editors.dashboard.action.resize();" title="调整尺寸" />
 			<fly:pushbutton id="dashboard_preview" icon="ui-icon-dashboard-preview" 
-				onclick="Plywet.editors.dashboard.action.preview();" title="预览" />
+				onclick="Flywet.editors.dashboard.action.preview();" title="预览" />
 			<fly:pushbutton id="dashboard_save" icon="ui-icon-save" 
-				onclick="Plywet.editors.dashboard.action.save();" title="保存" />
+				onclick="Flywet.editors.dashboard.action.save();" title="保存" />
 		</div>
 		
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
@@ -54,8 +54,8 @@
 		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">
-					<fly:pushbutton icon="ui-icon-plusthick" onclick="Plywet.editors.dashboard.action.signal_add_on_click();" title="添加" />
-					<fly:pushbutton icon="ui-icon-closethick" onclick="Plywet.editors.dashboard.action.signal_delete_on_click();" title="删除" />
+					<fly:pushbutton icon="ui-icon-plusthick" onclick="Flywet.editors.dashboard.action.signal_add_on_click();" title="添加" />
+					<fly:pushbutton icon="ui-icon-closethick" onclick="Flywet.editors.dashboard.action.signal_delete_on_click();" title="删除" />
 				</div>
 				<div class="ui-toolbar-group-right">
 				</div>
@@ -71,7 +71,7 @@
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">结构</div>
 				<div class="ui-toolbar-group-right">
-					<span id="${editorId}StructClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Plywet.editors.dashboard.toggleContent('structPane');"></span>
+					<span id="${editorId}StructClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.dashboard.toggleContent('structPane');"></span>
 				</div>
 			</div>
 			<div id="${editorId}StructPanelContent" class="ui-widget-content ui-corner-bottom" style="overflow:auto;">

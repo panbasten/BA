@@ -2,6 +2,6 @@
 	<name>objectName</name>
 	<required>false</required>
 	<type>java.lang.String</type>
-    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.ObjectName</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.ObjectName</tooltip>
+    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.ObjectName</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.ObjectName</tooltip>
 </attribute>

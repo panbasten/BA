@@ -3,17 +3,17 @@
  * @author yanghyc
  * @date 2012-10-18
  */
-Plywet.widget.Drag=function(cfg){
+Flywet.widget.Drag=function(cfg){
 	this.cfg = cfg;
 	this.dom=cfg.dom;
 	this.targetid=cfg.targetid;
 	this.id = this.cfg.id;
-	this.jqId = Plywet.escapeClientId(this.id);
+	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	this.init();
 };
-Plywet.extend(Plywet.widget.Drag, Plywet.widget.BaseWidget);
-Plywet.widget.Drag.prototype={
+Flywet.extend(Flywet.widget.Drag, Flywet.widget.BaseWidget);
+Flywet.widget.Drag.prototype={
 	init:function(){
 		var src=this.dom;
 		if(!src&&this.id) src="#"+this.id;

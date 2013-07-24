@@ -349,7 +349,7 @@
 	};
 	$.fn.draggable.parseOptions = function(target) {
 		var t = $(target);
-		return $.extend( {}, Plywet.parseOptions(target, [ "cursor", "handle",
+		return $.extend( {}, Flywet.parseOptions(target, [ "cursor", "handle",
 				"axis", {
 					"revert" : "boolean",
 					"deltaX" : "number",

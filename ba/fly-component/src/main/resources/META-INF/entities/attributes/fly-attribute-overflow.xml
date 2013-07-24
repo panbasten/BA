@@ -1,8 +1,8 @@
 <attributeGroup>
 
 	<name>overflowGroup</name>
-	<description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.overflowGroup</description>
-	<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.overflowGroup</tooltip>
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupLongDesc.overflowGroup</description>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeGroupTooltipDesc.overflowGroup</tooltip>
 
 	<attribute>
 		<name>overflow</name>
@@ -10,8 +10,8 @@
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
 		<editorOptionEnum>Overflow</editorOptionEnum>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Overflow</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Overflow</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.Overflow</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.Overflow</tooltip>
 	</attribute>
 	
 	<attribute>
@@ -20,8 +20,8 @@
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
 		<editorOptionEnum>Overflow</editorOptionEnum>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.OverflowX</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.OverflowX</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.OverflowX</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.OverflowX</tooltip>
 	</attribute>
 	
 	<attribute>
@@ -30,8 +30,8 @@
 		<type>java.lang.String</type>
 		<editorType>combobox</editorType>
 		<editorOptionEnum>Overflow</editorOptionEnum>
-	    <description>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeLongDesc.OverflowY</description>
-		<tooltip>i18n:com.plywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.OverflowY</tooltip>
+	    <description>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeLongDesc.OverflowY</description>
+		<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.AttributeTooltipDesc.OverflowY</tooltip>
 	</attribute>
 
 </attributeGroup>

@@ -1,9 +1,9 @@
-Plywet.widget.Dialog = function(cfg) {
+Flywet.widget.Dialog = function(cfg) {
 	cfg.showEffect = (cfg.showEffect)?cfg.showEffect:'fade';
 	cfg.hideEffect = (cfg.hideEffect)?cfg.hideEffect:'fade';
     this.cfg = cfg;
     this.id = this.cfg.id;
-    this.jqId = Plywet.escapeClientId(this.id);
+    this.jqId = Flywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
     this.visible = false;
     this.realRemove = cfg.realRemove || false;
@@ -68,9 +68,9 @@ Plywet.widget.Dialog = function(cfg) {
     }
 };
 
-Plywet.extend(Plywet.widget.Dialog, Plywet.widget.BaseWidget);
+Flywet.extend(Flywet.widget.Dialog, Flywet.widget.BaseWidget);
 
-Plywet.widget.Dialog.prototype.ajax = function() {
+Flywet.widget.Dialog.prototype.ajax = function() {
 	if(this.cfg.url){
 		var _self = this;
 		var params;
@@ -79,7 +79,7 @@ Plywet.widget.Dialog.prototype.ajax = function() {
 		}else{
 			params = {targetId : this.content.attr("id")};
 		}
-		Plywet.ab({
+		Flywet.ab({
 			type : "get",
 			url : this.cfg.url,
 			params : params,
@@ -90,11 +90,11 @@ Plywet.widget.Dialog.prototype.ajax = function() {
 	}
 };
 
-Plywet.widget.Dialog.prototype.init = function() {
+Flywet.widget.Dialog.prototype.init = function() {
 	this.jq = $(this.jqId);
 	
 	if(this.cfg.parentId){
-		this.parent = $(Plywet.escapeClientId(this.cfg.parentId));
+		this.parent = $(Flywet.escapeClientId(this.cfg.parentId));
 	}else{
 		this.parent = $(document.body);
 	}
@@ -168,14 +168,14 @@ Plywet.widget.Dialog.prototype.init = function() {
 				}
 			}
 		}
-		Plywet.autocw(this.cfg.footerButtons,this.footer);
+		Flywet.autocw(this.cfg.footerButtons,this.footer);
 		this.jq.append(this.footer);
 	}
 	this.parent.append(this.jq);
 	
 };
 
-Plywet.widget.Dialog.prototype.createIcon = function(anchorClass,iconClass){
+Flywet.widget.Dialog.prototype.createIcon = function(anchorClass,iconClass){
 	var a = $("<a href='#'></a>");
 	a.addClass(anchorClass);
 	var icon = $("<span></span>");
@@ -184,7 +184,7 @@ Plywet.widget.Dialog.prototype.createIcon = function(anchorClass,iconClass){
 	return a;
 };
 
-Plywet.widget.Dialog.prototype.enableModality = function() {
+Flywet.widget.Dialog.prototype.enableModality = function() {
     $(document.body).append('<div id="' + this.id + '_modal" class="ui-widget-overlay"></div>').
         children(this.jqId + '_modal').css({
             'width': $(document).width()
@@ -212,7 +212,7 @@ Plywet.widget.Dialog.prototype.enableModality = function() {
     });
 };
 
-Plywet.widget.Dialog.prototype.destroy = function(){
+Flywet.widget.Dialog.prototype.destroy = function(){
 	if ($.fn.combo) {
 		this.jq.find(".ui-combo-f").combo("destroy");
 	}
@@ -241,12 +241,12 @@ Plywet.widget.Dialog.prototype.destroy = function(){
 	this.jq.remove();
 };
 
-Plywet.widget.Dialog.prototype.disableModality = function(){
+Flywet.widget.Dialog.prototype.disableModality = function(){
     $(document.body).children(this.jqId + '_modal').remove();
     $(document).unbind(this.blockEvents).unbind('keydown.dialog');
 };
 
-Plywet.widget.Dialog.prototype.syncWindowResize = function() {
+Flywet.widget.Dialog.prototype.syncWindowResize = function() {
     $(window).resize(function() {
         $(document.body).children('.ui-widget-overlay').css({
             'width': $(document).width()
@@ -255,7 +255,7 @@ Plywet.widget.Dialog.prototype.syncWindowResize = function() {
     });
 };
 
-Plywet.widget.Dialog.prototype.show = function() {
+Flywet.widget.Dialog.prototype.show = function() {
     if(this.visible) {
        return;
     }
@@ -272,7 +272,7 @@ Plywet.widget.Dialog.prototype.show = function() {
     }
 };
 
-Plywet.widget.Dialog.prototype._show = function() {
+Flywet.widget.Dialog.prototype._show = function() {
     //replace visibility hidden with display none for effect support
     this.jq.css({
         'display':'none'
@@ -301,14 +301,14 @@ Plywet.widget.Dialog.prototype._show = function() {
         this.enableModality();
 };
 
-Plywet.widget.Dialog.prototype.postShow = function() {   
+Flywet.widget.Dialog.prototype.postShow = function() {   
     //execute user defined callback
     if(this.cfg.onShow) {
         this.cfg.onShow.call(this);
     }
 };
 
-Plywet.widget.Dialog.prototype.hide = function() {   
+Flywet.widget.Dialog.prototype.hide = function() {   
     if(!this.visible) {
        return;
     }
@@ -343,11 +343,11 @@ Plywet.widget.Dialog.prototype.hide = function() {
     }
 };
 
-Plywet.widget.Dialog.prototype.focusFirstInput = function() {
+Flywet.widget.Dialog.prototype.focusFirstInput = function() {
     this.jq.find(':not(:submit):not(:button):input:visible:enabled:first').focus();
 };
 
-Plywet.widget.Dialog.prototype.bindEvents = function() {   
+Flywet.widget.Dialog.prototype.bindEvents = function() {   
     var _self = this;
     
     //Move dialog to top if target is not a trigger for a PrimeFaces overlay
@@ -382,7 +382,7 @@ Plywet.widget.Dialog.prototype.bindEvents = function() {
     }
 };
 
-Plywet.widget.Dialog.prototype.setupDraggable = function() {    
+Flywet.widget.Dialog.prototype.setupDraggable = function() {    
     this.jq.draggable({
         cancel: '.ui-dialog-content, .ui-dialog-titlebar-close',
         handle: '.ui-dialog-titlebar',
@@ -390,7 +390,7 @@ Plywet.widget.Dialog.prototype.setupDraggable = function() {
     });
 };
 
-Plywet.widget.Dialog.prototype.setupResizable = function() {
+Flywet.widget.Dialog.prototype.setupResizable = function() {
     var _self = this;
     
     this.jq.resizable({
@@ -409,7 +409,7 @@ Plywet.widget.Dialog.prototype.setupResizable = function() {
     this.resizers = this.jq.children('.ui-resizable-handle');
 };
 
-Plywet.widget.Dialog.prototype.initPosition = function() {
+Flywet.widget.Dialog.prototype.initPosition = function() {
     //reset
     this.jq.css({left:0,top:0});
                 
@@ -447,7 +447,7 @@ Plywet.widget.Dialog.prototype.initPosition = function() {
     this.positionInitialized = true;
 };
 
-Plywet.widget.Dialog.prototype.onHide = function(event, ui) {
+Flywet.widget.Dialog.prototype.onHide = function(event, ui) {
     if(this.cfg.onHide) {
         this.cfg.onHide.call(this, event, ui);
     }
@@ -461,21 +461,21 @@ Plywet.widget.Dialog.prototype.onHide = function(event, ui) {
     }
 };
 
-Plywet.widget.Dialog.prototype.moveToTop = function() {
-    this.jq.css('z-index', ++Plywet.zindex);
+Flywet.widget.Dialog.prototype.moveToTop = function() {
+    this.jq.css('z-index', ++Flywet.zindex);
 };
 
 /**
  * 改变子元素尺寸
  */
-Plywet.widget.Dialog.prototype.resizeSub = function() {
+Flywet.widget.Dialog.prototype.resizeSub = function() {
 	this.content.find("div.ui-panel:visible,div.tabs-container:visible,div.layout:visible")
 		.each(function() {
 			$(this).triggerHandler("_resize", [ true ]);
 		});
 };
 
-Plywet.widget.Dialog.prototype.toggleMaximize = function() {
+Flywet.widget.Dialog.prototype.toggleMaximize = function() {
     
     if(this.maximized) {
         this.jq.removeClass('ui-dialog-maximized');
@@ -520,7 +520,7 @@ Plywet.widget.Dialog.prototype.toggleMaximize = function() {
     }
 };
 
-Plywet.widget.Dialog.prototype.saveState = function() {
+Flywet.widget.Dialog.prototype.saveState = function() {
     this.state = {
         width: this.jq.width()
         ,height: this.content.height()
@@ -532,7 +532,7 @@ Plywet.widget.Dialog.prototype.saveState = function() {
     this.state.windowScrollTop = win.scrollTop();
 };
 
-Plywet.widget.Dialog.prototype.restoreState = function(includeOffset) {
+Flywet.widget.Dialog.prototype.restoreState = function(includeOffset) {
     this.jq.width(this.state.width).height("auto");
     this.content.height(this.state.height);
         
@@ -543,7 +543,7 @@ Plywet.widget.Dialog.prototype.restoreState = function(includeOffset) {
     });
 };
 
-Plywet.widget.Dialog.prototype.loadContents = function() {
+Flywet.widget.Dialog.prototype.loadContents = function() {
     var options = {
         source: this.id,
         process: this.id,
@@ -565,11 +565,11 @@ Plywet.widget.Dialog.prototype.loadContents = function() {
                 _self.loaded = true;
             }
             else {
-                Plywet.ajax.AjaxUtils.updateElement.call(this, id, content);
+                Flywet.ajax.AjaxUtils.updateElement.call(this, id, content);
             }
         }
 
-        Plywet.ajax.AjaxUtils.handleResponse.call(this, xmlDoc);
+        Flywet.ajax.AjaxUtils.handleResponse.call(this, xmlDoc);
         
         return true;
     };
@@ -583,13 +583,13 @@ Plywet.widget.Dialog.prototype.loadContents = function() {
 
     options.params = params;
 
-    Plywet.ajax.AjaxRequest(options);
+    Flywet.ajax.AjaxRequest(options);
 };
 
 /**
  * PrimeFaces ConfirmDialog Widget
  */
-Plywet.widget.ConfirmDialog = function(cfg) {
+Flywet.widget.ConfirmDialog = function(cfg) {
 	var _self = this;
 	cfg = $.extend({
 		footerButtons:null,
@@ -597,7 +597,7 @@ Plywet.widget.ConfirmDialog = function(cfg) {
 		width:400,
 		height:100
 	},cfg);
-	cfg.id=(cfg.id)?cfg.id:"widget_"+(Plywet.windex++);
+	cfg.id=(cfg.id)?cfg.id:"widget_"+(Flywet.windex++);
     cfg.draggable = false;
     cfg.resizable = false;
     cfg.modal = true;
@@ -631,7 +631,7 @@ Plywet.widget.ConfirmDialog = function(cfg) {
 	    		title : "确定",
 	    		events : {
 	        		click:function(event){
-	    				Plywet.invokeFunction(cfg.confirmFunc,event,true);
+	    				Flywet.invokeFunction(cfg.confirmFunc,event,true);
 	    				_self.hide();
 	    			}
 	        	}
@@ -642,7 +642,7 @@ Plywet.widget.ConfirmDialog = function(cfg) {
 	    		title : "取消",
 	    		events : {
 		    		click:function(event){
-						Plywet.invokeFunction(cfg.confirmFunc,event,false);
+						Flywet.invokeFunction(cfg.confirmFunc,event,false);
 						_self.hide();
 					}
 	        	}
@@ -666,20 +666,20 @@ Plywet.widget.ConfirmDialog = function(cfg) {
     	}
     }
     this.createContentDom(cfg);
-    Plywet.widget.Dialog.call(this, cfg);
+    Flywet.widget.Dialog.call(this, cfg);
 };
 
-Plywet.widget.ConfirmDialog.prototype = Plywet.widget.Dialog.prototype;
+Flywet.widget.ConfirmDialog.prototype = Flywet.widget.Dialog.prototype;
 
-Plywet.widget.ConfirmDialog.prototype.changeTitle = function(title){
+Flywet.widget.ConfirmDialog.prototype.changeTitle = function(title){
 	this.jq.find("div.ui-dialog-titlebar span").html(title);
 };
 
-Plywet.widget.ConfirmDialog.prototype.changeContent = function(img,content){
+Flywet.widget.ConfirmDialog.prototype.changeContent = function(img,content){
 	this.jq.find("div.ui-dialog-content p").html('<span class="ui-icon ui-icon-'+img+'" style="float: left; margin: 0pt 7px 20px 0pt;"></span>'+content);
 };
 
-Plywet.widget.ConfirmDialog.prototype.createContentDom =function(cfg){
+Flywet.widget.ConfirmDialog.prototype.createContentDom =function(cfg){
 	 var contentDom=document.createElement("div");
 	 $(contentDom).addClass(cfg.type);
 	 var icon=document.createElement("div");

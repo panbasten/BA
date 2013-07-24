@@ -216,7 +216,7 @@
 	$.fn.combogrid.parseOptions = function(target) {
 		var t = $(target);
 		return $.extend( {}, $.fn.combo.parseOptions(target), $.fn.datagrid
-				.parseOptions(target), Plywet.parseOptions(target, [ "idField",
+				.parseOptions(target), Flywet.parseOptions(target, [ "idField",
 				"textField", "mode" ]));
 	};
 	$.fn.combogrid.defaults = $.extend( {}, $.fn.combo.defaults,

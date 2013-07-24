@@ -1,4 +1,4 @@
-Plywet.Login = {
+Flywet.Login = {
 	messages : null,
 	section: {
 		slideShow : null,
@@ -6,19 +6,19 @@ Plywet.Login = {
 		slideShowRunning : false,
 		transitionEffect : null,
 		resetSlideshowCounter: function(){
-			Plywet.Login.section.pauseSlideshow();
-			Plywet.Login.section.startSlideshow();
+			Flywet.Login.section.pauseSlideshow();
+			Flywet.Login.section.startSlideshow();
 		},
 		startSlideshow: function(){
-			if (Plywet.Login.section.slideShowRunning) return true;
-			Plywet.Login.section.slideShowRunning = true;
-		    Plywet.Login.section.slideShowId = setInterval(function(){
-		    	Plywet.Login.section.slideShow.cycle('next');
+			if (Flywet.Login.section.slideShowRunning) return true;
+			Flywet.Login.section.slideShowRunning = true;
+		    Flywet.Login.section.slideShowId = setInterval(function(){
+		    	Flywet.Login.section.slideShow.cycle('next');
 		    },7500);
 		},
 		pauseSlideshow: function(){
-			Plywet.Login.section.slideShowRunning = false;
-		    clearInterval(Plywet.Login.section.slideShowId);
+			Flywet.Login.section.slideShowRunning = false;
+		    clearInterval(Flywet.Login.section.slideShowId);
 		}
 	},
 	
@@ -28,12 +28,12 @@ Plywet.Login = {
 			.removeClass("ui-login-button-disabled")
 			.removeClass("ui-login-button-hover")
 			.bind("click", function(){
-				Plywet.Login.loginAction();
+				Flywet.Login.loginAction();
 			});
 	},
 	
 	loginAction : function(){
-		Plywet.ab({
+		Flywet.ab({
 			formId: "login",
 			formAction: "rest/identification",
 			beforeSend : function(){
@@ -43,20 +43,20 @@ Plywet.Login = {
 			},
 			onsuccess: function(data, status, xhr){
 				if(data.state == 0){
-					var cookieJson = Plywet.parseJSON(data.data);
+					var cookieJson = Flywet.parseJSON(data.data);
 					for(var p in cookieJson){
-						Plywet.CookieUtils.write(p,cookieJson[p]);
+						Flywet.CookieUtils.write(p,cookieJson[p]);
 					}
 					// 判断是否是子页面
 					//window.location = "editor";
 					
-					if (Plywet.browserDetect.msie){
+					if (Flywet.browserDetect.msie){
 						window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
 						var num = 0;
 						function checkWebPageForIE(){
 							if(window["editorPageHandle"]){
 								clearInterval(interval);
-								if (Plywet.browserDetect.isIE6) {  
+								if (Flywet.browserDetect.isIE6) {  
 									window.opener = null; 
 									window.close();  
 								}  
@@ -68,13 +68,13 @@ Plywet.Login = {
 								num = num + 1;
 								if(num>10){
 									clearInterval(interval);
-									Plywet.Login.pageBlocked();
+									Flywet.Login.pageBlocked();
 								}
 							}
 						}
 						var interval = setInterval(checkWebPageForIE, 500);
 					
-					}else if (Plywet.browserDetect.webkit){
+					}else if (Flywet.browserDetect.webkit){
 						window["editorPageHandle"] = window.open("editor","","left=0,top=0,width="+window.screen.availWidth+",height="+window.screen.availHeight+",modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
 						var num = 0;
 						function checkWebPageForWebkit(){
@@ -87,13 +87,13 @@ Plywet.Login = {
 								num = num + 1;
 								if(num>10){
 									clearInterval(interval);
-									Plywet.Login.pageBlocked();
+									Flywet.Login.pageBlocked();
 								}
 							}
 						}
 						var interval = setInterval(checkWebPageForWebkit, 500);
 						
-					}else if (Plywet.browserDetect.mozilla){
+					}else if (Flywet.browserDetect.mozilla){
 						try{
 							window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
 							window["editorPageHandle"].moveTo(0, 0);
@@ -102,7 +102,7 @@ Plywet.Login = {
 							window.location.href = 'about:blank';
 						}
 						catch(e){
-							Plywet.Login.pageBlocked();
+							Flywet.Login.pageBlocked();
 						}
 					}
 						
@@ -125,7 +125,7 @@ Plywet.Login = {
 	},
 	
 	resize: function(){
-		var win = Plywet.getWindowScroll();
+		var win = Flywet.getWindowScroll();
 		var h = Math.max(0,(win.height-580)),
 			w = Math.max(0,(win.width-1160));
 		$("#document").css({
@@ -133,35 +133,35 @@ Plywet.Login = {
 			"margin-left":w+"px"
 		});
 		var num = Math.floor(Math.random()*1.999+1);
-		$(Plywet.escapeClientId("document-img"))
+		$(Flywet.escapeClientId("document-img"))
 			.attr("src", "resources/images/pics/login"+num+".jpg")
 			.width(win.width+20).height(win.height+20);
 	},
 	
 	changeWebText : function(){
-		document.title=Plywet.Login.messages["msg_page_title"];
-		$("#companyName").html(Plywet.Login.messages["msg_page_company_name"]);
-		$("#companyCopyright").html(Plywet.Login.messages["msg_page_company_copyright"]);
-		$("#companyOthers").html(Plywet.Login.messages["msg_page_company_others"]);
+		document.title=Flywet.Login.messages["msg_page_title"];
+		$("#companyName").html(Flywet.Login.messages["msg_page_company_name"]);
+		$("#companyCopyright").html(Flywet.Login.messages["msg_page_company_copyright"]);
+		$("#companyOthers").html(Flywet.Login.messages["msg_page_company_others"]);
 	},
 	
 	initPage: function(){
 		
-		Plywet.env();
+		Flywet.env();
 		
 		// 1.替换标识文字
-		Plywet.ab({
+		Flywet.ab({
 			type: "get",
 			url: "rest/identification/messages",
 			onsuccess: function(data, status, xhr){
-				Plywet.Login.messages = data;
-				Plywet.Login.changeWebText();
+				Flywet.Login.messages = data;
+				Flywet.Login.changeWebText();
 			}
 		});
 		
 		
 		// 2.加载资源库名称
-		Plywet.ab({
+		Flywet.ab({
 			type: "get",
 			url: "rest/identification/repositoryNames",
 			onsuccess: function(data, status, xhr){
@@ -176,41 +176,41 @@ Plywet.Login = {
 		});
 		
 		// 3.加载滚动内容
-		Plywet.ab({
+		Flywet.ab({
 			type: "get",
 			url: "rest/identification/slides",
 			onsuccess: function(data, status, xhr){
 				if ($.browser.msie == true && ($.browser.version == '7.0' || $.browser.version == '8.0')) {
-					Plywet.Login.section.transitionEffect = 'none';
+					Flywet.Login.section.transitionEffect = 'none';
 			    } else {
-			    	Plywet.Login.section.transitionEffect = 'scrollLeft';
+			    	Flywet.Login.section.transitionEffect = 'scrollLeft';
 			    }
 				
-				Plywet.Login.section.slideShow = $("#section");
+				Flywet.Login.section.slideShow = $("#section");
 				
 				// 加载滑动内容
-				Plywet.Login.section.slideShow.empty();
-				Plywet.render(Plywet.Login.section.slideShow, data.dom, data.script);
+				Flywet.Login.section.slideShow.empty();
+				Flywet.render(Flywet.Login.section.slideShow, data.dom, data.script);
 				
-				Plywet.Login.section.slideShow.after("<div id='section-paging' class='section-paging'>");
-				Plywet.Login.section.slideShow.cycle({
-			        fx          	: Plywet.Login.section.transitionEffect,
+				Flywet.Login.section.slideShow.after("<div id='section-paging' class='section-paging'>");
+				Flywet.Login.section.slideShow.cycle({
+			        fx          	: Flywet.Login.section.transitionEffect,
 			        pager       	: "#section-paging",
 			        timeout     	: 0,
 			        cleartype   	: true,
 			        cleartypeNoBg	: true,
-			        onPagerEvent	: Plywet.Login.section.resetSlideshowCounter
+			        onPagerEvent	: Flywet.Login.section.resetSlideshowCounter
 			    });
-				Plywet.Login.section.startSlideshow();
+				Flywet.Login.section.startSlideshow();
 			    
-				Plywet.Login.section.slideShow.mouseenter(function(){ Plywet.Login.section.pauseSlideshow(); });
-				Plywet.Login.section.slideShow.mouseleave(function(){ Plywet.Login.section.startSlideshow(); });
+				Flywet.Login.section.slideShow.mouseenter(function(){ Flywet.Login.section.pauseSlideshow(); });
+				Flywet.Login.section.slideShow.mouseleave(function(){ Flywet.Login.section.startSlideshow(); });
 			}
 		});
 		
 		// 4.登录按钮
 		$("#loginBtn").bind("click", function(){
-			Plywet.Login.loginAction();
+			Flywet.Login.loginAction();
 		}).live("mouseover", function(){
 			$(this).addClass('ui-login-button-hover');
 		}).live("mouseout", function(){
@@ -223,11 +223,11 @@ Plywet.Login = {
 		
 		$(document).keydown(function(e){
 			if(e.keyCode==13){
-				Plywet.Login.loginAction();
+				Flywet.Login.loginAction();
 			}
 		});
 		
 		// 5.调整尺寸
-		Plywet.Login.resize();
+		Flywet.Login.resize();
 	}
 };
