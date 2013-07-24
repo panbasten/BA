@@ -807,6 +807,51 @@ Flywet.editors.trans.action = {
 		});
     },
     
+    run : function(){
+    	var transId = 1;// TODO
+    	
+    	var dialogId = "dialog-trans-run";
+    	Flywet.cw("Dialog",dialogId+"_var",{
+			id : dialogId,
+			header : "执行转换",
+			width : 600,
+			height : 400,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/trans/"+transId+"/run",
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "确定",
+				title : "确定",
+				events : {
+					"click" : function(){
+						Flywet.ab({
+							formId : "form:"+dialogId,
+							formAction : "rest/trans/"+transId+"/run/do",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[dialogId + "_var"].hide();
+								}
+							}
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : true
+		});
+    },
+    
     check : function(){
     }
 };

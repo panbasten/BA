@@ -59,6 +59,8 @@ public class BITransResource {
 	private static Class<?> PKG = BITransResource.class;
 
 	private static final String TRANS_SETTING_TEMPLATE = "editor/trans/setting.h";
+	
+	private static final String TRANS_RUN_TEMPLATE = "editor/trans/run.h";
 
 	private static final String TRANS_STEP_TEMPLATE_PREFIX = "editor/trans/steps/";
 
@@ -202,6 +204,53 @@ public class BITransResource {
 	private void setHopGraphAttribute(TransHopMeta hm, FlowHop flowHop) {
 		long[] x = flowHop.getX();
 		long[] y = flowHop.getY();
+	}
+
+	@GET
+	@Path("/{id}/run")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openRun(@CookieParam("repository") String repository,
+			@PathParam("id") String id, @QueryParam("targetId") String targetId)
+			throws BIException {
+		try {
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+			attrsMap.addVariable("formId", "trans_" + id);
+
+			// TODO
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TRANS_RUN_TEMPLATE, attrsMap);
+
+			// 返回页面控制
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建转换执行页面出现错误。", ex);
+		}
+	}
+
+	@POST
+	@Path("/{id}/run/do")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String doRun(@CookieParam("repository") String repository,
+			@PathParam("id") String id, String body) throws BIJSONException {
+		ActionMessage am = ActionMessage.instance();
+		String name = id;
+		try {
+
+			String FORM_PREFIX = "trans_" + id + ":";
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			// TODO
+
+			return am.success("保存转换【" + name + "】设置成功！").toJSONString();
+		} catch (Exception e) {
+			log.error("保存转换【" + name + "】设置出现错误。");
+		}
+
+		return am.failure("保存转换【" + name + "】设置出现错误。").toJSONString();
 	}
 
 	@GET
