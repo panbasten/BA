@@ -1,5 +1,6 @@
 <database-types>
 
+	<!-- 
 	<database-type id="KettleThin">
 		<description>Kettle thin JDBC driver</description>
 		<classname>org.pentaho.di.core.database.KettleDatabaseMeta</classname>
@@ -14,22 +15,26 @@
 		<description>Intersystems Cache</description>
 		<classname>org.pentaho.di.core.database.CacheDatabaseMeta</classname>
 	</database-type>
-
+ 	-->
+ 	
 	<database-type id="DB2">
 		<description>IBM DB2</description>
 		<classname>org.pentaho.di.core.database.DB2DatabaseMeta</classname>
 	</database-type>
 
+	<!-- 
 	<database-type id="DBASE">
 		<description>dBase III, IV or 5</description>
 		<classname>org.pentaho.di.core.database.DbaseDatabaseMeta</classname>
 	</database-type>
+	-->
 
 	<database-type id="DERBY">
 		<description>Apache Derby</description>
 		<classname>org.pentaho.di.core.database.DerbyDatabaseMeta</classname>
 	</database-type>
 
+	<!-- 
 	<database-type id="EXASOL4">
 		<description>Exasol 4</description>
 		<classname>org.pentaho.di.core.database.Exasol4DatabaseMeta</classname>
@@ -64,12 +69,14 @@
 		<description>Gupta SQL Base</description>
 		<classname>org.pentaho.di.core.database.GuptaDatabaseMeta</classname>
 	</database-type>
+	-->
 
 	<database-type id="H2">
 		<description>H2</description>
 		<classname>org.pentaho.di.core.database.H2DatabaseMeta</classname>
 	</database-type>
 
+	<!-- 
 	<database-type id="HYPERSONIC">
 		<description>Hypersonic</description>
 		<classname>org.pentaho.di.core.database.HypersonicDatabaseMeta</classname>
@@ -109,6 +116,7 @@
 		<description>LucidDB</description>
 		<classname>org.pentaho.di.core.database.LucidDBDatabaseMeta</classname>
 	</database-type>
+	-->
 
 	<database-type id="MONETDB">
 		<description>MonetDB</description>
@@ -135,6 +143,7 @@
 		<classname>org.pentaho.di.core.database.MySQLDatabaseMeta</classname>
 	</database-type>
 
+	<!-- 
 	<database-type id="MONDRIAN">
 		<description>Native Mondrian</description>
 		<classname>org.pentaho.di.core.database.MondrianNativeDatabaseMeta</classname>
@@ -149,6 +158,7 @@
 		<description>Netezza</description>
 		<classname>org.pentaho.di.core.database.NetezzaDatabaseMeta</classname>
 	</database-type>
+	-->
 
 	<database-type id="ORACLE">
 		<description>Oracle</description>
@@ -165,10 +175,12 @@
 		<classname>org.pentaho.di.core.database.PostgreSQLDatabaseMeta</classname>
 	</database-type>
 
+	<!-- 
 	<database-type id="REMEDY-AR-SYSTEM">
 		<description>Remedy Action Request System</description>
 		<classname>org.pentaho.di.core.database.RemedyActionRequestSystemDatabaseMeta</classname>
 	</database-type>
+	-->
 
 	<database-type id="SAPDB">
 		<description>MaxDB (SAP DB)</description>
@@ -200,6 +212,7 @@
 		<classname>org.pentaho.di.core.database.TeradataDatabaseMeta</classname>
 	</database-type>
 
+	<!-- 
 	<database-type id="UNIVERSE">
 		<description>UniVerse database</description>
 		<classname>org.pentaho.di.core.database.UniVerseDatabaseMeta</classname>
@@ -209,5 +222,6 @@
 		<description>Vertica</description>
 		<classname>org.pentaho.di.core.database.VerticaDatabaseMeta</classname>
 	</database-type>
+	-->
 
 </database-types>
