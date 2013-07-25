@@ -877,5 +877,32 @@ Flywet.editors.trans.action = {
 			closable : true,
 			maximizable : true
 		});
+    },
+    
+    analyse : function(){
+    	var transId = 1;// TODO
+    	
+    	var dialogId = "dialog-trans-analyse";
+    	Flywet.cw("Dialog",dialogId+"_var",{
+			id : dialogId,
+			header : "影响分析",
+			width : 600,
+			height : 400,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/trans/"+transId+"/analyse",
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "关闭",
+				title : "关闭",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : true
+		});
     }
 };

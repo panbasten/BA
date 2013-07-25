@@ -61,8 +61,10 @@ public class BITransResource {
 	private static final String TRANS_SETTING_TEMPLATE = "editor/trans/setting.h";
 
 	private static final String TRANS_RUN_TEMPLATE = "editor/trans/run.h";
-	
+
 	private static final String TRANS_CHECK_TEMPLATE = "editor/trans/check.h";
+	
+	private static final String TRANS_ANALYSE_DB_TEMPLATE = "editor/trans/analyseDB.h";
 
 	private static final String TRANS_STEP_TEMPLATE_PREFIX = "editor/trans/steps/";
 
@@ -207,7 +209,30 @@ public class BITransResource {
 		long[] x = flowHop.getX();
 		long[] y = flowHop.getY();
 	}
-	
+
+	@GET
+	@Path("/{id}/analyse")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openAnalyse(@CookieParam("repository") String repository,
+			@PathParam("id") String id, @QueryParam("targetId") String targetId)
+			throws BIException {
+		try {
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+			attrsMap.addVariable("formId", "trans_" + id);
+
+			// TODO 运行一个转换的实例
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TRANS_ANALYSE_DB_TEMPLATE, attrsMap);
+
+			// 返回页面控制
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建分析转换对数据库影响页面出现错误。", ex);
+		}
+	}
+
 	@GET
 	@Path("/{id}/check")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -227,7 +252,7 @@ public class BITransResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建转换执行页面出现错误。", ex);
+			throw new BIException("创建校验转换页面出现错误。", ex);
 		}
 	}
 
