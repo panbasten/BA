@@ -55,7 +55,7 @@
 							<div id="section" class="section">
 								
 								<div class="slide">
-									<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;">享元BA平台</p>
+									<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;">辅稳BA平台</p>
 								</div>
 								
 							</div>

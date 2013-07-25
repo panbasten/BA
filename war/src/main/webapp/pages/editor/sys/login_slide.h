@@ -2,8 +2,8 @@
 
 	<div class="slide" style="background: url('resources/images/login/section/architecture.png') no-repeat scroll 0 0 transparent;">
 		<p style="font-size: 36px;line-height:1em;margin:40px 0 0 40px;color:#D3D4D5;font-weight:bold;text-shadow:1px 1px 1px #C89F40;">
-			<font>享</font><br/>
-			<font>元</font><br/>
+			<font>辅</font><br/>
+			<font>稳</font><br/>
 			<font style="font-size:26px;">BA</font>
 		</p>
 	</div>
@@ -27,7 +27,7 @@
 		</ul>
 	</div>
 	<div class="slide">
-		<p class="slide-single-p" style="margin:65px 0 0 40px;">享元BA平台全部帮您实现！</p>
+		<p class="slide-single-p" style="margin:65px 0 0 40px;">辅稳BA平台全部帮您实现！</p>
 	</div>
 
 </fly:composition>
