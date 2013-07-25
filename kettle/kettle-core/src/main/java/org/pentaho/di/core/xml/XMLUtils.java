@@ -104,13 +104,23 @@ public class XMLUtils {
 	}
 
 	/**
-	 * 获得节点标签的XPath表达式
+	 * 获得根节点的所有该标签的XPath表达式
 	 * 
 	 * @param tagName
 	 * @return
 	 */
 	public static String getTagExpress(String tagName) {
 		return "//*[name()='" + tagName + "']";
+	}
+
+	/**
+	 * 获取指定节点的所有拥有该标签的子节点的XPath表达式
+	 * 
+	 * @param tagName
+	 * @return
+	 */
+	public static String getSubTagExpress(String tagName) {
+		return "*[name()='" + tagName + "']";
 	}
 
 	/**

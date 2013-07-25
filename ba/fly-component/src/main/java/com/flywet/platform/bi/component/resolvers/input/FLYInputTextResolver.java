@@ -60,14 +60,24 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 
 			HTML.writeAttributes(node.getAttributes(), new String[] {
 					HTML.ATTR_STATE, HTML.ATTR_ON_CHANGE, HTML.ATTR_DISABLED,
-					ATTR_INTERACTION }, html, attrs);
+					ATTR_INTERACTION, HTML.ATTR_TEXT }, html, attrs);
 			if (styleClass != null) {
 				html.writeAttribute(HTML.ATTR_CLASS, styleClass);
 			}
 
-			HTML.writeStyleAttribute(node, html, attrs);
+			HTML.writeStyleAttribute(node, html, attrs, "float:left;");
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_INPUT);
+
+			if (HTML.ATTR_INPUT_TYPE_CHECKBOX.equalsIgnoreCase(type)) {
+				String text = HTML.getTagAttribute(node, HTML.ATTR_TEXT, attrs);
+				if (!Const.isEmpty(text)) {
+					html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
+					HTML.writeStyleAttribute(node, html, attrs, "float:left;margin-left:10px;");
+					html.writeText(text);
+					html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
+				}
+			}
 			// if (isRequired(node, attrs)) {
 			// html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 			// html.writeAttribute(HTML.ATTR_CLASS, HTML.REQUIRED_CLASS);

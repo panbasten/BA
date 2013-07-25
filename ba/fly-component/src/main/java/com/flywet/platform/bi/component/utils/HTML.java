@@ -710,6 +710,18 @@ public class HTML {
 
 	}
 
+	public static void writeStyleAttribute(Node node, HTMLWriter html,
+			FLYVariableResolver attrs, String otherStyle) {
+		String style = getStyle(node, attrs);
+		if (!Utils.isEmpty(otherStyle)) {
+			style += PageTemplateInterpolator.evaluate(otherStyle, attrs);
+		}
+		if (!Utils.isEmpty(style)) {
+			html.writeAttribute(ATTR_STYLE, style);
+		}
+
+	}
+
 	public static void writeStyleClassAttribute(Node node, HTMLWriter html,
 			FLYVariableResolver attrs, String def) {
 		String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);

@@ -47,7 +47,7 @@
 	<fly:gridLayout column="2" itemWidth="49%,49%">
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="10">
-				<fly:labelObject buddy="${formId}:parameters" text="参数" />
+				<fly:labelObject buddy="${formId}:parameters" text="命名参数" />
 				<fly:dataGrid id="${formId}:parameters" singleSelect="true" data="" height="240">
 					<fly:columns>
 						<fly:row>
@@ -56,6 +56,10 @@
 							<fly:column field="desc" title="默认值" width="50" editor="text" align="center" />
 						</fly:row>
 					</fly:columns>
+					<fly:toolbar>
+						<fly:pushbutton id="${formId}:options:append" icon="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:variables');" title="添加" />
+						<fly:pushbutton id="${formId}:options:remove" icon="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:variables');" title="删除" />
+					</fly:toolbar>
 				</fly:dataGrid>
 			</fly:verticalLayout>
 		</fly:gridLayoutItem>

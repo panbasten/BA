@@ -18,7 +18,6 @@
 	<div id="${editorId}Content" class="fly-flow-content">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
 			<fly:pushbutton id="trans_run" icon="ui-icon-editor-run" onclick="Flywet.editors.trans.action.run();" title="运行" />
-			<fly:pushbutton id="trans_runstep" icon="ui-icon-editor-runstep" onclick="" title="单步运行" />
 			<fly:pushbutton id="trans_runreturn" icon="ui-icon-editor-return" onclick="" title="重复运行" />
 			<fly:pushbutton id="trans_pause" icon="ui-icon-editor-pause" onclick="" title="暂停" state="disabled" />
 			<fly:pushbutton id="trans_stop" icon="ui-icon-editor-stop" onclick="" title="停止" state="disabled" />

@@ -853,5 +853,29 @@ Flywet.editors.trans.action = {
     },
     
     check : function(){
+    	var transId = 1;// TODO
+    	
+    	var dialogId = "dialog-trans-check";
+    	Flywet.cw("Dialog",dialogId+"_var",{
+			id : dialogId,
+			header : "转换验证结果",
+			width : 600,
+			height : 400,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/trans/"+transId+"/check",
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "关闭",
+				title : "关闭",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : true
+		});
     }
 };
