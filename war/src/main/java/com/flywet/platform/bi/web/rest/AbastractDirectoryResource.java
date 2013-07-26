@@ -30,6 +30,7 @@ public class AbastractDirectoryResource {
 	private static Class<?> PKG = AbastractDirectoryResource.class;
 
 	private static final String TEMPLATE_FOLDER_CREATE = "editor/sys/folder_create.h";
+	private static final String TEMPLATE_FOLDER_EDIT = "editor/sys/folder_edit.h";
 
 	/**
 	 * 删除一个目录
@@ -59,7 +60,82 @@ public class AbastractDirectoryResource {
 	}
 
 	/**
-	 * 打开目录对话框
+	 * 编辑目录对话框
+	 * 
+	 * @param repository
+	 * @param pid
+	 * @param id
+	 * @param targetId
+	 * @return
+	 * @throws BIException
+	 */
+	protected String openDirectoryEditDialog(String repository, String pid,
+			String id, String desc, String targetId) throws BIException {
+		String msg = "";
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+			attrsMap.addVariable("pDirId", pid);
+			attrsMap.addVariable("dirId", id);
+			attrsMap.addVariable("desc", desc);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_FOLDER_EDIT, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (BIException e) {
+			logger.error(e.getMessage());
+			msg = e.getMessage();
+		} catch (Exception e) {
+			logger.error("打开编辑目录界面出现问题。");
+			msg = "打开编辑目录界面出现问题。";
+		}
+		return ActionMessage.instance().failure(msg).toJSONString();
+	}
+
+	/**
+	 * 编辑目录对话框的提交操作
+	 * 
+	 * @param pageDelegates
+	 * @param repository
+	 * @param body
+	 * @param cate
+	 * @return
+	 * @throws BIJSONException
+	 */
+	protected String openDirectoryEditSubmit(BIPageDelegates pageDelegates,
+			String repository, String body, BIDirectoryCategory cate)
+			throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			String desc = paramContext.getParameter("desc");
+
+			// 默认是根目录
+			long pDirId = paramContext.getLongParameter("pDirId");
+			long dirId = paramContext.getLongParameter("dirId");
+
+			if (Const.isEmpty(desc)) {
+				return am.addErrorMessage("新增目录名称不能为空。").toJSONString();
+			}
+
+			// 保存目录
+			pageDelegates.editDirectoryObject(repository, pDirId, dirId, desc,
+					cate);
+
+			am.addMessage("新增目录成功");
+		} catch (Exception e) {
+			am.addErrorMessage("新增目录出现错误。");
+		}
+		return am.toJSONString();
+	}
+
+	/**
+	 * 新建目录对话框
 	 * 
 	 * @param repository
 	 * @param id
@@ -92,7 +168,7 @@ public class AbastractDirectoryResource {
 	}
 
 	/**
-	 * 打开目录对话框的提交操作
+	 * 新建目录对话框的提交操作
 	 * 
 	 * @param pageDelegates
 	 * @param repository

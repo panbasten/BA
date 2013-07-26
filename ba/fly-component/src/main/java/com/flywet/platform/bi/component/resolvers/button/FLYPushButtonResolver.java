@@ -3,12 +3,17 @@ package com.flywet.platform.bi.component.resolvers.button;
 import java.util.List;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import com.flywet.platform.bi.component.components.menu.MenuItemMeta;
+import com.flywet.platform.bi.component.components.menu.MenuItemsMeta;
 import com.flywet.platform.bi.component.core.ComponentResolverInterface;
 import com.flywet.platform.bi.component.resolvers.BaseComponentResolver;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.HTMLWriter;
+import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.Utils;
 
@@ -21,11 +26,15 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
-		String type = HTML.getTagAttribute(node, HTML.ATTR_TYPE, attrs);
-		if (BUTTON_TYPE_SEPARATOR.equalsIgnoreCase(type)) {
-			renderSeparatorType(node, html, script, attrs);
-		} else {
-			renderButtonType(node, html, script, attrs);
+		try {
+			String type = HTML.getTagAttribute(node, HTML.ATTR_TYPE, attrs);
+			if (BUTTON_TYPE_SEPARATOR.equalsIgnoreCase(type)) {
+				renderSeparatorType(node, html, script, attrs);
+			} else {
+				renderButtonType(node, html, script, attrs);
+			}
+		} catch (BIException e) {
+			throw new BIPageException(e);
 		}
 	}
 
@@ -47,21 +56,34 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 	}
 
-	private String resolveStyleClass(Node node, FLYVariableResolver attrs) {
-		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON, attrs);
+	private String resolveStyleClass(Node node, FLYVariableResolver attrs,
+			boolean isMenu) {
+		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON_CLASS, attrs);
 		String label = HTML.getTagAttribute(node, HTML.ATTR_LABEL, attrs);
 		String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
 		String userClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
 		String styleClass = "";
 
-		if (label != null && icon == null) {
-			styleClass = HTML.BUTTON_TEXT_ONLY_BUTTON_CLASS;
-		} else if (label != null && icon != null) {
-			styleClass = "right".equalsIgnoreCase(HTML.getTagAttribute(node,
-					HTML.ATTR_ICON_POS, attrs)) ? HTML.BUTTON_TEXT_ICON_RIGHT_BUTTON_CLASS
-					: HTML.BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS;
-		} else if (label == null && icon != null) {
-			styleClass = HTML.BUTTON_ICON_ONLY_BUTTON_CLASS;
+		if (isMenu) {
+			if (label != null && icon == null) {
+				styleClass = HTML.BUTTON_MENU_TEXT_ONLY_BUTTON_CLASS;
+			} else if (label != null && icon != null) {
+				styleClass = "right".equalsIgnoreCase(HTML.getTagAttribute(
+						node, HTML.ATTR_ICON_POS, attrs)) ? HTML.BUTTON_MENU_TEXT_ICON_RIGHT_BUTTON_CLASS
+						: HTML.BUTTON_MENU_TEXT_ICON_LEFT_BUTTON_CLASS;
+			} else if (label == null && icon != null) {
+				styleClass = HTML.BUTTON_MENU_ICON_ONLY_BUTTON_CLASS;
+			}
+		} else {
+			if (label != null && icon == null) {
+				styleClass = HTML.BUTTON_TEXT_ONLY_BUTTON_CLASS;
+			} else if (label != null && icon != null) {
+				styleClass = "right".equalsIgnoreCase(HTML.getTagAttribute(
+						node, HTML.ATTR_ICON_POS, attrs)) ? HTML.BUTTON_TEXT_ICON_RIGHT_BUTTON_CLASS
+						: HTML.BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS;
+			} else if (label == null && icon != null) {
+				styleClass = HTML.BUTTON_ICON_ONLY_BUTTON_CLASS;
+			}
 		}
 
 		if (HTML.ATTR_STATE_DISABLED.equalsIgnoreCase(state)) {
@@ -80,7 +102,28 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 
 	private void renderButtonType(Node node, HTMLWriter html,
 			List<String> script, FLYVariableResolver attrs)
-			throws BIPageException {
+			throws BIPageException, BIJSONException {
+		// 获取menuItem
+		NodeList nodeList = node.getChildNodes();
+		MenuItemsMeta menuItems = new MenuItemsMeta();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node subNode = nodeList.item(i);
+			if (HTML.COMPONENT_TYPE_MENU_ITEM.equalsIgnoreCase(subNode
+					.getNodeName())) {
+				MenuItemMeta item = new MenuItemMeta();
+				item.setText(HTML.getTagAttribute(node, HTML.ATTR_TEXT, attrs))
+						.setIconCls(
+								HTML.getTagAttribute(node,
+										HTML.ATTR_ICON_CLASS, attrs))
+						.setOnClick(
+								HTML.getTagAttribute(node, HTML.ATTR_ON_CLICK,
+										attrs));
+				menuItems.addContent(item);
+			}
+		}
+
+		boolean isMenu = (menuItems.size() > 0);
+
 		html.startElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
 		html.writeAttribute(HTML.ATTR_TYPE, BUTTON_TYPE_BUTTON);
 
@@ -89,7 +132,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			html.writeAttribute(HTML.ATTR_DISABLED, HTML.ATTR_DISABLED);
 		}
 
-		html.writeAttribute(HTML.ATTR_CLASS, resolveStyleClass(node, attrs));
+		html.writeAttribute(HTML.ATTR_CLASS, resolveStyleClass(node, attrs,
+				isMenu));
 		html.writeAttribute(HTML.ATTR_STYLE, HTML.getStyle(node, attrs));
 
 		// mouseOver
@@ -106,11 +150,11 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 
 		HTML.writeAttributes(node.getAttributes(), new String[] {
 				HTML.ATTR_TYPE, HTML.ATTR_ON_MOUSE_OVER,
-				HTML.ATTR_ON_MOUSE_OUT, HTML.ATTR_STATE, HTML.ATTR_ICON,
+				HTML.ATTR_ON_MOUSE_OUT, HTML.ATTR_STATE, HTML.ATTR_ICON_CLASS,
 				HTML.ATTR_ICON_POS, HTML.ATTR_LABEL }, html, attrs);
 
 		// icon
-		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON, attrs);
+		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON_CLASS, attrs);
 		if (icon != null) {
 			String defaultIconClass = "right".equalsIgnoreCase(HTML
 					.getTagAttribute(node, HTML.ATTR_ICON_POS, attrs)) ? HTML.BUTTON_RIGHT_ICON_CLASS
@@ -133,6 +177,13 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			html.writeText("ui-text");
 		}
 		html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
+
+		// 下拉菜单
+		if (isMenu) {
+			html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
+			html.writeAttribute(HTML.ATTR_CLASS, HTML.BUTTON_MENU_ICON_CLASS);
+			html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
+		}
 
 		html.endElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
 	}

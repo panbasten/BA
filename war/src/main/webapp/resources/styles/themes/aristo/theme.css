@@ -238,6 +238,10 @@ fieldset.ui-state-disabled legend,
     background-image: url("images/ui-icons_cd0a0a_256x384.png");
 }
 
+.ui-tab-state-hover .ui-icon{
+	background-image: url("images/ui-icons_ffffff_256x384.png");
+}
+
 /* positioning */
 .ui-icon-carat-1-n
 {

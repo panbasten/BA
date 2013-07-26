@@ -76,6 +76,20 @@ public interface BIDirectoryDelegates {
 			String name, BIDirectoryCategory category) throws BIException;
 
 	/**
+	 * 编辑一个目录
+	 * 
+	 * @param repository
+	 * @param parentDirId
+	 * @param dirId
+	 * @param name
+	 * @param category
+	 * @throws BIException
+	 */
+	public void editDirectoryObject(String repository, long parentDirId,
+			long dirId, String name, BIDirectoryCategory category)
+			throws BIException;
+
+	/**
 	 * 删除一个目录
 	 * 
 	 * @param repository

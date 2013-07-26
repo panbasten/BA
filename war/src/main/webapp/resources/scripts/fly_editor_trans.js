@@ -19,9 +19,7 @@ Flywet.di = {
 			modal : true,
 			url : "rest/di/dir/create/"+dirId,
 			params : {
-				targetId : targetId+":content",
-				rootId : currentCase.rootId,
-				path : currentCase.path
+				targetId : targetId+":content"
 			},
 			footerButtons : [{
 				componentType : "fly:PushButton",
@@ -64,6 +62,82 @@ Flywet.di = {
 			return;
 		}
 		var selItem = Flywet.editors.item.getOneSelected(Flywet.di.ids.bpVarName);
+		
+		if(selItem.type=='node'){
+			
+			var currentCase = window[Flywet.di.ids.bpVarName].getCurrentData();
+			var targetId = "edit_dialog_folder";
+			var dirId = currentCase.dirId;
+			var _self = this;
+			
+			Flywet.cw("Dialog",targetId+"_var",{
+				id : targetId,
+				header : "修改目录",
+				width : 500,
+				height : 70,
+				autoOpen : true,
+				showHeader : true,
+				modal : true,
+				url : "rest/di/dir/edit/"+dirId+"/"+selItem.id,
+				params : {
+					targetId : targetId+":content",
+					desc : selItem.displayName
+				},
+				footerButtons : [{
+					componentType : "fly:PushButton",
+					type : "button",
+					label : "确定",
+					title : "确定",
+					events: {
+						click:function(){
+							Flywet.ab({
+								formId:"folder_edit_form",
+								formAction:"rest/di/dir/editsubmit",
+								onsuccess:function(data, status, xhr) {
+									if (data.state == 0) {
+										window[targetId + "_var"].hide();
+										_self.flushDir(dirId);
+									}
+								}
+							});
+						}
+					}
+				},{
+					componentType : "fly:PushButton",
+					type : "button",
+					label : "取消",
+					title : "取消",
+					events : {
+						"click" : "hide"
+					}
+				}],
+				closable : true,
+				maximizable : false,
+				resizable : false
+			});
+			
+		}else{
+		
+			var tabName = selItem.category+"-"+selItem.id+"-tab";
+			Flywet.ab({
+				type : "get",
+				modal : true,
+				modalMessage : "正在加载【"+selItem.displayName+"】...",
+				url : "rest/"+selItem.category+"/"+selItem.id,
+				onsuccess : function(data, status, xhr){
+					diEditorPageTabs.addTab({
+						exdata: data,
+						tabId: selItem.category,
+						tabText: selItem.displayName,
+						dataTarget: tabName,
+						closable: true,
+						closePanel: false,
+				        checkModify: true
+					});
+				}
+			});
+		
+		}
 	},
 	remove : function(){
 		if (!Flywet.editors.item.checkSelected(Flywet.di.ids.bpVarName)) {

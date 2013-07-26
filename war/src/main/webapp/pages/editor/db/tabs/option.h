@@ -10,8 +10,8 @@
 				</fly:row>
 			</fly:columns>
 			<fly:toolbar>
-				<fly:pushbutton id="${formId}:options:append" icon="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:options',{'key':'','value':''});" title="添加" />
-				<fly:pushbutton id="${formId}:options:remove" icon="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:options');" title="删除" />
+				<fly:pushbutton id="${formId}:options:append" iconCls="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:options',{'key':'','value':''});" title="添加" />
+				<fly:pushbutton id="${formId}:options:remove" iconCls="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:options');" title="删除" />
 			</fly:toolbar>
 		</fly:dataGrid>
 	</fly:verticalLayout>

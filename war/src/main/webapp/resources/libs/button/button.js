@@ -251,6 +251,9 @@ Flywet.widget.PushButton.prototype.init = function() {
 			this.jq.append(this.text);
 			
 			// TODO 下拉列表
+			this.menu = $("<span></span>");
+			this.menu.addClass("ui-button-icon-right ui-icon");
+			this.jq.append(this.menu);
 		}
 		
 		this.parent.append(this.jq);

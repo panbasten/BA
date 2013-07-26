@@ -75,7 +75,7 @@ public class MessageBoxMeta extends BaseComponentMeta implements
 	public JSONObject getFormJo() throws BIJSONException {
 		super.addAttribute(HTML.ATTR_TYPE, this.type);
 		if (StringUtils.isNotEmpty(this.icon))
-			super.addAttribute(HTML.ATTR_ICON, this.icon);
+			super.addAttribute(HTML.ATTR_ICON_CLASS, this.icon);
 		if (StringUtils.isNotEmpty(this.title))
 			super.addAttribute(HTML.ATTR_TITLE, this.title);
 		if (StringUtils.isNotEmpty(this.message))

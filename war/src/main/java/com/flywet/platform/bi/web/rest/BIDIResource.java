@@ -65,6 +65,28 @@ public class BIDIResource extends AbastractDirectoryResource {
 	}
 
 	@GET
+	@Path("/dir/edit/{pid}/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openDirectoryEditDialog(
+			@CookieParam("repository") String repository,
+			@PathParam("pid") String pid, @PathParam("id") String id,
+			@QueryParam("desc") String desc,
+			@QueryParam("targetId") String targetId) throws BIException {
+		return super.openDirectoryEditDialog(repository, pid, id, desc,
+				targetId);
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/dir/editsubmit")
+	public String openDirectoryEditSubmit(
+			@CookieParam("repository") String repository, String body)
+			throws BIJSONException {
+		return super.openDirectoryEditSubmit(pageDelegates, repository, body,
+				DIR_CATEGORY);
+	}
+
+	@GET
 	@Path("/dir/create/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openDirectoryCreateDialog(

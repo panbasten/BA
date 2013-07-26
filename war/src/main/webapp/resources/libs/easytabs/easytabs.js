@@ -20,8 +20,8 @@
 
         defaults = {
           animate: true,
-          panelActiveClass: "active",
-          tabActiveClass: "active",
+          panelActiveClass: "ui-tab-state-active",
+          tabActiveClass: "ui-tab-state-active",
           defaultTab: "li:first-child",
           animationSpeed: "normal",
           tabs: "> ul > li",
@@ -534,11 +534,11 @@
     	  
     	  $taba.bind('mouseover.easytabs', function(e) {
               var element = $(this);
-              element.addClass('hover');
+              element.addClass('ui-tab-state-hover');
           })
           .bind('mouseout.easytabs', function(e) {
               var element = $(this);
-              element.removeClass('hover');
+              element.removeClass('ui-tab-state-hover');
           })
     	  .bind("click.easytabs", function(e) {
     		  var element = $(this);

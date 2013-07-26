@@ -57,8 +57,8 @@
 						</fly:row>
 					</fly:columns>
 					<fly:toolbar>
-						<fly:pushbutton id="${formId}:options:append" icon="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:variables');" title="添加" />
-						<fly:pushbutton id="${formId}:options:remove" icon="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:variables');" title="删除" />
+						<fly:pushbutton id="${formId}:options:append" iconCls="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:variables');" title="添加" />
+						<fly:pushbutton id="${formId}:options:remove" iconCls="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:variables');" title="删除" />
 					</fly:toolbar>
 				</fly:dataGrid>
 			</fly:verticalLayout>
@@ -74,8 +74,8 @@
 						</fly:row>
 					</fly:columns>
 					<fly:toolbar>
-						<fly:pushbutton id="${formId}:options:append" icon="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:variables');" title="添加" />
-						<fly:pushbutton id="${formId}:options:remove" icon="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:variables');" title="删除" />
+						<fly:pushbutton id="${formId}:options:append" iconCls="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:variables');" title="添加" />
+						<fly:pushbutton id="${formId}:options:remove" iconCls="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:variables');" title="删除" />
 					</fly:toolbar>
 				</fly:dataGrid>
 			</fly:verticalLayout>

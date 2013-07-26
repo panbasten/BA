@@ -7,9 +7,8 @@
 .fly-container .fly-tabs li{margin-left:-20px;float:left;position:relative;margin-bottom:-1px;}
 .fly-container .fly-tabs li a{text-decoration:none;display:block;margin-right:2px;line-height:22px;-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;color: #FFFFFF;}
 .fly-container .fly-tabs li a:hover { }
-.fly-container .fly-tabs li a.active{font-weight: bold;}
-.fly-container .fly-tabs li a.active:hover{}
-/*.fly-container .fly-tabs .active>a,.fly-container .fly-tabs .active>a:hover{background-color:#ffffff;border:1px solid #a8a8a8;border-bottom-color:transparent;cursor:default;font-weight: bold;}*/
+.fly-container .fly-tabs li a.ui-tab-state-active{font-weight: bold;}
+.fly-container .fly-tabs li a.ui-tab-state-active:hover{}
 
 /* Styles for steps bar tabs */
 .fly-flow-step-bar { float:left;position:relative;overflow:hidden;background: #535353;}
@@ -17,7 +16,7 @@
 .fly-flow-step-bar ul.ui-tabs li { width:40px; height: 40px; background:url("../images/default/tabbg.normal.png") no-repeat;background-position: center;border-bottom: 1px solid #8E8E8E; }
 .fly-flow-step-bar ul.ui-tabs li:HOVER{background:url("../images/default/tabbg.hover.png") no-repeat; }
 .fly-flow-step-bar ul.ui-tabs li a { padding: 10px 0; color:#ffffff;}
-.fly-flow-step-bar ul.ui-tabs li a.active{ }
+.fly-flow-step-bar ul.ui-tabs li a.ui-tab-state-active{ }
 .fly-flow-step-bar div.ui-tab-panel-container { margin: 0;padding: 0;background: transparent;}
 
 
@@ -172,21 +171,19 @@
 	margin: 0;
 	float:left;
 }
-.ui-tab-homepage.active{
+.ui-tab-homepage.ui-tab-state-active,
+.ui-tab-homepage:hover{
 	background-image: url("../images/default/startlogo.active.png");
 }
-.ui-tab-homepage:hover {
-	background-image: url("../images/default/startlogo.active.png");
-}
-.fly-container .fly-tabs > li > a.active >div.ui-tab-left{
+.fly-container .fly-tabs > li > a.ui-tab-state-active >div.ui-tab-left{
 	background-image: url("../images/default/tableft-hover.png");
 }
-.fly-container .fly-tabs > li > a.active >div.ui-tab-right{
+.fly-container .fly-tabs > li > a.ui-tab-state-active >div.ui-tab-right{
 	background-image: url("../images/default/tabright-hover.png");
 	position: relative;
     z-index: 100;
 }
-.fly-container .fly-tabs > li > a.active >div.ui-tab-middle{
+.fly-container .fly-tabs > li > a.ui-tab-state-active >div.ui-tab-middle{
 	background-image: url("../images/default/tabmiddle-hover.png");
 }
 .ui-tab-homepage-text{
@@ -222,14 +219,15 @@
 	float:left;
 	padding-right:10px;
 }
-.hover .ui-tab-text,
-.active .ui-tab-text {
+.ui-tab-state-hover .ui-tab-text,
+.ui-tab-state-active .ui-tab-text {
 	 color: #ffffff;
 }
-.hover .ui-modify-tag,
-.active .ui-modify-tag {
+.ui-tab-state-hover .ui-modify-tag,
+.ui-tab-state-active .ui-modify-tag {
 	 color: #2E83FF;
 }
+
 .ui-tab-text, .ui-modify-tag {
 	 color: #808080;
 }
@@ -240,7 +238,7 @@
 }
 
 /*首页纵向选项卡*/
-.ui-tab-side-container ul.ui-tabs li.active{
+.ui-tab-side-container ul.ui-tabs li.ui-tab-state-active{
 	border-top: medium none;
 	background: #535353;
 }
@@ -267,7 +265,7 @@
 #navigator-ul li a:hover {
 	background-color: transparent;
 }
-#navigator-ul li.active{
+#navigator-ul li.ui-tab-state-active{
 	background:url("../images/default/tabbg.active.png") no-repeat scroll 0 0 #535353;
 }
 
@@ -330,19 +328,19 @@
 	background-image: url("../images/desktop/navi_systools.png");
 }
 
-a.active .ui-navi-icon-di{
+a.ui-tab-state-active .ui-navi-icon-di{
 	background-image: url("../images/desktop/navi_di_active.png");	
 }
-a.active .ui-navi-icon-db{
+a.ui-tab-state-active .ui-navi-icon-db{
 	background-image: url("../images/desktop/navi_db_active.png");
 }
-a.active .ui-navi-icon-domain{
+a.ui-tab-state-active .ui-navi-icon-domain{
 	background-image: url("../images/desktop/navi_domain_active.png");
 }
-a.active .ui-navi-icon-fs{
+a.ui-tab-state-active .ui-navi-icon-fs{
 	background-image: url("../images/desktop/navi_filesys_active.png");
 }
-a.active .ui-navi-icon-systools{
+a.ui-tab-state-active .ui-navi-icon-systools{
 	background-image: url("../images/desktop/navi_systools_active.png");
 }
 
@@ -387,7 +385,7 @@ a.active .ui-navi-icon-systools{
 	border-right: 1px solid #8E8E8E;
 }
 .ui-tab-side-container ul.ui-tabs li a:hover,
-.ui-tab-side-container ul.ui-tabs li a.active:hover {
+.ui-tab-side-container ul.ui-tabs li a.ui-tab-state-active:hover {
 	background: transparent;
 }
 .ui-etree li a{
@@ -665,7 +663,7 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 	border-radius: 5px;
 }
 
-.fly-editor .ui-tab-container ul.ui-tabs li.active {
+.fly-editor .ui-tab-container ul.ui-tabs li.ui-tab-state-active {
 	background: #696969;
 }
 
@@ -718,7 +716,7 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 	-webkit-border-radius: 5px; 
 	border-radius: 5px;
 }
-.ui-dialog .ui-tab-container ul.ui-tabs li.active {
+.ui-dialog .ui-tab-container ul.ui-tabs li.ui-tab-state-active {
 	background: #696969;
 }
 

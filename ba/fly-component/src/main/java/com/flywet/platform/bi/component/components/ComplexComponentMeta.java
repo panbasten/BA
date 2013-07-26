@@ -69,6 +69,13 @@ public class ComplexComponentMeta extends SimpleComponentMeta implements
 		return this.content;
 	}
 
+	public int size() {
+		if (this.content == null) {
+			return 0;
+		}
+		return this.content.size();
+	}
+
 	/**
 	 * 得到单根JSON对象
 	 * 

@@ -314,4 +314,33 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			BIEnvironmentDelegate.instance().returnRep(repository, rep);
 		}
 	}
+
+	@Override
+	public void editDirectoryObject(String repository, long parentDirId,
+			long dirId, String name, BIDirectoryCategory category)
+			throws BIException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			RepositoryDirectoryInterface pdir = this.getDirecotry(repository,
+					parentDirId, category);
+			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
+					dirId, category);
+			if (!dir.getName().equals(name)) {
+				if (pdir.findChild(name) != null) {
+					throw new BIException("目录名称重复！");
+				}
+				rep.renameRepositoryDirectory(new LongObjectId(dirId), pdir,
+						name);
+			}
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			log.error("保存目录出现错误。");
+			throw new BIException("保存目录现错误。");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
 }

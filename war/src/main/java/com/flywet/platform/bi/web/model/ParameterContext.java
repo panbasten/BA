@@ -87,12 +87,20 @@ public class ParameterContext {
 		return paramValues;
 	}
 
+	public String getStringParameter(String paramName) {
+		return getStringParameter(paramName, null);
+	}
+
 	public String getStringParameter(String paramName, String def) {
 		String v = getParameter(paramName);
 		if (v != null && !"".equals(v.trim())) {
 			return v.trim();
 		}
 		return def;
+	}
+
+	public int getIntParameter(String paramName) {
+		return getIntParameter(paramName, 0);
 	}
 
 	public int getIntParameter(String paramName, int def) {
@@ -102,6 +110,10 @@ public class ParameterContext {
 		} catch (Exception e) {
 			return def;
 		}
+	}
+
+	public long getLongParameter(String paramName) {
+		return getLongParameter(paramName, 0L);
 	}
 
 	public long getLongParameter(String paramName, long def) {

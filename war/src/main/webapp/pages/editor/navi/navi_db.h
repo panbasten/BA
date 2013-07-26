@@ -4,13 +4,13 @@
 			数据源
 		</div>
 		<div class="ui-toolbar-group-right">
-            <fly:pushbutton icon="ui-icon-folder-open" 
+            <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="新增" title="新增"
             	onclick="Flywet.database.create()" />
-            <fly:pushbutton icon="ui-icon-folder-open" 
+            <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="编辑" title="编辑"
             	onclick="Flywet.database.edit()" />
-            <fly:pushbutton icon="ui-icon-folder-open" 
+            <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="删除" title="删除"
             	onclick="Flywet.database.remove()" />
 		</div>

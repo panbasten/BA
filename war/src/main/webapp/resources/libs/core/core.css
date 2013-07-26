@@ -45,26 +45,48 @@
     padding: .1em 1.4em .1em .3em; 
 }
 
+.ui-button-menu-text-icon-left .ui-button-text { 
+    padding: .1em 1.4em .1em 1.4em; 
+}
+
+.ui-button-menu-text-icon-right .ui-button-text { 
+    padding: .1em 1.4em .1em .3em; 
+}
+
 /*button icon element(s) */
 .ui-button-icon-only .ui-icon, 
 .ui-button-text-icon-left .ui-icon, 
-.ui-button-text-icon-right .ui-icon { 
+.ui-button-text-icon-right .ui-icon,
+
+.ui-button-menu-icon-only .ui-icon, 
+.ui-button-menu-text-icon-left .ui-icon, 
+.ui-button-menu-text-icon-right .ui-icon { 
     position: absolute; 
     top: 50%; 
     margin-top: -8px; 
 }
 
-.ui-button-icon-only .ui-icon { 
+.ui-button-icon-only .ui-icon,
+.ui-button-menu-icon-only .ui-icon { 
     left: 50%; 
     margin-left: -8px; 
 }
 
-.ui-button-icon-left {
+.ui-button-icon-left,
+.ui-button-menu-icon-left {
     left: .1em; 
 }
 
 .ui-button-icon-right {
     right: .5em; 
+}
+
+.ui-button-menu-icon-right {
+	right: 1.3em; 
+}
+
+.ui-button-menu-icon {
+    right: .1em; 
 }
 
 /* workarounds */

@@ -5,22 +5,22 @@
 			</ul>
 		</div>
 		<div class="ui-toolbar-group-right">
-			<fly:pushbutton icon="ui-icon-folder-open"
-            	label="新增" title="新增"
-            	onclick="Flywet.di.create()" />
-            <fly:pushbutton icon="ui-icon-folder-open"
+			<fly:pushbutton iconCls="ui-icon-folder-open"
+            	label="新增" title="新增">
+				<fly:menuItem text="新增转换" iconCls="ui-icon-folder-open" onclick="Flywet.di.create('trans')"></fly:menuItem>
+				<fly:menuItem text="新增作业" iconCls="ui-icon-folder-open" onclick="Flywet.di.create('job')"></fly:menuItem>
+				<fly:menuItem text="新增目录" iconCls="ui-icon-folder-open" onclick="Flywet.di.createDir()"></fly:menuItem>
+			</fly:pushbutton>
+            <fly:pushbutton iconCls="ui-icon-folder-open"
             	label="编辑" title="编辑"
             	onclick="Flywet.di.edit()" />
-            <fly:pushbutton icon="ui-icon-folder-open"
+            <fly:pushbutton iconCls="ui-icon-folder-open"
             	label="删除" title="删除"
             	onclick="Flywet.di.remove()" />
-            <fly:pushbutton icon="ui-icon-folder-open"
-            	label="创建目录" title="创建目录"
-            	onclick="Flywet.di.createDir()" />
-			<fly:pushbutton icon="ui-icon-folder-open"
+			<fly:pushbutton iconCls="ui-icon-folder-open"
             	label="上传" title="上传"
             	onclick="Flywet.di.uploadFile()" />
-            <fly:pushbutton icon="ui-icon-folder-open"
+            <fly:pushbutton iconCls="ui-icon-folder-open"
             	label="下载" title="下载"
             	onclick="Flywet.di.downloadFile()" />
 		</div>

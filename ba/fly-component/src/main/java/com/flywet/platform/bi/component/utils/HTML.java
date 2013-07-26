@@ -112,6 +112,11 @@ public class HTML {
 	public static final String COMPONENT_TYPE_COMBO_TREE = COMPONENT_TYPE_FLY_PREFIX
 			+ "ComboTree";
 
+	public static final String COMPONENT_TYPE_MENU_ITEMS = COMPONENT_TYPE_FLY_PREFIX
+			+ "MenuItems";
+	public static final String COMPONENT_TYPE_MENU_ITEM = COMPONENT_TYPE_FLY_PREFIX
+			+ "MenuItem";
+
 	public static final String[] SINGLE_COMPONENT = new String[] { COMPONENT_TYPE_BASE_BR };
 
 	public static final String TAG_ATTRITUDES = "attrs";
@@ -187,6 +192,7 @@ public class HTML {
 	public static final String ATTR_HREF = "href";
 	public static final String ATTR_LABEL = "label";
 	public static final String ATTR_ICON = "icon";
+	public static final String ATTR_ICON_CLASS = "iconCls";
 	public static final String ATTR_ICON_POS = "iconPos";
 	public static final String ATTR_COLS = "cols";
 	public static final String ATTR_ROWS = "rows";
@@ -362,8 +368,15 @@ public class HTML {
 	public final static String BUTTON_ICON_ONLY_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
 	public final static String BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
 	public final static String BUTTON_TEXT_ICON_RIGHT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
+	
+	public final static String BUTTON_MENU_TEXT_ONLY_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-menu-text-only";
+	public final static String BUTTON_MENU_ICON_ONLY_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-menu-icon-only";
+	public final static String BUTTON_MENU_TEXT_ICON_LEFT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-menu-text-icon-left";
+	public final static String BUTTON_MENU_TEXT_ICON_RIGHT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-menu-text-icon-right";
+	
 	public final static String BUTTON_LEFT_ICON_CLASS = "ui-button-icon-left ui-icon";
 	public final static String BUTTON_RIGHT_ICON_CLASS = "ui-button-icon-right ui-icon";
+	public final static String BUTTON_MENU_ICON_CLASS = "ui-button-menu-icon ui-icon ui-icon-triangle-1-s";
 	public final static String BUTTON_TEXT_CLASS = "ui-button-text";
 	public final static String BUTTON_TEXT_ONLY_BUTTON_FLAT_CLASS = "ui-button ui-widget ui-state-default ui-button-text-only";
 

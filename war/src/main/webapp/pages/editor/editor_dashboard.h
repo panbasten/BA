@@ -17,29 +17,29 @@
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content">
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-top">
-			<fly:pushbutton id="dashboard_editor_component" icon="ui-icon-dashboard-edit"
+			<fly:pushbutton id="dashboard_editor_component" iconCls="ui-icon-dashboard-edit"
 				onclick="Flywet.editors.dashboard.action.editorComponent();" title="编辑控件" state="active" />
-			<fly:pushbutton id="dashboard_editor_signal_slot" icon="ui-icon-dashboard-signal"
+			<fly:pushbutton id="dashboard_editor_signal_slot" iconCls="ui-icon-dashboard-signal"
 				onclick="Flywet.editors.dashboard.action.editorSignalSlot();" title="编辑信号/槽" />
-			<fly:pushbutton id="dashboard_editor_buddy" icon="ui-icon-dashboard-buddy"
+			<fly:pushbutton id="dashboard_editor_buddy" iconCls="ui-icon-dashboard-buddy"
 				onclick="Flywet.editors.dashboard.action.editorBuddy();" title="编辑伙伴" />
-			<fly:pushbutton id="dashboard_editor_tab_sequence" icon="ui-icon-dashboard-tab"
+			<fly:pushbutton id="dashboard_editor_tab_sequence" iconCls="ui-icon-dashboard-tab"
 				onclick="Flywet.editors.dashboard.action.editorTab();" title="编辑Tab顺序" />
 			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="dashboard_layout_horizontal" icon="ui-icon-dashboard-layout-horizontal" 
+			<fly:pushbutton id="dashboard_layout_horizontal" iconCls="ui-icon-dashboard-layout-horizontal" 
 				onclick="Flywet.editors.dashboard.action.layoutHorizontal();" title="水平布局" state="disabled" />
-			<fly:pushbutton id="dashboard_layout_vertical" icon="ui-icon-dashboard-layout-vertical" 
+			<fly:pushbutton id="dashboard_layout_vertical" iconCls="ui-icon-dashboard-layout-vertical" 
 				onclick="Flywet.editors.dashboard.action.layoutVertical();" title="垂直布局" state="disabled" />
-			<fly:pushbutton id="dashboard_layout_grid" icon="ui-icon-dashboard-layout-grid" 
+			<fly:pushbutton id="dashboard_layout_grid" iconCls="ui-icon-dashboard-layout-grid" 
 				onclick="Flywet.editors.dashboard.action.layoutGrid();" title="栅格布局" state="disabled" />
-			<fly:pushbutton id="dashboard_layout_broke" icon="ui-icon-dashboard-layout-broke" 
+			<fly:pushbutton id="dashboard_layout_broke" iconCls="ui-icon-dashboard-layout-broke" 
 				onclick="Flywet.editors.dashboard.action.layoutBroke();" title="打破布局" state="disabled" />
 			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="dashboard_resize" icon="ui-icon-dashboard-resize" 
+			<fly:pushbutton id="dashboard_resize" iconCls="ui-icon-dashboard-resize" 
 				onclick="Flywet.editors.dashboard.action.resize();" title="调整尺寸" />
-			<fly:pushbutton id="dashboard_preview" icon="ui-icon-dashboard-preview" 
+			<fly:pushbutton id="dashboard_preview" iconCls="ui-icon-dashboard-preview" 
 				onclick="Flywet.editors.dashboard.action.preview();" title="预览" />
-			<fly:pushbutton id="dashboard_save" icon="ui-icon-save" 
+			<fly:pushbutton id="dashboard_save" iconCls="ui-icon-save" 
 				onclick="Flywet.editors.dashboard.action.save();" title="保存" />
 		</div>
 		
@@ -54,8 +54,8 @@
 		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">
-					<fly:pushbutton icon="ui-icon-plusthick" onclick="Flywet.editors.dashboard.action.signal_add_on_click();" title="添加" />
-					<fly:pushbutton icon="ui-icon-closethick" onclick="Flywet.editors.dashboard.action.signal_delete_on_click();" title="删除" />
+					<fly:pushbutton iconCls="ui-icon-plusthick" onclick="Flywet.editors.dashboard.action.signal_add_on_click();" title="添加" />
+					<fly:pushbutton iconCls="ui-icon-closethick" onclick="Flywet.editors.dashboard.action.signal_delete_on_click();" title="删除" />
 				</div>
 				<div class="ui-toolbar-group-right">
 				</div>
