@@ -183,6 +183,11 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 			html.writeAttribute(HTML.ATTR_CLASS, HTML.BUTTON_MENU_ICON_CLASS);
 			html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
+
+			String id = HTML.getId(node, attrs);
+			menuItems.setId("menu-" + id);
+
+			script.add("");
 		}
 
 		html.endElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
