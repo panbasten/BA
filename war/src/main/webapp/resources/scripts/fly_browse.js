@@ -13,7 +13,7 @@ Flywet.browse = {
 					id : "menu_dir_open",
 					text : "<b>打开</b>",
 					iconCls : "ui-icon-system-open",
-					onClick : "Flywet.browse.changeDirByContext(event)"
+					onclick : "Flywet.browse.changeDirByContext(event)"
 				},{
 					type : "separator"
 				},{
@@ -64,7 +64,7 @@ Flywet.browse = {
 						id : "menu_file_open",
 						text : "<b>打开</b>",
 						iconCls : "ui-icon-system-open",
-						onClick : "Flywet.browse.openFileByContext(event)"
+						onclick : "Flywet.browse.openFileByContext(event)"
 					},{
 						type : "separator"
 					},{
@@ -89,7 +89,7 @@ Flywet.browse = {
 						id : "menu_file_attribute",
 						text : "属性",
 						iconCls : "ui-icon-system-setting",
-						onClick : "Flywet.browse.openFileSettingByContext(event)"
+						onclick : "Flywet.browse.openFileSettingByContext(event)"
 					}]
 				});
 			}
@@ -103,7 +103,7 @@ Flywet.browse = {
 						id : "menu_db_open",
 						text : "<b>打开</b>",
 						iconCls : "ui-icon-system-open",
-						onClick : "Flywet.browse.openFileByContext(event)"
+						onclick : "Flywet.browse.openFileByContext(event)"
 					},{
 						type : "separator"
 					},{

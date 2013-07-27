@@ -104,7 +104,7 @@
 				}
 			}
 			var item = $(target).menu('getItem', this);
-			$.data(target, 'menu').options.onClick.call(target, item);
+			$.data(target, 'menu').options.onclick.call(target, item);
 		}).bind('mouseenter.menu', function(e){
 			// hide other menu
 			item.siblings().each(function(){
@@ -159,7 +159,7 @@
 		var opts = $.data(target, 'menu').options;
 		hideMenu($(target));
 		$(document).unbind('.menu');
-		opts.onHide.call(target);
+		opts.onhide.call(target);
 		return false;
 	}
 	
@@ -184,7 +184,7 @@
 				$(document).unbind('.menu');
 				return false;
 			});
-			opts.onShow.call(target);
+			opts.onshow.call(target);
 		});
 	}
 	
@@ -462,9 +462,9 @@
 		zIndex:110000,
 		left: 0,
 		top: 0,
-		onShow: function(){},
-		onHide: function(){},
-		onClick: function(item){}
+		onshow: function(){},
+		onhide: function(){},
+		onclick: function(item){}
 	};
 })(jQuery);
 
@@ -525,7 +525,7 @@ Flywet.widget.Menu=function(cfg){
 		if(item.itemStyle){
 			$item.attr("style",item.itemStyle);
 		}
-		Flywet.addAttrs($item, item, ["id","name","title","onClick"]);
+		Flywet.addAttrs($item, item, ["id","name","title","onclick"]);
 		parent.append($item);
 	}
 };
@@ -533,8 +533,19 @@ Flywet.extend(Flywet.widget.Menu, Flywet.widget.BaseWidget);
 
 
 Flywet.widget.Menu.prototype.show=function(e){
+	var x = e.pageX || e.x, 
+		y = e.pageY || e.y;
 	this.jq.menu("show",{
-		left: e.pageX,
-		top: e.pageY
+		left: x,
+		top: y
 	});
+};
+
+Flywet.widget.Menu.prototype.destroy=function(){
+	this.jq.menu("destroy");
+	
+	this.id=undefined;
+	this.cfg=undefined;
+	this.jqId=undefined;
+	this.jq=undefined;
 };

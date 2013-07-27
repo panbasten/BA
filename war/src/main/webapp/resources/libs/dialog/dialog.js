@@ -238,6 +238,13 @@ Flywet.widget.Dialog.prototype.destroy = function(){
 		this.jq.find(".ui-numberspinner-f").numberspinner("destroy");
 	}
 	
+	this.jq.find(".ui-button-menu").each(function(){
+		var menuId = $(this).attr("menuId");
+		if(menuId){
+			Flywet.PushButton.destroy(menuId);
+		}
+	});
+	
 	this.jq.remove();
 };
 

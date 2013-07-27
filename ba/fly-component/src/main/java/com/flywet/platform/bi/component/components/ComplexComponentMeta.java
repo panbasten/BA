@@ -76,6 +76,10 @@ public class ComplexComponentMeta extends SimpleComponentMeta implements
 		return this.content.size();
 	}
 
+	public JSONObject getSimpleFormJo() throws BIJSONException {
+		return super.getFormJo();
+	}
+
 	/**
 	 * 得到单根JSON对象
 	 * 

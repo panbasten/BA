@@ -251,9 +251,9 @@ Flywet.widget.PushButton.prototype.init = function() {
 			this.jq.append(this.text);
 			
 			// TODO 下拉列表
-			this.menu = $("<span></span>");
-			this.menu.addClass("ui-button-icon-right ui-icon");
-			this.jq.append(this.menu);
+//			this.menu = $("<span></span>");
+//			this.menu.addClass("ui-button-icon-right ui-icon");
+//			this.jq.append(this.menu);
 		}
 		
 		this.parent.append(this.jq);
@@ -291,4 +291,17 @@ Flywet.widget.PushButton.prototype.initEvents = function(){
 	Flywet.attachBehaviors(this.jq,Flywet.assembleBehaviors(this.cfg.events,["mouseover","mouseout"]),this.cfg);
 	Flywet.attachBehaviorsOn(this.jq, this.cfg);
 	
+};
+
+Flywet.PushButton = {
+	showMenu : function(menuId, target){
+		var $E = $(target),
+			x = $E.offset().left,
+			y = $E.offset().top
+			w = $E.outerHeight();
+		window[menuId+'_var'].show({x:x,y:y+w});
+	},
+	destroy : function(menuId){
+		window[menuId+'_var'].destroy();
+	}
 };

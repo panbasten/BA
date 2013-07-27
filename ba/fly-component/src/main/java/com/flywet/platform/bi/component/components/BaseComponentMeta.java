@@ -116,8 +116,7 @@ public abstract class BaseComponentMeta implements ComponentMetaInterface {
 			}
 
 			if (this.attributes != null) {
-				formJo.put(HTML.TAG_ATTRITUDES, JSONUtils
-						.convertToJSONObject(this.attributes));
+				formJo.put(HTML.TAG_ATTRITUDES, getAttrbuteJo());
 			}
 
 			if (this.data != null) {
@@ -135,6 +134,13 @@ public abstract class BaseComponentMeta implements ComponentMetaInterface {
 			throw new BIJSONException(BaseMessages.getString(PKG,
 					"IForm.CreateJSON.Error"), ex);
 		}
+	}
+
+	public JSONObject getAttrbuteJo() throws BIJSONException {
+		if (this.attributes != null) {
+			return JSONUtils.convertToJSONObject(this.attributes);
+		}
+		return new JSONObject();
 	}
 
 	public Object getAttribute(String key) {

@@ -2,6 +2,7 @@ package com.flywet.platform.bi.component.resolvers.button;
 
 import java.util.List;
 
+import org.pentaho.di.core.Const;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -22,6 +23,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 
 	public static final String BUTTON_TYPE_BUTTON = "button";
 	public static final String BUTTON_TYPE_SEPARATOR = "separator";
+	
+	public static final String ATTR_MENU_ID = "menuId";
 
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
@@ -111,18 +114,23 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			if (HTML.COMPONENT_TYPE_MENU_ITEM.equalsIgnoreCase(subNode
 					.getNodeName())) {
 				MenuItemMeta item = new MenuItemMeta();
-				item.setText(HTML.getTagAttribute(node, HTML.ATTR_TEXT, attrs))
+				item.setText(HTML.getTagAttribute(subNode, HTML.ATTR_TEXT, attrs))
 						.setIconCls(
-								HTML.getTagAttribute(node,
+								HTML.getTagAttribute(subNode,
 										HTML.ATTR_ICON_CLASS, attrs))
 						.setOnClick(
-								HTML.getTagAttribute(node, HTML.ATTR_ON_CLICK,
+								HTML.getTagAttribute(subNode, HTML.ATTR_ON_CLICK,
 										attrs));
 				menuItems.addContent(item);
 			}
 		}
 
+		String menuId = "";
 		boolean isMenu = (menuItems.size() > 0);
+		if (isMenu) {
+			menuId = "menu-" + HTML.getId(node, attrs);
+			menuItems.setId(menuId);
+		}
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
 		html.writeAttribute(HTML.ATTR_TYPE, BUTTON_TYPE_BUTTON);
@@ -135,6 +143,10 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		html.writeAttribute(HTML.ATTR_CLASS, resolveStyleClass(node, attrs,
 				isMenu));
 		html.writeAttribute(HTML.ATTR_STYLE, HTML.getStyle(node, attrs));
+		
+		if (isMenu) {
+			html.writeAttribute(ATTR_MENU_ID, menuId);
+		}
 
 		// mouseOver
 		String mouseOverEvent = "$(this).addClass('ui-state-hover');"
@@ -148,10 +160,27 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 						attrs), "");
 		html.writeAttribute(HTML.ATTR_ON_MOUSE_OUT, mouseOutEvent);
 
+		// click
+		if (isMenu) {
+			String clickEvent = "Flywet.PushButton.showMenu('"
+					+ menuId
+					+ "',this);"
+					+ Utils.NVL(HTML.getTagAttribute(node, HTML.ATTR_ON_CLICK,
+							attrs), "");
+			html.writeAttribute(HTML.ATTR_ON_CLICK, clickEvent);
+		} else {
+			String clickEvent = HTML.getTagAttribute(node, HTML.ATTR_ON_CLICK,
+					attrs);
+			if (!Const.isEmpty(clickEvent)) {
+				html.writeAttribute(HTML.ATTR_ON_CLICK, clickEvent);
+			}
+		}
+
 		HTML.writeAttributes(node.getAttributes(), new String[] {
 				HTML.ATTR_TYPE, HTML.ATTR_ON_MOUSE_OVER,
-				HTML.ATTR_ON_MOUSE_OUT, HTML.ATTR_STATE, HTML.ATTR_ICON_CLASS,
-				HTML.ATTR_ICON_POS, HTML.ATTR_LABEL }, html, attrs);
+				HTML.ATTR_ON_MOUSE_OUT, HTML.ATTR_ON_CLICK, HTML.ATTR_STATE,
+				HTML.ATTR_ICON_CLASS, HTML.ATTR_ICON_POS, HTML.ATTR_LABEL },
+				html, attrs);
 
 		// icon
 		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON_CLASS, attrs);
@@ -184,10 +213,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			html.writeAttribute(HTML.ATTR_CLASS, HTML.BUTTON_MENU_ICON_CLASS);
 			html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 
-			String id = HTML.getId(node, attrs);
-			menuItems.setId("menu-" + id);
-
-			script.add("");
+			script.add("Flywet.cw(\"Menu\",\"" + menuId + "_var\","
+					+ menuItems.getFormJo() + ");");
 		}
 
 		html.endElement(HTML.COMPONENT_TYPE_BASE_BUTTON);
