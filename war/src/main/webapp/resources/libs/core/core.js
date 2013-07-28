@@ -638,6 +638,45 @@ Flywet = {
 	},
 	
 	/**
+	 * 销毁一个组合对象
+	 */
+	destroyWidget : function($E){
+		if ($.fn.combo) {
+    		$E.find(".ui-combo-f").combo("destroy");
+    	}
+    	if ($.fn.combobox) {
+    		$E.find(".ui-combobox-f").combobox("destroy");
+    	}
+    	if ($.fn.combotree) {
+    		$E.find(".ui-combotree-f").combotree("destroy");
+    	}
+    	if ($.fn.combogrid) {
+    		$E.find(".ui-combogrid-f").combogrid("destroy");
+    	}
+    	if ($.fn.spinner) {
+    		$E.find("ui-.spinner-f").spinner("destroy");
+    	}
+    	if ($.fn.timespinner) {
+    		$E.find(".ui-timespinner-f").timespinner("destroy");
+    	}
+    	if ($.fn.numberbox) {
+    		$E.find(".ui-numberbox-f").numberbox("destroy");
+    	}
+    	if ($.fn.numberspinner) {
+    		$E.find(".ui-numberspinner-f").numberspinner("destroy");
+    	}
+    	
+    	$E.find(".ui-button-menu").each(function(){
+    		var menuId = $(this).attr("menuId");
+    		if(menuId){
+    			Flywet.PushButton.destroy(menuId);
+    		}
+    	});
+    	
+    	$E.remove();
+	},
+	
+	/**
 	 * 添加指定属性
 	 */
 	addAttrs : function(target, cfg, attrsName){

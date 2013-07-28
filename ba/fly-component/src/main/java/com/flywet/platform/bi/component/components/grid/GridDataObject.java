@@ -63,6 +63,12 @@ public class GridDataObject implements ComponentDataInterface {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
+	public GridDataObject putObjects(List objs) {
+		this.objects = objs;
+		return this;
+	}
+
 	public GridDataObject putProperties(Properties prop) {
 		this.objects = prop;
 		return this;

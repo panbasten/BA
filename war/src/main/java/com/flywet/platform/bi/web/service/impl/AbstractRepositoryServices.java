@@ -1,6 +1,7 @@
 package com.flywet.platform.bi.web.service.impl;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.RepositoryElementInterface;
 
@@ -25,11 +26,17 @@ public abstract class AbstractRepositoryServices {
 		Repository rep = null;
 		try {
 			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			rep.save(repositoryElement, null, null);
+			save(rep, repositoryElement);
 		} catch (Exception ex) {
 			log.error("通过ID保存对象出现异常", ex);
 		} finally {
 			BIEnvironmentDelegate.instance().returnRep(repository, rep);
 		}
+	}
+
+	public void save(Repository rep,
+			RepositoryElementInterface repositoryElement)
+			throws KettleException {
+		rep.save(repositoryElement, null, null);
 	}
 }

@@ -36,6 +36,12 @@ public class UserInfo implements IUser {
 
 	public static final String REPOSITORY_ELEMENT_TYPE = "user"; //$NON-NLS-1$
 
+	public static final String ATTR_LOGIN = "login";
+	public static final String ATTR_USERNAME = "username";
+	public static final String ATTR_DESCRIPTION = "description";
+	public static final String ATTR_ID = "id";
+	public static final String ATTR_ENABLED = "enabled";
+
 	private ObjectId id;
 
 	private String login; // Login ID
@@ -65,6 +71,21 @@ public class UserInfo implements IUser {
 		this.username = username;
 		this.description = description;
 		this.enabled = enabled;
+	}
+
+	public UserInfo(Map<String, String> user) {
+		this();
+		if (user != null) {
+			this.login = user.get(ATTR_LOGIN);
+			this.username = user.get(ATTR_USERNAME);
+			this.description = user.get(ATTR_DESCRIPTION);
+			if (user.containsKey(ATTR_ID)) {
+				this.id = new LongObjectId(Long.valueOf(user.get(ATTR_ID)));
+			}
+			if (user.containsKey(ATTR_ENABLED)) {
+				this.enabled = Boolean.valueOf(user.get(ATTR_ENABLED));
+			}
+		}
 	}
 
 	public UserInfo(String login) {
@@ -174,12 +195,12 @@ public class UserInfo implements IUser {
 
 	public Map<String, String> getUserInfo() {
 		Map<String, String> userInfo = new HashMap<String, String>();
-		userInfo.put("login", this.getLogin());
-		userInfo.put("username", this.getUsername());
-		userInfo.put("description", this.getDescription());
+		userInfo.put(ATTR_LOGIN, this.getLogin());
+		userInfo.put(ATTR_USERNAME, this.getUsername());
+		userInfo.put(ATTR_DESCRIPTION, this.getDescription());
 		if (this.getObjectId() != null)
-			userInfo.put("id", this.getObjectId().getId());
-		userInfo.put("name", this.getName());
+			userInfo.put(ATTR_ID, this.getObjectId().getId());
+		userInfo.put(ATTR_ENABLED, String.valueOf(this.isEnabled()));
 		return userInfo;
 	}
 }

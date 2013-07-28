@@ -213,39 +213,7 @@ Flywet.widget.Dialog.prototype.enableModality = function() {
 };
 
 Flywet.widget.Dialog.prototype.destroy = function(){
-	if ($.fn.combo) {
-		this.jq.find(".ui-combo-f").combo("destroy");
-	}
-	if ($.fn.combobox) {
-		this.jq.find(".ui-combobox-f").combobox("destroy");
-	}
-	if ($.fn.combotree) {
-		this.jq.find(".ui-combotree-f").combotree("destroy");
-	}
-	if ($.fn.combogrid) {
-		this.jq.find(".ui-combogrid-f").combogrid("destroy");
-	}
-	if ($.fn.spinner) {
-		this.jq.find("ui-.spinner-f").spinner("destroy");
-	}
-	if ($.fn.timespinner) {
-		this.jq.find(".ui-timespinner-f").timespinner("destroy");
-	}
-	if ($.fn.numberbox) {
-		this.jq.find(".ui-numberbox-f").numberbox("destroy");
-	}
-	if ($.fn.numberspinner) {
-		this.jq.find(".ui-numberspinner-f").numberspinner("destroy");
-	}
-	
-	this.jq.find(".ui-button-menu").each(function(){
-		var menuId = $(this).attr("menuId");
-		if(menuId){
-			Flywet.PushButton.destroy(menuId);
-		}
-	});
-	
-	this.jq.remove();
+	Flywet.destroyWidget(this.jq);
 };
 
 Flywet.widget.Dialog.prototype.disableModality = function(){

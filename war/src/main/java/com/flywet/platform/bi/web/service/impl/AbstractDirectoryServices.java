@@ -19,7 +19,7 @@ import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 
 public abstract class AbstractDirectoryServices {
 
-	private final Logger log = Logger
+	private final static Logger log = Logger
 			.getLogger(AbstractDirectoryServices.class);
 
 	public RepositoryDirectoryInterface getRootDirectory(

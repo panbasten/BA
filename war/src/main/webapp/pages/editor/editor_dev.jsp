@@ -141,7 +141,7 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_editor.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/scripts/fly_editor_trans.js"></script>
+			src="<%=path%>/resources/scripts/fly_editor_di.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_editor_dashboard.js"></script>
 		<script type="text/javascript"

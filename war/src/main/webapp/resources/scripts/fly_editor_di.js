@@ -54,7 +54,56 @@ Flywet.di = {
 			resizable : false
 		});
 	},
-	create : function(){
+	create : function(type){
+		var _self = this;
+		var currentCase = window[Flywet.di.ids.bpVarName].getCurrentData();
+		var targetId = "create_dialog_di";
+		var dirId = currentCase.dirId;
+		
+		Flywet.cw("Dialog",targetId+"_var",{
+			id : targetId,
+			header : "新建"+((type=="trans")?"转换":"作业"),
+			width : 500,
+			height : 70,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/"+type+"/create/"+dirId,
+			params : {
+				targetId : targetId+":content"
+			},
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "确定",
+				title : "确定",
+				events: {
+					click:function(){
+						Flywet.ab({
+							formId:"di_create_form",
+							formAction:"rest/"+type+"/createsubmit",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[targetId + "_var"].hide();
+									_self.flushDir(dirId);
+								}
+							}
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : false,
+			resizable : false
+		});
 	},
 	edit : function(){
 		if (!Flywet.editors.item.checkSelected(Flywet.di.ids.bpVarName)) {

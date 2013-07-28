@@ -232,7 +232,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_browse.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_trans.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_di.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_dashboard.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_database.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_domain.js</include>

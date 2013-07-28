@@ -1,6 +1,7 @@
 package com.flywet.platform.bi.web.rest;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,13 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.CheckResultInterface;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
+import org.pentaho.di.repository.IUser;
+import org.pentaho.di.trans.DatabaseImpact;
 import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
@@ -45,9 +49,11 @@ import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.web.entity.ActionMessage;
 import com.flywet.platform.bi.web.entity.AjaxResult;
+import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BITransDelegates;
+import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.transResource")
@@ -63,13 +69,79 @@ public class BITransResource {
 	private static final String TRANS_RUN_TEMPLATE = "editor/trans/run.h";
 
 	private static final String TRANS_CHECK_TEMPLATE = "editor/trans/check.h";
-	
+
 	private static final String TRANS_ANALYSE_DB_TEMPLATE = "editor/trans/analyseDB.h";
 
 	private static final String TRANS_STEP_TEMPLATE_PREFIX = "editor/trans/steps/";
 
+	private static final String TRANS_CREATE_TEMPLATE = "editor/trans/create.h";
+
 	@Resource(name = "bi.service.transServices")
 	private BITransDelegates transDelegates;
+
+	@GET
+	@Path("/create/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openTransCreateDialog(
+			@CookieParam("repository") String repository,
+			@PathParam("id") String id, @QueryParam("targetId") String targetId)
+			throws BIException {
+		String msg = "";
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+			attrsMap.addVariable("dirId", id);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TRANS_CREATE_TEMPLATE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			msg = e.getMessage();
+		} catch (Exception e) {
+			log.error("打开创建转换界面出现问题。");
+			msg = "打开创建转换界面出现问题。";
+		}
+		return ActionMessage.instance().failure(msg).toJSONString();
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/createsubmit")
+	public String openTransCreateSubmit(
+			@CookieParam("repository") String repository,
+			@CookieParam("user") String userInfo, String body)
+			throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			IUser user = BISecurityUtils.getLoginUser(userInfo);
+
+			String desc = paramContext.getParameter("desc");
+
+			// 当前目录
+			long dirId = paramContext.getLongParameter("dirId");
+
+			if (Const.isEmpty(desc)) {
+				return am.addErrorMessage("新增转换名称不能为空。").toJSONString();
+			}
+
+			// 保存转换
+			TransMeta transMeta = transDelegates.createTransformation(user,
+					repository, dirId, desc);
+			transDelegates.updateCacheTransformation(repository, transMeta);
+
+			am.addMessage("新增转换成功");
+		} catch (Exception e) {
+			am.addErrorMessage("新增转换出现错误。");
+		}
+		return am.toJSONString();
+	}
 
 	/**
 	 * 通过图形保存转换
@@ -86,7 +158,8 @@ public class BITransResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String saveTrans(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIJSONException {
+			@CookieParam("user") String userInfo, @PathParam("id") String id,
+			String body) throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			Long idL = Long.parseLong(id);
@@ -102,12 +175,16 @@ public class BITransResource {
 			// 修改TransMeta
 			modifyTrans(transMeta, data);
 
+			// 设置修改信息
+			IUser user = BISecurityUtils.getLoginUser(userInfo);
+			transMeta.setModifiedDate(new Date());
+			transMeta.setModifiedUser(user.getLogin());
+
 			// 保存
 			transDelegates.save(repository, transMeta);
 
 			// 更新缓存
-			transDelegates
-					.updateCacheTransformation(repository, idL, transMeta);
+			transDelegates.updateCacheTransformation(repository, transMeta);
 			return am.success("保存转换【" + transMeta.getName() + "】成功!")
 					.toJSONString();
 		} catch (Exception ex) {
@@ -220,7 +297,16 @@ public class BITransResource {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
 
-			// TODO 运行一个转换的实例
+			// 分析一个转换实例对数据库的影响
+			TransMeta transMeta = transDelegates.loadTransformation(repository,
+					Long.parseLong(id));
+			List<DatabaseImpact> impacts = new ArrayList<DatabaseImpact>();
+			transMeta.analyseImpact(impacts, null);
+
+			GridDataObject gd = GridDataObject.instance().putObjects(impacts);
+
+			attrsMap.addVariable("impacts", gd);
+			attrsMap.addVariable("impactsNum", impacts.size());
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TRANS_ANALYSE_DB_TEMPLATE, attrsMap);
@@ -243,7 +329,19 @@ public class BITransResource {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
 
-			// TODO 运行一个转换的实例
+			// 检查一个转换实例
+			TransMeta transMeta = transDelegates.loadTransformation(repository,
+					Long.parseLong(id));
+			List<CheckResultInterface> remarks = new ArrayList<CheckResultInterface>();
+			transMeta.checkSteps(remarks, false, null);
+
+			List<CheckResultObject> cro = new ArrayList<CheckResultObject>();
+			for (CheckResultInterface cri : remarks) {
+				cro.add(CheckResultObject.instance(cri));
+			}
+
+			GridDataObject gd = GridDataObject.instance().putObjects(cro);
+			attrsMap.addVariable("remarks", gd);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TRANS_CHECK_TEMPLATE, attrsMap);

@@ -1,5 +1,6 @@
 package com.flywet.platform.bi.web.service;
 
+import org.pentaho.di.repository.IUser;
 import org.pentaho.di.trans.TransMeta;
 
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
@@ -15,6 +16,19 @@ public interface BITransDelegates extends BIRepositoryDelegates {
 			throws BIKettleException;
 
 	/**
+	 * 创建一个转换
+	 * 
+	 * @param user
+	 * @param repository
+	 * @param dirId
+	 * @param desc
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public TransMeta createTransformation(IUser user, String repository,
+			Long dirId, String desc) throws BIKettleException;
+
+	/**
 	 * 清除缓存
 	 * 
 	 * @param repository
@@ -27,10 +41,8 @@ public interface BITransDelegates extends BIRepositoryDelegates {
 	 * 更新转换缓存
 	 * 
 	 * @param repository
-	 * @param id
 	 * @param transMeta
 	 */
-	public void updateCacheTransformation(String repository, Long id,
-			TransMeta transMeta);
+	public void updateCacheTransformation(String repository, TransMeta transMeta);
 
 }
