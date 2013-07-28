@@ -602,7 +602,6 @@
 					col.width = $(this)._outerWidth();
 					col.boxWidth = parseInt(this.style.width);
 					col.auto = undefined;
-					console.log(col);
 					_fixColumnSize(target, field);
 					dc.view2.children("div.ui-datagrid-header").scrollLeft(dc.body2.scrollLeft());
 					grid.proxy.remove();
@@ -1019,7 +1018,7 @@
 		var opts = gridData.options;
 		var dc = gridData.dc;
 		var selectedRows = gridData.selectedRows;
-		data = opts.loadFilter.call(target, data);
+		data = opts.loadFilter(target, data);
 		gridData.data = data;
 		if (data.footer) {
 			gridData.footer = data.footer;
@@ -1064,7 +1063,7 @@
 		$(target).datagrid("autoSizeColumn");
 		
 		function selectRows() {
-			if (opts.idField) {
+			if (opts.idField && data.rows) {
 				for ( var i = 0; i < data.rows.length; i++) {
 					var row = data.rows[i];
 					if (isSelected(row)) {
@@ -1605,8 +1604,10 @@
 		var data = $.data(target, "datagrid").data;
 		var rows = data.rows;
 		var originalRows = [];
-		for ( var i = 0; i < rows.length; i++) {
-			originalRows.push($.extend( {}, rows[i]));
+		if(rows){
+			for ( var i = 0; i < rows.length; i++) {
+				originalRows.push($.extend( {}, rows[i]));
+			}
 		}
 		$.data(target, "datagrid").originalRows = originalRows;
 		$.data(target, "datagrid").updatedRows = [];
@@ -2549,7 +2550,7 @@
 		showHeader : true,
 		showFooter : false,
 		scrollbarSize : 18,
-		rowStyler : function(_1eb, _1ec) { },
+		rowStyler : function(index, row) { },
 		loader : function(data, onsuccess, onerror) {
 			var opts = $(this).datagrid("options");
 			if (!opts.url) {
@@ -2564,17 +2565,34 @@
 				onerror : onerror
 			});
 		},
-		loadFilter : function(data) {
+		loadFilter : function(target, data) {
+			var opts = $(target).datagrid("options");
+			var newdata = [];
+			// 如果data是数组，进行组装
 			if (typeof data.length == "number"
 					&& typeof data.splice == "function") {
+				for(var i=0;i<data.length;i++){
+					if(opts.dataFilter(i, data[i])){
+						newdata.push(data[i]);
+					}
+				}
 				return {
-					total : data.length,
-					rows : data
+					total : newdata.length,
+					rows : newdata
 				};
 			} else {
+				if(data.rows){
+					for(var i=0;i<data.rows.length;i++){
+						if(opts.dataFilter(i, data.rows[i])){
+							newdata.push(data.rows[i]);
+						}
+					}
+					data.rows = newdata;
+				}
 				return data;
 			}
 		},
+		dataFilter : function(index, row) {return true;},
 		editors : editors,
 		finder : {
 			getTr : function(target, ridx, type, bodyType) {

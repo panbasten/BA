@@ -16,6 +16,7 @@ import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.HTMLWriter;
 import com.flywet.platform.bi.component.utils.PageTemplateResolverType;
+import com.flywet.platform.bi.component.vo.ComponentFunction;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
@@ -27,6 +28,15 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	public static final String ATTR_COLUMN = "column";
 	public static final String ATTR_TOOLBAR = "toolbar";
 	public static final String ATTR_DATA = "data";
+	public static final String ATTR_ROW_STYLERS = "rowStylers";
+	public static final String ATTR_ROW_STYLER = "rowStyler";
+
+	public static final String ATTR_DATA_FILTERS = "dataFilters";
+	public static final String ATTR_DATA_FILTER = "dataFilter";
+
+	public static final String ATTR_FIELD = "field";
+	public static final String ATTR_OPERTION = "opertion";
+	public static final String ATTR_CONDITION = "condition";
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -50,17 +60,33 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 			JSONObject jo = JSONUtils.convertToJSONObject(map);
 			// id
 			jo.put(HTML.ATTR_ID, id);
-			// column,toolbar
+
+			// column
 			JSONArray columns = (JSONArray) HTML.getTagAttributeObject(node,
 					ATTR_COLUMNS, attrs);
-			JSONArray toolbar = (JSONArray) HTML.getTagAttributeObject(node,
-					ATTR_TOOLBAR, attrs);
-			Object data = HTML.getTagAttributeObject(node, ATTR_DATA, attrs);
-
 			if (columns != null)
 				jo.put(ATTR_COLUMNS, columns);
+
+			// rowStyler
+			JSONArray rowStyler = (JSONArray) HTML.getTagAttributeObject(node,
+					ATTR_ROW_STYLER, attrs);
+			if (rowStyler != null)
+				jo.put(ATTR_ROW_STYLER, rowStyler);
+
+			// dataFilters
+			JSONArray dataFilter = (JSONArray) HTML.getTagAttributeObject(node,
+					ATTR_DATA_FILTER, attrs);
+			if (dataFilter != null)
+				jo.put(ATTR_DATA_FILTER, dataFilter);
+
+			// toolbar
+			JSONArray toolbar = (JSONArray) HTML.getTagAttributeObject(node,
+					ATTR_TOOLBAR, attrs);
 			if (toolbar != null)
 				jo.put(ATTR_TOOLBAR, toolbar);
+
+			// data
+			Object data = HTML.getTagAttributeObject(node, ATTR_DATA, attrs);
 			if (data != null) {
 				jo.put(ATTR_DATA, getJSONAttribute(data));
 			}
@@ -81,17 +107,119 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	@SuppressWarnings("unchecked")
 	private void parserSubNode(JSONObject jo, Node node,
 			FLYVariableResolver attrs) throws BIPageException, BIJSONException {
-		Node columns = XMLUtils.selectSingleNode(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_COLUMNS));
+		// columns
+		Node columns = XMLUtils.selectSingleNode(node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_COLUMNS));
 		if (columns != null) {
 			jo.put(ATTR_COLUMNS, parserColumns(columns, attrs));
 		}
 
-		Node toolbar = XMLUtils.selectSingleNode(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_TOOLBAR));
+		// toolbar
+		Node toolbar = XMLUtils.selectSingleNode(node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_TOOLBAR));
 		if (toolbar != null) {
 			jo.put(ATTR_TOOLBAR, parserToolbar(toolbar, attrs));
 		}
+
+		// rowStylers
+		Node rowStylers = XMLUtils.selectSingleNode(node, XMLUtils
+				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_ROW_STYLERS));
+		if (rowStylers != null) {
+			jo.put(ATTR_ROW_STYLER, parserRowStylers(rowStylers, attrs));
+		}
+
+		// dataFilters
+		Node dataFilters = XMLUtils.selectSingleNode(node, XMLUtils
+				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_DATA_FILTERS));
+		if (rowStylers != null) {
+			jo.put(ATTR_DATA_FILTER, parserDataFilters(dataFilters, attrs));
+		}
+	}
+
+	private ComponentFunction parserDataFilters(Node node,
+			FLYVariableResolver attrs) {
+		ComponentFunction func = ComponentFunction.instance();
+		func.addParameter("index").addParameter("row");
+
+		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
+				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_DATA_FILTER));
+
+		if (nodeList != null) {
+			func.addStatement("if(");
+			boolean first = true;
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node subNode = nodeList.item(i);
+				if (first) {
+					first = false;
+				} else {
+					func.addStatement("||");
+				}
+
+				String condition = HTML.getTagAttribute(subNode,
+						ATTR_CONDITION, attrs);
+
+				if (!Const.isEmpty(condition)) {
+					func.addStatement("(" + condition + ")");
+				} else {
+					String field = HTML.getTagAttribute(subNode, ATTR_FIELD,
+							attrs);
+					String oper = HTML.getTagAttribute(subNode, ATTR_OPERTION,
+							attrs);
+					String value = HTML.getTagAttribute(subNode,
+							HTML.ATTR_VALUE, attrs);
+					func.addStatement("(row." + field + oper + "'" + value
+							+ "')");
+				}
+			}
+			func.addStatement("){return true;}return false;");
+		}else{
+			func.addStatement("return true;");
+		}
+
+		return func;
+	}
+
+	private ComponentFunction parserRowStylers(Node node,
+			FLYVariableResolver attrs) {
+		ComponentFunction func = ComponentFunction.instance();
+		func.addParameter("index").addParameter("row");
+
+		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
+				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_ROW_STYLER));
+		if (nodeList != null) {
+			func.addStatement("var style = '';");
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node subNode = nodeList.item(i);
+				String condition = HTML.getTagAttribute(subNode,
+						ATTR_CONDITION, attrs);
+				String style = HTML.getTagAttribute(subNode, HTML.ATTR_STYLE,
+						attrs);
+
+				if (!Const.isEmpty(condition)) {
+					func.addStatement("if(" + condition + "){style+='" + style
+							+ "';}");
+				} else {
+					String field = HTML.getTagAttribute(subNode, ATTR_FIELD,
+							attrs);
+					String oper = HTML.getTagAttribute(subNode, ATTR_OPERTION,
+							attrs);
+					String value = HTML.getTagAttribute(subNode,
+							HTML.ATTR_VALUE, attrs);
+					func.addStatement("if(row." + field + oper + "'" + value
+							+ "'){style+='" + style + "';}");
+				}
+
+			}
+			func.addStatement("return style;");
+		}
+
+		return func;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -138,8 +266,10 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	private JSONArray parserColumnsRow(Node node, FLYVariableResolver attrs)
 			throws BIPageException, BIJSONException {
 		JSONArray ja = new JSONArray();
-		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_COLUMN));
+		NodeList nodeList = XMLUtils
+				.selectNodes(node, XMLUtils
+						.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+								+ ATTR_COLUMN));
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				ja.add(parserColumnsRowColumn(nodeList.item(i), attrs));

@@ -931,7 +931,8 @@ Flywet.editors.trans.action = {
     },
     
     run : function(){
-    	var transId = 1;// TODO
+    	var canvasObj=transEditorPanel_var.flowChart;
+    	var transId = canvasObj.config.data.extendData.transId;
     	
     	var dialogId = "dialog-trans-run";
     	Flywet.cw("Dialog",dialogId+"_var",{
@@ -976,7 +977,8 @@ Flywet.editors.trans.action = {
     },
     
     check : function(){
-    	var transId = 1;// TODO
+    	var canvasObj=transEditorPanel_var.flowChart;
+    	var transId = canvasObj.config.data.extendData.transId;
     	
     	var dialogId = "dialog-trans-check";
     	Flywet.cw("Dialog",dialogId+"_var",{
@@ -1002,8 +1004,18 @@ Flywet.editors.trans.action = {
 		});
     },
     
+    checkShowSuccess : function(val){
+    	// 显示成功记录
+    	if(val){
+    		trans_check_var
+    	}else{
+    	}
+    	
+    },
+    
     analyse : function(){
-    	var transId = 1;// TODO
+    	var canvasObj=transEditorPanel_var.flowChart;
+    	var transId = canvasObj.config.data.extendData.transId;
     	
     	var dialogId = "dialog-trans-analyse";
     	Flywet.cw("Dialog",dialogId+"_var",{
