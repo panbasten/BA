@@ -453,81 +453,81 @@ Flywet.editors.trans = {
 					'id' : 'transDSContent',
 //					"checkbox":true,
 					"dnd":true,
-					'els' : [ {
+					'data' : [ {
 						'id' : 'id0',
-						'displayName' : '数据库',
+						'text' : '数据库',
 						'type' : 'node',
-						'icon' : 'resources/libs/tree/images/diy/1_close.png',
-						'els' : [ {
-							id : 'id1-1',
-							displayName : '连接名称1',
-							type : 'node',
-							'icon' : '',
-							state:"open",
-							'els' : [ {
-								id : 'id1-1-1',
-								displayName : '表结构',
-								type : 'node',
-								state:"closed",
-								'icon' : '',
-								'els' : [ {
-									id : 'id1-1-1',
-									displayName : '表1',
-									type : 'leaf',
-									draggable : true
+						'iconCls' : 'resources/libs/tree/images/diy/1_close.png',
+						'children' : [ {
+							'id' : 'id1-1',
+							'text' : '连接名称1',
+							'type' : 'node',
+							'iconCls' : '',
+							'state' : "open",
+							'children' : [ {
+								'id' : 'id1-1-1',
+								'text' : '表结构',
+								'type' : 'node',
+								'state':"closed",
+								'iconCls' : '',
+								'children' : [ {
+									'id' : 'id1-1-1',
+									'text' : '表1',
+									'type' : 'leaf',
+									'draggable' : true
 								}, {
-									id : 'id1-1-11',
-									displayName : '表2',
-									type : 'leaf',
-									draggable : true
+									'id' : 'id1-1-11',
+									'text' : '表2',
+									'type' : 'leaf',
+									'draggable' : true
 								}, {
-									id : 'id1-1-12',
-									displayName : '表3',
-									type : 'leaf',
-									draggable : true
+									'id' : 'id1-1-12',
+									'text' : '表3',
+									'type' : 'leaf',
+									'draggable' : true
 								} ]
 							}, {
 								id : 'id1-1-2',
-								displayName : '视图',
+								text : '视图',
 								type : 'node',
-								'els' : [ {
+								'children' : [ {
 									id : 'id1-1-21',
-									displayName : '视图1',
+									text : '视图1',
 									type : 'leaf'
 								}, {
 									id : 'id1-1-22',
-									displayName : '视图2',
+									text : '视图2',
 									type : 'leaf'
 								}, {
 									id : 'id1-1-23',
-									displayName : '视图3',
+									text : '视图3',
 									type : 'leaf'
 								} ]
 							}, {
 								id : 'id1-1-3',
-								displayName : '存储过程',
+								text : '存储过程',
 								type : 'node',
-								'els' : [ {
+								'children' : [ {
 									id : 'id1-1-31',
-									displayName : '过程1',
+									text : '过程1',
 									type : 'leaf'
 								}, {
 									id : 'id1-1-32',
-									displayName : '过程2',
+									text : '过程2',
 									type : 'leaf'
 								}, {
 									id : 'id1-1-33',
-									displayName : '过程3',
+									text : '过程3',
 									type : 'leaf'
 								} ]
 							} ]
 						}, {
 							id : 'id1-21',
-							displayName : '连接名称2',
+							text : '连接名称2',
 							type : 'node'
 						}, {
 							id : 'id1-22',
-							displayName : '连接名称3',
+							text : '连接名称3',
 							type : 'node'
 						} ]
 					} ]

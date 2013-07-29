@@ -1,11 +1,3 @@
-/**
- * jQuery EasyUI 1.3.1
- * 
- * Licensed under the GPL terms To use it on other terms please contact us
- * 
- * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ]
- * 
- */
 (function($) {
 	function _init(target) {
 		var options = $.data(target, "combotree").options;
@@ -49,7 +41,7 @@
 			}
 		}));
 	}
-	;
+	
 	function _onClick(target) {
 		var options = $.data(target, "combotree").options;
 		var treedata = $.data(target, "combotree").tree;
@@ -69,7 +61,7 @@
 		}
 		$(target).combo("setValues", vv).combo("setText", ss.join(options.separator));
 	}
-	;
+	
 	function _setValues(top, values) {
 		var options = $.data(top, "combotree").options;
 		var tree = $.data(top, "combotree").tree;
@@ -90,7 +82,7 @@
 		}
 		$(top).combo("setValues", vv).combo("setText", ss.join(options.separator));
 	}
-	;
+	
 	$.fn.combotree = function(options, param) {
 		if (typeof options == "string") {
 			var method = $.fn.combotree.methods[options];
@@ -114,6 +106,7 @@
 			_init(this);
 		});
 	};
+	
 	$.fn.combotree.methods = {
 		options : function(jq) {
 			var options = $.data(jq[0], "combotree").options;
@@ -176,10 +169,12 @@
 			});
 		}
 	};
+	
 	$.fn.combotree.parseOptions = function(target) {
 		return $.extend( {}, $.fn.combo.parseOptions(target), $.fn.tree
 				.parseOptions(target));
 	};
+	
 	$.fn.combotree.defaults = $.extend( {}, $.fn.combo.defaults,
 			$.fn.tree.defaults, {
 				editable : false

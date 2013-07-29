@@ -2,7 +2,6 @@ package com.flywet.platform.bi.component.resolvers.input;
 
 import java.util.List;
 
-import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
 

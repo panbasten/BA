@@ -1291,39 +1291,14 @@ Flywet.widget.EasyTree=function(cfg){
     this.jqId = Flywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
 	this.jq.tree(cfg);
-	this.loadData(cfg.els);
+	this.loadData(cfg.data);
 };
 
 Flywet.extend(Flywet.widget.EasyTree, Flywet.widget.BaseWidget);
 
 Flywet.widget.EasyTree.prototype.loadData=function(data){
-	this.treedata=this.transdata(data?data:[]);
+	this.treedata=data||[];
 	this.jq.tree("loadData",this.treedata);
-};
-
-Flywet.widget.EasyTree.prototype.transdata=function(initdata){
-	var rtn = [];
-	if(initdata){
-		rtn = _transdata(initdata);
-	}
-	function _transdata(array){
-		var rtn = [];
-		for(var i=0;i<array.length;i++){
-			var conf = {};
-			conf.id=array[i].id;
-			conf.text=array[i].displayName;
-			conf.iconCls=array[i].icon;
-			if(array[i].data){
-				conf.attributes=array[i].data;
-			}
-			if(array[i].els&&array[i].els.length>0){
-				conf.children=_transdata(array[i].els);
-			}
-			rtn.push(conf);
-		}
-		return rtn;
-	}
-	return rtn;
 };
 
 Flywet.widget.EasyTree.prototype.select=function(id){

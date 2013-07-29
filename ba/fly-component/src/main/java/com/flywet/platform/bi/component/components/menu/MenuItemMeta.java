@@ -50,6 +50,7 @@ public class MenuItemMeta extends ComplexComponentMeta implements
 		return HTML.COMPONENT_TYPE_MENU_ITEM;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getFormJo() throws BIJSONException {
 		JSONObject formJo = super.getAttrbuteJo();
