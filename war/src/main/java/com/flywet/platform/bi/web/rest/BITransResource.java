@@ -54,7 +54,6 @@ import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BITransDelegates;
-import com.flywet.platform.bi.web.service.impl.BIPageServices;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
@@ -415,6 +414,9 @@ public class BITransResource {
 			// 返回页面控制
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception ex) {
 			log.error("创建分析转换对数据库影响页面出现错误。");
 			am.addErrorMessage("创建分析转换对数据库影响页面出现错误。");
@@ -453,6 +455,9 @@ public class BITransResource {
 			// 返回页面控制
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception ex) {
 			log.error("创建校验转换页面出现错误。");
 			am.addErrorMessage("创建校验转换页面出现错误。");
@@ -488,6 +493,9 @@ public class BITransResource {
 			// 返回页面控制
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception ex) {
 			log.error("创建转换执行页面出现错误。");
 			am.addErrorMessage("创建转换执行页面出现错误。");
@@ -512,6 +520,9 @@ public class BITransResource {
 			// TODO
 
 			return am.addMessage("保存转换【" + name + "】设置成功！").toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception e) {
 			log.error("保存转换【" + name + "】设置出现错误。");
 			am.addErrorMessage("保存转换【" + name + "】设置出现错误。");
@@ -557,6 +568,9 @@ public class BITransResource {
 			// 返回页面控制
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception ex) {
 			log.error("创建转换设置页面出现错误。");
 			am.addErrorMessage("创建转换设置页面出现错误。");
@@ -589,6 +603,9 @@ public class BITransResource {
 
 			// 保存transMeta
 			return am.addMessage("保存转换【" + name + "】设置成功！").toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception e) {
 			log.error("保存转换【" + name + "】设置出现错误。");
 			am.addErrorMessage("保存转换【" + name + "】设置出现错误。");
@@ -746,9 +763,13 @@ public class BITransResource {
 					"保存转换【" + transName + "】步骤【" + stepMetaName + "】设置成功！")
 					.toJSONString();
 
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception e) {
 			log.error("保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。");
-			am.addErrorMessage("保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。");
+			am.addErrorMessage("保存转换【" + transName + "】步骤【" + stepMetaName
+					+ "】设置出现错误。");
 		}
 		return am.toJSONString();
 	}
@@ -808,7 +829,10 @@ public class BITransResource {
 			// 返回页面控制
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
-		} catch (Exception ex) {
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
+		} catch (Exception e) {
 			log.error("打开Step的设置页面出现错误。");
 			am.addErrorMessage("打开Step的设置页面出现错误。");
 		}
