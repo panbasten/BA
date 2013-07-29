@@ -679,11 +679,17 @@ Flywet.editors.trans.action = {
     		
     		this.stepSelect(this.editorPrefix,canvasObj,flow);
     	}
-    	
-    	
     },
 
-    save : function (){
+    save : function (func,silence){
+    	silence = silence || false;
+    	
+    	if(!diEditorPageTabs.isTabModify(null)){
+    		return;
+    	}
+    	
+    	var _self = this;
+    	
     	var canvasObj=transEditorPanel_var.flowChart;
     	if(canvasObj && canvasObj.childCanvas){
     		var transId = canvasObj.config.data.extendData.transId;
@@ -694,13 +700,83 @@ Flywet.editors.trans.action = {
     			modal : true,
     			modalMessage : "正在保存...",
     			params : {
+    				silence : silence,
     				val : flow.getElsValue()
     			},
     			onsuccess : function(){
     				diEditorPageTabs.setTabModify(null, false);
+    				if(func){
+    					func.call(_self);
+    				}
     			}
     		});
     	}
+    },
+    
+    saveas : function () {
+    	var showSaveas = function(){
+    		var canvasObj=transEditorPanel_var.flowChart;
+        	if(canvasObj && canvasObj.childCanvas){
+        		var transId = canvasObj.config.data.extendData.transId;
+	    		var targetId = "saveas_dialog_folder";
+	    		
+	    		Flywet.cw("Dialog",targetId+"_var",{
+	    			id : targetId,
+	    			header : "另存为...",
+	    			width : 500,
+	    			height : 90,
+	    			autoOpen : true,
+	    			showHeader : true,
+	    			modal : true,
+	    			url : "rest/trans/saveas/"+transId,
+	    			params : {
+	    				targetId : targetId+":content"
+	    			},
+	    			footerButtons : [{
+	    				componentType : "fly:PushButton",
+	    				type : "button",
+	    				label : "确定",
+	    				title : "确定",
+	    				events: {
+	    					click:function(){
+	    						Flywet.ab({
+	    							formId:"trans_saveas_form",
+	    							formAction:"rest/trans/saveassubmit",
+	    							onsuccess:function(data, status, xhr) {
+	    								if (data.state == 0) {
+	    									window[targetId + "_var"].hide();
+	    								}
+	    							}
+	    						});
+	    					}
+	    				}
+	    			},{
+	    				componentType : "fly:PushButton",
+	    				type : "button",
+	    				label : "取消",
+	    				title : "取消",
+	    				events : {
+	    					"click" : "hide"
+	    				}
+	    			}],
+	    			closable : true,
+	    			maximizable : false,
+	    			resizable : false
+	    		});
+        	}
+    	};
+    	
+    	if(diEditorPageTabs.isTabModify(null)){
+    		this.save(showSaveas,true);
+    	}else{
+    		showSaveas.call(this);
+    	}
+    },
+    
+    saveXml : function () {
+    },
+    
+    saveImage : function () {
     },
     
     // @Override 必要方法：用于在Tab发生修改时，点击保存按钮调用的方法。

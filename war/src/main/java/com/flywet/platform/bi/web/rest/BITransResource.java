@@ -26,6 +26,7 @@ import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
 import org.pentaho.di.repository.IUser;
+import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.DatabaseImpact;
 import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
@@ -53,6 +54,7 @@ import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BITransDelegates;
+import com.flywet.platform.bi.web.service.impl.BIPageServices;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
@@ -75,6 +77,8 @@ public class BITransResource {
 	private static final String TRANS_STEP_TEMPLATE_PREFIX = "editor/trans/steps/";
 
 	private static final String TRANS_CREATE_TEMPLATE = "editor/trans/create.h";
+
+	private static final String TRANS_SAVEAS_TEMPLATE = "editor/trans/saveas.h";
 
 	@Resource(name = "bi.service.transServices")
 	private BITransDelegates transDelegates;
@@ -137,7 +141,94 @@ public class BITransResource {
 			transDelegates.updateCacheTransformation(repository, transMeta);
 
 			am.addMessage("新增转换成功");
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
 		} catch (Exception e) {
+			log.error("新增转换出现错误。");
+			am.addErrorMessage("新增转换出现错误。");
+		}
+		return am.toJSONString();
+	}
+
+	/**
+	 * 打开另存为对话框
+	 * 
+	 * @param repository
+	 * @param id
+	 * @param targetId
+	 * @return
+	 * @throws BIException
+	 */
+	@GET
+	@Path("/saveas/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String saveAsTransDialog(
+			@CookieParam("repository") String repository,
+			@PathParam("id") String id, @QueryParam("targetId") String targetId)
+			throws BIException {
+		String msg = "";
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			// 转换所在目录
+			TransMeta transMeta = transDelegates.loadTransformation(repository,
+					Long.valueOf(id));
+			RepositoryDirectoryInterface dir = transMeta
+					.getRepositoryDirectory();
+
+			attrsMap.addVariable("transId", id);
+			attrsMap.addVariable("transName", transMeta.getName());
+			attrsMap.addVariable("dirId", dir.getObjectId().getId());
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TRANS_SAVEAS_TEMPLATE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			msg = e.getMessage();
+		} catch (Exception e) {
+			log.error("打开另存为对话框面出现问题。");
+			msg = "打开另存为对话框出现问题。";
+		}
+		return ActionMessage.instance().failure(msg).toJSONString();
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/saveassubmit")
+	public String saveAsTransSubmit(
+			@CookieParam("repository") String repository,
+			@CookieParam("user") String userInfo, String body)
+			throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			IUser user = BISecurityUtils.getLoginUser(userInfo);
+
+			// 页面设置
+			long dirId = paramContext.getLongParameter("dirId");
+			long transId = paramContext.getLongParameter("transId");
+			String transName = paramContext.getParameter("transName");
+
+			// 保存
+			TransMeta transMeta = transDelegates.saveAsTransformation(user,
+					repository, dirId, transId, transName);
+
+			transDelegates.updateCacheTransformation(repository, transMeta);
+
+			am.addMessage("新增转换成功");
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
+		} catch (Exception e) {
+			log.error("新增转换出现错误。");
 			am.addErrorMessage("新增转换出现错误。");
 		}
 		return am.toJSONString();
@@ -166,6 +257,7 @@ public class BITransResource {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 			String val = paramContext.getParameter("val");
+			boolean silence = paramContext.getBooleanParameter("silence");
 
 			TransMeta transMeta = transDelegates.loadTransformation(repository,
 					idL);
@@ -185,12 +277,20 @@ public class BITransResource {
 
 			// 更新缓存
 			transDelegates.updateCacheTransformation(repository, transMeta);
+
+			if (silence) {
+				return am.success().toJSONString();
+			}
 			return am.success("保存转换【" + transMeta.getName() + "】成功!")
 					.toJSONString();
-		} catch (Exception ex) {
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			am.addErrorMessage(e.getMessage());
+		} catch (Exception e) {
 			log.error("保存转换[" + id + "]出现错误。");
+			am.addErrorMessage("保存转换[" + id + "]出现错误。");
 		}
-		return am.failure("保存转换[" + id + "]出现错误。").toJSONString();
+		return am.toJSONString();
 	}
 
 	private void modifyTrans(TransMeta transMeta, FlowChartData data)
@@ -293,6 +393,7 @@ public class BITransResource {
 	public String openAnalyse(@CookieParam("repository") String repository,
 			@PathParam("id") String id, @QueryParam("targetId") String targetId)
 			throws BIException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
@@ -315,8 +416,10 @@ public class BITransResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建分析转换对数据库影响页面出现错误。", ex);
+			log.error("创建分析转换对数据库影响页面出现错误。");
+			am.addErrorMessage("创建分析转换对数据库影响页面出现错误。");
 		}
+		return am.toJSONString();
 	}
 
 	@GET
@@ -325,6 +428,7 @@ public class BITransResource {
 	public String openCheck(@CookieParam("repository") String repository,
 			@PathParam("id") String id, @QueryParam("targetId") String targetId)
 			throws BIException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
@@ -350,8 +454,10 @@ public class BITransResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建校验转换页面出现错误。", ex);
+			log.error("创建校验转换页面出现错误。");
+			am.addErrorMessage("创建校验转换页面出现错误。");
 		}
+		return am.toJSONString();
 	}
 
 	/**
@@ -369,6 +475,7 @@ public class BITransResource {
 	public String openRun(@CookieParam("repository") String repository,
 			@PathParam("id") String id, @QueryParam("targetId") String targetId)
 			throws BIException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
@@ -382,8 +489,10 @@ public class BITransResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建转换执行页面出现错误。", ex);
+			log.error("创建转换执行页面出现错误。");
+			am.addErrorMessage("创建转换执行页面出现错误。");
 		}
+		return am.toJSONString();
 	}
 
 	@POST
@@ -402,12 +511,13 @@ public class BITransResource {
 
 			// TODO
 
-			return am.success("保存转换【" + name + "】设置成功！").toJSONString();
+			return am.addMessage("保存转换【" + name + "】设置成功！").toJSONString();
 		} catch (Exception e) {
 			log.error("保存转换【" + name + "】设置出现错误。");
+			am.addErrorMessage("保存转换【" + name + "】设置出现错误。");
 		}
 
-		return am.failure("保存转换【" + name + "】设置出现错误。").toJSONString();
+		return am.toJSONString();
 	}
 
 	@GET
@@ -416,6 +526,7 @@ public class BITransResource {
 	public String openSetting(@CookieParam("repository") String repository,
 			@PathParam("id") String id, @QueryParam("targetId") String targetId)
 			throws BIException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
@@ -447,8 +558,10 @@ public class BITransResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建转换设置页面出现错误。", ex);
+			log.error("创建转换设置页面出现错误。");
+			am.addErrorMessage("创建转换设置页面出现错误。");
 		}
+		return am.toJSONString();
 	}
 
 	@POST
@@ -475,13 +588,13 @@ public class BITransResource {
 			setSettingNamedParameter(transMeta, paramContext, FORM_PREFIX);
 
 			// 保存transMeta
-
-			return am.success("保存转换【" + name + "】设置成功！").toJSONString();
+			return am.addMessage("保存转换【" + name + "】设置成功！").toJSONString();
 		} catch (Exception e) {
 			log.error("保存转换【" + name + "】设置出现错误。");
+			am.addErrorMessage("保存转换【" + name + "】设置出现错误。");
 		}
 
-		return am.failure("保存转换【" + name + "】设置出现错误。").toJSONString();
+		return am.toJSONString();
 	}
 
 	private void setSettingBase(TransMeta transMeta,
@@ -629,16 +742,15 @@ public class BITransResource {
 			// 设置具体的stepMeta
 			stepMeta.getStepMetaInterface().loadPage(
 					paramContext.getParameterHolder());
-			return am.success(
+			return am.addMessage(
 					"保存转换【" + transName + "】步骤【" + stepMetaName + "】设置成功！")
 					.toJSONString();
 
 		} catch (Exception e) {
 			log.error("保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。");
+			am.addErrorMessage("保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。");
 		}
-		return am.failure(
-				"保存转换【" + transName + "】步骤【" + stepMetaName + "】设置出现错误。")
-				.toJSONString();
+		return am.toJSONString();
 	}
 
 	/**
@@ -659,6 +771,7 @@ public class BITransResource {
 			@PathParam("stepName") String stepName,
 			@PathParam("stepTypeId") String stepTypeId,
 			@QueryParam("targetId") String targetId) throws BIException {
+		ActionMessage am = ActionMessage.instance();
 		try {
 			Long idL = Long.parseLong(transId);
 			TransMeta transMeta = transDelegates.loadTransformation(repository,
@@ -696,8 +809,10 @@ public class BITransResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("打开Step的设置页面出现错误。", ex);
+			log.error("打开Step的设置页面出现错误。");
+			am.addErrorMessage("打开Step的设置页面出现错误。");
 		}
+		return am.toJSONString();
 
 	}
 

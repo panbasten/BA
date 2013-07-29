@@ -127,7 +127,10 @@ public class ParameterContext {
 
 	public boolean getBooleanParameter(String paramName) {
 		String v = getParameter(paramName);
-		return (v != null);
+		if ("on".equalsIgnoreCase(v) || "true".equalsIgnoreCase(v)) {
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.flywet.platform.bi.component.resolvers.input;
 
 import java.util.List;
 
+import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
 
@@ -11,6 +12,7 @@ import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.HTMLWriter;
 import com.flywet.platform.bi.core.exception.BIPageException;
+import com.flywet.platform.bi.core.utils.Utils;
 
 public class FLYInputTextResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
@@ -65,6 +67,16 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 				html.writeAttribute(HTML.ATTR_CLASS, styleClass);
 			}
 
+			// 如果是checkbox设置值为"on"
+			if (HTML.ATTR_INPUT_TYPE_CHECKBOX.equalsIgnoreCase(type)) {
+				html.writeAttribute(HTML.ATTR_VALUE, "on");
+				boolean val = Utils.toBoolean(HTML.getTagAttribute(node,
+						HTML.ATTR_VALUE, attrs), false);
+				if (val) {
+					html.writeAttribute("checked", "checked");
+				}
+			}
+
 			HTML.writeStyleAttribute(node, html, attrs, "float:left;");
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_INPUT);
@@ -73,7 +85,8 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 				String text = HTML.getTagAttribute(node, HTML.ATTR_TEXT, attrs);
 				if (!Const.isEmpty(text)) {
 					html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
-					HTML.writeStyleAttribute(node, html, attrs, "float:left;margin-left:10px;");
+					HTML.writeStyleAttribute(node, html, attrs,
+							"float:left;margin-left:10px;");
 					html.writeText(text);
 					html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 				}

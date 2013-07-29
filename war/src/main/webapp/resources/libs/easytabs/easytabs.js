@@ -489,6 +489,11 @@
     	  }
       },
       
+      isTabModify: function(tabSelector){
+    	  var $taba = plugin.getTab(tabSelector);
+    	  return $taba.data("modify");
+      },
+      
       addTab: function(newTab) {
     	  var createTabString = settings.createTab.replace(/#tabId/g,newTab.tabId).replace(/#tabText/g,newTab.tabText);
     	  
@@ -936,4 +941,11 @@ Flywet.widget.EasyTabs.prototype.isActive = function(tabSelector){
  */
 Flywet.widget.EasyTabs.prototype.setTabModify = function(tabSelector,modify){
 	this.jq.easytabs("setTabModify",{tabSelector:tabSelector,modify:modify});
+};
+
+/**
+ * 判断Tab是否被修改
+ */
+Flywet.widget.EasyTabs.prototype.isTabModify = function(tabSelector){
+	return this.jq.easytabs("isTabModify",tabSelector);
 };

@@ -42,9 +42,9 @@
 			<fly:pushbutton id="trans_delete" iconCls="ui-icon-system-delete" onclick="Flywet.editors.trans.action.deleteSelectedElFromOutset();" title="删除" state="disabled" />
 			<fly:pushbutton type="separator" />
 			<fly:pushbutton id="trans_save" iconCls="ui-icon-save" onclick="Flywet.editors.trans.action.save();" title="保存" />
-			<fly:pushbutton id="trans_saveas" iconCls="ui-icon-saveas" onclick="" title="另存为..." />
-			<fly:pushbutton id="trans_save_xml" iconCls="ui-icon-save-xml" onclick="" title="保存为xml文件并下载" />
-			<fly:pushbutton id="trans_save_image" iconCls="ui-icon-save-image" onclick="" title="保存为图片并下载" />
+			<fly:pushbutton id="trans_saveas" iconCls="ui-icon-saveas" onclick="Flywet.editors.trans.action.saveas();" title="另存为..." />
+			<fly:pushbutton id="trans_save_xml" iconCls="ui-icon-save-xml" onclick="Flywet.editors.trans.action.saveXml();" title="保存为xml文件并下载" />
+			<fly:pushbutton id="trans_save_image" iconCls="ui-icon-save-image" onclick="Flywet.editors.trans.action.saveImage();" title="保存为图片并下载" />
 		</div>
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix">
 		</div>

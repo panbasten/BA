@@ -29,6 +29,21 @@ public interface BITransDelegates extends BIRepositoryDelegates {
 			Long dirId, String desc) throws BIKettleException;
 
 	/**
+	 * 另存为转换
+	 * 
+	 * @param user
+	 * @param repository
+	 * @param dirId
+	 * @param transId
+	 * @param transName
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public TransMeta saveAsTransformation(IUser user, String repository,
+			Long dirId, Long transId, String transName)
+			throws BIKettleException;
+
+	/**
 	 * 清除缓存
 	 * 
 	 * @param repository

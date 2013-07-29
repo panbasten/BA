@@ -3,10 +3,9 @@ package com.flywet.platform.bi.web.service.impl;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.repository.IUser;
 import org.pentaho.di.repository.LongObjectId;
-import org.pentaho.di.repository.ObjectId;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.TransMeta;
@@ -52,6 +51,61 @@ public class BITransServices extends AbstractRepositoryServices implements
 	}
 
 	/**
+	 * 另存为转换
+	 * 
+	 * @param user
+	 * @param repository
+	 * @param dirId
+	 * @param transId
+	 * @param transName
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public TransMeta saveAsTransformation(IUser user, String repository,
+			Long dirId, Long transId, String transName)
+			throws BIKettleException {
+		Repository rep = null;
+		try {
+			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+
+			RepositoryDirectoryInterface dir = DIUtils.getDirecotry(rep, dirId,
+					BIDirectoryCategory.DI);
+
+			// 判断设置目录下面是否有重名的转换
+			if (DIUtils.checkTransMetaByName(rep, dir, transName)) {
+				throw new BIKettleException("存在重名的转换");
+			}
+
+			if (Const.isEmpty(transName)) {
+				throw new BIKettleException("另存为转换名称不能为空");
+			}
+
+			// 另存为转换
+			TransMeta transMeta = loadTransformation(repository, transId);
+			TransMeta newTransMeta = (TransMeta) transMeta.clone();
+			newTransMeta.setName(transName);
+			newTransMeta.setRepositoryDirectory(dir);
+			Date now = new Date();
+			newTransMeta.setCreatedDate(now);
+			newTransMeta.setCreatedUser(user.getLogin());
+			newTransMeta.setModifiedDate(now);
+			newTransMeta.setModifiedUser(user.getLogin());
+
+			this.save(rep, newTransMeta);
+
+			return newTransMeta;
+
+		} catch (BIKettleException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			log.error("另存为转换出现异常", ex);
+			throw new BIKettleException("另存为转换出现异常");
+		} finally {
+			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+		}
+	}
+
+	/**
 	 * 创建一个转换
 	 * 
 	 * @param user
@@ -70,7 +124,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 
 			RepositoryDirectoryInterface dir = DIUtils.getDirecotry(rep, dirId,
 					BIDirectoryCategory.DI);
-			if (checkTransMetaByName(rep, dir, desc)) {
+			if (DIUtils.checkTransMetaByName(rep, dir, desc)) {
 				throw new BIKettleException("存在重名的转换");
 			}
 
@@ -102,28 +156,6 @@ public class BITransServices extends AbstractRepositoryServices implements
 		} finally {
 			BIEnvironmentDelegate.instance().returnRep(repository, rep);
 		}
-	}
-
-	/**
-	 * 通过转换的名称判断转换是否存在
-	 * 
-	 * @param rep
-	 * @param dirId
-	 * @param name
-	 * @return
-	 * @throws BIKettleException
-	 */
-	private boolean checkTransMetaByName(Repository rep,
-			RepositoryDirectoryInterface dir, String name)
-			throws BIKettleException {
-		try {
-			ObjectId transId = rep.getTransformationID(name, dir);
-			return transId != null;
-		} catch (KettleException e) {
-			log.error("通过名称获得转换出现错误");
-			throw new BIKettleException("通过名称获得转换出现错误");
-		}
-
 	}
 
 	/**
