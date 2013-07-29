@@ -405,6 +405,10 @@
 			opts.pageSize = pager.pagination("options").pageSize;
 		}
 		
+		// oraData
+		opts.oraData = Flywet.deepClone(opts.data);
+		console.log(opts.oraData);
+		
 		function initHeader(header, columns, fromFrozenColumns) {
 			if (!columns) {
 				return;
@@ -1985,6 +1989,10 @@
 			});
 			return opts;
 		},
+		setOptions : function(jq, opts){
+			var options = $.data(jq[0], "datagrid").options;
+			options = $.extend(options, opts);
+		},
 		getPanel : function(jq) {
 			return $.data(jq[0], "datagrid").panel;
 		},
@@ -2016,6 +2024,8 @@
 		},
 		reload : function(jq, param) {
 			return jq.each(function() {
+				var opts = $.data(this, "datagrid").options;
+				opts.data = Flywet.deepClone(opts.oraData);
 				request(this, param);
 			});
 		},

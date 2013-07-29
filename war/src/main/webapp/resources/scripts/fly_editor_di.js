@@ -1007,8 +1007,18 @@ Flywet.editors.trans.action = {
     checkShowSuccess : function(val){
     	// 显示成功记录
     	if(val){
-    		trans_check_var
+    		console.log(val);
+    		trans_check_var.jq.datagrid("setOptions",{dataFilter:function(index, row) {return true;}})
+    		trans_check_var.jq.datagrid("reload");
     	}else{
+    		trans_check_var.jq.datagrid("setOptions",{
+    			dataFilter:function(index, row) {
+    				if(row.type != '1'){
+    					return true;
+    				}
+    				return false;
+    			}});
+    		trans_check_var.jq.datagrid("reload");
     	}
     	
     },
