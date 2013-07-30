@@ -368,8 +368,6 @@
 			} else {
 				$("div.ui-datagrid-toolbar", panel).remove();
 				var tb = $("<div class=\"ui-datagrid-toolbar\"></div>").prependTo(panel);
-				console.log(opts.toolbar);
-				console.log(tb);
 				Flywet.autocw(opts.toolbar, tb);
 			}
 		} else {
@@ -409,7 +407,6 @@
 		
 		// oraData
 		opts.oraData = Flywet.deepClone(opts.data);
-		console.log(opts.oraData);
 		
 		function initHeader(header, columns, fromFrozenColumns) {
 			if (!columns) {

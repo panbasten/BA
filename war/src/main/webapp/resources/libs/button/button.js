@@ -102,10 +102,8 @@
 		});
 		
 		// other event
-		Flywet.attachBehaviors(btn,Flywet.assembleBehaviors(opts.events,["mouseover","mouseout"]),this.cfg);
-		Flywet.attachBehaviorsOn(btn, opts);
-		
-		// TODO 下拉列表
+		Flywet.attachBehaviors(btn,Flywet.assembleBehaviors(opts.events,["mouseover","mouseout"]),opts);
+		Flywet.attachBehaviorsOn(btn,opts);
 		
 		return btn;
 	}
@@ -160,6 +158,8 @@
 			}
 			var btn = _init(this);
 			$.data(this, "pushbutton", {button:btn} );
+			
+			// TODO 下拉列表
 		});
 	};
 	
