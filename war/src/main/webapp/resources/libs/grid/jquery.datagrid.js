@@ -368,6 +368,8 @@
 			} else {
 				$("div.ui-datagrid-toolbar", panel).remove();
 				var tb = $("<div class=\"ui-datagrid-toolbar\"></div>").prependTo(panel);
+				console.log(opts.toolbar);
+				console.log(tb);
 				Flywet.autocw(opts.toolbar, tb);
 			}
 		} else {

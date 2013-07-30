@@ -15,26 +15,49 @@
 		
 		var opts = $.data(target, "pushbutton").options;
 		
+		var menuItems = opts.menuItems;
+		
+		
+		
 		var iconCls = opts.iconCls,
 			iconAlign = opts.iconAlign,
 			label = opts.label,
 			clazz = "";
 		
-		// 有文字，无图片
-		if(label && iconCls == undefined){
-			clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
-		}
-		// 有文字，有图片
-		else if(label && iconCls){
-			if(iconAlign == "right"){
-				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
-			}else{
-				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
+		if(opts.menuItems){
+			// 有文字，无图片
+			if(label && iconCls == undefined){
+				clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-text-only";
 			}
-		}
-		// 无文字，只有图片
-		else if(label== undefined && iconCls){
-			clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
+			// 有文字，有图片
+			else if(label && iconCls){
+				if(iconAlign == "right"){
+					clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
+				}else{
+					clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
+				}
+			}
+			// 无文字，只有图片
+			else if(label== undefined && iconCls){
+				clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-icon-only";
+			}
+		}else{
+			// 有文字，无图片
+			if(label && iconCls == undefined){
+				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
+			}
+			// 有文字，有图片
+			else if(label && iconCls){
+				if(iconAlign == "right"){
+					clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
+				}else{
+					clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
+				}
+			}
+			// 无文字，只有图片
+			else if(label== undefined && iconCls){
+				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
+			}
 		}
 		
 		if(opts.state == "disabled"){
@@ -61,6 +84,26 @@
 		}else{
 			labelSpan.html("text");
 		}
+		
+		// mouseOver
+		btn.bind("mouseover",opts,function(event){
+			$(this).addClass('ui-state-hover');
+			if(event.data && event.data.events && event.data.events["mouseover"]){
+				Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
+			}
+		});
+		
+		// mouseOut
+		btn.bind("mouseout",opts,function(event){
+			$(this).removeClass('ui-state-hover');
+			if(event.data && event.data.events && event.data.events["mouseout"]){
+				Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
+			}
+		});
+		
+		// other event
+		Flywet.attachBehaviors(btn,Flywet.assembleBehaviors(opts.events,["mouseover","mouseout"]),this.cfg);
+		Flywet.attachBehaviorsOn(btn, opts);
 		
 		// TODO 下拉列表
 		
@@ -106,17 +149,17 @@
 			if(t){
 				$.extend(t.options, options);
 			}else{
-				var btn = _init(this);
 				$.data(this, "pushbutton", {
 					options : $.extend(
 							{},
 							$.fn.pushbutton.defaults,
 							$.fn.pushbutton.parseOptions(this),
 							options
-						),
-					button : btn
+						)
 				});
 			}
+			var btn = _init(this);
+			$.data(this, "pushbutton", {button:btn} );
 		});
 	};
 	
@@ -169,128 +212,19 @@ Flywet.widget.PushButton.prototype.init = function() {
 	if(this.cfg.parent || this.cfg.parentId){
 		this.parent = this.cfg.parent || $(Flywet.escapeClientId(this.cfg.parentId));
 		this.jq = $(this.parent).find(this.jqId);
-		
-		if(this.jq.length > 0) return;
-		
-		if(this.cfg.type == "separator"){
+		if(this.jq.length == 0){
 			this.jq = $("<span></span>");
-			var clazz = this.cfg["class"];
-			if(clazz){
-				clazz = "ui-separator " + clazz;
-			}else{
-				clazz = "ui-separator";
-			}
-			this.jq.addClass(clazz);
-			if(this.cfg.style){
-				this.jq.attr("style",this.cfg.style);
-			}
-			if(this.cfg.id){
-				this.jq.attr("id",this.cfg.id);
-			}
-			this.jq.append("<span class='ui-icon ui-icon-grip-dotted-vertical-narrow'></span>");
-		}else{
-			this.jq = $("<button type='button'></button>");
-			
-			var clazz,icon=this.cfg.icon,iconPos=this.cfg.iconPos,label=this.cfg.label,state=this.cfg.state,userClass = this.cfg["class"];
-			if(label && icon == undefined){
-				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
-			}else if(label && icon){
-				if(iconPos == "right"){
-					clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
-				}else{
-					clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
-				}
-			}else if(label== undefined && icon){
-				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
-			}
-			
-			if(state == "disabled"){
-				clazz = clazz + " ui-state-disabled";
-			}else if(state == "active"){
-				clazz = clazz + " ui-state-active";
-			}
-			
-			if(userClass){
-				clazz = clazz + " " + userClass;
-			}
-			
-			this.jq.addClass(clazz);
-			if(this.cfg.style){
-				this.jq.attr("style",this.cfg.style);
-			}
-			if(this.cfg.id){
-				this.jq.attr("id",this.cfg.id);
-			}
-			
-			if(this.cfg.title){
-				this.jq.attr("title",this.cfg.title);
-			}
-			
-			// icon
-			if(icon){
-				var iconClass;
-				if(iconPos == "right"){
-					iconClass = "ui-button-icon-right ui-icon";
-				}else{
-					iconClass = "ui-button-icon-left ui-icon";
-				}
-				iconClass = iconClass + " " + icon;
-				this.icon = $("<span></span>");
-				this.icon.addClass(iconClass);
-				this.jq.append(this.icon);
-			}
-			
-			// text
-			this.text = $("<span></span>");
-			this.text.addClass("ui-button-text");
-			if(label){
-				this.text.html(label);
-			}else{
-				this.text.html("ui-text");
-			}
-			this.jq.append(this.text);
-			
-			// TODO 下拉列表
-//			this.menu = $("<span></span>");
-//			this.menu.addClass("ui-button-icon-right ui-icon");
-//			this.jq.append(this.menu);
 		}
-		
 		this.parent.append(this.jq);
-		this.initEvents();
 	}else{
 		this.jq = $(this.jqId);
-		return;
 	}
 	
+	this.jq.pushbutton(this.cfg);
 };
 
 Flywet.widget.PushButton.prototype.isActive = function(){
 	return this.jq.hasClass("ui-state-active");
-};
-
-Flywet.widget.PushButton.prototype.initEvents = function(){
-	
-	// mouseOver
-	this.jq.bind("mouseover",this.cfg,function(event){
-		$(this).addClass('ui-state-hover');
-		if(event.data && event.data.events && event.data.events["mouseover"]){
-			Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
-		}
-	});
-	
-	// mouseOut
-	this.jq.bind("mouseout",this.cfg,function(event){
-		$(this).removeClass('ui-state-hover');
-		if(event.data && event.data.events && event.data.events["mouseout"]){
-			Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
-		}
-	});
-	
-	// other event
-	Flywet.attachBehaviors(this.jq,Flywet.assembleBehaviors(this.cfg.events,["mouseover","mouseout"]),this.cfg);
-	Flywet.attachBehaviorsOn(this.jq, this.cfg);
-	
 };
 
 Flywet.PushButton = {
