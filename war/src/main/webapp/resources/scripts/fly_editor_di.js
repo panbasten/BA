@@ -449,91 +449,91 @@ Flywet.editors.trans = {
 				});
 				
 				// 添加一个静态的树
-				var config = {
-					'id' : 'transDSContent',
-//					"checkbox":true,
-					"dnd":true,
-					'data' : [ {
-						'id' : 'id0',
-						'text' : '数据库',
-						'type' : 'node',
-						'iconCls' : 'resources/libs/tree/images/diy/1_close.png',
-						'children' : [ {
-							'id' : 'id1-1',
-							'text' : '连接名称1',
-							'type' : 'node',
-							'iconCls' : '',
-							'state' : "open",
-							'children' : [ {
-								'id' : 'id1-1-1',
-								'text' : '表结构',
-								'type' : 'node',
-								'state':"closed",
-								'iconCls' : '',
-								'children' : [ {
-									'id' : 'id1-1-1',
-									'text' : '表1',
-									'type' : 'leaf',
-									'draggable' : true
-								}, {
-									'id' : 'id1-1-11',
-									'text' : '表2',
-									'type' : 'leaf',
-									'draggable' : true
-								}, {
-									'id' : 'id1-1-12',
-									'text' : '表3',
-									'type' : 'leaf',
-									'draggable' : true
-								} ]
-							}, {
-								id : 'id1-1-2',
-								text : '视图',
-								type : 'node',
-								'children' : [ {
-									id : 'id1-1-21',
-									text : '视图1',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-22',
-									text : '视图2',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-23',
-									text : '视图3',
-									type : 'leaf'
-								} ]
-							}, {
-								id : 'id1-1-3',
-								text : '存储过程',
-								type : 'node',
-								'children' : [ {
-									id : 'id1-1-31',
-									text : '过程1',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-32',
-									text : '过程2',
-									type : 'leaf'
-								}, {
-									id : 'id1-1-33',
-									text : '过程3',
-									type : 'leaf'
-								} ]
-							} ]
-						}, {
-							id : 'id1-21',
-							text : '连接名称2',
-							type : 'node'
-						}, {
-							id : 'id1-22',
-							text : '连接名称3',
-							type : 'node'
-						} ]
-					} ]
-				};
-				var tree = new Flywet.widget.EasyTree(config);
-				
+//				var config = {
+//					'id' : 'transDSContent',
+////					"checkbox":true,
+//					"dnd":true,
+//					'data' : [ {
+//						'id' : 'id0',
+//						'text' : '数据库',
+//						'type' : 'node',
+//						'icon' : 'resources/libs/tree/images/diy/1_close.png',
+//						'children' : [ {
+//							'id' : 'id1-1',
+//							'text' : '连接名称1',
+//							'type' : 'node',
+//							'iconCls' : '',
+//							'state' : "open",
+//							'children' : [ {
+//								'id' : 'id1-1-1',
+//								'text' : '表结构',
+//								'type' : 'node',
+//								'state':"closed",
+//								'iconCls' : '',
+//								'children' : [ {
+//									'id' : 'id1-1-1',
+//									'text' : '表1',
+//									'type' : 'leaf',
+//									'draggable' : true
+//								}, {
+//									'id' : 'id1-1-11',
+//									'text' : '表2',
+//									'type' : 'leaf',
+//									'draggable' : true
+//								}, {
+//									'id' : 'id1-1-12',
+//									'text' : '表3',
+//									'type' : 'leaf',
+//									'draggable' : true
+//								} ]
+//							}, {
+//								id : 'id1-1-2',
+//								text : '视图',
+//								type : 'node',
+//								'children' : [ {
+//									id : 'id1-1-21',
+//									text : '视图1',
+//									type : 'leaf'
+//								}, {
+//									id : 'id1-1-22',
+//									text : '视图2',
+//									type : 'leaf'
+//								}, {
+//									id : 'id1-1-23',
+//									text : '视图3',
+//									type : 'leaf'
+//								} ]
+//							}, {
+//								id : 'id1-1-3',
+//								text : '存储过程',
+//								type : 'node',
+//								'children' : [ {
+//									id : 'id1-1-31',
+//									text : '过程1',
+//									type : 'leaf'
+//								}, {
+//									id : 'id1-1-32',
+//									text : '过程2',
+//									type : 'leaf'
+//								}, {
+//									id : 'id1-1-33',
+//									text : '过程3',
+//									type : 'leaf'
+//								} ]
+//							} ]
+//						}, {
+//							id : 'id1-21',
+//							text : '连接名称2',
+//							type : 'node'
+//						}, {
+//							id : 'id1-22',
+//							text : '连接名称3',
+//							type : 'node'
+//						} ]
+//					} ]
+//				};
+//				var tree = new Flywet.widget.EasyTree(config);
+//				
 				$trans.hide();
 				
 				Flywet.editors.register[Flywet.editors.trans.type] = "Y";

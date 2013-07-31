@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 
 import com.flywet.platform.bi.component.components.ComplexComponentMeta;
 import com.flywet.platform.bi.component.core.ComponentMetaInterface;
@@ -29,8 +30,8 @@ public class TreeNodeMeta extends ComplexComponentMeta implements
 	// 节点是否默认关闭
 	public static final String ATTR_CLOSED = "closed";
 
-	// 是否叶子
-	public static final String ATTR_LEAF = "leaf";
+	public static final String NODE_TYPE_NODE = "node";
+	public static final String NODE_TYPE_LEAF = "leaf";
 
 	/**
 	 * 判断是否是叶子节点
@@ -38,21 +39,11 @@ public class TreeNodeMeta extends ComplexComponentMeta implements
 	 * @return
 	 */
 	public boolean isLeaf() {
-		Boolean leaf = (Boolean) this.getAttribute(ATTR_LEAF);
-		if (leaf == null) {
-			if (this.getContents() != null && this.getContents().size() > 0) {
-				return true;
-			} else {
-				return false;
-			}
+		if (this.getContents() != null && this.getContents().size() > 0) {
+			return false;
 		} else {
-			return leaf;
+			return true;
 		}
-	}
-
-	public TreeNodeMeta setLeaf(boolean val) throws BIJSONException {
-		this.addAttribute(ATTR_LEAF, val);
-		return this;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -123,6 +114,13 @@ public class TreeNodeMeta extends ComplexComponentMeta implements
 	public JSONObject getFormJo() throws BIJSONException {
 		JSONObject formJo = super.getAttrbuteJo();
 		formJo.put(HTML.ATTR_ID, this.getId());
+		if (Const.isEmpty(getType())) {
+			if (isLeaf()) {
+				formJo.put(HTML.ATTR_TYPE, NODE_TYPE_LEAF);
+			} else {
+				formJo.put(HTML.ATTR_TYPE, NODE_TYPE_NODE);
+			}
+		}
 		if (this.getContents() != null && this.getContents().size() > 0) {
 			JSONArray sub = new JSONArray();
 			for (ComponentMetaInterface dataMeta : this.getContents()) {
@@ -143,5 +141,4 @@ public class TreeNodeMeta extends ComplexComponentMeta implements
 		}
 		return formJo;
 	}
-
 }

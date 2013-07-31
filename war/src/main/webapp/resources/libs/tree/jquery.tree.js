@@ -1286,12 +1286,15 @@
 })(jQuery);
 
 Flywet.widget.EasyTree=function(cfg){
+	console.log(cfg);
 	this.cfg=cfg;
 	this.id = cfg.id;
     this.jqId = Flywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
 	this.jq.tree(cfg);
 	this.loadData(cfg.data);
+	
+	console.log(this.jq);
 };
 
 Flywet.extend(Flywet.widget.EasyTree, Flywet.widget.BaseWidget);

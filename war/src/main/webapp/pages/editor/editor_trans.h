@@ -67,9 +67,8 @@
 					<span id="${editorId}DSClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('dsPane');"></span>
 				</div>
 			</div>
-			<div id="${editorId}DSContent" class="ui-widget-content" style="overflow: auto;">
-				
-			</div>
+			<fly:tree id="${editorId}DSContent" class="ui-widget-content"
+				style="overflow: auto;" dnd="true" data="${transObjectTree}" />
 		</div>
 	</div>
 </div>

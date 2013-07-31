@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
+import com.flywet.platform.bi.component.components.tree.FLYTreeMeta;
+import com.flywet.platform.bi.component.components.tree.TreeNodeMeta;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.core.exception.BIException;
@@ -163,6 +165,29 @@ public class BIDIResource extends AbastractDirectoryResource {
 			attrsMap.addVariable("editorId", BIBaseResource.ID_EDITOR_TRANS);
 			attrsMap.addVariable("transStepBar", transStepBar);
 			attrsMap.addVariable("transStepBrowses", transStepBrowses);
+
+			FLYTreeMeta transObjectTree = new FLYTreeMeta();
+			TreeNodeMeta node1 = new TreeNodeMeta();
+			node1.setId("id1");
+			node1.setText("数据库");
+			transObjectTree.addContent(node1);
+
+			TreeNodeMeta node11 = new TreeNodeMeta();
+			node11.setId("id1-1");
+			node11.setText("连接名称1");
+			node1.addContent(node11);
+
+			TreeNodeMeta node2 = new TreeNodeMeta();
+			node2.setId("id2");
+			node2.setText("转换");
+			transObjectTree.addContent(node2);
+
+			TreeNodeMeta node21 = new TreeNodeMeta();
+			node21.setId("id2-1");
+			node21.setText("转换名称1");
+			node2.addContent(node21);
+
+			attrsMap.addVariable("transObjectTree", transObjectTree);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TRANS_TEMPLATE, attrsMap);
