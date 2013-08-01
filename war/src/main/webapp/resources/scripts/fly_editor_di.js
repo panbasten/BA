@@ -267,7 +267,7 @@ Flywet.editors.trans = {
 			canvasEls : {},
 			defaultAttributes: {
 				onInitStep: {
-					onContextMenu: "Flywet.editors.trans.action.stepContent(canvasObj,flowObj,this)",
+					onContextMenu: "Flywet.editors.trans.action.stepContent(coords,canvasObj,flowObj,this)",
 					onDblClick: "Flywet.editors.trans.action.stepDblclick(canvasObj,flowObj,this)",
 					sWidth: 32,
 					sHeight: 32,
@@ -279,7 +279,7 @@ Flywet.editors.trans = {
 				},
 				onInitHop: {
 					onDblClick: "Flywet.editors.trans.action.hopDblclick(canvasObj,flowObj,this)",
-					onContextMenu: "Flywet.editors.trans.action.hopContext(canvasObj,flowObj,this)",
+					onContextMenu: "Flywet.editors.trans.action.hopContext(coords,canvasObj,flowObj,this)",
 					style: "#2e83ff",
 					textStyle: "#ffffff",
 					arrowEndType: "default",
@@ -801,22 +801,118 @@ Flywet.editors.trans.action = {
     	}
     },
 
-    hopContext : function (flowChart,flowObject,model){
-    	console.log(flowChart);
-        console.log(flowObject);
-        console.log(model);
+    hopContext : function (coords,flowChart,flowObject,model){
+        if(window["menu_trans_hop_var"] == undefined){
+			Flywet.cw("Menu","menu_trans_hop_var",{
+				id : "menu_trans_hop",
+				itemWidth : 120,
+				menuItems : [{
+					id : "menu_trans_hop_flip",
+					text : "翻转方向",
+					iconCls : "",
+					onclick : "Flywet.browse.changeDirByContext(event)"
+				},{
+					id : "menu_trans_hop_disabled",
+					text : "使节点连接失效",
+					iconCls : ""
+				},{
+					id : "menu_trans_hop_delete",
+					text : "删除节点连接",
+					iconCls : ""
+				},{
+					type : "separator"
+				},{
+					id : "menu_trans_hop_main",
+					text : "主输出步骤",
+					iconCls : "ui-icon-check"
+				},{
+					id : "menu_trans_hop_error",
+					text : "错误处理步骤",
+					iconCls : ""
+				}]
+			});
+		}
+        menu_trans_hop_var.show(coords.e);
     },
 
     hopDblclick : function (flowChart,flowObject,model){
-    	console.log(flowChart);
-        console.log(flowObject);
-        console.log(model);
+    	
     },
 
-    stepContent : function (flowChart,flowObject,model){
+    stepContent : function (coords,flowChart,flowObject,model){
     	console.log(flowChart.oraData);
         console.log(flowObject);
         console.log(model);
+        if(window["menu_trans_step_var"] == undefined){
+			Flywet.cw("Menu","menu_trans_step_var",{
+				id : "menu_trans_step",
+				itemWidth : 180,
+				menuItems : [{
+					id : "menu_trans_step_flip",
+					text : "<b>编辑步骤...</b>",
+					iconCls : "",
+					onclick : "Flywet.browse.changeDirByContext(event)"
+				},{
+					id : "menu_trans_step_disabled",
+					text : "编辑步骤描述...",
+					iconCls : ""
+				},{
+					type : "separator"
+				},{
+					id : "menu_trans_step_data",
+					text : "数据发送",
+					iconCls : "",
+					subItems : [{
+						id : "menu_trans_step_distribute",
+						text : "轮流发送模式",
+						iconCls : "ui-icon-check"
+					},{
+						id : "menu_trans_step_balanse",
+						text : "负载均衡模式",
+						iconCls : ""
+					},{
+						id : "menu_trans_step_copy",
+						text : "复制发送模式",
+						iconCls : ""
+					}]
+				},{
+					id : "menu_trans_step_copy_num",
+					text : "更改开始复制的数量...",
+					iconCls : ""
+				},{
+					type : "separator"
+				},{
+					id : "menu_trans_step_delete",
+					text : "删除步骤",
+					iconCls : ""
+				},{
+					id : "menu_trans_step_hide",
+					text : "隐藏步骤",
+					iconCls : ""
+				},{
+					id : "menu_trans_step_isolate",
+					text : "分离步骤",
+					iconCls : ""
+				},{
+					type : "separator"
+				},{
+					id : "menu_trans_step_show_input",
+					text : "显示输入字段...",
+					iconCls : ""
+				},{
+					id : "menu_trans_step_show_output",
+					text : "显示输出字段...",
+					iconCls : ""
+				},{
+					type : "separator"
+				},{
+					id : "menu_trans_step_error",
+					text : "定义错误处理...",
+					iconCls : ""
+				}]
+			});
+		}
+        menu_trans_step_var.show(coords.e);
     },
     
     /**

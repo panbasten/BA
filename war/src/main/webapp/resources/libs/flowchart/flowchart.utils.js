@@ -766,6 +766,7 @@ Flywet.widget.FlowChartUtils = {
 			x : 0,
 			y : 0
 		};
+		position.e = e;
 		var oe = e.originalEvent;
 		
 		position.x = oe.x||oe.layerX||0;

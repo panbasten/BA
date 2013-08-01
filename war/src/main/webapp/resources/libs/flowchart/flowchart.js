@@ -341,12 +341,13 @@
     	
     	/**
     	 * 右键事件
+    	 * @param coords 鼠标坐标
     	 * @param canvasObj 该Step元素的父canvas对象
     	 * @param flowObj 该Step元素的父对象
     	 * 
     	 * @interface
     	 */
-    	this.dealContextMenu = function(canvasObj, flowObj) {
+    	this.dealContextMenu = function(coords, canvasObj, flowObj) {
     		// 调用扩展事件
     		if(this.onContextMenu) eval(this.onContextMenu);
     	};
@@ -552,12 +553,13 @@
     	
     	/**
      	 * 右键事件
+     	 * @param coords 鼠标坐标
      	 * @param canvasObj 该Step元素的父canvas对象
     	 * @param flowObj 该Step元素的父对象
     	 *
     	 * @interface
     	 */
-    	this.dealContextMenu = function(canvasObj, flowObj) {
+    	this.dealContextMenu = function(coords, canvasObj, flowObj) {
     		// 调用扩展事件
     		if(this.onContextMenu) eval(this.onContextMenu);
     	};
@@ -1310,12 +1312,13 @@
 		
 		/**
 	 	 * 右键事件
+	 	 * @param coords 鼠标坐标
 	 	 * @param canvasObj 该Step元素的父canvas对象
 		 * @param flowObj 该Step元素的父对象
 		 *
 		 * @interface
 		 */
-		this.dealContextMenu = function(canvasObj, flowObj) {
+		this.dealContextMenu = function(coords, canvasObj, flowObj) {
 			// 调用扩展事件
 			if(this.onContextMenu) eval(this.onContextMenu);
 		};
@@ -2209,12 +2212,12 @@
 			var el = this.getElByCoords(c, "step");
 			if (el != null) {
 				var jbel = el.el;
-				jbel.dealContextMenu(this.canvasObj,this);
+				jbel.dealContextMenu(c, this.canvasObj,this);
 			}else{
 				el = this.getElByCoords(c, "hop");
 				if(el != null){
 					var jbel = el.el;
-					jbel.dealContextMenu(this.canvasObj,this);
+					jbel.dealContextMenu(c, this.canvasObj,this);
 				}
 			}
 		};
