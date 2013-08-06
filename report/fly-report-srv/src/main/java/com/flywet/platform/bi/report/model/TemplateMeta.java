@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.report.meta;
+package com.flywet.platform.bi.report.model;
 
 import java.util.ArrayList;
 import java.util.List;
