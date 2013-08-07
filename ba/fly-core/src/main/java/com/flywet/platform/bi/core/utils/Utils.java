@@ -279,6 +279,13 @@ public class Utils {
 		return pattern.matcher(str).matches();
 	}
 
+	public static boolean isColor(String str) {
+		Pattern pattern = Pattern.compile("^#?[0-9a-fA-F]{6}$"), pattern2 = Pattern
+				.compile("^#?[0-9a-fA-F]{3}$");
+		return pattern.matcher(str).matches()
+				|| pattern2.matcher(str).matches();
+	}
+
 	public static boolean isDate(String str) {
 		return isDate(str, DateUtils.GENERALIZED_DATE_FORMAT);
 	}
