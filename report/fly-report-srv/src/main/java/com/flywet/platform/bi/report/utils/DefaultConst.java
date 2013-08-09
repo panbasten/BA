@@ -1,4 +1,6 @@
-package com.flywet.platform.bi.report.style;
+package com.flywet.platform.bi.report.utils;
+
+import java.awt.GraphicsEnvironment;
 
 import com.flywet.platform.bi.report.enums.AlignEnum;
 import com.flywet.platform.bi.report.enums.FontStyleEnum;
@@ -10,22 +12,21 @@ import com.flywet.platform.bi.report.enums.VerticalEnum;
  * @author PeterPan
  * 
  */
-public class DefaultStyleConst {
+public class DefaultConst {
+	// 用于计算hashCode的素数
+	public static final int HASH_CODE_PRIME = 17;
 
-	// 对齐
-	public static final AlignEnum DEFAULT_ALIGN = AlignEnum.ALIGN_GENERAL;
-	public static final VerticalEnum DEFAULT_VERTICAL = VerticalEnum.VERTICAL_CENTER;
-	public static final float DEFAULT_INDENTATION = 0L;
-	public static final boolean DEFAULT_WRAP = false;
-	public static final boolean DEFAULT_SHRINK = false;
-
-	// 字体
-	public static final FontStyleEnum DEFAULT_FONT_STYLE = FontStyleEnum.FONT_STYLE_GENERAL;
+	// 未定义信息的值，由于白色的RGB值为-1，所有不能将此值定义为-1
+	public static final int UNDEFINED_INT = -2;
+	public static final String UNDEFINED_STR = "undefined";
 
 	// 颜色
+	// 颜色类型
 	public static final int COLOR_TYPE_GENERAL = 1;
 	public static final int COLOR_TYPE_WEB = 2;
 
+	// 命名颜色
+	public static final String COLOR_NULL = "null";
 	public static final String COLOR_BROWN = "brown";
 	public static final String COLOR_OLIVE_GREEN = "oliveGreen";
 	public static final String COLOR_DARK_GREEN = "darkGreen";
@@ -80,5 +81,21 @@ public class DefaultStyleConst {
 	public static final String COLOR_WEB_TEAL = "teal";
 	public static final String COLOR_WEB_WHITE = "white";
 	public static final String COLOR_WEB_YELLOW = "yellow";
+
+	// 边线索引
+	public static final int LINE_UP_INDEX = 0;
+	public static final int LINE_DOWN_INDEX = 1;
+	public static final int LINE_LEFT_INDEX = 2;
+	public static final int LINE_RIGHT_INDEX = 3;
+	public static final int LINE_DIAGONAL_INDEX = 4;
+	public static final int LINE_BACKSLASH_INDEX = 5;
+	public static final int LINE_HORIZONTAL_INDEX = 6;
+	public static final int LINE_VERTICAL_INDEX = 7;
+
+	public static String[] getFontNames() {
+		GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getAvailableFontFamilyNames();
+		return null;
+	}
 
 }

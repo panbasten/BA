@@ -1545,6 +1545,12 @@ public class Const
 			return def;
 		return source;
 	}
+	
+	public  static final <T>T NVL(T source, T def){
+		if (source == null)
+			return def;
+		return source;
+	}
 
 	/**
 	 * Search for a string in an array of strings and return the index.

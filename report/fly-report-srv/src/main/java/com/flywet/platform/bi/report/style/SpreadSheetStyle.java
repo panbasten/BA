@@ -3,13 +3,13 @@ package com.flywet.platform.bi.report.style;
 public class SpreadSheetStyle implements ISpreadSheetStyle {
 
 	// 字体样式
-	private CellFontStyle font;
+	private ICellFontStyle font;
 
 	// 对齐方式
-	private CellAlignStyle align;
+	private ICellAlignStyle align;
 
 	// 线条样式
-	private CellLinesStyle lines;
+	private ICellLinesStyle lines;
 
 	// 数据格式化对象
 	private ICellDataFormat dataFormat;
@@ -22,5 +22,10 @@ public class SpreadSheetStyle implements ISpreadSheetStyle {
 		SpreadSheetStyle s3 = new SpreadSheetStyle();
 
 		return s3;
+	}
+
+	@Override
+	public String getUUID() {
+		return null;
 	}
 }

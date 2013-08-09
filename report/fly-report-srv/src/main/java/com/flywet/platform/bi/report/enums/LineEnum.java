@@ -8,7 +8,7 @@ import org.pentaho.di.i18n.BaseMessages;
  * @author PeterPan
  * 
  */
-public enum BorderEnum implements ISpreadSheetEnum {
+public enum LineEnum implements ISpreadSheetEnum {
 	// 无表格线
 	BORDER_NONE((short) 0),
 	// 细线
@@ -40,9 +40,9 @@ public enum BorderEnum implements ISpreadSheetEnum {
 
 	public static final String ENUM_NAME = "Border";
 
-	private static Class<?> PKG = BorderEnum.class;
+	private static Class<?> PKG = LineEnum.class;
 
-	BorderEnum(short index) {
+	LineEnum(short index) {
 		this.index = index;
 	}
 

@@ -9,9 +9,10 @@ import java.util.regex.Pattern;
 import org.pentaho.di.i18n.BaseMessages;
 
 import com.flywet.platform.bi.report.exceptions.ReportException;
-import com.flywet.platform.bi.report.style.DefaultStyleConst;
+import com.flywet.platform.bi.report.style.ISpreadSheetStyle;
+import com.flywet.platform.bi.report.utils.DefaultConst;
 
-public class Color implements java.io.Serializable {
+public class Color implements java.io.Serializable, ISpreadSheetStyle {
 
 	private static final long serialVersionUID = -7207575989364961615L;
 
@@ -27,6 +28,8 @@ public class Color implements java.io.Serializable {
 	// 命名缓存颜色
 	private static Map<String, Color> NAMED_CACHE = new HashMap<String, Color>();
 	private static INamedColor[] NAMED_COLORS, WEB_NAMED_COLORS;
+
+	public static Color NULL_COLOR = new NULL();
 	private static AtomicBoolean initNamedCache = new AtomicBoolean(false);
 
 	static {
@@ -148,12 +151,19 @@ public class Color implements java.io.Serializable {
 		throw new ReportException("通过颜色字符串实例化颜色对象出现错误：" + color);
 	}
 
+	public boolean isNull() {
+		return value == DefaultConst.UNDEFINED_INT;
+	}
+
 	/**
 	 * 获得RGBA值
 	 * 
 	 * @return
 	 */
 	public int getRGBA() {
+		if (isNull()) {
+			return DefaultConst.UNDEFINED_INT;
+		}
 		return value;
 	}
 
@@ -163,6 +173,9 @@ public class Color implements java.io.Serializable {
 	 * @return
 	 */
 	public int getRGB() {
+		if (isNull()) {
+			return DefaultConst.UNDEFINED_INT;
+		}
 		return 0xFFFFFF & value;
 	}
 
@@ -172,6 +185,9 @@ public class Color implements java.io.Serializable {
 	 * @return
 	 */
 	public int getAlpha() {
+		if (isNull()) {
+			return DefaultConst.UNDEFINED_INT;
+		}
 		return (getRGBA() >> 24) & 0xFF;
 	}
 
@@ -181,6 +197,9 @@ public class Color implements java.io.Serializable {
 	 * @return
 	 */
 	public int getRed() {
+		if (isNull()) {
+			return DefaultConst.UNDEFINED_INT;
+		}
 		return (getRGBA() >> 16) & 0xFF;
 	}
 
@@ -190,6 +209,9 @@ public class Color implements java.io.Serializable {
 	 * @return
 	 */
 	public int getGreen() {
+		if (isNull()) {
+			return DefaultConst.UNDEFINED_INT;
+		}
 		return (getRGBA() >> 8) & 0xFF;
 	}
 
@@ -199,6 +221,9 @@ public class Color implements java.io.Serializable {
 	 * @return
 	 */
 	public int getBlue() {
+		if (isNull()) {
+			return DefaultConst.UNDEFINED_INT;
+		}
 		return (getRGBA() >> 0) & 0xFF;
 	}
 
@@ -209,6 +234,9 @@ public class Color implements java.io.Serializable {
 	 * @throws ReportException
 	 */
 	public Color brighter() throws ReportException {
+		if (isNull()) {
+			return (Color) NULL_COLOR;
+		}
 		int r = getRed(), g = getGreen(), b = getBlue(), a = getAlpha();
 
 		int i = (int) (1.0 / (1.0 - FACTOR));
@@ -227,6 +255,9 @@ public class Color implements java.io.Serializable {
 	}
 
 	public Color darker() throws ReportException {
+		if (isNull()) {
+			return (Color) NULL_COLOR;
+		}
 		return getInstance(Math.max((int) (getRed() * FACTOR), 0), Math.max(
 				(int) (getGreen() * FACTOR), 0), Math.max(
 				(int) (getBlue() * FACTOR), 0), getAlpha());
@@ -253,9 +284,29 @@ public class Color implements java.io.Serializable {
 	}
 
 	@Override
+	public String getUUID() {
+		return String.valueOf(value);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Color
 				&& ((Color) obj).getRGBA() == this.getRGBA();
+	}
+
+	@Override
+	public String toString() {
+		String str = "颜色(";
+		if (isNull()) {
+			str = str + "未定义";
+		} else {
+			str = str + "透明度: " + getAlpha() + ",";
+			str = str + "红: " + getRed() + ",";
+			str = str + "绿: " + getGreen() + ",";
+			str = str + "蓝: " + getBlue();
+		}
+		str = str + ")";
+		return str;
 	}
 
 	/**
@@ -288,22 +339,22 @@ public class Color implements java.io.Serializable {
 
 		if (a < 0 || a > 255) {
 			rangeError = true;
-			badString = badString + "透明度：" + a;
+			badString = badString + "透明度: " + a;
 		}
 
 		if (r < 0 || r > 255) {
 			rangeError = true;
-			badString = badString + "红：" + r;
+			badString = badString + "红: " + r;
 		}
 
 		if (g < 0 || g > 255) {
 			rangeError = true;
-			badString = badString + "绿：" + g;
+			badString = badString + "绿: " + g;
 		}
 
 		if (b < 0 || b > 255) {
 			rangeError = true;
-			badString = badString + "蓝：" + b;
+			badString = badString + "蓝: " + b;
 		}
 
 		if (rangeError) {
@@ -354,6 +405,30 @@ public class Color implements java.io.Serializable {
 		public int getAlpha();
 	}
 
+	public final static class NULL extends Color implements INamedColor {
+		private static final long serialVersionUID = 1L;
+
+		public NULL() {
+			super(DefaultConst.UNDEFINED_INT, true);
+		}
+
+		@Override
+		public int getType() {
+			return DefaultConst.COLOR_TYPE_GENERAL;
+		}
+
+		@Override
+		public String getName() {
+			return DefaultConst.COLOR_NULL;
+		}
+
+		@Override
+		public String getText() {
+			return BaseMessages.getString(PKG, COLOR_LONG_DESC_PREFIX + "."
+					+ getName());
+		}
+	}
+
 	public final static class BROWN extends Color implements INamedColor {
 
 		private static final long serialVersionUID = 1L;
@@ -364,12 +439,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_BROWN;
+			return DefaultConst.COLOR_BROWN;
 		}
 
 		@Override
@@ -389,12 +464,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_OLIVE_GREEN;
+			return DefaultConst.COLOR_OLIVE_GREEN;
 		}
 
 		@Override
@@ -414,12 +489,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_DARK_GREEN;
+			return DefaultConst.COLOR_DARK_GREEN;
 		}
 
 		@Override
@@ -439,12 +514,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_DARK_TEAL;
+			return DefaultConst.COLOR_DARK_TEAL;
 		}
 
 		@Override
@@ -464,12 +539,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_DARK_BLUE;
+			return DefaultConst.COLOR_DARK_BLUE;
 		}
 
 		@Override
@@ -489,12 +564,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_INDIGO;
+			return DefaultConst.COLOR_INDIGO;
 		}
 
 		@Override
@@ -515,12 +590,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_GREY_80_PERCENT;
+			return DefaultConst.COLOR_GREY_80_PERCENT;
 		}
 
 		@Override
@@ -540,12 +615,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_ORANGE;
+			return DefaultConst.COLOR_ORANGE;
 		}
 
 		@Override
@@ -565,12 +640,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_DARK_YELLOW;
+			return DefaultConst.COLOR_DARK_YELLOW;
 		}
 
 		@Override
@@ -590,12 +665,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_BLUE_GREY;
+			return DefaultConst.COLOR_BLUE_GREY;
 		}
 
 		@Override
@@ -616,12 +691,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_GREY_50_PERCENT;
+			return DefaultConst.COLOR_GREY_50_PERCENT;
 		}
 
 		@Override
@@ -641,12 +716,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LIGHT_ORANGE;
+			return DefaultConst.COLOR_LIGHT_ORANGE;
 		}
 
 		@Override
@@ -666,12 +741,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_SEA_GREEN;
+			return DefaultConst.COLOR_SEA_GREEN;
 		}
 
 		@Override
@@ -691,12 +766,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LIGHT_BLUE;
+			return DefaultConst.COLOR_LIGHT_BLUE;
 		}
 
 		@Override
@@ -716,12 +791,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_VIOLET;
+			return DefaultConst.COLOR_VIOLET;
 		}
 
 		@Override
@@ -742,12 +817,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_GREY_40_PERCENT;
+			return DefaultConst.COLOR_GREY_40_PERCENT;
 		}
 
 		@Override
@@ -767,12 +842,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_PINK;
+			return DefaultConst.COLOR_PINK;
 		}
 
 		@Override
@@ -792,12 +867,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_GOLD;
+			return DefaultConst.COLOR_GOLD;
 		}
 
 		@Override
@@ -817,12 +892,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_BRIGHT_GREEN;
+			return DefaultConst.COLOR_BRIGHT_GREEN;
 		}
 
 		@Override
@@ -842,12 +917,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_TURQUOISE;
+			return DefaultConst.COLOR_TURQUOISE;
 		}
 
 		@Override
@@ -867,12 +942,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_DARK_RED;
+			return DefaultConst.COLOR_DARK_RED;
 		}
 
 		@Override
@@ -892,12 +967,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_SKY_BLUE;
+			return DefaultConst.COLOR_SKY_BLUE;
 		}
 
 		@Override
@@ -917,12 +992,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_PLUM;
+			return DefaultConst.COLOR_PLUM;
 		}
 
 		@Override
@@ -943,12 +1018,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_GREY_25_PERCENT;
+			return DefaultConst.COLOR_GREY_25_PERCENT;
 		}
 
 		@Override
@@ -968,12 +1043,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_ROSE;
+			return DefaultConst.COLOR_ROSE;
 		}
 
 		@Override
@@ -993,12 +1068,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LIGHT_YELLOW;
+			return DefaultConst.COLOR_LIGHT_YELLOW;
 		}
 
 		@Override
@@ -1018,12 +1093,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LIGHT_GREEN;
+			return DefaultConst.COLOR_LIGHT_GREEN;
 		}
 
 		@Override
@@ -1044,12 +1119,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LIGHT_TURQUOISE;
+			return DefaultConst.COLOR_LIGHT_TURQUOISE;
 		}
 
 		@Override
@@ -1069,12 +1144,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_PALE_BLUE;
+			return DefaultConst.COLOR_PALE_BLUE;
 		}
 
 		@Override
@@ -1094,12 +1169,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LAVENDER;
+			return DefaultConst.COLOR_LAVENDER;
 		}
 
 		@Override
@@ -1120,12 +1195,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_CORNFLOWER_BLUE;
+			return DefaultConst.COLOR_CORNFLOWER_BLUE;
 		}
 
 		@Override
@@ -1146,12 +1221,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LEMON_CHIFFON;
+			return DefaultConst.COLOR_LEMON_CHIFFON;
 		}
 
 		@Override
@@ -1171,12 +1246,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_ORCHID;
+			return DefaultConst.COLOR_ORCHID;
 		}
 
 		@Override
@@ -1196,12 +1271,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_CORAL;
+			return DefaultConst.COLOR_CORAL;
 		}
 
 		@Override
@@ -1221,12 +1296,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_ROYAL_BLUE;
+			return DefaultConst.COLOR_ROYAL_BLUE;
 		}
 
 		@Override
@@ -1247,12 +1322,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_LIGHT_CORNFLOWER_BLUE;
+			return DefaultConst.COLOR_LIGHT_CORNFLOWER_BLUE;
 		}
 
 		@Override
@@ -1272,12 +1347,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_GENERAL;
+			return DefaultConst.COLOR_TYPE_GENERAL;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_TAN;
+			return DefaultConst.COLOR_TAN;
 		}
 
 		@Override
@@ -1297,12 +1372,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_AQUA;
+			return DefaultConst.COLOR_WEB_AQUA;
 		}
 
 		@Override
@@ -1322,12 +1397,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_BLACK;
+			return DefaultConst.COLOR_WEB_BLACK;
 		}
 
 		@Override
@@ -1347,12 +1422,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_BLUE;
+			return DefaultConst.COLOR_WEB_BLUE;
 		}
 
 		@Override
@@ -1372,12 +1447,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_FUCHSIA;
+			return DefaultConst.COLOR_WEB_FUCHSIA;
 		}
 
 		@Override
@@ -1397,12 +1472,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_GRAY;
+			return DefaultConst.COLOR_WEB_GRAY;
 		}
 
 		@Override
@@ -1422,12 +1497,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_GREEN;
+			return DefaultConst.COLOR_WEB_GREEN;
 		}
 
 		@Override
@@ -1447,12 +1522,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_LIME;
+			return DefaultConst.COLOR_WEB_LIME;
 		}
 
 		@Override
@@ -1472,12 +1547,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_MAROON;
+			return DefaultConst.COLOR_WEB_MAROON;
 		}
 
 		@Override
@@ -1497,12 +1572,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_NAVY;
+			return DefaultConst.COLOR_WEB_NAVY;
 		}
 
 		@Override
@@ -1522,12 +1597,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_OLIVE;
+			return DefaultConst.COLOR_WEB_OLIVE;
 		}
 
 		@Override
@@ -1547,12 +1622,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_PURPLE;
+			return DefaultConst.COLOR_WEB_PURPLE;
 		}
 
 		@Override
@@ -1572,12 +1647,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_RED;
+			return DefaultConst.COLOR_WEB_RED;
 		}
 
 		@Override
@@ -1597,12 +1672,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_SILVER;
+			return DefaultConst.COLOR_WEB_SILVER;
 		}
 
 		@Override
@@ -1622,12 +1697,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_TEAL;
+			return DefaultConst.COLOR_WEB_TEAL;
 		}
 
 		@Override
@@ -1647,12 +1722,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_WHITE;
+			return DefaultConst.COLOR_WEB_WHITE;
 		}
 
 		@Override
@@ -1672,12 +1747,12 @@ public class Color implements java.io.Serializable {
 
 		@Override
 		public int getType() {
-			return DefaultStyleConst.COLOR_TYPE_WEB;
+			return DefaultConst.COLOR_TYPE_WEB;
 		}
 
 		@Override
 		public String getName() {
-			return DefaultStyleConst.COLOR_WEB_YELLOW;
+			return DefaultConst.COLOR_WEB_YELLOW;
 		}
 
 		@Override
