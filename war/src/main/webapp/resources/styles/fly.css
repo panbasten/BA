@@ -40,6 +40,10 @@
 	overflow: hidden;
 }
 
+.fly-flow-log {
+	background: #535353;
+}
+
 .fly-flow-content { width: 400px; float: left; background: #535353; }
 .fly-flow-content div.ui-widget-header { 
 	padding: 3px 5px 1px 5px; 

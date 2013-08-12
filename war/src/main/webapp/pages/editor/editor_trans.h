@@ -23,7 +23,7 @@
 			<fly:pushbutton id="trans_stop" iconCls="ui-icon-editor-stop" onclick="" title="停止" state="disabled" />
 			<fly:pushbutton id="trans_validate" iconCls="ui-icon-editor-validate" onclick="Flywet.editors.trans.action.check();" title="验证" />
 			<fly:pushbutton id="trans_analize" iconCls="ui-icon-editor-analize" onclick="Flywet.editors.trans.action.analyse();" title="分析对数据库影响" />
-			<fly:pushbutton id="trans_show" iconCls="ui-icon-editor-show" onclick="" title="显示结果" />
+			<fly:pushbutton id="trans_show" iconCls="ui-icon-editor-show" onclick="Flywet.editors.trans.action.showLog();" title="显示结果" />
 			<fly:pushbutton type="separator" />
 			<fly:pushbutton id="trans_edit" iconCls="ui-icon-editor-edit" onclick="Flywet.editors.trans.action.changeOuterControlType('inner:dealCreateHop','edit');" title="画线" />
 			<fly:pushbutton id="trans_magnify" iconCls="ui-icon-editor-zoom-in" onclick="Flywet.editors.trans.action.changeOuterControlType('magnify');" title="放大" />
@@ -70,5 +70,22 @@
 			<fly:tree id="${editorId}DSContent" class="ui-widget-content"
 				style="overflow: auto;" dnd="true" data="${transObjectTree}" />
 		</div>
+	</div>
+	<div id="${editorId}LogBar" class="">
+		<fly:tabView>
+			<fly:tab id="${editorId}LogBar_a" title="基本">
+				<fly:dataGrid id="${editorId}LogBarGrid" singleSelect="true" height="250" data="">
+					<fly:columns>
+						<fly:row>
+							<fly:column field="key" title="参数名" width="150" align="center" />
+							<fly:column field="value" title="值" width="150" editor="text" align="center" />
+						</fly:row>
+					</fly:columns>
+				</fly:dataGrid>
+			</fly:tab>
+			<fly:tab id="${editorId}LogBar_b" title="高级">
+				aaaa
+			</fly:tab>
+		</fly:tabView>
 	</div>
 </div>

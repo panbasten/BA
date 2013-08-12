@@ -405,6 +405,13 @@ Flywet.editors.trans = {
 						paneSelector : "#transContent"
 						, 	minSize : 200
 					}
+					, south : {
+						paneSelector : "#transLogBar"
+						,	initClosed :	true
+						,	resizable:		false
+						,	size : 250
+						,	spacing_closed:	0
+					}
 				});
 				
 				
@@ -1135,5 +1142,9 @@ Flywet.editors.trans.action = {
 			closable : true,
 			maximizable : true
 		});
+    },
+    
+    showLog : function(){
+    	$transLayout.toggle('south',true);
     }
 };
