@@ -15,12 +15,12 @@ public class CellLinesStyle implements ICellLinesStyle {
 	// 缓存
 	private static Map<String, ICellLinesStyle> CACHE = new WeakHashMap<String, ICellLinesStyle>();
 
-	private CellLinesStyle() {
-
-	}
+	private String _uuid;
 
 	private CellLinesStyle(Line[] lines) {
 		this.lines = lines;
+
+		this._uuid = createUUID(lines);
 	}
 
 	private static String createUUID(Line[] lines) {
@@ -33,7 +33,11 @@ public class CellLinesStyle implements ICellLinesStyle {
 
 	@Override
 	public String getUUID() {
-		return createUUID(lines);
+		return _uuid;
+	}
+
+	public static ICellLinesStyle getDefaultInstance() {
+		return getInstance(null);
 	}
 
 	public static ICellLinesStyle getInstance(Line[] lines) {

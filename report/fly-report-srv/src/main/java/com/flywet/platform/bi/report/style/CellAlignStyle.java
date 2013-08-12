@@ -30,9 +30,7 @@ public class CellAlignStyle implements ICellAlignStyle {
 	// 缓存
 	private static Map<String, ICellAlignStyle> CACHE = new WeakHashMap<String, ICellAlignStyle>();
 
-	private CellAlignStyle() {
-
-	}
+	private String _uuid;
 
 	private CellAlignStyle(AlignEnum align, VerticalEnum vertical,
 			float indentation, boolean wrap, boolean shrink) {
@@ -41,6 +39,12 @@ public class CellAlignStyle implements ICellAlignStyle {
 		this.indentation = indentation;
 		this.wrap = wrap;
 		this.shrink = shrink;
+
+		this._uuid = createUUID(align, vertical, indentation, wrap, shrink);
+	}
+
+	public static ICellAlignStyle getDefaultInstance() {
+		return getInstance(null, null, DefaultConst.UNDEFINED_INT, null, null);
 	}
 
 	public static ICellAlignStyle getInstance(AlignEnum align,
@@ -76,16 +80,7 @@ public class CellAlignStyle implements ICellAlignStyle {
 
 	@Override
 	public String getUUID() {
-		return createUUID(align, vertical, indentation, wrap, shrink);
-	}
-
-	public static ICellAlignStyle getDefaultInstance() {
-		return getInstance(null, null, DefaultConst.UNDEFINED_INT, null, null);
-	}
-
-	public static ICellAlignStyle getInstance() {
-		ICellAlignStyle cas = new CellAlignStyle();
-		return cas;
+		return _uuid;
 	}
 
 	@Override

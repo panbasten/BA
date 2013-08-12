@@ -2,10 +2,6 @@ package com.flywet.platform.bi.report.utils;
 
 import java.awt.GraphicsEnvironment;
 
-import com.flywet.platform.bi.report.enums.AlignEnum;
-import com.flywet.platform.bi.report.enums.FontStyleEnum;
-import com.flywet.platform.bi.report.enums.VerticalEnum;
-
 /**
  * 系统默认的样式常量
  * 

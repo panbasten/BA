@@ -28,10 +28,13 @@ public class Line implements java.io.Serializable, ISpreadSheetStyle {
 
 	private Color lineColor;
 
+	private String _uuid;
+
 	private Line(LineEnum lineType, Color lineColor) {
 		this.lineType = lineType;
 		this.lineColor = lineColor;
 
+		this._uuid = createUUID(lineType, lineColor);
 	}
 
 	public static Line getInstance(LineEnum lineType, Color lineColor) {
@@ -59,7 +62,7 @@ public class Line implements java.io.Serializable, ISpreadSheetStyle {
 
 	@Override
 	public String getUUID() {
-		return createUUID(lineType, lineColor);
+		return _uuid;
 	}
 
 	@Override

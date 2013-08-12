@@ -3,7 +3,7 @@ package com.flywet.platform.bi.report.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.flywet.platform.bi.report.style.SpreadSheetStyle;
+import com.flywet.platform.bi.report.style.ICellStyle;
 
 public class SpreadSheetMeta {
 
@@ -21,17 +21,15 @@ public class SpreadSheetMeta {
 
 	// 当前表格总列数
 	public static final String GLOBLE_PROP_COL_SIZW = "g_colSize";
-	
+
 	// 当前表格总列数
 	public static final String GLOBLE_PROP_PAGE_WIDTH = "g_pageWidth";
-	
+
 	// 当前表格总列数
 	public static final String GLOBLE_PROP_PAGE_HEIGHT = "g_pageHeight";
-	
-	
 
 	// 全局属性
 	private Map<String, Object> globleProperties = new HashMap<String, Object>();
 
-	private SpreadSheetStyle globleRowStyle, globleColStyle;
+	private ICellStyle globleCellStyle;
 }

@@ -32,9 +32,7 @@ public class CellFontStyle implements ICellFontStyle, java.io.Serializable {
 	// 缓存
 	private static Map<String, ICellFontStyle> CACHE = new WeakHashMap<String, ICellFontStyle>();
 
-	private CellFontStyle() {
-
-	}
+	private String _uuid;
 
 	private CellFontStyle(String fontName, FontStyleEnum fontStyle,
 			int fontSize, Color fontColor, Boolean strikethrough) {
@@ -43,6 +41,9 @@ public class CellFontStyle implements ICellFontStyle, java.io.Serializable {
 		this.fontSize = fontSize;
 		this.fontColor = fontColor;
 		this.strikethrough = strikethrough;
+
+		this._uuid = createUUID(fontName, fontStyle, fontSize, fontColor,
+				strikethrough);
 	}
 
 	public static ICellFontStyle getInstance(String fontName,
@@ -93,8 +94,7 @@ public class CellFontStyle implements ICellFontStyle, java.io.Serializable {
 
 	@Override
 	public String getUUID() {
-		return createUUID(fontName, fontStyle, fontSize, fontColor,
-				strikethrough);
+		return _uuid;
 	}
 
 	@Override
