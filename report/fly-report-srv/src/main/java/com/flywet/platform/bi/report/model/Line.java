@@ -24,11 +24,11 @@ public class Line implements java.io.Serializable, ISpreadSheetStyle {
 	// 缓存线条
 	private static Map<String, Line> CACHE = new WeakHashMap<String, Line>();
 
-	private LineEnum lineType;
+	private final LineEnum lineType;
 
-	private Color lineColor;
+	private final Color lineColor;
 
-	private String _uuid;
+	private final String _uuid;
 
 	private Line(LineEnum lineType, Color lineColor) {
 		this.lineType = lineType;
@@ -79,16 +79,8 @@ public class Line implements java.io.Serializable, ISpreadSheetStyle {
 		return lineType;
 	}
 
-	public void setLineType(LineEnum lineType) {
-		this.lineType = lineType;
-	}
-
 	public Color getLineColor() {
 		return lineColor;
-	}
-
-	public void setLineColor(Color lineColor) {
-		this.lineColor = lineColor;
 	}
 
 }

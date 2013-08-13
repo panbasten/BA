@@ -17,7 +17,7 @@ public class Color implements java.io.Serializable, ISpreadSheetStyle {
 	private static final long serialVersionUID = -7207575989364961615L;
 
 	// 颜色值
-	private int value;
+	private final int value;
 
 	private static Class<?> PKG = Color.class;
 

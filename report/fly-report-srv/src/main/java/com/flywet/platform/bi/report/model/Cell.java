@@ -18,9 +18,6 @@ public class Cell implements java.io.Serializable, Cloneable {
 	// 单元格样式
 	private ICellStyle cellStyle;
 
-	// 单元格定位，从0开始
-	private int row, col;
-
 	// 合并单元格信息
 	private int rowspan = 1, colspan = 1;
 
@@ -85,30 +82,6 @@ public class Cell implements java.io.Serializable, Cloneable {
 		return this;
 	}
 
-	public Cell position(int row, int col) {
-		this.row = row;
-		this.col = col;
-		return this;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public Cell setRow(int row) {
-		this.row = row;
-		return this;
-	}
-
-	public int getCol() {
-		return col;
-	}
-
-	public Cell setCol(int col) {
-		this.col = col;
-		return this;
-	}
-
 	public int getRowspan() {
 		return rowspan;
 	}
@@ -141,8 +114,6 @@ public class Cell implements java.io.Serializable, Cloneable {
 	 */
 	public void reset() {
 		this.cellStyle = null;
-		this.row = 0;
-		this.col = 0;
 		this.rowspan = 1;
 		this.colspan = 1;
 		this.val = null;

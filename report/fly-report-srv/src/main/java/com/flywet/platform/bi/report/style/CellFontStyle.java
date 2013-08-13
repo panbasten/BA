@@ -15,24 +15,24 @@ public class CellFontStyle implements ICellFontStyle, java.io.Serializable {
 	private static final long serialVersionUID = -1283476963173928723L;
 
 	// 字体名称
-	private String fontName;
+	private final String fontName;
 
 	// 字体样式
-	private FontStyleEnum fontStyle;
+	private final FontStyleEnum fontStyle;
 
 	// 字体大小
-	private int fontSize;
+	private final int fontSize;
 
 	// 字体颜色
-	private Color fontColor;
+	private final Color fontColor;
 
 	// 删除线
-	private Boolean strikethrough;
+	private final Boolean strikethrough;
 
 	// 缓存
 	private static Map<String, ICellFontStyle> CACHE = new WeakHashMap<String, ICellFontStyle>();
 
-	private String _uuid;
+	private final String _uuid;
 
 	private CellFontStyle(String fontName, FontStyleEnum fontStyle,
 			int fontSize, Color fontColor, Boolean strikethrough) {
