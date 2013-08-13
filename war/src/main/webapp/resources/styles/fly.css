@@ -56,6 +56,23 @@
 	text-shadow: 0 0 0;
 }
 
+.fly-flow-log-bar {
+	background-color: #696969;
+}
+
+.fly-flow-log-bar * {
+	color:#fff;
+}
+
+.fly-flow-log-bar .ui-tab-container ul.ui-tabs li.ui-tab-state-active {
+	background-color: #696969;
+}
+
+.fly-flow-log-bar .ui-tab-container ul.ui-tabs li a:hover,
+.fly-flow-log-bar .ui-tab-container .ui-tab-panel-container {
+	background: none repeat scroll 0 0 transparent;
+}
+
 .fly-flow-prop-bar { width: 200px; overflow: hidden; float: left; background: #535353;}
 .fly-flow-prop-bar * { color:#fff; }
 .fly-flow-prop-bar div.ui-widget-panel {overflow: hidden;}

@@ -30,7 +30,7 @@ import com.flywet.platform.bi.web.utils.BIWebUtils;
 public class BIUserResource {
 	private Logger logger = Logger.getLogger(BIUserResource.class);
 
-	private static final String TEMPLATE_USER_CREATE = "editor/user/create.h";
+	private static final String TEMPLATE_USER_CREATE = "editor/sys/privilege/createuser.h";
 	private static final String TEMPLATE_USER_LIST = "editor/user/list.h";
 
 	@Resource(name = "bi.service.userService")
@@ -44,41 +44,38 @@ public class BIUserResource {
 		Object[] domString = PageTemplateInterpolator.interpolate(
 				TEMPLATE_USER_CREATE, new FLYVariableResolver());
 
-		AjaxResultEntity emptyEntity = new AjaxResultEntity();
-		emptyEntity.setOperation(Utils.RESULT_OPERATION_EMPTY);
-		emptyEntity.setTargetId(targetId);
-
-		AjaxResultEntity content = AjaxResultEntity.instance().setOperation(
-				Utils.RESULT_OPERATION_APPEND).setTargetId(targetId)
-				.setDomAndScript(domString);
-
-		String res = AjaxResult.instance().addEntity(emptyEntity).addEntity(
-				content).toJSONString();
-		return res;
+		return AjaxResult.instanceDialogContent(targetId, domString)
+				.toJSONString();
 	}
 
 	@POST
-	@Path("/setting")
+	@Path("/setting/save")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String save(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
-		try {
+//		try {
 			ParameterContext parameterContext = BIWebUtils
 					.fillParameterContext(body);
 
-			User user = new User();
-			user.setLogin(parameterContext.getParameter("login"));
-			user.setName(parameterContext.getParameter("name"));
-			user.setPassword(parameterContext.getParameter("password"));
-			user.setDesc(parameterContext.getParameter("desc"));
-			user.setEnabled(parameterContext.getParameter("enabled"));
-
-			userDelegate.saveUser(user);
+//			User user = new User();
+//			user.setLogin(parameterContext.getParameter("login"));
+//			user.setName(parameterContext.getParameter("name"));
+//			user.setPassword(parameterContext.getParameter("password"));
+//			user.setDesc(parameterContext.getParameter("desc"));
+//			user.setEnabled(parameterContext.getParameter("enabled"));
+//
+//			userDelegate.saveUser(user);
+			
+			
+			String title = parameterContext.getParameter("title");
+			String url = parameterContext.getParameter("url");
+			String width = parameterContext.getParameter("width");
+			String height = parameterContext.getParameter("height");
 			am.addMessage("保存用户信息成功");
-		} catch (BIException e) {
-			logger.error("保存用户信息失败", e);
-			am.addMessage("保存用户信息失败");
-		}
+//		} catch (BIException e) {
+//			logger.error("保存用户信息失败", e);
+//			am.addMessage("保存用户信息失败");
+//		}
 
 		return am.toJSONString();
 	}

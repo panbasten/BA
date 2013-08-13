@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.web.functions.DIFunctions;
 import com.flywet.platform.bi.web.service.BIPageDelegates;
 
 @Service("bi.resource.domainResource")

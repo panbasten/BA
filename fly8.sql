@@ -443,7 +443,7 @@ CREATE TABLE `r_func_type_attribute` (
 
 LOCK TABLES `r_func_type_attribute` WRITE;
 /*!40000 ALTER TABLE `r_func_type_attribute` DISABLE KEYS */;
-INSERT INTO `r_func_type_attribute` VALUES (0,1003,'url','rest/systools/about'),(1,1003,'title','关于'),(2,1003,'width','420'),(3,1003,'height','480');
+INSERT INTO `r_func_type_attribute` VALUES (0,1003,'url','rest/systools/about'),(1,1003,'title','关于'),(2,1003,'width','420'),(3,1003,'height','480'),(4,501,'title','创建用户'),(5,501,'width','400'),(6,501,'height','300'),(7,501,'url','rest/systools/about');
 /*!40000 ALTER TABLE `r_func_type_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -973,6 +973,7 @@ CREATE TABLE `r_role` (
   `id_role` bigint(20) NOT NULL,
   `role_name` varchar(64) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `is_sys` char(1) DEFAULT NULL,
   PRIMARY KEY (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -983,6 +984,7 @@ CREATE TABLE `r_role` (
 
 LOCK TABLES `r_role` WRITE;
 /*!40000 ALTER TABLE `r_role` DISABLE KEYS */;
+INSERT INTO `r_role` VALUES (0,'admin','管理员','Y'),(1,'guest','游客','Y'),(10,'di_editor','DI编辑员','Y'),(11,'di_operator','DI操作员','Y');
 /*!40000 ALTER TABLE `r_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1491,4 +1493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-02  6:23:16
+-- Dump completed on 2013-08-14  6:17:31

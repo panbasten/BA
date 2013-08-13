@@ -71,19 +71,100 @@
 				style="overflow: auto;" dnd="true" data="${transObjectTree}" />
 		</div>
 	</div>
-	<div id="${editorId}LogBar" class="">
+	<div id="${editorId}LogBar" class="fly-flow-log-bar ui-corner-top">
 		<fly:tabView>
-			<fly:tab id="${editorId}LogBar_a" title="基本">
-				<fly:dataGrid id="${editorId}LogBarGrid" singleSelect="true" height="250" data="">
+			<fly:tab id="${editorId}LogBar_transLog" title="转换日志表">
+				<fly:dataGrid id="${editorId}LogBarTransLog" singleSelect="true" height="205" data="">
 					<fly:columns>
 						<fly:row>
-							<fly:column field="key" title="参数名" width="150" align="center" />
-							<fly:column field="value" title="值" width="150" editor="text" align="center" />
+							<fly:column field="key" title="批次ID" width="70" align="center" />
+							<fly:column field="value" title="状态" width="50" align="center" />
+							<fly:column field="value" title="读" width="50" align="center" />
+							<fly:column field="value" title="写" width="50" align="center" />
+							<fly:column field="value" title="更新" width="50" align="center" />
+							<fly:column field="value" title="输入" width="50" align="center" />
+							<fly:column field="value" title="输出" width="50" align="center" />
+							<fly:column field="value" title="舍弃" width="50" align="center" />
+							<fly:column field="value" title="错误" width="50" align="center" />
+							<fly:column field="value" title="启动日期" width="70" align="center" />
+							<fly:column field="value" title="结束日期" width="70" align="center" />
+							<fly:column field="value" title="日志日期" width="70" align="center" />
+							<fly:column field="value" title="依赖日期" width="70" align="center" />
+							<fly:column field="value" title="启动日期" width="70" align="center" />
+							<fly:column field="value" title="执行服务器" width="70" align="center" />
+							<fly:column field="value" title="执行用户" width="70" align="center" />
 						</fly:row>
 					</fly:columns>
 				</fly:dataGrid>
 			</fly:tab>
-			<fly:tab id="${editorId}LogBar_b" title="高级">
+			<fly:tab id="${editorId}LogBar_stepLog" title="步骤日志表">
+				<fly:dataGrid id="${editorId}LogBarStepLog" singleSelect="true" height="205" data="">
+					<fly:columns>
+						<fly:row>
+							<fly:column field="key" title="批次ID" width="70" align="center" />
+							<fly:column field="value" title="编号" width="50" align="center" />
+							<fly:column field="value" title="日志日期" width="70" align="center" />
+							<fly:column field="value" title="转换名称" width="70" align="center" />
+							<fly:column field="value" title="步骤名称" width="70" align="center" />
+							<fly:column field="value" title="复制" width="50" align="center" />
+							<fly:column field="value" title="读" width="50" align="center" />
+							<fly:column field="value" title="写" width="50" align="center" />
+							<fly:column field="value" title="更新" width="50" align="center" />
+							<fly:column field="value" title="输入" width="50" align="center" />
+							<fly:column field="value" title="输出" width="50" align="center" />
+							<fly:column field="value" title="舍弃" width="50" align="center" />
+							<fly:column field="value" title="错误" width="50" align="center" />
+							<fly:column field="value" title="输入缓冲区" width="70" align="center" />
+							<fly:column field="value" title="输出缓冲区" width="70" align="center" />
+						</fly:row>
+					</fly:columns>
+				</fly:dataGrid>
+			</fly:tab>
+			<fly:tab id="${editorId}LogBar_logTable" title="日志通道表">
+				<fly:dataGrid id="${editorId}LogBarLogTable" singleSelect="true" height="205" data="">
+					<fly:columns>
+						<fly:row>
+							<fly:column field="key" title="批次ID" width="70" align="center" />
+							<fly:column field="value" title="通道ID" width="50" align="center" />
+							<fly:column field="value" title="日志日期" width="70" align="center" />
+							<fly:column field="value" title="类型" width="50" align="center" />
+							<fly:column field="value" title="名称" width="50" align="center" />
+							<fly:column field="value" title="复制" width="50" align="center" />
+							<fly:column field="value" title="目录" width="50" align="center" />
+							<fly:column field="value" title="文件名" width="50" align="center" />
+							<fly:column field="value" title="ID" width="50" align="center" />
+							<fly:column field="value" title="修订" width="50" align="center" />
+							<fly:column field="value" title="父通道ID" width="70" align="center" />
+							<fly:column field="value" title="根通道ID" width="70" align="center" />
+						</fly:row>
+					</fly:columns>
+				</fly:dataGrid>
+			</fly:tab>
+			<fly:tab id="${editorId}LogBar_log" title="日志">
+				aaaa
+			</fly:tab>
+			<fly:tab id="${editorId}LogBar_step" title="步骤度量">
+				<fly:dataGrid id="${editorId}LogBarStep" singleSelect="true" height="205" data="">
+					<fly:columns>
+						<fly:row>
+							<fly:column field="key" title="步骤名称" width="150" align="center" />
+							<fly:column field="value" title="复制的记录行数" width="150" align="center" />
+							<fly:column field="value" title="读" width="50" align="center" />
+							<fly:column field="value" title="写" width="50" align="center" />
+							<fly:column field="value" title="输入" width="50" align="center" />
+							<fly:column field="value" title="输出" width="50" align="center" />
+							<fly:column field="value" title="更新" width="50" align="center" />
+							<fly:column field="value" title="舍弃" width="50" align="center" />
+							<fly:column field="value" title="错误" width="50" align="center" />
+							<fly:column field="value" title="激活" width="50" align="center" />
+							<fly:column field="value" title="时间" width="50" align="center" />
+							<fly:column field="value" title="速度(记录行/秒)" width="150" align="center" />
+							<fly:column field="value" title="Pri/in/out" width="100" align="center" />
+						</fly:row>
+					</fly:columns>
+				</fly:dataGrid>
+			</fly:tab>
+			<fly:tab id="${editorId}LogBar_graph" title="性能图">
 				aaaa
 			</fly:tab>
 		</fly:tabView>
