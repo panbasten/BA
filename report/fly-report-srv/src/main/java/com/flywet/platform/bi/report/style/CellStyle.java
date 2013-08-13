@@ -9,18 +9,18 @@ public class CellStyle implements ICellStyle {
 	private static Map<String, ICellStyle> CACHE = new WeakHashMap<String, ICellStyle>();
 
 	// 字体样式
-	private ICellFontStyle font;
+	private final ICellFontStyle font;
 
 	// 对齐方式
-	private ICellAlignStyle align;
+	private final ICellAlignStyle align;
 
 	// 线条样式
-	private ICellLinesStyle lines;
+	private final ICellLinesStyle lines;
 
 	// 数据格式化对象
 	// private ICellStyle dataFormat;
 
-	private String _uuid;
+	private final String _uuid;
 
 	private CellStyle(ICellFontStyle font, ICellAlignStyle align,
 			ICellLinesStyle lines) {

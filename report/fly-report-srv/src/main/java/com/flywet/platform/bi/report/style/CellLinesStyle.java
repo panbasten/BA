@@ -10,16 +10,15 @@ import com.flywet.platform.bi.report.utils.DefaultSetting;
 public class CellLinesStyle implements ICellLinesStyle {
 
 	// 顺序按照：上、下、左、右、对角线、反斜线、水平、垂直
-	private Line[] lines = new Line[8];
+	private final Line[] lines;
 
 	// 缓存
 	private static Map<String, ICellLinesStyle> CACHE = new WeakHashMap<String, ICellLinesStyle>();
 
-	private String _uuid;
+	private final String _uuid;
 
 	private CellLinesStyle(Line[] lines) {
 		this.lines = lines;
-
 		this._uuid = createUUID(lines);
 	}
 

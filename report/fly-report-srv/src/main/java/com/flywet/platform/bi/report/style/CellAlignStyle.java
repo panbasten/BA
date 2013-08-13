@@ -13,24 +13,24 @@ import com.flywet.platform.bi.report.utils.DefaultSetting;
 public class CellAlignStyle implements ICellAlignStyle {
 
 	// 水平对齐
-	private AlignEnum align;
+	private final AlignEnum align;
 
 	// 垂直对齐
-	private VerticalEnum vertical;
+	private final VerticalEnum vertical;
 
 	// 缩进
-	private float indentation;
+	private final float indentation;
 
 	// 自动换行
-	private boolean wrap;
+	private final boolean wrap;
 
 	// 缩小字体填充
-	private boolean shrink;
+	private final boolean shrink;
 
 	// 缓存
 	private static Map<String, ICellAlignStyle> CACHE = new WeakHashMap<String, ICellAlignStyle>();
 
-	private String _uuid;
+	private final String _uuid;
 
 	private CellAlignStyle(AlignEnum align, VerticalEnum vertical,
 			float indentation, boolean wrap, boolean shrink) {
