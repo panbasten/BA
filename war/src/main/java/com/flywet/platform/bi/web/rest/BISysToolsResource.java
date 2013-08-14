@@ -24,6 +24,7 @@ import com.flywet.platform.bi.delegates.vo.FunctionType;
 import com.flywet.platform.bi.web.entity.AjaxResult;
 import com.flywet.platform.bi.web.entity.AjaxResultEntity;
 import com.flywet.platform.bi.web.service.BIPageDelegates;
+import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.sysToolsResource")
 @Path("/systools")
@@ -70,7 +71,8 @@ public class BISysToolsResource {
 									.append("<div id=\"func_"
 											+ child.getId()
 											+ "\" class=\"func-item-con\" ext=\""
-											+ child.getExtAttrString()
+											+ BIWebUtils.encode(child
+													.getExtAttrString())
 											+ "\" title=\""
 											+ child.getDesc()
 											+ "\" onclick=\"Flywet.sysTools.openTool(this)\" onmouseover=\"$(this).addClass('ui-state-hover')\" onmouseout=\"$(this).removeClass('ui-state-hover')\">");

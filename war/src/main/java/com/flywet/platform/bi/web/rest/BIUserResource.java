@@ -37,7 +37,7 @@ public class BIUserResource {
 	private BIUserDelegate userDelegate;
 
 	@GET
-	@Path("/setting")
+	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openCreate(@QueryParam("targetId") String targetId)
 			throws Exception {
@@ -49,33 +49,28 @@ public class BIUserResource {
 	}
 
 	@POST
-	@Path("/setting/save")
+	@Path("/create/save")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String save(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
-//		try {
+		try {
 			ParameterContext parameterContext = BIWebUtils
 					.fillParameterContext(body);
 
-//			User user = new User();
-//			user.setLogin(parameterContext.getParameter("login"));
-//			user.setName(parameterContext.getParameter("name"));
-//			user.setPassword(parameterContext.getParameter("password"));
-//			user.setDesc(parameterContext.getParameter("desc"));
-//			user.setEnabled(parameterContext.getParameter("enabled"));
-//
-//			userDelegate.saveUser(user);
-			
-			
-			String title = parameterContext.getParameter("title");
-			String url = parameterContext.getParameter("url");
-			String width = parameterContext.getParameter("width");
-			String height = parameterContext.getParameter("height");
+			User user = new User();
+			user.setLogin(parameterContext.getParameter("login"));
+			user.setName(parameterContext.getParameter("name"));
+			user.setPassword(parameterContext.getParameter("password"));
+			user.setDesc(parameterContext.getParameter("desc"));
+			user.setEnabled(parameterContext.getParameter("enabled"));
+
+			userDelegate.saveUser(user);
+
 			am.addMessage("保存用户信息成功");
-//		} catch (BIException e) {
-//			logger.error("保存用户信息失败", e);
-//			am.addMessage("保存用户信息失败");
-//		}
+		} catch (BIException e) {
+			logger.error("保存用户信息失败", e);
+			am.addMessage("保存用户信息失败");
+		}
 
 		return am.toJSONString();
 	}

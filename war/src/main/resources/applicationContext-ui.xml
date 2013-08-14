@@ -18,6 +18,10 @@
 		<property name="instances">
 			<set>
 				<ref bean="bi.resource.baseResource" />
+				
+				<ref bean="bi.resource.identification" />
+				<ref bean="bi.resource.userResource" />
+				
 				<ref bean="bi.resource.filesysResource" />
 				<ref bean="bi.resource.sysToolsResource" />
 				<ref bean="bi.resource.diResource" />
@@ -29,7 +33,6 @@
 				<ref bean="bi.resource.reportResource" />
 				<ref bean="bi.resource.reportDashboardResource" />
 				
-				<ref bean="bi.resource.identification" />
 				<ref bean="bi.resource.fileOperation" />
 				<!-- ref bean="bi.resource.hostResource" />
 				<ref bean="bi.resource.localResource" /-->

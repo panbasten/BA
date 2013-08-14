@@ -1,4 +1,4 @@
-<form method="post" id="create_user_form">
+<form method="post" id="sys_tools_item_form">
 
 	<fly:gridLayout column="2" itemWidth="30%,70%" itemMargin="10">
 		<fly:gridLayoutItem>

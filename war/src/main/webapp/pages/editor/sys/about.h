@@ -1,7 +1,7 @@
 <fly:composition>
 	<fly:verticalLayout>
 		
-		<div style="width:100%;height:100px;margin:5px;" class="fly-systools-about-title"></div>
+		<div style="width:400px;height:100px;margin:10px;" class="fly-systools-about-title"></div>
 		<div style="width:100%;height:30px;"><div style="float:right;margin:0 30px;"><font class="fly-systools-about-bold">${licVersion}</font><font>${validDays}</font></div></div>
 		<div style="width:100%;height:30px;"><div style="float:left;margin:0 30px;">${version}</div></div>
 		<div style="width:100%;height:30px;"><div style="float:left;margin:0 30px;">${licTerms}</div></div>

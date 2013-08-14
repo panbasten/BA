@@ -3,6 +3,7 @@ package com.flywet.platform.bi.web.utils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,16 @@ public class BIWebUtils {
 	public static String decode(String paramsString, String charset)
 			throws UnsupportedEncodingException {
 		return URLDecoder.decode(paramsString, charset);
+	}
+
+	public static String encode(String paramsString)
+			throws UnsupportedEncodingException {
+		return URLEncoder.encode(paramsString, Const.XML_ENCODING);
+	}
+
+	public static String encode(String paramsString, String charset)
+			throws UnsupportedEncodingException {
+		return URLEncoder.encode(paramsString, charset);
 	}
 
 	/**
