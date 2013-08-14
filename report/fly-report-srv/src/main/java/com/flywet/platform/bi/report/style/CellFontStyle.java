@@ -1,7 +1,8 @@
 package com.flywet.platform.bi.report.style;
 
+import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.pentaho.di.core.Const;
 
@@ -30,7 +31,7 @@ public class CellFontStyle implements ICellFontStyle, java.io.Serializable {
 	private final Boolean strikethrough;
 
 	// 缓存
-	private static Map<String, ICellFontStyle> CACHE = new WeakHashMap<String, ICellFontStyle>();
+	private static Map<String, SoftReference<ICellFontStyle>> CACHE = new ConcurrentHashMap<String, SoftReference<ICellFontStyle>>();
 
 	private final String _uuid;
 
@@ -58,13 +59,29 @@ public class CellFontStyle implements ICellFontStyle, java.io.Serializable {
 
 		String key = createUUID(fontName, fontStyle, fontSize, fontColor,
 				strikethrough);
-		ICellFontStyle font = CACHE.get(key);
+		ICellFontStyle font = matchCache(key);
 		if (font == null) {
 			font = new CellFontStyle(fontName, fontStyle, fontSize, fontColor,
 					strikethrough);
-			CACHE.put(key, font);
+			putCache(key, font);
 		}
 		return font;
+	}
+
+	private static ICellFontStyle matchCache(String key) {
+		SoftReference<ICellFontStyle> ref = CACHE.get(key);
+		if (ref != null) {
+			return ref.get();
+		}
+		return null;
+	}
+
+	private static void putCache(String key, ICellFontStyle cfs) {
+		CACHE.put(key, new SoftReference<ICellFontStyle>(cfs));
+	}
+
+	public static void clearCache() {
+		CACHE.clear();
 	}
 
 	public static ICellFontStyle getDefaultInstance() {

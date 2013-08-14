@@ -2,6 +2,7 @@ package com.flywet.platform.bi.report.model;
 
 import org.apache.log4j.Logger;
 
+import com.flywet.platform.bi.report.utils.DefaultConst;
 import com.flywet.platform.bi.report.utils.SpreedSheetUtils;
 
 public class CellArea implements java.io.Serializable, Cloneable {
@@ -11,28 +12,27 @@ public class CellArea implements java.io.Serializable, Cloneable {
 	private static Class<?> PKG = Cell.class;
 	private final Logger logger = Logger.getLogger(CellArea.class);
 
-	private int startRow, startColumn;
-	private int endRow, endColumn;
+	private CellPosition startPos, endPos;
 
-	private CellArea(int startRow, int startColumn) {
-		this(startRow, startColumn, startRow, startColumn);
+	private CellArea(CellPosition startPos) {
+		this(startPos, startPos);
 	}
 
-	private CellArea(int startRow, int startColumn, int endRow, int endColumn) {
-		resize(startRow, startColumn, startRow, startColumn);
+	private CellArea(CellPosition startPos, CellPosition endPos) {
+		resize(startPos, endPos);
 	}
 
 	public static CellArea getInstance(String area) {
-		int[] areaPos = SpreedSheetUtils.parserAreaPositionString(area);
-		return new CellArea(areaPos[0], areaPos[1], areaPos[2], areaPos[3]);
+		CellPosition[] areaPos = SpreedSheetUtils
+				.parserCellAreaPositionString(area);
+		return new CellArea(areaPos[0], areaPos[1]);
 	}
 
 	public static CellArea getInstance(int startRow, int startCol, int width,
 			int height) {
-		int endRow = startRow + height - 1;
-		int endCol = startCol + width - 1;
-
-		return new CellArea(startRow, startCol, endRow, endCol);
+		return new CellArea(CellPosition.getInstance(startRow, startCol),
+				CellPosition.getInstance(startRow + height - 1, startCol
+						+ width - 1));
 	}
 
 	/**
@@ -43,21 +43,10 @@ public class CellArea implements java.io.Serializable, Cloneable {
 	 * @param endRow
 	 * @param endColumn
 	 */
-	public void resize(int startRow, int startColumn, int endRow, int endColumn) {
-		if (startRow < 0 || startColumn < 0 || endRow < 0 || endColumn < 0) {
-			throw new IllegalArgumentException();
-		}
-		if (startRow <= endRow && startColumn <= endColumn) {
-			this.startRow = startRow;
-			this.endRow = endRow;
-			this.startColumn = startColumn;
-			this.endColumn = endColumn;
-		} else {
-			this.startRow = Math.min(startRow, endRow);
-			this.endRow = Math.max(startRow, endRow);
-			this.startColumn = Math.min(startColumn, endColumn);
-			this.endColumn = Math.max(startColumn, endColumn);
-		}
+	public void resize(CellPosition startPos, CellPosition endPos) {
+		CellPosition[] pos = SpreedSheetUtils.sort(startPos, endPos);
+		this.startPos = pos[0];
+		this.endPos = pos[1];
 	}
 
 	/**
@@ -75,7 +64,7 @@ public class CellArea implements java.io.Serializable, Cloneable {
 	 * @return
 	 */
 	public boolean isCell() {
-		if (this.startRow == this.endRow && this.startColumn == this.endColumn) {
+		if (this.startPos.equals(this.endPos)) {
 			return true;
 		}
 		return false;
@@ -85,8 +74,8 @@ public class CellArea implements java.io.Serializable, Cloneable {
 	 * 移动区域
 	 */
 	public void move(int stepRow, int stepCol) {
-		resize(this.startRow + stepRow, this.endRow + stepRow, this.startColumn
-				+ stepCol, this.endColumn + stepCol);
+		resize(this.startPos.move(stepRow, stepCol), this.endPos.move(stepRow,
+				stepCol));
 	}
 
 	/**
@@ -95,13 +84,11 @@ public class CellArea implements java.io.Serializable, Cloneable {
 	@Override
 	public String toString() {
 		if (isCell()) {
-			return SpreedSheetUtils
-					.getCellPositionString(startRow, startColumn);
+			return this.startPos.toString();
 		}
 
-		return SpreedSheetUtils.getCellPositionString(startRow, startColumn)
-				+ ":"
-				+ SpreedSheetUtils.getCellPositionString(endRow, endColumn);
+		return this.startPos.toString() + DefaultConst.CELL_POS_SEPARATOR
+				+ this.endPos.toString();
 	}
 
 	/**
@@ -115,35 +102,28 @@ public class CellArea implements java.io.Serializable, Cloneable {
 			return null;
 		}
 
-		int row1 = Math.max(this.startRow, ca.startRow);
-		int column1 = Math.max(this.startColumn, ca.startColumn);
-		int row2 = Math.min(this.endRow, ca.endRow);
-		int column2 = Math.min(this.endColumn, ca.endColumn);
+		int row1 = Math.max(this.startPos.getRow(), ca.startPos.getRow());
+		int column1 = Math.max(this.startPos.getCol(), ca.startPos.getCol());
+		int row2 = Math.min(this.endPos.getRow(), ca.endPos.getRow());
+		int column2 = Math.min(this.endPos.getCol(), ca.endPos.getCol());
 
-		return new CellArea(row1, column1, row2, column2);
+		return new CellArea(CellPosition.getInstance(row1, column1),
+				CellPosition.getInstance(row2, column2));
 	}
 
-	public int getStartRow() {
-		return startRow;
+	public CellPosition getStartPos() {
+		return startPos;
 	}
 
-	public int getStartColumn() {
-		return startColumn;
-	}
-
-	public int getEndRow() {
-		return endRow;
-	}
-
-	public int getEndColumn() {
-		return endColumn;
+	public CellPosition getEndPos() {
+		return endPos;
 	}
 
 	public int getRowNum() {
-		return endRow - startRow + 1;
+		return endPos.getRow() - startPos.getRow() + 1;
 	}
 
 	public int getColumnNum() {
-		return endColumn - startColumn + 1;
+		return endPos.getCol() - startPos.getCol() + 1;
 	}
 }

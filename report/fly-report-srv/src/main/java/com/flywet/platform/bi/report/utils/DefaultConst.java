@@ -9,8 +9,9 @@ import java.awt.GraphicsEnvironment;
  * 
  */
 public class DefaultConst {
-	// 用于计算hashCode的素数
-	public static final int HASH_CODE_PRIME = 17;
+
+	// 定位分隔符
+	public static final String CELL_POS_SEPARATOR = ":";
 
 	// 未定义信息的值，由于白色的RGB值为-1，所有不能将此值定义为-1
 	public static final int UNDEFINED_INT = -2;

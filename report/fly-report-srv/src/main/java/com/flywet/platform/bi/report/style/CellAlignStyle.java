@@ -1,7 +1,8 @@
 package com.flywet.platform.bi.report.style;
 
+import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.pentaho.di.core.Const;
 
@@ -28,7 +29,7 @@ public class CellAlignStyle implements ICellAlignStyle {
 	private final boolean shrink;
 
 	// 缓存
-	private static Map<String, ICellAlignStyle> CACHE = new WeakHashMap<String, ICellAlignStyle>();
+	private static Map<String, SoftReference<ICellAlignStyle>> CACHE = new ConcurrentHashMap<String, SoftReference<ICellAlignStyle>>();
 
 	private final String _uuid;
 
@@ -58,13 +59,29 @@ public class CellAlignStyle implements ICellAlignStyle {
 		shrink = Const.NVL(shrink, DefaultSetting.DEFAULT_SHRINK);
 
 		String key = createUUID(align, vertical, indentation, wrap, shrink);
-		ICellAlignStyle alignStyle = CACHE.get(key);
+		ICellAlignStyle alignStyle = matchCache(key);
 		if (alignStyle == null) {
 			alignStyle = new CellAlignStyle(align, vertical, indentation, wrap,
 					shrink);
-			CACHE.put(key, alignStyle);
+			putCache(key, alignStyle);
 		}
 		return alignStyle;
+	}
+
+	private static ICellAlignStyle matchCache(String key) {
+		SoftReference<ICellAlignStyle> ref = CACHE.get(key);
+		if (ref != null) {
+			return ref.get();
+		}
+		return null;
+	}
+
+	private static void putCache(String key, ICellAlignStyle cas) {
+		CACHE.put(key, new SoftReference<ICellAlignStyle>(cas));
+	}
+
+	public static void clearCache() {
+		CACHE.clear();
 	}
 
 	private static String createUUID(AlignEnum align, VerticalEnum vertical,

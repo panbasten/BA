@@ -1,6 +1,8 @@
 package com.flywet.platform.bi.report.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.flywet.platform.bi.report.style.ICellStyle;
@@ -29,7 +31,16 @@ public class SpreadSheetMeta {
 	public static final String GLOBLE_PROP_PAGE_HEIGHT = "g_pageHeight";
 
 	// 全局属性
-	private Map<String, Object> globleProperties = new HashMap<String, Object>();
+	private Map<String, Object> globleAttributes = new HashMap<String, Object>();
 
 	private ICellStyle globleCellStyle;
+
+	// 不超过最大限制的所有Cell对象集，或者铺满平面的最小加载Cell对象集
+	private Cell[][] cells;
+
+	// 懒加载偏移量
+	private CellPosition offset;
+
+	private List<CellArea> cellAreaList = new ArrayList<CellArea>();
+
 }

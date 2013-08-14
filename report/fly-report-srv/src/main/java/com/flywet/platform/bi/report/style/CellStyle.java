@@ -1,12 +1,13 @@
 package com.flywet.platform.bi.report.style;
 
+import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CellStyle implements ICellStyle {
 
 	// 缓存
-	private static Map<String, ICellStyle> CACHE = new WeakHashMap<String, ICellStyle>();
+	private static Map<String, SoftReference<ICellStyle>> CACHE = new ConcurrentHashMap<String, SoftReference<ICellStyle>>();
 
 	// 字体样式
 	private final ICellFontStyle font;
@@ -43,13 +44,29 @@ public class CellStyle implements ICellStyle {
 
 		String key = createUUID(font, align, lines);
 
-		ICellStyle cell = CACHE.get(key);
+		ICellStyle cell = matchCache(key);
 		if (cell == null) {
 			cell = new CellStyle(font, align, lines);
-			CACHE.put(key, cell);
+			putCache(key, cell);
 		}
 
 		return cell;
+	}
+
+	private static ICellStyle matchCache(String key) {
+		SoftReference<ICellStyle> ref = CACHE.get(key);
+		if (ref != null) {
+			return ref.get();
+		}
+		return null;
+	}
+
+	private static void putCache(String key, ICellStyle cs) {
+		CACHE.put(key, new SoftReference<ICellStyle>(cs));
+	}
+
+	public static void clearCache() {
+		CACHE.clear();
 	}
 
 	public static String createUUID(ICellFontStyle font, ICellAlignStyle align,

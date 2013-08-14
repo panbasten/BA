@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.flywet.platform.bi.report.model.CellArea;
+import com.flywet.platform.bi.report.model.CellPosition;
 
 public class SpreedSheetUtils {
 
@@ -16,18 +17,52 @@ public class SpreedSheetUtils {
 	 * @return
 	 */
 	public static boolean cross(CellArea ca1, CellArea ca2) {
-		if (Math.abs((ca1.getStartRow() + ca1.getEndRow()) / 2
-				- (ca2.getStartRow() + ca2.getEndRow()) / 2) < ((ca1
-				.getEndRow()
-				+ ca2.getEndRow() - ca1.getStartRow() - ca2.getStartRow()) / 2)
-				&& Math.abs((ca1.getStartColumn() + ca1.getStartColumn()) / 2
-						- (ca2.getStartColumn() + ca2.getStartColumn()) / 2) < ((ca1
-						.getEndColumn()
-						+ ca2.getEndColumn() - ca1.getStartColumn() - ca2
-						.getStartColumn()) / 2))
+		if (Math.abs((ca1.getStartPos().getRow() + ca1.getEndPos().getRow())
+				/ 2 - (ca2.getStartPos().getRow() + ca2.getEndPos().getRow())
+				/ 2) < ((ca1.getEndPos().getRow() + ca2.getEndPos().getRow()
+				- ca1.getStartPos().getRow() - ca2.getStartPos().getRow()) / 2)
+
+				&&
+
+				Math.abs((ca1.getStartPos().getCol() + ca1.getStartPos()
+						.getCol())
+						/ 2
+						- (ca2.getStartPos().getCol() + ca2.getStartPos()
+								.getCol()) / 2) < ((ca1.getEndPos().getCol()
+						+ ca2.getEndPos().getCol() - ca1.getStartPos().getCol() - ca2
+						.getStartPos().getCol()) / 2))
 			return true;
 		return false;
 
+	}
+
+	/**
+	 * 根据两个定位信息，排序生成正常的起始结束定位点
+	 * 
+	 * @param startPos
+	 * @param endPos
+	 * @return
+	 */
+	public static CellPosition[] sort(CellPosition startPos, CellPosition endPos) {
+		if (startPos == null || endPos == null) {
+			throw new IllegalArgumentException();
+		}
+
+		CellPosition[] rtn = new CellPosition[2];
+		if (startPos.getRow() <= endPos.getRow()
+				&& startPos.getCol() <= endPos.getCol()) {
+			rtn[0] = startPos;
+			rtn[1] = endPos;
+		} else {
+			int startRow = Math.min(startPos.getRow(), endPos.getRow());
+			int endRow = Math.max(startPos.getRow(), endPos.getRow());
+			int startColumn = Math.min(startPos.getCol(), endPos.getCol());
+			int endColumn = Math.max(startPos.getCol(), endPos.getCol());
+
+			rtn[0] = CellPosition.getInstance(startRow, startColumn);
+			rtn[1] = CellPosition.getInstance(endRow, endColumn);
+		}
+		return rtn;
 	}
 
 	/**
@@ -42,13 +77,30 @@ public class SpreedSheetUtils {
 	}
 
 	/**
-	 * 将位置的字母表示解释成为数值。起始位置为0，例如a1表示为[0,0]
+	 * 解析面积位置为定位对象。起始位置为0，例如a1:b2表示为[0,0],[1,1]
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static CellPosition[] parserCellAreaPositionString(String str) {
+		int idx = str.indexOf(DefaultConst.CELL_POS_SEPARATOR);
+		if (idx < 0) {
+			CellPosition startPos = parserCellPositionString(str);
+			return new CellPosition[] { startPos, startPos };
+		} else {
+			return sort(parserCellPositionString(str.substring(0, idx)),
+					parserCellPositionString(str.substring(idx + 1)));
+		}
+	}
+
+	/**
+	 * 将位置的字母表示解释成为定位对象。起始位置为0，例如a1表示为[0,0]
 	 * 
 	 * @param str
 	 *            非空的区域表示,输入字母的大小写不限，两端是否包含空格不限
 	 * @return int[] 0,表示行；1，表示列。
 	 */
-	public static int[] parserAreaPositionString(String str) {
+	public static CellPosition parserCellPositionString(String str) {
 		char[] datas = str.toCharArray();
 		// 首先得到字母的位置，字母的位数不应该超过2，并且应该是连续的。
 		int start = 0, end = 0, sep = 0;
@@ -81,7 +133,8 @@ public class SpreedSheetUtils {
 		}
 		rowValue--;
 		colValue--;
-		return new int[] { rowValue, colValue };
+
+		return CellPosition.getInstance(rowValue, colValue);
 	}
 
 	private static int char2Value(char c) {

@@ -1,7 +1,8 @@
 package com.flywet.platform.bi.report.model;
 
+import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.pentaho.di.core.Const;
 
@@ -22,7 +23,7 @@ public class Line implements java.io.Serializable, ISpreadSheetStyle {
 	private static Class<?> PKG = Line.class;
 
 	// 缓存线条
-	private static Map<String, Line> CACHE = new WeakHashMap<String, Line>();
+	private static Map<String, SoftReference<Line>> CACHE = new ConcurrentHashMap<String, SoftReference<Line>>();
 
 	private final LineEnum lineType;
 
@@ -41,12 +42,28 @@ public class Line implements java.io.Serializable, ISpreadSheetStyle {
 		lineType = Const.NVL(lineType, DefaultSetting.DEFAULT_LINE_TYPE);
 		lineColor = Const.NVL(lineColor, DefaultSetting.DEFAULT_COLOR);
 		String key = createUUID(lineType, lineColor);
-		Line line = CACHE.get(key);
+		Line line = matchCache(key);
 		if (line == null) {
 			line = new Line(lineType, lineColor);
-			CACHE.put(key, line);
+			putCache(key, line);
 		}
 		return line;
+	}
+
+	private static Line matchCache(String key) {
+		SoftReference<Line> ref = CACHE.get(key);
+		if (ref != null) {
+			return ref.get();
+		}
+		return null;
+	}
+
+	private static void putCache(String key, Line line) {
+		CACHE.put(key, new SoftReference<Line>(line));
+	}
+
+	public static void clearCache() {
+		CACHE.clear();
 	}
 
 	public static Line getDefaultInstance() {

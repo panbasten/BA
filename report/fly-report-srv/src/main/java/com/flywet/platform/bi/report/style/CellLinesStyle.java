@@ -1,7 +1,8 @@
 package com.flywet.platform.bi.report.style;
 
+import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.flywet.platform.bi.report.model.Line;
 import com.flywet.platform.bi.report.utils.DefaultConst;
@@ -13,7 +14,7 @@ public class CellLinesStyle implements ICellLinesStyle {
 	private final Line[] lines;
 
 	// 缓存
-	private static Map<String, ICellLinesStyle> CACHE = new WeakHashMap<String, ICellLinesStyle>();
+	private static Map<String, SoftReference<ICellLinesStyle>> CACHE = new ConcurrentHashMap<String, SoftReference<ICellLinesStyle>>();
 
 	private final String _uuid;
 
@@ -54,13 +55,29 @@ public class CellLinesStyle implements ICellLinesStyle {
 
 		String key = createUUID(rtn);
 
-		ICellLinesStyle linesStyle = CACHE.get(key);
+		ICellLinesStyle linesStyle = matchCache(key);
 		if (linesStyle == null) {
 			linesStyle = new CellLinesStyle(rtn);
-			CACHE.put(key, linesStyle);
+			putCache(key, linesStyle);
 		}
 
 		return linesStyle;
+	}
+
+	private static ICellLinesStyle matchCache(String key) {
+		SoftReference<ICellLinesStyle> ref = CACHE.get(key);
+		if (ref != null) {
+			return ref.get();
+		}
+		return null;
+	}
+
+	private static void putCache(String key, ICellLinesStyle cls) {
+		CACHE.put(key, new SoftReference<ICellLinesStyle>(cls));
+	}
+
+	public static void clearCache() {
+		CACHE.clear();
 	}
 
 	@Override

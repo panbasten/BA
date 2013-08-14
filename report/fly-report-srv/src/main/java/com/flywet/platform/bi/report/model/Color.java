@@ -1,8 +1,8 @@
 package com.flywet.platform.bi.report.model;
 
-import java.util.HashMap;
+import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
@@ -24,9 +24,10 @@ public class Color implements java.io.Serializable, ISpreadSheetStyle {
 	private static final String COLOR_LONG_DESC_PREFIX = "SpreadSheet.ColorLongDesc";
 
 	// 缓存颜色
-	private static Map<Integer, Color> CACHE = new WeakHashMap<Integer, Color>();
+	private static Map<Integer, SoftReference<Color>> CACHE = new ConcurrentHashMap<Integer, SoftReference<Color>>();
 	// 命名缓存颜色
-	private static Map<String, Color> NAMED_CACHE = new HashMap<String, Color>();
+	private static Map<String, Color> NAMED_CACHE = new ConcurrentHashMap<String, Color>();
+	private static Map<Integer, Color> NAMED_CACHE2 = new ConcurrentHashMap<Integer, Color>();
 	private static INamedColor[] NAMED_COLORS, WEB_NAMED_COLORS;
 
 	public static Color NULL_COLOR = new NULL();
@@ -56,12 +57,12 @@ public class Color implements java.io.Serializable, ISpreadSheetStyle {
 
 			for (INamedColor nc : NAMED_COLORS) {
 				NAMED_CACHE.put(nc.getName(), (Color) nc);
-				CACHE.put(nc.getRGBA(), (Color) nc);
+				NAMED_CACHE2.put(nc.getRGBA(), (Color) nc);
 			}
 
 			for (INamedColor nc : WEB_NAMED_COLORS) {
 				NAMED_CACHE.put(nc.getName(), (Color) nc);
-				CACHE.put(nc.getRGBA(), (Color) nc);
+				NAMED_CACHE2.put(nc.getRGBA(), (Color) nc);
 			}
 
 			initNamedCache.set(true);
@@ -264,11 +265,22 @@ public class Color implements java.io.Serializable, ISpreadSheetStyle {
 	}
 
 	private static Color matchCache(Integer v) {
-		return CACHE.get(v);
+		Color color = NAMED_CACHE2.get(v);
+		if (color == null) {
+			SoftReference<Color> ref = CACHE.get(v);
+			if (ref != null) {
+				color = ref.get();
+			}
+		}
+		return color;
 	}
 
 	private static void putCache(Integer v, Color c) {
-		CACHE.put(v, c);
+		CACHE.put(v, new SoftReference<Color>(c));
+	}
+
+	public static void clearCache() {
+		CACHE.clear();
 	}
 
 	private static Color matchNamedCache(String colorName) {
