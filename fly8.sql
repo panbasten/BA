@@ -443,7 +443,7 @@ CREATE TABLE `r_func_type_attribute` (
 
 LOCK TABLES `r_func_type_attribute` WRITE;
 /*!40000 ALTER TABLE `r_func_type_attribute` DISABLE KEYS */;
-INSERT INTO `r_func_type_attribute` VALUES (0,1003,'url','rest/systools/about'),(1,1003,'title','关于'),(2,1003,'width','420'),(3,1003,'height','480'),(4,501,'title','创建用户'),(5,501,'width','400'),(6,501,'height','300'),(7,501,'url','rest/systools/about');
+INSERT INTO `r_func_type_attribute` VALUES (0,1003,'url','rest/systools/about'),(1,1003,'header','关于'),(2,1003,'width','420'),(3,1003,'height','480'),(4,501,'header','创建用户'),(5,501,'width','400'),(6,501,'height','300'),(7,501,'url','rest/user/create'),(8,501,'btn','[{\"label\":\"确定\",\"title\":\"确定\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]');
 /*!40000 ALTER TABLE `r_func_type_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1493,4 +1493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-14  6:17:31
+-- Dump completed on 2013-08-14 23:00:24
