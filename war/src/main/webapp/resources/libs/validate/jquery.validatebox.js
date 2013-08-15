@@ -250,3 +250,25 @@
 		}
 	};
 })(jQuery);
+
+					
+Flywet.widget.ValidateBox = function(cfg) {
+	this.cfg = cfg;
+	this.id = this.cfg.id;
+	this.jqId = Flywet.escapeClientId(this.id);
+	this.jq = $(this.jqId);
+	
+	// width
+	var w = this.jq.width();
+	if(w>0){
+		this.cfg.width = w;
+	}
+	
+	this.init();
+};
+Flywet.extend(Flywet.widget.ValidateBox, Flywet.widget.BaseWidget);
+Flywet.widget.ValidateBox.prototype = {
+	init : function() {
+		this.jq.validatebox(this.cfg);
+	}
+};

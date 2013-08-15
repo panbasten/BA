@@ -205,6 +205,8 @@ public class HTML {
 	public static final String ATTR_STATE_DISABLED = "disabled";
 	public static final String ATTR_STATE_READONLY = "readonly";
 	public static final String ATTR_STATE_ACTIVE = "active";
+	
+	public static final String ATTR_VALIDATE = "validate";
 
 	public static final String ATTR_FONT = "font";
 	public static final String ATTR_FONT_FAMILY = "fontFamily";

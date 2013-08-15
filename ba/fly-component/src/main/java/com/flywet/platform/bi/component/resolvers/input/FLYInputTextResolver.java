@@ -2,6 +2,7 @@ package com.flywet.platform.bi.component.resolvers.input;
 
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
 
@@ -11,6 +12,7 @@ import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.HTMLWriter;
 import com.flywet.platform.bi.core.exception.BIPageException;
+import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 
 public class FLYInputTextResolver extends BaseComponentResolver implements
@@ -18,11 +20,16 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 
 	public static final String ATTR_INTERACTION = "interaction";
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		try {
 			html.startElement(HTML.COMPONENT_TYPE_BASE_INPUT);
+
+			String id = HTML.getId(node, attrs);
+			html.writeAttribute(HTML.ATTR_ID, id);
+			html.writeAttribute(HTML.ATTR_NAME, id);
 
 			String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
 			String disabled = HTML.getTagAttribute(node, HTML.ATTR_DISABLED,
@@ -96,6 +103,25 @@ public class FLYInputTextResolver extends BaseComponentResolver implements
 			// html.writeText("*");
 			// html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 			// }
+
+			if (HTML.ATTR_INPUT_TYPE_TEXT.equalsIgnoreCase(type)
+					|| HTML.ATTR_INPUT_TYPE_PASSWORD.equalsIgnoreCase(type)) {
+
+				String validate = HTML.getTagAttribute(node,
+						HTML.ATTR_VALIDATE, attrs);
+
+				if (!Const.isEmpty(validate)) {
+					JSONObject jo = JSONUtils.convertStringToJSONObject("{"
+							+ validate + "}");
+					jo.put(HTML.ATTR_ID, id);
+
+					String weightVar = HTML.getTagAttribute(node,
+							HTML.TAG_WEIGHT_VAR, attrs);
+					script.add("Flywet.cw('ValidataBox','"
+							+ Const.NVL(weightVar, "") + "',"
+							+ jo.toJSONString() + ");");
+				}
+			}
 		} catch (Exception e) {
 			throw new BIPageException("InputText解析出现错误。");
 		}

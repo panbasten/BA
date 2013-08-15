@@ -24,8 +24,6 @@ public class FLYComboBoxResolver extends FLYSelectMenuResolver implements
 		try {
 			html.startElement(HTML.COMPONENT_TYPE_BASE_SELECT);
 
-			String weightVar = HTML.getTagAttribute(node, HTML.TAG_WEIGHT_VAR,
-					attrs);
 			String id = HTML.getId(node, attrs);
 			html.writeAttribute(HTML.ATTR_ID, id);
 			html.writeAttribute(HTML.ATTR_NAME, id);
@@ -80,6 +78,8 @@ public class FLYComboBoxResolver extends FLYSelectMenuResolver implements
 				jo.put("onChange", onchange);
 			}
 
+			String weightVar = HTML.getTagAttribute(node, HTML.TAG_WEIGHT_VAR,
+					attrs);
 			script.add("Flywet.cw('ComboBox','" + Const.NVL(weightVar, "")
 					+ "'," + jo.toJSONString() + ");");
 		} catch (Exception e) {

@@ -41,6 +41,10 @@
 			<td>Note:</td>
 			<td><textarea id="note" data-options="required:true" style="height:100px;"></textarea></td>
 		</tr>
+		<tr>
+			<td>Select:</td>
+			<td><select id="sel" data-options="required:true"><option value="">空</option><option value="1">苹果</option><option value="2">橘子</option></select></td>
+		</tr>
 	</table>
 	</div>
 	
@@ -49,6 +53,7 @@
 		$('#email').validatebox();
 		$('#url').validatebox();
 		$('#note').validatebox();
+		$('#sel').validatebox();
 	</script>
 </body>
 </html>
