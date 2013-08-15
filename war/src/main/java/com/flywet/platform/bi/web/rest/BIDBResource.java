@@ -140,7 +140,7 @@ public class BIDBResource {
 			// 2.访问方式
 			int[] accessTypes = dbMeta.getDatabaseInterface()
 					.getAccessTypeList();
-			OptionsData opts = new OptionsData();
+			OptionsData opts = OptionsData.instance();
 			boolean marchAccType = false;
 			for (int accType : accessTypes) {
 				if (accessTypeInt == accType)
@@ -475,7 +475,7 @@ public class BIDBResource {
 		attrsMap.addVariable("dbTypes", dbTypes);
 
 		int[] accessTypes = dbMeta.getDatabaseInterface().getAccessTypeList();
-		OptionsData opts = new OptionsData();
+		OptionsData opts = OptionsData.instance();
 		for (int accType : accessTypes) {
 			opts.addOption(String.valueOf(accType), DatabaseMeta
 					.getAccessTypeDescLong(accType));

@@ -13,6 +13,10 @@ public class OptionsData {
 
 	}
 
+	public static final OptionsData instance() {
+		return new OptionsData();
+	}
+
 	public static final OptionsData instance(String[] labels) {
 		OptionsData od = new OptionsData();
 		for (int i = 0; i < labels.length; i++) {
@@ -31,10 +35,6 @@ public class OptionsData {
 			}
 		}
 		return od;
-	}
-
-	public static final OptionsData instance() {
-		return new OptionsData();
 	}
 
 	public List<String[]> getOptions() {

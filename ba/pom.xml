@@ -50,7 +50,17 @@
 		
 		<dependency>
 			<groupId>com.flywet.platform.report</groupId>
-			<artifactId>fly-report-srv</artifactId>
+			<artifactId>fly-report-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-report</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-dashboard</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

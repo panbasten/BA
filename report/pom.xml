@@ -14,7 +14,9 @@
 		<version>8.0.0</version>
 	</parent>
 	<modules>
-		<module>fly-report-srv</module>
+		<module>fly-report-base</module>
+		<module>fly-report</module>
+		<module>fly-dashboard</module>
 		<module>fly-report-steps</module>
 	</modules>
 

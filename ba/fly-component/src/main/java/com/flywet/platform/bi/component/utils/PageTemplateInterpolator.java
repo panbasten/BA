@@ -18,10 +18,10 @@ import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.component.vo.ComponentPlugin;
 import com.flywet.platform.bi.core.exception.BIPageException;
+import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 import com.flywet.platform.bi.el.expression.Expression;
 import com.flywet.platform.bi.el.expression.ExpressionString;
 import com.flywet.platform.bi.el.parser.ELParser;
-import com.flywet.platform.bi.report.meta.TemplateMeta;
 
 /**
  * 进行参数替换的工具类

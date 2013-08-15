@@ -31,7 +31,7 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.report.meta.TemplateMeta;
+import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 import com.flywet.platform.bi.web.cache.TemplateCache;
 import com.flywet.platform.bi.web.entity.ActionMessage;
 import com.flywet.platform.bi.web.service.BIReportDelegates;

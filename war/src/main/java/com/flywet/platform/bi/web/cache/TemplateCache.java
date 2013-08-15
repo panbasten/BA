@@ -3,7 +3,7 @@ package com.flywet.platform.bi.web.cache;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.flywet.platform.bi.report.meta.TemplateMeta;
+import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
