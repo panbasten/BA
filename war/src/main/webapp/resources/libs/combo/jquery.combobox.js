@@ -420,6 +420,10 @@ Flywet.widget.ComboBox = function(cfg) {
 	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);
 	
+	if(this.cfg.validate){
+		this.cfg = $.extend(this.cfg, Flywet.parseJSON("{"+this.cfg.validate+"}"));
+	}
+	
 	// width
 	var w = this.jq.width();
 	if(w>0){

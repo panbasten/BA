@@ -22,6 +22,10 @@ public class FLYInputTextareaResolver extends BaseComponentResolver implements
 		try {
 			html.startElement(HTML.COMPONENT_TYPE_BASE_TEXTAREA);
 
+			String id = HTML.getId(node, attrs);
+			html.writeAttribute(HTML.ATTR_ID, id);
+			html.writeAttribute(HTML.ATTR_NAME, id);
+
 			String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
 			String disabled = HTML.getTagAttribute(node, HTML.ATTR_DISABLED,
 					attrs);
@@ -70,8 +74,26 @@ public class FLYInputTextareaResolver extends BaseComponentResolver implements
 			// html.writeText("*");
 			// html.endElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 			// }
+
+			String validate = HTML.getTagAttribute(node, HTML.ATTR_VALIDATE,
+					attrs);
+
+			if (validate != null && !"".equals(validate.trim())) {
+				String jostr = "{" + HTML.ATTR_ID + ":'" + id + "'," + validate
+						+ "}";
+
+				String weightVar = HTML.getTagAttribute(node,
+						HTML.TAG_WEIGHT_VAR, attrs);
+				script.add("Flywet.cw('ValidateBox','"
+						+ Const.NVL(weightVar, "") + "'," + jostr + ");");
+			}
 		} catch (Exception e) {
 			throw new BIPageException("InputText解析出现错误。");
 		}
+	}
+
+	@Override
+	public void renderScript(Node node, List<String> script,
+			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 	}
 }

@@ -713,6 +713,12 @@ div.ui-fs-file-zip-icon { background-image: url("../images/files/zip.png"); }
 	border: 1px solid #cccccc;
 	overflow: hidden;
 }
+
+.ui-dialog .ui-dialog-content input.ui-validatebox-invalid,
+.ui-dialog .ui-dialog-content textarea.ui-validatebox-invalid {
+	background: #d80 url('../images/default/validatebox_warning.png') no-repeat right 1px;
+}
+
 .ui-dialog .ui-dialog-content .ui-panel,
 .ui-dialog .ui-dialog-content .ui-show-description-panel,
 .ui-dialog .ui-dialog-content fieldset,

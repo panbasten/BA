@@ -57,6 +57,27 @@ public class JSONUtils {
 		return array.toJSONString();
 	}
 
+	/**
+	 * 转换有性能问题，慎用
+	 * 
+	 * @param str
+	 * @return
+	 * @throws Exception
+	 */
+	public static String formatJsonString(String str) throws Exception {
+		org.codehaus.jackson.map.ObjectMapper mapper = new org.codehaus.jackson.map.ObjectMapper();
+		mapper.configure(
+				org.codehaus.jackson.JsonParser.Feature.ALLOW_SINGLE_QUOTES,
+				true);
+		mapper
+				.configure(
+						org.codehaus.jackson.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES,
+						true);
+		org.codehaus.jackson.JsonNode df = mapper.readValue(str,
+				org.codehaus.jackson.JsonNode.class);
+		return df.toString();
+	}
+
 	public static JSONObject convertStringToJSONObject(String obj)
 			throws Exception {
 		JSONParser parser = new JSONParser();
