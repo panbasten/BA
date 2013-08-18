@@ -72,4 +72,9 @@ public class FLYTreeResolver extends BaseComponentResolver implements
 			throw new BIPageException("解析树形出现错误", e);
 		}
 	}
+	
+	@Override
+	public void renderScript(Node node, List<String> script,
+			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
+	}
 }

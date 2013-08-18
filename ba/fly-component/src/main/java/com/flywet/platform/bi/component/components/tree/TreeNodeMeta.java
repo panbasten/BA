@@ -33,6 +33,10 @@ public class TreeNodeMeta extends ComplexComponentMeta implements
 	public static final String NODE_TYPE_NODE = "node";
 	public static final String NODE_TYPE_LEAF = "leaf";
 
+	public static TreeNodeMeta instance() {
+		return new TreeNodeMeta();
+	}
+
 	/**
 	 * 判断是否是叶子节点
 	 * 

@@ -40,7 +40,8 @@
 		function cb() {
 			frame.unbind();
 			var body = $("#" + frameId).contents().find("body");
-			var data = body.html();
+			var body0 = body.get(0);
+			var data = body0.textContent ? body0.textContent : body0.innerText;
 			if (data == "") {
 				if (--checkCount) {
 					setTimeout(cb, 100);
@@ -54,12 +55,13 @@
 			} else {
 				var pre = body.find(">pre");
 				if (pre.length) {
-					data = pre.html();
+					var pre0 = pre.get(0);
+					data = pre0.textContent ? pre0.textContent : pre0.innerText;
 				}
 			}
 			if (options.success) {
 				if(options.dataType == "json"){
-					options.success(jQuery.parseJSON(data));
+					options.success(Flywet.parseJSON(data));
 				}else{
 					options.success(data);
 				}

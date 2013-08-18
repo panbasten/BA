@@ -2475,6 +2475,28 @@ public class DatabaseMeta
         return report.toString();
 	}
 	
+	public Object[] testConnectionWithState() {
+		
+		StringBuffer report = new StringBuffer();
+
+		// If the plug-in needs to provide connection information, we ask the DatabaseInterface...
+		//
+		try {
+			DatabaseFactoryInterface factory = getDatabaseFactory();
+			return new Object[]{true, factory.getConnectionTestReport(this)};
+		} 
+		catch (ClassNotFoundException e) {
+			report.append(BaseMessages.getString(PKG, "BaseDatabaseMeta.TestConnectionReportNotImplemented.Message")).append(Const.CR); // $NON-NLS-1
+            report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName()) + e.toString() + Const.CR); //$NON-NLS-1$
+            report.append(Const.getStackTracker(e) + Const.CR);
+		} 
+		catch (Exception e) {
+            report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName()) + e.toString() + Const.CR); //$NON-NLS-1$
+            report.append(Const.getStackTracker(e) + Const.CR);
+		}
+        return new Object[]{true, report.toString()};
+	}
+	
 	public DatabaseFactoryInterface getDatabaseFactory() throws Exception
 	{
 		PluginRegistry registry = PluginRegistry.getInstance();

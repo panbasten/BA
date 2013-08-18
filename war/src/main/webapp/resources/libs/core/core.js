@@ -976,6 +976,8 @@ Flywet.ajax.AjaxUtils = {
      * 添加页面元素到指定位置
      */
     appendElement: function(target, dom) {
+    	console.log(target);
+    	console.log($(dom));
     	target.append(dom);
     },
     

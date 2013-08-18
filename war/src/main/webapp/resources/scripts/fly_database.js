@@ -63,6 +63,68 @@ Flywet.database = {
 		});
 	},
 	
+	/**
+	 * 浏览数据库
+	 */
+	exploreDatabase : function(category, type, id, displayName){
+		var dialog_var = "dialog_"+category+"_"+type+"_"+id+"_explore_var";
+		var _self=this;
+		Flywet.cw("Dialog",dialog_var,{
+			id : "dialog:"+category+":"+type+":explore:"+id,
+			header : "浏览【"+displayName+"】",
+			width : 400,
+			height : 400,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			formId : "db_"+id,
+			formAction : "rest/db/object/"+id+"/explore",
+			footerSettingButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "预览前100行",
+				title : "预览前100行",
+				events : {
+					"click" : function(){
+						Flywet.ab({
+							formId : "db_"+id,
+							formAction : "rest/db/object/"+id+"/explore/top100"
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "预览前N行",
+				title : "预览前N行",
+				events : {
+					"click" : function(){
+						Flywet.ab({
+							formId : "db_"+id,
+							formAction : "rest/db/object/"+id+"/explore/topn",
+							onsuccess: function (data, status, xhr) {
+								if (data.state == 0) {
+                                	console.log("explore");
+                                }
+							}
+						});
+					}
+				}
+			}],
+			footerButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "取消",
+				title : "取消",
+				events : {
+					"click" : "hide"
+				}
+			}],
+			closable : true,
+			maximizable : true
+		});
+	},
+	
 	editObject : function(category, type, id, displayName){
 		var dialog_var = "dialog_"+category+"_"+type+"_"+id+"_var";
 		var _self=this;
@@ -75,6 +137,30 @@ Flywet.database = {
 			showHeader : true,
 			modal : true,
 			url : "rest/db/object/"+id,
+			footerSettingButtons : [{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "测试",
+				title : "测试",
+				events : {
+					"click" : function(){
+						Flywet.ab({
+							formId : "db_"+id,
+							formAction : "rest/db/object/"+id+"/test"
+						});
+					}
+				}
+			},{
+				componentType : "fly:PushButton",
+				type : "button",
+				label : "浏览数据库",
+				title : "浏览数据库",
+				events : {
+					"click" : function(){
+						Flywet.database.exploreDatabase(category, type, id, displayName);
+					}
+				}
+			}],
 			footerButtons : [{
 				componentType : "fly:PushButton",
 				type : "button",

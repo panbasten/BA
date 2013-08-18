@@ -23,8 +23,11 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.database.BaseDatabaseMeta;
 import org.pentaho.di.core.database.DatabaseConnectionPoolParameter;
 import org.pentaho.di.core.database.DatabaseMeta;
+import org.pentaho.di.core.database.DatabaseMetaInformation;
 import org.pentaho.di.core.database.MySQLDatabaseMeta;
 import org.pentaho.di.core.database.PartitionDatabaseMeta;
+import org.pentaho.di.core.database.Schema;
+import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.plugins.DatabasePluginType;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
@@ -33,6 +36,8 @@ import org.springframework.stereotype.Service;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.grid.GridDataObject;
 import com.flywet.platform.bi.component.components.selectMenu.OptionsData;
+import com.flywet.platform.bi.component.components.tree.FLYTreeMeta;
+import com.flywet.platform.bi.component.components.tree.TreeNodeMeta;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
@@ -51,6 +56,8 @@ import com.flywet.platform.bi.web.utils.BIWebUtils;
 @Path("/db")
 public class BIDBResource {
 	private final Logger log = Logger.getLogger(BIDBResource.class);
+
+	private static final String DB_EXPLORER_TEMPLATE = "editor/db/explorer.h";
 
 	private static final String DB_SETTING_TEMPLATE = "editor/db/setting.h";
 
@@ -205,6 +212,153 @@ public class BIDBResource {
 	}
 
 	@POST
+	@Path("/object/{id}/explore")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String exploreSetting(@CookieParam("repository") String repository,
+			@PathParam("id") String id,
+			@QueryParam("targetId") String targetId, String body)
+			throws BIException {
+		ActionMessage am = ActionMessage.instance();
+		try {
+			String DB_PREFIX = "db_" + id + ":";
+
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+			DatabaseMeta dbMeta = null;
+			if (id.equals("create")) {
+				dbMeta = initDatabaseMeta();
+			} else {
+				DatabaseMeta dbMeta0 = dbDelegates.getDatabaseMeta(repository,
+						Long.valueOf(id));
+				dbMeta = (DatabaseMeta) dbMeta0.clone();
+			}
+
+			// 检查数据库元数据
+			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
+
+			// 设置数据库元数据
+			setDatebaseMeta(dbMeta, paramContext, DB_PREFIX);
+
+			Object[] msg = dbMeta.testConnectionWithState();
+			// 测试成功
+			if ((Boolean) msg[0]) {
+				if (dbMeta.getAccessType() != DatabaseMeta.TYPE_ACCESS_PLUGIN) {
+					return createExploreDialog(dbMeta, targetId);
+				} else {
+					return am.failure("对不起，针对该数据库的浏览还没有实现！").toJSONString();
+				}
+			}
+			return am.failure((String) msg[1]).toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return am.failure(e.getMessage()).toJSONString();
+		} catch (Exception e) {
+			log.error("浏览数据库出现错误。");
+			return am.failure("浏览数据库出现错误！").toJSONString();
+		}
+	}
+
+	private String createExploreDialog(DatabaseMeta dbMeta, String targetId)
+			throws BIException {
+		try {
+
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+
+			String id = "db_explore";
+
+			FLYTreeMeta db_tree = new FLYTreeMeta();
+
+			DatabaseMetaInformation dmi = new DatabaseMetaInformation(dbMeta);
+			dmi.getData(null, null);
+
+			// Schemas
+			TreeNodeMeta schemasNode = TreeNodeMeta.instance();
+			schemasNode.setText("数据库元数据");
+			db_tree.addContent(schemasNode);
+
+			Schema[] schemas = dmi.getSchemas();
+			if (schemas != null) {
+				for (Schema s : schemas) {
+					TreeNodeMeta tree = TreeNodeMeta.instance();
+					tree.setText(s.getSchemaName());
+
+					schemasNode.addContent(tree);
+				}
+			}
+
+			// Tables
+			TreeNodeMeta tablesNode = TreeNodeMeta.instance();
+			tablesNode.setText("数据库表");
+			db_tree.addContent(tablesNode);
+
+			String[] tables = dmi.getTables();
+			if (tables != null) {
+				for (String t : tables) {
+					TreeNodeMeta tree = TreeNodeMeta.instance();
+					tree.setText(t);
+
+					tablesNode.addContent(tree);
+				}
+			}
+
+			attrsMap.addVariable("id", id);
+			attrsMap.addVariable("db_tree", db_tree);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					DB_EXPLORER_TEMPLATE, attrsMap);
+
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+
+		} catch (KettleDatabaseException e) {
+			throw new BIException("获得数据库信息出现错误。");
+		}
+	}
+
+	@POST
+	@Path("/object/{id}/test")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String testSetting(@CookieParam("repository") String repository,
+			@PathParam("id") String id, String body) throws BIException {
+		ActionMessage am = ActionMessage.instance();
+		try {
+			String DB_PREFIX = "db_" + id + ":";
+
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+			DatabaseMeta dbMeta = null;
+			if (id.equals("create")) {
+				dbMeta = initDatabaseMeta();
+			} else {
+				DatabaseMeta dbMeta0 = dbDelegates.getDatabaseMeta(repository,
+						Long.valueOf(id));
+				dbMeta = (DatabaseMeta) dbMeta0.clone();
+			}
+
+			// 检查数据库元数据
+			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
+
+			// 设置数据库元数据
+			setDatebaseMeta(dbMeta, paramContext, DB_PREFIX);
+
+			Object[] msg = dbMeta.testConnectionWithState();
+			if ((Boolean) msg[0]) {
+				return am.success((String) msg[1]).toJSONString();
+			}
+			return am.failure((String) msg[1]).toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return am.failure(e.getMessage()).toJSONString();
+		} catch (Exception e) {
+			log.error("测试数据库设置出现错误。");
+			return am.failure("测试数据库设置出现错误！").toJSONString();
+		}
+
+	}
+
+	@POST
 	@Path("/object/{id}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -229,22 +383,11 @@ public class BIDBResource {
 			String newName = Const.NVL(paramContext.getParameter(DB_PREFIX
 					+ "name"), "");
 
+			// 检查数据库元数据
 			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
 
-			// 1.Base
-			setBase(dbMeta, paramContext, DB_PREFIX);
-
-			// 2.Advance
-			setAdvance(dbMeta, paramContext, DB_PREFIX);
-
-			// 3.option
-			setOption(dbMeta, paramContext, DB_PREFIX);
-
-			// 4.pool
-			setPooling(dbMeta, paramContext, DB_PREFIX);
-
-			// 5.cluster
-			setCluster(dbMeta, paramContext, DB_PREFIX);
+			// 设置数据库元数据
+			setDatebaseMeta(dbMeta, paramContext, DB_PREFIX);
 
 			// 保存到数据库
 			dbDelegates.saveDatabaseMeta(repository, dbMeta);
@@ -263,6 +406,32 @@ public class BIDBResource {
 			return am.failure("保存数据库设置出现错误！").toJSONString();
 		}
 
+	}
+
+	/**
+	 * 设置数据库元数据
+	 * 
+	 * @param dbMeta
+	 * @param paramContext
+	 * @param DB_PREFIX
+	 * @throws Exception
+	 */
+	private void setDatebaseMeta(DatabaseMeta dbMeta,
+			ParameterContext paramContext, String DB_PREFIX) throws Exception {
+		// 1.Base
+		setBase(dbMeta, paramContext, DB_PREFIX);
+
+		// 2.Advance
+		setAdvance(dbMeta, paramContext, DB_PREFIX);
+
+		// 3.option
+		setOption(dbMeta, paramContext, DB_PREFIX);
+
+		// 4.pool
+		setPooling(dbMeta, paramContext, DB_PREFIX);
+
+		// 5.cluster
+		setCluster(dbMeta, paramContext, DB_PREFIX);
 	}
 
 	private void setCluster(DatabaseMeta dbMeta, ParameterContext paramContext,

@@ -88,6 +88,24 @@ Flywet.widget.Dialog.prototype.ajax = function() {
 			}
 		});
 	}
+	else if(this.cfg.formId){
+		var _self = this;
+		var params;
+		if(this.cfg.params){
+			params = this.cfg.params;
+		}else{
+			params = {targetId : this.content.attr("id")};
+		}
+		Flywet.ab({
+			type : "post",
+			formId : this.cfg.formId,
+			formAction : this.cfg.formAction,
+			params : params,
+			beforeSend : function(){
+				_self.content.append("<div class='ui-dialog-content-loader-text'>正在加载...</div><div class='ui-dialog-content-loader'></div>");
+			}
+		});
+	}
 };
 
 Flywet.widget.Dialog.prototype.init = function() {
@@ -151,11 +169,18 @@ Flywet.widget.Dialog.prototype.init = function() {
 	if(this.cfg.content)
 		this.content.html(this.cfg.content);
 	this.jq.append(this.content);
+	
+	if(this.cfg.footerButtons || this.cfg.footerSettingButtons){
+		this.footer = $("<div></div>");
+		this.footer.addClass("ui-dialog-buttonpane ui-widget-content ui-helper-clearfix");
+	}
+	this.jq.append(this.footer);
+	
 	// 3.footer
 	if(this.cfg.footerButtons){
 		var _self=this;
-		this.footer = $("<div></div>");
-		this.footer.addClass("ui-dialog-buttonpane ui-widget-content ui-helper-clearfix");
+		this.defaultFooter = $("<div></div>");
+		this.defaultFooter.addClass("ui-dialog-buttonpane-right");
 		for(var i=0;i<this.cfg.footerButtons.length;i++){
 			var cfg = this.cfg.footerButtons[i];
 			if(cfg.events){
@@ -168,9 +193,31 @@ Flywet.widget.Dialog.prototype.init = function() {
 				}
 			}
 		}
-		Flywet.autocw(this.cfg.footerButtons,this.footer);
-		this.jq.append(this.footer);
+		Flywet.autocw(this.cfg.footerButtons,this.defaultFooter);
+		this.footer.append(this.defaultFooter);
 	}
+	// 4.footer setting
+	if(this.cfg.footerSettingButtons){
+		var _self=this;
+		this.settingFooter = $("<div></div>");
+		this.settingFooter.addClass("ui-dialog-buttonpane-left");
+		for(var i=0;i<this.cfg.footerSettingButtons.length;i++){
+			var cfg = this.cfg.footerSettingButtons[i];
+			if(cfg.events){
+				for(var k in cfg.events){
+					if(cfg.events[k]=="hide"){
+						cfg.events[k]=function(){
+							_self.hide();
+						}
+					}
+				}
+			}
+		}
+		Flywet.autocw(this.cfg.footerSettingButtons,this.settingFooter);
+		this.footer.append(this.settingFooter);
+	}
+	
+	
 	this.parent.append(this.jq);
 	
 };
@@ -568,6 +615,7 @@ Flywet.widget.ConfirmDialog = function(cfg) {
 	var _self = this;
 	cfg = $.extend({
 		footerButtons:null,
+		footerSettingButtons:null,
 		showHeader:true,
 		width:400,
 		height:100
@@ -640,6 +688,13 @@ Flywet.widget.ConfirmDialog = function(cfg) {
     		cfg.footerButtons[i].target = _self;
     	}
     }
+    
+    if(cfg.footerSettingButtons != null){
+    	for(var i = 0;i<cfg.footerSettingButtons.length;i++){
+    		cfg.footerSettingButtons[i].target = _self;
+    	}
+    }
+    
     this.createContentDom(cfg);
     Flywet.widget.Dialog.call(this, cfg);
 };
