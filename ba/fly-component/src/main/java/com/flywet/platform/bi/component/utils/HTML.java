@@ -205,7 +205,7 @@ public class HTML {
 	public static final String ATTR_STATE_DISABLED = "disabled";
 	public static final String ATTR_STATE_READONLY = "readonly";
 	public static final String ATTR_STATE_ACTIVE = "active";
-	
+
 	public static final String ATTR_VALIDATE = "validate";
 
 	public static final String ATTR_FONT = "font";
@@ -370,12 +370,12 @@ public class HTML {
 	public final static String BUTTON_ICON_ONLY_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
 	public final static String BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
 	public final static String BUTTON_TEXT_ICON_RIGHT_BUTTON_CLASS = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
-	
+
 	public final static String BUTTON_MENU_TEXT_ONLY_BUTTON_CLASS = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-menu-text-only";
 	public final static String BUTTON_MENU_ICON_ONLY_BUTTON_CLASS = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-menu-icon-only";
 	public final static String BUTTON_MENU_TEXT_ICON_LEFT_BUTTON_CLASS = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-menu-text-icon-left";
 	public final static String BUTTON_MENU_TEXT_ICON_RIGHT_BUTTON_CLASS = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-menu-text-icon-right";
-	
+
 	public final static String BUTTON_LEFT_ICON_CLASS = "ui-button-icon-left ui-icon";
 	public final static String BUTTON_RIGHT_ICON_CLASS = "ui-button-icon-right ui-icon";
 	public final static String BUTTON_MENU_ICON_CLASS = "ui-button-menu-icon ui-icon ui-icon-triangle-1-s";

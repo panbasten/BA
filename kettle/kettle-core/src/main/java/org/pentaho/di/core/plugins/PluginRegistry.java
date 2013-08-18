@@ -659,7 +659,7 @@ public class PluginRegistry {
 	    	row[rowIndex++] = plugin.getIds()[0];
 	    	row[rowIndex++] = plugin.getName();
 	    	row[rowIndex++] = plugin.getDescription();
-	    	row[rowIndex++] = plugin.getLibraries().toString();
+	    	row[rowIndex++] = (plugin.getLibraries().size()>0)?plugin.getLibraries().toString():"";
 	    	row[rowIndex++] = plugin.getImageFile();
 	    	row[rowIndex++] = plugin.getClassMap().values().toString();
 	    	row[rowIndex++] = plugin.getCategory();

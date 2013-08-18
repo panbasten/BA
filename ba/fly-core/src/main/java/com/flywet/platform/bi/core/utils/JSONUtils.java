@@ -100,6 +100,8 @@ public class JSONUtils {
 			return obj;
 		} else if (obj instanceof String[]) {
 			return convertToJSONArray((String[]) obj);
+		} else if (obj instanceof Object[]) {
+			return convertToJSONArray((Object[]) obj);
 		} else if (obj instanceof Collection) {
 			if (isPrimitiveCollection((Collection) obj)) {
 				return obj;
@@ -264,6 +266,20 @@ public class JSONUtils {
 
 		for (String s : strs) {
 			array.add(s);
+		}
+		return array;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static JSONArray convertToJSONArray(Object[] obj)
+			throws BIJSONException {
+		if (obj == null) {
+			return null;
+		}
+		JSONArray array = new JSONArray();
+
+		for (Object s : obj) {
+			array.add(convert(s));
 		}
 		return array;
 	}

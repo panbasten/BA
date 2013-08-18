@@ -20,6 +20,7 @@
 	<database-type id="DB2">
 		<description>IBM DB2</description>
 		<classname>org.pentaho.di.core.database.DB2DatabaseMeta</classname>
+		<tooltip>i18n:org.pentaho.di.core.database:Database.TypeTooltipDesc.DB2</tooltip>
 	</database-type>
 
 	<!-- 

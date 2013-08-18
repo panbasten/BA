@@ -34,16 +34,7 @@ public class FLYTreeMeta extends ComplexComponentMeta implements
 		JSONArray sub = new JSONArray();
 		for (ComponentMetaInterface dataMeta : this.getContents()) {
 			if (dataMeta != null) {
-				if (dataMeta instanceof ComplexComponentMeta) {
-					if (((ComplexComponentMeta) dataMeta).isMultiRoot()) {
-						sub.addAll(((ComplexComponentMeta) dataMeta)
-								.getFormJa());
-					} else {
-						sub.add(dataMeta.getFormJo());
-					}
-				} else {
-					sub.add(dataMeta.getFormJo());
-				}
+				sub.add(dataMeta.getFormJo());
 			}
 		}
 		return sub;

@@ -1290,9 +1290,8 @@ Flywet.widget.EasyTree=function(cfg){
 	this.id = cfg.id;
     this.jqId = Flywet.escapeClientId(this.id);
     this.jq = $(this.jqId);
-    console.log(this.jq);
 	this.jq.tree(cfg);
-	console.log(cfg);
+	console.log(cfg.data);
 	this.loadData(cfg.data);
 };
 

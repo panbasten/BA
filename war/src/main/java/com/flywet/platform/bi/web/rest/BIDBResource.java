@@ -302,6 +302,36 @@ public class BIDBResource {
 				}
 			}
 
+			// Views
+			TreeNodeMeta viewsNode = TreeNodeMeta.instance();
+			viewsNode.setText("数据库视图");
+			db_tree.addContent(viewsNode);
+
+			String[] views = dmi.getViews();
+			if (views != null) {
+				for (String v : views) {
+					TreeNodeMeta tree = TreeNodeMeta.instance();
+					tree.setText(v);
+
+					viewsNode.addContent(tree);
+				}
+			}
+
+			// Synonyms
+			TreeNodeMeta synonymsNode = TreeNodeMeta.instance();
+			synonymsNode.setText("数据库同义词");
+			db_tree.addContent(synonymsNode);
+
+			String[] synonyms = dmi.getSynonyms();
+			if (synonyms != null) {
+				for (String s : synonyms) {
+					TreeNodeMeta tree = TreeNodeMeta.instance();
+					tree.setText(s);
+
+					synonymsNode.addContent(tree);
+				}
+			}
+
 			attrsMap.addVariable("id", id);
 			attrsMap.addVariable("db_tree", db_tree);
 
