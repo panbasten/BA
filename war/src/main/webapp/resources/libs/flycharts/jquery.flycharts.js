@@ -147,7 +147,7 @@
 			if (options) {
 				redraw = $FC.pick(redraw, true); // defaults to true
 
-				fireEvent(chart, 'addSeries', { options: options }, function () {
+				$FC.fireEvent(chart, 'addSeries', { options: options }, function () {
 					series = chart.initSeries(options);
 					
 					chart.isDirtyLegend = true; // the series array is out of sync with the display
@@ -316,7 +316,7 @@
 					if (axis.isDirtyExtremes) { // #821
 						axis.isDirtyExtremes = false;
 						afterRedraw.push(function () { // prevent a recursive call to chart.redraw() (#1119)
-							fireEvent(axis, 'afterSetExtremes', axis.getExtremes()); // #747, #751
+							$FC.fireEvent(axis, 'afterSetExtremes', axis.getExtremes()); // #747, #751
 						});
 					}
 									
@@ -351,7 +351,7 @@
 			renderer.draw();
 
 			// fire the event
-			fireEvent(chart, 'redraw'); // jQuery breaks this when calling it from addEvent. Overwrites chart.redraw
+			$FC.fireEvent(chart, 'redraw'); // jQuery breaks this when calling it from addEvent. Overwrites chart.redraw
 			
 			if (isHiddenChart) {
 				chart.cloneRenderTo(true);
@@ -575,7 +575,7 @@
 		 */
 		zoomOut: function () {
 			var chart = this;
-			fireEvent(chart, 'selection', { resetSelection: true }, function () { 
+			$FC.fireEvent(chart, 'selection', { resetSelection: true }, function () { 
 				chart.zoom();
 			});
 		},
@@ -836,8 +836,8 @@
 
 			chart.renderer =
 				optionsChart.forExport ? // force SVG, used for SVG export
-					new SVGRenderer(container, chartWidth, chartHeight, true) :
-					new Renderer(container, chartWidth, chartHeight);
+					new $FC.SVGRenderer(container, chartWidth, chartHeight, true) :
+					new $FC.Renderer(container, chartWidth, chartHeight);
 
 			if ($FC.useCanVG) {
 				// If we need canvg library, extend and configure the renderer
@@ -1008,7 +1008,7 @@
 			chart.isResizing += 1;
 			fireEndResize = function () {
 				if (chart) {
-					fireEvent(chart, 'endResize', null, function () {
+					$FC.fireEvent(chart, 'endResize', null, function () {
 						chart.isResizing -= 1;
 					});
 				}
@@ -1020,11 +1020,11 @@
 			chart.oldChartHeight = chart.chartHeight;
 			chart.oldChartWidth = chart.chartWidth;
 			if (defined(width)) {
-				chart.chartWidth = chartWidth = $FC.mathMax(0, mathRound(width));
+				chart.chartWidth = chartWidth = $FC.mathMax(0, $FC.mathRound(width));
 				chart.hasUserSize = !!chartWidth;
 			}
 			if (defined(height)) {
-				chart.chartHeight = chartHeight = $FC.mathMax(0, mathRound(height));
+				chart.chartHeight = chartHeight = $FC.mathMax(0, $FC.mathRound(height));
 			}
 
 			$FC.css(chart.container, {
@@ -1055,7 +1055,7 @@
 
 
 			chart.oldChartHeight = null;
-			fireEvent(chart, 'resize');
+			$FC.fireEvent(chart, 'resize');
 
 			// fire endResize and set isResizing back
 			// If animation is disabled, fire without delay
@@ -1090,10 +1090,10 @@
 				plotHeight,
 				plotBorderWidth;
 
-			chart.plotLeft = plotLeft = mathRound(chart.plotLeft);
-			chart.plotTop = plotTop = mathRound(chart.plotTop);
-			chart.plotWidth = plotWidth = $FC.mathMax(0, mathRound(chartWidth - plotLeft - chart.marginRight));
-			chart.plotHeight = plotHeight = $FC.mathMax(0, mathRound(chartHeight - plotTop - chart.marginBottom));
+			chart.plotLeft = plotLeft = $FC.mathRound(chart.plotLeft);
+			chart.plotTop = plotTop = $FC.mathRound(chart.plotTop);
+			chart.plotWidth = plotWidth = $FC.mathMax(0, $FC.mathRound(chartWidth - plotLeft - chart.marginRight));
+			chart.plotHeight = plotHeight = $FC.mathMax(0, $FC.mathRound(chartHeight - plotTop - chart.marginBottom));
 
 			chart.plotSizeX = inverted ? plotHeight : plotWidth;
 			chart.plotSizeY = inverted ? plotWidth : plotHeight;
@@ -1113,13 +1113,13 @@
 				width: plotWidth,
 				height: plotHeight
 			};
-			clipX = mathCeil($FC.mathMax(plotBorderWidth, clipOffset[3]) / 2);
-			clipY = mathCeil($FC.mathMax(plotBorderWidth, clipOffset[0]) / 2);
+			clipX = $FC.mathCeil($FC.mathMax(plotBorderWidth, clipOffset[3]) / 2);
+			clipY = $FC.mathCeil($FC.mathMax(plotBorderWidth, clipOffset[0]) / 2);
 			chart.clipBox = {
 				x: clipX, 
 				y: clipY, 
-				width: mathFloor(chart.plotSizeX - $FC.mathMax(plotBorderWidth, clipOffset[1]) / 2 - clipX), 
-				height: mathFloor(chart.plotSizeY - $FC.mathMax(plotBorderWidth, clipOffset[2]) / 2 - clipY)
+				width: $FC.mathFloor(chart.plotSizeX - $FC.mathMax(plotBorderWidth, clipOffset[1]) / 2 - clipX), 
+				height: $FC.mathFloor(chart.plotSizeY - $FC.mathMax(plotBorderWidth, clipOffset[2]) / 2 - clipY)
 			};
 
 			if (!skipAxes) {
@@ -1422,7 +1422,7 @@
 				parentNode = container && container.parentNode;
 				
 			// fire the chart.destoy event
-			fireEvent(chart, 'destroy');
+			$FC.fireEvent(chart, 'destroy');
 			
 			// Delete the chart from charts lookup array
 			$FC.charts[chart.index] = UNDEFINED;
@@ -1517,7 +1517,7 @@
 			chart.getContainer();
 
 			// Run an early event after the container and renderer are established
-			fireEvent(chart, 'init');
+			$FC.fireEvent(chart, 'init');
 
 			
 			chart.resetMargins();
@@ -1537,7 +1537,7 @@
 			// Run an event after axes and series are initialized, but before render. At this stage,
 			// the series data is indexed and cached in the xData and yData arrays, so we can access
 			// those before rendering. Used in Highstock. 
-			fireEvent(chart, 'beforeRender'); 
+			$FC.fireEvent(chart, 'beforeRender'); 
 
 			// depends on inverted and on margins being set
 			chart.pointer = new Pointer(chart, options);
@@ -1558,13 +1558,29 @@
 			// If the chart was rendered outside the top container, put it back in
 			chart.cloneRenderTo(true);
 
-			fireEvent(chart, 'load');
+			$FC.fireEvent(chart, 'load');
 
 		}
 	}; // end Chart
 
 	// Hook for exporting module
 	Chart.prototype.callbacks = [];
+	
+	// 初始化适配器
+	$FC.Adapter.init.call(this, $FC.pathAnim);
+	$FC.adapterRun = $FC.Adapter.adapterRun;
+	$FC.getScript = $FC.Adapter.getScript;
+	$FC.inArray = $FC.Adapter.inArray;
+	$FC.each = $FC.Adapter.each;
+	$FC.grep = $FC.Adapter.grep;
+	$FC.offset = $FC.Adapter.offset;
+	$FC.map = $FC.Adapter.map;
+	$FC.addEvent = $FC.Adapter.addEvent;
+	$FC.removeEvent = $FC.Adapter.removeEvent;
+	$FC.fireEvent = $FC.Adapter.fireEvent;
+	$FC.washMouseEvent = $FC.Adapter.washMouseEvent;
+	$FC.animate = $FC.Adapter.animate;
+	$FC.stop = $FC.Adapter.stop;
 	
 	
 	$.fn.flycharts = function(options, param){
