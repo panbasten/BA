@@ -21,19 +21,19 @@
 				seriesOptions = userOptions.series; // skip merging data points to increase performance
 
 			userOptions.series = null;
-			options = $FC.merge(defaultOptions, userOptions); // do the merge
+			options = $FC.merge($.fn.flycharts.defaultOptions, userOptions); // do the merge
 			options.series = userOptions.series = seriesOptions; // set back the series data
 
 			var optionsChart = options.chart,
 				optionsMargin = optionsChart.margin,
-				margin = isObject(optionsMargin) ?
+				margin = $FC.isObject(optionsMargin) ?
 					optionsMargin :
 					[optionsMargin, optionsMargin, optionsMargin, optionsMargin];
 
-			this.optionsMarginTop = pick(optionsChart.marginTop, margin[0]);
-			this.optionsMarginRight = pick(optionsChart.marginRight, margin[1]);
-			this.optionsMarginBottom = pick(optionsChart.marginBottom, margin[2]);
-			this.optionsMarginLeft = pick(optionsChart.marginLeft, margin[3]);
+			this.optionsMarginTop = $FC.pick(optionsChart.marginTop, margin[0]);
+			this.optionsMarginRight = $FC.pick(optionsChart.marginRight, margin[1]);
+			this.optionsMarginBottom = $FC.pick(optionsChart.marginBottom, margin[2]);
+			this.optionsMarginLeft = $FC.pick(optionsChart.marginLeft, margin[3]);
 
 			var chartEvents = optionsChart.events;
 
@@ -82,12 +82,12 @@
 				eventType;
 
 			// Add the chart to the global lookup
-			chart.index = charts.length;
-			charts.push(chart);
+			chart.index = $FC.charts.length;
+			$FC.charts.push(chart);
 
 			// Set up auto resize
 			if (optionsChart.reflow !== false) {
-				addEvent(chart, 'load', function () {
+				$FC.addEvent(chart, 'load', function () {
 					chart.initReflow();
 				});
 			}
@@ -95,7 +95,7 @@
 			// Chart event handlers
 			if (chartEvents) {
 				for (eventType in chartEvents) {
-					addEvent(chart, eventType, chartEvents[eventType]);
+					$FC.addEvent(chart, eventType, chartEvents[eventType]);
 				}
 			}
 
@@ -103,9 +103,9 @@
 			chart.yAxis = [];
 
 			// Expose methods and variables
-			chart.animation = useCanVG ? false : pick(optionsChart.animation, true);
+			chart.animation = $FC.useCanVG ? false : $FC.pick(optionsChart.animation, true);
 			chart.pointCount = 0;
-			chart.counters = new ChartCounters();
+			chart.counters = new $FC.ChartCounters();
 
 			chart.firstRender();
 		},
@@ -145,7 +145,7 @@
 				chart = this;
 
 			if (options) {
-				redraw = pick(redraw, true); // defaults to true
+				redraw = $FC.pick(redraw, true); // defaults to true
 
 				fireEvent(chart, 'addSeries', { options: options }, function () {
 					series = chart.initSeries(options);
@@ -181,7 +181,7 @@
 			chartOptions[key] = splat(chartOptions[key] || {});
 			chartOptions[key].push(options);
 
-			if (pick(redraw, true)) {
+			if ($FC.pick(redraw, true)) {
 				this.redraw(animation);
 			}
 		},
@@ -378,14 +378,14 @@
 
 			// create the layer at the first call
 			if (!loadingDiv) {
-				chart.loadingDiv = loadingDiv = createElement(DIV, {
-					className: PREFIX + 'loading'
-				}, extend(loadingOptions.style, {
+				chart.loadingDiv = loadingDiv = $FC.createElement($FC.DIV, {
+					className: $FC.PREFIX + 'loading'
+				}, $FC.extend(loadingOptions.style, {
 					zIndex: 10,
-					display: NONE
+					display: $FC.NONE
 				}), chart.container);
 
-				chart.loadingSpan = createElement(
+				chart.loadingSpan = $FC.createElement(
 					'span',
 					null,
 					loadingOptions.labelStyle,
@@ -399,13 +399,13 @@
 
 			// show it
 			if (!chart.loadingShown) {
-				css(loadingDiv, { 
+				$FC.css(loadingDiv, { 
 					opacity: 0, 
 					display: '',
-					left: chart.plotLeft + PX,
-					top: chart.plotTop + PX,
-					width: chart.plotWidth + PX,
-					height: chart.plotHeight + PX
+					left: chart.plotLeft + $FC.PX,
+					top: chart.plotTop + $FC.PX,
+					width: chart.plotWidth + $FC.PX,
+					height: chart.plotHeight + $FC.PX
 				});
 				animate(loadingDiv, {
 					opacity: loadingOptions.style.opacity
@@ -429,7 +429,7 @@
 				}, {
 					duration: options.loading.hideDuration || 100,
 					complete: function () {
-						css(loadingDiv, { display: NONE });
+						$FC.css(loadingDiv, { display: $FC.NONE });
 					}
 				});
 			}
@@ -544,7 +544,7 @@
 
 			each(chart.series, function (series) {
 				if (series.options.stacking && (series.visible === true || chart.options.chart.ignoreHiddenSeries === false)) {
-					series.stackKey = series.type + pick(series.options.stack, '');
+					series.stackKey = series.type + $FC.pick(series.options.stack, '');
 				}
 			});
 		},
@@ -554,7 +554,7 @@
 		 */
 		showResetZoom: function () {
 			var chart = this,
-				lang = defaultOptions.lang,
+				lang = $.fn.flycharts.defaultOptions.lang,
 				btnOptions = chart.options.chart.resetZoomButton,
 				theme = btnOptions.theme,
 				states = theme.states,
@@ -623,7 +623,7 @@
 			// Redraw
 			if (hasZoomed) {
 				chart.redraw(
-					pick(chart.options.chart.animation, event && event.animation, chart.pointCount < 100) // animation
+					$FC.pick(chart.options.chart.animation, event && event.animation, chart.pointCount < 100) // animation
 				);
 			}
 		},
@@ -650,12 +650,12 @@
 				});
 			}
 
-			if (xAxis.series.length && newMin > mathMin(extremes.dataMin, extremes.min) && newMax < mathMax(extremes.dataMax, extremes.max)) {
+			if (xAxis.series.length && newMin > $FC.mathMin(extremes.dataMin, extremes.min) && newMax < $FC.mathMax(extremes.dataMax, extremes.max)) {
 				xAxis.setExtremes(newMin, newMax, true, false, { trigger: 'pan' });
 			}
 
 			chart.mouseDownX = chartX; // set new reference for next run
-			css(chart.container, { cursor: 'move' });
+			$FC.css(chart.container, { cursor: 'move' });
 		},
 
 		/**
@@ -697,7 +697,7 @@
 					)
 					.attr({
 						align: chartTitleOptions.align,
-						'class': PREFIX + name,
+						'class': $FC.PREFIX + name,
 						zIndex: chartTitleOptions.zIndex || 4
 					})
 					.css(chartTitleOptions.style)
@@ -717,11 +717,11 @@
 				renderTo = chart.renderToClone || chart.renderTo;
 
 			// get inner width and height from jQuery (#824)
-			chart.containerWidth = adapterRun(renderTo, 'width');
-			chart.containerHeight = adapterRun(renderTo, 'height');
+			chart.containerWidth = $FC.adapterRun(renderTo, 'width');
+			chart.containerHeight = $FC.adapterRun(renderTo, 'height');
 			
-			chart.chartWidth = mathMax(0, optionsChart.width || chart.containerWidth || 600); // #1393, 1460
-			chart.chartHeight = mathMax(0, pick(optionsChart.height,
+			chart.chartWidth = $FC.mathMax(0, optionsChart.width || chart.containerWidth || 600); // #1393, 1460
+			chart.chartHeight = $FC.mathMax(0, $FC.pick(optionsChart.height,
 				// the offsetHeight of an empty container is 0 in standard browsers, but 19 in IE7:
 				chart.containerHeight > 19 ? chart.containerHeight : 400));
 		},
@@ -748,8 +748,8 @@
 					this.renderTo.removeChild(container); // do not clone this
 				}
 				this.renderToClone = clone = this.renderTo.cloneNode(0);
-				css(clone, {
-					position: ABSOLUTE,
+				$FC.css(clone, {
+					position: $FC.ABSOLUTE,
 					top: '-9999px',
 					display: 'block' // #833
 				});
@@ -776,9 +776,9 @@
 				containerId;
 
 			chart.renderTo = renderTo = optionsChart.renderTo;
-			containerId = PREFIX + idCounter++;
+			containerId = $FC.PREFIX + $FC.idCounter++;
 
-			if (isString(renderTo)) {
+			if ($FC.isString(renderTo)) {
 				chart.renderTo = renderTo = doc.getElementById(renderTo);
 			}
 			
@@ -788,13 +788,13 @@
 			}
 			
 			// If the container already holds a chart, destroy it
-			oldChartIndex = pInt(attr(renderTo, indexAttrName));
-			if (!isNaN(oldChartIndex) && charts[oldChartIndex]) {
-				charts[oldChartIndex].destroy();
+			oldChartIndex = $FC.pInt($FC.attr(renderTo, indexAttrName));
+			if (!isNaN(oldChartIndex) && $FC.charts[oldChartIndex]) {
+				$FC.charts[oldChartIndex].destroy();
 			}		
 			
 			// Make a reference to the chart from the div
-			attr(renderTo, indexAttrName, chart.index);
+			$FC.attr(renderTo, indexAttrName, chart.index);
 
 			// remove previous chart
 			renderTo.innerHTML = '';
@@ -813,16 +813,16 @@
 			chartHeight = chart.chartHeight;
 
 			// create the inner container
-			chart.container = container = createElement(DIV, {
-					className: PREFIX + 'container' +
+			chart.container = container = $FC.createElement($FC.DIV, {
+					className: $FC.PREFIX + 'container' +
 						(optionsChart.className ? ' ' + optionsChart.className : ''),
 					id: containerId
-				}, extend({
-					position: RELATIVE,
-					overflow: HIDDEN, // needed for context menu (avoid scrollbars) and
+				}, $FC.extend({
+					position: $FC.RELATIVE,
+					overflow: $FC.HIDDEN, // needed for context menu (avoid scrollbars) and
 						// content overflow in IE
-					width: chartWidth + PX,
-					height: chartHeight + PX,
+					width: chartWidth + $FC.PX,
+					height: chartHeight + $FC.PX,
 					textAlign: 'left',
 					lineHeight: 'normal', // #427
 					zIndex: 0, // #1072
@@ -839,7 +839,7 @@
 					new SVGRenderer(container, chartWidth, chartHeight, true) :
 					new Renderer(container, chartWidth, chartHeight);
 
-			if (useCanVG) {
+			if ($FC.useCanVG) {
 				// If we need canvg library, extend and configure the renderer
 				// to get the tracker for translating mouse events
 				chart.renderer.create(chart, container, chartWidth, chartHeight);
@@ -867,7 +867,7 @@
 				chartTitleOptions = chart.options.title,
 				chartSubtitleOptions = chart.options.subtitle,
 				legendOptions = chart.options.legend,
-				legendMargin = pick(legendOptions.margin, 10),
+				legendMargin = $FC.pick(legendOptions.margin, 10),
 				legendX = legendOptions.x,
 				legendY = legendOptions.y,
 				align = legendOptions.align,
@@ -879,26 +879,26 @@
 
 			// adjust for title and subtitle
 			if ((chart.title || chart.subtitle) && !defined(chart.optionsMarginTop)) {
-				titleOffset = mathMax(
+				titleOffset = $FC.mathMax(
 					(chart.title && !chartTitleOptions.floating && !chartTitleOptions.verticalAlign && chartTitleOptions.y) || 0,
 					(chart.subtitle && !chartSubtitleOptions.floating && !chartSubtitleOptions.verticalAlign && chartSubtitleOptions.y) || 0
 				);
 				if (titleOffset) {
-					chart.plotTop = mathMax(chart.plotTop, titleOffset + pick(chartTitleOptions.margin, 15) + spacingTop);
+					chart.plotTop = $FC.mathMax(chart.plotTop, titleOffset + $FC.pick(chartTitleOptions.margin, 15) + spacingTop);
 				}
 			}
 			// adjust for legend
 			if (legend.display && !legendOptions.floating) {
 				if (align === 'right') { // horizontal alignment handled first
 					if (!defined(optionsMarginRight)) {
-						chart.marginRight = mathMax(
+						chart.marginRight = $FC.mathMax(
 							chart.marginRight,
 							legend.legendWidth - legendX + legendMargin + spacingRight
 						);
 					}
 				} else if (align === 'left') {
 					if (!defined(optionsMarginLeft)) {
-						chart.plotLeft = mathMax(
+						chart.plotLeft = $FC.mathMax(
 							chart.plotLeft,
 							legend.legendWidth + legendX + legendMargin + spacingLeft
 						);
@@ -906,7 +906,7 @@
 
 				} else if (verticalAlign === 'top') {
 					if (!defined(optionsMarginTop)) {
-						chart.plotTop = mathMax(
+						chart.plotTop = $FC.mathMax(
 							chart.plotTop,
 							legend.legendHeight + legendY + legendMargin + spacingTop
 						);
@@ -914,7 +914,7 @@
 
 				} else if (verticalAlign === 'bottom') {
 					if (!defined(optionsMarginBottom)) {
-						chart.marginBottom = mathMax(
+						chart.marginBottom = $FC.mathMax(
 							chart.marginBottom,
 							legend.legendHeight - legendY + legendMargin + spacingBottom
 						);
@@ -965,8 +965,8 @@
 				reflowTimeout;
 				
 			function reflow(e) {
-				var width = optionsChart.width || adapterRun(renderTo, 'width'),
-					height = optionsChart.height || adapterRun(renderTo, 'height'),
+				var width = optionsChart.width || $FC.adapterRun(renderTo, 'width'),
+					height = optionsChart.height || $FC.adapterRun(renderTo, 'height'),
 					target = e ? e.target : win; // #805 - MooTools doesn't supply e
 					
 				// Width and height checks for display:none. Target is doc in IE8 and Opera,
@@ -986,8 +986,8 @@
 					chart.containerHeight = height;
 				}
 			}
-			addEvent(win, 'resize', reflow);
-			addEvent(chart, 'destroy', function () {
+			$FC.addEvent(win, 'resize', reflow);
+			$FC.addEvent(chart, 'destroy', function () {
 				removeEvent(win, 'resize', reflow);
 			});
 		},
@@ -1020,16 +1020,16 @@
 			chart.oldChartHeight = chart.chartHeight;
 			chart.oldChartWidth = chart.chartWidth;
 			if (defined(width)) {
-				chart.chartWidth = chartWidth = mathMax(0, mathRound(width));
+				chart.chartWidth = chartWidth = $FC.mathMax(0, mathRound(width));
 				chart.hasUserSize = !!chartWidth;
 			}
 			if (defined(height)) {
-				chart.chartHeight = chartHeight = mathMax(0, mathRound(height));
+				chart.chartHeight = chartHeight = $FC.mathMax(0, mathRound(height));
 			}
 
-			css(chart.container, {
-				width: chartWidth + PX,
-				height: chartHeight + PX
+			$FC.css(chart.container, {
+				width: chartWidth + $FC.PX,
+				height: chartHeight + $FC.PX
 			});
 			chart.setChartSize(true);
 			chart.renderer.setSize(chartWidth, chartHeight, animation);
@@ -1092,8 +1092,8 @@
 
 			chart.plotLeft = plotLeft = mathRound(chart.plotLeft);
 			chart.plotTop = plotTop = mathRound(chart.plotTop);
-			chart.plotWidth = plotWidth = mathMax(0, mathRound(chartWidth - plotLeft - chart.marginRight));
-			chart.plotHeight = plotHeight = mathMax(0, mathRound(chartHeight - plotTop - chart.marginBottom));
+			chart.plotWidth = plotWidth = $FC.mathMax(0, mathRound(chartWidth - plotLeft - chart.marginRight));
+			chart.plotHeight = plotHeight = $FC.mathMax(0, mathRound(chartHeight - plotTop - chart.marginBottom));
 
 			chart.plotSizeX = inverted ? plotHeight : plotWidth;
 			chart.plotSizeY = inverted ? plotWidth : plotHeight;
@@ -1113,13 +1113,13 @@
 				width: plotWidth,
 				height: plotHeight
 			};
-			clipX = mathCeil(mathMax(plotBorderWidth, clipOffset[3]) / 2);
-			clipY = mathCeil(mathMax(plotBorderWidth, clipOffset[0]) / 2);
+			clipX = mathCeil($FC.mathMax(plotBorderWidth, clipOffset[3]) / 2);
+			clipY = mathCeil($FC.mathMax(plotBorderWidth, clipOffset[0]) / 2);
 			chart.clipBox = {
 				x: clipX, 
 				y: clipY, 
-				width: mathFloor(chart.plotSizeX - mathMax(plotBorderWidth, clipOffset[1]) / 2 - clipX), 
-				height: mathFloor(chart.plotSizeY - mathMax(plotBorderWidth, clipOffset[2]) / 2 - clipY)
+				width: mathFloor(chart.plotSizeX - $FC.mathMax(plotBorderWidth, clipOffset[1]) / 2 - clipX), 
+				height: mathFloor(chart.plotSizeY - $FC.mathMax(plotBorderWidth, clipOffset[2]) / 2 - clipY)
 			};
 
 			if (!skipAxes) {
@@ -1141,10 +1141,10 @@
 				spacingBottom = optionsChart.spacingBottom,
 				spacingLeft = optionsChart.spacingLeft;
 
-			chart.plotTop = pick(chart.optionsMarginTop, spacingTop);
-			chart.marginRight = pick(chart.optionsMarginRight, spacingRight);
-			chart.marginBottom = pick(chart.optionsMarginBottom, spacingBottom);
-			chart.plotLeft = pick(chart.optionsMarginLeft, spacingLeft);
+			chart.plotTop = $FC.pick(chart.optionsMarginTop, spacingTop);
+			chart.marginRight = $FC.pick(chart.optionsMarginRight, spacingRight);
+			chart.marginBottom = $FC.pick(chart.optionsMarginBottom, spacingBottom);
+			chart.plotLeft = $FC.pick(chart.optionsMarginLeft, spacingLeft);
 			chart.axisOffset = [0, 0, 0, 0]; // top, right, bottom, left
 			chart.clipOffset = [0, 0, 0, 0];
 		},
@@ -1184,7 +1184,7 @@
 				if (!chartBackground) {
 					
 					bgAttr = {
-						fill: chartBackgroundColor || NONE
+						fill: chartBackgroundColor || $FC.NONE
 					};
 					if (chartBorderWidth) { // #980
 						bgAttr.stroke = optionsChart.borderColor;
@@ -1363,9 +1363,9 @@
 			// Labels
 			if (labels.items) {
 				each(labels.items, function (label) {
-					var style = extend(labels.style, label.style),
-						x = pInt(style.left) + chart.plotLeft,
-						y = pInt(style.top) + chart.plotTop + 12;
+					var style = $FC.extend(labels.style, label.style),
+						x = $FC.pInt(style.left) + chart.plotLeft,
+						y = $FC.pInt(style.top) + chart.plotTop + 12;
 
 					// delete to prevent rewriting in IE
 					delete style.left;
@@ -1425,7 +1425,7 @@
 			fireEvent(chart, 'destroy');
 			
 			// Delete the chart from charts lookup array
-			charts[chart.index] = UNDEFINED;
+			$FC.charts[chart.index] = UNDEFINED;
 			chart.renderTo.removeAttribute('data-highcharts-chart');
 
 			// remove events
@@ -1482,7 +1482,7 @@
 
 			// Note: in spite of JSLint's complaints, win == win.top is required
 			/*jslint eqeq: true*/
-			if ((!hasSVG && (win == win.top && doc.readyState !== 'complete')) || (useCanVG && !win.canvg)) {
+			if ((!$FC.hasSVG && (win == win.top && doc.readyState !== 'complete')) || ($FC.useCanVG && !win.canvg)) {
 			/*jslint eqeq: false*/
 				if (useCanVG) {
 					// Delay rendering until canvg library is downloaded and ready
@@ -1586,10 +1586,341 @@
 
 		// 当发生无参数调用时，返回一个已定义的图表
 		if (options === $FC.UNDEFINED) {
-			ret = $FC.charts[attr(this[0], 'data-highcharts-chart')];
+			ret = $FC.charts[$FC.attr(this[0], 'data-highcharts-chart')];
 		}	
 
 		return ret;
 	};
+	
+	$.fn.flycharts.defaultLabelOptions = {
+		enabled: true,
+		// rotation: 0,
+		// align: 'center',
+		x: 0,
+		y: 15,
+		/*formatter: function () {
+			return this.value;
+		},*/
+		style: {
+			color: '#666',
+			cursor: 'default',
+			fontSize: '11px',
+			lineHeight: '14px'
+		}
+	};
+	
+	$.fn.flycharts.defaultOptions = {
+		colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', '#492970',
+	 		'#f28f43', '#77a1e5', '#c42525', '#a6c96a'],
+	 	symbols: ['circle', 'diamond', 'square', 'triangle', 'triangle-down'],
+	 	lang: {
+	 		loading: 'Loading...',
+	 		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+	 				'August', 'September', 'October', 'November', 'December'],
+	 		shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	 		weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	 		decimalPoint: '.',
+	 		numericSymbols: ['k', 'M', 'G', 'T', 'P', 'E'], // SI prefixes used in axis labels
+	 		resetZoom: 'Reset zoom',
+	 		resetZoomTitle: 'Reset zoom level 1:1',
+	 		thousandsSep: ','
+	 	},
+	 	global: {
+	 		useUTC: true,
+	 		canvasToolsURL: 'http://code.highcharts.com/3.0.2/modules/canvas-tools.js',
+	 		VMLRadialGradientURL: 'http://code.highcharts.com/3.0.2/gfx/vml-radial-gradient.png'
+	 	},
+	 	chart: {
+	 		//animation: true,
+	 		//alignTicks: false,
+	 		//reflow: true,
+	 		//className: null,
+	 		//events: { load, selection },
+	 		//margin: [null],
+	 		//marginTop: null,
+	 		//marginRight: null,
+	 		//marginBottom: null,
+	 		//marginLeft: null,
+	 		borderColor: '#4572A7',
+	 		//borderWidth: 0,
+	 		borderRadius: 5,
+	 		defaultSeriesType: 'line',
+	 		ignoreHiddenSeries: true,
+	 		//inverted: false,
+	 		//shadow: false,
+	 		spacingTop: 10,
+	 		spacingRight: 10,
+	 		spacingBottom: 15,
+	 		spacingLeft: 10,
+	 		style: {
+	 			fontFamily: '"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif', // default font
+	 			fontSize: '12px'
+	 		},
+	 		backgroundColor: '#FFFFFF',
+	 		//plotBackgroundColor: null,
+	 		plotBorderColor: '#C0C0C0',
+	 		//plotBorderWidth: 0,
+	 		//plotShadow: false,
+	 		//zoomType: ''
+	 		resetZoomButton: {
+	 			theme: {
+	 				zIndex: 20
+	 			},
+	 			position: {
+	 				align: 'right',
+	 				x: -10,
+	 				//verticalAlign: 'top',
+	 				y: 10
+	 			}
+	 			// relativeTo: 'plot'
+	 		}
+	 	},
+	 	title: {
+	 		text: 'Chart title',
+	 		align: 'center',
+	 		// floating: false,
+	 		// margin: 15,
+	 		// x: 0,
+	 		// verticalAlign: 'top',
+	 		y: 15,
+	 		style: {
+	 			color: '#274b6d',//#3E576F',
+	 			fontSize: '16px'
+	 		}
+
+	 	},
+	 	subtitle: {
+	 		text: '',
+	 		align: 'center',
+	 		// floating: false
+	 		// x: 0,
+	 		// verticalAlign: 'top',
+	 		y: 30,
+	 		style: {
+	 			color: '#4d759e'
+	 		}
+	 	},
+
+	 	plotOptions: {
+	 		line: { // base series options
+	 			allowPointSelect: false,
+	 			showCheckbox: false,
+	 			animation: {
+	 				duration: 1000
+	 			},
+	 			//connectNulls: false,
+	 			//cursor: 'default',
+	 			//clip: true,
+	 			//dashStyle: null,
+	 			//enableMouseTracking: true,
+	 			events: {},
+	 			//legendIndex: 0,
+	 			lineWidth: 2,
+	 			//shadow: false,
+	 			// stacking: null,
+	 			marker: {
+	 				enabled: true,
+	 				//symbol: null,
+	 				lineWidth: 0,
+	 				radius: 4,
+	 				lineColor: '#FFFFFF',
+	 				//fillColor: null,
+	 				states: { // states for a single point
+	 					hover: {
+	 						enabled: true
+	 						//radius: base + 2
+	 					},
+	 					select: {
+	 						fillColor: '#FFFFFF',
+	 						lineColor: '#000000',
+	 						lineWidth: 2
+	 					}
+	 				}
+	 			},
+	 			point: {
+	 				events: {}
+	 			},
+	 			dataLabels: $FC.merge($.fn.flycharts.defaultLabelOptions, {
+	 				align: 'center',
+	 				enabled: false,
+	 				formatter: function () {
+	 					return this.y === null ? '' : numberFormat(this.y, -1);
+	 				},
+	 				verticalAlign: 'bottom', // above singular point
+	 				y: 0
+	 				// backgroundColor: undefined,
+	 				// borderColor: undefined,
+	 				// borderRadius: undefined,
+	 				// borderWidth: undefined,
+	 				// padding: 3,
+	 				// shadow: false
+	 			}),
+	 			cropThreshold: 300, // draw points outside the plot area when the number of points is less than this
+	 			pointRange: 0,
+	 			//pointStart: 0,
+	 			//pointInterval: 1,
+	 			showInLegend: true,
+	 			states: { // states for the entire series
+	 				hover: {
+	 					//enabled: false,
+	 					//lineWidth: base + 1,
+	 					marker: {
+	 						// lineWidth: base + 1,
+	 						// radius: base + 1
+	 					}
+	 				},
+	 				select: {
+	 					marker: {}
+	 				}
+	 			},
+	 			stickyTracking: true
+	 			//tooltip: {
+	 				//pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b>'
+	 				//valueDecimals: null,
+	 				//xDateFormat: '%A, %b %e, %Y',
+	 				//valuePrefix: '',
+	 				//ySuffix: ''				
+	 			//}
+	 			// turboThreshold: 1000
+	 			// zIndex: null
+	 		}
+	 	},
+	 	labels: {
+	 		//items: [],
+	 		style: {
+	 			//font: defaultFont,
+	 			position: $FC.ABSOLUTE,
+	 			color: '#3E576F'
+	 		}
+	 	},
+	 	legend: {
+	 		enabled: true,
+	 		align: 'center',
+	 		//floating: false,
+	 		layout: 'horizontal',
+	 		labelFormatter: function () {
+	 			return this.name;
+	 		},
+	 		borderWidth: 1,
+	 		borderColor: '#909090',
+	 		borderRadius: 5,
+	 		navigation: {
+	 			// animation: true,
+	 			activeColor: '#274b6d',
+	 			// arrowSize: 12
+	 			inactiveColor: '#CCC'
+	 			// style: {} // text styles
+	 		},
+	 		// margin: 10,
+	 		// reversed: false,
+	 		shadow: false,
+	 		// backgroundColor: null,
+	 		/*style: {
+	 			padding: '5px'
+	 		},*/
+	 		itemStyle: {
+	 			cursor: 'pointer',
+	 			color: '#274b6d',
+	 			fontSize: '12px'
+	 		},
+	 		itemHoverStyle: {
+	 			//cursor: 'pointer', removed as of #601
+	 			color: '#000'
+	 		},
+	 		itemHiddenStyle: {
+	 			color: '#CCC'
+	 		},
+	 		itemCheckboxStyle: {
+	 			position: $FC.ABSOLUTE,
+	 			width: '13px', // for IE precision
+	 			height: '13px'
+	 		},
+	 		// itemWidth: undefined,
+	 		symbolWidth: 16,
+	 		symbolPadding: 5,
+	 		verticalAlign: 'bottom',
+	 		// width: undefined,
+	 		x: 0,
+	 		y: 0,
+	 		title: {
+	 			//text: null,
+	 			style: {
+	 				fontWeight: 'bold'
+	 			}
+	 		}			
+	 	},
+
+	 	loading: {
+	 		// hideDuration: 100,
+	 		labelStyle: {
+	 			fontWeight: 'bold',
+	 			position: $FC.RELATIVE,
+	 			top: '1em'
+	 		},
+	 		// showDuration: 0,
+	 		style: {
+	 			position: $FC.ABSOLUTE,
+	 			backgroundColor: 'white',
+	 			opacity: 0.5,
+	 			textAlign: 'center'
+	 		}
+	 	},
+
+	 	tooltip: {
+	 		enabled: true,
+	 		animation: $FC.hasSVG,
+	 		//crosshairs: null,
+	 		backgroundColor: 'rgba(255, 255, 255, .85)',
+	 		borderWidth: 1,
+	 		borderRadius: 3,
+	 		dateTimeLabelFormats: { 
+	 			millisecond: '%A, %b %e, %H:%M:%S.%L',
+	 			second: '%A, %b %e, %H:%M:%S',
+	 			minute: '%A, %b %e, %H:%M',
+	 			hour: '%A, %b %e, %H:%M',
+	 			day: '%A, %b %e, %Y',
+	 			week: 'Week from %A, %b %e, %Y',
+	 			month: '%B %Y',
+	 			year: '%Y'
+	 		},
+	 		//formatter: defaultFormatter,
+	 		headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>',
+	 		pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+	 		shadow: true,
+	 		//shared: false,
+	 		snap: $FC.isTouchDevice ? 25 : 10,
+	 		style: {
+	 			color: '#333333',
+	 			cursor: 'default',
+	 			fontSize: '12px',
+	 			padding: '8px',
+	 			whiteSpace: 'nowrap'
+	 		}
+	 		//xDateFormat: '%A, %b %e, %Y',
+	 		//valueDecimals: null,
+	 		//valuePrefix: '',
+	 		//valueSuffix: ''
+	 	},
+
+	 	credits: {
+	 		enabled: true,
+	 		text: 'Highcharts.com',
+	 		href: 'http://www.highcharts.com',
+	 		position: {
+	 			align: 'right',
+	 			x: -10,
+	 			verticalAlign: 'bottom',
+	 			y: -5
+	 		},
+	 		style: {
+	 			cursor: 'pointer',
+	 			color: '#909090',
+	 			fontSize: '9px'
+	 		}
+	 	}
+	};
+	
+	$.fn.flycharts.defaultPlotOptions = $.fn.flycharts.defaultOptions.plotOptions;
+	$.fn.flycharts.defaultSeriesOptions = $.fn.flycharts.defaultPlotOptions.line;
 	
 })(jQuery);
