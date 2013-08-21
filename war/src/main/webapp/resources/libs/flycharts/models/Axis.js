@@ -1483,7 +1483,7 @@ $FC.Axis.prototype = {
 	 * @param options {Object} The plotBand or plotLine configuration object
 	 */
 	addPlotBandOrLine: function (options, coll) {
-		var obj = new PlotLineOrBand(this, options).render(),
+		var obj = new $FC.PlotLineOrBand(this, options).render(),
 			userOptions = this.userOptions;
 
 		// Add it to the user options for exporting and Axis.update
@@ -1761,7 +1761,7 @@ $FC.Axis.prototype = {
 			if (axis.minorTickInterval && !axis.categories) {
 				$FC.each(axis.getMinorTickPositions(), function (pos) {
 					if (!minorTicks[pos]) {
-						minorTicks[pos] = new Tick(axis, pos, 'minor');
+						minorTicks[pos] = new $FC.Tick(axis, pos, 'minor');
 					}
 
 					// render new ticks in old position
@@ -1785,7 +1785,7 @@ $FC.Axis.prototype = {
 					if (!isLinked || (pos >= axis.min && pos <= axis.max)) {
 	
 						if (!ticks[pos]) {
-							ticks[pos] = new Tick(axis, pos);
+							ticks[pos] = new $FC.Tick(axis, pos);
 						}
 	
 						// render new ticks in old position
@@ -1801,7 +1801,7 @@ $FC.Axis.prototype = {
 				// we need to add a tick mark and grid line at the left edge of the X axis.
 				if (tickmarkOffset && axis.min === 0) {
 					if (!ticks[-1]) {
-						ticks[-1] = new Tick(axis, -1, null, true);
+						ticks[-1] = new $FC.Tick(axis, -1, null, true);
 					}
 					ticks[-1].render(-1);
 				}
@@ -1813,7 +1813,7 @@ $FC.Axis.prototype = {
 				$FC.each(tickPositions, function (pos, i) {
 					if (i % 2 === 0 && pos < axis.max) {
 						if (!alternateBands[pos]) {
-							alternateBands[pos] = new PlotLineOrBand(axis);
+							alternateBands[pos] = new $FC.PlotLineOrBand(axis);
 						}
 						from = pos + tickmarkOffset; // #949
 						to = tickPositions[i + 1] !== $FC.UNDEFINED ? tickPositions[i + 1] + tickmarkOffset : axis.max;

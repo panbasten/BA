@@ -563,7 +563,7 @@ $FC.Pointer.prototype = {
 
 		// Reset all
 		if (chart) { // it may be destroyed on mouse up - #877
-			css(chart.container, { cursor: chart._cursor });
+			$FC.css(chart.container, { cursor: chart._cursor });
 			chart.cancelClick = this.hasDragged > 10; // #370
 			chart.mouseIsDown = this.hasDragged = this.hasPinched = false;
 			this.pinchDown = [];
@@ -646,11 +646,11 @@ $FC.Pointer.prototype = {
 	inClass: function (element, className) {
 		var elemClassName;
 		while (element) {
-			elemClassName = attr(element, 'class');
+			elemClassName = $FC.attr(element, 'class');
 			if (elemClassName) {
 				if (elemClassName.indexOf(className) !== -1) {
 					return true;
-				} else if (elemClassName.indexOf(PREFIX + 'container') !== -1) {
+				} else if (elemClassName.indexOf($FC.PREFIX + 'container') !== -1) {
 					return false;
 				}
 			}
@@ -681,7 +681,7 @@ $FC.Pointer.prototype = {
 		if (!chart.cancelClick) {
 			
 			// On tracker click, fire the series and point events. #783, #1583
-			if (hoverPoint && this.inClass(e.target, PREFIX + 'tracker')) {
+			if (hoverPoint && this.inClass(e.target, $FC.PREFIX + 'tracker')) {
 				chartPosition = this.chartPosition;
 				plotX = hoverPoint.plotX;
 				plotY = hoverPoint.plotY;
@@ -710,7 +710,7 @@ $FC.Pointer.prototype = {
 
 				// fire a click event in the chart
 				if (chart.isInsidePlot(e.chartX - plotLeft, e.chartY - plotTop)) {
-					fireEvent(chart, 'click', e);
+					$FC.fireEvent(chart, 'click', e);
 				}
 			}
 
