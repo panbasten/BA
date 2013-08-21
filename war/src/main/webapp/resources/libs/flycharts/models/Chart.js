@@ -1,7 +1,8 @@
 /**
- * The chart class
+ * 统计图类
+ * 
  * @param {Object} options
- * @param {Function} callback Function to run when the chart has loaded
+ * @param {Function} callback 统计图加载完成后执行的方法
  */
 $FC.Chart = function () {
 	this.init.apply(this, arguments);
@@ -16,7 +17,7 @@ $FC.Chart.prototype = {
 
 		// Handle regular options
 		var options,
-			seriesOptions = userOptions.series; // skip merging data points to increase performance
+			seriesOptions = userOptions.series; // 忽略合并数据点，以提高性能
 
 		userOptions.series = null;
 		options = $FC.merge($FC.defaultOptions, userOptions); // do the merge
@@ -79,18 +80,18 @@ $FC.Chart.prototype = {
 		var chart = this,
 			eventType;
 
-		// Add the chart to the global lookup
+		// 添加统计图到一个全局集合中，便于查找
 		chart.index = $FC.charts.length;
 		$FC.charts.push(chart);
 
-		// Set up auto resize
+		// 设置自动调整尺寸
 		if (optionsChart.reflow !== false) {
 			$FC.addEvent(chart, 'load', function () {
 				chart.initReflow();
 			});
 		}
 
-		// Chart event handlers
+		// 事件句柄
 		if (chartEvents) {
 			for (eventType in chartEvents) {
 				$FC.addEvent(chart, eventType, chartEvents[eventType]);
@@ -100,7 +101,7 @@ $FC.Chart.prototype = {
 		chart.xAxis = [];
 		chart.yAxis = [];
 
-		// Expose methods and variables
+		// 暴露的方法和变量
 		chart.animation = $FC.useCanVG ? false : $FC.pick(optionsChart.animation, true);
 		chart.pointCount = 0;
 		chart.counters = new $FC.ChartCounters();
@@ -707,32 +708,31 @@ $FC.Chart.prototype = {
 	},
 
 	/**
-	 * Get chart width and height according to options and container size
+	 * 根据设置选项和容器尺寸，获得统计图的长宽尺寸
 	 */
 	getChartSize: function () {
 		var chart = this,
 			optionsChart = chart.options.chart,
 			renderTo = chart.renderToClone || chart.renderTo;
 
-		// get inner width and height from jQuery (#824)
+		// 获得内部长宽 (#824)
 		chart.containerWidth = $FC.adapterRun(renderTo, 'width');
 		chart.containerHeight = $FC.adapterRun(renderTo, 'height');
 		
 		chart.chartWidth = $FC.mathMax(0, optionsChart.width || chart.containerWidth || 600); // #1393, 1460
 		chart.chartHeight = $FC.mathMax(0, $FC.pick(optionsChart.height,
-			// the offsetHeight of an empty container is 0 in standard browsers, but 19 in IE7:
+			// 对于一个空容器，一般标准的浏览器的offsetHeight是0，但是IE7是19，所以默认大于19为非空
 			chart.containerHeight > 19 ? chart.containerHeight : 400));
 	},
 
 	/**
-	 * Create a clone of the chart's renderTo div and place it outside the viewport to allow
-	 * size computation on chart.render and chart.redraw
+	 * 克隆一个容器DIV（renderTo），放置在外部可视窗口，用于计算其尺寸（hart.render and chart.redraw）
 	 */
 	cloneRenderTo: function (revert) {
 		var clone = this.renderToClone,
 			container = this.container;
 		
-		// Destroy the clone and bring the container back to the real renderTo div
+		// 销毁克隆容器，并将容器复制回真实的(renderTo)DIV
 		if (revert) {
 			if (clone) {
 				this.renderTo.appendChild(container);
@@ -740,7 +740,7 @@ $FC.Chart.prototype = {
 				delete this.renderToClone;
 			}
 		
-		// Set up the clone
+		// 克隆容器
 		} else {
 			if (container && container.parentNode === this.renderTo) {
 				this.renderTo.removeChild(container); // do not clone this
@@ -759,8 +759,7 @@ $FC.Chart.prototype = {
 	},
 
 	/**
-	 * Get the containing element, determine the size and create the inner container
-	 * div to hold the chart
+	 * 获得容器对象，探测其尺寸，并创建一个内部DIV容器用于显示统计图
 	 */
 	getContainer: function () {
 		var chart = this,
@@ -780,37 +779,35 @@ $FC.Chart.prototype = {
 			chart.renderTo = renderTo = doc.getElementById(renderTo);
 		}
 		
-		// Display an error if the renderTo is wrong
+		// 如果没有设置renderTO属性，提示一个错误
 		if (!renderTo) {
-			error(13, true);
+			$FC.error(13, true);
 		}
 		
-		// If the container already holds a chart, destroy it
+		// 如果容器中已经加载了一个统计图，将其销毁（通过'data-highcharts-chart'属性获得该统计图）
 		oldChartIndex = $FC.pInt($FC.attr(renderTo, indexAttrName));
 		if (!isNaN(oldChartIndex) && $FC.charts[oldChartIndex]) {
 			$FC.charts[oldChartIndex].destroy();
 		}		
 		
-		// Make a reference to the chart from the div
+		// 在容器DIV上标记一个引用（'data-highcharts-chart'属性）
 		$FC.attr(renderTo, indexAttrName, chart.index);
 
-		// remove previous chart
+		// 移出之前的统计图
 		renderTo.innerHTML = '';
 
-		// If the container doesn't have an offsetWidth, it has or is a child of a node
-		// that has display:none. We need to temporarily move it out to a visible
-		// state to determine the size, else the legend and tooltips won't render
-		// properly
+		// 如果容器获得不到offsetWidth，说明其不可显示或者是一个不可显示节点的子节点(display:none)。
+		// 我们需要暂时将其转到一个可见状态，来探测其尺寸，否则图例和提示都将无法正确渲染。
 		if (!renderTo.offsetWidth) {
 			chart.cloneRenderTo();
 		}
 
-		// get the width and height
+		// 获得宽度和高度
 		chart.getChartSize();
 		chartWidth = chart.chartWidth;
 		chartHeight = chart.chartHeight;
 
-		// create the inner container
+		// 创建一个内部容器
 		chart.container = container = $FC.createElement($FC.DIV, {
 				className: $FC.PREFIX + 'container' +
 					(optionsChart.className ? ' ' + optionsChart.className : ''),
@@ -829,17 +826,16 @@ $FC.Chart.prototype = {
 			chart.renderToClone || renderTo
 		);
 
-		// cache the cursor (#1650)
+		// 缓存指针 (#1650)
 		chart._cursor = container.style.cursor;
 
 		chart.renderer =
-			optionsChart.forExport ? // force SVG, used for SVG export
+			optionsChart.forExport ? // 用于导出，强制使用SVG渲染器
 				new $FC.SVGRenderer(container, chartWidth, chartHeight, true) :
 				new $FC.Renderer(container, chartWidth, chartHeight);
 
 		if ($FC.useCanVG) {
-			// If we need canvg library, extend and configure the renderer
-			// to get the tracker for translating mouse events
+			// 如果使用canvg库，需要扩展和配置渲染器，用于跟踪鼠标事件
 			chart.renderer.create(chart, container, chartWidth, chartHeight);
 		}
 	},
@@ -1065,8 +1061,7 @@ $FC.Chart.prototype = {
 	},
 
 	/**
-	 * Set the public chart properties. This is done before and after the pre-render
-	 * to determine margin sizes
+	 * 设置统计图属性。在预渲染前后执行，用于确定边距尺寸。
 	 */
 	setChartSize: function (skipAxes) {
 		var chart = this,
@@ -1129,7 +1124,7 @@ $FC.Chart.prototype = {
 	},
 
 	/**
-	 * Initial margins before auto size margins are applied
+	 * 在自动边距应用前，初始化边距
 	 */
 	resetMargins: function () {
 		var chart = this,
@@ -1256,9 +1251,8 @@ $FC.Chart.prototype = {
 	},
 
 	/**
-	 * Detect whether a certain chart property is needed based on inspecting its options
-	 * and series. This mainly applies to the chart.invert property, and in extensions to 
-	 * the chart.angular and chart.polar properties.
+	 * 检测是否某些属性，需要基于其设置和序列生成。
+	 * 主要是chart.invert属性，扩展chart.angular和chart.polar属性
 	 */
 	propFromSeries: function () {
 		var chart = this,
@@ -1271,17 +1265,17 @@ $FC.Chart.prototype = {
 			
 		$FC.each(['inverted', 'angular', 'polar'], function (key) {
 			
-			// The default series type's class
+			// 默认的系列类型
 			klass = $FC.seriesTypes[optionsChart.type || optionsChart.defaultSeriesType];
 			
-			// Get the value from available chart-wide properties
+			// 获得统计图范围内可用的属性值
 			value = (
-				chart[key] || // 1. it is set before
-				optionsChart[key] || // 2. it is set in the options
-				(klass && klass.prototype[key]) // 3. it's default series class requires it
+				chart[key] || // 1. 之前设置的
+				optionsChart[key] || // 2. 来着options的
+				(klass && klass.prototype[key]) // 3. 来着默认系列类型的必须值
 			);
 	
-			// 4. Check if any the chart's series require it
+			// 4. 来自设置的统计图系列的必须值
 			i = seriesOptions && seriesOptions.length;
 			while (!value && i--) {
 				klass = $FC.seriesTypes[seriesOptions[i].type];
@@ -1290,7 +1284,7 @@ $FC.Chart.prototype = {
 				}
 			}
 	
-			// Set the chart property
+			// 设置统计图属性
 			chart[key] = value;	
 		});
 		
@@ -1472,23 +1466,22 @@ $FC.Chart.prototype = {
 
 
 	/**
-	 * VML namespaces can't be added until after complete. Listening
-	 * for Perini's doScroll hack is not enough.
+	 * VML的命名空间，在完成之前不能被添加。
 	 */
 	isReadyToRender: function () {
 		var chart = this;
 
 		// Note: in spite of JSLint's complaints, win == win.top is required
 		/*jslint eqeq: true*/
-		if ((!$FC.hasSVG && ($FC.win == $FC.win.top && doc.readyState !== 'complete')) || ($FC.useCanVG && !$FC.win.canvg)) {
+		if ((!$FC.hasSVG && ($FC.win == $FC.win.top && $FC.doc.readyState !== 'complete')) || ($FC.useCanVG && !$FC.win.canvg)) {
 		/*jslint eqeq: false*/
 			if (useCanVG) {
-				// Delay rendering until canvg library is downloaded and ready
+				// 推迟渲染，直到canvg的库下载完成并准备好
 				CanVGController.push(function () { chart.firstRender(); }, chart.options.global.canvasToolsURL);
 			} else {
-				doc.attachEvent('onreadystatechange', function () {
-					doc.detachEvent('onreadystatechange', chart.firstRender);
-					if (doc.readyState === 'complete') {
+				$FC.doc.attachEvent('onreadystatechange', function () {
+					$FC.doc.detachEvent('onreadystatechange', chart.firstRender);
+					if ($FC.doc.readyState === 'complete') {
 						chart.firstRender();
 					}
 				});
@@ -1499,29 +1492,29 @@ $FC.Chart.prototype = {
 	},
 
 	/**
-	 * Prepare for first rendering after all data are loaded
+	 * 所有数据加载完成后，准备进行首次渲染
 	 */
 	firstRender: function () {
 		var chart = this,
 			options = chart.options,
 			callback = chart.callback;
 
-		// Check whether the chart is ready to render
+		// 检查该统计图是否已经准备好渲染
 		if (!chart.isReadyToRender()) {
 			return;
 		}
 
-		// Create the container
+		// 创建显示容器
 		chart.getContainer();
 
-		// Run an early event after the container and renderer are established
+		// 在容器和渲染器建立后，运行一个早期初始化事件
 		$FC.fireEvent(chart, 'init');
 
 		
 		chart.resetMargins();
 		chart.setChartSize();
 
-		// Set the common chart properties (mainly invert) from the given series
+		// 从给定的系列中设置通用统计图属性（主要是反转属性）
 		chart.propFromSeries();
 
 		// get axes
