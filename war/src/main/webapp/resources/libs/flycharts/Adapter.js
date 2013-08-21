@@ -51,7 +51,7 @@ $FC.Adapter = {
 					// Fx.prototype.cur returns the current value. The other ones are setters
 					// and returning a value has no effect.
 					return elem.attr ? // is SVG element wrapper
-						elem.attr(fx.prop, fn === 'cur' ? UNDEFINED : fx.now) : // apply the SVG wrapper's method
+						elem.attr(fx.prop, fn === 'cur' ? $FC.UNDEFINED : fx.now) : // apply the SVG wrapper's method
 						base.apply(this, arguments); // use jQuery's built-in method
 				};
 			}
@@ -131,7 +131,7 @@ $FC.Adapter = {
 			options = args[0];
 
 			// Create the chart
-			if (options !== UNDEFINED) {
+			if (options !== $FC.UNDEFINED) {
 				/*jslint unused:false*/
 				options.chart = options.chart || {};
 				options.chart.renderTo = this[0];
@@ -141,7 +141,7 @@ $FC.Adapter = {
 			}
 
 			// When called without parameters or with the return argument, get a predefined chart
-			if (options === UNDEFINED) {
+			if (options === $FC.UNDEFINED) {
 				ret = charts[attr(this[0], 'data-highcharts-chart')];
 			}	
 
@@ -299,7 +299,7 @@ $FC.Adapter = {
 		var ret = e.originalEvent || e;
 		
 		// computed by jQuery, needed by IE8
-		if (ret.pageX === UNDEFINED) { // #1236
+		if (ret.pageX === $FC.UNDEFINED) { // #1236
 			ret.pageX = e.pageX;
 			ret.pageY = e.pageY;
 		}

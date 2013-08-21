@@ -37,14 +37,14 @@ $FC.SVGElement.prototype = {
 	 * @param {Function} complete Function to perform at the end of animation
 	 */
 	animate: function (params, options, complete) {
-		var animOptions = $FC.pick(options, globalAnimation, true);
+		var animOptions = $FC.pick(options, $FC.globalAnimation, true);
 		stop(this); // stop regardless of animation actually running, or reverting to .attr (#607)
 		if (animOptions) {
-			animOptions = merge(animOptions);
+			animOptions = $FC.merge(animOptions);
 			if (complete) { // allows using a callback with the global animation without overwriting it
 				animOptions.complete = complete;
 			}
-			animate(this, params, animOptions);
+			$FC.animate(this, params, animOptions);
 		} else {
 			this.attr(params);
 			if (complete) {
@@ -166,7 +166,7 @@ $FC.SVGElement.prototype = {
 						key = 'stroke-dasharray';
 						value = value && value.toLowerCase();
 						if (value === 'solid') {
-							value = NONE;
+							value = $FC.NONE;
 						} else if (value) {
 							value = value
 								.replace('shortdashdotdot', '3,1,1,1,1,1,')
@@ -246,7 +246,7 @@ $FC.SVGElement.prototype = {
 								shadows[i], 
 								key, 
 								key === 'height' ? 
-									mathMax(value - (shadows[i].cutHeight || 0), 0) :
+									$FC.mathMax(value - (shadows[i].cutHeight || 0), 0) :
 									value
 							);
 						}
@@ -321,7 +321,7 @@ $FC.SVGElement.prototype = {
 	symbolAttr: function (hash) {
 		var wrapper = this;
 
-		each(['x', 'y', 'r', 'start', 'end', 'width', 'height', 'innerR', 'anchorX', 'anchorY'], function (key) {
+		$FC.each(['x', 'y', 'r', 'start', 'end', 'width', 'height', 'innerR', 'anchorX', 'anchorY'], function (key) {
 			wrapper[key] = $FC.pick(hash[key], wrapper[key]);
 		});
 
@@ -341,7 +341,7 @@ $FC.SVGElement.prototype = {
 	 * @param {String} id
 	 */
 	clip: function (clipRect) {
-		return this.attr('clip-path', clipRect ? 'url(' + this.renderer.url + '#' + clipRect.id + ')' : NONE);
+		return this.attr('clip-path', clipRect ? 'url(' + this.renderer.url + '#' + clipRect.id + ')' : $FC.NONE);
 	},
 
 	/**
@@ -362,13 +362,13 @@ $FC.SVGElement.prototype = {
 			normalizer;
 
 		strokeWidth = strokeWidth || wrapper.strokeWidth || (wrapper.attr && wrapper.attr('stroke-width')) || 0;
-		normalizer = mathRound(strokeWidth) % 2 / 2; // mathRound because strokeWidth can sometimes have roundoff errors
+		normalizer = $FC.mathRound(strokeWidth) % 2 / 2; // mathRound because strokeWidth can sometimes have roundoff errors
 
 		// normalize for crisp edges
-		values.x = mathFloor(x || wrapper.x || 0) + normalizer;
-		values.y = mathFloor(y || wrapper.y || 0) + normalizer;
-		values.width = mathFloor((width || wrapper.width || 0) - 2 * normalizer);
-		values.height = mathFloor((height || wrapper.height || 0) - 2 * normalizer);
+		values.x = $FC.mathFloor(x || wrapper.x || 0) + normalizer;
+		values.y = $FC.mathFloor(y || wrapper.y || 0) + normalizer;
+		values.width = $FC.mathFloor((width || wrapper.width || 0) - 2 * normalizer);
+		values.height = $FC.mathFloor((height || wrapper.height || 0) - 2 * normalizer);
 		values.strokeWidth = strokeWidth;
 
 		for (key in values) {
@@ -400,7 +400,7 @@ $FC.SVGElement.prototype = {
 		}
 
 		// Merge the new styles with the old ones
-		styles = extend(
+		styles = $FC.extend(
 			elemWrapper.styles,
 			styles
 		);
@@ -410,7 +410,7 @@ $FC.SVGElement.prototype = {
 		
 		
 		// Don't handle line wrap on canvas
-		if (useCanVG && textWidth) {
+		if ($FC.useCanVG && textWidth) {
 			delete styles.width;
 		}
 			
@@ -444,7 +444,7 @@ $FC.SVGElement.prototype = {
 	on: function (eventType, handler) {
 		var element = this.element;
 		// touch
-		if (hasTouch && eventType === 'click') {
+		if ($FC.hasTouch && eventType === 'click') {
 			element.ontouchstart = function (e) {
 				e.preventDefault();
 				handler.call(element, e);
@@ -502,7 +502,7 @@ $FC.SVGElement.prototype = {
 			wrapper.updateTransform();
 		}
 
-		wrapper.styles = extend(wrapper.styles, styles);
+		wrapper.styles = $FC.extend(wrapper.styles, styles);
 		$FC.css(wrapper.element, styles);
 
 		return wrapper;
@@ -570,7 +570,7 @@ $FC.SVGElement.prototype = {
 			marginTop: translateY
 		});
 		if (shadows) { // used in labels/tooltip
-			each(shadows, function (shadow) {
+			$FC.each(shadows, function (shadow) {
 				$FC.css(shadow, {
 					marginLeft: translateX + 1,
 					marginTop: translateY + 1
@@ -580,7 +580,7 @@ $FC.SVGElement.prototype = {
 
 		// apply inversion
 		if (wrapper.inverted) { // wrapper is a group
-			each(elem.childNodes, function (child) {
+			$FC.each(elem.childNodes, function (child) {
 				renderer.invertChild(child, elem);
 			});
 		}
@@ -757,7 +757,7 @@ $FC.SVGElement.prototype = {
 			this.alignByTranslate = alignByTranslate;
 			if (!box || $FC.isString(box)) { // boxes other than renderer handle this internally
 				this.alignTo = alignTo = box || 'renderer';
-				erase(alignedObjects, this); // prevent duplicates, like legendGroup after resize
+				$FC.erase(alignedObjects, this); // prevent duplicates, like legendGroup after resize
 				alignedObjects.push(this);
 				box = null; // reassign it below
 			}
@@ -782,7 +782,7 @@ $FC.SVGElement.prototype = {
 			x += (box.width - (alignOptions.width || 0)) /
 					{ right: 1, center: 2 }[align];
 		}
-		attribs[alignByTranslate ? 'translateX' : 'x'] = mathRound(x);
+		attribs[alignByTranslate ? 'translateX' : 'x'] = $FC.mathRound(x);
 
 
 		// Vertical align
@@ -791,7 +791,7 @@ $FC.SVGElement.prototype = {
 					({ bottom: 1, middle: 2 }[vAlign] || 1);
 
 		}
-		attribs[alignByTranslate ? 'translateY' : 'y'] = mathRound(y);
+		attribs[alignByTranslate ? 'translateY' : 'y'] = $FC.mathRound(y);
 
 		// Animate only if already placed
 		this[this.placed ? 'animate' : 'attr'](attribs);
@@ -813,7 +813,7 @@ $FC.SVGElement.prototype = {
 			rotation = wrapper.rotation,
 			element = wrapper.element,
 			styles = wrapper.styles,
-			rad = rotation * deg2rad;
+			rad = rotation * $FC.deg2rad;
 			
 		if (!bBox) {
 			// SVG elements
@@ -823,7 +823,7 @@ $FC.SVGElement.prototype = {
 					bBox = element.getBBox ?
 						// SVG: use extend because IE9 is not allowed to change width and height in case
 						// of rotation (below)
-						extend({}, element.getBBox()) :
+						$FC.extend({}, element.getBBox()) :
 						// Canvas renderer and legacy IE in export mode
 						{
 							width: element.offsetWidth,
@@ -858,8 +858,8 @@ $FC.SVGElement.prototype = {
 			
 				// Adjust for rotated text
 				if (rotation) {
-					bBox.width = mathAbs(height * $FC.mathSin(rad)) + mathAbs(width * $FC.mathCos(rad));
-					bBox.height = mathAbs(height * $FC.mathCos(rad)) + mathAbs(width * $FC.mathSin(rad));
+					bBox.width = $FC.mathAbs(height * $FC.mathSin(rad)) + $FC.mathAbs(width * $FC.mathCos(rad));
+					bBox.height = $FC.mathAbs(height * $FC.mathCos(rad)) + $FC.mathAbs(width * $FC.mathSin(rad));
 				}
 			}
 			
@@ -872,14 +872,14 @@ $FC.SVGElement.prototype = {
 	 * Show the element
 	 */
 	show: function () {
-		return this.attr({ visibility: VISIBLE });
+		return this.attr({ visibility: $FC.VISIBLE });
 	},
 
 	/**
 	 * Hide the element
 	 */
 	hide: function () {
-		return this.attr({ visibility: HIDDEN });
+		return this.attr({ visibility: $FC.HIDDEN });
 	},
 	
 	fadeOut: function (duration) {
@@ -1007,7 +1007,7 @@ $FC.SVGElement.prototype = {
 
 		// destroy shadows
 		if (shadows) {
-			each(shadows, function (shadow) {
+			$FC.each(shadows, function (shadow) {
 				wrapper.safeRemoveChild(shadow);
 			});
 		}
@@ -1021,7 +1021,7 @@ $FC.SVGElement.prototype = {
 
 		// remove from alignObjects
 		if (wrapper.alignTo) {
-			erase(wrapper.renderer.alignedObjects, wrapper);
+			$FC.erase(wrapper.renderer.alignedObjects, wrapper);
 		}
 
 		for (key in wrapper) {
@@ -1063,10 +1063,10 @@ $FC.SVGElement.prototype = {
 					'stroke-opacity': shadowElementOpacity * i,
 					'stroke-width': strokeWidth,
 					'transform': 'translate' + transform,
-					'fill': NONE
+					'fill': $FC.NONE
 				});
 				if (cutOff) {
-					$FC.attr(shadow, 'height', mathMax($FC.attr(shadow, 'height') - strokeWidth, 0));
+					$FC.attr(shadow, 'height', $FC.mathMax($FC.attr(shadow, 'height') - strokeWidth, 0));
 					shadow.cutHeight = strokeWidth;
 				}
 
@@ -1272,13 +1272,13 @@ $FC.SVGRenderer.prototype = {
 		}
 
 		// build the lines
-		each(lines, function (line, lineNo) {
+		$FC.each(lines, function (line, lineNo) {
 			var spans, spanNo = 0;
 
 			line = line.replace(/<span/g, '|||<span').replace(/<\/span>/g, '</span>|||');
 			spans = line.split('|||');
 
-			each(spans, function (span) {
+			$FC.each(spans, function (span) {
 				if (span !== '' || spans.length === 1) {
 					var attributes = {},
 						tspan = $FC.doc.createElementNS($FC.SVG_NS, 'tspan'),
@@ -1315,7 +1315,7 @@ $FC.SVGRenderer.prototype = {
 						if (!spanNo && lineNo) {
 
 							// allow getting the right offset height in exporting in IE
-							if (!hasSVG && forExport) {
+							if (!$FC.hasSVG && forExport) {
 								$FC.css(tspan, { display: 'block' });
 							}
 
@@ -1331,7 +1331,7 @@ $FC.SVGRenderer.prototype = {
 								).h,
 								// Safari 6.0.2 - too optimized for its own good (#1539)
 								// TODO: revisit this with future versions of Safari
-								isWebKit && tspan.offsetHeight
+								$FC.isWebKit && tspan.offsetHeight
 							);
 						}
 
@@ -1406,7 +1406,7 @@ $FC.SVGRenderer.prototype = {
 			verticalGradient = { x1: 0, y1: 0, x2: 0, y2: 1 };
 
 		// Normal state - prepare the attributes
-		normalState = merge({
+		normalState = $FC.merge({
 			'stroke-width': 1,
 			stroke: '#CCCCCC',
 			fill: {
@@ -1426,7 +1426,7 @@ $FC.SVGRenderer.prototype = {
 		delete normalState[STYLE];
 
 		// Hover state
-		hoverState = merge(normalState, {
+		hoverState = $FC.merge(normalState, {
 			stroke: '#68A',
 			fill: {
 				linearGradient: verticalGradient,
@@ -1440,7 +1440,7 @@ $FC.SVGRenderer.prototype = {
 		delete hoverState[STYLE];
 
 		// Pressed state
-		pressedState = merge(normalState, {
+		pressedState = $FC.merge(normalState, {
 			stroke: '#68A',
 			fill: {
 				linearGradient: verticalGradient,
@@ -1481,7 +1481,7 @@ $FC.SVGRenderer.prototype = {
 				callback.call(label);
 			})
 			.attr(normalState)
-			.css(extend({ cursor: 'default' }, normalStyle));
+			.css($FC.extend({ cursor: 'default' }, normalStyle));
 	},
 
 	/**
@@ -1494,10 +1494,10 @@ $FC.SVGRenderer.prototype = {
 		// normalize to a crisp line
 		if (points[1] === points[4]) {
 			// Substract due to #1129. Now bottom and left axis gridlines behave the same.
-			points[1] = points[4] = mathRound(points[1]) - (width % 2 / 2); 
+			points[1] = points[4] = $FC.mathRound(points[1]) - (width % 2 / 2); 
 		}
 		if (points[2] === points[5]) {
-			points[2] = points[5] = mathRound(points[2]) + (width % 2 / 2);
+			points[2] = points[5] = $FC.mathRound(points[2]) + (width % 2 / 2);
 		}
 		return points;
 	},
@@ -1509,12 +1509,12 @@ $FC.SVGRenderer.prototype = {
 	 */
 	path: function (path) {
 		var attr = {
-			fill: NONE
+			fill: $FC.NONE
 		};
-		if (isArray(path)) {
+		if ($FC.isArray(path)) {
 			attr.d = path;
-		} else if (isObject(path)) { // attributes
-			extend(attr, path);
+		} else if ($FC.isObject(path)) { // attributes
+			$FC.extend(attr, path);
 		}
 		return this.createElement('path').attr(attr);
 	},
@@ -1526,7 +1526,7 @@ $FC.SVGRenderer.prototype = {
 	 * @param {Number} r The radius
 	 */
 	circle: function (x, y, r) {
-		var attr = isObject(x) ?
+		var attr = $FC.isObject(x) ?
 			x :
 			{
 				x: x,
@@ -1549,7 +1549,7 @@ $FC.SVGRenderer.prototype = {
 	arc: function (x, y, r, innerR, start, end) {
 		var arc;
 
-		if (isObject(x)) {
+		if ($FC.isObject(x)) {
 			y = x.y;
 			r = x.r;
 			innerR = x.innerR;
@@ -1580,18 +1580,18 @@ $FC.SVGRenderer.prototype = {
 	 */
 	rect: function (x, y, width, height, r, strokeWidth) {
 		
-		r = isObject(x) ? x.r : r;
+		r = $FC.isObject(x) ? x.r : r;
 		
 		var wrapper = this.createElement('rect').attr({
 				rx: r,
 				ry: r,
-				fill: NONE
+				fill: $FC.NONE
 			});
 		return wrapper.attr(
-				isObject(x) ? 
+				$FC.isObject(x) ? 
 					x : 
 					// do not crispify when an object is passed in (as in column charts)
-					wrapper.crisp(strokeWidth, x, y, mathMax(width, 0), mathMax(height, 0))
+					wrapper.crisp(strokeWidth, x, y, $FC.mathMax(width, 0), $FC.mathMax(height, 0))
 			);
 	},
 
@@ -1627,7 +1627,7 @@ $FC.SVGRenderer.prototype = {
 	 */
 	g: function (name) {
 		var elem = this.createElement('g');
-		return $FC.defined(name) ? elem.attr({ 'class': PREFIX + name }) : elem;
+		return $FC.defined(name) ? elem.attr({ 'class': $FC.PREFIX + name }) : elem;
 	},
 
 	/**
@@ -1640,13 +1640,13 @@ $FC.SVGRenderer.prototype = {
 	 */
 	image: function (src, x, y, width, height) {
 		var attribs = {
-				preserveAspectRatio: NONE
+				preserveAspectRatio: $FC.NONE
 			},
 			elemWrapper;
 
 		// optional properties
 		if (arguments.length > 1) {
-			extend(attribs, {
+			$FC.extend(attribs, {
 				x: x,
 				y: y,
 				width: width,
@@ -1687,8 +1687,8 @@ $FC.SVGRenderer.prototype = {
 
 			// check if there's a path defined for this symbol
 			path = symbolFn && symbolFn(
-				mathRound(x),
-				mathRound(y),
+				$FC.mathRound(x),
+				$FC.mathRound(y),
 				width,
 				height,
 				options
@@ -1704,7 +1704,7 @@ $FC.SVGRenderer.prototype = {
 
 			obj = this.path(path);
 			// expando properties for use in animate and attr
-			extend(obj, {
+			$FC.extend(obj, {
 				symbolName: symbol,
 				x: x,
 				y: y,
@@ -1712,7 +1712,7 @@ $FC.SVGRenderer.prototype = {
 				height: height
 			});
 			if (options) {
-				extend(obj, options);
+				$FC.extend(obj, options);
 			}
 
 
@@ -1729,8 +1729,8 @@ $FC.SVGRenderer.prototype = {
 
 					if (!img.alignByTranslate) { // #185
 						img.translate(
-							mathRound((width - size[0]) / 2), // #1378
-							mathRound((height - size[1]) / 2)
+							$FC.mathRound((width - size[0]) / 2), // #1378
+							$FC.mathRound((height - size[1]) / 2)
 						);
 					}
 				}
@@ -1775,7 +1775,7 @@ $FC.SVGRenderer.prototype = {
 		'circle': function (x, y, w, h) {
 			var cpw = 0.166 * w;
 			return [
-				M, x + w / 2, y,
+				$FC.M, x + w / 2, y,
 				'C', x + w + cpw, y, x + w + cpw, y + h, x + w / 2, y + h,
 				'C', x - cpw, y + h, x - cpw, y, x + w / 2, y,
 				'Z'
@@ -1784,8 +1784,8 @@ $FC.SVGRenderer.prototype = {
 
 		'square': function (x, y, w, h) {
 			return [
-				M, x, y,
-				L, x + w, y,
+				$FC.M, x, y,
+				$FC.L, x + w, y,
 				x + w, y + h,
 				x, y + h,
 				'Z'
@@ -1869,7 +1869,7 @@ $FC.SVGRenderer.prototype = {
 	 */
 	clipRect: function (x, y, width, height) {
 		var wrapper,
-			id = PREFIX + idCounter++,
+			id = $FC.PREFIX + $FC.idCounter++,
 
 			clipPath = this.createElement('clipPath').attr({
 				id: id
@@ -1923,7 +1923,7 @@ $FC.SVGRenderer.prototype = {
 			radialReference = elem.radialReference;
 			
 			// Keep < 2.2 kompatibility
-			if (isArray(gradAttr)) {
+			if ($FC.isArray(gradAttr)) {
 				color[gradName] = gradAttr = {
 					x1: gradAttr[0],
 					y1: gradAttr[1],
@@ -1935,7 +1935,7 @@ $FC.SVGRenderer.prototype = {
 			
 			// Correct the radial gradient for the radial reference system
 			if (gradName === 'radialGradient' && radialReference && !$FC.defined(gradAttr.gradientUnits)) {
-				gradAttr = merge(gradAttr, {
+				gradAttr = $FC.merge(gradAttr, {
 					cx: (radialReference[0] - radialReference[2] / 2) + gradAttr.cx * radialReference[2],
 					cy: (radialReference[1] - radialReference[2] / 2) + gradAttr.cy * radialReference[2],
 					r: gradAttr.r * radialReference[2],
@@ -1961,7 +1961,7 @@ $FC.SVGRenderer.prototype = {
 			} else {
 
 				// Set the id and create the element
-				gradAttr.id = id = PREFIX + idCounter++;
+				gradAttr.id = id = $FC.PREFIX + idCounter++;
 				gradients[key] = gradientObject = renderer.createElement(gradName)
 					.attr(gradAttr)
 					.add(renderer.defs);
@@ -1969,10 +1969,10 @@ $FC.SVGRenderer.prototype = {
 				
 				// The gradient needs to keep a list of stops to be able to destroy them
 				gradientObject.stops = [];
-				each(stops, function (stop) {
+				$FC.each(stops, function (stop) {
 					var stopObject;
 					if (regexRgba.test(stop[1])) {
-						colorObject = Color(stop[1]);
+						colorObject = $FC.Color(stop[1]);
 						stopColor = colorObject.get('rgb');
 						stopOpacity = colorObject.get('a');
 					} else {
@@ -1995,7 +1995,7 @@ $FC.SVGRenderer.prototype = {
 			
 		// Webkit and Batik can't show rgba.
 		} else if (regexRgba.test(color)) {
-			colorObject = Color(color);
+			colorObject = $FC.Color(color);
 			$FC.attr(elem, prop + '-opacity', colorObject.get('a'));
 
 			return colorObject.get('rgb');
@@ -2022,16 +2022,16 @@ $FC.SVGRenderer.prototype = {
 
 		// declare variables
 		var renderer = this,
-			defaultChartStyle = defaultOptions.chart.style,
-			fakeSVG = useCanVG || (!hasSVG && renderer.forExport),
+			defaultChartStyle = $FC.defaultOptions.chart.style,
+			fakeSVG = $FC.useCanVG || (!$FC.hasSVG && renderer.forExport),
 			wrapper;
 
 		if (useHTML && !renderer.forExport) {
 			return renderer.html(str, x, y);
 		}
 
-		x = mathRound($FC.pick(x, 0));
-		y = mathRound($FC.pick(y, 0));
+		x = $FC.mathRound($FC.pick(x, 0));
+		y = $FC.mathRound($FC.pick(y, 0));
 
 		wrapper = renderer.createElement('text')
 			.attr({
@@ -2132,7 +2132,7 @@ $FC.SVGRenderer.prototype = {
 						}
 						
 						// Ensure dynamically updating position when any parent is translated
-						each(parents.reverse(), function (parentGroup) {
+						$FC.each(parents.reverse(), function (parentGroup) {
 							var htmlGroupStyle;
 								
 							// Create a HTML div and append it to the parent div to emulate 
@@ -2150,7 +2150,7 @@ $FC.SVGRenderer.prototype = {
 							
 							// Set listeners to update the HTML div's position whenever the SVG group
 							// position is changed
-							extend(parentGroup.attrSetters, {
+							$FC.extend(parentGroup.attrSetters, {
 								translateX: function (value) {
 									htmlGroupStyle.left = value + $FC.PX;
 								},
@@ -2191,7 +2191,7 @@ $FC.SVGRenderer.prototype = {
 		// Empirical values found by comparing font size and bounding box height.
 		// Applies to the default font family. http://jsfiddle.net/highcharts/7xvn7/
 		var lineHeight = fontSize < 24 ? fontSize + 4 : mathRound(fontSize * 1.2),
-			baseline = mathRound(lineHeight * 0.8);
+			baseline = $FC.mathRound(lineHeight * 0.8);
 		
 		return {
 			h: lineHeight, 
@@ -2259,18 +2259,18 @@ $FC.SVGRenderer.prototype = {
 				
 				// create the border box if it is not already present
 				if (!box) {
-					boxX = mathRound(-alignFactor * padding);
+					boxX = $FC.mathRound(-alignFactor * padding);
 					boxY = baseline ? -baselineOffset : 0;
 				
 					wrapper.box = box = shape ?
 						renderer.symbol(shape, boxX, boxY, wrapper.width, wrapper.height) :
-						renderer.rect(boxX, boxY, wrapper.width, wrapper.height, 0, deferredAttr[STROKE_WIDTH]);
+						renderer.rect(boxX, boxY, wrapper.width, wrapper.height, 0, deferredAttr[$FC.STROKE_WIDTH]);
 					box.add(wrapper);
 				}
 	
 				// apply the box attributes
 				if (!box.isImg) { // #1630
-					box.attr(merge({
+					box.attr($FC.merge({
 						width: wrapper.width,
 						height: wrapper.height
 					}, deferredAttr));
@@ -2388,7 +2388,7 @@ $FC.SVGRenderer.prototype = {
 		};
 
 		// apply these to the box but not to the text
-		attrSetters[STROKE_WIDTH] = function (value, key) {
+		attrSetters[$FC.STROKE_WIDTH] = function (value, key) {
 			needsBox = true;
 			crispAdjust = value % 2 / 2;
 			boxAttr(key, value);
@@ -2416,28 +2416,28 @@ $FC.SVGRenderer.prototype = {
 		attrSetters.x = function (value) {
 			wrapper.x = value; // for animation getter
 			value -= alignFactor * ((width || bBox.width) + padding);
-			wrapperX = mathRound(value); 
+			wrapperX = $FC.mathRound(value); 
 			
 			wrapper.attr('translateX', wrapperX);
 			return false;
 		};
 		attrSetters.y = function (value) {
-			wrapperY = wrapper.y = mathRound(value);
+			wrapperY = wrapper.y = $FC.mathRound(value);
 			wrapper.attr('translateY', wrapperY);
 			return false;
 		};
 
 		// Redirect certain methods to either the box or the text
 		var baseCss = wrapper.css;
-		return extend(wrapper, {
+		return $FC.extend(wrapper, {
 			/**
 			 * Pick up some properties and apply them to the text instead of the wrapper
 			 */
 			css: function (styles) {
 				if (styles) {
 					var textStyles = {};
-					styles = merge(styles); // create a copy to avoid altering the original object (#537)
-					each(['fontSize', 'fontWeight', 'fontFamily', 'color', 'lineHeight', 'width', 'textDecoration'], function (prop) {
+					styles = $FC.merge(styles); // create a copy to avoid altering the original object (#537)
+					$FC.each(['fontSize', 'fontWeight', 'fontFamily', 'color', 'lineHeight', 'width', 'textDecoration'], function (prop) {
 						if (styles[prop] !== $FC.UNDEFINED) {
 							textStyles[prop] = styles[prop];
 							delete styles[prop];

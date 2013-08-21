@@ -30,6 +30,8 @@ $FC = {
 	SVG_NS : 'http://www.w3.org/2000/svg',
 
 	
+	globalAnimation : undefined,
+	
 	PRODUCT : 'Flycharts',
 	VERSION : '1.0.0',
 	
@@ -264,7 +266,7 @@ $FC = {
 			}
 
 		// else if prop is defined, it is a hash of key/value pairs
-		} else if (this.defined(prop) && isObject(prop)) {
+		} else if (this.defined(prop) && this.isObject(prop)) {
 			for (key in prop) {
 				elem[setAttribute](key, prop[key]);
 			}
@@ -277,7 +279,7 @@ $FC = {
 	 * 类似：MooTools的$.splat
 	 */
 	splat : function (obj) {
-		return isArray(obj) ? obj : [obj];
+		return this.isArray(obj) ? obj : [obj];
 	},
 
 	/**
@@ -373,7 +375,7 @@ $FC = {
 	 *            thousandsSep 千位分隔符，默认使用默认语言的设置
 	 */
 	numberFormat : function (number, decimals, decPoint, thousandsSep) {
-		var lang = defaultOptions.lang,
+		var lang = this.defaultOptions.lang,
 			// http://kevin.vanzonneveld.net/techblog/article/javascript_equivalent_for_phps_number_format/
 			n = number,
 			c = decimals === -1 ?
@@ -436,7 +438,7 @@ $FC = {
 		if (!defined(timestamp) || isNaN(timestamp)) {
 			return 'Invalid date';
 		}
-		format = pick(format, '%Y-%m-%d %H:%M:%S');
+		format = this.pick(format, '%Y-%m-%d %H:%M:%S');
 
 		var date = new Date(timestamp),
 			key, // used in for constuct below
@@ -510,13 +512,13 @@ $FC = {
 	formatSingle : function (format, val) {
 		var floatRegex = /f$/,
 			decRegex = /\.([0-9])/,
-			lang = defaultOptions.lang,
+			lang = this.defaultOptions.lang,
 			decimals;
 
 		if (floatRegex.test(format)) { // float
 			decimals = format.match(decRegex);
 			decimals = decimals ? decimals[1] : -1;
-			val = numberFormat(
+			val = this.numberFormat(
 				val,
 				decimals,
 				lang.decimalPoint,
@@ -561,7 +563,7 @@ $FC = {
 
 				// Format the replacement
 				if (valueAndFormat.length) {
-					val = formatSingle(valueAndFormat.join(':'), val);
+					val = this.formatSingle(valueAndFormat.join(':'), val);
 				}
 
 				// Push the result and advance the cursor
@@ -603,7 +605,7 @@ $FC = {
 		var normalized, i;
 
 		// round to a tenfold of 1, 2, 2.5 or 5
-		magnitude = pick(magnitude, 1);
+		magnitude = this.pick(magnitude, 1);
 		normalized = interval / magnitude;
 
 		// multiples for a linear scale
@@ -783,7 +785,7 @@ $FC = {
 			if (interval === timeUnits[WEEK]) {
 				// get start of current week, independent of count
 				minDate[setDate](minDate[getDate]() - minDate[getDay]() +
-					pick(startOfWeek, 1));
+					this.pick(startOfWeek, 1));
 			}
 		
 		
@@ -983,7 +985,7 @@ $FC = {
 	 *            chart
 	 */
 	setAnimation : function (animation, chart) {
-		globalAnimation = pick(animation, chart.animation);
+		this.globalAnimation = this.pick(animation, chart.animation);
 	}
 };
 
@@ -1140,3 +1142,6 @@ $FC.pathAnim = {
 
 // 用于存放页面中所有的图表
 $FC.charts = [];
+
+// 用于注册所有的系列类型
+$FC.seriesTypes = {};
