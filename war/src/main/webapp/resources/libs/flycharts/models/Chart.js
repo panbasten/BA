@@ -476,6 +476,7 @@ $FC.Chart.prototype = {
 
 	/**
 	 * Create the Axis instances based on the config options
+	 * 基于配置创建坐标轴实例
 	 */
 	getAxes: function () {
 		var chart = this,
@@ -486,6 +487,7 @@ $FC.Chart.prototype = {
 			axis;
 
 		// make sure the options are arrays and add some members
+		// 
 		$FC.each(xAxisOptions, function (axis, i) {
 			axis.index = i;
 			axis.isX = true;
@@ -1517,7 +1519,7 @@ $FC.Chart.prototype = {
 		// 从给定的系列中设置通用统计图属性（主要是反转属性）
 		chart.propFromSeries();
 
-		// get axes
+		// 坐标轴
 		chart.getAxes();
 
 		// Initialize the series

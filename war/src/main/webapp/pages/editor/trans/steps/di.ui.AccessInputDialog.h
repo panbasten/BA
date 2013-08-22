@@ -5,7 +5,12 @@
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:inputText id="${formId}:name" name="${formId}:name" type="text"
-				validate="required:true" value="" />
+				validate="required:true"
+				value="${stepMeta.name}" />
+			<fly:inputText id="${formId}:transId" name="${formId}:transId" type="hidden"
+				value="${transId}" />
+			<fly:inputText id="${formId}:stepMetaName" name="${formId}:stepMetaName" type="hidden"
+				value="${stepMetaName}" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 
@@ -15,11 +20,11 @@
 				<fly:fieldSet title="从字段获得文件名" margin="10">
 					<fly:gridLayout column="4" itemWidth="30%,10%,25%,30%" itemMargin="10">
 						<fly:gridLayoutItem>
-							<fly:labelObject buddy="${formId}:1" text="文件名来自字段？" />
+							<fly:labelObject buddy="${formId}:fileField" text="文件名来自字段？" />
 						</fly:gridLayoutItem>
 						<fly:gridLayoutItem>
-							<fly:inputText id="${formId}:1" name="${formId}:1" type="checkbox"
-								value="" />
+							<fly:inputText id="${formId}:fileField" name="${formId}:fileField" type="checkbox"
+								value="${stepMetaInterface.fileField}" />
 						</fly:gridLayoutItem>
 
 						<fly:gridLayoutItem>
