@@ -6,8 +6,11 @@ import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.trans.TransMeta;
 
+import com.flywet.platform.bi.component.components.grid.GridDataObject;
 import com.flywet.platform.bi.component.components.selectMenu.OptionsData;
 import com.flywet.platform.bi.component.utils.FLYFunctionMapper;
+import com.flywet.platform.bi.component.utils.HTML;
+import com.flywet.platform.bi.core.utils.ArrayUtils;
 
 public class DIFunctions {
 
@@ -48,6 +51,21 @@ public class DIFunctions {
 		}
 
 		return od.getOptions();
+	}
+
+	/**
+	 * 创建数据表格数据集
+	 * 
+	 * @param keys
+	 * @param values
+	 * @return
+	 */
+	public static GridDataObject createDGDataSet(String[] keys,
+			Object[][] values) {
+		GridDataObject gd = GridDataObject.instance().setMinRows(
+				HTML.DEFAULT_GRID_ROW_NUMBER);
+		gd.setParamNames(keys).putObjects(ArrayUtils.transpose(values));
+		return gd;
 	}
 
 	public static void register() {

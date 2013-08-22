@@ -63,6 +63,11 @@ public class GridDataObject implements ComponentDataInterface {
 		return this;
 	}
 
+	public GridDataObject putObjects(Object[][] objs) {
+		this.objects = objs;
+		return this;
+	}
+
 	@SuppressWarnings("unchecked")
 	public GridDataObject putObjects(List objs) {
 		this.objects = objs;
@@ -99,7 +104,13 @@ public class GridDataObject implements ComponentDataInterface {
 				List objs = (List) objects;
 				for (Object obj : objs) {
 					rowsja.add(JSONUtils.convertToJSONObject(obj, paramNames,
-							true));
+							false));
+				}
+			} else if (objects instanceof Object[][]) {
+				rowsja = new JSONArray();
+				Object[][] objs = (Object[][]) objects;
+				for (Object[] obj : objs) {
+					rowsja.add(JSONUtils.convertToJSONObject(obj, paramNames));
 				}
 			} else if (objects instanceof Properties) {
 				rowsja = JSONUtils.convertToJSONArray((Properties) objects);
