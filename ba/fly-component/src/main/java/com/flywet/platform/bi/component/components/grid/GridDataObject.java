@@ -22,6 +22,8 @@ public class GridDataObject implements ComponentDataInterface {
 
 	private Object objects;
 
+	private boolean transpose;
+
 	public static GridDataObject instance() {
 		return new GridDataObject();
 	}
@@ -32,12 +34,8 @@ public class GridDataObject implements ComponentDataInterface {
 		return obj;
 	}
 
-	public String[] getParamNames() {
-		return paramNames;
-	}
-
-	public GridDataObject setParamNames(String[] paramNames) {
-		this.paramNames = paramNames;
+	public GridDataObject transpose() {
+		this.transpose = true;
 		return this;
 	}
 
@@ -52,6 +50,7 @@ public class GridDataObject implements ComponentDataInterface {
 
 	@SuppressWarnings("unchecked")
 	public GridDataObject putObjects(Object[] objs) {
+
 		if (this.objects == null) {
 			this.objects = new ArrayList();
 		}
@@ -63,7 +62,8 @@ public class GridDataObject implements ComponentDataInterface {
 		return this;
 	}
 
-	public GridDataObject putObjects(Object[][] objs) {
+	public GridDataObject putObjects(String[] paramNames, Object[][] objs) {
+		this.paramNames = paramNames;
 		this.objects = objs;
 		return this;
 	}
@@ -103,14 +103,29 @@ public class GridDataObject implements ComponentDataInterface {
 				rowsja = new JSONArray();
 				List objs = (List) objects;
 				for (Object obj : objs) {
-					rowsja.add(JSONUtils.convertToJSONObject(obj, paramNames,
-							false));
+					rowsja.add(JSONUtils.convertToJSONObject(obj));
 				}
 			} else if (objects instanceof Object[][]) {
 				rowsja = new JSONArray();
 				Object[][] objs = (Object[][]) objects;
-				for (Object[] obj : objs) {
-					rowsja.add(JSONUtils.convertToJSONObject(obj, paramNames));
+				// 如果是转置
+				if (transpose) {
+					int i = objs.length, j = objs[0].length;
+					for (int ii = 0; ii < j; ii++) {
+						JSONObject rowjo = new JSONObject();
+						for (int jj = 0; jj < i; jj++) {
+							rowjo.put(paramNames[jj], JSONUtils
+									.convert(objs[jj][ii]));
+						}
+						rowsja.add(rowjo);
+					}
+				}
+				// 如果是正常
+				else {
+					for (Object[] obj : objs) {
+						rowsja.add(JSONUtils.convertToJSONObject(obj,
+								paramNames));
+					}
 				}
 			} else if (objects instanceof Properties) {
 				rowsja = JSONUtils.convertToJSONArray((Properties) objects);

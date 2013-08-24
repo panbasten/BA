@@ -40,8 +40,8 @@
 		<fly:gridLayoutItem>
 			<fly:comboBox id="${formId}:transstatus" name="${formId}:transstatus" type="text"
 				value="${transMeta.transstatus}"
-				validate="required:true">
-				<fly:options items="${di:transStatusOptions()}" value="0" label="1" />
+				validate="required:true" editable="false">
+				<fly:options items="${di:getOptions('transStatus')}" value="0" label="1" />
 			</fly:comboBox>
 		</fly:gridLayoutItem>
 		

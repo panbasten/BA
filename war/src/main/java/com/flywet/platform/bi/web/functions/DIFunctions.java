@@ -1,8 +1,12 @@
 package com.flywet.platform.bi.web.functions;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.pentaho.di.core.database.DatabaseMeta;
+import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.trans.TransMeta;
 
@@ -10,7 +14,6 @@ import com.flywet.platform.bi.component.components.grid.GridDataObject;
 import com.flywet.platform.bi.component.components.selectMenu.OptionsData;
 import com.flywet.platform.bi.component.utils.FLYFunctionMapper;
 import com.flywet.platform.bi.component.utils.HTML;
-import com.flywet.platform.bi.core.utils.ArrayUtils;
 
 public class DIFunctions {
 
@@ -18,21 +21,40 @@ public class DIFunctions {
 
 	private static String PREFIX = "di";
 
+	// valueTypes
+	private static final String OPTIONS_KEY_VALUE_TYPES = "valueTypes";
+	private static OptionsData valueTypesOptionsData = OptionsData
+			.instanceSimpleStrings(ValueMeta.getTypes());
+
+	// transStatus
+	private static final String OPTIONS_KEY_TRANS_STATUS = "transStatus";
 	private static OptionsData transStatusOptionsData = OptionsData
 			.instance(new String[] {
-					"",
+					BaseMessages.getString(PKG, "Page.Option.Empty.Label"),
 					BaseMessages.getString(PKG,
 							"Page.Trans.Transstatus.Draft.Label"),
 					BaseMessages.getString(PKG,
 							"Page.Trans.Transstatus.Production.Label") });
 
+	private static Map<String, OptionsData> options = new ConcurrentHashMap<String, OptionsData>();
+	private static AtomicBoolean initCache = new AtomicBoolean(false);
+
+	static {
+		if (!initCache.get()) {
+			options.put(OPTIONS_KEY_VALUE_TYPES, valueTypesOptionsData);
+			options.put(OPTIONS_KEY_TRANS_STATUS, transStatusOptionsData);
+			initCache.set(true);
+		}
+	}
+
 	/**
-	 * 获得转换状态选项
+	 * 获得指定选项
 	 * 
+	 * @param key
 	 * @return
 	 */
-	public static List<String[]> transStatusOptions() {
-		return transStatusOptionsData.getOptions();
+	public static List<String[]> getOptions(String key) {
+		return options.get(key).getOptions();
 	}
 
 	/**
@@ -64,7 +86,7 @@ public class DIFunctions {
 			Object[][] values) {
 		GridDataObject gd = GridDataObject.instance().setMinRows(
 				HTML.DEFAULT_GRID_ROW_NUMBER);
-		gd.setParamNames(keys).putObjects(ArrayUtils.transpose(values));
+		gd.putObjects(keys, values).transpose();
 		return gd;
 	}
 

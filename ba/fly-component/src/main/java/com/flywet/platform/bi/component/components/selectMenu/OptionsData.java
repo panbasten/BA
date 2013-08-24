@@ -17,10 +17,30 @@ public class OptionsData {
 		return new OptionsData();
 	}
 
+	/**
+	 * 实例化字符串数组，key是数组顺序，从0开始
+	 * 
+	 * @param labels
+	 * @return
+	 */
 	public static final OptionsData instance(String[] labels) {
 		OptionsData od = new OptionsData();
 		for (int i = 0; i < labels.length; i++) {
 			od.addOption(String.valueOf(i), labels[i]);
+		}
+		return od;
+	}
+
+	/**
+	 * 实例化简单字符串数组，key和value相同
+	 * 
+	 * @param labels
+	 * @return
+	 */
+	public static final OptionsData instanceSimpleStrings(String[] labels) {
+		OptionsData od = new OptionsData();
+		for (int i = 0; i < labels.length; i++) {
+			od.addOption(labels[i], labels[i]);
 		}
 		return od;
 	}

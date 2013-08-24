@@ -46,15 +46,16 @@
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	<fly:verticalLayout margin="10">
-		<fly:labelObject buddy="${formId}:selectedFiles" text="校验使用的字段" />
-		<fly:dataGrid id="${formId}:selectedFiles" singleSelect="true" data="${di:createDGDataSet(stepMetaInterface.checkFieldsDGKeys,stepMetaInterface.checkFieldsDGValues)}" height="200">
+		<fly:labelObject buddy="${formId}:checkFields" text="校验使用的字段" />
+		<fly:dataGrid id="${formId}:checkFields" singleSelect="true" data="${di:createDGDataSet(stepMetaInterface.checkFieldsDGKeys,stepMetaInterface.checkFieldsDGValues)}" height="200">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="fieldName" title="字段" width="200" editor="text" align="center" />
 				</fly:row>
 			</fly:columns>
 			<fly:toolbar>
-				<fly:pushbutton id="${formId}:selectedFiles:remove" iconCls="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:selectedFiles');" title="删除" />
+				<fly:pushbutton id="${formId}:checkFields:add" iconCls="ui-icon-plusthick" onclick="Flywet.editors.toolbarButton.addRow('${formId}:checkFields');" title="增加" />
+				<fly:pushbutton id="${formId}:checkFields:remove" iconCls="ui-icon-closethick" onclick="Flywet.editors.toolbarButton.deleteRow('${formId}:checkFields');" title="删除" />
 			</fly:toolbar>
 		</fly:dataGrid>
 	</fly:verticalLayout>
