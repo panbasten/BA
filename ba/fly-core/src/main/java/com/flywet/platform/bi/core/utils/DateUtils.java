@@ -105,8 +105,7 @@ public class DateUtils {
 			Calendar cal2 = Calendar.getInstance();
 			cal2.setTime(secondDate);
 
-			return (int) (cal1.getTimeInMillis() - cal2.getTimeInMillis())
-					/ (24 * 60 * 60 * 1000);
+			return (int) ((cal1.getTimeInMillis() - cal2.getTimeInMillis()) / 1000 / 60 / 60 / 24);
 
 		} catch (Exception e) {
 			logger.error("formatDate error:", e);

@@ -13,6 +13,13 @@ public class LicenseGeneratorTest extends TestCase {
 		lg.setTrialVersion();
 		createLicenseFile(lg, "trial");
 	}
+	
+	public void testCreateTrialLicenseFile1111() {
+		LicenseGenerator lg = LicenseGenerator.instance();
+		lg.setTrialVersion();
+		lg.setMacAddress("00-E0-81-CD-36-A3");
+		createLicenseFile(lg, "trial1");
+	}
 
 	public void testCreateBaseLicenseFile() {
 		LicenseGenerator lg = LicenseGenerator.instance();
