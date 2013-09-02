@@ -277,7 +277,7 @@ div.section {
     text-align: right;
     top: -15px;
     width: 100%;
-    z-index: 9999;
+    z-index: 100;
 }
 
 .section-paging a {
@@ -324,6 +324,16 @@ div.section {
     position: relative;
     top: 55px;
     width: 202px;
+}
+
+.ui-login-setting{
+	background: url("../images/login/login.setting.png") no-repeat scroll 0 0 transparent;
+    height: 32px;
+    width: 32px;
+    top: 22px;
+    left: 615px;
+    position: relative;
+    cursor: pointer;
 }
 
 .slide p.slide-p{

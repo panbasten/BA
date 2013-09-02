@@ -13,6 +13,18 @@
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
+		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
+			type="text/css" />
+		
+		<!-- replace href="<%=path%>/resources/styles/login.lib.compressed.css" type="style" -->
+		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/core/core.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/dialog/dialog.css" rel="stylesheet"
+			type="text/css" />
+		<!-- replace end -->
+		
 		<!-- replace href="<%=path%>/resources/styles/login.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/login.css" rel="stylesheet"
 			type="text/css" />
@@ -25,6 +37,8 @@
 			src="<%=path%>/resources/libs/cycle/jquery.cycle.all.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/core/core.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/dialog/dialog.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/login.js"></script>
 		<!-- replace end -->	
@@ -41,7 +55,7 @@
 			</div>
 			
 			<div id="document">
-				<div class="ui-login-star"></div>
+				<div class="ui-login-star"><div id="loginSettingBtn" title="系统设置" class="ui-login-setting"></div></div>
 				<div id="document2">
 					<div id="header">
 						<div id="title">

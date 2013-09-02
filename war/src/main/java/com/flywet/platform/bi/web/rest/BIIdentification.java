@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
@@ -29,6 +30,7 @@ import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.web.entity.ActionMessage;
+import com.flywet.platform.bi.web.entity.AjaxResult;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
@@ -42,6 +44,8 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
 
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
+	
+	public static final String TEMPLATE_SYS_SETTING = "editor/sys/sys_setting.h";
 
 	@GET
 	@Path("/repositoryNames")
@@ -82,13 +86,40 @@ public class BIIdentification {
 	@GET
 	@Path("/messages")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getMessages()
-			throws BIException {
+	public String getMessages() throws BIException {
 		try {
 			return BIWebMessages.getMessages().toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("获得页面多语资源出现错误。", ex);
 		}
+	}
+
+	/**
+	 * 打开系统设置对话框
+	 * 
+	 * @param repository
+	 * @param targetId
+	 * @return
+	 * @throws BIException
+	 */
+	@GET
+	@Path("/openSettingDialog")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openSettingDialog(@CookieParam("repository") String repository,
+			@QueryParam("targetId") String targetId) throws BIException {
+		try {
+
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_SYS_SETTING, attrsMap);
+
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("创建系统设置页面出现错误。", ex);
+		}
+
 	}
 
 	/**

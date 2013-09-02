@@ -145,6 +145,23 @@ Flywet.Login = {
 		$("#companyOthers").html(Flywet.Login.messages["msg_page_company_others"]);
 	},
 	
+	loginSettingDialog : function(){
+		var targetId = "login_setting";
+		Flywet.cw("Dialog",targetId+"_var",{
+			id : targetId,
+			header : "系统设置",
+			width : 400,
+			height : 70,
+			autoOpen : true,
+			showHeader : true,
+			modal : true,
+			url : "rest/identification/openSettingDialog",
+			closable : true,
+			maximizable : false,
+			resizable : false
+		});
+	},
+	
 	initPage: function(){
 		
 		Flywet.env();
@@ -219,6 +236,11 @@ Flywet.Login = {
 			$(this).addClass('ui-login-button-hover');
 		}).live("blur", function(){
 			$(this).removeClass('ui-login-button-hover');
+		});
+		
+		// 5.设置按钮
+		$("#loginSettingBtn").bind("click", function(){
+			Flywet.Login.loginSettingDialog();
 		});
 		
 		$(document).keydown(function(e){

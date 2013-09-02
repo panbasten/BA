@@ -138,6 +138,16 @@
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>true</removeIncluded>
+									<output>${project.build.directory}/${project.build.finalName}/resources/styles/login.lib.compressed.css</output>
+									<includes>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery-ui.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.css</include>
+									</includes>
+								</aggregation>
+								<aggregation>
+									<insertNewLine>true</insertNewLine>
+									<removeIncluded>true</removeIncluded>
 									<output>${project.build.directory}/${project.build.finalName}/resources/styles/editor.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/reset.css</include>
@@ -160,6 +170,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/cycle/jquery.cycle.all.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.js</include>
 										
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/login.js</include>
 									</includes>
