@@ -86,4 +86,21 @@ public class ArrayUtils {
 		}
 		return "";
 	}
+
+	/**
+	 * 二维数组转置
+	 * 
+	 * @param objs
+	 * @return
+	 */
+	public static Object[][] transpose(Object[][] objs) {
+		int i = objs.length, j = objs[0].length;
+		Object[][] t = new Object[j][i];
+		for (int ii = 0; ii < j; ii++) {
+			for (int jj = 0; jj < i; jj++) {
+				t[ii][jj] = objs[jj][ii];
+			}
+		}
+		return t;
+	}
 }

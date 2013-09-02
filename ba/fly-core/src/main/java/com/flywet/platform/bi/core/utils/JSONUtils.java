@@ -129,6 +129,23 @@ public class JSONUtils {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static JSONObject convertToJSONObject(Object[] obj, String[] strs)
+			throws BIJSONException {
+		try {
+			if (obj == null || strs == null) {
+				return null;
+			}
+			JSONObject json = new JSONObject();
+			for (int i = 0; i < strs.length; i++) {
+				json.put(strs[i], convert(obj[i]));
+			}
+			return json;
+		} catch (Exception e) {
+			throw new BIJSONException("解析对象数组到JSONObject出现错误.", e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public static JSONObject convertToJSONObject(Object obj, String[] strs,
 			boolean dis) throws BIJSONException {
 		try {

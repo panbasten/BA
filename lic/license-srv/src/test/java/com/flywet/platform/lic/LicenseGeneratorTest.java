@@ -14,6 +14,13 @@ public class LicenseGeneratorTest extends TestCase {
 		createLicenseFile(lg, "trial");
 	}
 
+	public void testCreateTrialLicenseFile1111() {
+		LicenseGenerator lg = LicenseGenerator.instance();
+		lg.setTrialVersion();
+		lg.setMacAddress("00-E0-81-CD-36-A3");
+		createLicenseFile(lg, "trial1");
+	}
+
 	public void testCreateBaseLicenseFile() {
 		LicenseGenerator lg = LicenseGenerator.instance();
 		lg.setBaseVersion();
@@ -33,7 +40,8 @@ public class LicenseGeneratorTest extends TestCase {
 		try {
 			String lic = lg.getLicenseText();
 
-			File licFile = new File("c:/_d/ba.lic." + subfix);
+			File licFile = new File(System.getProperty("user.home")
+					+ "/.flywet/ba.lic." + subfix);
 			if (licFile.exists()) {
 				licFile.delete();
 			}

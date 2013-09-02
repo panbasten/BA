@@ -1,4 +1,4 @@
-package com.flywet.platform.lic;
+package com.flywet.platform.bi.core.sec;
 
 import junit.framework.TestCase;
 

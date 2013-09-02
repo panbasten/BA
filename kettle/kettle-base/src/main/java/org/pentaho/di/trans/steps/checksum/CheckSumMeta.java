@@ -62,6 +62,8 @@ public class CheckSumMeta extends BaseStepMeta implements StepMetaInterface {
 	private static Class<?> PKG = CheckSumMeta.class; // for i18n purposes, needed by Translator2!!   $NON-NLS-1$
 
 	/** by which fields to display? */
+	private static final String[] CHECK_FIELDS_DG_KEYS = new String[] { "fieldName" };
+	
 	private String fieldName[];
 
 	private String resultfieldName;
@@ -204,6 +206,16 @@ public class CheckSumMeta extends BaseStepMeta implements StepMetaInterface {
 	 */
 	public String[] getFieldName() {
 		return fieldName;
+	}
+	
+	public String[] getCheckFieldsDGKeys() {
+		return CHECK_FIELDS_DG_KEYS;
+	}
+	
+	public String[][] getCheckFieldsDGValues() {
+		String[][] vals = new String[1][];
+		vals[0] = fieldName;
+		return vals;
 	}
 
 	/**

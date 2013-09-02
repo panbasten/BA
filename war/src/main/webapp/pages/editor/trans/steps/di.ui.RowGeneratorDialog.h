@@ -26,19 +26,19 @@
 
 	<fly:verticalLayout margin="10">
 		<fly:labelObject buddy="${formId}:fields" text="字段" />
-		<fly:dataGrid id="${formId}:fields" singleSelect="true" data="" height="280">
+		<fly:dataGrid id="${formId}:fields" singleSelect="true" data="${di:createDGDataSet(stepMetaInterface.fieldsDGKeys,stepMetaInterface.fieldsDGValues)}" height="280">
 			<fly:columns>
 				<fly:row>
-					<fly:column field="name" title="名称" width="80" editor="text" align="center" />
-					<fly:column field="type" title="类型" width="80" editor="text" align="center" />
-					<fly:column field="format" title="格式" width="150" editor="text" align="center" />
-					<fly:column field="length" title="长度" width="80" editor="text" align="center" />
-					<fly:column field="precision" title="精度" width="80" editor="text" align="center" />
+					<fly:column field="fieldName" title="名称" width="80" editor="text" align="center" />
+					<fly:column field="fieldType" title="类型" width="80" editor="text" align="center" />
+					<fly:column field="fieldFormat" title="格式" width="150" editor="text" align="center" />
+					<fly:column field="fieldLength" title="长度" width="80" editor="text" align="center" />
+					<fly:column field="fieldPrecision" title="精度" width="80" editor="text" align="center" />
 					<fly:column field="currency" title="货币类型" width="100" editor="text" align="center" />
 					<fly:column field="decimal" title="小数" width="80" editor="text" align="center" />
 					<fly:column field="group" title="分组" width="80" editor="text" align="center" />
 					<fly:column field="value" title="值" width="80" editor="text" align="center" />
-					<fly:column field="isnull" title="是否为空" width="100" editor="text" align="center" />
+					<fly:column field="setEmptyString" title="是否为空" width="100" editor="text" align="center" />
 				</fly:row>
 			</fly:columns>
 			<fly:toolbar>
