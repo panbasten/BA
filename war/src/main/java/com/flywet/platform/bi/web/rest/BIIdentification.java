@@ -1,5 +1,6 @@
 package com.flywet.platform.bi.web.rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
 
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
-	
+
 	public static final String TEMPLATE_SYS_SETTING = "editor/sys/sys_setting.h";
 
 	@GET
@@ -102,10 +103,12 @@ public class BIIdentification {
 	 * @return
 	 * @throws BIException
 	 */
+	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/openSettingDialog")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openSettingDialog(@CookieParam("repository") String repository,
+	public String openSettingDialog(
+			@CookieParam("repository") String repository,
 			@QueryParam("targetId") String targetId) throws BIException {
 		try {
 
@@ -113,6 +116,17 @@ public class BIIdentification {
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TEMPLATE_SYS_SETTING, attrsMap);
+			List<String> script = (List<String>) domString[1];
+			if (script == null) {
+				domString[1] = new ArrayList<String>();
+				script = (List<String>) domString[1];
+			}
+			script.add("$('#login_setting_create_pub')."
+					+ "bind('click', function(){"
+					+ "Flywet.Login.createPubKey();" + "})");
+			script.add("$('#login_setting_download_pri')."
+					+ "bind('click', function(){"
+					+ "Flywet.Login.downloadPriKey();" + "})");
 
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
@@ -120,6 +134,27 @@ public class BIIdentification {
 			throw new BIException("创建系统设置页面出现错误。", ex);
 		}
 
+	}
+
+	/**
+	 * 生成公钥
+	 * 
+	 * @return
+	 * @throws BIException
+	 */
+	@GET
+	@Path("/createPubKey")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String createPubKey() throws BIException {
+		ActionMessage am = new ActionMessage();
+		try {
+
+			am.success("生成公钥成功！");
+		} catch (Exception ex) {
+			log.error("createPubKey exception:", ex);
+			am.addErrorMessage(ex.getMessage());
+		}
+		return am.toJSONString();
 	}
 
 	/**

@@ -170,6 +170,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/cycle/jquery.cycle.all.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/button/button.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.js</include>
 										
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/login.js</include>

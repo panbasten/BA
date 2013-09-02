@@ -352,3 +352,13 @@ div.section {
 	font-weight: bold;
     line-height: 1em;
 }
+
+.fly-setting-module {
+	width:100px;
+	margin:20px;
+	float:left;
+	font-size: 18px;
+	font-weight: bold;
+	color:#fff;
+	cursor:pointer;
+}

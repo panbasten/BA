@@ -1275,7 +1275,7 @@ Flywet.ajax.AjaxResponse = function(json,target) {
 	if(Flywet.isObjNull(json)){return;}
 	
 	if(json instanceof Object){
-		// 如果是成功，显示提升框，如果是错误，显示提升对话框
+		// 如果是成功，显示临时提示框，如果是错误，显示弹出对话框
 		// TODO
 		Flywet.ajax.ShowMessage(json);
 	}

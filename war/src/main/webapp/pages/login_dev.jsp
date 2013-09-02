@@ -38,6 +38,8 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/core/core.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/libs/button/button.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/libs/dialog/dialog.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/login.js"></script>

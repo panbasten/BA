@@ -150,8 +150,8 @@ Flywet.Login = {
 		Flywet.cw("Dialog",targetId+"_var",{
 			id : targetId,
 			header : "系统设置",
-			width : 400,
-			height : 70,
+			width : 350,
+			height : 75,
 			autoOpen : true,
 			showHeader : true,
 			modal : true,
@@ -160,6 +160,16 @@ Flywet.Login = {
 			maximizable : false,
 			resizable : false
 		});
+	},
+	
+	createPubKey : function(){
+		Flywet.ab({
+			type : "get",
+			url : "rest/identification/createPubKey"
+		});
+	},
+	
+	downloadPriKey : function(){
 	},
 	
 	initPage: function(){
