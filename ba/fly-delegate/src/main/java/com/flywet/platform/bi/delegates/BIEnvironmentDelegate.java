@@ -49,17 +49,15 @@ public class BIEnvironmentDelegate {
 
 	public void init() throws BIKettleException {
 		try {
-			if (init.get()) {
-				return;
+			if (!init.getAndSet(true)) {
+				KettleEnvironment.init();
+				if (!Props.isInitialized())
+					Props.init(Props.TYPE_PROPERTIES_BI);
+				props = Props.getInstance();
+				initRepMeta();
+				initPageTemplate();
+				init.set(true);
 			}
-
-			KettleEnvironment.init();
-			if (!Props.isInitialized())
-				Props.init(Props.TYPE_PROPERTIES_BI);
-			props = Props.getInstance();
-			initRepMeta();
-			initPageTemplate();
-			init.set(true);
 		} catch (BIKettleException e) {
 			throw e;
 		} catch (KettleException e) {
@@ -102,17 +100,14 @@ public class BIEnvironmentDelegate {
 	 * 采用资源库连接池的方式，通过长连接保持状态，不允许相同的用户多次登录
 	 */
 	public void initRepPool() {
-		if (initPool.get()) {
-			return;
-		}
+		if (!initPool.getAndSet(true)) {
+			for (int i = 0; i < repsMeta.nrRepositories(); i++) {
+				RepositoryMeta repMeta = repsMeta.getRepository(i);
 
-		for (int i = 0; i < repsMeta.nrRepositories(); i++) {
-			RepositoryMeta repMeta = repsMeta.getRepository(i);
-
-			ObjectPool repPool = createRepositoryPool(repMeta);
-			repsPoolMap.put(repMeta.getName(), repPool);
+				ObjectPool repPool = createRepositoryPool(repMeta);
+				repsPoolMap.put(repMeta.getName(), repPool);
+			}
 		}
-		initPool.set(true);
 	}
 
 	private ObjectPool createRepositoryPool(RepositoryMeta repMeta) {

@@ -46,7 +46,7 @@ public class PageTemplateResolverType {
 
 	public static void init() throws BIPageException {
 		try {
-			if (!init.get()) {
+			if (!init.getAndSet(true)) {
 				plugins = new HashMap<String, ComponentPlugin>();
 				categories = new HashMap<String, List<ComponentPlugin>>();
 				categoryNames = new ArrayList<String>();
@@ -60,8 +60,6 @@ public class PageTemplateResolverType {
 				for (Node componentNode : componentNodes) {
 					initComponent(componentNode.getTextContent());
 				}
-
-				init.set(true);
 			}
 		} catch (Exception e) {
 			throw new BIPageException("无法读取组件集成XML配置文件: "
