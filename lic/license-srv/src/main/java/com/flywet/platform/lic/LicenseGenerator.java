@@ -47,6 +47,11 @@ public class LicenseGenerator {
 	 */
 	private String macAddress;
 
+	/**
+	 * 私钥
+	 */
+	private String priKey;
+
 	public static LicenseGenerator instance() {
 		return new LicenseGenerator();
 	}
@@ -132,6 +137,15 @@ public class LicenseGenerator {
 		return text;
 	}
 
+	public void setAllOfficialVersion(String customerFullName, String macAddress) {
+		this.customerFullName = customerFullName;
+		this.version = OFFICIAL_VERSION;
+		this.macAddress = macAddress;
+		for (LicenseEnums le : LicenseEnums.values()) {
+			this.addLicense(le.getId());
+		}
+	}
+
 	public void setTrialVersion() {
 		this.customerFullName = UNREGISTERED_CUSTOMER;
 		this.version = TRIAL_VERSION;
@@ -164,7 +178,7 @@ public class LicenseGenerator {
 
 		for (LicenseObject lo : this.licenses.values()) {
 			text.append(",,");
-			text.append(lo.getLicenseText(userMessage));
+			text.append(lo.getLicenseText(this.priKey, userMessage));
 		}
 
 		// 采用zip压缩获得字节码
@@ -266,6 +280,10 @@ public class LicenseGenerator {
 		}
 
 		return decompressed;
+	}
+
+	public void setPriKey(String priKey) {
+		this.priKey = priKey;
 	}
 
 }

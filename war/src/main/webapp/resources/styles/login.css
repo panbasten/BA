@@ -362,3 +362,7 @@ div.section {
 	color:#fff;
 	cursor:pointer;
 }
+
+.fly-space-frame {
+	display:none;
+}

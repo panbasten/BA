@@ -60,11 +60,13 @@ public class LicenseObject {
 		return String.valueOf(this.concurrent);
 	}
 
-	public String getLicenseText(String userMessage) throws BILicenseException {
+	public String getLicenseText(String priKey, String userMessage)
+			throws BILicenseException {
 		if (this.licenseType == null) {
 			throw new BILicenseException("Lic.Message.No.Module");
 		}
-		String text = this.licenseType.getLicenseSignText(userMessage, this);
+		String text = this.licenseType.getLicenseSignText(priKey, userMessage,
+				this);
 		text = text + ",";
 		text = text + this.licenseType.getIdBase64();
 		text = text + ",";

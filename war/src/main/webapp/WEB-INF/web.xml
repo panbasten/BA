@@ -78,7 +78,7 @@
 
 	<servlet>
 		<servlet-name>login</servlet-name>
-		<jsp-file>/pages/login_dev.jsp</jsp-file>
+		<jsp-file>/pages/login/login_dev.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
@@ -104,24 +104,24 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>pages/login_dev.jsp</welcome-file>
+		<welcome-file>pages/login/login_dev.jsp</welcome-file>
 	</welcome-file-list>
 
 	<error-page>
 		<error-code>401</error-code>
-		<location>/pages/401.htm</location>
+		<location>/pages/error/401.htm</location>
 	</error-page>
 	<error-page>
 		<error-code>403</error-code>
-		<location>/pages/403.htm</location>
+		<location>/pages/error/403.htm</location>
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/pages/404.htm</location>
+		<location>/pages/error/404.htm</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/pages/500.htm</location>
+		<location>/pages/error/500.htm</location>
 	</error-page>
 
 	<session-config>

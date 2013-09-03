@@ -137,8 +137,8 @@
 								</aggregation>
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
-									<removeIncluded>true</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/styles/login.lib.compressed.css</output>
+									<removeIncluded>false</removeIncluded>
+									<output>${project.build.directory}/${project.build.finalName}/resources/login.lib.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery-ui.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.css</include>
@@ -147,7 +147,7 @@
 								</aggregation>
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
-									<removeIncluded>true</removeIncluded>
+									<removeIncluded>false</removeIncluded>
 									<output>${project.build.directory}/${project.build.finalName}/resources/styles/editor.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/reset.css</include>
@@ -273,7 +273,7 @@
 						  	 	<webAppDir>src/main/webapp</webAppDir>
 						  	 	<includes>
 									<include>pages/editor/editor_dev.jsp</include>
-									<include>pages/login_dev.jsp</include>	
+									<include>pages/login/login_dev.jsp</include>	
 								</includes>
 							 </configuration>
 						    </execution>

@@ -43,16 +43,12 @@ public enum LicenseEnums {
 	FS_FTP(503, "FS.FTP", LicenseEnums.LIC_CATEGORY_FS) {
 	};
 
-	private static final String KEY = "FLYWET@2013";
-
 	public static final String LIC_CATEGORY_SYS = "SYS";
 	public static final String LIC_CATEGORY_DB = "DB";
 	public static final String LIC_CATEGORY_DN = "DN";
 	public static final String LIC_CATEGORY_DI = "DI";
 	public static final String LIC_CATEGORY_BA = "BA";
 	public static final String LIC_CATEGORY_FS = "FS";
-
-	private static final KeyGenerater kg = KeyGenerater.instance(KEY);
 
 	private int id;
 	private String code;
@@ -70,10 +66,10 @@ public enum LicenseEnums {
 				+ this.code + ".HelpText");
 	}
 
-	public String getLicenseSignText(String userMessage, LicenseObject lo) {
-		return Signaturer.sign(kg.getPriKey(), userMessage
-				+ this.code + lo.getExpiredDateString()
-				+ lo.getConcurrentString());
+	public String getLicenseSignText(String priKey, String userMessage,
+			LicenseObject lo) {
+		return Signaturer.sign(priKey, userMessage + this.code
+				+ lo.getExpiredDateString() + lo.getConcurrentString());
 	}
 
 	public int getId() {

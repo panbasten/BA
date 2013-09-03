@@ -170,6 +170,7 @@ Flywet.Login = {
 	},
 	
 	downloadPriKey : function(){
+		$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/downloadPriKey");
 	},
 	
 	initPage: function(){

@@ -6,6 +6,7 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,20 +48,59 @@ public class FileUtils {
 		return inputStream;
 	}
 
+	public static InputStream getInputStream(String str) throws IOException {
+		if (str != null && !str.trim().equals("")) {
+			ByteArrayInputStream is = null;
+			try {
+				is = new ByteArrayInputStream(str.getBytes());
+				return is;
+			} catch (Exception e) {
+				if (is != null) {
+					is.close();
+				}
+			}
+		}
+		return null;
+	}
+
+	public static String getString(String path) throws IOException {
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(path);
+			return getString(fis);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (fis != null) {
+				fis.close();
+			}
+		}
+		return null;
+	}
+
 	public static String getString(InputStream is) throws IOException {
 		String sLine = null, str = "";
 		InputStreamReader bis = null;
 
 		try {
-
 			bis = new InputStreamReader(new BufferedInputStream(is, 500));
 			BufferedReader buff = new BufferedReader(bis);
 
+			boolean isFirst = true;
 			while ((sLine = buff.readLine()) != null) {
-				if (Const.isEmpty(sLine)) {
-					str = str + Const.CR;
+				if (isFirst) {
+					isFirst = false;
+					if (Const.isEmpty(sLine)) {
+						str = Const.CR;
+					} else {
+						str = sLine;
+					}
 				} else {
-					str = str + Const.CR + sLine;
+					if (Const.isEmpty(sLine)) {
+						str = str + Const.CR;
+					} else {
+						str = str + Const.CR + sLine;
+					}
 				}
 			}
 		} finally {

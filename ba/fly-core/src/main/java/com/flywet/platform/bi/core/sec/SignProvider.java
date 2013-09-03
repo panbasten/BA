@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 
+import org.pentaho.di.core.Const;
+
+import com.flywet.platform.bi.core.utils.FileUtils;
+
 /**
  * 用公钥验证 Class: SignProvider
  * 
@@ -22,10 +26,6 @@ public class SignProvider {
 	private SignProvider() {
 
 	}
-
-	private static final String pubKeyText = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD4FbsSt1I7fGKp1KqFfR4+4LYEKXmY7epBSEeH\n"
-			+ "cu5mrupj0S9zMtg1vWPZOUgylbFWIvAS3MpDS0DLisBbR8TyLolXc0Sd3xpI+QzV8dGyJMp1YBgw\n"
-			+ "/54F6c1w+a3zaS2bINLzSlIeGnasVacW5r0MiGdsnkAYdgT3wuHu3wIw7QIDAQAB";
 
 	/**
 	 * 验证License<br>
@@ -88,6 +88,9 @@ public class SignProvider {
 
 			String[] lics = licText.split(",,");
 
+			// 获得公钥
+			String pubkey = getPublicKeyText();
+
 			// 第一个字符片段是用户信息
 			String[] customer = lics[0].split(",");
 			String userMessage = "";
@@ -104,8 +107,8 @@ public class SignProvider {
 				String modelCode = (String) decodeToObject(lic[2]);
 				String expiredDateString = (String) decodeToObject(lic[3]);
 				String concurrentString = (String) decodeToObject(lic[4]);
-				if (verify(pubKeyText, userMessage + modelCode
-						+ expiredDateString + concurrentString, lic[0])) {
+				if (verify(pubkey, userMessage + modelCode + expiredDateString
+						+ concurrentString, lic[0])) {
 					rtn.add(new String[] { String.valueOf(modelId), modelCode,
 							expiredDateString, concurrentString });
 				}
@@ -183,7 +186,7 @@ public class SignProvider {
 	/** Don't break lines when encoding (violates strict Base64 specification) */
 	public final static int DONT_BREAK_LINES = 8;
 
-	/*              ******** P R I V A T E F I E L D S ******** */
+	/*                                                                       ******** P R I V A T E F I E L D S ******** */
 
 	/** Maximum line length (76) of Base64 output. */
 	private final static int MAX_LINE_LENGTH = 76;
@@ -284,7 +287,7 @@ public class SignProvider {
 
 	// encoding
 
-	/*              ******** E N C O D I N G M E T H O D S ******** */
+	/*                                                                       ******** E N C O D I N G M E T H O D S ******** */
 
 	/**
 	 * Encodes up to the first three bytes of array <var>threeBytes</var> and
@@ -655,7 +658,7 @@ public class SignProvider {
 
 	} // end encodeBytes
 
-	/*              ******** D E C O D I N G M E T H O D S ******** */
+	/*                                                                       ******** D E C O D I N G M E T H O D S ******** */
 
 	/**
 	 * Decodes four bytes from array <var>source</var> and writes the resulting
@@ -1085,7 +1088,7 @@ public class SignProvider {
 		return encodedData;
 	} // end encodeFromFile
 
-	/*              ******** I N N E R C L A S S I N P U T S T R E A M ******** */
+	/*                                                                       ******** I N N E R C L A S S I N P U T S T R E A M ******** */
 
 	/**
 	 * A {@link Base64.InputStream} will read data from another
@@ -1295,7 +1298,7 @@ public class SignProvider {
 
 	} // end inner class InputStream
 
-	/*              ******** I N N E R C L A S S O U T P U T S T R E A M ******** */
+	/*                                                                       ******** I N N E R C L A S S O U T P U T S T R E A M ******** */
 
 	/**
 	 * A {@link Base64.OutputStream} will write data to another
@@ -1502,4 +1505,22 @@ public class SignProvider {
 
 	} // end inner class OutputStream
 
+	/**
+	 * 获得公钥文本
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getPublicKeyText() throws IOException {
+		return Const.NVL(FileUtils.getString(getPublicKeyFilePath()), "");
+	}
+
+	/**
+	 * 获得公钥文件路径
+	 * 
+	 * @return
+	 */
+	public static String getPublicKeyFilePath() {
+		return Const.getKettleDirectory() + Const.FILE_SEPARATOR + ".pubkey";
+	}
 }

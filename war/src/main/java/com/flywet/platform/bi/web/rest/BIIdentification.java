@@ -1,20 +1,29 @@
 package com.flywet.platform.bi.web.rest;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.repository.IUser;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.filerep.KettleFileRepository;
@@ -26,7 +35,10 @@ import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BISecurityException;
+import com.flywet.platform.bi.core.sec.KeyGenerater;
+import com.flywet.platform.bi.core.sec.SignProvider;
 import com.flywet.platform.bi.core.sec.WebMarshal;
+import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
@@ -47,6 +59,8 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
 
 	public static final String TEMPLATE_SYS_SETTING = "editor/sys/sys_setting.h";
+
+	private static final String KEY = "FLYWET@2013";
 
 	@GET
 	@Path("/repositoryNames")
@@ -148,6 +162,29 @@ public class BIIdentification {
 	public String createPubKey() throws BIException {
 		ActionMessage am = new ActionMessage();
 		try {
+			KeyGenerater kg = KeyGenerater.instance(KEY);
+
+			File pubKeyFile = new File(SignProvider.getPublicKeyFilePath());
+
+			if (pubKeyFile.exists()) {
+				pubKeyFile.delete();
+			}
+
+			FileOutputStream out = null;
+			try {
+				out = new FileOutputStream(pubKeyFile);
+				out.write(kg.getPubKey().getBytes());
+			} catch (IOException e) {
+				log.error("create public key file exception:", e);
+			} finally {
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						log.error("create public key file exception:", e);
+					}
+				}
+			}
 
 			am.success("生成公钥成功！");
 		} catch (Exception ex) {
@@ -155,6 +192,40 @@ public class BIIdentification {
 			am.addErrorMessage(ex.getMessage());
 		}
 		return am.toJSONString();
+	}
+
+	@GET
+	@Path("/downloadPriKey")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public void downloadPriKey(@Context HttpServletRequest request,
+			@Context HttpServletResponse response, String body)
+			throws IOException {
+		InputStream is = null;
+
+		try {
+			KeyGenerater kg = KeyGenerater.instance(KEY);
+			String key = kg.getPriKey();
+			is = FileUtils.getInputStream(key);
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+			String fileName = "ba.prikey";
+			response.setHeader("Content-Disposition", "attachment;filename="
+					+ fileName);
+			byte[] b = new byte[1024];
+			int i;
+			OutputStream os = response.getOutputStream();
+			while ((i = is.read(b)) != -1) {
+				os.write(b, 0, i);
+			}
+			os.flush();
+		} catch (Exception e) {
+			log.error("download private key file exception:", e);
+		} finally {
+			if (is != null) {
+				is.close();
+			}
+		}
 	}
 
 	/**
@@ -266,4 +337,5 @@ public class BIIdentification {
 		String cookie = BISecurityUtils.createCookieString(map);
 		return cookie;
 	}
+
 }
