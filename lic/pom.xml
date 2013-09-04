@@ -13,6 +13,7 @@
 	<version>8.0.0</version>
 
 	<modules>
+		<module>pwd-create</module>
 		<module>license-srv</module>
 		<module>license-war</module>
 	</modules>

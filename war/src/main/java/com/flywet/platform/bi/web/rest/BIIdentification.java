@@ -135,12 +135,9 @@ public class BIIdentification {
 				domString[1] = new ArrayList<String>();
 				script = (List<String>) domString[1];
 			}
-			script.add("$('#login_setting_create_pub')."
-					+ "bind('click', function(){"
-					+ "Flywet.Login.createPubKey();" + "})");
-			script.add("$('#login_setting_download_pri')."
-					+ "bind('click', function(){"
-					+ "Flywet.Login.downloadPriKey();" + "})");
+			script.add("$('#login_setting_create_key')."
+					+ "bind('click', function(){" + "Flywet.Login.createKey();"
+					+ "})");
 
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
@@ -150,19 +147,8 @@ public class BIIdentification {
 
 	}
 
-	/**
-	 * 生成公钥
-	 * 
-	 * @return
-	 * @throws BIException
-	 */
-	@GET
-	@Path("/createPubKey")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String createPubKey() throws BIException {
-		ActionMessage am = new ActionMessage();
+	private void createPubKey(KeyGenerater kg) throws BIException {
 		try {
-			KeyGenerater kg = KeyGenerater.instance(KEY);
 
 			File pubKeyFile = new File(SignProvider.getPublicKeyFilePath());
 
@@ -186,24 +172,24 @@ public class BIIdentification {
 				}
 			}
 
-			am.success("生成公钥成功！");
 		} catch (Exception ex) {
 			log.error("createPubKey exception:", ex);
-			am.addErrorMessage(ex.getMessage());
 		}
-		return am.toJSONString();
 	}
 
 	@GET
-	@Path("/downloadPriKey")
+	@Path("/createKey")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public void downloadPriKey(@Context HttpServletRequest request,
+	public void createKey(@Context HttpServletRequest request,
 			@Context HttpServletResponse response, String body)
 			throws IOException {
 		InputStream is = null;
 
 		try {
 			KeyGenerater kg = KeyGenerater.instance(KEY);
+
+			createPubKey(kg);
+
 			String key = kg.getPriKey();
 			is = FileUtils.getInputStream(key);
 			response.setContentType("application/octet-stream");

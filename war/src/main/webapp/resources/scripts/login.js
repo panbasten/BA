@@ -162,15 +162,8 @@ Flywet.Login = {
 		});
 	},
 	
-	createPubKey : function(){
-		Flywet.ab({
-			type : "get",
-			url : "rest/identification/createPubKey"
-		});
-	},
-	
-	downloadPriKey : function(){
-		$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/downloadPriKey");
+	createKey : function(){
+		$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
 	},
 	
 	initPage: function(){
