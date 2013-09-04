@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.di.i18n.BaseMessages;
@@ -19,6 +20,8 @@ import com.flywet.platform.bi.core.utils.FileUtils;
 public class WebMarshal {
 
 	private static Class<?> PKG = WebMarshal.class;
+
+	private final Logger logger = Logger.getLogger(WebMarshal.class);
 
 	public static final String OS_NAME = "os.name";
 	public static final String OS_ARCH = "os.arch";
@@ -107,6 +110,8 @@ public class WebMarshal {
 		} catch (BISecurityException e) {
 			throw e;
 		} catch (Exception e) {
+			logger.error(BaseMessages.getString(PKG,
+					"Lic.Message.Cann.Get.Machine.Code"), e);
 			throw new BISecurityException(BaseMessages.getString(PKG,
 					"Lic.Message.Cann.Get.Machine.Code"));
 		}
@@ -223,6 +228,8 @@ public class WebMarshal {
 		try {
 			List<String[]> licList = SignProvider.decodeLicense(lic);
 			if (licList == null) {
+				logger.error(BaseMessages.getString(PKG,
+						"Lic.Message.Invalid.License"));
 				throw new BISecurityException(BaseMessages.getString(PKG,
 						"Lic.Message.Invalid.License"));
 			}
@@ -235,6 +242,8 @@ public class WebMarshal {
 			if (!MARK_ALL_MAC.equals(lic_mac)
 					&& (lic_mac.toLowerCase().indexOf(
 							this.mac_address.toLowerCase()) < 0)) {
+				logger.error(BaseMessages.getString(PKG,
+						"Lic.Message.Invalid.License"));
 				throw new BISecurityException(BaseMessages.getString(PKG,
 						"Lic.Message.Invalid.License"));
 			}
@@ -264,6 +273,8 @@ public class WebMarshal {
 		} catch (BISecurityException e) {
 			throw e;
 		} catch (Exception e) {
+			logger.error(BaseMessages.getString(PKG,
+					"Lic.Message.Load.License.Fail"), e);
 			throw new BISecurityException(BaseMessages.getString(PKG,
 					"Lic.Message.Load.License.Fail"));
 		}
