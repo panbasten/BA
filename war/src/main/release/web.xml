@@ -16,22 +16,17 @@
 
 	<!-- 用于初始化Spring容器的Listener -->
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 	<listener>
 		<listener-class>
-			com.flywet.platform.bi.web.listener.BIEnvironmentListener
-		</listener-class>
+			com.flywet.platform.bi.web.listener.BIEnvironmentListener</listener-class>
 	</listener>
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class>
-			org.springframework.web.filter.CharacterEncodingFilter
-		</filter-class>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>utf-8</param-value>
@@ -41,31 +36,31 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
-	    <filter-name>loginCheckFilter</filter-name>
-	    <filter-class>com.flywet.platform.bi.web.filter.LoginCheckFilter</filter-class>
-	    <init-param>
-	        <param-name>excludes</param-name>
-	        <param-value>/ba/rest/identification</param-value>
-	    </init-param>
-  </filter>
- 
-  <filter-mapping>
-    <filter-name>loginCheckFilter</filter-name>
-    <servlet-name>restService</servlet-name> 
-  </filter-mapping>
-  
-  <filter>
-	    <filter-name>contextFilter</filter-name>
-	    <filter-class>com.flywet.platform.bi.web.filter.ContextFilter</filter-class>
-  </filter>
- 
-  <filter-mapping>
-    <filter-name>contextFilter</filter-name>
-  	<servlet-name>restService</servlet-name>
-  </filter-mapping>
-  
+		<filter-name>loginCheckFilter</filter-name>
+		<filter-class>com.flywet.platform.bi.web.filter.LoginCheckFilter</filter-class>
+		<init-param>
+			<param-name>excludes</param-name>
+			<param-value>/ba/rest/identification</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>loginCheckFilter</filter-name>
+		<servlet-name>restService</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>contextFilter</filter-name>
+		<filter-class>com.flywet.platform.bi.web.filter.ContextFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>contextFilter</filter-name>
+		<servlet-name>restService</servlet-name>
+	</filter-mapping>
+
 	<servlet>
 		<servlet-name>editor</servlet-name>
 		<jsp-file>/pages/editor/editor.jsp</jsp-file>
@@ -84,26 +79,32 @@
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 	
-	 <servlet>
-         <servlet-name>restService</servlet-name>
-         <servlet-class>
-         	org.apache.wink.server.internal.servlet.RestServlet
-        </servlet-class>
+	<servlet>
+		<servlet-name>portal</servlet-name>
+		<jsp-file>/pages/portal/portal.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>portal</servlet-name>
+		<url-pattern>/portal</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>restService</servlet-name>
+		<servlet-class>org.apache.wink.server.internal.servlet.RestServlet</servlet-class>
 		<!--
-		<init-param>
-			<param-name>propertiesLocation</param-name>
+			<init-param> <param-name>propertiesLocation</param-name>
 			<param-value>path/to/my-wink-properties.properties</param-value>
-		</init-param>
+			</init-param>
 		-->
 	</servlet>
 
 	<servlet-mapping>
-            <servlet-name>restService</servlet-name>
-            <url-pattern>/rest/*</url-pattern>
+		<servlet-name>restService</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>pages/login/login.jsp</welcome-file>
+		<welcome-file>pages/portal/portal.jsp</welcome-file>
 	</welcome-file-list>
 
 	<error-page>
