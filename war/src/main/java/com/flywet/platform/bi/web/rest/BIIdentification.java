@@ -56,9 +56,9 @@ public class BIIdentification {
 
 	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
 
-	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "editor/sys/login_slide.h";
+	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "login/sys/login_slide.h";
 
-	public static final String TEMPLATE_SYS_SETTING = "editor/sys/sys_setting.h";
+	public static final String TEMPLATE_SYS_SETTING = "login/sys/sys_setting.h";
 
 	private static final String KEY = "FLYWET@2013";
 
@@ -137,6 +137,9 @@ public class BIIdentification {
 			}
 			script.add("$('#login_setting_create_key')."
 					+ "bind('click', function(){" + "Flywet.Login.createKey();"
+					+ "})");
+			script.add("$('#login_setting_goto_portal')."
+					+ "bind('click', function(){" + "Flywet.Login.gotoPortal();"
 					+ "})");
 
 			return AjaxResult.instanceDialogContent(targetId, domString)
