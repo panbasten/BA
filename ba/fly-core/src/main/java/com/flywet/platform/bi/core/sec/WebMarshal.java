@@ -218,6 +218,8 @@ public class WebMarshal {
 
 	private final void checkMaxValidDate() throws BISecurityException {
 		if (webMarshal.getMaxValidDate().compareTo(new Date()) < 0) {
+			logger.error(BaseMessages.getString(PKG,
+					"Lic.Message.Extended.Auth"));
 			throw new BISecurityException(BaseMessages.getString(PKG,
 					"Lic.Message.Extended.Auth"));
 		}
