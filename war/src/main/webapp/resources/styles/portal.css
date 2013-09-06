@@ -1,0 +1,172 @@
+html {
+	overflow: hidden;
+}
+
+a,body {
+	font-family: Microsoft YaHei, Segoe UI, Tahoma, Arial, Verdana,
+		sans-serif;
+	font-size: small;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+html,body,#fly_portal,#fly_portal_cell {
+	background-color: #333333;
+	border: 0 none;
+	border-collapse: collapse;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#fly_portal_bgDiv {
+	background-color: #666666;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+#fly_portal_header,#fly_portal_footer {
+	border: 0 none;
+	padding: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 10;
+}
+
+#fly_portal_header {
+	top: 0;
+	height: 35px;
+	opacity: .8;
+	background-color: #333333;
+}
+
+#fly_portal_header * {
+	color: #999999;
+	font-size: 1em;
+	font-family: Microsoft YaHei, Segoe UI, Tahoma, Arial, Verdana,
+		sans-serif;
+}
+
+#fly_portal_menus {
+	height: 35px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#fly_portal_menus_ul {
+	bottom: 8px;
+	position: absolute;
+	margin: 0;
+	padding: 0 0 0 8px;
+}
+
+#fly_portal_menus_ul li {
+	display: inline;
+}
+
+#fly_portal_menus_ul li div.clear {
+	height: auto;
+	display: inline;
+}
+
+#fly_portal_menus_ul li a {
+	font-weight: 700;
+	margin: 0 10px 0 9px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+#fly_portal_oper {
+	bottom: 0;
+	height: 35px;
+	position: relative;
+	top: auto;
+	float: right;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 100;
+}
+
+#fly_portal_oper a {
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+#fly_portal_oper a div {
+	height: auto;
+	top: 0;
+	margin-top: 5px;
+	margin-right: 20px;
+}
+
+#fly_portal_oper a div span {
+	padding-right: 3px;
+	padding-left: 8px;
+	line-height: 100%;
+}
+
+#fly_portal_footer {
+	bottom: 0;
+}
+
+#fly_portal_desktop_ctrl,#fly_portal_footer_content {
+	border: 0 none;
+	padding: 0;
+	position: relative;
+	width: 100%;
+	z-index: 10;
+}
+
+#fly_portal_desktop_ctrl {
+	height: 35px;
+}
+
+#fly_portal_desktop_ctrl_btns {
+	position: absolute;
+	right: 15px;
+}
+
+#fly_portal_desktop_ctrl_btns a {
+	float: right;
+}
+
+
+#btn_full div {
+	background-position: 0 -29px !important;
+}
+
+#btn_previous div {
+	background-position: 0 -59px !important;
+}
+
+#btn_next div {
+	background-position: 0 0 !important;
+}
+
+#fly_portal_desktop_ctrl_btns a div {
+	margin: 0 8px;
+	position: relative;
+	cursor: pointer;
+	height: 30px;
+	width: 30px;
+	background: url("../images/portal/portal.png") no-repeat scroll 0 0 transparent;
+	overflow: hidden;
+}
+
+
+#fly_portal_footer_content {
+	height: 60px;
+	opacity: .3;
+	background-color: #333333;
+}

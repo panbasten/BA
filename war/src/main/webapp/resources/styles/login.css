@@ -1,7 +1,7 @@
 body {
 	background-image: url("../images/login/bg.png");
 	background-color: #1A1A1C;
-	font-family: Arial,Tahoma,微软雅黑;
+	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
     font-size: 12px;
     text-align: center;
     /*text-shadow: 0 0 3px #666666;*/
@@ -17,7 +17,7 @@ body {
 
 a {
 	color: #3BA7BC;
-	font-family: font-family: Arial,Tahoma,微软雅黑;;
+	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
 	font-weight: bold;
 	text-align: right;
 }
@@ -33,7 +33,7 @@ input:hover, select:hover {
 
 label {
 	font-size: 12px;
-	font-family: Arial,Tahoma,微软雅黑;
+	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
 	text-align: left;
 	display: block;
 	float: left;
@@ -59,7 +59,7 @@ label {
     width: 85px;
     font-size: 16px;
     font-weight: bold;
-    font-family: Arial,Tahoma,微软雅黑;
+    font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
     cursor: pointer;
 	border-radius: 5px 5px 5px 5px;
     line-height: 1.5em;

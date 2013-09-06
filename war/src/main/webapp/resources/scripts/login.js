@@ -166,6 +166,10 @@ Flywet.Login = {
 		$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
 	},
 	
+	gotoPortal : function(){
+		window.location = "portal";
+	},
+	
 	initPage: function(){
 		
 		Flywet.env();
