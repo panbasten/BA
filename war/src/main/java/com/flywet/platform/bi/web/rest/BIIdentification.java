@@ -136,8 +136,8 @@ public class BIIdentification {
 				script = (List<String>) domString[1];
 			}
 			script.add("$('#login_setting_create_key')."
-					+ "bind('click', function(){" + "Flywet.Login.createKey();"
-					+ "})");
+					+ "bind('click', function(){" + "Flywet.Login.createKey("
+					+ String.valueOf(existPubKey()) + ");" + "})");
 
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
@@ -145,6 +145,11 @@ public class BIIdentification {
 			throw new BIException("创建系统设置页面出现错误。", ex);
 		}
 
+	}
+
+	private boolean existPubKey() {
+		File pubKeyFile = new File(SignProvider.getPublicKeyFilePath());
+		return pubKeyFile.exists();
 	}
 
 	private void createPubKey(KeyGenerater kg) throws BIException {
