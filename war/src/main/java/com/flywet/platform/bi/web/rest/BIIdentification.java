@@ -136,11 +136,11 @@ public class BIIdentification {
 				script = (List<String>) domString[1];
 			}
 			script.add("$('#login_setting_create_key')."
-					+ "bind('click', function(){" + "Flywet.Login.createKey();"
-					+ "})");
+					+ "bind('click', function(){" + "Flywet.Login.createKey("
+					+ String.valueOf(existPubKey()) + ");" + "})");
 			script.add("$('#login_setting_goto_portal')."
-					+ "bind('click', function(){" + "Flywet.Login.gotoPortal();"
-					+ "})");
+					+ "bind('click', function(){"
+					+ "Flywet.Login.gotoPortal();" + "})");
 
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();

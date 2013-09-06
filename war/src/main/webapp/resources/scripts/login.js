@@ -162,8 +162,12 @@ Flywet.Login = {
 		});
 	},
 	
-	createKey : function(){
-		$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
+	createKey : function(exKey){
+		if(exKey){
+			Flywet.dialog.warning("密钥已经存在，请先移除密钥再生成新的密钥。");
+		}else{
+			$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
+		}
 	},
 	
 	gotoPortal : function(){
