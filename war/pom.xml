@@ -38,7 +38,7 @@
 								resources/scripts/**,
 								**/default.css,
 								**/fly.css,
-								**/login.css,
+								**/portal.css,
 								**/reset.css
 							</packagingExcludes>
 						</configuration>
@@ -130,15 +130,15 @@
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>true</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/styles/login.compressed.css</output>
+									<output>${project.build.directory}/${project.build.finalName}/resources/styles/portal.compressed.css</output>
 									<includes>
-										<include>${project.build.directory}/${project.build.finalName}/resources/styles/login.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/styles/portal.css</include>
 									</includes>
 								</aggregation>
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>false</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/login.lib.compressed.css</output>
+									<output>${project.build.directory}/${project.build.finalName}/resources/portal.lib.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery-ui.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.css</include>
@@ -165,7 +165,7 @@
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>false</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/login.pack.js</output>
+									<output>${project.build.directory}/${project.build.finalName}/resources/portal.pack.js</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/cycle/jquery.cycle.all.js</include>
@@ -173,7 +173,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/button/button.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.js</include>
 										
-										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/login.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/portal.js</include>
 									</includes>
 								</aggregation>
 								<aggregation>
@@ -273,7 +273,8 @@
 						  	 	<webAppDir>src/main/webapp</webAppDir>
 						  	 	<includes>
 									<include>pages/editor/editor_dev.jsp</include>
-									<include>pages/login/login_dev.jsp</include>	
+									<include>pages/login/login_dev.jsp</include>
+									<include>pages/portal/portal_dev.jsp</include>
 								</includes>
 							 </configuration>
 						    </execution>
