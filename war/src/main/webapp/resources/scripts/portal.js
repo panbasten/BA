@@ -1,5 +1,7 @@
 Flywet.Portal = {
-	PIC_NUM : 10,
+	PIC_TOTILE_NUM : 10,
+	PIC_NUM : 0,
+	MAX_SCEEN : false,
 	messages : null,
 	section: {
 		slideShow : null,
@@ -133,9 +135,9 @@ Flywet.Portal = {
 			"margin-top":h+"px",
 			"margin-left":w+"px"
 		});
-		var num = Math.floor(Math.random()*(Flywet.Portal.PIC_NUM-0.001)+1);
+		Flywet.Portal.PIC_NUM = Math.floor(Math.random()*(Flywet.Portal.PIC_TOTILE_NUM-0.001)+1);
 		$(Flywet.escapeClientId("fly_portal_bg_img"))
-			.attr("src", "resources/images/pics/wallpaper"+num+".jpg")
+			.attr("src", "resources/images/pics/wallpaper"+Flywet.Portal.PIC_NUM+".jpg")
 			.width(win.width+20).height(win.height+20);
 		
 		$(Flywet.escapeClientId("fly_portal_header")).width(win.width);
@@ -174,6 +176,48 @@ Flywet.Portal = {
 		}
 	},
 	
+	nextBackground : function(){
+		Flywet.Portal.PIC_NUM = Flywet.Portal.PIC_NUM + 1;
+		if(Flywet.Portal.PIC_NUM > Flywet.Portal.PIC_TOTILE_NUM){
+			Flywet.Portal.PIC_NUM = Flywet.Portal.PIC_NUM - Flywet.Portal.PIC_TOTILE_NUM;
+		}
+		var bg = $(Flywet.escapeClientId("fly_portal_bg_img"));
+		bg.fadeOut(700, function(){
+			bg.attr("src", "resources/images/pics/wallpaper"+Flywet.Portal.PIC_NUM+".jpg");
+			bg.fadeIn("fast");
+		});
+	},
+	
+	previousBackground : function(){
+		Flywet.Portal.PIC_NUM = Flywet.Portal.PIC_NUM - 1;
+		if(Flywet.Portal.PIC_NUM < 1){
+			Flywet.Portal.PIC_NUM = Flywet.Portal.PIC_NUM + Flywet.Portal.PIC_TOTILE_NUM;
+		}
+		var bg = $(Flywet.escapeClientId("fly_portal_bg_img"));
+		bg.fadeOut(700, function(){
+			bg.attr("src", "resources/images/pics/wallpaper"+Flywet.Portal.PIC_NUM+".jpg");
+			bg.fadeIn("fast");
+		});
+			
+	},
+	
+	fullSceen : function(){
+		var win = Flywet.getWindowScroll();
+		if(Flywet.Portal.MAX_SCEEN){
+			$(Flywet.escapeClientId("fly_portal_header")).animate({height:"toggle"},500);
+			$(Flywet.escapeClientId("fly_portal_footer")).animate({top:(win.height-95)+"px"},500);
+			
+			$(Flywet.escapeClientId("btn_full")).addClass("fly-full-sceen-out").removeClass("fly-full-sceen-in").attr("title", "全屏");
+			Flywet.Portal.MAX_SCEEN = false;
+		}else{
+			$(Flywet.escapeClientId("fly_portal_header")).animate({height:"toggle"},500);
+			$(Flywet.escapeClientId("fly_portal_footer")).animate({top:(win.height-35)+"px"},500);
+			
+			$(Flywet.escapeClientId("btn_full")).addClass("fly-full-sceen-in").removeClass("fly-full-sceen-out").attr("title", "恢复");
+			Flywet.Portal.MAX_SCEEN = true;
+		}
+	},
+	
 	initPageComplete : function(){
 		// 登录按钮
 		$("#loginBtn").bind("click", function(){
@@ -203,6 +247,18 @@ Flywet.Portal = {
 			$(this).addClass("setting-highlight");
 		}).bind("mouseout", function(){
 			$(this).removeClass("setting-highlight");
+		});
+		
+		$("#btn_next").bind("click", function(){
+			Flywet.Portal.nextBackground();
+		});
+		
+		$("#btn_previous").bind("click", function(){
+			Flywet.Portal.previousBackground();
+		});
+		
+		$("#btn_full").bind("click", function(){
+			Flywet.Portal.fullSceen();
 		});
 		
 		$("#btn_login_close").bind("click", function(){

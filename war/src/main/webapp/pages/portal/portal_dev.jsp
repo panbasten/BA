@@ -108,7 +108,7 @@
 						<a id="btn_previous" title="上一页" href="javascript:void(0);">
 							<div></div>
 						</a>
-						<a id="btn_full" title="全屏" href="javascript:void(0);">
+						<a id="btn_full" class="fly-full-sceen-out" title="全屏" href="javascript:void(0);">
 							<div></div>
 						</a>
 					</div>

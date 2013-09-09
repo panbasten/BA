@@ -95,7 +95,7 @@ label {
 
 #fly_portal_bg {
 	position:absolute;
-	background-color: #000;
+	background-color: #333;
 	width: 100%;
 	height: 100%;
 }
@@ -480,25 +480,29 @@ div.section {
 }
 
 
-#btn_full div {
-	background-position: 0 -29px !important;
+.fly-full-sceen-out div {
+	background-position: -60px -30px;
+}
+
+.fly-full-sceen-in div {
+	background-position: 0 -30px;
 }
 
 #btn_previous div {
-	background-position: 0 -59px !important;
+	background-position: 0 -60px;
 }
 
 #btn_next div {
-	background-position: 0 0 !important;
+	background-position: 0 0;
 }
 
 #fly_portal_desktop_ctrl_btns a div {
 	margin: 0 8px;
 	position: relative;
 	cursor: pointer;
-	height: 30px;
-	width: 30px;
-	background: url("../images/portal/portal.png") no-repeat scroll 0 0 transparent;
+	height: 28px;
+	width: 28px;
+	background-image: url("../images/portal/portal.png");
 	overflow: hidden;
 }
 
@@ -506,7 +510,10 @@ div.section {
 #fly_portal_footer_content {
 	height: 60px;
 	opacity: .5;
-	background-color: #333333;
+	background-color: #333;
+	clear: both;
+    line-height: 27px;
+    text-align: center;
 }
 
 .fly_portal_cover {
