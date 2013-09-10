@@ -147,7 +147,9 @@ Flywet.Portal = {
 	changeWebText : function(){
 		document.title=Flywet.Portal.messages["msg_page_title"];
 		$("#companyName").html(Flywet.Portal.messages["msg_page_company_name"]);
+		$("#footerCompanyName").html(Flywet.Portal.messages["msg_page_company_name"]);
 		$("#companyCopyright").html(Flywet.Portal.messages["msg_page_company_copyright"]);
+		$("#footerCompanyCopyright").html(Flywet.Portal.messages["msg_page_company_copyright"]);
 		$("#companyOthers").html(Flywet.Portal.messages["msg_page_company_others"]);
 	},
 	

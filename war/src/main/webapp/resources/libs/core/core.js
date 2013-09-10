@@ -834,7 +834,7 @@ Flywet.Logger = {
     info: function(log) {
         if(this.logger) {
             this.logger.info(log);
-        }else if(window.console){
+        }else if(window.console && console.info){
         	console.info(log);
         }
     },
@@ -846,7 +846,7 @@ Flywet.Logger = {
     debug: function(log) {
         if(this.logger) {
             this.logger.debug(log);
-        }else if(window.console){
+        }else if(window.console && console.debug){
         	console.debug(log);
         }
     },
@@ -858,7 +858,7 @@ Flywet.Logger = {
     warn: function(log) {
         if(this.logger) {
             this.logger.warn(log);
-        }else if(window.console){
+        }else if(window.console && console.warn){
         	console.warn(log);
         }
     },
@@ -870,7 +870,7 @@ Flywet.Logger = {
     error: function(log) {
         if(this.logger) {
             this.logger.error(log);
-        }else if(window.console){
+        }else if(window.console && console.error){
         	console.error(log);
         }
     }
