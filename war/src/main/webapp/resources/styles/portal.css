@@ -459,6 +459,35 @@ div.section {
 #fly_portal_footer {
 }
 
+
+#fly_portal_footer_title {
+	position: relative;
+	float: right;
+	z-index: 100;
+	margin-top: 10px;
+	margin-right: 25px;
+}
+
+#fly_portal_footer_title div {
+	line-height: 20px;
+	text-align: right;
+}
+
+#fly_portal_footer_left {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#fly_portal_footer_logo {
+	float: left;
+	padding: 1px 0 6px 15px;
+}
+
+#fly_portal_footer_logo img {
+	margin-top: 10px;
+}
+
 #fly_portal_desktop_ctrl,#fly_portal_footer_content {
 	border: 0 none;
 	padding: 0;

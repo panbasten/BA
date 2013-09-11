@@ -115,7 +115,18 @@
 						</a>
 					</div>
 				</div>
-				<div id="fly_portal_footer_content"></div>
+				<div id="fly_portal_footer_content">
+					<div id="fly_portal_footer_left">
+						<div id="fly_portal_footer_logo">
+							<img src="resources/images/default/logo.large.png" />
+						</div>
+						
+						<div id="fly_portal_footer_title">
+							<div id="footerCompanyName"></div>
+							<div id="footerCompanyCopyright"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 			
 			<!-- 登录区域 -->
