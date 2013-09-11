@@ -539,8 +539,8 @@ div.section {
 
 #fly_portal_footer_content {
 	height: 60px;
-	opacity: .5;
-	filter: Alpha(Opacity=50);
+	opacity: .8;
+	filter: Alpha(Opacity=80);
 	background-color: #333;
 	clear: both;
     line-height: 27px;
