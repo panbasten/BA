@@ -381,7 +381,8 @@ div.section {
 	top: 0;
 	height: 35px;
 	opacity: .8;
-	background-color: #333333;
+	filter: Alpha(Opacity=80);
+	background-color: #333;
 }
 
 #fly_portal_header * {
@@ -510,6 +511,7 @@ div.section {
 #fly_portal_footer_content {
 	height: 60px;
 	opacity: .5;
+	filter: Alpha(Opacity=50);
 	background-color: #333;
 	clear: both;
     line-height: 27px;

@@ -43,7 +43,9 @@
 			src="<%=path%>/resources/libs/dialog/dialog.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/portal.js"></script>
-		<!-- replace end -->	
+		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/preload_for_portal.js"></script>
+		<!-- replace end -->
 		
 		<script type="text/javascript">
 		
