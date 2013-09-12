@@ -1523,4 +1523,8 @@ public class SignProvider {
 	public static String getPublicKeyFilePath() {
 		return Const.getKettleDirectory() + Const.FILE_SEPARATOR + ".pubkey";
 	}
+	
+	public static String getPrivateKeyFilePath() {
+		return Const.getKettleDirectory() + Const.FILE_SEPARATOR + ".prikey";
+	}
 }

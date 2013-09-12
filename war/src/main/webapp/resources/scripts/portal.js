@@ -153,31 +153,6 @@ Flywet.Portal = {
 		$("#companyOthers").html(Flywet.Portal.messages["msg_page_company_others"]);
 	},
 	
-	loginSettingDialog : function(){
-		var targetId = "login_setting";
-		Flywet.cw("Dialog",targetId+"_var",{
-			id : targetId,
-			header : "系统设置",
-			width : 350,
-			height : 75,
-			autoOpen : true,
-			showHeader : true,
-			modal : true,
-			url : "rest/identification/openSettingDialog",
-			closable : true,
-			maximizable : false,
-			resizable : false
-		});
-	},
-	
-	createKey : function(exKey){
-		if(exKey){
-			Flywet.dialog.warning("密钥已经存在，请先移除密钥再生成新的密钥。");
-		}else{
-			$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
-		}
-	},
-	
 	nextBackground : function(){
 		Flywet.Portal.PIC_NUM = Flywet.Portal.PIC_NUM + 1;
 		if(Flywet.Portal.PIC_NUM > Flywet.Portal.PIC_TOTILE_NUM){
@@ -247,12 +222,45 @@ Flywet.Portal = {
 			$(this).removeClass("highlight");
 		});
 		
-		$("#btn_setting").bind("click", function(){
-			Flywet.Portal.loginSettingDialog();
-		}).bind("mouseover", function(){
-			$(this).addClass("setting-highlight");
+		// 对于设置按钮的事件
+		var settingDiv = $("#fly_portal_sub_menu_setting");
+		var time = null;
+		$("#btn_setting").bind("mouseover", function(){
+			settingDiv.show();
 		}).bind("mouseout", function(){
-			$(this).removeClass("setting-highlight");
+			time = setTimeout(function(){
+				settingDiv.hide();
+			}, 300);
+		});
+		settingDiv.bind('mouseenter', function(){
+			if (time){
+				clearTimeout(time);
+				time = null;
+			}
+		}).bind('mouseleave', function(){
+			time = setTimeout(function(){
+				settingDiv.hide();
+			}, 100);
+		});
+		
+		// 生成并下载私钥
+		$("#createPriKey").bind("click", function(){
+			// 判断是否存在公钥
+			if(exKey){
+				Flywet.dialog.warning("密钥已经存在，请先移除密钥再生成新的密钥。");
+			}else{
+				$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
+			}
+		});
+		
+		// 重新下载私钥
+		$("#downloadPriKey").bind("click", function(){
+			// 判断是否存在私钥
+			if(exKey){
+				Flywet.dialog.warning("密钥已经存在，请先移除密钥再生成新的密钥。");
+			}else{
+				$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/identification/createKey");
+			}
 		});
 		
 		$("#btn_next").bind("click", function(){

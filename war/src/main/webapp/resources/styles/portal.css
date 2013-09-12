@@ -419,7 +419,8 @@ div.section {
 	display: inline;
 }
 
-#fly_portal_menus_ul li a {
+#fly_portal_menus_ul li a,
+.sub-menu a {
 	font-weight: 700;
 	margin: 0 10px 0 9px;
 	text-decoration: none;
@@ -428,7 +429,7 @@ div.section {
 
 
 
-#fly_portal_menus_ul li .sub-menu {
+.sub-menu {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -439,7 +440,7 @@ div.section {
     border-right: 1px solid #999999;
     border-style: solid;
     border-width: 2px 1px 1px;
-    display: block;
+    display: none;
     margin: 0;
     padding: 0 16px 0 20px;
     position: absolute;
@@ -449,13 +450,12 @@ div.section {
     filter: Alpha(Opacity=100);
 }
 
-#fly_portal_menus_ul li .sub-menu b {
+.sub-menu b {
     border-color: transparent transparent #FF6600;
     border-style: solid;
     border-width: 6px;
     font-size: 0;
     height: 0;
-    left: 178px;
     line-height: 0;
     position: absolute;
     vertical-align: baseline;
@@ -463,7 +463,7 @@ div.section {
     width: 0;
 }
 
-#fly_portal_menus_ul li .sub-menu i {
+.sub-menu i {
     background: none repeat scroll 0 0 #C8C8D0;
     display: inline-block;
     height: 12px;
@@ -471,30 +471,30 @@ div.section {
     width: 1px;
 }
 
-#fly_portal_menus_ul li .sub-menu dl {
+.sub-menu dl {
     border-bottom: 1px dashed #E0E0E0;
     overflow: hidden;
     padding: 12px 0;
 }
-#fly_portal_menus_ul li .sub-menu dl:last-child {
+.sub-menu dl:last-child {
     border-bottom: medium none;
 }
-#fly_portal_menus_ul li .sub-menu dt {
+.sub-menu dt {
     color: #666;
     float: left;
     text-align: left;
     width: 72px;
 }
-#fly_portal_menus_ul li .sub-menu dd {
+.sub-menu dd {
     float: left;
     text-align: left;
     width: 242px;
 }
-#fly_portal_menus_ul li .sub-menu dd a {
+.sub-menu dd a {
     color: #000000;
     line-height: 1.5em;
 }
-#fly_portal_menus_ul li .sub-menu p {
+.sub-menu p {
     margin-top: 15px;
 }
 

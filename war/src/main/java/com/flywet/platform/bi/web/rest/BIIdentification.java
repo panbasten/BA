@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -43,7 +41,6 @@ import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.web.entity.ActionMessage;
-import com.flywet.platform.bi.web.entity.AjaxResult;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
@@ -110,44 +107,14 @@ public class BIIdentification {
 	}
 
 	/**
-	 * 打开系统设置对话框
+	 * 是否存在公钥
 	 * 
-	 * @param repository
-	 * @param targetId
 	 * @return
-	 * @throws BIException
 	 */
-	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/openSettingDialog")
+	@Path("/existPubKey")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openSettingDialog(
-			@CookieParam("repository") String repository,
-			@QueryParam("targetId") String targetId) throws BIException {
-		try {
-
-			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-
-			Object[] domString = PageTemplateInterpolator.interpolate(
-					TEMPLATE_SYS_SETTING, attrsMap);
-			List<String> script = (List<String>) domString[1];
-			if (script == null) {
-				domString[1] = new ArrayList<String>();
-				script = (List<String>) domString[1];
-			}
-			script.add("$('#login_setting_create_key')."
-					+ "bind('click', function(){" + "Flywet.Portal.createKey("
-					+ String.valueOf(existPubKey()) + ");" + "})");
-
-			return AjaxResult.instanceDialogContent(targetId, domString)
-					.toJSONString();
-		} catch (Exception ex) {
-			throw new BIException("创建系统设置页面出现错误。", ex);
-		}
-
-	}
-
-	private boolean existPubKey() {
+	public boolean existPubKey() {
 		File pubKeyFile = new File(SignProvider.getPublicKeyFilePath());
 		return pubKeyFile.exists();
 	}
@@ -182,6 +149,44 @@ public class BIIdentification {
 		}
 	}
 
+	private void createPriKey(String key) throws BIException {
+		try {
+
+			File priKeyFile = new File(SignProvider.getPrivateKeyFilePath());
+
+			if (priKeyFile.exists()) {
+				priKeyFile.delete();
+			}
+
+			FileOutputStream out = null;
+			try {
+				out = new FileOutputStream(priKeyFile);
+				out.write(key.getBytes());
+			} catch (IOException e) {
+				log.error("create private key file exception:", e);
+			} finally {
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						log.error("create private key file exception:", e);
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			log.error("createPriKey exception:", ex);
+		}
+	}
+
+	/**
+	 * 创建公钥，并下载私钥
+	 * 
+	 * @param request
+	 * @param response
+	 * @param body
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/createKey")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -196,6 +201,10 @@ public class BIIdentification {
 			createPubKey(kg);
 
 			String key = kg.getPriKey();
+			key = key + ";" + WebMarshal.getInstance().getMachineCode();
+
+			createPriKey(key);
+
 			is = FileUtils.getInputStream(key);
 			response.setContentType("application/octet-stream");
 			request.setCharacterEncoding(Const.XML_ENCODING);
