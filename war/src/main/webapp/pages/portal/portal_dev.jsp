@@ -72,8 +72,8 @@
 							<a href="javascript:void(0);">预测评估</a>
 							<div id="fly_portal_sub_menu1" 
 								class="sub-menu"
-								style="left: 0;width: 340px;">
-								<b></b>
+								style="left: 0;width: 340px;display: block;">
+								<b style="left: 178px;"></b>
 								<dl>
 									<dt style="width:110px;">弹性计算</dt>
 									<dd style="width:230px;">
@@ -119,6 +119,31 @@
 						<td>
 							<div id="btn_setting">
 								<div></div>
+							</div>
+							<div id="fly_portal_sub_menu_setting" 
+								class="sub-menu"
+								style="right: 0;width: 340px;top: 34px;">
+								<b style="right: 27px;"></b>
+								<dl>
+									<dt style="width:110px;">系统激活管理</dt>
+									<dd style="width:230px;">
+										<a id="createPriKey" href="javascript:void(0);">生成并下载密钥</a>
+										<i></i>
+										<a id="downloadPriKey" href="javascript:void(0);">重新下载密钥</a>
+										<br />
+										<a id="uploadLicense" href="javascript:void(0);">上传注册码</a>
+										<i></i>
+										<a href="javascript:void(0);">在线注册</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt style="width:110px;">资源库管理</dt>
+									<dd style="width:230px;">
+										<a id="createRep" href="javascript:void(0);">创建资源库</a>
+										<i></i>
+										<a id="manageRep" href="javascript:void(0);">管理资源库</a>
+									</dd>
+								</dl>
 							</div>
 						</td>
 						</tr>

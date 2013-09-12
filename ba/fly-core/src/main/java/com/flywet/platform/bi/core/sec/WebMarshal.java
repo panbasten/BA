@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.encryption.Encr;
 import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.version.BuildVersion;
@@ -70,18 +71,6 @@ public class WebMarshal {
 	private Date maxValidDate;
 
 	private static WebMarshal webMarshal;
-
-	/**
-	 * 获取机器码<br>
-	 * 1.所有网卡的mac地址，以逗号分隔 <br>
-	 * 2.进行加密 <br>
-	 * TODO Const.getMACAddress()改造
-	 * 
-	 * @return
-	 */
-	public static final String getMachineCode() {
-		return "";
-	}
 
 	public static final WebMarshal getInstance() throws BISecurityException {
 
@@ -375,6 +364,23 @@ public class WebMarshal {
 
 	public Date getMaxValidDate() {
 		return maxValidDate;
+	}
+
+	public String getMacAddress() {
+		return mac_address;
+	}
+
+	/**
+	 * 获取机器码<br>
+	 * 1.当前使用网卡的mac地址 <br>
+	 * 2.进行加密 <br>
+	 * TODO Const.getMACAddress()改造
+	 * 
+	 * @return
+	 * @throws BISecurityException
+	 */
+	public String getMachineCode() throws BISecurityException {
+		return Encr.encryptPassword(mac_address);
 	}
 
 	public String getLicVersionString() {
