@@ -236,7 +236,11 @@ Flywet.Portal = {
 		
 		// 设置按钮
 		$("#btn_login").bind("click", function(){
-			$("#fly_login_wrapper").show("normal");
+			if(Flywet.browserDetect.msie){
+				$("#fly_login_wrapper").show();
+			}else{
+				$("#fly_login_wrapper").show("normal");
+			}
 		}).bind("mouseover", function(){
 			$(this).addClass("highlight");
 		}).bind("mouseout", function(){

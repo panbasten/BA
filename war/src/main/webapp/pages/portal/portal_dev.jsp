@@ -70,6 +70,35 @@
 						</li>
 						<li>
 							<a href="javascript:void(0);">预测评估</a>
+							<div id="fly_portal_sub_menu1" 
+								class="sub-menu"
+								style="left: 0;width: 340px;">
+								<b></b>
+								<dl>
+									<dt style="width:110px;">弹性计算</dt>
+									<dd style="width:230px;">
+										<a href="#">云服务器</a>
+										<i></i>
+										<a href="#">负载均衡</a>
+									</dd>
+								</dl>
+								<dl>
+									<dt style="width:110px;">数据存储 • 计算</dt>
+									<dd style="width:230px;">
+										<a href="#">关系型数据库服务</a>
+										<i></i>
+										<a href="#">开放存储服务</a>
+										<br>
+										<a href="#">内容分发网络</a>
+										<i></i>
+										<a href="#">开放结构化数据服务</a>
+										<br>
+										<a href="#">开放缓存服务</a>
+										<i></i>
+										<a href="#">开放数据处理服务</a>
+									</dd>
+								</dl>
+							</div>
 							<div class="clear"></div>
 						</li>
 						<li>
