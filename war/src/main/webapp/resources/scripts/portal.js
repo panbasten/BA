@@ -355,3 +355,17 @@ Flywet.Portal = {
 		
 	}
 };
+
+Flywet.Portal.menu = function(cfg){
+	this.cfg = cfg;
+	this.id = cfg.id;
+	if(!this.id){
+		this.id = "menu_" + (Flywet.windex++);
+	}
+	this.jq = $(Flywet.escapeClientId(this.id));
+
+};
+
+Flywet.Portal.menu.prototype.init=function(){
+	
+};
