@@ -876,6 +876,59 @@ LOCK TABLES `r_partition_schema` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `r_portal_menu`
+--
+
+DROP TABLE IF EXISTS `r_portal_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `r_portal_menu` (
+  `ID_PORTAL_MENU` int(11) NOT NULL,
+  `CODE` varchar(255) DEFAULT NULL,
+  `MODULE_CODE` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `ID_PORTAL_MENU_PARENT` int(11) DEFAULT NULL,
+  `HELPTEXT` mediumtext,
+  `MENU_INDEX` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_PORTAL_MENU`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_portal_menu`
+--
+
+LOCK TABLES `r_portal_menu` WRITE;
+/*!40000 ALTER TABLE `r_portal_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `r_portal_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `r_portal_menu_attribute`
+--
+
+DROP TABLE IF EXISTS `r_portal_menu_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `r_portal_menu_attribute` (
+  `ID_PORTAL_MENU_ATTR` int(11) NOT NULL,
+  `ID_PORTAL_MENU` int(11) NOT NULL,
+  `CODE` varchar(255) NOT NULL,
+  `VALUE_STR` mediumtext,
+  PRIMARY KEY (`ID_PORTAL_MENU_ATTR`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_portal_menu_attribute`
+--
+
+LOCK TABLES `r_portal_menu_attribute` WRITE;
+/*!40000 ALTER TABLE `r_portal_menu_attribute` DISABLE KEYS */;
+/*!40000 ALTER TABLE `r_portal_menu_attribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `r_report`
 --
 
@@ -1494,4 +1547,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-22 20:38:25
+-- Dump completed on 2013-09-13 22:45:02
