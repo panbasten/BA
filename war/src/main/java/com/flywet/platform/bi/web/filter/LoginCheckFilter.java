@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+/**
+ * 所有请求（除排除之外的请求），需要在cookie中有登录用户名称
+ * 
+ * @author PeterPan
+ * 
+ */
 public class LoginCheckFilter implements Filter {
 	private final Logger logger = Logger.getLogger(LoginCheckFilter.class);
 

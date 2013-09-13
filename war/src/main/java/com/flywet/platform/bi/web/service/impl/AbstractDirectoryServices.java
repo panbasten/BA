@@ -29,11 +29,11 @@ public abstract class AbstractDirectoryServices {
 		return root;
 	}
 
-	public RepositoryDirectoryInterface getDirecotry(String repository,
-			long id, BIDirectoryCategory category) throws BIException {
+	public RepositoryDirectoryInterface getDirecotry(long id,
+			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 
 			RepositoryDirectoryInterface root = getRootDirectory(category);
 
@@ -46,17 +46,16 @@ public abstract class AbstractDirectoryServices {
 			log.error("创建父目录页面出现错误。");
 			throw new BIException("创建父目录页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 
-	protected BreadCrumbMeta parentDirectories(String repository, Long id,
-			String tital, String prefixPath, BIDirectoryCategory category)
-			throws BIException {
+	protected BreadCrumbMeta parentDirectories(Long id, String tital,
+			String prefixPath, BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
 			BreadCrumbMeta bce = new BreadCrumbMeta();
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 			RepositoryDirectoryInterface root = getRootDirectory(category);
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
@@ -85,15 +84,15 @@ public abstract class AbstractDirectoryServices {
 			log.error("创建父目录页面出现错误。");
 			throw new BIException("创建父目录页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 
-	protected void subDirectory(String repository, Long id, BrowseMeta browse,
-			String prefixPath, BIDirectoryCategory category) throws BIException {
+	protected void subDirectory(Long id, BrowseMeta browse, String prefixPath,
+			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 			RepositoryDirectoryInterface root = getRootDirectory(category);
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
@@ -115,7 +114,7 @@ public abstract class AbstractDirectoryServices {
 			log.error("创建子目录页面出现错误。");
 			throw new BIException("创建子目录页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 
 	}

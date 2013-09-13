@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -58,49 +57,42 @@ public class BIReportResource extends AbastractDirectoryResource {
 	@GET
 	@Path("/navi")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createNaviContentReport(
-			@CookieParam("repository") String repository) throws BIException {
-		return super.buildNaviContent(pageDelegates, repository, DIR_CATEGORY
-				.getRootId(), DIR_CATEGORY, true);
+	public String createNaviContentReport() throws BIException {
+		return super.buildNaviContent(pageDelegates, DIR_CATEGORY.getRootId(),
+				DIR_CATEGORY, true);
 	}
 
 	@GET
 	@Path("/dir/remove/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String removeDirectory(@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
-		return super.removeDirectory(pageDelegates, repository, id,
-				DIR_CATEGORY);
+	public String removeDirectory(@PathParam("id") String id)
+			throws BIException {
+		return super.removeDirectory(pageDelegates, id, DIR_CATEGORY);
 	}
 
 	@GET
 	@Path("/dir/create/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openDirectoryCreateDialog(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
-		return super.openDirectoryCreateDialog(repository, id, targetId);
+	public String openDirectoryCreateDialog(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
+		return super.openDirectoryCreateDialog(id, targetId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dir/createsubmit")
-	public String openDirectoryCreateSubmit(
-			@CookieParam("repository") String repository, String body)
-			throws BIJSONException {
-		return super.openDirectoryCreateSubmit(pageDelegates, repository, body,
+	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
+		return super.openDirectoryCreateSubmit(pageDelegates, body,
 				DIR_CATEGORY);
 	}
 
 	@GET
 	@Path("/dir/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String flushNaviContent(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
-		return super.buildNaviContent(pageDelegates, repository, Long
-				.parseLong(id), DIR_CATEGORY, false);
+	public String flushNaviContent(@PathParam("id") String id)
+			throws BIException {
+		return super.buildNaviContent(pageDelegates, Long.parseLong(id),
+				DIR_CATEGORY, false);
 	}
 
 	/**

@@ -3,7 +3,6 @@ package com.flywet.platform.bi.web.rest;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,11 +36,9 @@ public class BIBaseResource {
 	@GET
 	@Path("/navigatorpage")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createNaviPage(@CookieParam("repository") String repository)
-			throws BIException {
+	public String createNaviPage() throws BIException {
 		try {
-			List<FunctionType> funcs = pageDelegates
-					.getNavigatorsLevelOne(repository);
+			List<FunctionType> funcs = pageDelegates.getNavigatorsLevelOne();
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("editorId", ID_EDITOR_NAVIS);

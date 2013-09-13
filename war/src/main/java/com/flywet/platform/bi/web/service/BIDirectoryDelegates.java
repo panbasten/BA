@@ -11,13 +11,12 @@ public interface BIDirectoryDelegates {
 	/**
 	 * 获得父目录对象
 	 * 
-	 * @param repository
 	 * @param id
 	 * @param category
 	 * @return
 	 * @throws BIException
 	 */
-	public BreadCrumbMeta getParentDirectories(String repository, Long id,
+	public BreadCrumbMeta getParentDirectories(Long id,
 			BIDirectoryCategory category) throws BIException;
 
 	/**
@@ -28,7 +27,7 @@ public interface BIDirectoryDelegates {
 	 * @param category
 	 * @throws BIException
 	 */
-	public void getSubDirectory(String repository, Long id, BrowseMeta browse,
+	public void getSubDirectory(Long id, BrowseMeta browse,
 			BIDirectoryCategory category) throws BIException;
 
 	/**
@@ -39,8 +38,8 @@ public interface BIDirectoryDelegates {
 	 * @param category
 	 * @throws BIException
 	 */
-	public void getSubDirectoryObject(String repository, Long id,
-			BrowseMeta browse, BIDirectoryCategory category) throws BIException;
+	public void getSubDirectoryObject(Long id, BrowseMeta browse,
+			BIDirectoryCategory category) throws BIException;
 
 	/**
 	 * 获得根目录对象
@@ -54,49 +53,44 @@ public interface BIDirectoryDelegates {
 	/**
 	 * 获得子目录对象
 	 * 
-	 * @param repository
 	 * @param id
 	 * @param category
 	 * @return
 	 * @throws BIException
 	 */
-	public RepositoryDirectoryInterface getDirecotry(String repository,
-			long id, BIDirectoryCategory category) throws BIException;
+	public RepositoryDirectoryInterface getDirecotry(long id,
+			BIDirectoryCategory category) throws BIException;
 
 	/**
 	 * 新建一个目录
 	 * 
-	 * @param repository
 	 * @param parentDirId
 	 * @param name
 	 * @param category
 	 * @throws BIException
 	 */
-	public void newDirectoryObject(String repository, long parentDirId,
-			String name, BIDirectoryCategory category) throws BIException;
+	public void newDirectoryObject(long parentDirId, String name,
+			BIDirectoryCategory category) throws BIException;
 
 	/**
 	 * 编辑一个目录
 	 * 
-	 * @param repository
 	 * @param parentDirId
 	 * @param dirId
 	 * @param name
 	 * @param category
 	 * @throws BIException
 	 */
-	public void editDirectoryObject(String repository, long parentDirId,
-			long dirId, String name, BIDirectoryCategory category)
-			throws BIException;
+	public void editDirectoryObject(long parentDirId, long dirId, String name,
+			BIDirectoryCategory category) throws BIException;
 
 	/**
 	 * 删除一个目录
 	 * 
-	 * @param repository
 	 * @param dirId
 	 * @param category
 	 * @throws BIException
 	 */
-	public void removeDirectoryObject(String repository, long dirId,
-			BIDirectoryCategory category) throws BIException;
+	public void removeDirectoryObject(long dirId, BIDirectoryCategory category)
+			throws BIException;
 }

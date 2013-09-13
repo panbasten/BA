@@ -24,6 +24,10 @@ public class PropertyUtils {
 
 	public static final String PAGE_I18N_PACKAGE_NAME = "page.i18n.package.name";
 
+	public static final String PORTAL_ANONYMOUS_ALLOW = "portal.anonymous.allow";
+
+	public static final String PORTAL_ANONYMOUS_REPOSITORY = "portal.anonymous.repository";
+
 	/**
 	 * 属性配置集合
 	 */

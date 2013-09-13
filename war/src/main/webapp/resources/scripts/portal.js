@@ -306,7 +306,6 @@ Flywet.Portal = {
 			}
 		});
 		
-		
 		// 2.加载资源库名称
 		Flywet.ab({
 			type: "get",
@@ -357,10 +356,19 @@ Flywet.Portal = {
 				$("#fly_login_wrapper").hide();
 				
 				Flywet.Portal.initPageComplete();
+				
 			}
 		});
 		
-		
+		// 4.加载portal的菜单
+//		Flywet.ab({
+//			type: "get",
+//			url: "rest/identification/protalmenus",
+//			onsuccess: function(data, status, xhr){
+//				
+//				Flywet.Portal.initPageComplete();
+//			}
+//		});
 	}
 };
 

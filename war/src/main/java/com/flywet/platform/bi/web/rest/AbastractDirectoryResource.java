@@ -36,18 +36,15 @@ public class AbastractDirectoryResource {
 	 * 删除一个目录
 	 * 
 	 * @param pageDelegates
-	 * @param repository
 	 * @param id
 	 * @return
 	 * @throws BIException
 	 */
-	protected String removeDirectory(BIPageDelegates pageDelegates,
-			String repository, String id, BIDirectoryCategory cate)
-			throws BIException {
+	protected String removeDirectory(BIPageDelegates pageDelegates, String id,
+			BIDirectoryCategory cate) throws BIException {
 		ActionMessage am = new ActionMessage();
 		try {
-			pageDelegates.removeDirectoryObject(repository, Long.valueOf(id),
-					cate);
+			pageDelegates.removeDirectoryObject(Long.valueOf(id), cate);
 		} catch (BIException e) {
 			logger.error(e.getMessage());
 			am.addErrorMessage(e.getMessage());
@@ -62,15 +59,14 @@ public class AbastractDirectoryResource {
 	/**
 	 * 编辑目录对话框
 	 * 
-	 * @param repository
 	 * @param pid
 	 * @param id
 	 * @param targetId
 	 * @return
 	 * @throws BIException
 	 */
-	protected String openDirectoryEditDialog(String repository, String pid,
-			String id, String desc, String targetId) throws BIException {
+	protected String openDirectoryEditDialog(String pid, String id,
+			String desc, String targetId) throws BIException {
 		String msg = "";
 		try {
 			// 获得页面
@@ -99,15 +95,13 @@ public class AbastractDirectoryResource {
 	 * 编辑目录对话框的提交操作
 	 * 
 	 * @param pageDelegates
-	 * @param repository
 	 * @param body
 	 * @param cate
 	 * @return
 	 * @throws BIJSONException
 	 */
 	protected String openDirectoryEditSubmit(BIPageDelegates pageDelegates,
-			String repository, String body, BIDirectoryCategory cate)
-			throws BIJSONException {
+			String body, BIDirectoryCategory cate) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
@@ -124,8 +118,7 @@ public class AbastractDirectoryResource {
 			}
 
 			// 保存目录
-			pageDelegates.editDirectoryObject(repository, pDirId, dirId, desc,
-					cate);
+			pageDelegates.editDirectoryObject(pDirId, dirId, desc, cate);
 
 			am.addMessage("新增目录成功");
 		} catch (Exception e) {
@@ -137,14 +130,13 @@ public class AbastractDirectoryResource {
 	/**
 	 * 新建目录对话框
 	 * 
-	 * @param repository
 	 * @param id
 	 * @param targetId
 	 * @return
 	 * @throws BIException
 	 */
-	protected String openDirectoryCreateDialog(String repository, String id,
-			String targetId) throws BIException {
+	protected String openDirectoryCreateDialog(String id, String targetId)
+			throws BIException {
 		String msg = "";
 		try {
 			// 获得页面
@@ -171,15 +163,13 @@ public class AbastractDirectoryResource {
 	 * 新建目录对话框的提交操作
 	 * 
 	 * @param pageDelegates
-	 * @param repository
 	 * @param body
 	 * @param rootId
 	 * @return
 	 * @throws BIJSONException
 	 */
 	protected String openDirectoryCreateSubmit(BIPageDelegates pageDelegates,
-			String repository, String body, BIDirectoryCategory cate)
-			throws BIJSONException {
+			String body, BIDirectoryCategory cate) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
@@ -196,7 +186,7 @@ public class AbastractDirectoryResource {
 			}
 
 			// 保存目录
-			pageDelegates.newDirectoryObject(repository, dirId, desc, cate);
+			pageDelegates.newDirectoryObject(dirId, desc, cate);
 
 			am.addMessage("新增目录成功");
 		} catch (Exception e) {
@@ -205,14 +195,13 @@ public class AbastractDirectoryResource {
 		return am.toJSONString();
 	}
 
-	protected String buildNaviContent(BIPageDelegates pageDelegates,
-			String repository, Long idL, BIDirectoryCategory category,
-			boolean isNew) throws BIException {
+	protected String buildNaviContent(BIPageDelegates pageDelegates, Long idL,
+			BIDirectoryCategory category, boolean isNew) throws BIException {
 		try {
 
 			// 1.为转换的面包屑页面创建一个自定义操作
-			BreadCrumbMeta bce = pageDelegates.getParentDirectories(repository,
-					idL, category);
+			BreadCrumbMeta bce = pageDelegates.getParentDirectories(idL,
+					category);
 			AjaxResultEntity transBCResult = AjaxResultEntity.instance()
 					.setOperation(Utils.RESULT_OPERATION_CUSTOM).setTargetId(
 							ID_EDITOR_CONTENT_NAVI_PREFIX + category.getId()
@@ -222,10 +211,8 @@ public class AbastractDirectoryResource {
 
 			// 2.填充浏览面板内容
 			BrowseMeta browseMeta = new BrowseMeta();
-			pageDelegates
-					.getSubDirectory(repository, idL, browseMeta, category);
-			pageDelegates.getSubDirectoryObject(repository, idL, browseMeta,
-					category);
+			pageDelegates.getSubDirectory(idL, browseMeta, category);
+			pageDelegates.getSubDirectoryObject(idL, browseMeta, category);
 			browseMeta.addClass("fly-browsepanel");
 
 			// 添加额外属性

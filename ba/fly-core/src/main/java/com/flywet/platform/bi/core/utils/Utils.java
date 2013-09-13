@@ -3,6 +3,9 @@ package com.flywet.platform.bi.core.utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 
 import com.flywet.platform.bi.core.exception.BIConvertException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
@@ -890,5 +894,32 @@ public class Utils {
 	 */
 	public static <T> boolean isEmpty(Collection<T> collection) {
 		return (collection == null || collection.isEmpty());
+	}
+
+	/**
+	 * 解析URL
+	 * 
+	 * @param paramsString
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String decodeURL(String paramsString)
+			throws UnsupportedEncodingException {
+		return URLDecoder.decode(paramsString, Const.XML_ENCODING);
+	}
+
+	public static String decodeURL(String paramsString, String charset)
+			throws UnsupportedEncodingException {
+		return URLDecoder.decode(paramsString, charset);
+	}
+
+	public static String encodeURL(String paramsString)
+			throws UnsupportedEncodingException {
+		return URLEncoder.encode(paramsString, Const.XML_ENCODING);
+	}
+
+	public static String encodeURL(String paramsString, String charset)
+			throws UnsupportedEncodingException {
+		return URLEncoder.encode(paramsString, charset);
 	}
 }

@@ -11,7 +11,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -24,13 +23,12 @@ import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.repository.IUser;
 import org.pentaho.di.repository.Repository;
-import org.pentaho.di.repository.filerep.KettleFileRepository;
-import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
+import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BISecurityException;
 import com.flywet.platform.bi.core.sec.KeyGenerater;
@@ -38,8 +36,12 @@ import com.flywet.platform.bi.core.sec.SignProvider;
 import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
+import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
+import com.flywet.platform.bi.delegates.intf.BIPortalMenuAdaptor;
+import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.web.entity.ActionMessage;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.model.ParameterContext;
@@ -52,10 +54,7 @@ public class BIIdentification {
 	private final Logger log = Logger.getLogger(BIIdentification.class);
 
 	public static final String TEMPLATE_SYS_USER_INFO = "editor/sys/user_info.h";
-
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "portal/sys/login_slide.h";
-
-	public static final String TEMPLATE_SYS_SETTING = "portal/sys/sys_setting.h";
 
 	private static final String KEY = "FLYWET@2013";
 
@@ -66,30 +65,6 @@ public class BIIdentification {
 		try {
 			String[] repNames = BIEnvironmentDelegate.instance().getRepNames();
 			return JSONUtils.toJsonString(repNames);
-		} catch (Exception ex) {
-			throw new BIException("活动资源库命名出现错误。", ex);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@GET
-	@Path("/slides")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getSlideShows() throws BIException {
-		try {
-			// 获得登陆滚动页面
-			Document doc = PageTemplateInterpolator
-					.getDom(TEMPLATE_SYS_LOGIN_SLIDE);
-			Object[] domString = PageTemplateInterpolator.interpolate(
-					TEMPLATE_SYS_LOGIN_SLIDE, doc, FLYVariableResolver
-							.instance());
-
-			JSONObject jo = new JSONObject();
-			jo.put("dom", (String) domString[0]);
-			jo.put("script", JSONUtils
-					.convertToJSONArray((List<String>) domString[1]));
-
-			return jo.toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("活动资源库命名出现错误。", ex);
 		}
@@ -237,11 +212,10 @@ public class BIIdentification {
 	@GET
 	@Path("/usersettingpage")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createUserSettingPage(@CookieParam("user") String userInfo)
-			throws BIException {
+	public String createUserSettingPage() throws BIException {
 		try {
-			JSONObject user = JSONUtils.convertStringToJSONObject(BIWebUtils
-					.decode(userInfo));
+			JSONObject user = JSONUtils.convertStringToJSONObject(Utils
+					.decodeURL(ContextHolder.getUser()));
 			FLYVariableResolver resolver = FLYVariableResolver.instance();
 			resolver.addVariable("user", user);
 
@@ -308,7 +282,7 @@ public class BIIdentification {
 				return am.toJSONString();
 			}
 
-			String cookie = populateCookie(repository, user, rep);
+			String cookie = populateCookie(repository, user);
 			am.setData(cookie);
 		} catch (Exception ex) {
 			log.error("identifacation exception:", ex);
@@ -320,22 +294,95 @@ public class BIIdentification {
 		return am.toJSONString();
 	}
 
-	private String populateCookie(String repository, IUser user, Repository rep)
+	private String populateCookie(String repository, IUser user)
 			throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("username", user.getUsername());
 		map.put("user", JSONUtils.convertToJSONObject(user.getUserInfo())
 				.toJSONString());
 		map.put("repository", repository);
-		if (rep instanceof KettleDatabaseRepository) {
-			map.put("repositoryType", "db");
-		} else if (rep instanceof KettleFileRepository) {
-			map.put("repositoryType", "file");
-		}
+		map.put("repositoryType", BIEnvironmentDelegate.instance().getRepType(
+				repository));
 
 		// TODO 写入用户和有效时间的密文，和path信息
 		String cookie = BISecurityUtils.createCookieString(map);
 		return cookie;
+	}
+
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/slides")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSlideShows() throws BIException {
+		try {
+			// 获得登陆滚动页面
+			Document doc = PageTemplateInterpolator
+					.getDom(TEMPLATE_SYS_LOGIN_SLIDE);
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_SYS_LOGIN_SLIDE, doc, FLYVariableResolver
+							.instance());
+
+			JSONObject jo = new JSONObject();
+			jo.put("dom", (String) domString[0]);
+			jo.put("script", JSONUtils
+					.convertToJSONArray((List<String>) domString[1]));
+
+			return jo.toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("获得资源库命名出现错误。", ex);
+		}
+	}
+
+	@GET
+	@Path("/protalmenus")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getPortalMenus() throws BIException {
+		try {
+			String repository = ContextHolder.getRepositoryName();
+			// 如果repository为空，检查是否可以匿名登录
+			if (Const.isEmpty(repository)) {
+				boolean allow = Utils.toBoolean(PropertyUtils
+						.getProperty(PropertyUtils.PORTAL_ANONYMOUS_ALLOW),
+						false);
+				if (allow) {
+					repository = PropertyUtils
+							.getProperty(PropertyUtils.PORTAL_ANONYMOUS_REPOSITORY);
+					if (Const.isEmpty(repository)) {
+						String[] repNames = BIEnvironmentDelegate.instance()
+								.getRepNames();
+						if (repNames != null && repNames.length > 0) {
+							repository = repNames[0];
+						}
+					}
+				}
+			}
+
+			// 如果repository仍为空，返回空值
+			if (Const.isEmpty(repository)) {
+				return "";
+			}
+
+			List<PortalMenu> meus = getPortalMenusByParent(repository,
+					BIEnvironmentDelegate.instance().getRepType(repository), 0L);
+			return JSONUtils.convertToJSONArray(meus).toJSONString();
+		} catch (Exception ex) {
+			throw new BIException("获得Portal的菜单出现错误。", ex);
+		}
+	}
+
+	private List<PortalMenu> getPortalMenusByParent(String repository,
+			String repositoryType, long parentId) throws BIException {
+		BIPortalMenuAdaptor portalMenuDelegate = BIAdaptorFactory
+				.createAdaptor(BIPortalMenuAdaptor.class, repositoryType);
+		List<PortalMenu> portalMenus = portalMenuDelegate
+				.getPortalMenuByParent(parentId);
+
+		for (PortalMenu pm : portalMenus) {
+			List<PortalMenu> children = getPortalMenusByParent(repository,
+					repositoryType, pm.getId());
+			pm.setChildren(children);
+		}
+		return portalMenus;
 	}
 
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,6 +43,7 @@ import com.flywet.platform.bi.component.components.grid.GridDataObject;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
+import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
@@ -54,7 +54,6 @@ import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BITransDelegates;
-import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.transResource")
@@ -85,10 +84,8 @@ public class BITransResource {
 	@GET
 	@Path("/create/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openTransCreateDialog(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String openTransCreateDialog(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		String msg = "";
 		try {
 			// 获得页面
@@ -114,16 +111,13 @@ public class BITransResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/createsubmit")
-	public String openTransCreateSubmit(
-			@CookieParam("repository") String repository,
-			@CookieParam("user") String userInfo, String body)
-			throws BIJSONException {
+	public String openTransCreateSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			IUser user = BISecurityUtils.getLoginUser(userInfo);
+			IUser user = ContextHolder.getLoginUser();
 
 			String desc = paramContext.getParameter("desc");
 
@@ -136,8 +130,8 @@ public class BITransResource {
 
 			// 保存转换
 			TransMeta transMeta = transDelegates.createTransformation(user,
-					repository, dirId, desc);
-			transDelegates.updateCacheTransformation(repository, transMeta);
+					dirId, desc);
+			transDelegates.updateCacheTransformation(transMeta);
 
 			am.addMessage("新增转换成功");
 		} catch (BIException e) {
@@ -153,7 +147,6 @@ public class BITransResource {
 	/**
 	 * 打开另存为对话框
 	 * 
-	 * @param repository
 	 * @param id
 	 * @param targetId
 	 * @return
@@ -162,18 +155,16 @@ public class BITransResource {
 	@GET
 	@Path("/saveas/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String saveAsTransDialog(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String saveAsTransDialog(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		String msg = "";
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
 			// 转换所在目录
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					Long.valueOf(id));
+			TransMeta transMeta = transDelegates.loadTransformation(Long
+					.valueOf(id));
 			RepositoryDirectoryInterface dir = transMeta
 					.getRepositoryDirectory();
 
@@ -200,16 +191,13 @@ public class BITransResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/saveassubmit")
-	public String saveAsTransSubmit(
-			@CookieParam("repository") String repository,
-			@CookieParam("user") String userInfo, String body)
-			throws BIJSONException {
+	public String saveAsTransSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			IUser user = BISecurityUtils.getLoginUser(userInfo);
+			IUser user = ContextHolder.getLoginUser();
 
 			// 页面设置
 			long dirId = paramContext.getLongParameter("dirId");
@@ -218,9 +206,9 @@ public class BITransResource {
 
 			// 保存
 			TransMeta transMeta = transDelegates.saveAsTransformation(user,
-					repository, dirId, transId, transName);
+					dirId, transId, transName);
 
-			transDelegates.updateCacheTransformation(repository, transMeta);
+			transDelegates.updateCacheTransformation(transMeta);
 
 			am.addMessage("新增转换成功");
 		} catch (BIException e) {
@@ -247,9 +235,8 @@ public class BITransResource {
 	@Path("/{id}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveTrans(@CookieParam("repository") String repository,
-			@CookieParam("user") String userInfo, @PathParam("id") String id,
-			String body) throws BIJSONException {
+	public String saveTrans(@PathParam("id") String id, String body)
+			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			Long idL = Long.parseLong(id);
@@ -258,8 +245,7 @@ public class BITransResource {
 			String val = paramContext.getParameter("val");
 			boolean silence = paramContext.getBooleanParameter("silence");
 
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					idL);
+			TransMeta transMeta = transDelegates.loadTransformation(idL);
 			FlowChartData data = new FlowChartData();
 			data.construct(JSONUtils.convertStringToJSONObject(val));
 
@@ -267,15 +253,15 @@ public class BITransResource {
 			modifyTrans(transMeta, data);
 
 			// 设置修改信息
-			IUser user = BISecurityUtils.getLoginUser(userInfo);
+			IUser user = ContextHolder.getLoginUser();
 			transMeta.setModifiedDate(new Date());
 			transMeta.setModifiedUser(user.getLogin());
 
 			// 保存
-			transDelegates.save(repository, transMeta);
+			transDelegates.save(transMeta);
 
 			// 更新缓存
-			transDelegates.updateCacheTransformation(repository, transMeta);
+			transDelegates.updateCacheTransformation(transMeta);
 
 			if (silence) {
 				return am.success().toJSONString();
@@ -389,17 +375,16 @@ public class BITransResource {
 	@GET
 	@Path("/{id}/analyse")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openAnalyse(@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String openAnalyse(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
 
 			// 分析一个转换实例对数据库的影响
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					Long.parseLong(id));
+			TransMeta transMeta = transDelegates.loadTransformation(Long
+					.parseLong(id));
 			List<DatabaseImpact> impacts = new ArrayList<DatabaseImpact>();
 			transMeta.analyseImpact(impacts, null);
 
@@ -427,17 +412,16 @@ public class BITransResource {
 	@GET
 	@Path("/{id}/check")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openCheck(@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String openCheck(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
 
 			// 检查一个转换实例
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					Long.parseLong(id));
+			TransMeta transMeta = transDelegates.loadTransformation(Long
+					.parseLong(id));
 			List<CheckResultInterface> remarks = new ArrayList<CheckResultInterface>();
 			transMeta.checkSteps(remarks, false, null);
 
@@ -468,7 +452,6 @@ public class BITransResource {
 	/**
 	 * 运行一个转换的实例
 	 * 
-	 * @param repository
 	 * @param id
 	 * @param targetId
 	 * @return
@@ -477,9 +460,8 @@ public class BITransResource {
 	@GET
 	@Path("/{id}/run")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openRun(@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String openRun(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
@@ -507,8 +489,8 @@ public class BITransResource {
 	@Path("/{id}/run/do")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String doRun(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIJSONException {
+	public String doRun(@PathParam("id") String id, String body)
+			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
 		String name = id;
 		try {
@@ -534,16 +516,14 @@ public class BITransResource {
 	@GET
 	@Path("/{id}/setting")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String openSetting(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("formId", "trans_" + id);
 			Long idL = Long.parseLong(id);
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					idL);
+			TransMeta transMeta = transDelegates.loadTransformation(idL);
 			attrsMap.addVariable("transMeta", transMeta);
 
 			// 命名参数
@@ -582,8 +562,8 @@ public class BITransResource {
 	@Path("/{id}/setting/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIJSONException {
+	public String saveSetting(@PathParam("id") String id, String body)
+			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
 		String name = id;
 		try {
@@ -591,8 +571,8 @@ public class BITransResource {
 			String FORM_PREFIX = "trans_" + id + ":";
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					Long.parseLong(id));
+			TransMeta transMeta = transDelegates.loadTransformation(Long
+					.parseLong(id));
 			name = paramContext.getParameter(FORM_PREFIX + "name");
 
 			// 1.Base
@@ -668,22 +648,20 @@ public class BITransResource {
 	@GET
 	@Path("/{id}/discard")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String discardTrans(@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
+	public String discardTrans(@PathParam("id") String id) throws BIException {
 		Long idL = Long.parseLong(id);
-		transDelegates.clearCacheTransformation(repository, idL);
+		transDelegates.clearCacheTransformation(idL);
 		return ActionMessage.instance().success().toJSONString();
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openTransEditor(@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
+	public String openTransEditor(@PathParam("id") String id)
+			throws BIException {
 		PluginRegistry registry = PluginRegistry.getInstance();
 		Long idL = Long.parseLong(id);
-		TransMeta transMeta = transDelegates
-				.loadTransformation(repository, idL);
+		TransMeta transMeta = transDelegates.loadTransformation(idL);
 		FlowChartMeta meta = new FlowChartMeta();
 		meta.init();
 		FlowElementSet els = meta.getFlowChartData().getElementSet();
@@ -735,8 +713,7 @@ public class BITransResource {
 	@Path("/step/{transId}/{stepMetaName}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveTransStep(@CookieParam("repository") String repository,
-			@PathParam("transId") String transId,
+	public String saveTransStep(@PathParam("transId") String transId,
 			@PathParam("stepMetaName") String stepMetaName,
 			@QueryParam("dx") String dx, @QueryParam("dy") String dy,
 			String body) throws BIJSONException {
@@ -745,8 +722,7 @@ public class BITransResource {
 		try {
 
 			Long idL = Long.valueOf(transId);
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					idL);
+			TransMeta transMeta = transDelegates.loadTransformation(idL);
 
 			transName = transMeta.getName();
 
@@ -777,7 +753,6 @@ public class BITransResource {
 	/**
 	 * 打开Step的设置页面
 	 * 
-	 * @param repository
 	 * @param transId
 	 * @param stepName
 	 * @return
@@ -786,17 +761,14 @@ public class BITransResource {
 	@GET
 	@Path("/step/{transId}/{stepName}/{stepTypeId}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openTransStepEditor(
-			@CookieParam("repository") String repository,
-			@PathParam("transId") String transId,
+	public String openTransStepEditor(@PathParam("transId") String transId,
 			@PathParam("stepName") String stepName,
 			@PathParam("stepTypeId") String stepTypeId,
 			@QueryParam("targetId") String targetId) throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			Long idL = Long.parseLong(transId);
-			TransMeta transMeta = transDelegates.loadTransformation(repository,
-					idL);
+			TransMeta transMeta = transDelegates.loadTransformation(idL);
 			StepMeta stepMeta = transMeta.findStep(stepName);
 			if (stepMeta == null) {
 				PluginRegistry registry = PluginRegistry.getInstance();

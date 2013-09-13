@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -78,7 +77,6 @@ public class BIFileSystemResource {
 	/**
 	 * 创建文件系统导航页面
 	 * 
-	 * @param repository
 	 * @param act
 	 * @return
 	 * @throws BIException
@@ -86,9 +84,8 @@ public class BIFileSystemResource {
 	@GET
 	@Path("/navi")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createNaviContentFileSystem(
-			@CookieParam("repository") String repository,
-			@QueryParam("act") String act) throws BIException {
+	public String createNaviContentFileSystem(@QueryParam("act") String act)
+			throws BIException {
 		try {
 			// 组装面包屑
 			BreadCrumbMeta bce = new BreadCrumbMeta();

@@ -12,52 +12,46 @@ public interface BITransDelegates extends BIRepositoryDelegates {
 	 * @param id
 	 * @throws BIKettleException
 	 */
-	public TransMeta loadTransformation(String repository, Long id)
-			throws BIKettleException;
+	public TransMeta loadTransformation(Long id) throws BIKettleException;
 
 	/**
 	 * 创建一个转换
 	 * 
 	 * @param user
-	 * @param repository
 	 * @param dirId
 	 * @param desc
 	 * @return
 	 * @throws BIKettleException
 	 */
-	public TransMeta createTransformation(IUser user, String repository,
-			Long dirId, String desc) throws BIKettleException;
+	public TransMeta createTransformation(IUser user, Long dirId, String desc)
+			throws BIKettleException;
 
 	/**
 	 * 另存为转换
 	 * 
 	 * @param user
-	 * @param repository
 	 * @param dirId
 	 * @param transId
 	 * @param transName
 	 * @return
 	 * @throws BIKettleException
 	 */
-	public TransMeta saveAsTransformation(IUser user, String repository,
-			Long dirId, Long transId, String transName)
-			throws BIKettleException;
+	public TransMeta saveAsTransformation(IUser user, Long dirId, Long transId,
+			String transName) throws BIKettleException;
 
 	/**
 	 * 清除缓存
 	 * 
-	 * @param repository
 	 * @param id
 	 * @return
 	 */
-	public TransMeta clearCacheTransformation(String repository, Long id);
+	public TransMeta clearCacheTransformation(Long id);
 
 	/**
 	 * 更新转换缓存
 	 * 
-	 * @param repository
 	 * @param transMeta
 	 */
-	public void updateCacheTransformation(String repository, TransMeta transMeta);
+	public void updateCacheTransformation(TransMeta transMeta);
 
 }

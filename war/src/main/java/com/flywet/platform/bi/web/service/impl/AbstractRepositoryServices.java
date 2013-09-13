@@ -20,17 +20,16 @@ public abstract class AbstractRepositoryServices {
 	 * @param repositoryElement
 	 * @throws BIKettleException
 	 */
-	public void save(String repository,
-			RepositoryElementInterface repositoryElement)
+	public void save(RepositoryElementInterface repositoryElement)
 			throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 			save(rep, repositoryElement);
 		} catch (Exception ex) {
 			log.error("通过ID保存对象出现异常", ex);
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 

@@ -31,20 +31,18 @@ public class BITransServices extends AbstractRepositoryServices implements
 	 * @throws BIKettleException
 	 */
 	@Override
-	public TransMeta loadTransformation(String repository, Long id)
-			throws BIKettleException {
-		TransMeta transMeta = TransOrJobMetaCache.getTrans(repository, id);
+	public TransMeta loadTransformation(Long id) throws BIKettleException {
+		TransMeta transMeta = TransOrJobMetaCache.getTrans(id);
 		if (transMeta == null) {
 			Repository rep = null;
 			try {
-				rep = BIEnvironmentDelegate.instance().borrowRep(repository,
-						null);
+				rep = BIEnvironmentDelegate.instance().borrowRep();
 				transMeta = rep.loadTransformation(new LongObjectId(id), null);
-				TransOrJobMetaCache.putTrans(repository, id, transMeta);
+				TransOrJobMetaCache.putTrans(id, transMeta);
 			} catch (Exception ex) {
 				log.error("通过ID获得转换出现异常", ex);
 			} finally {
-				BIEnvironmentDelegate.instance().returnRep(repository, rep);
+				BIEnvironmentDelegate.instance().returnRep(rep);
 			}
 		}
 		return transMeta;
@@ -54,19 +52,17 @@ public class BITransServices extends AbstractRepositoryServices implements
 	 * 另存为转换
 	 * 
 	 * @param user
-	 * @param repository
 	 * @param dirId
 	 * @param transId
 	 * @param transName
 	 * @return
 	 * @throws BIKettleException
 	 */
-	public TransMeta saveAsTransformation(IUser user, String repository,
-			Long dirId, Long transId, String transName)
-			throws BIKettleException {
+	public TransMeta saveAsTransformation(IUser user, Long dirId, Long transId,
+			String transName) throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 
 			RepositoryDirectoryInterface dir = DIUtils.getDirecotry(rep, dirId,
 					BIDirectoryCategory.DI);
@@ -81,7 +77,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			}
 
 			// 另存为转换
-			TransMeta transMeta = loadTransformation(repository, transId);
+			TransMeta transMeta = loadTransformation(transId);
 			TransMeta newTransMeta = (TransMeta) transMeta.clone();
 			newTransMeta.setName(transName);
 			newTransMeta.setRepositoryDirectory(dir);
@@ -101,7 +97,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			log.error("另存为转换出现异常", ex);
 			throw new BIKettleException("另存为转换出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 
@@ -109,18 +105,17 @@ public class BITransServices extends AbstractRepositoryServices implements
 	 * 创建一个转换
 	 * 
 	 * @param user
-	 * @param repository
 	 * @param dirId
 	 * @param desc
 	 * @return
 	 * @throws BIKettleException
 	 */
 	@Override
-	public TransMeta createTransformation(IUser user, String repository,
-			Long dirId, String desc) throws BIKettleException {
+	public TransMeta createTransformation(IUser user, Long dirId, String desc)
+			throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 
 			RepositoryDirectoryInterface dir = DIUtils.getDirecotry(rep, dirId,
 					BIDirectoryCategory.DI);
@@ -154,7 +149,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			log.error("创建转换出现异常", ex);
 			throw new BIKettleException("创建转换出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 
@@ -165,8 +160,8 @@ public class BITransServices extends AbstractRepositoryServices implements
 	 * @throws BIKettleException
 	 */
 	@Override
-	public TransMeta clearCacheTransformation(String repository, Long id) {
-		return TransOrJobMetaCache.clearTrans(repository, id);
+	public TransMeta clearCacheTransformation(Long id) {
+		return TransOrJobMetaCache.clearTrans(id);
 	}
 
 	/**
@@ -176,13 +171,13 @@ public class BITransServices extends AbstractRepositoryServices implements
 	 * @param transMeta
 	 */
 	@Override
-	public void updateCacheTransformation(String repository, TransMeta transMeta) {
+	public void updateCacheTransformation(TransMeta transMeta) {
 		if (transMeta.getObjectId() == null) {
 			log.warn("由于无法找到ID，该转换并未更新到缓存");
 			return;
 		}
-		TransOrJobMetaCache.putTrans(repository, Long.valueOf(transMeta
-				.getObjectId().getId()), transMeta);
+		TransOrJobMetaCache.putTrans(Long.valueOf(transMeta.getObjectId()
+				.getId()), transMeta);
 	}
 
 }

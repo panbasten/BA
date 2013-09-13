@@ -18,12 +18,10 @@ public interface BIPageDelegates extends BIDirectoryDelegates {
 	/**
 	 * 获取第一级导航项
 	 * 
-	 * @param repository
 	 * @return
 	 * @throws BIException
 	 */
-	public List<FunctionType> getNavigatorsLevelOne(String repository)
-			throws BIException;
+	public List<FunctionType> getNavigatorsLevelOne() throws BIException;
 
 	/**
 	 * 根据组件类别获取其下的所有组件
@@ -50,14 +48,13 @@ public interface BIPageDelegates extends BIDirectoryDelegates {
 	public List<String> getPluginNavigator(String category);
 
 	/**
-	 * 根据functiontype的parent id查找其下的子
+	 * 根据functionType的parent id查找其下的子
 	 * 
-	 * @param repository
 	 * @param parentId
 	 * @return
 	 * @throws BIException
 	 */
-	public List<FunctionType> getFunctionsByParent(String repository,
-			long parentId) throws BIException;
+	public List<FunctionType> getFunctionsByParent(long parentId)
+			throws BIException;
 
 }

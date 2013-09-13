@@ -18,7 +18,10 @@ import org.pentaho.di.repository.IUser;
 import org.pentaho.di.repository.RepositoriesMeta;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.RepositoryMeta;
+import org.pentaho.di.repository.filerep.KettleFileRepositoryMeta;
+import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryMeta;
 
+import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.model.BIRepositoryFactory;
@@ -32,6 +35,9 @@ public class BIEnvironmentDelegate {
 	private Props props;
 
 	private RepositoriesMeta repsMeta;
+
+	public static final String REPOSITORY_TYPE_DB = "db";
+	public static final String REPOSITORY_TYPE_FILE = "file";
 
 	private Map<String, ObjectPool> repsPoolMap = Collections
 			.synchronizedMap(new HashMap<String, ObjectPool>());
@@ -73,6 +79,25 @@ public class BIEnvironmentDelegate {
 			}
 			return rtn;
 		}
+		return null;
+	}
+
+	public String getRepType(String repName) {
+		RepositoryMeta repMeta;
+
+		if (repsMeta != null && repsMeta.nrRepositories() > 0) {
+			for (int i = 0; i < repsMeta.nrRepositories(); i++) {
+				if (repName.equals(repsMeta.getRepository(i).getName())) {
+					repMeta = repsMeta.getRepository(i);
+					if (repMeta instanceof KettleDatabaseRepositoryMeta) {
+						return REPOSITORY_TYPE_DB;
+					} else if (repMeta instanceof KettleFileRepositoryMeta) {
+						return REPOSITORY_TYPE_FILE;
+					}
+				}
+			}
+		}
+
 		return null;
 	}
 
@@ -135,6 +160,10 @@ public class BIEnvironmentDelegate {
 		return repsMeta;
 	}
 
+	public Repository borrowRep() throws BIKettleException {
+		return borrowRep(ContextHolder.getRepositoryName(), null);
+	}
+
 	public Repository borrowRep(String repName) throws BIKettleException {
 		return borrowRep(repName, null);
 	}
@@ -159,6 +188,10 @@ public class BIEnvironmentDelegate {
 		} catch (Exception e) {
 			throw new BIKettleException("从对象池中获得资源库对象出现错误.", e);
 		}
+	}
+
+	public void returnRep(Repository rep) throws BIKettleException {
+		returnRep(ContextHolder.getRepositoryName(), rep);
 	}
 
 	public void returnRep(String repName, Repository rep)

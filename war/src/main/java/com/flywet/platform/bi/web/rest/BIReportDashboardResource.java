@@ -49,7 +49,6 @@ public class BIReportDashboardResource {
 	/**
 	 * 打开一个Dashboard编辑页面
 	 * 
-	 * @param repository
 	 * @param id
 	 * @return
 	 * @throws BIException
@@ -57,9 +56,8 @@ public class BIReportDashboardResource {
 	@GET
 	@Path("/open/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openDashboardEditor(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
+	public String openDashboardEditor(@PathParam("id") String id)
+			throws BIException {
 
 		try {
 			// 获得报表对象
@@ -81,9 +79,8 @@ public class BIReportDashboardResource {
 	@GET
 	@Path("/save/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String saveDashboardEditor(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id) throws BIException {
+	public String saveDashboardEditor(@PathParam("id") String id)
+			throws BIException {
 		try {
 			TemplateMeta templateMeta = TemplateCache.get(id);
 			Document doc = templateMeta.getDoc();
@@ -130,7 +127,7 @@ public class BIReportDashboardResource {
 
 				XMLUtils.setAttribute(targetNode, HTML.ATTR_WIDTH, width);
 				XMLUtils.setAttribute(targetNode, HTML.ATTR_HEIGHT, height);
-				
+
 			}
 
 			return getDashboardJson(id, templateMeta).toJSONString();

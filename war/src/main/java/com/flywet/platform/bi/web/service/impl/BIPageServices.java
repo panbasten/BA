@@ -46,38 +46,37 @@ public class BIPageServices extends AbstractDirectoryServices implements
 	private static final String ICON_PATH = "resources/images/entities/";
 
 	@Override
-	public BreadCrumbMeta getParentDirectories(String repository, Long id,
+	public BreadCrumbMeta getParentDirectories(Long id,
 			BIDirectoryCategory category) throws BIException {
-		return parentDirectories(repository, id, category.getDescription(), "/"
+		return parentDirectories(id, category.getDescription(), "/"
 				+ category.getId() + "/dir/", category);
 	}
 
 	@Override
-	public void getSubDirectory(String repository, Long id, BrowseMeta browse,
+	public void getSubDirectory(Long id, BrowseMeta browse,
 			BIDirectoryCategory category) throws BIException {
-		subDirectory(repository, id, browse, "/" + category.getId() + "/dir/",
-				category);
+		subDirectory(id, browse, "/" + category.getId() + "/dir/", category);
 	}
 
 	@Override
-	public void getSubDirectoryObject(String repository, Long id,
-			BrowseMeta browse, BIDirectoryCategory category) throws BIException {
+	public void getSubDirectoryObject(Long id, BrowseMeta browse,
+			BIDirectoryCategory category) throws BIException {
 		// DI
 		if (category == BIDirectoryCategory.DI) {
-			getSubDirectoryObjectForDI(repository, id, browse);
+			getSubDirectoryObjectForDI(id, browse);
 		}
 		// REPORT
 		else if (category == BIDirectoryCategory.REPORT) {
-			getSubDirectoryObjectForReport(repository, id, browse);
+			getSubDirectoryObjectForReport(id, browse);
 		}
 		// DOMAIN
 		else if (category == BIDirectoryCategory.DOMAIN) {
-			getSubDirectoryObjectForDomain(repository, id, browse);
+			getSubDirectoryObjectForDomain(id, browse);
 		}
 	}
 
-	private void getSubDirectoryObjectForDomain(String repository, Long id,
-			BrowseMeta browse) throws BIException {
+	private void getSubDirectoryObjectForDomain(Long id, BrowseMeta browse)
+			throws BIException {
 		// 获得该子目录下面的报表对象
 		BIDomainAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIDomainAdaptor.class);
@@ -111,8 +110,8 @@ public class BIPageServices extends AbstractDirectoryServices implements
 		}
 	}
 
-	private void getSubDirectoryObjectForReport(String repository, Long id,
-			BrowseMeta browse) throws BIException {
+	private void getSubDirectoryObjectForReport(Long id, BrowseMeta browse)
+			throws BIException {
 		// 获得该子目录下面的报表对象
 		BIReportAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIReportAdaptor.class);
@@ -146,19 +145,17 @@ public class BIPageServices extends AbstractDirectoryServices implements
 		}
 	}
 
-	private void getSubDirectoryObjectForDI(String repository, Long id,
-			BrowseMeta browse) throws BIException {
-		getSubDirctoryObjectByType(repository, Utils.CATEGORY_DI_TRANS, id,
-				browse);
-		getSubDirctoryObjectByType(repository, Utils.CATEGORY_DI_JOB, id,
-				browse);
+	private void getSubDirectoryObjectForDI(Long id, BrowseMeta browse)
+			throws BIException {
+		getSubDirctoryObjectByType(Utils.CATEGORY_DI_TRANS, id, browse);
+		getSubDirctoryObjectByType(Utils.CATEGORY_DI_JOB, id, browse);
 	}
 
-	private void getSubDirctoryObjectByType(String repository, String category,
-			Long id, BrowseMeta browse) throws BIException {
+	private void getSubDirctoryObjectByType(String category, Long id,
+			BrowseMeta browse) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
 
 			List<RepositoryElementMetaInterface> repObjects = null;
 			if (Utils.CATEGORY_DI_TRANS.equals(category)) {
@@ -190,14 +187,13 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("创建目录下面的子对象页面出现错误。");
 			throw new BIException("创建目录下面的子对象页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 
 	}
 
 	@Override
-	public List<FunctionType> getNavigatorsLevelOne(String repository)
-			throws BIException {
+	public List<FunctionType> getNavigatorsLevelOne() throws BIException {
 		BIFunctionTypeAdaptor functionTypeDelegate = BIAdaptorFactory
 				.createAdaptor(BIFunctionTypeAdaptor.class);
 		List<FunctionType> functionTypes = functionTypeDelegate
@@ -207,16 +203,15 @@ public class BIPageServices extends AbstractDirectoryServices implements
 	}
 
 	@Override
-	public List<FunctionType> getFunctionsByParent(String repository,
-			long parentId) throws BIException {
+	public List<FunctionType> getFunctionsByParent(long parentId)
+			throws BIException {
 		BIFunctionTypeAdaptor functionTypeDelegate = BIAdaptorFactory
 				.createAdaptor(BIFunctionTypeAdaptor.class);
 		List<FunctionType> functionTypes = functionTypeDelegate
 				.getFunctionByParent(parentId);
 
 		for (FunctionType ft : functionTypes) {
-			List<FunctionType> children = getFunctionsByParent(repository, ft
-					.getId());
+			List<FunctionType> children = getFunctionsByParent(ft.getId());
 			ft.setChildren(children);
 		}
 		return functionTypes;
@@ -270,13 +265,13 @@ public class BIPageServices extends AbstractDirectoryServices implements
 	}
 
 	@Override
-	public void removeDirectoryObject(String repository, long dirId,
-			BIDirectoryCategory category) throws BIException {
+	public void removeDirectoryObject(long dirId, BIDirectoryCategory category)
+			throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
-					dirId, category);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
+			RepositoryDirectoryInterface dir = this.getDirecotry(dirId,
+					category);
 			if (dir.getChildren() != null && dir.getChildren().size() > 0) {
 				throw new BIException("该目录非空，请先清空内部元素！");
 			}
@@ -288,18 +283,18 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("保存目录出现错误。");
 			throw new BIException("保存目录现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 
 	@Override
-	public void newDirectoryObject(String repository, long parentDirId,
-			String name, BIDirectoryCategory category) throws BIException {
+	public void newDirectoryObject(long parentDirId, String name,
+			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
-					parentDirId, category);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
+			RepositoryDirectoryInterface dir = this.getDirecotry(parentDirId,
+					category);
 			if (dir.findChild(name) != null) {
 				throw new BIException("目录名称重复！");
 			}
@@ -311,21 +306,20 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("保存目录出现错误。");
 			throw new BIException("保存目录现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 
 	@Override
-	public void editDirectoryObject(String repository, long parentDirId,
-			long dirId, String name, BIDirectoryCategory category)
-			throws BIException {
+	public void editDirectoryObject(long parentDirId, long dirId, String name,
+			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
-			RepositoryDirectoryInterface pdir = this.getDirecotry(repository,
-					parentDirId, category);
-			RepositoryDirectoryInterface dir = this.getDirecotry(repository,
-					dirId, category);
+			rep = BIEnvironmentDelegate.instance().borrowRep();
+			RepositoryDirectoryInterface pdir = this.getDirecotry(parentDirId,
+					category);
+			RepositoryDirectoryInterface dir = this.getDirecotry(dirId,
+					category);
 			if (!dir.getName().equals(name)) {
 				if (pdir.findChild(name) != null) {
 					throw new BIException("目录名称重复！");
@@ -340,7 +334,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("保存目录出现错误。");
 			throw new BIException("保存目录现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			BIEnvironmentDelegate.instance().returnRep(rep);
 		}
 	}
 }

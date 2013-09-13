@@ -19,7 +19,6 @@ public interface BIRepositoryDelegates {
 	 * @param repositoryElement
 	 * @throws BIKettleException
 	 */
-	public void save(String repository,
-			RepositoryElementInterface repositoryElement)
+	public void save(RepositoryElementInterface repositoryElement)
 			throws BIKettleException;
 }

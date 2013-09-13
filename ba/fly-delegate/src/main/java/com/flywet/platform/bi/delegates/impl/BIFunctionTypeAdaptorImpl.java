@@ -17,10 +17,10 @@ import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
 
 @BIDelegate(type = "db")
-public class BIFunctionTypeDbAdaptorImpl extends BIAbstractDbAdaptor implements
+public class BIFunctionTypeAdaptorImpl extends BIAbstractDbAdaptor implements
 		BIFunctionTypeAdaptor {
 	private final Logger logger = Logger
-			.getLogger(BIFunctionTypeDbAdaptorImpl.class);
+			.getLogger(BIFunctionTypeAdaptorImpl.class);
 
 	@Override
 	public List<FunctionType> getFunctionByParent(long id)

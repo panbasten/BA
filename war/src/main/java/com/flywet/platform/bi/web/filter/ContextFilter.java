@@ -16,6 +16,8 @@ import com.flywet.platform.bi.core.ContextHolder;
 public class ContextFilter implements Filter {
 	private static final String REPOSITORYNAME = "repository";
 	private static final String REPOSITORYTYPE = "repositoryType";
+	private static final String USERNAME = "username";
+	private static final String USER = "user";
 
 	@Override
 	public void destroy() {
@@ -40,6 +42,16 @@ public class ContextFilter implements Filter {
 
 			if (cookie.getName().equals(REPOSITORYTYPE)) {
 				ContextHolder.setRepositoryType(cookie.getValue());
+				continue;
+			}
+
+			if (cookie.getName().equals(USERNAME)) {
+				ContextHolder.setUserName(cookie.getValue());
+				continue;
+			}
+
+			if (cookie.getName().equals(USER)) {
+				ContextHolder.setUser(cookie.getValue());
 				continue;
 			}
 		}

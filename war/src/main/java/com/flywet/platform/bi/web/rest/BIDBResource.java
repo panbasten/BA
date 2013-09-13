@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -70,11 +69,10 @@ public class BIDBResource {
 	@Resource(name = "bi.service.databaseServices")
 	private BIDatabaseDelegates dbDelegates;
 
-	private String buildNaviContent(String repository, boolean isNew)
-			throws BIException {
+	private String buildNaviContent(boolean isNew) throws BIException {
 		try {
 			BrowseMeta browseMeta = new BrowseMeta();
-			dbDelegates.getNavigatorsDatabase(repository, browseMeta);
+			dbDelegates.getNavigatorsDatabase(browseMeta);
 			browseMeta.addClass("fly-browsepanel");
 
 			AjaxResultEntity browseResult = AjaxResultEntity.instance()
@@ -97,17 +95,15 @@ public class BIDBResource {
 	@GET
 	@Path("/navi")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createNaviContentDatabase(
-			@CookieParam("repository") String repository) throws BIException {
-		return buildNaviContent(repository, true);
+	public String createNaviContentDatabase() throws BIException {
+		return buildNaviContent(true);
 	}
 
 	@GET
 	@Path("/flush")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String flushNaviContentDatabase(
-			@CookieParam("repository") String repository) throws BIException {
-		return buildNaviContent(repository, false);
+	public String flushNaviContentDatabase() throws BIException {
+		return buildNaviContent(false);
 	}
 
 	/**
@@ -121,9 +117,7 @@ public class BIDBResource {
 	@GET
 	@Path("/connectionsetting/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String changeConnectionSetting(
-			@CookieParam("repository") String repository,
-			@PathParam("id") String id,
+	public String changeConnectionSetting(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId,
 			@QueryParam("connectionType") String connectionType,
 			@QueryParam("accessType") String accessType) throws BIException {
@@ -135,8 +129,7 @@ public class BIDBResource {
 			if (id.equals("create")) {
 				dbMeta = initDatabaseMeta();
 			} else {
-				dbMeta = dbDelegates.getDatabaseMeta(repository, Long
-						.valueOf(id));
+				dbMeta = dbDelegates.getDatabaseMeta(Long.valueOf(id));
 			}
 			dbMeta.setDatabaseType(connectionType);
 			int accessTypeInt = Integer.valueOf(accessType);
@@ -193,8 +186,7 @@ public class BIDBResource {
 	}
 
 	private void checkDatabaseMeta(DatabaseMeta dbMeta,
-			ParameterContext paramContext, String DB_PREFIX, String repository)
-			throws BIException {
+			ParameterContext paramContext, String DB_PREFIX) throws BIException {
 		String oldName = Const.NVL(dbMeta.getName(), "");
 		String newName = Const.NVL(paramContext
 				.getParameter(DB_PREFIX + "name"), "");
@@ -203,7 +195,7 @@ public class BIDBResource {
 		}
 
 		if (!oldName.equals(newName)) {
-			boolean exist = dbDelegates.existDatabaseMeta(repository, newName);
+			boolean exist = dbDelegates.existDatabaseMeta(newName);
 			if (exist) {
 				throw new BIException("数据库链接名称重复");
 			}
@@ -215,8 +207,7 @@ public class BIDBResource {
 	@Path("/object/{id}/explore")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String exploreSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id,
+	public String exploreSetting(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId, String body)
 			throws BIException {
 		ActionMessage am = ActionMessage.instance();
@@ -229,13 +220,13 @@ public class BIDBResource {
 			if (id.equals("create")) {
 				dbMeta = initDatabaseMeta();
 			} else {
-				DatabaseMeta dbMeta0 = dbDelegates.getDatabaseMeta(repository,
-						Long.valueOf(id));
+				DatabaseMeta dbMeta0 = dbDelegates.getDatabaseMeta(Long
+						.valueOf(id));
 				dbMeta = (DatabaseMeta) dbMeta0.clone();
 			}
 
 			// 检查数据库元数据
-			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
+			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX);
 
 			// 设置数据库元数据
 			setDatebaseMeta(dbMeta, paramContext, DB_PREFIX);
@@ -350,8 +341,8 @@ public class BIDBResource {
 	@Path("/object/{id}/test")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String testSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIException {
+	public String testSetting(@PathParam("id") String id, String body)
+			throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			String DB_PREFIX = "db_" + id + ":";
@@ -362,13 +353,13 @@ public class BIDBResource {
 			if (id.equals("create")) {
 				dbMeta = initDatabaseMeta();
 			} else {
-				DatabaseMeta dbMeta0 = dbDelegates.getDatabaseMeta(repository,
-						Long.valueOf(id));
+				DatabaseMeta dbMeta0 = dbDelegates.getDatabaseMeta(Long
+						.valueOf(id));
 				dbMeta = (DatabaseMeta) dbMeta0.clone();
 			}
 
 			// 检查数据库元数据
-			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
+			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX);
 
 			// 设置数据库元数据
 			setDatebaseMeta(dbMeta, paramContext, DB_PREFIX);
@@ -392,8 +383,8 @@ public class BIDBResource {
 	@Path("/object/{id}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, String body) throws BIException {
+	public String saveSetting(@PathParam("id") String id, String body)
+			throws BIException {
 		ActionMessage am = ActionMessage.instance();
 		try {
 			String DB_PREFIX = "db_" + id + ":";
@@ -404,8 +395,7 @@ public class BIDBResource {
 			if (id.equals("create")) {
 				dbMeta = initDatabaseMeta();
 			} else {
-				dbMeta = dbDelegates.getDatabaseMeta(repository, Long
-						.valueOf(id));
+				dbMeta = dbDelegates.getDatabaseMeta(Long.valueOf(id));
 			}
 
 			// 判断是否要在保存成功后删除原有数据源对象
@@ -414,17 +404,17 @@ public class BIDBResource {
 					+ "name"), "");
 
 			// 检查数据库元数据
-			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX, repository);
+			checkDatabaseMeta(dbMeta, paramContext, DB_PREFIX);
 
 			// 设置数据库元数据
 			setDatebaseMeta(dbMeta, paramContext, DB_PREFIX);
 
 			// 保存到数据库
-			dbDelegates.saveDatabaseMeta(repository, dbMeta);
+			dbDelegates.saveDatabaseMeta(dbMeta);
 
 			// 删除旧名称的数据库对象
 			if (!oldName.equals(newName) && !Const.isEmpty(oldName)) {
-				dbDelegates.deleteDatabaseMeta(repository, oldName);
+				dbDelegates.deleteDatabaseMeta(oldName);
 			}
 
 			return am.success("保存数据库设置成功！").toJSONString();
@@ -588,11 +578,11 @@ public class BIDBResource {
 	@DELETE
 	@Path("/object/{name}/remove")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String removeSetting(@CookieParam("repository") String repository,
-			@PathParam("name") String name) throws BIJSONException {
+	public String removeSetting(@PathParam("name") String name)
+			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
 		try {
-			dbDelegates.deleteDatabaseMeta(repository, name);
+			dbDelegates.deleteDatabaseMeta(name);
 			return am.success("删除数据库设置成功！").toJSONString();
 		} catch (Exception ex) {
 			log.error("删除数据库设置出现错误。");
@@ -604,8 +594,8 @@ public class BIDBResource {
 	@GET
 	@Path("/create")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openSetting(@CookieParam("repository") String repository,
-			@QueryParam("targetId") String targetId) throws BIException {
+	public String openSetting(@QueryParam("targetId") String targetId)
+			throws BIException {
 		try {
 			DatabaseMeta dbMeta = initDatabaseMeta();
 
@@ -625,7 +615,6 @@ public class BIDBResource {
 	/**
 	 * 打开数据库连接设置
 	 * 
-	 * @param repository
 	 * @param id
 	 * @return
 	 * @throws BIException
@@ -633,14 +622,12 @@ public class BIDBResource {
 	@GET
 	@Path("/object/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openSetting(@CookieParam("repository") String repository,
-			@PathParam("id") String id, @QueryParam("targetId") String targetId)
-			throws BIException {
+	public String openSetting(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		try {
 
 			// 初始化数据
-			DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(repository, Long
-					.valueOf(id));
+			DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(Long.valueOf(id));
 
 			FLYVariableResolver attrsMap = createDatabaseSettingVariables(dbMeta);
 

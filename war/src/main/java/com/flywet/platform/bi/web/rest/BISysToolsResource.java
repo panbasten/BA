@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,7 +32,6 @@ import com.flywet.platform.bi.delegates.vo.FunctionType;
 import com.flywet.platform.bi.web.entity.AjaxResult;
 import com.flywet.platform.bi.web.entity.AjaxResultEntity;
 import com.flywet.platform.bi.web.service.BIPageDelegates;
-import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.sysToolsResource")
 @Path("/systools")
@@ -59,11 +57,10 @@ public class BISysToolsResource {
 	@Path("/navi")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviContentSystemTools(
-			@CookieParam("repository") String repository,
 			@QueryParam("parentId") long parentId) throws BIException {
 		try {
-			List<FunctionType> funcs = pageDelegates.getFunctionsByParent(
-					repository, parentId);
+			List<FunctionType> funcs = pageDelegates
+					.getFunctionsByParent(parentId);
 			StringBuffer sb = new StringBuffer();
 			if (funcs != null && !funcs.isEmpty()) {
 				for (int i = 0; i < funcs.size(); i++) {
@@ -86,7 +83,7 @@ public class BISysToolsResource {
 									.append("<div id=\"func_"
 											+ child.getId()
 											+ "\" class=\"func-item-con\" ext=\""
-											+ BIWebUtils.encode(child
+											+ Utils.encodeURL(child
 													.getExtAttrString())
 											+ "\" title=\""
 											+ child.getDesc()
@@ -141,8 +138,8 @@ public class BISysToolsResource {
 	@GET
 	@Path("/about")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openAboutDialog(@CookieParam("repository") String repository,
-			@QueryParam("targetId") String targetId) throws BIException {
+	public String openAboutDialog(@QueryParam("targetId") String targetId)
+			throws BIException {
 		try {
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
@@ -211,9 +208,8 @@ public class BISysToolsResource {
 	@GET
 	@Path("/stepplugin")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openStepPluginDialog(
-			@CookieParam("repository") String repository,
-			@QueryParam("targetId") String targetId) throws BIException {
+	public String openStepPluginDialog(@QueryParam("targetId") String targetId)
+			throws BIException {
 		try {
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
@@ -262,9 +258,8 @@ public class BISysToolsResource {
 	@GET
 	@Path("/jobplugin")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openJobPluginDialog(
-			@CookieParam("repository") String repository,
-			@QueryParam("targetId") String targetId) throws BIException {
+	public String openJobPluginDialog(@QueryParam("targetId") String targetId)
+			throws BIException {
 		try {
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
@@ -313,9 +308,8 @@ public class BISysToolsResource {
 	@GET
 	@Path("/dbplugin")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String openDBPluginDialog(
-			@CookieParam("repository") String repository,
-			@QueryParam("targetId") String targetId) throws BIException {
+	public String openDBPluginDialog(@QueryParam("targetId") String targetId)
+			throws BIException {
 		try {
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();

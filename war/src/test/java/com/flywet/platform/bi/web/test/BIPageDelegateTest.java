@@ -15,8 +15,7 @@ public class BIPageDelegateTest extends WebBaseTestcase {
 	public void testGetFunctionsByParent() throws BIException {
 		BIPageDelegates pageService = (BIPageDelegates) ctx
 				.getBean("bi.service.pageServices");
-		List<FunctionType> funcs = pageService
-				.getFunctionsByParent("dbrep", 5L);
+		List<FunctionType> funcs = pageService.getFunctionsByParent(5L);
 		Assert.assertNotNull(funcs);
 		Assert.assertEquals(false, funcs.isEmpty());
 
