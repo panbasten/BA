@@ -63,50 +63,7 @@
 			<!-- 头部区域 -->
 			<div id="fly_portal_header">
 				<div id="fly_portal_menus">
-					<ul id="fly_portal_menus_ul">
-						<li>
-							<a href="javascript:void(0);">今日关注</a>
-							<div class="clear"></div>
-						</li>
-						<li>
-							<a href="javascript:void(0);">预测评估</a>
-							<div id="fly_portal_sub_menu1" 
-								class="sub-menu"
-								style="left: 0;width: 340px;display: block;">
-								<b style="left: 178px;"></b>
-								<dl>
-									<dt style="width:110px;">弹性计算</dt>
-									<dd style="width:230px;">
-										<a href="#">云服务器</a>
-										<i></i>
-										<a href="#">负载均衡</a>
-									</dd>
-								</dl>
-								<dl>
-									<dt style="width:110px;">数据存储 • 计算</dt>
-									<dd style="width:230px;">
-										<a href="#">关系型数据库服务</a>
-										<i></i>
-										<a href="#">开放存储服务</a>
-										<br>
-										<a href="#">内容分发网络</a>
-										<i></i>
-										<a href="#">开放结构化数据服务</a>
-										<br>
-										<a href="#">开放缓存服务</a>
-										<i></i>
-										<a href="#">开放数据处理服务</a>
-									</dd>
-								</dl>
-							</div>
-							<div class="clear"></div>
-						</li>
-						<li>
-							<a href="javascript:void(0);">待办事务</a>
-							<div class="clear"></div>
-						</li>
-					</ul>
-					
+					 
 					<div id="fly_portal_oper">
 						<table>
 						<tbody>
@@ -118,7 +75,6 @@
 						</td>
 						<td>
 							<div id="btn_setting">
-								<div></div>
 							</div>
 							<div id="fly_portal_sub_menu_setting" 
 								class="sub-menu"

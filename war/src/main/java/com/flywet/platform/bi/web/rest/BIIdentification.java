@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -39,12 +40,11 @@ import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.flywet.platform.bi.delegates.intf.BIPortalMenuAdaptor;
-import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.web.entity.ActionMessage;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.model.ParameterContext;
+import com.flywet.platform.bi.web.service.BIPortalDelegates;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
@@ -57,6 +57,9 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "portal/sys/login_slide.h";
 
 	private static final String KEY = "FLYWET@2013";
+
+	@Resource(name = "bi.service.portalServices")
+	private BIPortalDelegates portalDelegates;
 
 	@GET
 	@Path("/repositoryNames")
@@ -355,34 +358,27 @@ public class BIIdentification {
 						}
 					}
 				}
+
+				// 如果repository仍为空，返回空值
+				if (Const.isEmpty(repository)) {
+					return "[]";
+				} else {
+					// 注册一个默认的资源库
+					portalDelegates.registerRepository(repository);
+				}
 			}
 
 			// 如果repository仍为空，返回空值
 			if (Const.isEmpty(repository)) {
-				return "";
+				return "[]";
+			} else {
+				List<PortalMenu> meus = portalDelegates
+						.getPortalMenusByParent(0L);
+				return JSONUtils.convertToJSONArray(meus).toJSONString();
 			}
-
-			List<PortalMenu> meus = getPortalMenusByParent(repository,
-					BIEnvironmentDelegate.instance().getRepType(repository), 0L);
-			return JSONUtils.convertToJSONArray(meus).toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("获得Portal的菜单出现错误。", ex);
 		}
-	}
-
-	private List<PortalMenu> getPortalMenusByParent(String repository,
-			String repositoryType, long parentId) throws BIException {
-		BIPortalMenuAdaptor portalMenuDelegate = BIAdaptorFactory
-				.createAdaptor(BIPortalMenuAdaptor.class, repositoryType);
-		List<PortalMenu> portalMenus = portalMenuDelegate
-				.getPortalMenuByParent(parentId);
-
-		for (PortalMenu pm : portalMenus) {
-			List<PortalMenu> children = getPortalMenusByParent(repository,
-					repositoryType, pm.getId());
-			pm.setChildren(children);
-		}
-		return portalMenus;
 	}
 
 }

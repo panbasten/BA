@@ -226,6 +226,10 @@ Flywet.Portal = {
 		var settingDiv = $("#fly_portal_sub_menu_setting");
 		var time = null;
 		$("#btn_setting").bind("mouseover", function(){
+			if (time){
+				clearTimeout(time);
+				time = null;
+			}
 			settingDiv.show();
 		}).bind("mouseout", function(){
 			time = setTimeout(function(){
@@ -240,7 +244,7 @@ Flywet.Portal = {
 		}).bind('mouseleave', function(){
 			time = setTimeout(function(){
 				settingDiv.hide();
-			}, 100);
+			}, 500);
 		});
 		
 		// 生成并下载私钥
@@ -355,33 +359,166 @@ Flywet.Portal = {
 				// 隐藏登录框
 				$("#fly_login_wrapper").hide();
 				
-				Flywet.Portal.initPageComplete();
-				
 			}
 		});
 		
 		// 4.加载portal的菜单
-//		Flywet.ab({
-//			type: "get",
-//			url: "rest/identification/protalmenus",
-//			onsuccess: function(data, status, xhr){
-//				
-//				Flywet.Portal.initPageComplete();
-//			}
-//		});
+		Flywet.ab({
+			type: "get",
+			url: "rest/identification/protalmenus",
+			onsuccess: function(data, status, xhr){
+				if(data){
+					new Flywet.Portal.menu({
+						id : "fly_portal_menus_ul",
+						targetId : "fly_portal_menus",
+						data : data
+					});
+				}
+				
+				Flywet.Portal.initPageComplete();
+			}
+		});
 	}
 };
 
 Flywet.Portal.menu = function(cfg){
-	this.cfg = cfg;
+	this.cfg = $.extend( {
+		columnNum : 2
+	}, cfg);
+	
 	this.id = cfg.id;
 	if(!this.id){
 		this.id = "menu_" + (Flywet.windex++);
 	}
-	this.jq = $(Flywet.escapeClientId(this.id));
+	
+	this.targetId = cfg.targetId;
+	if(!this.targetId){
+		this.targetJq = $("body");
+	}else{
+		this.targetJq = $(Flywet.escapeClientId(this.targetId));
+	}
 
+	this.init();
 };
 
 Flywet.Portal.menu.prototype.init=function(){
+	this.jq = $("<ul id='"+this.id+"'></ul>");
+	if(this.cfg.data){
+		// 第一级菜单
+		for(var i=0;i<this.cfg.data.length;i++){
+			this.jq.append(initFirstLevel(this.cfg.data[i], this.cfg));
+		}
+	}
+	this.jq.appendTo(this.targetJq);
+	
+	initEvent(this.jq);
+	
+	function initEvent(jq){
+		jq.find("li").each(function(){
+			var li = $(this),
+				subDiv = li.find("div.sub-menu");
+			var time = null;
+			
+			li.bind("mouseover", function(){
+				if (time){
+					clearTimeout(time);
+					time = null;
+				}
+				
+				if(li.attr("initDivPos") != "Y"){
+					var b = li.find("b"),
+					liPos = Flywet.getElementDimensions(li);
+					console.log(liPos);
+				
+					var liMidWidth = liPos.offsetLeft+(liPos.innerWidth/2);
+					
+					var secondWidth = 110, thirdWidth = 230, subDivWidth = secondWidth;
+					
+					// 如果没有第三级
+					if(subDiv.find("dd").size() > 0){
+						subDivWidth = secondWidth + thirdWidth;
+					}
+					
+					if(liMidWidth<subDivWidth/2){
+						b.css("left", (liMidWidth-6) +"px");
+						subDiv.css("left", "0");
+					}else{
+						b.css("left", (subDivWidth/2-6) +"px");
+						subDiv.css("left", (liMidWidth-subDivWidth/2+6) +"px");
+					}
+					subDiv.width(subDivWidth);
+					subDiv.find("dt").width(secondWidth);
+					subDiv.find("dd").width(thirdWidth);
+					li.attr("initDivPos", "Y");
+				}
+				
+				subDiv.show();
+			}).bind("mouseout", function(){
+				if (!time){
+					time = setTimeout(function(){
+						subDiv.hide();
+					}, 300);
+				}
+			});
+			
+			subDiv.bind('mouseenter', function(){
+				if (time){
+					clearTimeout(time);
+					time = null;
+				}
+			}).bind('mouseleave', function(){
+				if (!time){
+					time = setTimeout(function(){
+						subDiv.hide();
+					}, 300);
+				}
+			});
+		});
+	}
+	
+	function initFirstLevel(menu, cfg){
+		var li = $("<li></li>");
+		li.append("<a href='javascript:void(0);'>"+menu.desc+"</a>");
+		
+		// 第二级菜单
+		if(menu.children && menu.children.length>0){
+			var div = $("<div class='sub-menu'></div>");
+			div.append("<b></b>");
+			
+			for(var i=0;i<menu.children.length;i++){
+				div.append(initSecondLevel(menu.children[i], cfg));
+			}
+			
+			li.append(div);
+		}
+		
+		li.append("<div class='clear'></div>");
+		return li;
+	}
+	
+	function initSecondLevel(menu, cfg){
+		var dl = $("<dl></dl>");
+		dl.append("<dt><a href='#'>"+menu.desc+"</a></dt>");
+			
+		// 第三级菜单
+		if(menu.children && menu.children.length>0){
+			var dd = $("<dd></dd>");
+			var i=0;
+			for(;i<menu.children.length;i++){
+				if(i!=0){
+					if(i%cfg.columnNum==0){
+						dd.append("<br/>");
+					}else{
+						dd.append("<i></i>");
+					}
+				}
+				var subMenu = menu.children[i];
+				dd.append("<a href='#'>"+subMenu.desc+"</a>");
+			}
+			dl.append(dd);
+		}
+			
+		return dl;
+	}
 	
 };

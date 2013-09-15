@@ -275,7 +275,6 @@
 						  	 	<webAppDir>src/main/webapp</webAppDir>
 						  	 	<includes>
 									<include>pages/editor/editor_dev.jsp</include>
-									<include>pages/login/login_dev.jsp</include>
 									<include>pages/portal/portal_dev.jsp</include>
 								</includes>
 							 </configuration>
