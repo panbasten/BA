@@ -900,6 +900,7 @@ CREATE TABLE `r_portal_menu` (
 
 LOCK TABLES `r_portal_menu` WRITE;
 /*!40000 ALTER TABLE `r_portal_menu` DISABLE KEYS */;
+INSERT INTO `r_portal_menu` VALUES (0,'root','Anomyous','根',NULL,'Portal的根节点',NULL),(10,'predictProduct','Anomyous','预测产品',0,'',0),(11,'predictScore','Anomyous','预测评分',0,NULL,1),(12,'methodEvaluate','Anomyous','方法评估',0,NULL,2),(100,'monthPredict','Anomyous','月预测',10,NULL,0),(101,'extendPredict','Anomyous','延伸期预测',10,NULL,1),(1000,'m6','Anomyous','6月',100,NULL,0),(1001,'m7','Anomyous','7月',100,NULL,1),(1002,'m6','Anomyous','6月',101,NULL,0),(1003,'m7','Anomyous','7月',101,NULL,1),(102,'monthPredict','Anomyous','月预测',11,NULL,0),(103,'extendPredict','Anomyous','延伸期预测',11,NULL,1);
 /*!40000 ALTER TABLE `r_portal_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1547,4 +1548,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-13 22:45:02
+-- Dump completed on 2013-09-16 21:55:31

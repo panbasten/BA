@@ -13,6 +13,7 @@
 		<module>mondrian</module>
 		<module>report</module>
 		<module>ba</module>
+		<module>customization</module>
 		<module>war</module>
 		<module>lic</module>
 	</modules>
