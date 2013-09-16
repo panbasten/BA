@@ -21,13 +21,13 @@ import com.flywet.platform.bi.component.components.tree.FLYTreeMeta;
 import com.flywet.platform.bi.component.components.tree.TreeNodeMeta;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
+import com.flywet.platform.bi.component.web.AjaxResult;
+import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.web.entity.AjaxResult;
-import com.flywet.platform.bi.web.entity.AjaxResultEntity;
 import com.flywet.platform.bi.web.functions.DIFunctions;
 import com.flywet.platform.bi.web.service.BIPageDelegates;
 

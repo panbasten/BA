@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
+import com.flywet.platform.bi.component.web.AjaxResult;
+import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.web.entity.AjaxResult;
-import com.flywet.platform.bi.web.entity.AjaxResultEntity;
 import com.flywet.platform.bi.web.service.BIPageDelegates;
 
 @Service("bi.resource.baseResource")

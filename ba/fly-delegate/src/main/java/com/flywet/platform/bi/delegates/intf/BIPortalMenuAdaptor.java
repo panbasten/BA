@@ -16,4 +16,13 @@ public interface BIPortalMenuAdaptor extends BIAdaptorInterface {
 	 */
 	public List<PortalMenu> getPortalMenuByParent(long id)
 			throws BIKettleException;
+
+	/**
+	 * 通过ID获得Portal的菜单
+	 * 
+	 * @param id
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public PortalMenu getPortalMenuById(long id) throws BIKettleException;
 }

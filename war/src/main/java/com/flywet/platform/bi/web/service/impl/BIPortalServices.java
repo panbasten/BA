@@ -41,4 +41,11 @@ public class BIPortalServices implements BIPortalDelegates {
 		return portalMenus;
 	}
 
+	@Override
+	public PortalMenu getPortalMenuById(long id) throws BIKettleException {
+		BIPortalMenuAdaptor portalMenuDelegate = BIAdaptorFactory
+				.createAdaptor(BIPortalMenuAdaptor.class);
+		return portalMenuDelegate.getPortalMenuById(id);
+	}
+
 }

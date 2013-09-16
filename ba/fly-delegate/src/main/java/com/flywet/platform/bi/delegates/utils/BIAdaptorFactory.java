@@ -24,6 +24,19 @@ public class BIAdaptorFactory {
 		init();
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T createCustomAdaptor(Class<T> cls) {
+		try {
+			T ddi = (T) Proxy.newProxyInstance(cls.getClassLoader(), cls
+					.getInterfaces(), new BIDelegateInvocationHandler(cls
+					.newInstance()));
+			return ddi;
+		} catch (Exception e) {
+			logger.error("创建Adaptor失败", e);
+		}
+		return null;
+	}
+
 	public static <T> T createAdaptor(Class<T> intf) {
 		return createAdaptor(intf, ContextHolder.getRepositoryType());
 	}
@@ -49,11 +62,11 @@ public class BIAdaptorFactory {
 
 		try {
 			T ddi = (T) Proxy.newProxyInstance(targetClazz.getClassLoader(),
-					targetClazz.getInterfaces(), new BIDelegateInvocationHandler(
-							targetClazz.newInstance()));
+					targetClazz.getInterfaces(),
+					new BIDelegateInvocationHandler(targetClazz.newInstance()));
 			return ddi;
 		} catch (Exception e) {
-			logger.error("创建Adaptor 失败", e);
+			logger.error("创建Adaptor失败", e);
 		}
 		return null;
 	}
@@ -76,7 +89,8 @@ public class BIAdaptorFactory {
 
 	public static void init() {
 		allClasses = new HashSet<Class<?>>();
-		Set<Class<?>> classes = BIDelegateUtils.getClasses(DELEGATE_BASE_PACKAGE);
+		Set<Class<?>> classes = BIDelegateUtils
+				.getClasses(DELEGATE_BASE_PACKAGE);
 		if (classes == null || classes.isEmpty()) {
 			return;
 		}

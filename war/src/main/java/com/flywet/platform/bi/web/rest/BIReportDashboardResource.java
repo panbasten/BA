@@ -3,7 +3,6 @@ package com.flywet.platform.bi.web.rest;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,6 +25,7 @@ import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.flywet.platform.bi.component.vo.ComponentPlugin;
+import com.flywet.platform.bi.component.web.ActionMessage;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
@@ -33,7 +33,6 @@ import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 import com.flywet.platform.bi.web.cache.TemplateCache;
-import com.flywet.platform.bi.web.entity.ActionMessage;
 import com.flywet.platform.bi.web.service.BIReportDelegates;
 
 @Service("bi.resource.reportDashboardResource")

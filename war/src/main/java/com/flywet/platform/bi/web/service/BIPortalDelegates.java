@@ -26,4 +26,13 @@ public interface BIPortalDelegates {
 	public List<PortalMenu> getPortalMenusByParent(long parentId)
 			throws BIException;
 
+	/**
+	 * 通过ID获得Portal菜单
+	 * 
+	 * @param id
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public PortalMenu getPortalMenuById(long id) throws BIKettleException;
+
 }

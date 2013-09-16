@@ -28,6 +28,15 @@ public class PortalMenu {
 		extAttrs.add(attr);
 	}
 
+	public String getExtAttr(String name) {
+		for (NameValuePair nvp : extAttrs) {
+			if (nvp.getName().equals(name)) {
+				return nvp.getValue();
+			}
+		}
+		return null;
+	}
+
 	public String getExtAttrString() {
 		if (Utils.isEmpty(extAttrs)) {
 			return StringUtils.EMPTY;

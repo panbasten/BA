@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.entity;
+package com.flywet.platform.bi.component.web;
 
 import java.util.ArrayList;
 import java.util.List;

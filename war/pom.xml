@@ -455,6 +455,13 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
+		
+		<!-- program -->
+		<dependency>
+			<groupId>com.flywet.platform.customization</groupId>
+			<artifactId>program-001</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 </project>
