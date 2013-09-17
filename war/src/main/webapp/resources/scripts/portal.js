@@ -1,6 +1,7 @@
 Flywet.Portal = {
 	PIC_TOTILE_NUM : 10,
 	PIC_NUM : 0,
+	MENU_VAR : null,
 	MAX_SCEEN : false,
 	messages : null,
 	section: {
@@ -296,6 +297,75 @@ Flywet.Portal = {
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
 	},
 	
+	openMenuDialog: function(id){
+		var menu = Flywet.Portal.MENU_VAR.getMenu(id);
+		var optMenu = {};
+		for(var i=0; i<menu.extAttrs.length;i++){
+			optMenu[menu.extAttrs[i].name] = menu.extAttrs[i].value;
+		}
+		console.log(optMenu);
+		if(optMenu.cls){
+			var dialogId = "dialog_" + menu.id;
+			
+			var opt = $.extend({},{
+				id : dialogId,
+				url : "rest/identification/protalmenu/"+menu.id,
+				width : 700,
+				height : 400,
+				autoOpen : true,
+				showHeader : true,
+				modal : true,
+				closable : true,
+				maximizable : false
+			}, optMenu);
+			
+			if(opt.btn){
+				var btns = [];
+				var btnsSetting = Flywet.parseJSON(opt.btn);
+				for(var i=0;i<btnsSetting.length;i++){
+					if(btnsSetting[i].type && btnsSetting[i].type == "cancel"){
+						btns.push({
+							componentType : "fly:PushButton",
+							type : "button",
+							label : "取消",
+							title : "取消",
+							events : {
+								"click" : "hide"
+							}
+						});
+					}else{
+						var btn = {
+							componentType : "fly:PushButton",
+							type : "button",
+							label : btnsSetting[i].label,
+							title : btnsSetting[i].title,
+							url : btnsSetting[i].url,
+							events: {
+								click:function(event,params){
+									Flywet.ab({
+										type : "POST",
+										url : params.url,
+										source:"sys_tools_item_form",
+										onsuccess:function(data, status, xhr) {
+											if (data.state == 0) {
+												window[dialogId + "_var"].hide();
+											}
+										}
+									});
+								}
+							}
+						};
+						btns.push(btn);
+					}
+				}
+				opt.btn = undefined;
+				opt.footerButtons = btns;
+			}
+			
+			Flywet.cw("Dialog", dialogId+"_var", opt);
+		}
+	},
+	
 	initPage: function(){
 		
 		Flywet.env();
@@ -368,7 +438,7 @@ Flywet.Portal = {
 			url: "rest/identification/protalmenus",
 			onsuccess: function(data, status, xhr){
 				if(data){
-					new Flywet.Portal.menu({
+					Flywet.Portal.MENU_VAR = new Flywet.Portal.menu({
 						id : "fly_portal_menus_ul",
 						targetId : "fly_portal_menus",
 						data : data
@@ -383,7 +453,8 @@ Flywet.Portal = {
 
 Flywet.Portal.menu = function(cfg){
 	this.cfg = $.extend( {
-		columnNum : 2
+		columnNum : 2,
+		idMenuMap : {}
 	}, cfg);
 	
 	this.id = cfg.id;
@@ -400,6 +471,10 @@ Flywet.Portal.menu = function(cfg){
 
 	this.init();
 };
+
+Flywet.Portal.menu.prototype.getMenu=function(id){
+	return this.cfg.idMenuMap["id_"+id];
+}
 
 Flywet.Portal.menu.prototype.init=function(){
 	this.jq = $("<ul id='"+this.id+"'></ul>");
@@ -428,7 +503,6 @@ Flywet.Portal.menu.prototype.init=function(){
 				if(li.attr("initDivPos") != "Y"){
 					var b = li.find("b"),
 					liPos = Flywet.getElementDimensions(li);
-					console.log(liPos);
 				
 					var liMidWidth = liPos.offsetLeft+(liPos.innerWidth/2);
 					
@@ -443,8 +517,9 @@ Flywet.Portal.menu.prototype.init=function(){
 						b.css("left", (liMidWidth-6) +"px");
 						subDiv.css("left", "0");
 					}else{
-						b.css("left", (subDivWidth/2-6) +"px");
-						subDiv.css("left", (liMidWidth-subDivWidth/2+6) +"px");
+						var bLeft = subDivWidth/2 + 12;
+						b.css("left", bLeft +"px");
+						subDiv.css("left", (liMidWidth-bLeft-6) +"px");
 					}
 					subDiv.width(subDivWidth);
 					subDiv.find("dt").width(secondWidth);
@@ -457,7 +532,7 @@ Flywet.Portal.menu.prototype.init=function(){
 				if (!time){
 					time = setTimeout(function(){
 						subDiv.hide();
-					}, 300);
+					}, 100);
 				}
 			});
 			
@@ -470,7 +545,7 @@ Flywet.Portal.menu.prototype.init=function(){
 				if (!time){
 					time = setTimeout(function(){
 						subDiv.hide();
-					}, 300);
+					}, 100);
 				}
 			});
 		});
@@ -478,7 +553,8 @@ Flywet.Portal.menu.prototype.init=function(){
 	
 	function initFirstLevel(menu, cfg){
 		var li = $("<li></li>");
-		li.append("<a href='javascript:void(0);'>"+menu.desc+"</a>");
+		li.append("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+")'>"+menu.desc+"</a>");
+		cfg.idMenuMap["id_"+menu.id] = menu;
 		
 		// 第二级菜单
 		if(menu.children && menu.children.length>0){
@@ -498,8 +574,9 @@ Flywet.Portal.menu.prototype.init=function(){
 	
 	function initSecondLevel(menu, cfg){
 		var dl = $("<dl></dl>");
-		dl.append("<dt><a href='#'>"+menu.desc+"</a></dt>");
-			
+		dl.append("<dt><a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+")'>"+menu.desc+"</a></dt>");
+		cfg.idMenuMap["id_"+menu.id] = menu;
+		
 		// 第三级菜单
 		if(menu.children && menu.children.length>0){
 			var dd = $("<dd></dd>");
@@ -513,7 +590,8 @@ Flywet.Portal.menu.prototype.init=function(){
 					}
 				}
 				var subMenu = menu.children[i];
-				dd.append("<a href='#'>"+subMenu.desc+"</a>");
+				dd.append("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+subMenu.id+")'>"+subMenu.desc+"</a>");
+				cfg.idMenuMap["id_"+subMenu.id] = subMenu;
 			}
 			dl.append(dd);
 		}

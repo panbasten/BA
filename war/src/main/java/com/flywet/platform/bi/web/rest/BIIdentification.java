@@ -373,19 +373,20 @@ public class BIIdentification {
 	 * 打开Portal菜单，通过注册ID
 	 * 
 	 * @param id
+	 * @param targetId
 	 * @return
 	 * @throws BIException
 	 */
 	@GET
 	@Path("/protalmenu/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String openPortalDialog(@PathParam("id") String id)
-			throws BIException {
+	public String openPortalDialog(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId) throws BIException {
 		try {
 			// 通过ID获得注册的菜单
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
 			return openPortalDialogCustom(pm.getExtAttr("cls"), pm
-					.getExtAttr("method"), pm.getExtAttr("param"));
+					.getExtAttr("method"), pm.getExtAttr("param"), targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
 		}
@@ -406,7 +407,8 @@ public class BIIdentification {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openPortalDialogCustom(@QueryParam("cls") String cls,
 			@QueryParam("method") String method,
-			@QueryParam("param") String param) throws BIException {
+			@QueryParam("param") String param,
+			@QueryParam("targetId") String targetId) throws BIException {
 		try {
 			checkRepository();
 
@@ -414,10 +416,11 @@ public class BIIdentification {
 			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
 
 			if (Const.isEmpty(param)) {
-				return (String) ReflectionUtils.invokeMethod(prog, method);
+				return (String) ReflectionUtils.invokeMethod(prog, method,
+						targetId);
 			} else {
 				return (String) ReflectionUtils.invokeMethod(prog, method,
-						Utils.decodeURL(param));
+						targetId, Utils.decodeURL(param));
 			}
 
 		} catch (Exception ex) {

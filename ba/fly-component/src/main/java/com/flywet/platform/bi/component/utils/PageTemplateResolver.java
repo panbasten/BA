@@ -54,4 +54,5 @@ public class PageTemplateResolver {
 			throws BIPageException {
 		PageTemplateResolverType.replaceAll(node, html, script, attrs, fileUrl);
 	}
+
 }

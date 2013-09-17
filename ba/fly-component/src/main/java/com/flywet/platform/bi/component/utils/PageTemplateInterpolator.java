@@ -34,6 +34,8 @@ public class PageTemplateInterpolator {
 	private final static Logger log = Logger
 			.getLogger(PageTemplateInterpolator.class);
 
+	public static final String URL_PREFIX_PACKAGE = "package:";
+
 	/**
 	 * 获得模板的dom和javascript代码
 	 * 
@@ -131,7 +133,75 @@ public class PageTemplateInterpolator {
 		} catch (Exception e) {
 			throw new BIPageException("解析页面标签出现错误.", e);
 		}
+	}
 
+	/**
+	 * 读取包中的页面文件
+	 * 
+	 * @param packageClass
+	 * @param fileName
+	 * @param attrs
+	 * @return
+	 * @throws BIPageException
+	 */
+	public static Object[] interpolate(Class<?> packageClass, String fileName,
+			FLYVariableResolver attrs) throws BIPageException {
+		return interpolate(packageClass, fileName, new ArrayList<String>(),
+				attrs, null);
+	}
+
+	public static Object[] interpolate(Class<?> packageClass, String fileName,
+			List<String> script, FLYVariableResolver attrs)
+			throws BIPageException {
+		return interpolate(packageClass, fileName, script, attrs, null);
+	}
+
+	/**
+	 * 读取包中的页面文件
+	 * 
+	 * @param packageClass
+	 * @param fileName
+	 * @param script
+	 * @param attrs
+	 * @param nodeId
+	 * @return
+	 * @throws BIPageException
+	 */
+	public static Object[] interpolate(Class<?> packageClass, String fileName,
+			List<String> script, FLYVariableResolver attrs, String nodeId)
+			throws BIPageException {
+		try {
+			String filePath = getPackagePath(packageClass, fileName);
+			String domString = PageTemplateCache.getDomByUrl(filePath);
+			if (domString == null) {
+				domString = FLYPageTemplateUtils
+						.readPageTemplateFileContentFromPackage(filePath,
+								packageClass);
+				PageTemplateCache.put(filePath, domString);
+			}
+
+			if (domString == null) {
+				return new Object[] { StringUtils.EMPTY, "" };
+			}
+
+			if (!StringUtils
+					.contains(domString, HTML.COMPONENT_TYPE_FLY_PREFIX)) {
+				String html = interpolateExpressions(domString, attrs);
+				return new Object[] { html, script };
+			}
+
+			// 首先解析成dom对象进行替换
+			Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
+					domString.getBytes(Const.XML_ENCODING)));
+			return interpolate(URL_PREFIX_PACKAGE
+					+ packageClass.getPackage().getName(), doc, script, attrs,
+					nodeId);
+
+		} catch (BIPageException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BIPageException("解析页面标签出现错误.", e);
+		}
 	}
 
 	/**
@@ -159,6 +229,35 @@ public class PageTemplateInterpolator {
 		} catch (Exception e) {
 			throw new BIPageException("获得页面DOM出现错误.", e);
 		}
+	}
+
+	private static String getPackagePath(Class<?> packageClass, String fileName) {
+		return "/" + packageClass.getPackage().getName().replace('.', '/')
+				+ "/" + fileName;
+	}
+
+	public static Document getDom(Class<?> packageClass, String fileName)
+			throws BIPageException {
+		try {
+			String filePath = getPackagePath(packageClass, fileName);
+			String domString = PageTemplateCache.getDomByUrl(filePath);
+			if (domString == null) {
+				domString = FLYPageTemplateUtils
+						.readPageTemplateFileContentFromPackage(filePath,
+								packageClass);
+				PageTemplateCache.put(filePath, domString);
+			}
+
+			if (domString == null) {
+				return null;
+			}
+
+			return XMLHandler.loadXMLFile(new ByteArrayInputStream(domString
+					.getBytes(Const.XML_ENCODING)));
+		} catch (Exception e) {
+			throw new BIPageException("获得页面DOM出现错误.", e);
+		}
+
 	}
 
 	/**

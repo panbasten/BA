@@ -5,6 +5,6 @@ import com.flywet.platform.bi.delegates.model.BIAdaptorInterface;
 
 public interface ForecastAdaptor extends BIAdaptorInterface {
 
-	public String test() throws BIJSONException;
+	public String test(String targetId) throws BIJSONException;
 
 }

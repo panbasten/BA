@@ -2,6 +2,7 @@ package com.flywet.platform.bi.component.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -9,7 +10,7 @@ import org.pentaho.di.core.Const;
 
 public class FLYPageTemplateUtils {
 	private static String TEMPLATE_HOME = null;
-	
+
 	/**
 	 * 通过文件的web url读取文件内容
 	 * 
@@ -18,9 +19,34 @@ public class FLYPageTemplateUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String readPageTemplateFileContent(String url) throws IOException {
+	public static String readPageTemplateFileContent(String url)
+			throws IOException {
 		File file = getPageTemplateFile(url);
 		return FileUtils.readFileToString(file, "utf-8");
+	}
+
+	/**
+	 * 通过URL和类包，读取文件内容
+	 * 
+	 * @param url
+	 * @param packageClass
+	 * @return
+	 * @throws IOException
+	 * @throws IOException
+	 */
+	public static String readPageTemplateFileContentFromPackage(String url,
+			Class<?> packageClass) throws IOException {
+		InputStream inputStream = packageClass.getResourceAsStream(url);
+		if (inputStream == null) {
+			inputStream = ClassLoader.getSystemResourceAsStream(url);
+		}
+		if (inputStream != null) {
+			return com.flywet.platform.bi.core.utils.FileUtils
+					.getString(inputStream);
+		} else {
+			throw new IOException("无法读取文件：" + url);
+		}
+
 	}
 
 	/**
@@ -75,12 +101,12 @@ public class FLYPageTemplateUtils {
 		if (custTemplateFile.exists()) {
 			return custTemplateFile;
 		}
-		
+
 		File sysTemplate = new File(reletivePathCal(TEMPLATE_HOME, path));
 		return sysTemplate;
 	}
-	
-	public static void configTemplateHome (String home) {
+
+	public static void configTemplateHome(String home) {
 		TEMPLATE_HOME = home;
 	}
 }
