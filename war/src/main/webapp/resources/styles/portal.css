@@ -639,3 +639,15 @@ div.section {
 .setting-highlight {
 	background-position: -119px 0 !important;
 }
+
+.fly_portal_menu_content * {
+	color : #eee !important;
+}
+
+.fly_portal_menu_content a {
+	line-height: 27px;
+}
+
+.ui-layout-float {
+	float: left;
+}

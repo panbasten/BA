@@ -207,5 +207,8 @@ Flywet.browse = {
 		else if(category=="db"){
 			Flywet.database.editObject(category,data.data.type,data.data.id,displayName);
 		}
+		else if(category=="local" || category=="ftp"){
+			console.log(data);
+		}
 	}
 };

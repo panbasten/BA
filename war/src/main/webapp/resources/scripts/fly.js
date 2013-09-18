@@ -117,7 +117,7 @@ Flywet.desktop = {
 		
 		// 4.退出按钮
 		$(Flywet.escapeClientId("fly-exit")).bind("click", function(){
-			window.location='login';
+			window.location='portal';
 		});
 		
 	},

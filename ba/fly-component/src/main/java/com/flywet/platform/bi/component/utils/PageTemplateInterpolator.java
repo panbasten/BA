@@ -193,9 +193,8 @@ public class PageTemplateInterpolator {
 			// 首先解析成dom对象进行替换
 			Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
 					domString.getBytes(Const.XML_ENCODING)));
-			return interpolate(URL_PREFIX_PACKAGE
-					+ packageClass.getPackage().getName(), doc, script, attrs,
-					nodeId);
+			return interpolate(URL_PREFIX_PACKAGE + packageClass.getName(),
+					doc, script, attrs, nodeId);
 
 		} catch (BIPageException e) {
 			throw e;
@@ -231,9 +230,12 @@ public class PageTemplateInterpolator {
 		}
 	}
 
-	private static String getPackagePath(Class<?> packageClass, String fileName) {
-		return "/" + packageClass.getPackage().getName().replace('.', '/')
-				+ "/" + fileName;
+	public static String getPackagePath(Class<?> packageClass, String fileName) {
+		return getPackagePath(packageClass.getPackage().getName(), fileName);
+	}
+
+	public static String getPackagePath(String packageClass, String fileName) {
+		return "/" + packageClass.replace('.', '/') + "/pages/" + fileName;
 	}
 
 	public static Document getDom(Class<?> packageClass, String fileName)

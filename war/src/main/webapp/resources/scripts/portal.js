@@ -303,7 +303,6 @@ Flywet.Portal = {
 		for(var i=0; i<menu.extAttrs.length;i++){
 			optMenu[menu.extAttrs[i].name] = menu.extAttrs[i].value;
 		}
-		console.log(optMenu);
 		if(optMenu.cls){
 			var dialogId = "dialog_" + menu.id;
 			
@@ -312,7 +311,9 @@ Flywet.Portal = {
 				url : "rest/identification/protalmenu/"+menu.id,
 				width : 700,
 				height : 400,
+				header : menu.desc,
 				autoOpen : true,
+				autoMaximized : true,
 				showHeader : true,
 				modal : true,
 				closable : true,

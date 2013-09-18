@@ -6,6 +6,14 @@ Flywet.filesys = {
 		itemBtns : ["fs-btn-create-dir","fs-btn-upload-file","fs-btn-download-file"]
 	},
 	tb : Flywet.editors.toolbarButton,
+	getItemData : function(selItem) {
+		var data = {
+			rootId:selItem.rootId,
+			path:selItem.path,
+			category:selItem.category
+		};
+		return encodeURIComponent(Flywet.toJSONString(data));
+	},
 	delFile	: function() {
 		if (!Flywet.editors.item.checkSelected(Flywet.filesys.ids.bpVarName)) {
 			Flywet.dialog.warning("请先选中一个对象。");
@@ -14,7 +22,7 @@ Flywet.filesys = {
 		var selItem = Flywet.editors.item.getOneSelected(Flywet.filesys.ids.bpVarName);
 		Flywet.ab({
 			type : "DELETE",
-			url : "rest/fsop/delete?data=" + Flywet.toJSONString(selItem)
+			url : "rest/fsop/delete?data=" + Flywet.filesys.getItemData(selItem)
 		});
 	},
 	downloadFile	: function() {
@@ -26,12 +34,7 @@ Flywet.filesys = {
 		if(selItem.type == "node"){
 			Flywet.dialog.error("系统无法下载文件夹，请选中一个文件对象进行下载。");
 		}else{
-			selItem = {
-				rootId : selItem.rootId,
-				path : selItem.path,
-				category : selItem.category
-			};
-			$(Flywet.escapeClientId("filesys-space-frame")).attr("src","rest/fs/download?data="+encodeURIComponent(Flywet.toJSONString(selItem)));
+			$(Flywet.escapeClientId("filesys-space-frame")).attr("src","rest/fs/download?data="+Flywet.filesys.getItemData(selItem));
 		}
 	},
 	uploadResult : function(target) {
@@ -46,7 +49,7 @@ Flywet.filesys = {
 			$(document.getElementById('fs_upload_space_frame').contentWindow.document.body).html("");
 			
 			window[targetId + "_var"].hide();
-			this.flushDir(currentCase.category,{rootId:currentCase.rootId,path:currentCase.path});
+			this.flushDir(currentCase.category,currentCase);
 			
 			Flywet.ajax.ShowMessage(msg);
 		}
@@ -54,12 +57,6 @@ Flywet.filesys = {
 	uploadFile	: function() {
 		var currentCase = window[Flywet.filesys.ids.bpVarName].getCurrentData();
 		var targetId = "upload_dialog_" + currentCase.category;
-		
-		var parentDir = {
-			rootId : currentCase.rootId,
-			path : currentCase.path,
-			category : currentCase.category
-		};
 		
 		Flywet.cw("Dialog",targetId + "_var",{
 			id : targetId,
@@ -69,7 +66,7 @@ Flywet.filesys = {
 			autoOpen : true,
 			showHeader : true,
 			modal : true,
-			url : "rest/fs/items/upload?data="+encodeURIComponent(Flywet.toJSONString(parentDir)),
+			url : "rest/fs/items/upload?data="+Flywet.filesys.getItemData(currentCase),
 			footerButtons : [{
 				componentType : "fly:PushButton",
 				type : "button",
@@ -122,7 +119,7 @@ Flywet.filesys = {
 				autoOpen : true,
 				showHeader : true,
 				modal : true,
-				url : "rest/fs/items/rename?srcName=" + selItem.name+"&data=" + Flywet.toJSONString(selItem),
+				url : "rest/fs/items/rename?srcName=" + selItem.name+"&data=" + Flywet.filesys.getItemData(selItem),
 				footerButtons : [{
 					componentType : "fly:PushButton",
 					type : "button",
@@ -188,7 +185,7 @@ Flywet.filesys = {
 							onsuccess:function(data, status, xhr) {
 								if (data.state == 0) {
 									window[targetId + "_var"].hide();
-									_self.flushDir(category,{rootId:currentCase.rootId,path:currentCase.path});
+									_self.flushDir(category,currentCase);
 								}
 							}
 						});
@@ -231,6 +228,7 @@ Flywet.filesys = {
 		var currentCase = window[Flywet.filesys.ids.bpVarName].getCurrentData();
 		var operateCase = this.fsopContext;
 		
+		//TODO 
 		Flywet.ab({
 			type : "get",
 			url : "rest/fsop/paste?currentCase="+Flywet.toJSONString(currentCase)+"&operateCase="+Flywet.toJSONString(operateCase)
@@ -252,7 +250,7 @@ Flywet.filesys = {
 			autoOpen : true,
 			showHeader : true,
 			modal : true,
-			url : "rest/fs/items/create/"+category+"?targetId="+targetId+":content",
+			url : "rest/fs/items/create/"+category,
 			footerButtons : [{
 				componentType : "fly:PushButton",
 				type : "button",
@@ -314,7 +312,7 @@ Flywet.filesys = {
 			autoOpen : true,
 			showHeader : true,
 			modal : true,
-			url : "rest/fs/items/edit/"+category+"/"+id+"?targetId="+targetId+":content",
+			url : "rest/fs/items/edit/"+category+"/"+id,
 			footerButtons : [{
 				componentType : "fly:PushButton",
 				type : "button",
@@ -391,10 +389,7 @@ Flywet.filesys = {
 	flushDir:function(category,data){
 		Flywet.ab({
 			type : "get",
-			url : "rest/fs/items/list/"+category,
-			params : {
-				data : Flywet.toJSONString(data)
-			}
+			url : "rest/fs/items/list/"+category+"?data="+Flywet.filesys.getItemData(data)
 		});
 	},
 	

@@ -326,6 +326,7 @@ public class BIFileSystemResource {
 					if (!Const.isEmpty(ext)) {
 						node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE,
 								"ui-fs-file-" + ext.toLowerCase() + "-icon");
+						node.addAttribute("ext", ext.toLowerCase());
 					}
 					node.addEvent("mouseup",
 							"Flywet.browse.showOperationForFile");
