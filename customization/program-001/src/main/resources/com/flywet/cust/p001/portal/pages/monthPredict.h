@@ -19,7 +19,7 @@
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0">
-				<fly:horizontalLayout>
+				<fly:horizontalLayout id="month_predict_imgs">
 					<img src="rest/portalet/getfile?data=%7B%22rootId%22%3A%221%22%2C%22path%22%3A%22%2F_D%2Fphotos%2F%E5%85%AC%E5%8F%B8%E5%90%8C%E4%BA%8B%2FIMG_9087.JPG%22%2C%22category%22%3A%22local%22%7D" style="height:400px;width:300px;float:left;"></img>
 					<img src="rest/portalet/getfile?data=%7B%22rootId%22%3A%221%22%2C%22path%22%3A%22%2F_D%2Fphotos%2F%E5%85%AC%E5%8F%B8%E5%90%8C%E4%BA%8B%2FIMG_9088.JPG%22%2C%22category%22%3A%22local%22%7D" style="height:400px;width:300px;float:left;"></img>
 					<img src="rest/portalet/getfile?data=%7B%22rootId%22%3A%221%22%2C%22path%22%3A%22%2F_D%2Fphotos%2F%E5%85%AC%E5%8F%B8%E5%90%8C%E4%BA%8B%2FIMG_9089.JPG%22%2C%22category%22%3A%22local%22%7D" style="height:400px;width:300px;float:left;"></img>
@@ -30,7 +30,15 @@
 	</fly:gridLayout>
 	<script typt="text/javascript">
 		function monthPredictClick(key){
-			console.log(key);
+			Flywet.ab({
+				type : "GET",
+				url : "rest/db/connectionsetting/" + id,
+				params : {
+					targetId : formId+":connection:Content",
+					connectionType : connectionType,
+					accessType : accessType
+				}
+			});
 		}
 	</script>
 </fly:composition>

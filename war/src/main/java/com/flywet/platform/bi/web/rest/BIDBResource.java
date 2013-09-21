@@ -114,9 +114,6 @@ public class BIDBResource {
 	 * @return
 	 * @throws BIException
 	 */
-	@GET
-	@Path("/connectionsetting/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
 	public String changeConnectionSetting(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId,
 			@QueryParam("connectionType") String connectionType,
