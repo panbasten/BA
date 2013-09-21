@@ -34,6 +34,7 @@ Flywet.filesys = {
 		if(selItem.type == "node"){
 			Flywet.dialog.error("系统无法下载文件夹，请选中一个文件对象进行下载。");
 		}else{
+			console.log("rest/fs/download?data="+Flywet.filesys.getItemData(selItem));
 			$(Flywet.escapeClientId("filesys-space-frame")).attr("src","rest/fs/download?data="+Flywet.filesys.getItemData(selItem));
 		}
 	},

@@ -22,6 +22,8 @@
 				<ref bean="bi.resource.identification" />
 				<ref bean="bi.resource.userResource" />
 				
+				<ref bean="bi.resource.portalet" />
+				
 				<ref bean="bi.resource.filesysResource" />
 				<ref bean="bi.resource.sysToolsResource" />
 				<ref bean="bi.resource.diResource" />

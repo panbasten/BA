@@ -308,7 +308,7 @@ Flywet.Portal = {
 			
 			var opt = $.extend({},{
 				id : dialogId,
-				url : "rest/identification/protalmenu/"+menu.id,
+				url : "rest/portalet/menu/"+menu.id,
 				width : 700,
 				height : 400,
 				header : menu.desc,
@@ -436,7 +436,7 @@ Flywet.Portal = {
 		// 4.加载portal的菜单
 		Flywet.ab({
 			type: "get",
-			url: "rest/identification/protalmenus",
+			url: "rest/portalet/menus",
 			onsuccess: function(data, status, xhr){
 				if(data){
 					Flywet.Portal.MENU_VAR = new Flywet.Portal.menu({

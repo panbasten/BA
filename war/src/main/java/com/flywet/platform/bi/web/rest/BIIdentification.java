@@ -9,15 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -40,16 +37,10 @@ import com.flywet.platform.bi.core.sec.SignProvider;
 import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
-import com.flywet.platform.bi.core.utils.PropertyUtils;
-import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
-import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.model.ParameterContext;
-import com.flywet.platform.bi.web.service.BIPortalDelegates;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
@@ -62,9 +53,6 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "portal/sys/login_slide.h";
 
 	private static final String KEY = "FLYWET@2013";
-
-	@Resource(name = "bi.service.portalServices")
-	private BIPortalDelegates portalDelegates;
 
 	@GET
 	@Path("/repositoryNames")
@@ -338,115 +326,6 @@ public class BIIdentification {
 			return jo.toJSONString();
 		} catch (Exception ex) {
 			throw new BIException("获得资源库命名出现错误。", ex);
-		}
-	}
-
-	private String checkRepository() throws BIKettleException {
-		String repository = ContextHolder.getRepositoryName();
-		// 如果repository为空，检查是否可以匿名登录
-		if (Const.isEmpty(repository)) {
-			boolean allow = Utils.toBoolean(PropertyUtils
-					.getProperty(PropertyUtils.PORTAL_ANONYMOUS_ALLOW), false);
-			if (allow) {
-				repository = PropertyUtils
-						.getProperty(PropertyUtils.PORTAL_ANONYMOUS_REPOSITORY);
-				if (Const.isEmpty(repository)) {
-					String[] repNames = BIEnvironmentDelegate.instance()
-							.getRepNames();
-					if (repNames != null && repNames.length > 0) {
-						repository = repNames[0];
-					}
-				}
-			}
-
-			// 如果repository仍为空，返回空值
-			if (!Const.isEmpty(repository)) {
-				// 注册一个默认的资源库
-				portalDelegates.registerRepository(repository);
-			}
-		}
-
-		return repository;
-	}
-
-	/**
-	 * 打开Portal菜单，通过注册ID
-	 * 
-	 * @param id
-	 * @param targetId
-	 * @return
-	 * @throws BIException
-	 */
-	@GET
-	@Path("/protalmenu/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String openPortalDialog(@PathParam("id") String id,
-			@QueryParam("targetId") String targetId) throws BIException {
-		try {
-			// 通过ID获得注册的菜单
-			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
-			return openPortalDialogCustom(pm.getExtAttr("cls"), pm
-					.getExtAttr("method"), pm.getExtAttr("param"), targetId);
-		} catch (Exception ex) {
-			throw new BIException("打开Portal的菜单出现错误。", ex);
-		}
-
-	}
-
-	/**
-	 * 打开Portal菜单
-	 * 
-	 * @param cls
-	 * @param method
-	 * @param param
-	 * @return
-	 * @throws BIException
-	 */
-	@GET
-	@Path("/protalmenu")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String openPortalDialogCustom(@QueryParam("cls") String cls,
-			@QueryParam("method") String method,
-			@QueryParam("param") String param,
-			@QueryParam("targetId") String targetId) throws BIException {
-		try {
-			checkRepository();
-
-			Class<?> clazz = Class.forName(cls);
-			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
-
-			if (Const.isEmpty(param)) {
-				return (String) ReflectionUtils.invokeMethod(prog, method,
-						targetId);
-			} else {
-				return (String) ReflectionUtils.invokeMethod(prog, method,
-						targetId, Utils.decodeURL(param));
-			}
-
-		} catch (Exception ex) {
-			log.error("打开Portal的菜单出现错误。");
-		}
-		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
-				.toJSONString();
-	}
-
-	@GET
-	@Path("/protalmenus")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getPortalMenus() throws BIException {
-		try {
-			String repository = checkRepository();
-
-			// 如果repository仍为空，返回空值
-			if (Const.isEmpty(repository)) {
-				return "[]";
-			} else {
-				List<PortalMenu> meus = portalDelegates
-						.getPortalMenusByParent(0L);
-				return JSONUtils.convertToJSONArray(meus).toJSONString();
-			}
-		} catch (Exception ex) {
-			throw new BIException("获得Portal的菜单出现错误。", ex);
 		}
 	}
 
