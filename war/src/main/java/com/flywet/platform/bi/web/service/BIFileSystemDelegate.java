@@ -92,4 +92,16 @@ public interface BIFileSystemDelegate {
 	public FileObject composeVfsObject(String category, String workDir,
 			long rootId) throws BIException;
 
+	/**
+	 * 拼装vfs文件
+	 * 
+	 * @param category
+	 * @param workDir
+	 * @param rootDir
+	 * @return
+	 * @throws BIException
+	 */
+	public FileObject composeVfsObject(String category, String workDir,
+			String rootDir) throws BIException;
+
 }

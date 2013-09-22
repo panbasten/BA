@@ -42,7 +42,11 @@
 		<filter-class>com.flywet.platform.bi.web.filter.LoginCheckFilter</filter-class>
 		<init-param>
 			<param-name>excludes</param-name>
-			<param-value>/rest/identification,/rest/portalet</param-value>
+			<param-value>/rest/identification</param-value>
+		</init-param>
+		<init-param>
+			<param-name>anonymous</param-name>
+			<param-value>/rest/portalet</param-value>
 		</init-param>
 	</filter>
 

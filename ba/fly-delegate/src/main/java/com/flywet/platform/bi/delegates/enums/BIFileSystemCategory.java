@@ -23,7 +23,11 @@ public enum BIFileSystemCategory {
 
 		@Override
 		public String getVfsPath(String workDir, FilesysDirectory fd) {
-			String rootDir = fd.getPath();
+			return getVfsPath(workDir, fd.getPath());
+		}
+
+		@Override
+		public String getVfsPath(String workDir, String rootDir) {
 			return FileUtils.dirAppend(rootDir, workDir);
 		}
 	},
@@ -43,6 +47,11 @@ public enum BIFileSystemCategory {
 			// + host.getPort() + workDir;
 			return workDir;
 		}
+
+		@Override
+		public String getVfsPath(String workDir, String rootDir) {
+			return workDir;
+		}
 	},
 	FILESYS_TYPE_SFTP(3, "sftp", "FileSystem.Category.SFTP.Description") {
 		@Override
@@ -59,6 +68,11 @@ public enum BIFileSystemCategory {
 			// + "@" + host.getIp() + ":" + host.getPort() + workDir;
 			return workDir;
 		}
+
+		@Override
+		public String getVfsPath(String workDir, String rootDir) {
+			return workDir;
+		}
 	},
 	FILESYS_TYPE_SVN(4, "svn", "FileSystem.Category.SVN.Description") {
 		@Override
@@ -73,6 +87,11 @@ public enum BIFileSystemCategory {
 			// TODO Auto-generated method stub
 			return workDir;
 		}
+
+		@Override
+		public String getVfsPath(String workDir, String rootDir) {
+			return workDir;
+		}
 	},
 	FILESYS_TYPE_GIT(5, "git", "FileSystem.Category.GIT.Description") {
 		@Override
@@ -85,6 +104,11 @@ public enum BIFileSystemCategory {
 		@Override
 		public String getVfsPath(String workDir, FilesysDirectory fd) {
 			// TODO Auto-generated method stub
+			return workDir;
+		}
+
+		@Override
+		public String getVfsPath(String workDir, String rootDir) {
 			return workDir;
 		}
 	};
@@ -104,6 +128,8 @@ public enum BIFileSystemCategory {
 	public abstract BIFsAdaptor getFsAdaptor();
 
 	public abstract String getVfsPath(String workDir, FilesysDirectory fd);
+
+	public abstract String getVfsPath(String workDir, String rootDir);
 
 	public String getCategory() {
 		return category;

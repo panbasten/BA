@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +28,6 @@ import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
@@ -47,34 +44,6 @@ public class BIPortaletResource {
 	@Resource(name = "bi.service.filesystemService")
 	private BIFileSystemDelegate filesysService;
 
-	private String checkRepository() throws BIKettleException {
-		String repository = ContextHolder.getRepositoryName();
-		// 如果repository为空，检查是否可以匿名登录
-		if (Const.isEmpty(repository)) {
-			boolean allow = Utils.toBoolean(PropertyUtils
-					.getProperty(PropertyUtils.PORTAL_ANONYMOUS_ALLOW), false);
-			if (allow) {
-				repository = PropertyUtils
-						.getProperty(PropertyUtils.PORTAL_ANONYMOUS_REPOSITORY);
-				if (Const.isEmpty(repository)) {
-					String[] repNames = BIEnvironmentDelegate.instance()
-							.getRepNames();
-					if (repNames != null && repNames.length > 0) {
-						repository = repNames[0];
-					}
-				}
-			}
-
-			// 如果repository仍为空，返回空值
-			if (!Const.isEmpty(repository)) {
-				// 注册一个默认的资源库
-				portalDelegates.registerRepository(repository);
-			}
-		}
-
-		return repository;
-	}
-
 	/**
 	 * 获得文件
 	 * 
@@ -87,22 +56,20 @@ public class BIPortaletResource {
 	@GET
 	@Path("/getfile")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public void getFile(@QueryParam("data") String dataStr,
+	public void getFile(@QueryParam("path") String workPath,
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response, String body)
 			throws IOException {
 		InputStream is = null;
 
 		try {
-			checkRepository();
-			
-			JSONObject dataObj = JSONUtils.convertStringToJSONObject(dataStr);
-			long rootId = Long.parseLong(dataObj.get("rootId").toString());
-			String workPath = dataObj.get("path").toString();
-			String category = dataObj.get("category").toString();
+			String rootDir = PropertyUtils
+					.getProperty(PropertyUtils.PORTAL_ANONYMOUS_FILE_ROOT_PATH);
+			String category = PropertyUtils
+					.getProperty(PropertyUtils.PORTAL_ANONYMOUS_FILE_CATEGORY);
 			// 拼装文件信息
 			FileObject fileObj = filesysService.composeVfsObject(category,
-					workPath, rootId);
+					workPath, rootDir);
 
 			is = fileObj.getContent().getInputStream();
 			response.setContentType("application/octet-stream");
@@ -143,8 +110,6 @@ public class BIPortaletResource {
 	public String openPortalDialog(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId) throws BIException {
 		try {
-			checkRepository();
-
 			// 通过ID获得注册的菜单
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
 			return openPortalDialogCustom(pm.getExtAttr("cls"), pm
@@ -172,8 +137,6 @@ public class BIPortaletResource {
 			@QueryParam("param") String param,
 			@QueryParam("targetId") String targetId) throws BIException {
 		try {
-			checkRepository();
-
 			Class<?> clazz = Class.forName(cls);
 			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
 
@@ -197,7 +160,7 @@ public class BIPortaletResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getPortalMenus() throws BIException {
 		try {
-			String repository = checkRepository();
+			String repository = ContextHolder.getRepositoryName();
 
 			// 如果repository仍为空，返回空值
 			if (Const.isEmpty(repository)) {

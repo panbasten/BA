@@ -142,16 +142,38 @@ public class BIFileSystemService implements BIFileSystemDelegate {
 			log.error("get vfs fileobject exception", e);
 			throw new BIException("读取文件系统" + workDir + "失败");
 		}
+	}
 
+	@Override
+	public FileObject composeVfsObject(String category, String workDir,
+			String rootDir) throws BIException {
+		try {
+			FileSystemManager fsManager = VFS.getManager();
+			FileSystemOptions opts = new FileSystemOptions();
+
+			BIFileSystemCategory cate = BIFileSystemCategory
+					.getCategoryByCode(category);
+
+			String vfsPath = cate.getVfsPath(workDir, rootDir);
+
+			if (BIFileSystemCategory.FILESYS_TYPE_SFTP.getCategory().equals(
+					category)) {
+				SftpFileSystemConfigBuilder.getInstance()
+						.setStrictHostKeyChecking(opts, "no");
+			}
+
+			FileObject fileObj = fsManager.resolveFile(vfsPath, opts);
+			return fileObj;
+		} catch (FileSystemException e) {
+			log.error("get vfs fileobject exception", e);
+			throw new BIException("读取文件系统" + workDir + "失败");
+		}
 	}
 
 	@Override
 	public String getRootDesc(String category, long rootId) throws BIException {
-		String rootDirName = null;
-
 		FilesysDirectory fd = BIFileSystemCategory.getCategoryByCode(category)
 				.getFsAdaptor().getRootDirectoryById(rootId);
-
 		return fd.getDesc();
 	}
 

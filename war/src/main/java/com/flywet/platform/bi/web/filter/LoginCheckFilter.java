@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.web.utils.BISecurityUtils;
+
 /**
  * 所有请求（除排除之外的请求），需要在cookie中有登录用户名称
  * 
@@ -27,6 +30,8 @@ public class LoginCheckFilter implements Filter {
 
 	private String[] excludeUris = new String[] {};
 
+	private String[] anonymousUris = new String[] {};
+
 	@Override
 	public void destroy() {
 	}
@@ -38,6 +43,7 @@ public class LoginCheckFilter implements Filter {
 		String uri = request.getRequestURI();
 
 		boolean pass = false;
+		boolean isAnonymous = false;
 		for (String exclude : excludeUris) {
 			if (uri.indexOf(exclude) != -1) {
 				pass = true;
@@ -45,10 +51,30 @@ public class LoginCheckFilter implements Filter {
 			}
 		}
 
+		for (String anonymous : anonymousUris) {
+			if (uri.indexOf(anonymous) != -1) {
+				pass = true;
+				isAnonymous = true;
+				break;
+			}
+		}
+
+		// 是否添加默认资源库
+		if (isAnonymous) {
+			try {
+				BISecurityUtils.checkRepository();
+			} catch (BIKettleException e) {
+				throw new ServletException("检查默认资源库失败。");
+			}
+		}
+
+		// 是否忽略登录检查
 		if (pass) {
 			fc.doFilter(req, res);
 			return;
 		}
+
+		// 检查是否登录
 		if (!isLogined(request)) {
 			req.getRequestDispatcher("/").forward(req, res);
 			return;
@@ -75,14 +101,13 @@ public class LoginCheckFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		String excludes = filterConfig.getInitParameter("excludes");
-		if (excludes == null) {
-			return;
+		if (excludes != null && !StringUtils.isEmpty(excludes.trim())) {
+			excludeUris = excludes.split(",");
 		}
 
-		if (StringUtils.isEmpty(excludes.trim())) {
-			return;
+		String anonymous = filterConfig.getInitParameter("anonymous");
+		if (anonymous != null && !StringUtils.isEmpty(anonymous.trim())) {
+			anonymousUris = anonymous.split(",");
 		}
-		excludeUris = excludes.split(",");
 	}
-
 }
