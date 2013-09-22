@@ -95,16 +95,15 @@ public class PageTemplateInterpolator {
 				return new Object[] { StringUtils.EMPTY, "" };
 			}
 
-			if (!StringUtils
-					.contains(domString, HTML.COMPONENT_TYPE_FLY_PREFIX)) {
+			// 首先解析成dom对象进行替换
+			try {
+				Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
+						domString.getBytes(Const.XML_ENCODING)));
+				return interpolate(fileUrl, doc, script, attrs, nodeId);
+			} catch (Exception e) {
 				String html = interpolateExpressions(domString, attrs);
 				return new Object[] { html, script };
 			}
-
-			// 首先解析成dom对象进行替换
-			Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
-					domString.getBytes(Const.XML_ENCODING)));
-			return interpolate(fileUrl, doc, script, attrs, nodeId);
 
 		} catch (BIPageException e) {
 			throw e;
@@ -157,6 +156,62 @@ public class PageTemplateInterpolator {
 	}
 
 	/**
+	 * 读取包中的整体文件，只替换变量，不解析标签
+	 * 
+	 * @param packageClass
+	 * @param fileName
+	 * @param attrs
+	 * @return
+	 * @throws BIPageException
+	 */
+	public static String interpolateText(Class<?> packageClass,
+			String fileName, FLYVariableResolver attrs) throws BIPageException {
+		try {
+			String filePath = getPackagePath(packageClass, fileName);
+			String str = PageTemplateCache.getDomByUrl(filePath);
+			if (str == null) {
+				str = FLYPageTemplateUtils
+						.readPageTemplateFileContentFromPackage(filePath,
+								packageClass);
+				PageTemplateCache.put(filePath, str);
+			}
+
+			if (str == null) {
+				return "";
+			}
+
+			return interpolateExpressions(str, attrs);
+
+		} catch (BIPageException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BIPageException("解析文件出现错误.", e);
+		}
+	}
+
+	public static String interpolateText(String fileUrl,
+			FLYVariableResolver attrs) throws BIPageException {
+		try {
+			String str = PageTemplateCache.getDomByUrl(fileUrl);
+			if (str == null) {
+				str = FLYPageTemplateUtils.readPageTemplateFileContent(fileUrl);
+				PageTemplateCache.put(fileUrl, str);
+			}
+
+			if (str == null) {
+				return "";
+			}
+
+			return interpolateExpressions(str, attrs);
+
+		} catch (BIPageException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BIPageException("解析文件出现错误.", e);
+		}
+	}
+
+	/**
 	 * 读取包中的页面文件
 	 * 
 	 * @param packageClass
@@ -184,17 +239,16 @@ public class PageTemplateInterpolator {
 				return new Object[] { StringUtils.EMPTY, "" };
 			}
 
-			if (!StringUtils
-					.contains(domString, HTML.COMPONENT_TYPE_FLY_PREFIX)) {
+			// 首先解析成dom对象进行替换
+			try {
+				Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
+						domString.getBytes(Const.XML_ENCODING)));
+				return interpolate(URL_PREFIX_PACKAGE + packageClass.getName(),
+						doc, script, attrs, nodeId);
+			} catch (Exception e) {
 				String html = interpolateExpressions(domString, attrs);
 				return new Object[] { html, script };
 			}
-
-			// 首先解析成dom对象进行替换
-			Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
-					domString.getBytes(Const.XML_ENCODING)));
-			return interpolate(URL_PREFIX_PACKAGE + packageClass.getName(),
-					doc, script, attrs, nodeId);
 
 		} catch (BIPageException e) {
 			throw e;

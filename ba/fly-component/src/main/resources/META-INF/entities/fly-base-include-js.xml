@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:IncludeJs">
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.IncludeJs</description>
+	<classname>com.flywet.platform.bi.component.resolvers.base.IncludeJsResolver</classname>
+	<category>Base</category>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.IncludeJs</tooltip>
+	<iconfile>includejs.png</iconfile>
+	
+</component>

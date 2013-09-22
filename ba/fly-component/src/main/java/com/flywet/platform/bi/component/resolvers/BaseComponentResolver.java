@@ -2,7 +2,6 @@ package com.flywet.platform.bi.component.resolvers;
 
 import java.util.List;
 
-import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

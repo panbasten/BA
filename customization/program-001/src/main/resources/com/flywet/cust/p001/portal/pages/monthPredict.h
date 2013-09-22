@@ -20,13 +20,14 @@
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0">
 				<fly:horizontalLayout id="month_predict_imgs">
-
+				</fly:horizontalLayout>
+				<fly:horizontalLayout id="month_predict_files">
+					
 				</fly:horizontalLayout>
 			</fly:verticalLayout>
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 
 	<fly:includeJs src="page.js"/>
-	<fly:includeCss src="page.js"/>
 
 </fly:composition>

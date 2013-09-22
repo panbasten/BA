@@ -15,12 +15,18 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.pentaho.di.core.Const;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.web.model.ParameterContext;
 
 @SuppressWarnings("unchecked")
 public class BIWebUtils {
+
+	private static ApplicationContext ctx = new ClassPathXmlApplicationContext(
+			"applicationContext-ui.xml");;
+
 	/**
 	 * 返回内容至response
 	 * 
@@ -92,6 +98,17 @@ public class BIWebUtils {
 			params.put(fieldName, value);
 		}
 		return params;
+	}
+
+	/**
+	 * 获得系统注册的Bean
+	 * 
+	 * @param <T>
+	 * @param beanName
+	 * @return
+	 */
+	public <T> T getBean(String beanName) {
+		return (T) ctx.getBean(beanName);
 	}
 
 }

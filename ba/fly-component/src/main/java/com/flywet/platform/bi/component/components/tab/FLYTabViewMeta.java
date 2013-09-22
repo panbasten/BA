@@ -44,6 +44,7 @@ public class FLYTabViewMeta extends BaseComponentMeta implements
 		this.id = id;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getFormJo() throws BIJSONException {
 		JSONObject jo = super.getFormJo();
