@@ -71,6 +71,11 @@
 			type="text/css" />
 		<!-- replace end -->
 		
+		<!-- replace href="<%=path%>/resources/styles/files.compressed.css" type="style" -->
+		<link href="<%=path%>/resources/styles/files.css" rel="stylesheet"
+			type="text/css" />
+		<!-- replace end -->
+		
 		<!-- replace src="<%=path%>/resources/libs.pack.js" type="script" -->
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/jquery/jquery.js"></script>
