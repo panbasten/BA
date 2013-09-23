@@ -9,13 +9,18 @@ Flywet.widget.BrowsePanel=function(cfg){
 	this.jq = $(this.jqId);	
 	this.container;	
 	this.init();
+	this.flush(cfg);
 };
 Flywet.extend(Flywet.widget.BrowsePanel, Flywet.widget.BaseWidget);
 Flywet.widget.BrowsePanel.prototype={
 	init:function(){
 		if(!this.container){
-			this._createContainer();
-			if(this.id) $("#"+this.id).append(this.container);
+			if(this.jq.hasClass("ui-browsepanel-con")){
+				this.container = this.jq;
+			}else{
+				this._createContainer();
+				this.jq.append(this.container);
+			}
 		};
 		if(this.cfg.attrs && this.cfg.attrs.style){
 			this.container.css(this.cfg.attrs.style);

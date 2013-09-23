@@ -79,11 +79,15 @@
 				_resizeItemWidth(item,opts,dim.offsetWidth,idx,cols)
 				
 				// 计算最大高度
-				maxHeight = Math.max(maxHeight, dim.offsetHeight);
+				if(!opts.heightAuto){
+					maxHeight = Math.max(maxHeight, dim.offsetHeight);
+				}
 				
 				idx = idx + cols;
 			}
-			_resizeLineHeight(itemsLine,maxHeight);
+			if(!opts.heightAuto){
+				_resizeLineHeight(itemsLine,maxHeight);
+			}
 		}
 	}
 	

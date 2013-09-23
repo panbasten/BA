@@ -45,7 +45,11 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			attrsMap.addVariable("files", getBrowse("201303"));
+			// TODO
+			String currentMonth = "201303";
+
+			attrsMap.addVariable("currentMonth", currentMonth);
+			attrsMap.addVariable("currentMonthFiles", getBrowse(currentMonth));
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_MONTH_PREDICT, attrsMap);

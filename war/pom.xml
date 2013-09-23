@@ -138,17 +138,18 @@
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>false</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/portal.lib.compressed.css</output>
+									<output>${project.build.directory}/${project.build.finalName}/resources/portal.pack.js</output>
 									<includes>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery-ui.css</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.css</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/cycle/jquery.cycle.all.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/portal.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/preload_for_portal.js</include>
 									</includes>
 								</aggregation>
+								
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>false</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/styles/editor.compressed.css</output>
+									<output>${project.build.directory}/${project.build.finalName}/resources/styles/default.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/reset.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/default.css</include>
@@ -160,22 +161,6 @@
 									<output>${project.build.directory}/${project.build.finalName}/resources/styles/fly.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/fly.css</include>
-									</includes>
-								</aggregation>
-								<aggregation>
-									<insertNewLine>true</insertNewLine>
-									<removeIncluded>false</removeIncluded>
-									<output>${project.build.directory}/${project.build.finalName}/resources/portal.pack.js</output>
-									<includes>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/cycle/jquery.cycle.all.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/button/button.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.js</include>
-										
-										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/portal.js</include>
-										
-										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/preload_for_portal.js</include>
 									</includes>
 								</aggregation>
 								<aggregation>
@@ -195,6 +180,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/popup/popup.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/browsePanel/browsePanel.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/dialog/dialog.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/gridlayout/gridlayout.css</include>
 										
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/tree/tree.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/panel/panel.css</include>
@@ -228,7 +214,6 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/gridlayout/gridlayout.js</include>
 										
 										
-										
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/drag/jquery.draggable.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/drag/jquery.droppable.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/resizable/jquery.resizable.js</include>
@@ -241,8 +226,13 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.pagination.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.datagrid.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/treegrid/jquery.treegrid.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/form/jquery.form.js</include>
-										
+									</includes>
+								</aggregation>
+								<aggregation>
+									<insertNewLine>true</insertNewLine>
+									<removeIncluded>false</removeIncluded>
+									<output>${project.build.directory}/${project.build.finalName}/resources/editor.pack.js</output>
+									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_browse.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor.js</include>

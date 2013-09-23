@@ -12,7 +12,7 @@
         <link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
-		<!-- replace href="<%=path%>/resources/styles/editor.compressed.css" type="style" -->
+		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/reset.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/styles/default.css" rel="stylesheet"
@@ -48,6 +48,8 @@
 		<link href="<%=path%>/resources/libs/tree/tree.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/dialog/dialog.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/gridlayout/gridlayout.css" rel="stylesheet"
 			type="text/css" />
 		
 		<link href="<%=path%>/resources/libs/panel/panel.css" rel="stylesheet"
@@ -128,12 +130,10 @@
 			src="<%=path%>/resources/libs/grid/jquery.datagrid.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
-		<script type="text/javascript"
-			src="<%=path%>/resources/libs/form/jquery.form.js"></script>
+		<!-- replace end -->
 		
 		
-		
-					
+		<!-- replace src="<%=path%>/resources/editor.pack.js" type="script" -->			
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly.js"></script>
 		<script type="text/javascript"
@@ -157,6 +157,8 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/preload.js"></script>
 		<!-- replace end -->
+		
+		
 		
 			
 	</head>

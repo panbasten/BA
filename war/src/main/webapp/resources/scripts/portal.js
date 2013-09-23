@@ -38,11 +38,11 @@ Flywet.Portal = {
 	
 	loginAction : function(){
 		Flywet.ab({
-			formId: "login",
+			formId: "loginForm",
 			formAction: "rest/identification",
 			beforeSend : function(){
 				$("#loginBtn").addClass("ui-login-button-disabled")
-				.unbind("click");
+					.unbind("click");
 				$("#errors").html("正在登陆...");
 			},
 			onsuccess: function(data, status, xhr){
