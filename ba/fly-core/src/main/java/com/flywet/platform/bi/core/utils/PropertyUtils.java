@@ -28,10 +28,6 @@ public class PropertyUtils {
 
 	public static final String PORTAL_ANONYMOUS_REPOSITORY = "portal.anonymous.repository";
 
-	public static final String PORTAL_ANONYMOUS_FILE_ROOT_PATH = "portal.anonymous.file.rootPath";
-
-	public static final String PORTAL_ANONYMOUS_FILE_CATEGORY = "portal.anonymous.file.category";
-
 	/**
 	 * 属性配置集合
 	 */

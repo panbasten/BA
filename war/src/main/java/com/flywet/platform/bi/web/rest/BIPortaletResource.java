@@ -3,7 +3,10 @@ package com.flywet.platform.bi.web.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -57,16 +60,16 @@ public class BIPortaletResource {
 	@Path("/getfile")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public void getFile(@QueryParam("path") String workPath,
+			@QueryParam("rootPath") String rootPathProp,
+			@QueryParam("category") String categoryProp,
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response, String body)
 			throws IOException {
 		InputStream is = null;
 
 		try {
-			String rootDir = PropertyUtils
-					.getProperty(PropertyUtils.PORTAL_ANONYMOUS_FILE_ROOT_PATH);
-			String category = PropertyUtils
-					.getProperty(PropertyUtils.PORTAL_ANONYMOUS_FILE_CATEGORY);
+			String rootDir = PropertyUtils.getProperty(rootPathProp);
+			String category = PropertyUtils.getProperty(categoryProp);
 			// 拼装文件信息
 			FileObject fileObj = filesysService.composeVfsObject(category,
 					workPath, rootDir);
@@ -112,16 +115,51 @@ public class BIPortaletResource {
 		try {
 			// 通过ID获得注册的菜单
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
-			return openPortalDialogCustom(pm.getExtAttr("cls"), pm
-					.getExtAttr("method"), pm.getExtAttr("param"), targetId);
+
+			Map<String, Object> context = getDefaultContext(id, pm
+					.getExtAttr("param"));
+
+			return invokeMethod(pm.getExtAttr("cls"), pm.getExtAttr("method"),
+					context, targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
 		}
+	}
 
+	@GET
+	@Path("/menu/{id}/update")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updatePortalDialog(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId,
+			@QueryParam("method") String method,
+			@QueryParam("param") String param) throws BIException {
+		try {
+			// 通过ID获得注册的菜单
+			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
+			method = (Const.isEmpty(method)) ? pm.getExtAttr("method") : method;
+			param = (Const.isEmpty(param)) ? pm.getExtAttr("param") : param;
+
+			Map<String, Object> context = getDefaultContext(id, param);
+
+			return invokeMethod(pm.getExtAttr("cls"), method, context, targetId);
+		} catch (Exception ex) {
+			throw new BIException("打开Portal的菜单出现错误。", ex);
+		}
+	}
+
+	private Map<String, Object> getDefaultContext(String id, String param)
+			throws UnsupportedEncodingException {
+		Map<String, Object> context = new HashMap<String, Object>();
+		context.put("id", id);
+		if (!Const.isEmpty(param)) {
+			context.put("param", Utils.decodeURL(param));
+		}
+
+		return context;
 	}
 
 	/**
-	 * 打开Portal菜单
+	 * 调用业务方法
 	 * 
 	 * @param cls
 	 * @param method
@@ -129,24 +167,14 @@ public class BIPortaletResource {
 	 * @return
 	 * @throws BIException
 	 */
-	@GET
-	@Path("/menu")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String openPortalDialogCustom(@QueryParam("cls") String cls,
-			@QueryParam("method") String method,
-			@QueryParam("param") String param,
-			@QueryParam("targetId") String targetId) throws BIException {
+	private String invokeMethod(String cls, String method,
+			Map<String, Object> context, String targetId) throws BIException {
 		try {
 			Class<?> clazz = Class.forName(cls);
 			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
 
-			if (Const.isEmpty(param)) {
-				return (String) ReflectionUtils.invokeMethod(prog, method,
-						targetId);
-			} else {
-				return (String) ReflectionUtils.invokeMethod(prog, method,
-						targetId, Utils.decodeURL(param));
-			}
+			return (String) ReflectionUtils.invokeMethod(prog, method,
+					targetId, context);
 
 		} catch (Exception ex) {
 			log.error("打开Portal的菜单出现错误。");

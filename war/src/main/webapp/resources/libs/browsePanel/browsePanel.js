@@ -7,7 +7,7 @@ Flywet.widget.BrowsePanel=function(cfg){
 	this.id = this.cfg.id;
 	this.jqId = Flywet.escapeClientId(this.id);
 	this.jq = $(this.jqId);	
-	this.container;	
+	this.container;
 	this.init();
 	this.flush(cfg);
 };
@@ -87,15 +87,15 @@ Flywet.widget.BrowsePanel.prototype={
 				el.parent().children().removeClass("ui-state-active");
 				if(!active)
 					el.addClass("ui-state-active");
-				if(event.data && event.data.events && event.data.events["click"]){
-					Flywet.invokeFunction(event.data.events["click"],event,event.data);
+				if(event.data && event.data.attrs && event.data.attrs.events && event.data.attrs.events["click"]){
+					Flywet.invokeFunction(event.data.attrs.events["click"],event,event.data);
 				}
 			});
 			
 			// mouseover event
 			itemDom.bind("mouseover",item,function(event){
 				$(this).addClass("ui-state-hover");
-				if(event.data && event.data.events && event.data.events["mouseover"]){
+				if(event.data && event.data.attrs && event.data.attrs.events && event.data.attrs.events["mouseover"]){
 					Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
 				}
 			});
@@ -103,7 +103,7 @@ Flywet.widget.BrowsePanel.prototype={
 			// mouseout event
 			itemDom.bind("mouseout",item,function(event){
 				$(this).removeClass("ui-state-hover");
-				if(event.data && event.data.events && event.data.events["mouseout"]){
+				if(event.data && event.data.attrs && event.data.attrs.events && event.data.attrs.events["mouseout"]){
 					Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
 				}
 			});

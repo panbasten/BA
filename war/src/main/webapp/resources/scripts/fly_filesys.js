@@ -25,7 +25,7 @@ Flywet.filesys = {
 			url : "rest/fsop/delete?data=" + Flywet.filesys.getItemData(selItem)
 		});
 	},
-	downloadFile	: function() {
+	downloadFile : function() {
 		if (!Flywet.editors.item.checkSelected(Flywet.filesys.ids.bpVarName)) {
 			Flywet.dialog.warning("请先选中一个对象。");
 			return;
@@ -34,7 +34,7 @@ Flywet.filesys = {
 		if(selItem.type == "node"){
 			Flywet.dialog.error("系统无法下载文件夹，请选中一个文件对象进行下载。");
 		}else{
-			console.log("rest/fs/download?data="+Flywet.filesys.getItemData(selItem));
+			Flywet.Logger.debug("rest/fs/download?data="+Flywet.filesys.getItemData(selItem));
 			$(Flywet.escapeClientId("filesys-space-frame")).attr("src","rest/fs/download?data="+Flywet.filesys.getItemData(selItem));
 		}
 	},

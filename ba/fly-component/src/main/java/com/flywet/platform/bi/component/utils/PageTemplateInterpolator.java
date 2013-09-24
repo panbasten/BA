@@ -156,6 +156,57 @@ public class PageTemplateInterpolator {
 	}
 
 	/**
+	 * 读取包中的页面文件，指定特定节点
+	 * 
+	 * @param packageClass
+	 * @param fileName
+	 * @param attrs
+	 * @param nodeId
+	 * @return
+	 * @throws BIPageException
+	 */
+	public static Object[] interpolate(Class<?> packageClass, String fileName,
+			FLYVariableResolver attrs, String nodeId) throws BIPageException {
+		return interpolate(packageClass, fileName, new ArrayList<String>(),
+				attrs, nodeId);
+	}
+
+	public static Object[] interpolate(Class<?> packageClass, String fileName,
+			List<String> script, FLYVariableResolver attrs, String nodeId)
+			throws BIPageException {
+		try {
+			String filePath = getPackagePath(packageClass, fileName);
+			String domString = PageTemplateCache.getDomByUrl(filePath);
+			if (domString == null) {
+				domString = FLYPageTemplateUtils
+						.readPageTemplateFileContentFromPackage(filePath,
+								packageClass);
+				PageTemplateCache.put(filePath, domString);
+			}
+
+			if (domString == null) {
+				return new Object[] { StringUtils.EMPTY, "" };
+			}
+
+			// 首先解析成dom对象进行替换
+			try {
+				Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
+						domString.getBytes(Const.XML_ENCODING)));
+				return interpolate(URL_PREFIX_PACKAGE + packageClass.getName(),
+						doc, script, attrs, nodeId);
+			} catch (Exception e) {
+				String html = interpolateExpressions(domString, attrs);
+				return new Object[] { html, script };
+			}
+
+		} catch (BIPageException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BIPageException("解析页面标签出现错误.", e);
+		}
+	}
+
+	/**
 	 * 读取包中的整体文件，只替换变量，不解析标签
 	 * 
 	 * @param packageClass
@@ -208,52 +259,6 @@ public class PageTemplateInterpolator {
 			throw e;
 		} catch (Exception e) {
 			throw new BIPageException("解析文件出现错误.", e);
-		}
-	}
-
-	/**
-	 * 读取包中的页面文件
-	 * 
-	 * @param packageClass
-	 * @param fileName
-	 * @param script
-	 * @param attrs
-	 * @param nodeId
-	 * @return
-	 * @throws BIPageException
-	 */
-	public static Object[] interpolate(Class<?> packageClass, String fileName,
-			List<String> script, FLYVariableResolver attrs, String nodeId)
-			throws BIPageException {
-		try {
-			String filePath = getPackagePath(packageClass, fileName);
-			String domString = PageTemplateCache.getDomByUrl(filePath);
-			if (domString == null) {
-				domString = FLYPageTemplateUtils
-						.readPageTemplateFileContentFromPackage(filePath,
-								packageClass);
-				PageTemplateCache.put(filePath, domString);
-			}
-
-			if (domString == null) {
-				return new Object[] { StringUtils.EMPTY, "" };
-			}
-
-			// 首先解析成dom对象进行替换
-			try {
-				Node doc = XMLHandler.loadXMLFile(new ByteArrayInputStream(
-						domString.getBytes(Const.XML_ENCODING)));
-				return interpolate(URL_PREFIX_PACKAGE + packageClass.getName(),
-						doc, script, attrs, nodeId);
-			} catch (Exception e) {
-				String html = interpolateExpressions(domString, attrs);
-				return new Object[] { html, script };
-			}
-
-		} catch (BIPageException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new BIPageException("解析页面标签出现错误.", e);
 		}
 	}
 
