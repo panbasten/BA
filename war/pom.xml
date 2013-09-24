@@ -38,6 +38,7 @@
 								resources/scripts/**,
 								**/default.css,
 								**/fly.css,
+								**/files.css,
 								**/portal.css,
 								**/reset.css
 							</packagingExcludes>
@@ -55,15 +56,9 @@
 								<configuration>
 									<tasks>
 										<!-- images -->
-										
 										<copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/browsePanel/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
-		                                <!-- 
-		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
-		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/contextmenu/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
-		                                </copy>
-		                                -->
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/dialog/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
@@ -93,8 +88,11 @@
 		                                </copy>
 		                                
 		                                <!-- custom -->
+		                                <copy todir="${project.build.directory}/customization" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/customizations/${customizations.directory}" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}" overwrite="true">
-		                                    <fileset dir="${basedir}/src/main/customizations/${customizations.directory}/webapp" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                    <fileset dir="${project.build.directory}/customization/webapp" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 									</tasks>
 								</configuration>
@@ -257,28 +255,28 @@
 							</aggregations>
 						</configuration>
 					</plugin>
-					
+
 					<plugin>
 						<groupId>com.flywet.platform.dk</groupId>
 						<artifactId>dk-build-plugin</artifactId>
 						<version>1.0</version>
-						 <executions>
-						    <execution>
-						      <id>replcace jsp template</id>
-						     <phase>compile</phase>
-						     <goals>
-						      <goal>replace</goal>
-						     </goals>
-						  	 <configuration>
-						  	 	<webAppDir>src/main/webapp</webAppDir>
-						  	 	<includes>
-									<include>pages/editor/editor_dev.jsp</include>
-									<include>pages/portal/portal_dev.jsp</include>
-								</includes>
-							 </configuration>
-						    </execution>
-		   				</executions>
-				</plugin>
+						<executions>
+							<execution>
+								<id>replcace jsp template</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>replace</goal>
+								</goals>
+								<configuration>
+									<webAppDir>src/main/webapp</webAppDir>
+									<includes>
+										<include>pages/editor/editor_dev.jsp</include>
+										<include>pages/portal/portal_dev.jsp</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 
 				</plugins>
 			</build>

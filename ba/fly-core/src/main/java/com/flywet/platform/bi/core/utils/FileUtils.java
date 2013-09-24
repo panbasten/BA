@@ -79,11 +79,17 @@ public class FileUtils {
 	}
 
 	public static String getString(InputStream is) throws IOException {
+		return getString(is, Const.XML_ENCODING);
+	}
+
+	public static String getString(InputStream is, String codeSet)
+			throws IOException {
 		String sLine = null, str = "";
 		InputStreamReader bis = null;
 
 		try {
-			bis = new InputStreamReader(new BufferedInputStream(is, 500));
+			bis = new InputStreamReader(new BufferedInputStream(is, 500),
+					codeSet);
 			BufferedReader buff = new BufferedReader(bis);
 
 			boolean isFirst = true;
