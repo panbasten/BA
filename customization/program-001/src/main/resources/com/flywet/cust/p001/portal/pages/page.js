@@ -1,3 +1,16 @@
+function extendPredictClick(id, param){
+	Flywet.ab({
+		type : "get",
+		url : "rest/portalet/menu/"+id+"/update",
+		params : {
+			method : "extendPredictUpdate"
+			,targetId : "extend_predict_context"
+			,param : param
+		}
+	});
+}
+
+
 function monthPredictClick(id, param){
 	Flywet.ab({
 		type : "get",

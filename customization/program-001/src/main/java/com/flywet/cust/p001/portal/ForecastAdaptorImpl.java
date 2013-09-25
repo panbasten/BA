@@ -3,6 +3,7 @@ package com.flywet.cust.p001.portal;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -14,6 +15,7 @@ import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
 
+import com.flywet.cust.p001.db.CustomDatabaseRepositoryBase;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
@@ -219,6 +221,18 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT);
+			List<Object[]> rows = getRows(sql);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_EXTEND_PREDICT, attrsMap);
