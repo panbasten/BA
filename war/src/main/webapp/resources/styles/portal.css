@@ -15,6 +15,12 @@ body {
 	padding: 0;
 }
 
+fieldset {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
 a {
 	color: #3BA7BC;
 	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
@@ -377,6 +383,7 @@ div.section {
 	border: 0 none;
 	padding: 0;
 	position: absolute;
+	overflow: hidden;
 	width: 100%;
 	z-index: 10;
 }
@@ -389,7 +396,8 @@ div.section {
 	background-color: #333;
 }
 
-#fly_portal_header * {
+#fly_portal_header *,
+#fly_portal_menus * {
 	color: #999999;
 	font-size: 1em;
 	font-family: Microsoft YaHei, Segoe UI, Tahoma, Arial, Verdana,
@@ -400,7 +408,10 @@ div.section {
 	height: 35px;
 	margin: 0;
 	padding: 0;
+	top: 0;
 	width: 100%;
+	position: relative;
+	z-index: 20;
 }
 
 #fly_portal_menus_ul {

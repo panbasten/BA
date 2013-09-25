@@ -139,9 +139,10 @@ Flywet.Portal = {
 		Flywet.Portal.PIC_NUM = Math.floor(Math.random()*(Flywet.Portal.PIC_TOTILE_NUM-0.001)+1);
 		$(Flywet.escapeClientId("fly_portal_bg_img"))
 			.attr("src", "resources/images/pics/wallpaper"+Flywet.Portal.PIC_NUM+".jpg")
-			.width(win.width+20).height(win.height+20);
+			.width(win.width+20).height(win.height+20).show("fast");
 		
 		$(Flywet.escapeClientId("fly_portal_header")).width(win.width);
+		$(Flywet.escapeClientId("fly_portal_menus")).width(win.width);
 		$(Flywet.escapeClientId("fly_portal_footer")).width(win.width).css("top", (win.height-95)+"px");
 	},
 	

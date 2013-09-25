@@ -148,59 +148,57 @@
 	<body id="idBody">
 	
 		<div id="fly_portal_bg" class="fly_portal_cover">
-			<img id="fly_portal_bg_img" src="" style="width:800px;height:600px;">
+			<img id="fly_portal_bg_img" src="" style="width:800px;height:600px;display:none;">
 		</div>
 		
 		<div id="fly_portal_wrapper">
 			
 			<!-- 头部区域 -->
 			<div id="fly_portal_header">
-				<div id="fly_portal_menus">
-					 
-					<div id="fly_portal_oper">
-						<table>
-						<tbody>
-						<tr>
-						<td>
-							<a id="btn_login" href="javascript:void(0);">
-							<div><span>登录</span></div>
-							</a>
-						</td>
-						<td>
-							<div id="btn_setting">
-							</div>
-							<div id="fly_portal_sub_menu_setting" 
-								class="sub-menu"
-								style="right: 0;width: 340px;top: 34px;">
-								<b style="right: 27px;"></b>
-								<dl>
-									<dt style="width:110px;">系统激活管理</dt>
-									<dd style="width:230px;">
-										<a id="createPriKey" href="javascript:void(0);">生成并下载密钥</a>
-										<i></i>
-										<a id="downloadPriKey" href="javascript:void(0);">重新下载密钥</a>
-										<br />
-										<a id="uploadLicense" href="javascript:void(0);">上传注册码</a>
-										<i></i>
-										<a href="javascript:void(0);">在线注册</a>
-									</dd>
-								</dl>
-								<dl>
-									<dt style="width:110px;">资源库管理</dt>
-									<dd style="width:230px;">
-										<a id="createRep" href="javascript:void(0);">创建资源库</a>
-										<i></i>
-										<a id="manageRep" href="javascript:void(0);">管理资源库</a>
-									</dd>
-								</dl>
-							</div>
-						</td>
-						</tr>
-						</tbody>
-						</table>
-					</div>
+			</div>
+			<div id="fly_portal_menus">
+				<div id="fly_portal_oper">
+					<table>
+					<tbody>
+					<tr>
+					<td>
+						<a id="btn_login" href="javascript:void(0);">
+						<div><span>登录</span></div>
+						</a>
+					</td>
+					<td>
+						<div id="btn_setting">
+						</div>
+						<div id="fly_portal_sub_menu_setting" 
+							class="sub-menu"
+							style="right:0;width:340px;top:34px;">
+							<b style="right: 27px;"></b>
+							<dl>
+								<dt style="width:110px;">系统激活管理</dt>
+								<dd style="width:230px;">
+									<a id="createPriKey" href="javascript:void(0);">生成并下载密钥</a>
+									<i></i>
+									<a id="downloadPriKey" href="javascript:void(0);">重新下载密钥</a>
+									<br />
+									<a id="uploadLicense" href="javascript:void(0);">上传注册码</a>
+									<i></i>
+									<a href="javascript:void(0);">在线注册</a>
+								</dd>
+							</dl>
+							<dl>
+								<dt style="width:110px;">资源库管理</dt>
+								<dd style="width:230px;">
+									<a id="createRep" href="javascript:void(0);">创建资源库</a>
+									<i></i>
+									<a id="manageRep" href="javascript:void(0);">管理资源库</a>
+								</dd>
+							</dl>
+						</div>
+					</td>
+					</tr>
+					</tbody>
+					</table>
 				</div>
-				
 			</div>
 			
 			<!-- 底部区域 -->
