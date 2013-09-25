@@ -27,13 +27,13 @@ Flywet.Portal = {
 	},
 	
 	pageBlocked : function() {
-		$("#errors").html("浏览器阻止弹出系统首页，请将该网站加入授信站点，并且允许浏览器弹出该网址窗口，然后再次登录。");
 		$("#loginBtn").blur()
 			.removeClass("ui-login-button-disabled")
 			.removeClass("ui-login-button-hover")
 			.bind("click", function(){
 				Flywet.Portal.loginAction();
 			});
+		Flywet.dialog.warning("浏览器阻止弹出系统首页，请将该网站加入授信站点，并且允许浏览器弹出该网址窗口，然后再次登录。");
 	},
 	
 	loginAction : function(){
@@ -43,7 +43,7 @@ Flywet.Portal = {
 			beforeSend : function(){
 				$("#loginBtn").addClass("ui-login-button-disabled")
 					.unbind("click");
-				$("#errors").html("正在登陆...");
+				//$("#errors").html("正在登陆...");
 			},
 			onsuccess: function(data, status, xhr){
 				if(data.state == 0){
@@ -109,8 +109,9 @@ Flywet.Portal = {
 							Flywet.Portal.pageBlocked();
 						}
 					}
-						
-					window["editorPageHandle"].focus();
+					if(window["editorPageHandle"]){
+						window["editorPageHandle"].focus();
+					}
 				}else{
 					var msg = "";
 					if(data.messages){
@@ -118,10 +119,13 @@ Flywet.Portal = {
 							msg = msg + "&#9830;" + data.messages[i] + "<br/>";
 						}
 					}
-					$("#errors").html(msg);
 					$("#loginBtn").blur()
 						.removeClass("ui-login-button-disabled")
-						.removeClass("ui-login-button-hover");
+						.removeClass("ui-login-button-hover")
+						.bind("click", function(){
+							Flywet.Portal.loginAction();
+						});
+					Flywet.dialog.error(msg);
 				}
 				return true;
 			}

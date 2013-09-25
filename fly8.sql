@@ -1025,11 +1025,11 @@ DROP TABLE IF EXISTS `r_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `r_role` (
-  `id_role` bigint(20) NOT NULL,
-  `role_name` varchar(64) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `is_sys` char(1) DEFAULT NULL,
-  PRIMARY KEY (`id_role`)
+  `ID_ROLE` bigint(20) NOT NULL,
+  `ROLE_NAME` varchar(64) NOT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `IS_SYS` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_ROLE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1039,7 +1039,7 @@ CREATE TABLE `r_role` (
 
 LOCK TABLES `r_role` WRITE;
 /*!40000 ALTER TABLE `r_role` DISABLE KEYS */;
-INSERT INTO `r_role` VALUES (0,'admin','管理员','Y'),(1,'guest','游客','Y'),(10,'di_editor','DI编辑员','Y'),(11,'di_operator','DI操作员','Y');
+INSERT INTO `r_role` VALUES (0,'admin','管理员','Y'),(1,'guest','游客','Y'),(10,'di_editor','DI编辑员','Y'),(11,'di_operator','DI操作员','Y'),(100,'Forecaster','预报员','N');
 /*!40000 ALTER TABLE `r_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1549,4 +1549,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-24 21:27:41
+-- Dump completed on 2013-09-26  7:43:39

@@ -297,6 +297,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 				if (fo1 != null && fo2 != null) {
 					boolean isFolder1 = fo1.getType().equals(FileType.FOLDER), isFolder2 = fo2
 							.getType().equals(FileType.FOLDER);
+
 					// fo1是文件夹，fo2不是
 					if (isFolder1 && !isFolder2) {
 						return -1;
@@ -307,6 +308,13 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 					}
 					// 比较名称
 					else {
+						// 比较扩展名
+						String ext1 = fo1.getName().getExtension(), ext2 = fo2
+								.getName().getExtension();
+						if (!ext1.equalsIgnoreCase(ext2)) {
+							return ext1.compareToIgnoreCase(ext2);
+						}
+
 						String name1 = fo1.getName().getBaseName(), name2 = fo2
 								.getName().getBaseName();
 						return name1.compareToIgnoreCase(name2);
