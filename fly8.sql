@@ -362,7 +362,7 @@ CREATE TABLE `r_filesys_directory` (
 
 LOCK TABLES `r_filesys_directory` WRITE;
 /*!40000 ALTER TABLE `r_filesys_directory` DISABLE KEYS */;
-INSERT INTO `r_filesys_directory` VALUES (1,1,'C:\\','数据存储根目录','用于存放数据文件的根目录'),(2,1,'C:\\_D\\_bak','数据存储临时目录','用于存放数据文件的临时目录'),(3,2,'10.11.46.181','FTP测试接口机_181','FTP测试接口机_181'),(4,3,'10.11.46.181','SFTP测试接口机_181','SFTP测试接口机_181'),(5,4,'https://ciastudypattern.googlecode.com/svn/trunk/','存放文档的SVN','存放文档的SVN'),(6,5,'','存放文档的GIT','存放文档的GIT');
+INSERT INTO `r_filesys_directory` VALUES (1,1,'C:\\_D\\_flywet','预测存储根目录','用于存放预测数据文件的根目录'),(2,1,'C:\\_D\\_bak','数据存储临时目录','用于存放数据文件的临时目录'),(3,2,'10.11.46.181','FTP测试接口机_181','FTP测试接口机_181'),(4,3,'10.11.46.181','SFTP测试接口机_181','SFTP测试接口机_181'),(5,4,'https://ciastudypattern.googlecode.com/svn/trunk/','存放文档的SVN','存放文档的SVN'),(6,5,'','存放文档的GIT','存放文档的GIT');
 /*!40000 ALTER TABLE `r_filesys_directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1549,4 +1549,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-21 21:10:03
+-- Dump completed on 2013-09-24 21:27:41
