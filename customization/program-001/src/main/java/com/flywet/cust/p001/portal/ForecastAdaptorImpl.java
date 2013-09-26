@@ -104,13 +104,19 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 目录倒序排序
 			Arrays.sort(children, new FileObjectDescComparator());
 
+			List<String[]> monthes = new ArrayList<String[]>();
+			for (FileObject fo : children) {
+				monthes.add(new String[] { fo.getName().getBaseName(),
+						getMonthName(fo.getName().getBaseName()) });
+			}
+
 			String currentMonth = children[0].getName().getBaseName();
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
 			attrsMap.addVariable("menuId", context.get("id"));
-			attrsMap.addVariable("monthes", children);
+			attrsMap.addVariable("monthes", monthes);
 			attrsMap.addVariable("currentMonth", currentMonth);
 			attrsMap.addVariable("currentMonthFiles", getBrowse(
 					PROP_MONTH_PREDICT_FILE_ROOT_PATH,
@@ -128,6 +134,14 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 		return ActionMessage.instance().failure("打开预测产品-月预测界面出现问题。")
 				.toJSONString();
+	}
+
+	private String getMonthName(String monthCode) {
+		if (monthCode != null && monthCode.length() == 6) {
+			return monthCode.substring(0, 4) + "年"
+					+ Integer.valueOf(monthCode.substring(4)) + "月";
+		}
+		return Const.NVL(monthCode, "");
 	}
 
 	private BrowseMeta getBrowse(String rootPathProp, String categoryProp,
@@ -250,6 +264,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			extendDesc = Const.replace(extendDesc, Const.CR, "<br/>");
 
 			attrsMap.addVariable("xun", currentXun);
+			attrsMap.addVariable("xun_desc", getExtendPredictValue(params));
 			attrsMap.addVariable("extend_desc", extendDesc);
 
 			// 设置响应
@@ -312,7 +327,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			extendDesc = Const.replace(extendDesc, Const.CR, "<br/>");
 
 			attrsMap.addVariable("menuId", context.get("id"));
-			attrsMap.addVariable("yun", getExtendPredictKey(current));
+			attrsMap.addVariable("xun", getExtendPredictKey(current));
+			attrsMap.addVariable("xun_desc", getExtendPredictValue(current));
 			attrsMap.addVariable("menus", menus);
 			attrsMap.addVariable("extend_desc", extendDesc);
 

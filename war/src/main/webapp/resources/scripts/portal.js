@@ -229,16 +229,19 @@ Flywet.Portal = {
 		});
 		
 		// 对于设置按钮的事件
+		var settingBtn = $("#btn_setting");
 		var settingDiv = $("#fly_portal_sub_menu_setting");
 		var time = null;
-		$("#btn_setting").bind("mouseover", function(){
+		settingBtn.bind("mouseover", function(){
 			if (time){
 				clearTimeout(time);
 				time = null;
 			}
+			settingBtn.addClass("setting-highlight");
 			settingDiv.show();
 		}).bind("mouseout", function(){
 			time = setTimeout(function(){
+				settingBtn.removeClass("setting-highlight");
 				settingDiv.hide();
 			}, 300);
 		});
@@ -249,6 +252,7 @@ Flywet.Portal = {
 			}
 		}).bind('mouseleave', function(){
 			time = setTimeout(function(){
+				settingBtn.removeClass("setting-highlight");
 				settingDiv.hide();
 			}, 500);
 		});
@@ -533,10 +537,12 @@ Flywet.Portal.menu.prototype.init=function(){
 					li.attr("initDivPos", "Y");
 				}
 				
+				li.addClass("highlight");
 				subDiv.show();
 			}).bind("mouseout", function(){
 				if (!time){
 					time = setTimeout(function(){
+						li.removeClass("highlight");
 						subDiv.hide();
 					}, 100);
 				}
@@ -550,6 +556,7 @@ Flywet.Portal.menu.prototype.init=function(){
 			}).bind('mouseleave', function(){
 				if (!time){
 					time = setTimeout(function(){
+						li.removeClass("highlight");
 						subDiv.hide();
 					}, 100);
 				}
@@ -559,7 +566,7 @@ Flywet.Portal.menu.prototype.init=function(){
 	
 	function initFirstLevel(menu, cfg){
 		var li = $("<li></li>");
-		li.append("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+")'>"+menu.desc+"</a>");
+		li.append("<a class='first-level-menu' href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+")'>"+menu.desc+"</a>");
 		cfg.idMenuMap["id_"+menu.id] = menu;
 		
 		// 第二级菜单

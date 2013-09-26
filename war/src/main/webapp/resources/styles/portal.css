@@ -539,7 +539,8 @@ div.section {
 	line-height: 100%;
 }
 
-#fly_portal_oper .highlight * {
+#fly_portal_oper .highlight *,
+#fly_portal_menus_ul .highlight .first-level-menu{
 	color: #fff;
 }
 
@@ -575,7 +576,8 @@ div.section {
 	margin-top: 10px;
 }
 
-#fly_portal_desktop_ctrl,#fly_portal_footer_content {
+#fly_portal_desktop_ctrl,
+#fly_portal_footer_content {
 	border: 0 none;
 	padding: 0;
 	position: relative;

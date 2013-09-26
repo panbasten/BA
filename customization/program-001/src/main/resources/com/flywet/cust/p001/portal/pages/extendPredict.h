@@ -10,6 +10,7 @@
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0" id="extend_predict_context">
+				<p style="text-align:center;font-size:1.5em;font-weight:bord">${xun_desc}</p>
 				<p style="text-align:left;">${extend_desc}</p>
 			</fly:verticalLayout>
 		</fly:gridLayoutItem>
