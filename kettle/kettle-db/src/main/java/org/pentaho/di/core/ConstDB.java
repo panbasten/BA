@@ -22,30 +22,57 @@
 
 package org.pentaho.di.core;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.database.SAPR3DatabaseMeta;
+import org.pentaho.di.core.row.ValueMeta;
+import org.pentaho.di.core.row.ValueMetaInterface;
 
 public class ConstDB {
 	/**
 	 * Select the SAP ERP databases in the List of databases.
-	 * @param databases All the databases
+	 * 
+	 * @param databases
+	 *            All the databases
 	 * @return SAP ERP databases in a List of databases.
 	 */
-	public static final List<DatabaseMeta> selectSAPR3Databases(List<DatabaseMeta> databases)
-	{
+	public static final List<DatabaseMeta> selectSAPR3Databases(
+			List<DatabaseMeta> databases) {
 		List<DatabaseMeta> sap = new ArrayList<DatabaseMeta>();
 
-		for (DatabaseMeta db : databases)
-		{
+		for (DatabaseMeta db : databases) {
 			if (db.getDatabaseInterface() instanceof SAPR3DatabaseMeta) {
 				sap.add(db);
 			}
 		}
 
 		return sap;
+	}
+
+	public static ValueMetaInterface getValueMeta(Object data) {
+		int type = ValueMetaInterface.TYPE_STRING;
+		if (data == null) {
+			type = ValueMetaInterface.TYPE_NONE;
+		} else if (data instanceof String) {
+		} else if (data instanceof Long || data instanceof Integer) {
+			type = ValueMetaInterface.TYPE_INTEGER;
+		} else if (data instanceof Double) {
+			type = ValueMetaInterface.TYPE_NUMBER;
+		} else if (data instanceof BigDecimal) {
+			type = ValueMetaInterface.TYPE_BIGNUMBER;
+		} else if (data instanceof Date) {
+			type = ValueMetaInterface.TYPE_DATE;
+		} else if (data instanceof Boolean) {
+			type = ValueMetaInterface.TYPE_BOOLEAN;
+		} else if (data instanceof byte[]) {
+			type = ValueMetaInterface.TYPE_BINARY;
+		}
+
+		return new ValueMeta("", type);
 	}
 
 }

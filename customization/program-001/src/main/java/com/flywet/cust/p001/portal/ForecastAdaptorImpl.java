@@ -1,5 +1,6 @@
 package com.flywet.cust.p001.portal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private final Logger log = Logger.getLogger(ForecastAdaptorImpl.class);
 
 	private static Class<?> PKG = ForecastAdaptorImpl.class;
+
+	private static final String[] YUN_DESC = new String[] { "上旬", "中旬", "下旬" };
 
 	private static final String TEMPLATE_MONTH_PREDICT = "monthPredict.h";
 	private static final String TEMPLATE_EXTEND_PREDICT = "extendPredict.h";
@@ -216,6 +219,62 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	}
 
 	@Override
+	public String extendPredictUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String currentXun = (String) context.get("param");
+			String[] xun = currentXun.split(":");
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
+					+ " = ?";
+			Object[] params = new Object[3];
+			params[0] = xun[0];
+			params[1] = xun[1];
+			params[2] = Long.valueOf(xun[2]);
+
+			Object[] row = getOneRow(sql, params);
+
+			String extendDesc = Const.NVL((String) row[0], "");
+			extendDesc = Const.replace(extendDesc, Const.CR, "<br/>");
+
+			attrsMap.addVariable("xun", currentXun);
+			attrsMap.addVariable("extend_desc", extendDesc);
+
+			// 设置响应
+			AjaxResult ar = AjaxResult.instance();
+
+			String[] targetIds = targetId.split(",");
+			for (String id : targetIds) {
+				Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+						TEMPLATE_EXTEND_PREDICT, attrsMap, id);
+				AjaxResultEntity acc = AjaxResultEntity.instance()
+						.setOperation(Utils.RESULT_OPERATION_UPDATE)
+						.setTargetId(id).setDomAndScript(domString);
+				ar.addEntity(acc);
+			}
+
+			return ar.toJSONString();
+		} catch (Exception e) {
+			log.error("打开预测产品-延伸期预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开预测产品-延伸期预测界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
 	public String extendPredict(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
 		try {
@@ -231,8 +290,31 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ ","
 					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
 					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT);
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
+					+ " ORDER BY "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
+					+ " DESC , "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
+					+ " DESC , "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN);
+
 			List<Object[]> rows = getRows(sql);
+
+			List<String[]> menus = new ArrayList<String[]>();
+			for (Object[] r : rows) {
+				menus.add(new String[] { getExtendPredictKey(r),
+						getExtendPredictValue(r) });
+			}
+
+			Object[] current = rows.get(0);
+
+			String extendDesc = Const.NVL((String) current[3], "");
+			extendDesc = Const.replace(extendDesc, Const.CR, "<br/>");
+
+			attrsMap.addVariable("menuId", context.get("id"));
+			attrsMap.addVariable("yun", getExtendPredictKey(current));
+			attrsMap.addVariable("menus", menus);
+			attrsMap.addVariable("extend_desc", extendDesc);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_EXTEND_PREDICT, attrsMap);
@@ -246,6 +328,15 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 		return ActionMessage.instance().failure("打开预测产品-延伸期预测界面出现问题。")
 				.toJSONString();
+	}
+
+	private String getExtendPredictKey(Object[] r) {
+		return (String) r[0] + ":" + (String) r[1] + ":" + (Long) r[2];
+	}
+
+	private String getExtendPredictValue(Object[] r) {
+		return (String) r[0] + "年" + (String) r[1] + "月"
+				+ YUN_DESC[((Long) r[2]).intValue()];
 	}
 
 	@Override
@@ -355,5 +446,4 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			return 0;
 		}
 	}
-
 }

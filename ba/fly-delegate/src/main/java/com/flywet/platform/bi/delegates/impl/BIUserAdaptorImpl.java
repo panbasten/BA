@@ -149,10 +149,10 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE)
 				+ " WHERE "
 				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_UID)
-				+ " = " + uid + ")";
+				+ " = ?)";
 		List<Object[]> rows = null;
 		try {
-			rows = getRepository().connectionDelegate.getRows(sql);
+			rows = getRows(sql, uid);
 		} catch (KettleDatabaseException e) {
 			logger.error("get roles exception:", e);
 			throw new BIKettleException(e.getMessage());

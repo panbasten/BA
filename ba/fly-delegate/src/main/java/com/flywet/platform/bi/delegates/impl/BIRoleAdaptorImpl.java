@@ -49,7 +49,7 @@ public class BIRoleAdaptorImpl extends BIAbstractDbAdaptor implements
 				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_ROLE);
 		List<Object[]> rows = null;
 		try {
-			rows = getRepository().connectionDelegate.getRows(sql);
+			rows = getRows(sql);
 		} catch (KettleDatabaseException e) {
 			logger.error("get roles exception:", e);
 			throw new BIKettleException(e.getMessage());
@@ -72,7 +72,7 @@ public class BIRoleAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public Role getRoleById(long roleId) throws BIKettleException {
 		try {
-			RowMetaAndData r = getRepository().connectionDelegate.getOneRow(
+			RowMetaAndData r = getOneRowWithMeta(
 					KettleDatabaseRepositoryBase.TABLE_R_ROLE,
 					KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE,
 					new LongObjectId(roleId));
@@ -112,13 +112,11 @@ public class BIRoleAdaptorImpl extends BIAbstractDbAdaptor implements
 						KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE);
 				r.addValue(KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE,
 						ValueMetaInterface.TYPE_INTEGER, batchId);
-				getRepository().connectionDelegate.insertTableRow(
-						KettleDatabaseRepositoryBase.TABLE_R_ROLE, r);
+				insertTableRow(KettleDatabaseRepositoryBase.TABLE_R_ROLE, r);
 			} else {
 				r.addValue(KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE,
 						ValueMetaInterface.TYPE_INTEGER, role.getRid());
-				getRepository().connectionDelegate.updateTableRow(
-						KettleDatabaseRepositoryBase.TABLE_R_ROLE,
+				updateTableRow(KettleDatabaseRepositoryBase.TABLE_R_ROLE,
 						KettleDatabaseRepositoryBase.FIELD_ROLE_ID_ROLE, r);
 			}
 			getRepository().commit();
@@ -148,10 +146,10 @@ public class BIRoleAdaptorImpl extends BIAbstractDbAdaptor implements
 				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_USER_ROLE)
 				+ " WHERE "
 				+ quote(KettleDatabaseRepositoryBase.FIELD_USER_ROLE_RID)
-				+ " = " + roleId + ")";
+				+ " = ?)";
 		List<Object[]> rows = null;
 		try {
-			rows = getRepository().connectionDelegate.getRows(sql);
+			rows = getRows(sql, roleId);
 		} catch (KettleDatabaseException e) {
 			logger.error("get roles exception:", e);
 			throw new BIKettleException(e.getMessage());

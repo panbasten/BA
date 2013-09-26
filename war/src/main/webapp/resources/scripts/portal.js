@@ -318,7 +318,7 @@ Flywet.Portal = {
 				height : 400,
 				header : menu.desc,
 				autoOpen : true,
-				autoMaximized : true,
+//				autoMaximized : true,
 				showHeader : true,
 				modal : true,
 				closable : true,

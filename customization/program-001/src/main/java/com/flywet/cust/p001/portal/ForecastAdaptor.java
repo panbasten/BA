@@ -41,6 +41,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 			throws BIJSONException;
 
 	/**
+	 * 预测产品-延伸期预测，更新旬
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendPredictUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
 	 * 预测评分-月预测
 	 * 
 	 * @param targetId

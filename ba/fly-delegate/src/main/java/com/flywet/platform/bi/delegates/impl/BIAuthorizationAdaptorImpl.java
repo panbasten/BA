@@ -26,13 +26,12 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public void delRoleAuth(long rid) throws BIKettleException {
 		try {
-			getRepository().connectionDelegate
-					.performDelete(
-							"DELETE FROM "
-									+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
-									+ " WHERE "
-									+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
-									+ " = ? ", new LongObjectId(rid));
+			String sql = "DELETE FROM "
+					+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
+					+ " WHERE "
+					+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
+					+ " = ? ";
+			performDelete(sql, new LongObjectId(rid));
 			getRepository().commit();
 		} catch (KettleException e) {
 			logger.error("del authorization exception:", e);
@@ -55,11 +54,9 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 				+ " WHERE "
 				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
 				+ " = ?";
-		sql = this.replaceParam(sql, String.valueOf(rid));
 
 		try {
-			List<RowMetaAndData> rmds = getRepository().connectionDelegate
-					.getRowsWithMeta(sql);
+			List<RowMetaAndData> rmds = getRowsWithMeta(sql, rid);
 
 			if (rmds == null || rmds.isEmpty()) {
 				return Collections.emptyList();
@@ -95,13 +92,12 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 		}
 
 		try {
-			getRepository().connectionDelegate
-					.performDelete(
-							"DELETE FROM "
-									+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
-									+ " WHERE "
-									+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
-									+ " = ?", new LongObjectId(rid));
+			String sql = "DELETE FROM "
+					+ quoteTable(KettleDatabaseRepository.TABLE_R_AUTHORIZATION)
+					+ " WHERE "
+					+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
+					+ " = ?";
+			performDelete(sql, new LongObjectId(rid));
 
 			for (Authorization auth : auths) {
 				RowMetaAndData rmd = new RowMetaAndData();
@@ -111,8 +107,8 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 						ValueMetaInterface.TYPE_INTEGER, auth.getFid());
 				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID,
 						ValueMetaInterface.TYPE_INTEGER, auth.getPermission());
-				getRepository().connectionDelegate.insertTableRow(
-						KettleDatabaseRepository.TABLE_R_AUTHORIZATION, rmd);
+				insertTableRow(KettleDatabaseRepository.TABLE_R_AUTHORIZATION,
+						rmd);
 			}
 			getRepository().commit();
 		} catch (KettleException e) {
@@ -121,5 +117,4 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 			throw new BIKettleException(e.getMessage());
 		}
 	}
-
 }
