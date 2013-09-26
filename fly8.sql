@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `c_extend_predict`
+--
+
+DROP TABLE IF EXISTS `c_extend_predict`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `c_extend_predict` (
+  `ID_EXTEND_PREDICT` bigint(20) NOT NULL,
+  `YEAR` varchar(4) DEFAULT NULL,
+  `MONTH` varchar(2) DEFAULT NULL,
+  `XUN` int(11) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  PRIMARY KEY (`ID_EXTEND_PREDICT`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_extend_predict`
+--
+
+LOCK TABLES `c_extend_predict` WRITE;
+/*!40000 ALTER TABLE `c_extend_predict` DISABLE KEYS */;
+INSERT INTO `c_extend_predict` VALUES (0,'2013','6',0,'2～5日，全省大部分地区有阵雨或雷雨，东北部地区有中到大雨；\r\n10～12日，全省有中到大雨，局部暴雨；\r\n14～15日，全省有小到中雨；\r\n22～24日，全省有小到中雨，局部大雨；\r\n29～31日，全省大部分地区有小到中雨'),(1,'2013','6',2,'2～5日，全省大部分地区有阵雨或雷雨；\r\n10～12日，全省大部分地区有小到中雨；\r\n14～15日，全省有小到中雨；\r\n22～24日，全省有小到中雨，局部大雨；\r\n29～31日，全省有中到大雨，局部暴雨');
+/*!40000 ALTER TABLE `c_extend_predict` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `r_authorization`
 --
 
@@ -23,9 +50,9 @@ DROP TABLE IF EXISTS `r_authorization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `r_authorization` (
-  `rid` bigint(20) NOT NULL,
-  `fid` bigint(20) NOT NULL,
-  `permission` int(11) NOT NULL
+  `RID` bigint(20) NOT NULL,
+  `FID` bigint(20) NOT NULL,
+  `PERMISSION` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -926,7 +953,7 @@ CREATE TABLE `r_portal_menu_attribute` (
 
 LOCK TABLES `r_portal_menu_attribute` WRITE;
 /*!40000 ALTER TABLE `r_portal_menu_attribute` DISABLE KEYS */;
-INSERT INTO `r_portal_menu_attribute` VALUES (1,100,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(2,100,'method','monthPredict'),(3,101,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(4,101,'method','extendPredict'),(5,102,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(7,103,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(6,102,'method','monthPredictScore'),(8,103,'method','extendPredictScore');
+INSERT INTO `r_portal_menu_attribute` VALUES (1,100,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(2,100,'method','monthPredict'),(3,101,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(4,101,'method','extendPredict'),(5,102,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(7,103,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(6,102,'method','monthPredictScore'),(8,103,'method','extendPredictScore'),(9,100,'autoMaximized','true');
 /*!40000 ALTER TABLE `r_portal_menu_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1473,8 +1500,8 @@ DROP TABLE IF EXISTS `r_user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `r_user_role` (
-  `rid` bigint(20) NOT NULL,
-  `uid` bigint(20) NOT NULL
+  `RID` bigint(20) NOT NULL,
+  `UID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1549,4 +1576,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-26  7:43:39
+-- Dump completed on 2013-09-26 19:02:30
