@@ -314,14 +314,23 @@ div.section {
 	color: #c89f40;
 }
 
-.errors {
-	color: #4066c4;
+.ui-toeditor-div {
+	color: #fff;
 	margin-top: 13px;
 	margin-left: 10px;
 	text-align: left;
+	font-weight: bold;
 	float:left;
 	width: 100px;
 	height: 25px;
+}
+.ui-toeditor-div input {
+	float:left;
+	margin-top: 5px;
+}
+.ui-toeditor-div label {
+	float:left;
+	margin-left: 5px;
 }
 .ui-loging-title{
 	width: 75px;

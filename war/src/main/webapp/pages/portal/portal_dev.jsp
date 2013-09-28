@@ -272,8 +272,9 @@
 									<input id="password" name="password" type="password" class="ui-login-widget" value="" />
 								</div>
 								
-								<div id="errors" class="errors"> 
-									
+								<div class="ui-toeditor-div"> 
+									<input id="toeditor" name="toeditor" type="checkbox" style="float:left;" />
+									<label for="toeditor">管理控制台</label>
 								</div>
 								<div class="buttonBox">
 									<div id="loginBtn" class="ui-login-button ui-login-button-default"></div>

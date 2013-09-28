@@ -188,12 +188,14 @@ Flywet.Portal = {
 		var win = Flywet.getWindowScroll();
 		if(Flywet.Portal.MAX_SCEEN){
 			$(Flywet.escapeClientId("fly_portal_header")).animate({height:"toggle"},500);
+			$(Flywet.escapeClientId("fly_portal_menus")).animate({height:"toggle"},500);
 			$(Flywet.escapeClientId("fly_portal_footer")).animate({top:(win.height-95)+"px"},500);
 			
 			$(Flywet.escapeClientId("btn_full")).addClass("fly-full-sceen-out").removeClass("fly-full-sceen-in").attr("title", "全屏");
 			Flywet.Portal.MAX_SCEEN = false;
 		}else{
 			$(Flywet.escapeClientId("fly_portal_header")).animate({height:"toggle"},500);
+			$(Flywet.escapeClientId("fly_portal_menus")).animate({height:"toggle"},500);
 			$(Flywet.escapeClientId("fly_portal_footer")).animate({top:(win.height-35)+"px"},500);
 			
 			$(Flywet.escapeClientId("btn_full")).addClass("fly-full-sceen-in").removeClass("fly-full-sceen-out").attr("title", "恢复");
