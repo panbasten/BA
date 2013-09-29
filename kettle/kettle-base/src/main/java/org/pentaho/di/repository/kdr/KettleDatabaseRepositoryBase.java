@@ -460,7 +460,8 @@ public class KettleDatabaseRepositoryBase {
 
 	public static final String TABLE_R_AUTHORIZATION = "R_AUTHORIZATION";
 	public static final String FIELD_AUTHORIZATION_RID = "RID";
-	public static final String FIELD_AUTHORIZATION_FID = "FID";
+	public static final String FIELD_AUTHORIZATION_OID = "OID";
+	public static final String FIELD_AUTHORIZATION_OTYPE = "OTYPE";
 	public static final String FIELD_AUTHORIZATION_PERMISSION = "PERMISSION";
 
 	public static final String repositoryTableNames[] = new String[] {

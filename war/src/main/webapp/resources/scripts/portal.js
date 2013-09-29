@@ -3,6 +3,7 @@ Flywet.Portal = {
 	PIC_NUM : 0,
 	MENU_VAR : null,
 	MAX_SCEEN : false,
+	COOKIE_KEYS : ["username","loginname","repository","repositoryType","toeditor"],
 	messages : null,
 	section: {
 		slideShow : null,
@@ -43,7 +44,7 @@ Flywet.Portal = {
 			beforeSend : function(){
 				$("#loginBtn").addClass("ui-login-button-disabled")
 					.unbind("click");
-				//$("#errors").html("正在登陆...");
+				$("#fly_portal_cover").show();
 			},
 			onsuccess: function(data, status, xhr){
 				if(data.state == 0){
@@ -54,63 +55,67 @@ Flywet.Portal = {
 					// 判断是否是子页面
 					//window.location = "editor";
 					
-					if (Flywet.browserDetect.msie){
-						window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
-						var num = 0;
-						function checkWebPageForIE(){
-							if(window["editorPageHandle"]){
-								clearInterval(interval);
-								if (Flywet.browserDetect.isIE6) {  
-									window.opener = null; 
-									window.close();  
-								}  
-								else {  
-									window.open('', '_top'); 
-									window.top.close();  
-					            }
-							}else{
-								num = num + 1;
-								if(num>10){
+					if(cookieJson.toeditor){
+						if (Flywet.browserDetect.msie){
+							window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
+							var num = 0;
+							function checkWebPageForIE(){
+								if(window["editorPageHandle"]){
 									clearInterval(interval);
-									Flywet.Portal.pageBlocked();
+									if (Flywet.browserDetect.isIE6) {  
+										window.opener = null; 
+										window.close();  
+									}  
+									else {  
+										window.open('', '_top'); 
+										window.top.close();  
+						            }
+								}else{
+									num = num + 1;
+									if(num>10){
+										clearInterval(interval);
+										Flywet.Portal.pageBlocked();
+									}
 								}
 							}
-						}
-						var interval = setInterval(checkWebPageForIE, 500);
-					
-					}else if (Flywet.browserDetect.webkit){
-						window["editorPageHandle"] = window.open("editor","","left=0,top=0,width="+window.screen.availWidth+",height="+window.screen.availHeight+",modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
-						var num = 0;
-						function checkWebPageForWebkit(){
-							if (window["editorPageHandle"] && window["editorPageHandle"].outerHeight > 0){
-								clearInterval(interval);
-								window.opener = null;
-					            window.open('', '_self', '');
-								window.close();
-							}else{
-								num = num + 1;
-								if(num>10){
-									clearInterval(interval);
-									Flywet.Portal.pageBlocked();
-								}
-							}
-						}
-						var interval = setInterval(checkWebPageForWebkit, 500);
+							var interval = setInterval(checkWebPageForIE, 500);
 						
-					}else if (Flywet.browserDetect.mozilla){
-						try{
-							window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
-							window["editorPageHandle"].moveTo(0, 0);
-							window["editorPageHandle"].resizeTo(window.screen.availWidth, window.screen.availHeight);
-					
-							window.location.href = 'about:blank';
+						}else if (Flywet.browserDetect.webkit){
+							window["editorPageHandle"] = window.open("editor","","left=0,top=0,width="+window.screen.availWidth+",height="+window.screen.availHeight+",modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
+							var num = 0;
+							function checkWebPageForWebkit(){
+								if (window["editorPageHandle"] && window["editorPageHandle"].outerHeight > 0){
+									clearInterval(interval);
+									window.opener = null;
+						            window.open('', '_self', '');
+									window.close();
+								}else{
+									num = num + 1;
+									if(num>10){
+										clearInterval(interval);
+										Flywet.Portal.pageBlocked();
+									}
+								}
+							}
+							var interval = setInterval(checkWebPageForWebkit, 500);
+							
+						}else if (Flywet.browserDetect.mozilla){
+							try{
+								window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
+								window["editorPageHandle"].moveTo(0, 0);
+								window["editorPageHandle"].resizeTo(window.screen.availWidth, window.screen.availHeight);
+						
+								window.location.href = 'about:blank';
+							}
+							catch(e){
+								Flywet.Portal.pageBlocked();
+							}
 						}
-						catch(e){
-							Flywet.Portal.pageBlocked();
+						if(window["editorPageHandle"]){
+							window["editorPageHandle"].focus();
 						}
-					}
-					if(window["editorPageHandle"]){
-						window["editorPageHandle"].focus();
+					}else{
+						window.location = "portal";
 					}
 				}else{
 					var msg = "";
@@ -126,6 +131,7 @@ Flywet.Portal = {
 							Flywet.Portal.loginAction();
 						});
 					Flywet.dialog.error(msg);
+					$("#fly_portal_cover").hide();
 				}
 				return true;
 			}
@@ -141,13 +147,17 @@ Flywet.Portal = {
 			"margin-left":w+"px"
 		});
 		Flywet.Portal.PIC_NUM = Math.floor(Math.random()*(Flywet.Portal.PIC_TOTILE_NUM-0.001)+1);
-		$(Flywet.escapeClientId("fly_portal_bg_img"))
+		$("#fly_portal_bg_img")
 			.attr("src", "resources/images/pics/wallpaper"+Flywet.Portal.PIC_NUM+".jpg")
 			.width(win.width+20).height(win.height+20).show("fast");
 		
-		$(Flywet.escapeClientId("fly_portal_header")).width(win.width);
-		$(Flywet.escapeClientId("fly_portal_menus")).width(win.width);
-		$(Flywet.escapeClientId("fly_portal_footer")).width(win.width).css("top", (win.height-95)+"px");
+		$("#fly_portal_cover").width(win.width+20).height(win.height+20);
+		$("#fly_portal_cover_img").css({"top":(win.height-48)/2+"px","left":(win.width-48)/2+"px",});
+		
+		
+		$("#fly_portal_header").width(win.width);
+		$("#fly_portal_menus").width(win.width);
+		$("#fly_portal_footer").width(win.width).css("top", (win.height-95)+"px");
 	},
 	
 	changeWebText : function(){
@@ -204,7 +214,48 @@ Flywet.Portal = {
 	},
 	
 	initPageComplete : function(){
+		// 显示用户名称
+		var username = Flywet.CookieUtils.read("username");
+		var loginname = Flywet.CookieUtils.read("loginname");
+		var loginUser = $("#btn_login_user");
+		if(username){
+			$("#btn_login_user_text").html(username);
+			loginUser.bind("mouseover", function(){
+					$(this).addClass("highlight");
+				}).bind("mouseout", function(){
+					$(this).removeClass("highlight");
+				});
+		}else{
+			loginUser.hide();
+		}
+		
 		// 登录按钮
+		var btnLogin = $("#btn_login");
+		if(username){
+			btnLogin.hide();
+		}else{
+			btnLogin.bind("click", function(){
+				if(Flywet.browserDetect.msie){
+					$("#fly_login_wrapper").show();
+				}else{
+					$("#fly_login_wrapper").show("normal");
+				}
+			}).bind("mouseover", function(){
+				$(this).addClass("highlight");
+			}).bind("mouseout", function(){
+				$(this).removeClass("highlight");
+			});
+			
+			$(document).keydown(function(e){
+				if(btnLogin.is(":visible")){
+					if(e.keyCode==13){
+						Flywet.Portal.loginAction();
+					}
+				}
+			});
+		}
+		
+		// 登录窗口的登录按钮
 		$("#loginBtn").bind("click", function(){
 			Flywet.Portal.loginAction();
 		}).live("mouseover", function(){
@@ -217,18 +268,10 @@ Flywet.Portal = {
 			$(this).removeClass('ui-login-button-hover');
 		});
 		
-		// 设置按钮
-		$("#btn_login").bind("click", function(){
-			if(Flywet.browserDetect.msie){
-				$("#fly_login_wrapper").show();
-			}else{
-				$("#fly_login_wrapper").show("normal");
-			}
-		}).bind("mouseover", function(){
-			$(this).addClass("highlight");
-		}).bind("mouseout", function(){
-			$(this).removeClass("highlight");
-		});
+		// 登录窗口的用户名
+		if(loginname){
+			$("#username").val(loginname);
+		}
 		
 		// 对于设置按钮的事件
 		var settingBtn = $("#btn_setting");
@@ -259,6 +302,7 @@ Flywet.Portal = {
 			}, 500);
 		});
 		
+		// --------------设置区域操作--------------------
 		// 生成并下载私钥
 		$("#createPriKey").bind("click", function(){
 			// 判断是否存在公钥
@@ -279,26 +323,34 @@ Flywet.Portal = {
 			}
 		});
 		
+		// 登入平台
+		$("#loginPortal").bind("click", function(){
+			if(Flywet.browserDetect.msie){
+				$("#fly_login_wrapper").show();
+			}else{
+				$("#fly_login_wrapper").show("normal");
+			}
+		});
+		
+		// 登出平台
+		$("#logoutPortal").bind("click", function(){
+			Flywet.CookieUtils.clear(Flywet.Portal.COOKIE_KEYS);
+			window.location = "portal";
+		});
+		
+		
+		// --------------主页面区域操作-------------------
 		$("#btn_next").bind("click", function(){
 			Flywet.Portal.nextBackground();
 		});
-		
 		$("#btn_previous").bind("click", function(){
 			Flywet.Portal.previousBackground();
 		});
-		
 		$("#btn_full").bind("click", function(){
 			Flywet.Portal.fullSceen();
 		});
-		
 		$("#btn_login_close").bind("click", function(){
 			$("#fly_login_wrapper").hide("fast");
-		});
-		
-		$(document).keydown(function(e){
-			if(e.keyCode==13){
-				Flywet.Portal.loginAction();
-			}
 		});
 		
 		// 调整尺寸

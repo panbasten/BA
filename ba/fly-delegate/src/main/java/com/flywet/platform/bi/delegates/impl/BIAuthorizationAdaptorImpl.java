@@ -46,7 +46,9 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 		String sql = "SELECT "
 				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID)
 				+ ","
-				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_FID)
+				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_OID)
+				+ ","
+				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_OTYPE)
 				+ ","
 				+ quote(KettleDatabaseRepository.FIELD_AUTHORIZATION_PERMISSION)
 				+ " FROM "
@@ -69,8 +71,11 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 						.setRid(rmd
 								.getInteger(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID));
 				auth
-						.setFid(rmd
-								.getInteger(KettleDatabaseRepository.FIELD_AUTHORIZATION_FID));
+						.setOid(rmd
+								.getInteger(KettleDatabaseRepository.FIELD_AUTHORIZATION_OID));
+				auth
+						.setOtype(rmd
+								.getInteger(KettleDatabaseRepository.FIELD_AUTHORIZATION_OTYPE));
 				auth
 						.setPermission(rmd
 								.getInteger(KettleDatabaseRepository.FIELD_AUTHORIZATION_PERMISSION));
@@ -103,8 +108,10 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 				RowMetaAndData rmd = new RowMetaAndData();
 				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID,
 						ValueMetaInterface.TYPE_INTEGER, rid);
-				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_FID,
-						ValueMetaInterface.TYPE_INTEGER, auth.getFid());
+				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_OID,
+						ValueMetaInterface.TYPE_INTEGER, auth.getOid());
+				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_OTYPE,
+						ValueMetaInterface.TYPE_INTEGER, auth.getOtype());
 				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID,
 						ValueMetaInterface.TYPE_INTEGER, auth.getPermission());
 				insertTableRow(KettleDatabaseRepository.TABLE_R_AUTHORIZATION,

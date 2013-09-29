@@ -146,9 +146,14 @@
 			
 	</head>
 	<body id="idBody">
+		<div id="fly_portal_cover" class="fly_portal_cover" style="display:none;">
+			<div id="fly_portal_cover_img">
+				<img src="resources/images/portal/loading.gif" />
+			</div>
+		</div>
 	
 		<div id="fly_portal_bg" class="fly_portal_cover">
-			<img id="fly_portal_bg_img" src="" style="width:800px;height:600px;display:none;">
+			<img id="fly_portal_bg_img" src="" style="display:none;">
 		</div>
 		
 		<div id="fly_portal_wrapper">
@@ -162,8 +167,16 @@
 					<tbody>
 					<tr>
 					<td>
+						<a id="btn_login_user" href="javascript:void(0);">
+							<div>
+								<span>用户：</span>
+								<span id="btn_login_user_text"></span>
+							</div>
+						</a>
+					</td>
+					<td>
 						<a id="btn_login" href="javascript:void(0);">
-						<div><span>登录</span></div>
+							<div><span id="btn_login_text">登录</span></div>
 						</a>
 					</td>
 					<td>
@@ -191,6 +204,14 @@
 									<a id="createRep" href="javascript:void(0);">创建资源库</a>
 									<i></i>
 									<a id="manageRep" href="javascript:void(0);">管理资源库</a>
+								</dd>
+							</dl>
+							<dl>
+								<dt style="width:110px;">登录</dt>
+								<dd style="width:230px;">
+									<a id="loginPortal" href="javascript:void(0);">登入平台</a>
+									<i></i>
+									<a id="logoutPortal" href="javascript:void(0);">登出平台</a>
 								</dd>
 							</dl>
 						</div>
@@ -265,7 +286,7 @@
 								</div>
 								<div>
 									<h1 class="ui-login-label"><label for="username">用户名</label></h1>
-									<input id="username" name="username" class="ui-login-widget" value="guest" />
+									<input id="username" name="username" class="ui-login-widget" value="" />
 								</div>
 								<div>
 									<h1 class="ui-login-label"><label for="password">密　码</label></h1>

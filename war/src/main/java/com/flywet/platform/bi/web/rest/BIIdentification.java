@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -39,8 +40,10 @@ import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
+import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.model.ParameterContext;
+import com.flywet.platform.bi.web.service.BIUserDelegate;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
@@ -53,6 +56,17 @@ public class BIIdentification {
 	public static final String TEMPLATE_SYS_LOGIN_SLIDE = "portal/sys/login_slide.h";
 
 	private static final String KEY = "FLYWET@2013";
+
+	public static final String REPOSITORYNAME = "repository";
+	public static final String REPOSITORYTYPE = "repositoryType";
+	public static final String USERNAME = "username";
+	public static final String LOGINNAME = "loginname";
+	public static final String TOEDITOR = "toeditor";
+
+	public static final String PASSWORD = "password";
+
+	@Resource(name = "bi.service.userService")
+	private BIUserDelegate userService;
 
 	@GET
 	@Path("/repositoryNames")
@@ -210,8 +224,8 @@ public class BIIdentification {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createUserSettingPage() throws BIException {
 		try {
-			JSONObject user = JSONUtils.convertStringToJSONObject(Utils
-					.decodeURL(ContextHolder.getUser()));
+			String loginname = ContextHolder.getLoginName();
+			User user = userService.getUserByLogin(loginname);
 			FLYVariableResolver resolver = FLYVariableResolver.instance();
 			resolver.addVariable("user", user);
 
@@ -221,7 +235,7 @@ public class BIIdentification {
 					TEMPLATE_SYS_USER_INFO, doc, resolver);
 
 			JSONObject jo = new JSONObject();
-			jo.put("username", user.get("username"));
+			jo.put(USERNAME, user.getName());
 			jo.put("dom", (String) domString[0]);
 			jo.put("script", JSONUtils
 					.convertToJSONArray((List<String>) domString[1]));
@@ -242,9 +256,11 @@ public class BIIdentification {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(userinfo);
 
-			repository = paramContext.getParameter("repository");
-			String username = paramContext.getParameter("username");
-			String password = paramContext.getParameter("password");
+			repository = paramContext.getParameter(REPOSITORYNAME);
+			String username = paramContext.getParameter(USERNAME);
+			String password = paramContext.getParameter(PASSWORD);
+
+			boolean toeditor = paramContext.getBooleanParameter(TOEDITOR);
 
 			try {
 				WebMarshal.getInstance();
@@ -278,7 +294,7 @@ public class BIIdentification {
 				return am.toJSONString();
 			}
 
-			String cookie = populateCookie(repository, user);
+			String cookie = populateCookie(repository, user, toeditor);
 			am.setData(cookie);
 		} catch (Exception ex) {
 			log.error("identifacation exception:", ex);
@@ -290,15 +306,16 @@ public class BIIdentification {
 		return am.toJSONString();
 	}
 
-	private String populateCookie(String repository, IUser user)
-			throws Exception {
+	private String populateCookie(String repository, IUser user,
+			boolean toeditor) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("username", user.getUsername());
-		map.put("user", JSONUtils.convertToJSONObject(user.getUserInfo())
-				.toJSONString());
-		map.put("repository", repository);
-		map.put("repositoryType", BIEnvironmentDelegate.instance().getRepType(
+		map.put(USERNAME, user.getUsername());
+		map.put(LOGINNAME, user.getLogin());
+
+		map.put(REPOSITORYNAME, repository);
+		map.put(REPOSITORYTYPE, BIEnvironmentDelegate.instance().getRepType(
 				repository));
+		map.put(TOEDITOR, toeditor);
 
 		// TODO 写入用户和有效时间的密文，和path信息
 		String cookie = BISecurityUtils.createCookieString(map);

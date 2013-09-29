@@ -12,7 +12,7 @@ public class ContextHolder {
 	private static ThreadLocal<String> repositoryNameHodler = new ThreadLocal<String>();
 	private static ThreadLocal<String> repositoryTypeHodler = new ThreadLocal<String>();
 	private static ThreadLocal<String> userNameHodler = new ThreadLocal<String>();
-	private static ThreadLocal<String> userHodler = new ThreadLocal<String>();
+	private static ThreadLocal<String> loginNameHodler = new ThreadLocal<String>();
 
 	public static void setRepositoryName(String repositoryName) {
 		repositoryNameHodler.set(repositoryName);
@@ -38,26 +38,12 @@ public class ContextHolder {
 		return userNameHodler.get();
 	}
 
-	public static void setUser(String user) {
-		userHodler.set(user);
+	public static void setLoginName(String user) {
+		loginNameHodler.set(user);
 	}
 
-	public static String getUser() {
-		return userHodler.get();
-	}
-
-	public static IUser getLoginUser() throws BIException {
-		return getLoginUser(getUser());
-	}
-
-	public static IUser getLoginUser(String userInfo) throws BIException {
-		try {
-			JSONObject u = JSONUtils.convertStringToJSONObject(Utils
-					.decodeURL(userInfo));
-			return new UserInfo(u);
-		} catch (Exception ex) {
-			throw new BIException("转换用户对象出现错误。", ex);
-		}
+	public static String getLoginName() {
+		return loginNameHodler.get();
 	}
 
 }

@@ -38,7 +38,8 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 		}
 	}
 
-	private IUser convetToKettleUser(User user) {
+	@Override
+	public IUser convetToKettleUser(User user) {
 		IUser iuser = new UserInfo();
 		iuser.setDescription(user.getDesc());
 		iuser.setEnabled("Y".equalsIgnoreCase(user.getEnabled()));
@@ -49,7 +50,8 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 		return iuser;
 	}
 
-	private User convetToDIUser(IUser iuser) {
+	@Override
+	public User convetToBIUser(IUser iuser) {
 		User user = new User();
 		user.setDesc(iuser.getDescription());
 		user.setEnabled(iuser.isEnabled() ? "Y" : "N");
@@ -72,7 +74,7 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 
 			List<User> users = new ArrayList<User>();
 			for (IUser iuser : iusers) {
-				User user = convetToDIUser(iuser);
+				User user = convetToBIUser(iuser);
 				users.add(user);
 			}
 
@@ -89,7 +91,20 @@ public class BIUserAdaptorImpl extends BIAbstractDbAdaptor implements
 				.getSecurityProvider();
 		try {
 			IUser iuser = securityProvider.loadUserInfo(new LongObjectId(uid));
-			return convetToDIUser(iuser);
+			return convetToBIUser(iuser);
+		} catch (KettleException e) {
+			logger.error("get user by id exception:", e);
+			throw new BIKettleException(e.getMessage());
+		}
+	}
+
+	@Override
+	public User loadUser(String login) throws BIKettleException {
+		KettleDatabaseRepositorySecurityProvider securityProvider = getRepository()
+				.getSecurityProvider();
+		try {
+			IUser iuser = securityProvider.loadUserInfo(login);
+			return convetToBIUser(iuser);
 		} catch (KettleException e) {
 			logger.error("get user by id exception:", e);
 			throw new BIKettleException(e.getMessage());

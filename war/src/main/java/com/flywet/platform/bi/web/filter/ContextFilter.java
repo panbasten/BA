@@ -12,12 +12,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import com.flywet.platform.bi.core.ContextHolder;
+import com.flywet.platform.bi.web.rest.BIIdentification;
 
 public class ContextFilter implements Filter {
-	private static final String REPOSITORYNAME = "repository";
-	private static final String REPOSITORYTYPE = "repositoryType";
-	private static final String USERNAME = "username";
-	private static final String USER = "user";
 
 	@Override
 	public void destroy() {
@@ -35,23 +32,23 @@ public class ContextFilter implements Filter {
 		}
 
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(REPOSITORYNAME)) {
+			if (cookie.getName().equals(BIIdentification.REPOSITORYNAME)) {
 				ContextHolder.setRepositoryName(cookie.getValue());
 				continue;
 			}
 
-			if (cookie.getName().equals(REPOSITORYTYPE)) {
+			if (cookie.getName().equals(BIIdentification.REPOSITORYTYPE)) {
 				ContextHolder.setRepositoryType(cookie.getValue());
 				continue;
 			}
 
-			if (cookie.getName().equals(USERNAME)) {
+			if (cookie.getName().equals(BIIdentification.USERNAME)) {
 				ContextHolder.setUserName(cookie.getValue());
 				continue;
 			}
 
-			if (cookie.getName().equals(USER)) {
-				ContextHolder.setUser(cookie.getValue());
+			if (cookie.getName().equals(BIIdentification.LOGINNAME)) {
+				ContextHolder.setLoginName(cookie.getValue());
 				continue;
 			}
 		}

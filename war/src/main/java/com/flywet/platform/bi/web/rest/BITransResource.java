@@ -24,7 +24,6 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
-import org.pentaho.di.repository.IUser;
 import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.DatabaseImpact;
 import org.pentaho.di.trans.TransHopMeta;
@@ -50,10 +49,12 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
 import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BITransDelegates;
+import com.flywet.platform.bi.web.service.BIUserDelegate;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.transResource")
@@ -80,6 +81,9 @@ public class BITransResource {
 
 	@Resource(name = "bi.service.transServices")
 	private BITransDelegates transDelegates;
+
+	@Resource(name = "bi.service.userService")
+	private BIUserDelegate userService;
 
 	@GET
 	@Path("/create/{id}")
@@ -117,7 +121,8 @@ public class BITransResource {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			IUser user = ContextHolder.getLoginUser();
+			User user = userService
+					.getUserByLogin(ContextHolder.getLoginName());
 
 			String desc = paramContext.getParameter("desc");
 
@@ -129,8 +134,8 @@ public class BITransResource {
 			}
 
 			// 保存转换
-			TransMeta transMeta = transDelegates.createTransformation(user,
-					dirId, desc);
+			TransMeta transMeta = transDelegates.createTransformation(
+					userService.convetToKettleUser(user), dirId, desc);
 			transDelegates.updateCacheTransformation(transMeta);
 
 			am.addMessage("新增转换成功");
@@ -197,7 +202,8 @@ public class BITransResource {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			IUser user = ContextHolder.getLoginUser();
+			User user = userService
+					.getUserByLogin(ContextHolder.getLoginName());
 
 			// 页面设置
 			long dirId = paramContext.getLongParameter("dirId");
@@ -205,8 +211,9 @@ public class BITransResource {
 			String transName = paramContext.getParameter("transName");
 
 			// 保存
-			TransMeta transMeta = transDelegates.saveAsTransformation(user,
-					dirId, transId, transName);
+			TransMeta transMeta = transDelegates.saveAsTransformation(
+					userService.convetToKettleUser(user), dirId, transId,
+					transName);
 
 			transDelegates.updateCacheTransformation(transMeta);
 
@@ -253,9 +260,8 @@ public class BITransResource {
 			modifyTrans(transMeta, data);
 
 			// 设置修改信息
-			IUser user = ContextHolder.getLoginUser();
 			transMeta.setModifiedDate(new Date());
-			transMeta.setModifiedUser(user.getLogin());
+			transMeta.setModifiedUser(ContextHolder.getLoginName());
 
 			// 保存
 			transDelegates.save(transMeta);

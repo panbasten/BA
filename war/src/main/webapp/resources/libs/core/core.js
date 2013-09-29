@@ -800,7 +800,13 @@ Flywet.CookieUtils = {
 	 * 
 	 */
 	clear: function (name) {
-		Flywet.CookieUtils.write(name, '', {expires: -1});
+		if(name instanceof Array){
+			for(var i=0;i<name.length;i++){
+				Flywet.CookieUtils.write(name[i], '', {expires: -1});
+			}
+		}else{
+			Flywet.CookieUtils.write(name, '', {expires: -1});
+		}
 	}
 };
 
@@ -1254,7 +1260,7 @@ Flywet.ajax.ShowMessage = function(json){
 			text = text + json.messages;
 		}else if(json.messages instanceof Array){
 			text = text + json.messages[0];
-			for(var i=1;i<json.messages.lenght;i++){
+			for(var i=1;i<json.messages.length;i++){
 				text = text + "<br/>" + json.messages[i];
 			}
 		}
