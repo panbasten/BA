@@ -1,13 +1,5 @@
 package com.flywet.platform.bi.core;
 
-import org.json.simple.JSONObject;
-import org.pentaho.di.repository.IUser;
-import org.pentaho.di.repository.UserInfo;
-
-import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.core.utils.JSONUtils;
-import com.flywet.platform.bi.core.utils.Utils;
-
 public class ContextHolder {
 	private static ThreadLocal<String> repositoryNameHodler = new ThreadLocal<String>();
 	private static ThreadLocal<String> repositoryTypeHodler = new ThreadLocal<String>();
@@ -44,6 +36,11 @@ public class ContextHolder {
 
 	public static String getLoginName() {
 		return loginNameHodler.get();
+	}
+
+	public static void clearLogin() {
+		setUserName(null);
+		setLoginName(null);
 	}
 
 }

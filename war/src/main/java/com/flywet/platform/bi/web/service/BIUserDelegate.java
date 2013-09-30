@@ -13,6 +13,8 @@ import com.flywet.platform.bi.delegates.vo.User;
 public interface BIUserDelegate {
 	public List<User> getAllUser() throws BIException;
 
+	public User getCurrentUser() throws BIException;
+
 	public User getUserById(long uid) throws BIException;
 
 	public User getUserByLogin(String login) throws BIException;

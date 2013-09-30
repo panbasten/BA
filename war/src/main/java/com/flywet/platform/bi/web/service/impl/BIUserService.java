@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.pentaho.di.core.Const;
 import org.pentaho.di.repository.IUser;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
 import com.flywet.platform.bi.delegates.enums.PermissionCategory;
@@ -46,6 +48,15 @@ public class BIUserService implements BIUserDelegate {
 		BIUserAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIUserAdaptor.class);
 		return adaptor.convetToBIUser(iuser);
+	}
+
+	@Override
+	public User getCurrentUser() throws BIException {
+		String login = ContextHolder.getLoginName();
+		if (Const.isEmpty(login)) {
+			return null;
+		}
+		return getUserByLogin(login);
 	}
 
 	@Override

@@ -39,6 +39,8 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_HELPTEXT)
 				+ ","
 				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX)
+				+ ","
+				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE)
 				+ " FROM "
 				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_PORTAL_MENU);
 	}
@@ -68,6 +70,9 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 								.getString(
 										KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX,
 										"0")));
+		ft.setAuthenticate("Y".equalsIgnoreCase(rmd.getString(
+				KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE,
+				"Y")));
 
 		String extSql = "SELECT "
 				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_CODE)
@@ -106,12 +111,11 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ " WHERE "
 					+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU)
 					+ " = " + id;
-			List<RowMetaAndData> rmds = getRowsWithMeta(sql);
-			if (Utils.isEmpty(rmds)) {
+			RowMetaAndData rmd = getOneRowWithMeta(sql);
+			if (rmd == null) {
 				return null;
 			}
-
-			return createPortalMenu(rmds.get(0));
+			return createPortalMenu(rmd);
 		} catch (Exception e) {
 			logger.error("get portal menu exception:", e);
 			throw new BIKettleException(e);

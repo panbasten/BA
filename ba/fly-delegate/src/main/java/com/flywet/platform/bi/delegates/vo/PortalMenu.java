@@ -3,10 +3,11 @@ package com.flywet.platform.bi.delegates.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONObject;
 
+import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.NameValuePair;
-import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.core.utils.JSONUtils;
 
 public class PortalMenu {
 	private long id;
@@ -16,6 +17,7 @@ public class PortalMenu {
 	private long parentId;
 	private String helpText;
 	private int index;
+	private boolean authenticate;
 
 	private List<PortalMenu> children = new ArrayList<PortalMenu>();
 	private List<NameValuePair> extAttrs = new ArrayList<NameValuePair>();
@@ -37,18 +39,25 @@ public class PortalMenu {
 		return null;
 	}
 
-	public String getExtAttrString() {
-		if (Utils.isEmpty(extAttrs)) {
-			return StringUtils.EMPTY;
-		}
-		String str = "";
-		str = "{";
-		for (NameValuePair pair : extAttrs) {
-			str += pair.getName() + ":'" + pair.getValue() + "',";
-		}
-		str = StringUtils.removeEnd(str, ",");
-		str += "}";
-		return str;
+	@SuppressWarnings("unchecked")
+	public JSONObject getSimpleJSON() throws BIJSONException {
+		JSONObject jo = new JSONObject();
+		jo.put("id", id);
+		jo.put("code", code);
+		jo.put("moduleCode", moduleCode);
+		jo.put("desc", desc);
+		jo.put("parentId", parentId);
+		jo.put("helpText", helpText);
+		jo.put("index", index);
+		jo.put("extAttrs", JSONUtils.convertToJSONArray(extAttrs));
+		return jo;
+	}
+
+	@SuppressWarnings("unchecked")
+	public JSONObject getJSON() throws BIJSONException {
+		JSONObject jo = getSimpleJSON();
+		jo.put("children", JSONUtils.convertToJSONArray(children));
+		return jo;
 	}
 
 	public long getId() {
@@ -105,6 +114,14 @@ public class PortalMenu {
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+
+	public boolean isAuthenticate() {
+		return authenticate;
+	}
+
+	public void setAuthenticate(boolean authenticate) {
+		this.authenticate = authenticate;
 	}
 
 	public List<PortalMenu> getChildren() {

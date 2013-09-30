@@ -21,20 +21,24 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.springframework.stereotype.Service;
 
 import com.flywet.platform.bi.component.web.ActionMessage;
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
+import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
 import com.flywet.platform.bi.web.service.BIPortalDelegates;
+import com.flywet.platform.bi.web.service.BIUserDelegate;
 
 @Service("bi.resource.portalet")
 @Path("/portalet")
@@ -46,6 +50,11 @@ public class BIPortaletResource {
 
 	@Resource(name = "bi.service.filesystemService")
 	private BIFileSystemDelegate filesysService;
+
+	@Resource(name = "bi.service.userService")
+	private BIUserDelegate userService;
+
+	public static final long PORTAL_MENU_ROOT_ID = 0L;
 
 	/**
 	 * 获得文件
@@ -194,12 +203,85 @@ public class BIPortaletResource {
 			if (Const.isEmpty(repository)) {
 				return "[]";
 			} else {
-				List<PortalMenu> meus = portalDelegates
-						.getPortalMenusByParent(0L);
-				return JSONUtils.convertToJSONArray(meus).toJSONString();
+				List<PortalMenu> menus = portalDelegates
+						.getPortalMenusByParent(PORTAL_MENU_ROOT_ID);
+				User currentUser = userService.getCurrentUser();
+				JSONArray ja = null;
+				if (currentUser == null) {
+					ja = getAnomyousPortalMenus(menus);
+				} else {
+					ja = getAuthenticatePortalMenus(currentUser.getId(), menus);
+				}
+				return ja.toJSONString();
 			}
 		} catch (Exception ex) {
 			throw new BIException("获得Portal的菜单出现错误。", ex);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private JSONArray getAnomyousPortalMenus(List<PortalMenu> menus)
+			throws BIException {
+		JSONArray ja = new JSONArray();
+		if (menus != null) {
+			for (PortalMenu pm : menus) {
+				JSONObject jo = getAnomyousPortalMenu(pm);
+				if (jo != null) {
+					ja.add(jo);
+				}
+			}
+		}
+		return ja;
+	}
+
+	@SuppressWarnings("unchecked")
+	private JSONObject getAnomyousPortalMenu(PortalMenu pm) throws BIException {
+		JSONObject jo = null;
+		if (pm != null) {
+			// 校验权限
+			if (!pm.isAuthenticate()) {
+				jo = pm.getSimpleJSON();
+				jo.put("children", getAnomyousPortalMenus(pm.getChildren()));
+			}
+		}
+		return jo;
+	}
+
+	@SuppressWarnings("unchecked")
+	private JSONArray getAuthenticatePortalMenus(long uid,
+			List<PortalMenu> menus) throws BIException {
+		JSONArray ja = new JSONArray();
+		if (menus != null) {
+			for (PortalMenu pm : menus) {
+				JSONObject jo = getAuthenticatePortalMenu(uid, pm);
+				if (jo != null) {
+					ja.add(jo);
+				}
+			}
+		}
+		return ja;
+	}
+
+	@SuppressWarnings("unchecked")
+	private JSONObject getAuthenticatePortalMenu(long uid, PortalMenu pm)
+			throws BIException {
+		JSONObject jo = null;
+		if (pm != null) {
+			// 校验权限
+			if (pm.isAuthenticate()) {
+				if (userService.authenticate(uid,
+						AuthorizationObjectCategory.PORTAL_MENU, pm.getId())) {
+					jo = pm.getSimpleJSON();
+				}
+			} else {
+				jo = pm.getSimpleJSON();
+			}
+
+			if (jo != null) {
+				jo.put("children", getAuthenticatePortalMenus(uid, pm
+						.getChildren()));
+			}
+		}
+		return jo;
 	}
 }

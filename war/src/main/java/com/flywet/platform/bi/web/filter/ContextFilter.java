@@ -25,31 +25,31 @@ public class ContextFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain fc)
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
+		
+		ContextHolder.clearLogin();
+		
 		Cookie[] cookies = request.getCookies();
-		if (cookies == null) {
-			fc.doFilter(req, res);
-			return;
-		}
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(BIIdentification.REPOSITORYNAME)) {
+					ContextHolder.setRepositoryName(cookie.getValue());
+					continue;
+				}
 
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(BIIdentification.REPOSITORYNAME)) {
-				ContextHolder.setRepositoryName(cookie.getValue());
-				continue;
-			}
+				if (cookie.getName().equals(BIIdentification.REPOSITORYTYPE)) {
+					ContextHolder.setRepositoryType(cookie.getValue());
+					continue;
+				}
 
-			if (cookie.getName().equals(BIIdentification.REPOSITORYTYPE)) {
-				ContextHolder.setRepositoryType(cookie.getValue());
-				continue;
-			}
+				if (cookie.getName().equals(BIIdentification.USERNAME)) {
+					ContextHolder.setUserName(cookie.getValue());
+					continue;
+				}
 
-			if (cookie.getName().equals(BIIdentification.USERNAME)) {
-				ContextHolder.setUserName(cookie.getValue());
-				continue;
-			}
-
-			if (cookie.getName().equals(BIIdentification.LOGINNAME)) {
-				ContextHolder.setLoginName(cookie.getValue());
-				continue;
+				if (cookie.getName().equals(BIIdentification.LOGINNAME)) {
+					ContextHolder.setLoginName(cookie.getValue());
+					continue;
+				}
 			}
 		}
 		fc.doFilter(req, res);
