@@ -10,6 +10,7 @@ import com.flywet.platform.bi.delegates.intf.BIRoleAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.Authorization;
 import com.flywet.platform.bi.delegates.vo.Role;
+import com.flywet.platform.bi.web.cache.IdentificationCache;
 import com.flywet.platform.bi.web.service.BIRoleDelegate;
 
 @Service("bi.service.roleService")
@@ -20,6 +21,8 @@ public class BIRoleService implements BIRoleDelegate {
 		BIRoleAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIRoleAdaptor.class);
 		adaptor.deleteRole(roleId);
+
+		IdentificationCache.clearRoleCache(roleId);
 	}
 
 	@Override
@@ -31,9 +34,14 @@ public class BIRoleService implements BIRoleDelegate {
 
 	@Override
 	public Role getRoleById(long roleId) throws BIKettleException {
-		BIRoleAdaptor adaptor = BIAdaptorFactory
-				.createAdaptor(BIRoleAdaptor.class);
-		return adaptor.getRoleById(roleId);
+		Role role = IdentificationCache.matchRoleCache(roleId);
+		if (role == null) {
+			BIRoleAdaptor adaptor = BIAdaptorFactory
+					.createAdaptor(BIRoleAdaptor.class);
+			role = adaptor.getRoleById(roleId);
+			IdentificationCache.putRoleCache(role);
+		}
+		return role;
 	}
 
 	@Override
@@ -41,14 +49,23 @@ public class BIRoleService implements BIRoleDelegate {
 		BIRoleAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIRoleAdaptor.class);
 		adaptor.saveRole(role);
+
+		IdentificationCache.putRoleCache(role);
 	}
 
 	@Override
 	public List<Authorization> getAuthorization(long rid)
 			throws BIKettleException {
-		BIAuthorizationAdaptor adaptor = BIAdaptorFactory
-				.createAdaptor(BIAuthorizationAdaptor.class);
-		return adaptor.getAuthorization(rid);
+		Role role = getRoleById(rid);
+		List<Authorization> auths = role.getAuths();
+		if (auths == null) {
+			BIAuthorizationAdaptor adaptor = BIAdaptorFactory
+					.createAdaptor(BIAuthorizationAdaptor.class);
+			auths = adaptor.getAuthorization(rid);
+			role.setAuths(auths);
+		}
+
+		return auths;
 	}
 
 	@Override
@@ -57,6 +74,9 @@ public class BIRoleService implements BIRoleDelegate {
 		BIAuthorizationAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BIAuthorizationAdaptor.class);
 		adaptor.saveRoleAuth(rid, auths);
+
+		Role role = getRoleById(rid);
+		role.setAuths(auths);
 	}
 
 }

@@ -3,6 +3,8 @@ package com.flywet.platform.bi.delegates.enums;
 import org.pentaho.di.i18n.BaseMessages;
 
 public enum PermissionCategory {
+	ALL(7, "all", "Permission.Category.All.Description") {
+	},
 	R(4, "r", "Permission.Category.Read.Description") {
 	},
 	W(2, "w", "Permission.Category.Write.Description") {
@@ -12,19 +14,19 @@ public enum PermissionCategory {
 
 	private static Class<?> PKG = PermissionCategory.class;
 
-	private int id;
+	private int value;
 	private String category;
 	private String desc;
 
-	private PermissionCategory(int id, String category, String desc) {
-		this.id = id;
+	private PermissionCategory(int value, String category, String desc) {
+		this.value = value;
 		this.category = category;
 		this.desc = desc;
 	}
 
 	public static PermissionCategory getCategoryById(int id) {
 		for (PermissionCategory fsc : values()) {
-			if (fsc.getId() == id) {
+			if (fsc.getValue() == id) {
 				return fsc;
 			}
 		}
@@ -40,8 +42,8 @@ public enum PermissionCategory {
 		return null;
 	}
 
-	public int getId() {
-		return id;
+	public int getValue() {
+		return value;
 	}
 
 	public String getCategory() {

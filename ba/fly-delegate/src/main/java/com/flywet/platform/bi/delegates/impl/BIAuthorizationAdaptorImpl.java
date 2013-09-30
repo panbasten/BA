@@ -110,8 +110,9 @@ public class BIAuthorizationAdaptorImpl extends BIAbstractDbAdaptor implements
 						ValueMetaInterface.TYPE_INTEGER, rid);
 				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_OID,
 						ValueMetaInterface.TYPE_INTEGER, auth.getOid());
-				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_OTYPE,
-						ValueMetaInterface.TYPE_INTEGER, auth.getOtype());
+				rmd.addValue(
+						KettleDatabaseRepository.FIELD_AUTHORIZATION_OTYPE,
+						ValueMetaInterface.TYPE_INTEGER, auth.getOtypeLong());
 				rmd.addValue(KettleDatabaseRepository.FIELD_AUTHORIZATION_RID,
 						ValueMetaInterface.TYPE_INTEGER, auth.getPermission());
 				insertTableRow(KettleDatabaseRepository.TABLE_R_AUTHORIZATION,

@@ -1,5 +1,7 @@
 package com.flywet.platform.bi.delegates.vo;
 
+import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
+
 public class Authorization {
 	/**
 	 * 角色ID
@@ -14,7 +16,8 @@ public class Authorization {
 	/**
 	 * 授权对象类型（Function, PortalMenu, Button）
 	 */
-	private long otype;
+	private AuthorizationObjectCategory otype;
+	private Long otypeL;// 在未指定的授权类型时用于保存
 
 	/**
 	 * 权限许可类型
@@ -37,12 +40,23 @@ public class Authorization {
 		this.oid = oid;
 	}
 
-	public long getOtype() {
+	public AuthorizationObjectCategory getOtype() {
 		return otype;
 	}
 
+	public Long getOtypeLong() {
+		if (otype == null) {
+			return this.otypeL;
+		}
+		return Integer.valueOf(otype.getId()).longValue();
+	}
+
 	public void setOtype(long otype) {
-		this.otype = otype;
+		this.otype = AuthorizationObjectCategory.getCategoryById(Long.valueOf(
+				otype).intValue());
+		if (this.otype == null) {
+			this.otypeL = otype;
+		}
 	}
 
 	public long getPermission() {
@@ -52,4 +66,5 @@ public class Authorization {
 	public void setPermission(long permission) {
 		this.permission = permission;
 	}
+
 }

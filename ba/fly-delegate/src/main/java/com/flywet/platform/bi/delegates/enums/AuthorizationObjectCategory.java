@@ -9,7 +9,8 @@ public enum AuthorizationObjectCategory {
 			"AuthorizationObject.Category.PortalMenu.Description") {
 	},
 	BUTTON(3, "btn", "AuthorizationObject.Category.Button.Description") {
-	};
+	},
+	CUSTOM(4, "cust", "AuthorizationObject.Category.Custom.Description");
 
 	private static Class<?> PKG = AuthorizationObjectCategory.class;
 

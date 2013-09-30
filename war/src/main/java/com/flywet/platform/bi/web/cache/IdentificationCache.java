@@ -10,7 +10,7 @@ import com.flywet.platform.bi.delegates.vo.User;
 public class IdentificationCache {
 
 	private static Map<Long, SoftReference<User>> USER_CACHE = new ConcurrentHashMap<Long, SoftReference<User>>();
-	private static Map<String, SoftReference<Long>> USER_LOGIN_ID_CACHE = new ConcurrentHashMap<String, SoftReference<Long>>();
+	private static Map<String, Long> USER_LOGIN_ID_CACHE = new ConcurrentHashMap<String, Long>();
 	private static Map<Long, SoftReference<Role>> ROLE_CACHE = new ConcurrentHashMap<Long, SoftReference<Role>>();
 
 	/**
@@ -21,8 +21,7 @@ public class IdentificationCache {
 	 */
 	public static void putUserCache(User u) {
 		USER_CACHE.put(u.getId(), new SoftReference<User>(u));
-		USER_LOGIN_ID_CACHE.put(u.getLogin(),
-				new SoftReference<Long>(u.getId()));
+		USER_LOGIN_ID_CACHE.put(u.getLogin(), u.getId());
 	}
 
 	public static User matchUserCache(Long id) {
@@ -34,9 +33,9 @@ public class IdentificationCache {
 	}
 
 	public static User matchUserCache(String login) {
-		SoftReference<Long> id = USER_LOGIN_ID_CACHE.get(login);
+		Long id = USER_LOGIN_ID_CACHE.get(login);
 		if (id != null) {
-			SoftReference<User> ref = USER_CACHE.get(id.get());
+			SoftReference<User> ref = USER_CACHE.get(id);
 			if (ref != null) {
 				return ref.get();
 			}
@@ -46,11 +45,16 @@ public class IdentificationCache {
 	}
 
 	public static void clearUserCache(Long id) {
-		USER_CACHE.remove(id);
+		SoftReference<User> ref = USER_CACHE.remove(id);
+		User u = ref.get();
+		if (u != null) {
+			USER_CACHE.remove(u.getLogin());
+		}
 	}
 
 	public static void clearUserCache() {
 		USER_CACHE.clear();
+		USER_LOGIN_ID_CACHE.clear();
 	}
 
 	/**
