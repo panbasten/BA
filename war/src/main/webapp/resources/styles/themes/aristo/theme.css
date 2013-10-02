@@ -1501,3 +1501,69 @@ fieldset.ui-state-disabled legend,
 {
 	background-image: url("images/ui-icons_898989_256x384.png");
 }
+
+.ui-dialog .ui-dialog-content * {
+	color: #fff;
+}
+.ui-dialog .ui-dialog-content label,
+.ui-dialog .ui-dialog-content legend {
+	color: #ccc;
+}
+
+.ui-dialog .ui-dialog-content .ui-tab-container .ui-tab-panel-container {
+	background: none repeat scroll 0 0 transparent;
+	border: 1px solid #cccccc;
+	overflow: hidden;
+}
+
+.ui-dialog .ui-dialog-content input.ui-validatebox-invalid,
+.ui-dialog .ui-dialog-content textarea.ui-validatebox-invalid {
+	background: #d80 url('images/validatebox_warning.png') no-repeat right 1px;
+}
+
+.ui-dialog .ui-dialog-content .ui-panel,
+.ui-dialog .ui-dialog-content .ui-show-description-panel,
+.ui-dialog .ui-dialog-content fieldset,
+.ui-dialog .ui-dialog-content input,
+.ui-dialog .ui-dialog-content select,
+.ui-dialog .ui-dialog-content textarea {
+	background: none repeat scroll 0 0 transparent;
+}
+.ui-dialog .ui-dialog-content input:focus,
+.ui-dialog .ui-dialog-content select:focus,
+.ui-dialog .ui-dialog-content textarea:focus {
+	-moz-box-shadow: 0 2px 8px #8f8f8f;
+    -webkit-box-shadow: 0px 2px 8px #8f8f8f;
+    box-shadow: 0px 2px 8px #8f8f8f;
+    border-color:rgba(82, 168, 236, 0.8);
+    font-weight: bold;
+}
+
+.ui-dialog .ui-dialog-content .ui-show-description-panel,
+.ui-dialog .ui-dialog-content fieldset {
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	border-radius: 5px;
+}
+.ui-dialog .ui-tab-container ul.ui-tabs li.ui-tab-state-active {
+	background: #696969;
+}
+
+.ui-dialog .ui-tab-container ul.ui-tabs li a:hover {
+	background: none repeat scroll 0 0 transparent;
+}
+
+.ui-dialog .ui-dialog-content span.ui-required-tag {
+	color: red;
+	margin: 7px 7px 0;
+	position: absolute;
+}
+
+.ui-tree * {
+	color: #ffffff;
+}
+
+.ui-tree-node-hover *,
+.ui-tree-node-selected * {
+	color: #000000;
+}

@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.exception.KettleException;
-import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 
+import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 import com.flywet.platform.bi.delegates.vo.FilesysDirectory;
@@ -20,7 +20,7 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 			throws BIKettleException {
 		try {
 			String sql = "INSERT INTO "
-					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY)
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_FILESYS_DIRECTORY)
 					+ " VALUES(?,?,?,?,?)";
 
 			execSql(
@@ -28,8 +28,8 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 					new Object[] {
 							this
 									.getNextBatchId(
-											KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY,
-											KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY),
+											BIDatabaseRepositoryBase.TABLE_BI_FILESYS_DIRECTORY,
+											BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY),
 							directory.getFsType(), directory.getPath(),
 							directory.getDesc(), directory.getNotes() });
 		} catch (KettleException e) {
@@ -41,9 +41,9 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 	public void deleteRootDirectory(long id) throws BIKettleException {
 		try {
 			String sql = "DELETE FROM "
-					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY)
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_FILESYS_DIRECTORY)
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
 					+ " = " + id;
 			execSql(sql);
 		} catch (KettleException e) {
@@ -56,7 +56,7 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 		try {
 			String sql = getQueryFsDirectory()
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
 					+ " = " + id;
 			Object[] rs = getOneRow(sql);
 			if (rs == null) {
@@ -73,16 +73,16 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 			throws BIKettleException {
 		try {
 			String sql = "UPDATE "
-					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY)
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_FILESYS_DIRECTORY)
 					+ " SET "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_PATH)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_PATH)
 					+ "=?, "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_DESCRIPTION)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_DESCRIPTION)
 					+ "=?, "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_NOTES)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_NOTES)
 					+ "=? "
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
 					+ "=?";
 			execSql(sql, new Object[] { directory.getPath(),
 					directory.getDesc(), directory.getNotes(),
@@ -94,15 +94,15 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 
 	private String getQueryFsDirectory() {
 		return "SELECT "
-				+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
+				+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_ID_FS_DIRECTORY)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_PATH)
+				+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_PATH)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_DESCRIPTION)
+				+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_DESCRIPTION)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_NOTES)
+				+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_NOTES)
 				+ " FROM "
-				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FILESYS_DIRECTORY);
+				+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_FILESYS_DIRECTORY);
 	}
 
 	protected List<FilesysDirectory> getRootDirectoriesByType(int type)
@@ -110,7 +110,7 @@ public abstract class BIAbstractFsAdaptor extends BIAbstractDbAdaptor {
 		try {
 			String sql = getQueryFsDirectory()
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_FS_TYPE)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FILESYS_DIRECTORY_FS_TYPE)
 					+ " = " + type;
 			List<Object[]> rs = getRows(sql);
 			if (rs == null || rs.isEmpty()) {

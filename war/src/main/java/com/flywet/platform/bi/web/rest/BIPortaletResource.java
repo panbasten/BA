@@ -125,6 +125,14 @@ public class BIPortaletResource {
 			// 通过ID获得注册的菜单
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
 
+			// 验证权限
+			
+			if (pm.isAuthenticate() && !userService.authenticate(
+					AuthorizationObjectCategory.PORTAL_MENU, pm.getId())) {
+				return ActionMessage.instance().failure("未登录或者当前用户不具有权限。")
+						.toJSONString();
+			}
+
 			Map<String, Object> context = getDefaultContext(id, pm
 					.getExtAttr("param"));
 

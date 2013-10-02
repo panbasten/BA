@@ -73,4 +73,25 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	public String extendPredictScore(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
+	/**
+	 * 当月预测填报
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String predictSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 当月延伸期预测填报
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendSetting(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
 }

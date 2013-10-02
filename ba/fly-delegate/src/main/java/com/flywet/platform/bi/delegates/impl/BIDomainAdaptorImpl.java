@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.exception.KettleException;
-import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 
+import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIDomainAdaptor;
@@ -27,17 +27,17 @@ public class BIDomainAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_DOMAIN_ID_DOMAIN)
+					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_ID_DOMAIN)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_DOMAIN_DOMAIN_TYPE)
+					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_DOMAIN_TYPE)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_DOMAIN_DESCRIPTION)
+					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_DESCRIPTION)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_DOMAIN_DOMAIN_STATUS)
+					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_DOMAIN_STATUS)
 					+ " FROM "
-					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_DOMAIN)
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_DOMAIN)
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_DOMAIN_ID_DOMAIN_DIRECTORY)
+					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_ID_DOMAIN_DIRECTORY)
 					+ " = " + dirId;
 			return getRows(sql);
 		} catch (KettleException e) {

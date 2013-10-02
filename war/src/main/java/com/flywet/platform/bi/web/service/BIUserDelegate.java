@@ -31,6 +31,12 @@ public interface BIUserDelegate {
 
 	public User convetToBIUser(IUser iuser);
 
+	public boolean authenticate(AuthorizationObjectCategory cate, long id)
+			throws BIException;
+
+	public boolean authenticate(AuthorizationObjectCategory cate, long id,
+			PermissionCategory permission) throws BIException;
+
 	public boolean authenticate(long uid, AuthorizationObjectCategory cate,
 			long id) throws BIException;
 

@@ -335,34 +335,55 @@ Flywet.widget.Dialog.prototype.hide = function() {
        return;
     }
     
+    // for children TODO
+    
+    $("")
+    
     if(this.cfg.hideEffect) {
         var _self = this;
     
         this.jq.hide(this.cfg.hideEffect, null, 'normal', function() {
             _self.onHide();
+            
+            _self.visible = false;
+            
+            //replace display block with visibility hidden for hidden container support
+            _self.jq.css({
+                'visibility':'hidden'
+                ,'display':'block'
+            });
+            
+            if(_self.realRemove) {
+            	_self.destroy();
+            }
+            
+            if(_self.cfg.modal) {
+            	_self.disableModality();
+            }
         });
     }
     else {
         this.jq.hide();
         
         this.onHide();
+        
+        this.visible = false;
+        
+        //replace display block with visibility hidden for hidden container support
+        this.jq.css({
+            'visibility':'hidden'
+            ,'display':'block'
+        });
+        
+        if(this.realRemove) {
+        	this.destroy();
+        }
+        
+        if(this.cfg.modal) {
+            this.disableModality();
+        }
     }
     
-    this.visible = false;
-    
-    //replace display block with visibility hidden for hidden container support
-    this.jq.css({
-        'visibility':'hidden'
-        ,'display':'block'
-    });
-    
-    if(this.realRemove) {
-    	this.destroy();
-    }
-    
-    if(this.cfg.modal) {
-        this.disableModality();
-    }
 };
 
 Flywet.widget.Dialog.prototype.focusFirstInput = function() {

@@ -28,13 +28,82 @@ a {
 	text-align: right;
 }
 
-input:hover, select:hover {
-	/*box-shadow: 0px 0px 8px #2E83FF;*/
-}
-
 b, i, dl, dt, dd {
 	margin: 0;
 	padding: 0;
+}
+
+
+q:before,q:after,blockquote:before,blockquote:after {
+	content: "";
+}
+
+audio,canvas,video {
+	display: inline-block; *
+	display: inline; *
+	zoom: 1;
+}
+
+audio:not([controls]){
+	display:none;
+}
+
+sub,sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+img {
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+}
+
+button,input,select,textarea {
+	font-size: 100%;
+	margin: 0;
+	vertical-align: baseline; *
+	vertical-align: middle;
+}
+
+button,input {
+	line-height: normal; *
+	overflow: visible;
+}
+
+button::-moz-focus-inner,input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+button,input[type="button"],input[type="reset"],input[type="submit"] {
+	cursor: pointer;
+	-webkit-appearance: button;
+}
+
+input[type="search"] {
+	-webkit-appearance: textfield;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+textarea {
+	overflow: auto;
+	vertical-align: top;
 }
 
 .label {
@@ -50,6 +119,101 @@ label {
 	line-height: 25px;
 	margin: 0 10px;
 }
+
+form .input {
+	margin-left: 150px;
+}
+
+input[type=checkbox],input[type=radio] {
+	cursor: pointer;
+}
+
+input,textarea,select {
+	display: inline-block;
+	width: 100%;
+	font-size: 12px;
+	line-height: 18px;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+input,textarea,label {
+	height: 18px;
+}
+
+select {
+	padding: initial;
+}
+
+input[type=checkbox],input[type=radio] {
+	width: auto;
+	height: auto;
+	line-height: normal;
+	border: none;
+}
+
+input[type=file] {
+	background-color: #ffffff;
+	padding: initial;
+	border: initial;
+	line-height: initial;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+input[type=button],input[type=reset],input[type=submit] {
+	width: auto;
+	height: auto;
+}
+
+input[type=file] {
+	height: 27px; *
+	height: auto;
+	line-height: 27px; *
+	margin-top: 4px;
+}
+
+select[multiple] {
+	height: inherit;
+	background-color: #ffffff;
+}
+
+textarea {
+	height: auto;
+}
+
+input,textarea {
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+input:focus,textarea:focus {
+	outline: 0;
+	border-color: rgba(82, 168, 236, 0.8);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px
+		rgba(82, 168, 236, 0.6);
+}
+
+input[type=file]:focus,input[type=checkbox]:focus,select:focus {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	outline: 1px dotted #666;
+}
+
 
 .ui-login-label label {
 	width: 40px;
@@ -454,15 +618,23 @@ div.section {
 	display: inline;
 }
 
-#fly_portal_menus_ul li a,
-.sub-menu a {
+#fly_portal_menus_ul li a {
 	font-weight: 700;
 	margin: 0 10px 0 9px;
 	text-decoration: none;
 	text-transform: uppercase;
 }
 
+#fly_portal_menus_ul li .sub-menu a {
+	font-weight: 700;
+	margin: 0;
+	text-decoration: none;
+	text-transform: uppercase;
+}
 
+#fly_portal_menus_ul li .sub-menu dd a {
+	margin: 0 10px 0 9px;
+}
 
 .sub-menu {
     -moz-border-bottom-colors: none;
@@ -528,6 +700,7 @@ div.section {
 .sub-menu dd a {
     color: #000000;
     line-height: 1.5em;
+    margin: 0 10px 0 9px;
 }
 .sub-menu p {
     margin-top: 15px;

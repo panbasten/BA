@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
-import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 
+import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
@@ -27,25 +27,27 @@ public class BIFunctionTypeAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_HELPTEXT)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_HELPTEXT)
 					+ ","
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX)
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX)
 					+ " FROM "
-					+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE)
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_FUNC_TYPE)
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT)
-					+ " = " + id + " ORDER BY "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX);
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT)
+					+ " = "
+					+ id
+					+ " ORDER BY "
+					+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX);
 			List<RowMetaAndData> rmds = getRowsWithMeta(sql);
 			if (Utils.isEmpty(rmds)) {
 				return Collections.emptyList();
@@ -56,43 +58,35 @@ public class BIFunctionTypeAdaptorImpl extends BIAbstractDbAdaptor implements
 				FunctionType ft = new FunctionType();
 				ft
 						.setId(rmd
-								.getInteger(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE));
-				ft
-						.setCode(rmd
-								.getString(
-										KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE,
-										null));
-				ft
-						.setModuleCode(rmd
-								.getString(
-										KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE,
-										null));
-				ft
-						.setDesc(rmd
-								.getString(
-										KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION,
-										null));
-				ft
-						.setParentId(rmd
-								.getInteger(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT));
-				ft.setHelpText(rmd.getString(
-						KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_HELPTEXT,
+								.getInteger(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE));
+				ft.setCode(rmd.getString(
+						BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_CODE, null));
+				ft.setModuleCode(rmd.getString(
+						BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_MODULE_CODE,
+						null));
+				ft.setDesc(rmd.getString(
+						BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_DESCRIPTION,
 						null));
 				ft
-						.setIndex(Integer
-								.parseInt(rmd
-										.getString(
-												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX,
-												"0")));
+						.setParentId(rmd
+								.getInteger(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ID_FUNC_TYPE_PARENT));
+				ft
+						.setHelpText(rmd
+								.getString(
+										BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_HELPTEXT,
+										null));
+				ft.setIndex(Integer.parseInt(rmd.getString(
+						BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_TYPE_INDEX,
+						"0")));
 
 				String extSql = "SELECT "
-						+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE)
+						+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE)
 						+ ","
-						+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR)
+						+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR)
 						+ " FROM "
-						+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_FUNC_TYPE_ATTRIBUTE)
+						+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_FUNC_TYPE_ATTRIBUTE)
 						+ " WHERE "
-						+ quote(KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE)
+						+ quote(BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_ID_FUNC_TYPE)
 						+ " = " + ft.getId();
 				List<RowMetaAndData> extRmds = getRowsWithMeta(extSql);
 
@@ -102,12 +96,12 @@ public class BIFunctionTypeAdaptorImpl extends BIAbstractDbAdaptor implements
 						pair
 								.setName(extRmd
 										.getString(
-												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE,
+												BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_CODE,
 												null));
 						pair
 								.setValue(extRmd
 										.getString(
-												KettleDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR,
+												BIDatabaseRepositoryBase.FIELD_FUNC_TYPE_ATTRIBUTE_VALUE_STR,
 												null));
 						ft.addExtAttr(pair);
 					}

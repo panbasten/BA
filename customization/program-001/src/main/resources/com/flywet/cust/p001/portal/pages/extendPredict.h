@@ -1,5 +1,5 @@
 <fly:composition freeLayout="N">
-	<fly:gridLayout column="3" itemWidth="30%,65%" itemMargin="10" class="fly_portal_menu_content">
+	<fly:gridLayout column="2" itemWidth="30%,65%" itemMargin="10" class="fly_portal_menu_content">
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0">
 				<h1 style="font-size:18px;">月份：</h1>

@@ -124,6 +124,26 @@ public class BIUserService implements BIUserDelegate {
 	}
 
 	@Override
+	public boolean authenticate(AuthorizationObjectCategory cate, long id)
+			throws BIException {
+		User currentUser = getCurrentUser();
+		if (currentUser == null) {
+			return false;
+		}
+		return authenticate(currentUser.getId(), cate, id);
+	}
+
+	@Override
+	public boolean authenticate(AuthorizationObjectCategory cate, long id,
+			PermissionCategory permission) throws BIException {
+		User currentUser = getCurrentUser();
+		if (currentUser == null) {
+			return false;
+		}
+		return authenticate(currentUser.getId(), cate, id, permission);
+	}
+
+	@Override
 	public boolean authenticate(long uid, AuthorizationObjectCategory cate,
 			long id) throws BIException {
 		return authenticate(uid, cate, id, PermissionCategory.ALL);

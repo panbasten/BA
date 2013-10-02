@@ -45,6 +45,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private static final String TEMPLATE_EXTEND_PREDICT = "extendPredict.h";
 	private static final String TEMPLATE_MONTH_PREDICT_SCORE = "monthPredictScore.h";
 	private static final String TEMPLATE_EXTEND_PREDICT_SCORE = "extendPredictScore.h";
+	private static final String TEMPLATE_PREDICT_SETTING = "predictSetting.h";
+	private static final String TEMPLATE_EXTEND_SETTING = "extendSetting.h";
 
 	private static final String PROP_MONTH_PREDICT_FILE_ROOT_PATH = "custom.portal.monthPredict.file.rootPath";
 	private static final String PROP_MONTH_PREDICT_FILE_CATEGORY = "custom.portal.monthPredict.file.category";
@@ -353,6 +355,50 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private String getExtendPredictValue(Object[] r) {
 		return (String) r[0] + "年" + (String) r[1] + "月"
 				+ YUN_DESC[((Long) r[2]).intValue()];
+	}
+
+	@Override
+	public String predictSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_PREDICT_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开当月预测填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
+	public String extendSetting(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_EXTEND_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开延伸期预测填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开当月延伸期预测填报界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override

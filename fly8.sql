@@ -16,6 +16,286 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bi_domain`
+--
+
+DROP TABLE IF EXISTS `bi_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_domain` (
+  `ID_DOMAIN` bigint(20) NOT NULL,
+  `ID_DOMAIN_DIRECTORY` int(11) DEFAULT NULL,
+  `DOMAIN_TYPE` int(11) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `DOMAIN_VERSION` varchar(255) DEFAULT NULL,
+  `DOMAIN_STATUS` int(11) DEFAULT NULL,
+  `CREATE_USER` varchar(255) DEFAULT NULL,
+  `CREATE_DATE` datetime DEFAULT NULL,
+  `MODIFIED_USER` varchar(255) DEFAULT NULL,
+  `MODIFIED_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_DOMAIN`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_domain`
+--
+
+LOCK TABLES `bi_domain` WRITE;
+/*!40000 ALTER TABLE `bi_domain` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bi_domain` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_filesys_attribute`
+--
+
+DROP TABLE IF EXISTS `bi_filesys_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_filesys_attribute` (
+  `ID_FILESYS_ATTRIBUTE` bigint(20) NOT NULL,
+  `ID_FILESYS_DIRECTORY` int(11) DEFAULT NULL,
+  `CODE` varchar(255) DEFAULT NULL,
+  `VALUE_NUM` bigint(20) DEFAULT NULL,
+  `VALUE_STR` mediumtext,
+  PRIMARY KEY (`ID_FILESYS_ATTRIBUTE`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_filesys_attribute`
+--
+
+LOCK TABLES `bi_filesys_attribute` WRITE;
+/*!40000 ALTER TABLE `bi_filesys_attribute` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bi_filesys_attribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_filesys_directory`
+--
+
+DROP TABLE IF EXISTS `bi_filesys_directory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_filesys_directory` (
+  `ID_FS_DIRECTORY` bigint(20) NOT NULL,
+  `FS_TYPE` int(11) DEFAULT NULL,
+  `PATH` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) NOT NULL,
+  `NOTES` mediumtext,
+  PRIMARY KEY (`ID_FS_DIRECTORY`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_filesys_directory`
+--
+
+LOCK TABLES `bi_filesys_directory` WRITE;
+/*!40000 ALTER TABLE `bi_filesys_directory` DISABLE KEYS */;
+INSERT INTO `bi_filesys_directory` VALUES (1,1,'C:\\_D\\_flywet','预测存储根目录','用于存放预测数据文件的根目录'),(2,1,'C:\\_D\\_bak','数据存储临时目录','用于存放数据文件的临时目录'),(3,2,'10.11.46.181','FTP测试接口机_181','FTP测试接口机_181'),(4,3,'10.11.46.181','SFTP测试接口机_181','SFTP测试接口机_181'),(5,4,'https://ciastudypattern.googlecode.com/svn/trunk/','存放文档的SVN','存放文档的SVN'),(6,5,'','存放文档的GIT','存放文档的GIT');
+/*!40000 ALTER TABLE `bi_filesys_directory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_filesys_type`
+--
+
+DROP TABLE IF EXISTS `bi_filesys_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_filesys_type` (
+  `ID_FS_TYPE` bigint(20) NOT NULL,
+  `CODE` varchar(255) NOT NULL,
+  `DESCRIPTION` mediumtext NOT NULL,
+  PRIMARY KEY (`ID_FS_TYPE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_filesys_type`
+--
+
+LOCK TABLES `bi_filesys_type` WRITE;
+/*!40000 ALTER TABLE `bi_filesys_type` DISABLE KEYS */;
+INSERT INTO `bi_filesys_type` VALUES (1,'local','服务器文件系统'),(2,'ftp','FTP文件系统'),(3,'sftp','SFTP文件系统'),(4,'svn','SVN服务器'),(5,'git','GIT服务器');
+/*!40000 ALTER TABLE `bi_filesys_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_func_type`
+--
+
+DROP TABLE IF EXISTS `bi_func_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_func_type` (
+  `ID_FUNC_TYPE` int(11) NOT NULL,
+  `CODE` varchar(20) DEFAULT NULL,
+  `MODULE_CODE` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `ID_FUNC_TYPE_PARENT` int(11) DEFAULT NULL,
+  `HELPTEXT` mediumtext,
+  `TYPE_INDEX` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_FUNC_TYPE`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_func_type`
+--
+
+LOCK TABLES `bi_func_type` WRITE;
+/*!40000 ALTER TABLE `bi_func_type` DISABLE KEYS */;
+INSERT INTO `bi_func_type` VALUES (0,'root','SYS.Base','根',NULL,'功能的根节点',0),(1,'di','DI.Base','数据整合',0,'一级节点：转换/作业',3),(2,'db','DB.Base','数据源',0,'一级节点：数据源',0),(4,'systools','SYS.Base','功能',0,'一级节点：功能',5),(50,'privilege','SYS.Base','用户权限',4,'二级节点：功能-用户权限',0),(501,'createuser','SYS.Base','创建用户',50,'三级节点：功能-用户权限-创建用户',0),(502,'deluser','SYS.Base','删除用户',50,'三级节点：功能-用户权限-删除用户',1),(503,'edituser','SYS.Base','编辑当前用户',50,'三级节点：功能-用户权限-编辑当前用户',2),(60,'repository','SYS.Base','资源库',4,'二级节点：功能-资源库',1),(601,'connrep','SYS.Base','连接资源库',60,'三级节点：功能-资源库-连接资源库',0),(602,'findrep','SYS.Base','探测资源库',60,'三级节点：功能-资源库-探测资源库',1),(603,'createrep','SYS.Base','创建资源库',60,'三级节点：功能-资源库-创建资源库',2),(70,'file','SYS.Base','文件',4,'二级节点：功能-文件',2),(701,'newtrans','DI.Trans.Editor','新建转换',70,'三级节点：功能-文件-新建转换',0),(702,'newjob','DI.Job.Editor','新建作业',70,'三级节点：功能-文件-新建作业',1),(703,'newdb','DB.Advance','添加数据库',70,'三级节点：功能-文件-添加数据库',2),(704,'newfs','FS.Local,FS.FTP','添加文件系统',70,'三级节点：功能-文件-添加文件系统',3),(80,'operate','SYS.Base','操作',4,'二级节点：功能-操作',3),(705,'open','SYS.Advance','打开',70,'三级节点：功能-文件-打开',4),(706,'fileopen','SYS.Advance','从文件打开',70,'三级节点：功能-文件-从文件打开',5),(707,'downloadzip','SYS.Advance','打包下载',70,'三级节点：功能-文件-打包下载',6),(708,'uploadfile','SYS.Advance','上传文件',70,'三级节点：功能-文件-上传文件',7),(90,'wizard','SYS.Base','向导',4,'二级节点：功能-向导',4),(901,'wcreatedb','DB.Advance','创建数据库连接',90,'三级节点：功能-向导-创建数据库连接',0),(902,'wsinglecopy','DB.Advance','单表复制向导',90,'三级节点：功能-向导-单表复制向导',1),(903,'wmulticopy','DB.Advance','多表复制向导',90,'三级节点：功能-向导-多表复制向导',2),(100,'help','SYS.Base','帮助',4,'二级节点：功能-帮助',5),(1001,'showstepplugin','DI.Trans.Editor','显示步骤插件',100,'三级节点：功能-帮助-显示步骤插件',0),(1002,'showjobplugin','DI.Job.Editor','显示作业插件',100,'三级节点：功能-帮助-显示作业插件',1),(1010,'about','SYS.Base','关于',100,'三级节点：功能-帮助-关于',3),(3,'domain','DN.Base','语义模型',0,'一级节点：语义层',1),(5,'fs','FS.Base','文件系统',0,'一级节点：文件系统',4),(6,'report','BA.Base','商业分析',0,'一级节点：报表',2),(1003,'showdbplugin','DB.Advance','显示数据库插件',100,'三级节点：功能-帮助-显示数据库插件',2),(801,'timedexecution','SYS.Advance','定时执行',80,'三级节点：功能-操作-定时执行',NULL),(802,'automatingjobs','DI.Job.Editor','自动执行作业',80,'三级节点：功能-操作-自动执行作业',NULL);
+/*!40000 ALTER TABLE `bi_func_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_func_type_attribute`
+--
+
+DROP TABLE IF EXISTS `bi_func_type_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_func_type_attribute` (
+  `ID_FUNC_TYPE_ATTR` bigint(20) NOT NULL,
+  `ID_FUNC_TYPE` int(11) NOT NULL,
+  `CODE` varchar(255) NOT NULL,
+  `VALUE_STR` mediumtext,
+  PRIMARY KEY (`ID_FUNC_TYPE_ATTR`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_func_type_attribute`
+--
+
+LOCK TABLES `bi_func_type_attribute` WRITE;
+/*!40000 ALTER TABLE `bi_func_type_attribute` DISABLE KEYS */;
+INSERT INTO `bi_func_type_attribute` VALUES (0,1010,'url','rest/systools/about'),(1,1010,'header','关于'),(2,1010,'width','420'),(3,1010,'height','480'),(4,501,'header','创建用户'),(5,501,'width','400'),(6,501,'height','300'),(7,501,'url','rest/user/create'),(8,501,'btn','[{\"label\":\"确定\",\"title\":\"确定\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]'),(9,1001,'url','rest/systools/stepplugin'),(10,1001,'header','步骤插件'),(11,1001,'height','480'),(12,1001,'width','620'),(13,1002,'url','rest/systools/jobplugin'),(14,1002,'header','作业插件'),(15,1002,'height','480'),(16,1002,'width','620'),(17,1003,'url','rest/systools/dbplugin'),(18,1003,'header','数据库插件'),(19,1003,'height','480'),(20,1003,'width','620');
+/*!40000 ALTER TABLE `bi_func_type_attribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_portal_menu`
+--
+
+DROP TABLE IF EXISTS `bi_portal_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_portal_menu` (
+  `ID_PORTAL_MENU` int(11) NOT NULL,
+  `CODE` varchar(255) DEFAULT NULL,
+  `MODULE_CODE` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `ID_PORTAL_MENU_PARENT` int(11) DEFAULT NULL,
+  `HELPTEXT` mediumtext,
+  `MENU_INDEX` int(11) DEFAULT NULL,
+  `AUTHENTICATE` char(1) DEFAULT 'Y',
+  PRIMARY KEY (`ID_PORTAL_MENU`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_portal_menu`
+--
+
+LOCK TABLES `bi_portal_menu` WRITE;
+/*!40000 ALTER TABLE `bi_portal_menu` DISABLE KEYS */;
+INSERT INTO `bi_portal_menu` VALUES (0,'root','Anomyous','根',-1,'Portal的根节点',NULL,'N'),(10,'predictProduct','Anomyous','预测产品',0,'',0,'N'),(11,'predictScore','Anomyous','预测评分',0,NULL,1,'N'),(12,'methodEvaluate','Anomyous','方法评估',0,NULL,2,'N'),(100,'monthPredict','Anomyous','月预测',10,NULL,0,'N'),(101,'extendPredict','Anomyous','延伸期预测',10,NULL,1,'N'),(102,'monthPredictScore','Anomyous','月预测',11,NULL,0,'N'),(103,'extendPredictScore','Anomyous','延伸期预测',11,NULL,1,'N'),(20,'setting','Yuce','设置',0,NULL,3,'Y'),(121,'extendSetting','Yuce','当月延伸期预测填报',20,NULL,1,'Y'),(120,'predictSetting','Yuce','当月预测填报',20,NULL,0,'Y');
+/*!40000 ALTER TABLE `bi_portal_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_portal_menu_attribute`
+--
+
+DROP TABLE IF EXISTS `bi_portal_menu_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_portal_menu_attribute` (
+  `ID_PORTAL_MENU_ATTR` int(11) NOT NULL,
+  `ID_PORTAL_MENU` int(11) NOT NULL,
+  `CODE` varchar(255) NOT NULL,
+  `VALUE_STR` mediumtext,
+  PRIMARY KEY (`ID_PORTAL_MENU_ATTR`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_portal_menu_attribute`
+--
+
+LOCK TABLES `bi_portal_menu_attribute` WRITE;
+/*!40000 ALTER TABLE `bi_portal_menu_attribute` DISABLE KEYS */;
+INSERT INTO `bi_portal_menu_attribute` VALUES (1,100,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(2,100,'method','monthPredict'),(3,101,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(4,101,'method','extendPredict'),(5,102,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(7,103,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(6,102,'method','monthPredictScore'),(8,103,'method','extendPredictScore'),(9,100,'autoMaximized','true'),(10,120,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(11,120,'method','predictSetting'),(12,121,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(13,121,'method','extendSetting'),(14,120,'btn','[{\"label\":\"确定\",\"title\":\"确定\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]'),(15,121,'btn','[{\"label\":\"确定\",\"title\":\"确定\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]');
+/*!40000 ALTER TABLE `bi_portal_menu_attribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_report`
+--
+
+DROP TABLE IF EXISTS `bi_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_report` (
+  `ID_REPORT` bigint(20) NOT NULL,
+  `ID_REPORT_DIRECTORY` int(11) DEFAULT NULL,
+  `REPORT_OBJECT` mediumtext,
+  `REPORT_TYPE` int(11) DEFAULT NULL,
+  `IS_REF` char(1) DEFAULT NULL,
+  `ID_REF_REPORT` int(11) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `REPORT_VERSION` varchar(255) DEFAULT NULL,
+  `REPORT_STATUS` int(11) DEFAULT NULL,
+  `CREATE_USER` varchar(255) DEFAULT NULL,
+  `CREATE_DATE` datetime DEFAULT NULL,
+  `MODIFIED_USER` varchar(255) DEFAULT NULL,
+  `MODIFIED_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_REPORT`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_report`
+--
+
+LOCK TABLES `bi_report` WRITE;
+/*!40000 ALTER TABLE `bi_report` DISABLE KEYS */;
+INSERT INTO `bi_report` VALUES (0,1,'<fly:composition width=\"600\" height=\"400\">\r\n	<fly:verticalLayout>\r\n		<fly:fieldSet title=\"标识符\">\r\n			<fly:gridLayout column=\"4\" itemWidth=\"35%,15%,35%,15%\">\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" text=\"支持布尔数据类型\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" name=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n				\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:QUOTE_ALL_FIELDS\" text=\"标识符使用引号括起来\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:QUOTE_ALL_FIELDS\" name=\"${formId}:QUOTE_ALL_FIELDS\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n				\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE\" text=\"强制标识符使用小写字母\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE\" name=\"${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n				\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE\" text=\"强制标识符使用大写字母\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE\" name=\"${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n			</fly:gridLayout>\r\n		</fly:fieldSet>\r\n		\r\n		<fly:labelObject buddy=\"${formId}:preferredSchemaName\" text=\"默认模式名称（在没有其他模式名时使用）\" />\r\n		\r\n		<fly:inputText id=\"${formId}:preferredSchemaName\" name=\"${formId}:preferredSchemaName\" type=\"text\" value=\"\" />\r\n		\r\n		<fly:labelObject buddy=\"${formId}:connectionType\" text=\"请输入连接成功后要执行的SQL语句，用分号(;)隔开\" />\r\n		\r\n		<textarea id=\"${formId}:connectSQL\" name=\"${formId}:connectSQL\" style=\"width:100%;\" rows=\"6\">\r\n			\r\n		</textarea>\r\n		\r\n	</fly:verticalLayout>\r\n\r\n	<fly:actions>\r\n\r\n		<fly:action sender=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" signal=\"change\" accepter=\"${formId}:preferredSchemaName\" slot=\"disable\" />\r\n\r\n	</fly:actions>\r\n\r\n</fly:composition>',1,'N',NULL,'Dashboard例子',NULL,NULL,NULL,NULL,NULL,NULL),(1,1,NULL,2,'N',NULL,'报告例子',NULL,NULL,NULL,NULL,NULL,NULL),(2,1,NULL,3,'N',NULL,'自由报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(3,1,NULL,4,'N',NULL,'透视报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(4,10,NULL,1,'Y',0,'表单例子的引用',NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `bi_report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_report_type`
+--
+
+DROP TABLE IF EXISTS `bi_report_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_report_type` (
+  `ID_REPORT_TYPE` bigint(20) NOT NULL,
+  `CODE` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  PRIMARY KEY (`ID_REPORT_TYPE`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_report_type`
+--
+
+LOCK TABLES `bi_report_type` WRITE;
+/*!40000 ALTER TABLE `bi_report_type` DISABLE KEYS */;
+INSERT INTO `bi_report_type` VALUES (1,'dashboard','仪表板'),(3,'report','报表'),(4,'pivotreport','多维报表'),(2,'wordreport','报告');
+/*!40000 ALTER TABLE `bi_report_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `c_extend_predict`
 --
 
@@ -51,7 +331,8 @@ DROP TABLE IF EXISTS `r_authorization`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `r_authorization` (
   `RID` bigint(20) NOT NULL,
-  `FID` bigint(20) NOT NULL,
+  `OID` int(11) NOT NULL,
+  `OTYPE` int(11) NOT NULL,
   `PERMISSION` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -62,6 +343,7 @@ CREATE TABLE `r_authorization` (
 
 LOCK TABLES `r_authorization` WRITE;
 /*!40000 ALTER TABLE `r_authorization` DISABLE KEYS */;
+INSERT INTO `r_authorization` VALUES (100,20,2,1),(100,120,2,1),(100,121,2,1);
 /*!40000 ALTER TABLE `r_authorization` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,170 +589,6 @@ LOCK TABLES `r_directory` WRITE;
 /*!40000 ALTER TABLE `r_directory` DISABLE KEYS */;
 INSERT INTO `r_directory` VALUES (10,0,'_系统预置'),(0,NULL,'数据整合'),(1,NULL,'报表'),(21,1,'客户使用范例'),(20,1,'_系统预置'),(2,NULL,'模型'),(30,2,'_系统预置'),(11,0,'客户使用范例'),(31,2,'客户使用范例'),(32,11,'转换'),(33,11,'作业');
 /*!40000 ALTER TABLE `r_directory` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_domain`
---
-
-DROP TABLE IF EXISTS `r_domain`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_domain` (
-  `ID_DOMAIN` bigint(20) NOT NULL,
-  `ID_DOMAIN_DIRECTORY` int(11) DEFAULT NULL,
-  `DOMAIN_TYPE` int(11) DEFAULT NULL,
-  `DESCRIPTION` mediumtext,
-  `DOMAIN_VERSION` varchar(255) DEFAULT NULL,
-  `DOMAIN_STATUS` int(11) DEFAULT NULL,
-  `CREATE_USER` varchar(255) DEFAULT NULL,
-  `CREATE_DATE` datetime DEFAULT NULL,
-  `MODIFIED_USER` varchar(255) DEFAULT NULL,
-  `MODIFIED_DATE` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID_DOMAIN`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_domain`
---
-
-LOCK TABLES `r_domain` WRITE;
-/*!40000 ALTER TABLE `r_domain` DISABLE KEYS */;
-/*!40000 ALTER TABLE `r_domain` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_filesys_attribute`
---
-
-DROP TABLE IF EXISTS `r_filesys_attribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_filesys_attribute` (
-  `ID_FILESYS_ATTRIBUTE` bigint(20) NOT NULL,
-  `ID_FILESYS_DIRECTORY` int(11) DEFAULT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
-  `VALUE_NUM` bigint(20) DEFAULT NULL,
-  `VALUE_STR` mediumtext,
-  PRIMARY KEY (`ID_FILESYS_ATTRIBUTE`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_filesys_attribute`
---
-
-LOCK TABLES `r_filesys_attribute` WRITE;
-/*!40000 ALTER TABLE `r_filesys_attribute` DISABLE KEYS */;
-/*!40000 ALTER TABLE `r_filesys_attribute` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_filesys_directory`
---
-
-DROP TABLE IF EXISTS `r_filesys_directory`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_filesys_directory` (
-  `ID_FS_DIRECTORY` bigint(20) NOT NULL,
-  `FS_TYPE` int(11) DEFAULT NULL,
-  `PATH` varchar(255) NOT NULL,
-  `DESCRIPTION` varchar(255) NOT NULL,
-  `NOTES` mediumtext,
-  PRIMARY KEY (`ID_FS_DIRECTORY`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_filesys_directory`
---
-
-LOCK TABLES `r_filesys_directory` WRITE;
-/*!40000 ALTER TABLE `r_filesys_directory` DISABLE KEYS */;
-INSERT INTO `r_filesys_directory` VALUES (1,1,'C:\\_D\\_flywet','预测存储根目录','用于存放预测数据文件的根目录'),(2,1,'C:\\_D\\_bak','数据存储临时目录','用于存放数据文件的临时目录'),(3,2,'10.11.46.181','FTP测试接口机_181','FTP测试接口机_181'),(4,3,'10.11.46.181','SFTP测试接口机_181','SFTP测试接口机_181'),(5,4,'https://ciastudypattern.googlecode.com/svn/trunk/','存放文档的SVN','存放文档的SVN'),(6,5,'','存放文档的GIT','存放文档的GIT');
-/*!40000 ALTER TABLE `r_filesys_directory` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_filesys_type`
---
-
-DROP TABLE IF EXISTS `r_filesys_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_filesys_type` (
-  `ID_FS_TYPE` bigint(20) NOT NULL,
-  `CODE` varchar(255) NOT NULL,
-  `DESCRIPTION` mediumtext NOT NULL,
-  PRIMARY KEY (`ID_FS_TYPE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_filesys_type`
---
-
-LOCK TABLES `r_filesys_type` WRITE;
-/*!40000 ALTER TABLE `r_filesys_type` DISABLE KEYS */;
-INSERT INTO `r_filesys_type` VALUES (1,'local','服务器文件系统'),(2,'ftp','FTP文件系统'),(3,'sftp','SFTP文件系统'),(4,'svn','SVN服务器'),(5,'git','GIT服务器');
-/*!40000 ALTER TABLE `r_filesys_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_func_type`
---
-
-DROP TABLE IF EXISTS `r_func_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_func_type` (
-  `ID_FUNC_TYPE` int(11) NOT NULL,
-  `CODE` varchar(20) DEFAULT NULL,
-  `MODULE_CODE` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` mediumtext,
-  `ID_FUNC_TYPE_PARENT` int(11) DEFAULT NULL,
-  `HELPTEXT` mediumtext,
-  `TYPE_INDEX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID_FUNC_TYPE`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_func_type`
---
-
-LOCK TABLES `r_func_type` WRITE;
-/*!40000 ALTER TABLE `r_func_type` DISABLE KEYS */;
-INSERT INTO `r_func_type` VALUES (0,'root','SYS.Base','根',NULL,'功能的根节点',0),(1,'di','DI.Base','数据整合',0,'一级节点：转换/作业',3),(2,'db','DB.Base','数据源',0,'一级节点：数据源',0),(4,'systools','SYS.Base','功能',0,'一级节点：功能',5),(50,'privilege','SYS.Base','用户权限',4,'二级节点：功能-用户权限',0),(501,'createuser','SYS.Base','创建用户',50,'三级节点：功能-用户权限-创建用户',0),(502,'deluser','SYS.Base','删除用户',50,'三级节点：功能-用户权限-删除用户',1),(503,'edituser','SYS.Base','编辑当前用户',50,'三级节点：功能-用户权限-编辑当前用户',2),(60,'repository','SYS.Base','资源库',4,'二级节点：功能-资源库',1),(601,'connrep','SYS.Base','连接资源库',60,'三级节点：功能-资源库-连接资源库',0),(602,'findrep','SYS.Base','探测资源库',60,'三级节点：功能-资源库-探测资源库',1),(603,'createrep','SYS.Base','创建资源库',60,'三级节点：功能-资源库-创建资源库',2),(70,'file','SYS.Base','文件',4,'二级节点：功能-文件',2),(701,'newtrans','DI.Trans.Editor','新建转换',70,'三级节点：功能-文件-新建转换',0),(702,'newjob','DI.Job.Editor','新建作业',70,'三级节点：功能-文件-新建作业',1),(703,'newdb','DB.Advance','添加数据库',70,'三级节点：功能-文件-添加数据库',2),(704,'newfs','FS.Local,FS.FTP','添加文件系统',70,'三级节点：功能-文件-添加文件系统',3),(80,'operate','SYS.Base','操作',4,'二级节点：功能-操作',3),(801,'open','SYS.Advance','打开',80,'三级节点：功能-操作-打开',0),(802,'fileopen','SYS.Advance','从文件打开',80,'三级节点：功能-操作-从文件打开',1),(803,'downloadzip','SYS.Advance','打包下载',80,'三级节点：功能-操作-打包下载',2),(804,'uploadfile','SYS.Advance','上传文件',80,'三级节点：功能-操作-上传文件',3),(90,'wizard','SYS.Base','向导',4,'二级节点：功能-向导',4),(901,'wcreatedb','DB.Advance','创建数据库连接',90,'三级节点：功能-向导-创建数据库连接',0),(902,'wsinglecopy','DB.Advance','单表复制向导',90,'三级节点：功能-向导-单表复制向导',1),(903,'wmulticopy','DB.Advance','多表复制向导',90,'三级节点：功能-向导-多表复制向导',2),(100,'help','SYS.Base','帮助',4,'二级节点：功能-帮助',5),(1001,'showstepplugin','DI.Trans.Editor','显示步骤插件',100,'三级节点：功能-帮助-显示步骤插件',0),(1002,'showjobplugin','DI.Job.Editor','显示作业插件',100,'三级节点：功能-帮助-显示作业插件',1),(1010,'about','SYS.Base','关于',100,'三级节点：功能-帮助-关于',3),(3,'domain','DN.Base','语义模型',0,'一级节点：语义层',1),(5,'fs','FS.Base','文件系统',0,'一级节点：文件系统',4),(6,'report','BA.Base','商业分析',0,'一级节点：报表',2),(1003,'showdbplugin','DB.Advance','显示数据库插件',100,'三级节点：功能-帮助-显示数据库插件',2);
-/*!40000 ALTER TABLE `r_func_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_func_type_attribute`
---
-
-DROP TABLE IF EXISTS `r_func_type_attribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_func_type_attribute` (
-  `ID_FUNC_TYPE_ATTR` bigint(20) NOT NULL,
-  `ID_FUNC_TYPE` int(11) NOT NULL,
-  `CODE` varchar(255) NOT NULL,
-  `VALUE_STR` mediumtext,
-  PRIMARY KEY (`ID_FUNC_TYPE_ATTR`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_func_type_attribute`
---
-
-LOCK TABLES `r_func_type_attribute` WRITE;
-/*!40000 ALTER TABLE `r_func_type_attribute` DISABLE KEYS */;
-INSERT INTO `r_func_type_attribute` VALUES (0,1010,'url','rest/systools/about'),(1,1010,'header','关于'),(2,1010,'width','420'),(3,1010,'height','480'),(4,501,'header','创建用户'),(5,501,'width','400'),(6,501,'height','300'),(7,501,'url','rest/user/create'),(8,501,'btn','[{\"label\":\"确定\",\"title\":\"确定\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]'),(9,1001,'url','rest/systools/stepplugin'),(10,1001,'header','步骤插件'),(11,1001,'height','480'),(12,1001,'width','620'),(13,1002,'url','rest/systools/jobplugin'),(14,1002,'header','作业插件'),(15,1002,'height','480'),(16,1002,'width','620'),(17,1003,'url','rest/systools/dbplugin'),(18,1003,'header','数据库插件'),(19,1003,'height','480'),(20,1003,'width','620');
-/*!40000 ALTER TABLE `r_func_type_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -900,121 +1018,6 @@ CREATE TABLE `r_partition_schema` (
 LOCK TABLES `r_partition_schema` WRITE;
 /*!40000 ALTER TABLE `r_partition_schema` DISABLE KEYS */;
 /*!40000 ALTER TABLE `r_partition_schema` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_portal_menu`
---
-
-DROP TABLE IF EXISTS `r_portal_menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_portal_menu` (
-  `ID_PORTAL_MENU` int(11) NOT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
-  `MODULE_CODE` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` mediumtext,
-  `ID_PORTAL_MENU_PARENT` int(11) DEFAULT NULL,
-  `HELPTEXT` mediumtext,
-  `MENU_INDEX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID_PORTAL_MENU`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_portal_menu`
---
-
-LOCK TABLES `r_portal_menu` WRITE;
-/*!40000 ALTER TABLE `r_portal_menu` DISABLE KEYS */;
-INSERT INTO `r_portal_menu` VALUES (0,'root','Anomyous','根',NULL,'Portal的根节点',NULL),(10,'predictProduct','Anomyous','预测产品',0,'',0),(11,'predictScore','Anomyous','预测评分',0,NULL,1),(12,'methodEvaluate','Anomyous','方法评估',0,NULL,2),(100,'monthPredict','Anomyous','月预测',10,NULL,0),(101,'extendPredict','Anomyous','延伸期预测',10,NULL,1),(102,'monthPredictScore','Anomyous','月预测',11,NULL,0),(103,'extendPredictScore','Anomyous','延伸期预测',11,NULL,1);
-/*!40000 ALTER TABLE `r_portal_menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_portal_menu_attribute`
---
-
-DROP TABLE IF EXISTS `r_portal_menu_attribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_portal_menu_attribute` (
-  `ID_PORTAL_MENU_ATTR` int(11) NOT NULL,
-  `ID_PORTAL_MENU` int(11) NOT NULL,
-  `CODE` varchar(255) NOT NULL,
-  `VALUE_STR` mediumtext,
-  PRIMARY KEY (`ID_PORTAL_MENU_ATTR`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_portal_menu_attribute`
---
-
-LOCK TABLES `r_portal_menu_attribute` WRITE;
-/*!40000 ALTER TABLE `r_portal_menu_attribute` DISABLE KEYS */;
-INSERT INTO `r_portal_menu_attribute` VALUES (1,100,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(2,100,'method','monthPredict'),(3,101,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(4,101,'method','extendPredict'),(5,102,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(7,103,'cls','com.flywet.cust.p001.portal.ForecastAdaptorImpl'),(6,102,'method','monthPredictScore'),(8,103,'method','extendPredictScore'),(9,100,'autoMaximized','true');
-/*!40000 ALTER TABLE `r_portal_menu_attribute` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_report`
---
-
-DROP TABLE IF EXISTS `r_report`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_report` (
-  `ID_REPORT` bigint(20) NOT NULL,
-  `ID_REPORT_DIRECTORY` int(11) DEFAULT NULL,
-  `REPORT_OBJECT` mediumtext,
-  `REPORT_TYPE` int(11) DEFAULT NULL,
-  `IS_REF` char(1) DEFAULT NULL,
-  `ID_REF_REPORT` int(11) DEFAULT NULL,
-  `DESCRIPTION` mediumtext,
-  `REPORT_VERSION` varchar(255) DEFAULT NULL,
-  `REPORT_STATUS` int(11) DEFAULT NULL,
-  `CREATE_USER` varchar(255) DEFAULT NULL,
-  `CREATE_DATE` datetime DEFAULT NULL,
-  `MODIFIED_USER` varchar(255) DEFAULT NULL,
-  `MODIFIED_DATE` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID_REPORT`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_report`
---
-
-LOCK TABLES `r_report` WRITE;
-/*!40000 ALTER TABLE `r_report` DISABLE KEYS */;
-INSERT INTO `r_report` VALUES (0,1,'<fly:composition width=\"600\" height=\"400\">\r\n	<fly:verticalLayout>\r\n		<fly:fieldSet title=\"标识符\">\r\n			<fly:gridLayout column=\"4\" itemWidth=\"35%,15%,35%,15%\">\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" text=\"支持布尔数据类型\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" name=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n				\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:QUOTE_ALL_FIELDS\" text=\"标识符使用引号括起来\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:QUOTE_ALL_FIELDS\" name=\"${formId}:QUOTE_ALL_FIELDS\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n				\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE\" text=\"强制标识符使用小写字母\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE\" name=\"${formId}:FORCE_IDENTIFIERS_TO_LOWERCASE\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n				\r\n				<fly:gridLayoutItem>\r\n					<fly:labelObject buddy=\"${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE\" text=\"强制标识符使用大写字母\" />\r\n				</fly:gridLayoutItem>\r\n				<fly:gridLayoutItem>\r\n					<fly:inputText id=\"${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE\" name=\"${formId}:FORCE_IDENTIFIERS_TO_UPPERCASE\" type=\"checkbox\" value=\"\" />\r\n				</fly:gridLayoutItem>\r\n			</fly:gridLayout>\r\n		</fly:fieldSet>\r\n		\r\n		<fly:labelObject buddy=\"${formId}:preferredSchemaName\" text=\"默认模式名称（在没有其他模式名时使用）\" />\r\n		\r\n		<fly:inputText id=\"${formId}:preferredSchemaName\" name=\"${formId}:preferredSchemaName\" type=\"text\" value=\"\" />\r\n		\r\n		<fly:labelObject buddy=\"${formId}:connectionType\" text=\"请输入连接成功后要执行的SQL语句，用分号(;)隔开\" />\r\n		\r\n		<textarea id=\"${formId}:connectSQL\" name=\"${formId}:connectSQL\" style=\"width:100%;\" rows=\"6\">\r\n			\r\n		</textarea>\r\n		\r\n	</fly:verticalLayout>\r\n\r\n	<fly:actions>\r\n\r\n		<fly:action sender=\"${formId}:SUPPORTS_BOOLEAN_DATA_TYPE\" signal=\"change\" accepter=\"${formId}:preferredSchemaName\" slot=\"disable\" />\r\n\r\n	</fly:actions>\r\n\r\n</fly:composition>',1,'N',NULL,'Dashboard例子',NULL,NULL,NULL,NULL,NULL,NULL),(1,1,NULL,2,'N',NULL,'报告例子',NULL,NULL,NULL,NULL,NULL,NULL),(2,1,NULL,3,'N',NULL,'自由报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(3,1,NULL,4,'N',NULL,'透视报表例子',NULL,NULL,NULL,NULL,NULL,NULL),(4,10,NULL,1,'Y',0,'表单例子的引用',NULL,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `r_report` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `r_report_type`
---
-
-DROP TABLE IF EXISTS `r_report_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `r_report_type` (
-  `ID_REPORT_TYPE` bigint(20) NOT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` mediumtext,
-  PRIMARY KEY (`ID_REPORT_TYPE`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `r_report_type`
---
-
-LOCK TABLES `r_report_type` WRITE;
-/*!40000 ALTER TABLE `r_report_type` DISABLE KEYS */;
-INSERT INTO `r_report_type` VALUES (1,'dashboard','仪表板'),(3,'report','报表'),(4,'pivotreport','多维报表'),(2,'wordreport','报告');
-/*!40000 ALTER TABLE `r_report_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1511,6 +1514,7 @@ CREATE TABLE `r_user_role` (
 
 LOCK TABLES `r_user_role` WRITE;
 /*!40000 ALTER TABLE `r_user_role` DISABLE KEYS */;
+INSERT INTO `r_user_role` VALUES (100,3);
 /*!40000 ALTER TABLE `r_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1576,4 +1580,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-26 19:02:30
+-- Dump completed on 2013-10-02 11:38:28

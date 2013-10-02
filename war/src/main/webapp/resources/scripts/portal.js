@@ -409,7 +409,7 @@ Flywet.Portal = {
 									Flywet.ab({
 										type : "POST",
 										url : params.url,
-										source:"sys_tools_item_form",
+										source:"portal_menu_form",
 										onsuccess:function(data, status, xhr) {
 											if (data.state == 0) {
 												window[dialogId + "_var"].hide();

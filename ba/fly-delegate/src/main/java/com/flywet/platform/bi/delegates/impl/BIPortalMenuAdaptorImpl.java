@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleValueException;
-import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 
+import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
@@ -26,23 +26,23 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 
 	private String getSQL() {
 		return "SELECT "
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_CODE)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_CODE)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MODULE_CODE)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_MODULE_CODE)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_DESCRIPTION)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_DESCRIPTION)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_HELPTEXT)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_HELPTEXT)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE)
 				+ " FROM "
-				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_PORTAL_MENU);
+				+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_PORTAL_MENU);
 	}
 
 	private PortalMenu createPortalMenu(RowMetaAndData rmd)
@@ -50,38 +50,31 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 		PortalMenu ft = new PortalMenu();
 		ft
 				.setId(rmd
-						.getInteger(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU));
+						.getInteger(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU));
 		ft.setCode(rmd.getString(
-				KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_CODE, null));
+				BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_CODE, null));
 		ft.setModuleCode(rmd.getString(
-				KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MODULE_CODE,
-				null));
+				BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_MODULE_CODE, null));
 		ft.setDesc(rmd.getString(
-				KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_DESCRIPTION,
-				null));
+				BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_DESCRIPTION, null));
 		ft
 				.setParentId(rmd
-						.getInteger(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT));
+						.getInteger(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT));
 		ft.setHelpText(rmd.getString(
-				KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_HELPTEXT, null));
-		ft
-				.setIndex(Integer
-						.parseInt(rmd
-								.getString(
-										KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX,
-										"0")));
+				BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_HELPTEXT, null));
+		ft.setIndex(Integer.parseInt(rmd.getString(
+				BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX, "0")));
 		ft.setAuthenticate("Y".equalsIgnoreCase(rmd.getString(
-				KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE,
-				"Y")));
+				BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE, "Y")));
 
 		String extSql = "SELECT "
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_CODE)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_CODE)
 				+ ","
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_VALUE_STR)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_VALUE_STR)
 				+ " FROM "
-				+ quoteTable(KettleDatabaseRepositoryBase.TABLE_R_PORTAL_MENU_ATTRIBUTE)
+				+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_PORTAL_MENU_ATTRIBUTE)
 				+ " WHERE "
-				+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_ID_PORTAL_MENU)
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_ID_PORTAL_MENU)
 				+ " = " + ft.getId();
 		List<RowMetaAndData> extRmds = getRowsWithMeta(extSql);
 
@@ -91,12 +84,12 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 				pair
 						.setName(extRmd
 								.getString(
-										KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_CODE,
+										BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_CODE,
 										null));
 				pair
 						.setValue(extRmd
 								.getString(
-										KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_VALUE_STR,
+										BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ATTRIBUTE_VALUE_STR,
 										null));
 				ft.addExtAttr(pair);
 			}
@@ -109,7 +102,7 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 		try {
 			String sql = getSQL()
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU)
+					+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU)
 					+ " = " + id;
 			RowMetaAndData rmd = getOneRowWithMeta(sql);
 			if (rmd == null) {
@@ -128,11 +121,11 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 		try {
 			String sql = getSQL()
 					+ " WHERE "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT)
+					+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT)
 					+ " = "
 					+ id
 					+ " ORDER BY "
-					+ quote(KettleDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX);
+					+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_MENU_INDEX);
 			List<RowMetaAndData> rmds = getRowsWithMeta(sql);
 			if (Utils.isEmpty(rmds)) {
 				return Collections.emptyList();
