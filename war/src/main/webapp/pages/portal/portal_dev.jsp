@@ -8,6 +8,9 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+		
 		<title></title>
         
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
@@ -22,6 +25,8 @@
 		<link href="<%=path%>/resources/libs/core/core.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/menu/menu.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/metro/metro.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/easytabs/easytabs.css" rel="stylesheet"
 			type="text/css" />
@@ -77,6 +82,8 @@
 			src="<%=path%>/resources/libs/core/core.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/menu/menu.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/metro/metro.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/layout/layout.js"></script>
 		<script type="text/javascript"
@@ -156,11 +163,16 @@
 			<img id="fly_portal_bg_img" src="" style="display:none;">
 		</div>
 		
+		<div id="fly_portal_content">
+		
+		</div>
+		
 		<div id="fly_portal_wrapper">
 			
 			<!-- 头部区域 -->
 			<div id="fly_portal_header">
 			</div>
+			
 			<div id="fly_portal_menus">
 				<div id="fly_portal_oper">
 					<table>

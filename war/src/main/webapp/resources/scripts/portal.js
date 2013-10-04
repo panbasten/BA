@@ -1,4 +1,10 @@
 Flywet.Portal = {
+	FIXED_SIZE : {
+		header : 35,
+		footer : 95,
+		footerContent : 60,
+		loading : 48
+	},
 	PIC_TOTILE_NUM : 10,
 	PIC_NUM : 0,
 	MENU_VAR : null,
@@ -142,22 +148,33 @@ Flywet.Portal = {
 		var win = Flywet.getWindowScroll();
 		var h = Math.max(0,(win.height-580)),
 			w = Math.max(0,(win.width-1100));
+		// login
 		$("#fly_login_wrapper").css({
 			"margin-top":h+"px",
 			"margin-left":w+"px"
 		});
+		
+		// bg img
 		Flywet.Portal.PIC_NUM = Math.floor(Math.random()*(Flywet.Portal.PIC_TOTILE_NUM-0.001)+1);
 		$("#fly_portal_bg_img")
 			.attr("src", "resources/images/pics/wallpaper"+Flywet.Portal.PIC_NUM+".jpg")
 			.width(win.width+20).height(win.height+20).show("fast");
 		
+		// cover
 		$("#fly_portal_cover").width(win.width+20).height(win.height+20);
-		$("#fly_portal_cover_img").css({"top":(win.height-48)/2+"px","left":(win.width-48)/2+"px",});
+		$("#fly_portal_cover_img").css({"top":(win.height-Flywet.Portal.FIXED_SIZE.loading)/2+"px","left":(win.width-Flywet.Portal.FIXED_SIZE.loading)/2+"px",});
 		
-		
+		// size
 		$("#fly_portal_header").width(win.width);
 		$("#fly_portal_menus").width(win.width);
-		$("#fly_portal_footer").width(win.width).css("top", (win.height-95)+"px");
+		$("#fly_portal_footer").width(win.width).css("top", (win.height-Flywet.Portal.FIXED_SIZE.footer)+"px");
+		
+		// content
+		$("#fly_portal_content").width(win.width).height(win.height-Flywet.Portal.FIXED_SIZE.header-Flywet.Portal.FIXED_SIZE.footer).css("margin-top","35px");
+		
+		if(window["portal_content_var"]){
+			window["portal_content_var"].resize();
+		}
 	},
 	
 	changeWebText : function(){
@@ -508,6 +525,46 @@ Flywet.Portal = {
 						data : data
 					});
 				}
+				
+				Flywet.cw("Metro", "portal_content_var", {
+					id : "fly_portal_content",
+					rowNum : 4,
+					columnNum : 7,
+//					backgroundImgType : "tile",
+					metros : [{
+						id : "test1",
+						backgroundCls : "roxo",
+						colspan : 3,
+						iconImg : "resources/images/desktop/bi.job.png",
+						text : "带文字框",
+						textBackgroundCls : "info"
+					},{
+						id : "test2",
+						backgroundImg : "resources/images/metro/test.jpg",
+						iconImg : "resources/images/desktop/bi.job.png",
+						colspan : 2,
+						text : "带文字框和背景图片",
+						textBackgroundCls : "azul"
+					},{
+						backgroundCls : "roxo",
+						text : "roxo背景",
+						iconImg : "resources/images/desktop/bi.job.png"
+					},{
+						backgroundCls : "verde",
+						text : "verde背景",
+						iconImg : "resources/images/desktop/bi.job.png"
+					},{
+						backgroundCls : "azul",
+						text : "azul背景",
+						colspan : 2,
+						rowspan : 2,
+						iconImg : "resources/images/desktop/bi.job.png"
+					},{
+						backgroundCls : "vermelho",
+						text : "vermelho背景",
+						iconImg : "resources/images/desktop/bi.job.png"
+					}]
+				});
 				
 				Flywet.Portal.initPageComplete();
 			}

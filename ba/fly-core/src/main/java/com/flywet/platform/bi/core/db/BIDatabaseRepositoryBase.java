@@ -1,6 +1,64 @@
 package com.flywet.platform.bi.core.db;
 
 public class BIDatabaseRepositoryBase {
+
+	public static final String TABLE_BI_AUTO_START_JOB = "BI_AUTO_START_JOB";
+	public static final String FIELD_AUTO_START_ID_AUTO_START_JOB = "ID_AUTO_START_JOB";
+	public static final String FIELD_AUTO_START_ARG_LOG_LEVEL = "ARG_LOG_LEVEL";
+	public static final String FIELD_AUTO_START_STATUS = "STATUS";
+	public static final String FIELD_AUTO_START_CREATED_USER = "CREATED_USER";
+	public static final String FIELD_AUTO_START_CREATED_DATE = "CREATED_DATE";
+	public static final String FIELD_AUTO_START_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_AUTO_START_MODIFIED_DATE = "MODIFIED_DATE";
+
+	public static final String TABLE_BI_AUTO_START_JOB_ATTR = "BI_AUTO_START_JOB_ATTR";
+	public static final String FIELD_AUTO_START_JOB_ATTR_ID_ATTRIBUTE = "ID_ATTRIBUTE";
+	public static final String FIELD_AUTO_START_JOB_ATTR_ID_JOB = "ID_JOB";
+	public static final String FIELD_AUTO_START_JOB_ATTR_ATTR_TYPE = "ATTR_TYPE";
+	public static final String FIELD_AUTO_START_JOB_ATTR_ATTR_KEY = "ATTR_KEY";
+	public static final String FIELD_AUTO_START_JOB_ATTR_ATTR_VALUE = "ATTR_VALUE";
+
+	public static final String TABLE_BI_TIMED_EXE = "BI_TIMED_EXE";
+	public static final String FIELD_TIMED_EXE_ID_TIMED_EXE = "ID_TIMED_EXE";
+	public static final String FIELD_TIMED_EXE_NAME = "NAME";
+	public static final String FIELD_TIMED_EXE_TYPE = "TYPE";
+	public static final String FIELD_TIMED_EXE_REPEAT = "REPEAT";
+	public static final String FIELD_TIMED_EXE_STATUS = "STATUS";
+	public static final String FIELD_TIMED_EXE_CREATED_USER = "CREATED_USER";
+	public static final String FIELD_TIMED_EXE_CREATED_DATE = "CREATED_DATE";
+	public static final String FIELD_TIMED_EXE_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_TIMED_EXE_MODIFIED_DATE = "MODIFIED_DATE";
+
+	public static final String TABLE_BI_TIMED_EXE_ATTR = "BI_TIMED_EXE_ATTR";
+	public static final String FIELD_TIMED_EXE_ATTR_ID_TIMED_EXE_ATTR = "ID_TIMED_EXE_ATTR";
+	public static final String FIELD_TIMED_EXE_ATTR_ID_TIMED_EXE = "ID_TIMED_EXT";
+	public static final String FIELD_TIMED_EXE_ATTR_NR = "NR";
+	public static final String FIELD_TIMED_EXE_ATTR_CODE = "CODE";
+	public static final String FIELD_TIMED_EXE_ATTR_VALUE_NUM = "VALUE_NUM";
+	public static final String FIELD_TIMED_EXE_ATTR_VALUE_STR = "VALUE_STR";
+
+	public static final String TABLE_BI_MSG_CHANNEL = "BI_MSG_CHANNEL";
+	public static final String FIELD_MSG_CHANNEL_ID_MSG_CHANNEL = "ID_MSG_CHANNEL";
+	public static final String FIELD_MSG_CHANNEL_NAME = "NAME";
+	public static final String FIELD_MSG_CHANNEL_DESCRIPTION = "DESCRIPTION";
+	public static final String FIELD_MSG_CHANNEL_AUTHENTICATE = "AUTHENTICATE";
+	public static final String FIELD_MSG_CHANNEL_STATUS = "STATUS";
+	public static final String FIELD_MSG_VALUE_TEMPLATE = "VALUE_TEMPLATE";
+	public static final String FIELD_MSG_URL_TEMPLATE = "URL_TEMPLATE";
+	public static final String FIELD_MSG_CHANNEL_CREATED_USER = "CREATED_USER";
+	public static final String FIELD_MSG_CHANNEL_CREATED_DATE = "CREATED_DATE";
+	public static final String FIELD_MSG_CHANNEL_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_MSG_CHANNEL_MODIFIED_DATE = "MODIFIED_DATE";
+
+	public static final String TABLE_BI_MSG = "BI_MSG";
+	public static final String FIELD_MSG_ID_MSG = "ID_MSG";
+	public static final String FIELD_MSG_ID_MSG_CHANNEL = "ID_MSG_CHANNEL";
+	public static final String FIELD_MSG_STATUS = "STATUS";
+	public static final String FIELD_MSG_VALUE_STR = "VALUE_STR";
+	public static final String FIELD_MSG_URL = "URL";
+	public static final String FIELD_MSG_START_TIME = "START_TIME";
+	public static final String FIELD_MSG_EXTEND_TIME = "EXTEND_TIME";
+
 	public static final String TABLE_BI_FUNC_TYPE = "BI_FUNC_TYPE";
 	public static final String FIELD_FUNC_TYPE_ID_FUNC_TYPE = "ID_FUNC_TYPE";
 	public static final String FIELD_FUNC_TYPE_CODE = "CODE";
@@ -72,7 +130,9 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_DOMAIN_MODIFIED_DATE = "MODIFIED_DATE";
 
 	public static final String repositoryTableNames[] = new String[] {
-			TABLE_BI_FUNC_TYPE, TABLE_BI_FUNC_TYPE_ATTRIBUTE,
+			TABLE_BI_AUTO_START_JOB, TABLE_BI_AUTO_START_JOB_ATTR,
+			TABLE_BI_TIMED_EXE, TABLE_BI_TIMED_EXE_ATTR, TABLE_BI_MSG_CHANNEL,
+			TABLE_BI_MSG, TABLE_BI_FUNC_TYPE, TABLE_BI_FUNC_TYPE_ATTRIBUTE,
 			TABLE_BI_PORTAL_MENU, TABLE_BI_PORTAL_MENU_ATTRIBUTE,
 			TABLE_BI_FILESYS_TYPE, TABLE_BI_FILESYS_DIRECTORY, TABLE_BI_REPORT,
 			TABLE_BI_DOMAIN };

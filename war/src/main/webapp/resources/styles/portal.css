@@ -744,6 +744,9 @@ div.section {
 #fly_portal_footer {
 }
 
+#fly_portal_content {
+	position: absolute;
+}
 
 #fly_portal_footer_title {
 	position: relative;

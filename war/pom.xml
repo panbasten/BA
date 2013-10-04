@@ -177,6 +177,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery-ui.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/menu/menu.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/metro/metro.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/easytabs/easytabs.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/breadcrumb/breadcrumb.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/layout/layout.css</include>
@@ -205,6 +206,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/menu/menu.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/metro/metro.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/layout/layout.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/breadcrumb/breadcrumb.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/easytabs/easytabs.js</include>
