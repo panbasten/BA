@@ -27,6 +27,10 @@ public class IdentificationCache {
 	public static User matchUserCache(Long id) {
 		SoftReference<User> ref = USER_CACHE.get(id);
 		if (ref != null) {
+			if (ref.get() == null) {
+				clearUserCache(id);
+				return null;
+			}
 			return ref.get();
 		}
 		return null;
@@ -37,6 +41,10 @@ public class IdentificationCache {
 		if (id != null) {
 			SoftReference<User> ref = USER_CACHE.get(id);
 			if (ref != null) {
+				if (ref.get() == null) {
+					clearUserCache(id);
+					return null;
+				}
 				return ref.get();
 			}
 		}
@@ -48,7 +56,7 @@ public class IdentificationCache {
 		SoftReference<User> ref = USER_CACHE.remove(id);
 		User u = ref.get();
 		if (u != null) {
-			USER_CACHE.remove(u.getLogin());
+			USER_LOGIN_ID_CACHE.remove(u.getLogin());
 		}
 	}
 
@@ -70,6 +78,10 @@ public class IdentificationCache {
 	public static Role matchRoleCache(Long id) {
 		SoftReference<Role> ref = ROLE_CACHE.get(id);
 		if (ref != null) {
+			if (ref.get() == null) {
+				clearRoleCache(id);
+				return null;
+			}
 			return ref.get();
 		}
 		return null;

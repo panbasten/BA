@@ -126,7 +126,6 @@ public class BIPortaletResource {
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
 
 			// 验证权限
-			
 			if (pm.isAuthenticate() && !userService.authenticate(
 					AuthorizationObjectCategory.PORTAL_MENU, pm.getId())) {
 				return ActionMessage.instance().failure("未登录或者当前用户不具有权限。")

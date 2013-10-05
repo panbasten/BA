@@ -1,5 +1,8 @@
 (function ($) {
 	
+	/**
+	 * 重设Metro所有项目的外部和内部属性
+	 */
 	function _resize(target) {
 		var metro = $($.data(target, "metro").metro),
 			options = $.data(target, "metro").options,
@@ -26,21 +29,26 @@
 		}
 		
 		for(var i=0;i<metroItems.length;i++){
-			var imgHeight = metrosOpts[i].imgHeight || options.imgHeight;
-			_setSize(metroItems[i], itemWidth, itemHeight, metrosOpts[i].rowspan, metrosOpts[i].colspan, imgHeight);
+			var itemSize = _setSize(metroItems[i], itemWidth, itemHeight, metrosOpts[i]);
+			_setSizeAsType(metroItems[i], itemSize, metrosOpts[i], options);
 		}
 		
-		// 调整水平位置
-		
+		// 调整整体水平位置
 		var margin = Math.floor(( size.css.width - itemAllWidth) /2);
 		margin = Math.max(0, margin);
 		$(metro).width(itemAllWidth).css("margin-left", margin + "px");
 		
 	}
 	
-	function _setSize(item, itemWidth, itemHeight, rowspan, colspan, imgHeight){
+	/**
+	 * 设置Metro项目的外部尺寸
+	 */
+	function _setSize(item, itemWidth, itemHeight, itemOpt){
 		var width = itemWidth,
-		height = itemHeight;
+			height = itemHeight,
+			rowspan = itemOpt.rowspan, 
+			colspan = itemOpt.colspan;
+		
 		if(rowspan && typeof rowspan == 'number'){
 			height = itemHeight * rowspan + 10 * ( rowspan - 1 );
 		}
@@ -49,59 +57,108 @@
 		}
 		item.width(width).height(height);
 		
+		return {width:width,height:height};
+	}
+	
+	/**
+	 * 根据类型设置Metro项目的内部尺寸
+	 */
+	function _setSizeAsType(item, itemSize, itemOpt, options){
+		var itemType = itemOpt.itemType;
+		if(itemType == "metro"){
+			_setSizeForMetro(item, itemSize, itemOpt, options);
+		}else if(itemType == "cycle"){
+			_setSizeForCycle(item, itemSize, itemOpt, options);
+		}else{
+			_setSizeForCustom(item, itemSize, itemOpt, options);
+		}
+	}
+	
+	function _setSizeForMetro(item, itemSize, itemOpt, options){
 		// 图标位置
+		var iconHeight = itemOpt.iconHeight;
 		var imgWrapper = item.find(".ui-metro-img");
 		if(imgWrapper && imgWrapper.length > 0){
-			_setImgPosition(imgWrapper, height, imgHeight);
+			var paddingTop = Math.floor((itemSize.height - iconHeight) / 2);
+			imgWrapper.css("padding-top", paddingTop+"px");
 		}
 	}
 	
-	function _setImgPosition(imgWrapper, itemHeight, imgHeight){
-		var paddingTop = Math.floor((itemHeight - imgHeight) / 2);
-		imgWrapper.css("padding-top", paddingTop+"px");
+	function _setSizeForCycle(item, itemSize, itemOpt, options){
+		// TODO
 	}
 	
-	function _addMetro(target, item) {
-		var options = $.data(target, "metro").options;
-		
-		var metro = $("<div class='ui-metro-btn ui-metro'></div>");
-		if (item.id && item.id != "") {
-			metro.attr("id", item.id);
+	function _setSizeForCustom(item, itemSize, itemOpt, options){
+		// TODO
+	}
+	
+	function _addMetroTypeMetro(options, itemOpt) {
+		var metro = $("<div class='ui-metro ui-metro-type-metro'></div>");
+		if (itemOpt.id && itemOpt.id != "") {
+			metro.attr("id", itemOpt.id);
         }
 		
-		if (item.backgroundCls && item.backgroundCls != "") {
-			metro.addClass("ui-metro-"+item.backgroundCls);
+		if (itemOpt.backgroundCls && itemOpt.backgroundCls != "") {
+			metro.addClass("ui-metro-"+itemOpt.backgroundCls);
 		}
 		
-		if (item.backgroundImg && item.backgroundImg != "") {
-			var imgType = item.backgroundImgType || options.backgroundImgType;
+		if (itemOpt.backgroundImg && itemOpt.backgroundImg != "") {
+			var imgType = itemOpt.backgroundImgType;
 			if(imgType == "stretch"){
-				var metroBgImg = $("<div class='ui-metro-bg-img'><img src='" + item.backgroundImg + "' style='width:100%;height:100%;'/></div>");
+				var metroBgImg = $("<div class='ui-metro-bg-img'><img src='" + itemOpt.backgroundImg + "' style='width:100%;height:100%;'/></div>");
 				metroBgImg.appendTo(metro);
 			}else{
-				metro.css("background","url(" + item.backgroundImg + ")");
+				metro.css("background","url(" + itemOpt.backgroundImg + ")");
 			}
 		}
 		
-		if(item.iconImg && item.iconImg != "") {
-			var metroImg = $("<div class='ui-metro-img'><img src='" + item.iconImg + "' /></div>");
+		if(itemOpt.iconImg && itemOpt.iconImg != "") {
+			var metroImg = $("<div class='ui-metro-img'><img src='" + itemOpt.iconImg + "' /></div>");
 			metroImg.appendTo(metro);
 		}
 		
-		if(item.text && item.text != ""){
+		if(itemOpt.text && itemOpt.text != ""){
 			var metroTextWrip = $("<div class='ui-metro-destaque-rodape'></div>");
-			if(item.textBackgroundCls && item.textBackgroundCls != ""){
-				metroTextWrip.addClass("ui-metro-"+item.textBackgroundCls);
+			if(itemOpt.textBackgroundCls && itemOpt.textBackgroundCls != ""){
+				metroTextWrip.addClass("ui-metro-"+itemOpt.textBackgroundCls);
 			}
-			var metroText = $("<span>"+item.text+"</span>");
+			var metroText = $("<span>"+itemOpt.text+"</span>");
 			metroText.appendTo(metroTextWrip);
 			metroTextWrip.appendTo(metro);
 		}
 		
-		var imgHeight = item.imgHeight || options.imgHeight;
-		_setSize(metro, options.itemWidth, options.itemHeight, item.rowspan, item.colspan, imgHeight);
+		var itemSize = _setSize(metro, options.itemWidth, options.itemHeight, itemOpt);
+		_setSizeAsType(metro, itemSize, itemOpt, options);
 		
-		metro.appendTo(target);
+		return metro;
+	}
+	
+	function _addMetroTypeCycle(options, itemOpt){
+		// TODO
+	}
+	
+	function _addMetroTypeCustom(options, itemOpt){
+		// TODO
+	}
+	
+	function _addMetro(target, itemOpt) {
+		var options = $.data(target, "metro").options;
+		
+		var itemType = itemOpt.itemType;
+		
+		var metro = null;
+		if(itemType == "metro"){
+			metro = _addMetroTypeMetro(options, itemOpt);
+		}else if(itemType == "cycle"){
+			metro = _addMetroTypeCycle(options, itemOpt);
+		}else{
+			metro = _addMetroTypeCustom(options, itemOpt);
+		}
+		
+		if(metro){
+			metro.appendTo(target);
+		}
+		
 		return metro;
 	}
 	
@@ -121,6 +178,7 @@
 			var metroItems = [];
 			if(opts.metros){
 				for(var i=0;i<opts.metros.length;i++){
+					opts.metros[i] = $.extend( {}, $.fn.metro.itemDefaults, opts.metros[i]);
 					var item = _addMetro(this, opts.metros[i]);
 					metroItems.push(item);
 				}
@@ -145,15 +203,42 @@
 	
 	$.fn.metro.defaults = {
 		id : null,
-		rowNum : 3,
-		columnNum : "auto",
-		imgWidth : 64,
-		imgHeight : 64,
-		itemWidth : 158,
+		rowNum : 3,// 行数
+		columnNum : "auto",// 列数，默认根据每个元素的宽度自动计算
+		
+		itemWidth : 158,// 一般不必设置，只用于初始化设置，并非真正项目尺寸
 		itemHeight : 158,
-		// 拉伸-stretch(默认), 平铺-tile
-		backgroundImgType : "stretch",
+		
 		metros : null
+		
+	};
+	
+	$.fn.metro.itemDefaults = {
+		// 元素类型:
+		// Metro风格-metro(默认), 
+		// cycle图片风格-cycle, 
+		// 自定义页面风格(如果多于一个页面自动循环)-custom
+		itemType : "metro",
+		
+		rowspan : 1,
+		colspan : 1,
+		
+		// --------metro类型属性--------
+		backgroundCls : null,
+		backgroundImg : null, // backgroundImg属性优先于backgroundCls属性生效
+		backgroundImgType : "stretch", // 拉伸-stretch(默认), 平铺-tile
+		
+		iconImg : null,
+		iconWidth : 64,
+		iconHeight : 64,
+		
+		text : null,
+		textBackgroundCls : null,
+		
+		// --------cycle类型属性---------
+		srcs : null // 图片src数组
+		
+		
 	};
 	
 })(jQuery);
