@@ -36,6 +36,8 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_TIMED_EXE_ATTR_CODE = "CODE";
 	public static final String FIELD_TIMED_EXE_ATTR_VALUE_NUM = "VALUE_NUM";
 	public static final String FIELD_TIMED_EXE_ATTR_VALUE_STR = "VALUE_STR";
+	
+	
 
 	public static final String TABLE_BI_MSG_CHANNEL = "BI_MSG_CHANNEL";
 	public static final String FIELD_MSG_CHANNEL_ID_MSG_CHANNEL = "ID_MSG_CHANNEL";

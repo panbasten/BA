@@ -547,7 +547,7 @@ Flywet.Portal = {
 						textBackgroundCls : "azul"
 					},{
 						backgroundCls : "roxo",
-						text : "roxo背景",
+//						text : "roxo背景",
 						iconImg : "resources/images/desktop/bi.job.png"
 					},{
 						backgroundCls : "verde",
