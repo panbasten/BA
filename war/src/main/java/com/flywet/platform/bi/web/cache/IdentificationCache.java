@@ -13,6 +13,10 @@ public class IdentificationCache {
 	private static Map<String, Long> USER_LOGIN_ID_CACHE = new ConcurrentHashMap<String, Long>();
 	private static Map<Long, SoftReference<Role>> ROLE_CACHE = new ConcurrentHashMap<Long, SoftReference<Role>>();
 
+	public static final long ANOMYOUS_ROLE_ID = 0L;
+
+	public static final long ANOMYOUS_USER = 0L;
+
 	/**
 	 * 用户缓存操作
 	 * 

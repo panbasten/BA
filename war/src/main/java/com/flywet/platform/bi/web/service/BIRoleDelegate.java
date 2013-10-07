@@ -20,4 +20,10 @@ public interface BIRoleDelegate {
 
 	public void saveRoleAuthorization(long rid, List<Authorization> auths)
 			throws BIKettleException;
+
+	public boolean isSuperAdmin(long rid);
+
+	public boolean isAdmin(long rid);
+
+	public boolean isAnomyous(long rid);
 }

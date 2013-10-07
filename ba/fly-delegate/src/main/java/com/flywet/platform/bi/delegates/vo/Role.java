@@ -10,6 +10,16 @@ public class Role {
 	// 采用手工加载方式
 	private List<Authorization> auths;
 
+	public Role() {
+
+	}
+
+	public Role(long rid, String roleName, String desc) {
+		this.rid = rid;
+		this.roleName = roleName;
+		this.desc = desc;
+	}
+
 	public long getRid() {
 		return rid;
 	}

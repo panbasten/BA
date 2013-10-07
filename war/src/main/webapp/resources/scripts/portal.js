@@ -377,13 +377,19 @@ Flywet.Portal = {
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
 	},
 	
-	openMenuDialog: function(id){
+	openMenuDialog: function(id,disabled){
 		var menu = Flywet.Portal.MENU_VAR.getMenu(id);
+		
 		var optMenu = {};
 		for(var i=0; i<menu.extAttrs.length;i++){
 			optMenu[menu.extAttrs[i].name] = menu.extAttrs[i].value;
 		}
 		if(optMenu.cls){
+			if(disabled){
+				Flywet.dialog.warning("您未登陆，或者当前登陆用户不具有【"+menu.desc+"】的执行权限。");
+				return;
+			}
+			
 			var dialogId = "dialog_" + menu.id;
 			
 			var opt = $.extend({},{
@@ -673,11 +679,25 @@ Flywet.Portal.menu.prototype.init=function(){
 				}
 			});
 		});
+		
+		jq.find("dl").each(function(){
+			var dl = $(this);
+			dl.bind("mouseover", function(){
+				dl.addClass("highlight");
+			}).bind("mouseout", function(){
+				dl.removeClass("highlight");
+			});
+		});
 	}
 	
 	function initFirstLevel(menu, cfg){
 		var li = $("<li></li>");
-		li.append("<a class='first-level-menu' href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+")'>"+menu.desc+"</a>");
+		var lia = $("<a class='first-level-menu' href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+","+menu.disabled+")'>"+menu.desc+"</a>");
+		if(menu.disabled){
+			lia.addClass("menu-disabled");
+			lia.attr("title","该菜单项没有被授权。");
+		}
+		li.append(lia);
 		cfg.idMenuMap["id_"+menu.id] = menu;
 		
 		// 第二级菜单
@@ -697,8 +717,15 @@ Flywet.Portal.menu.prototype.init=function(){
 	}
 	
 	function initSecondLevel(menu, cfg){
-		var dl = $("<dl></dl>");
-		dl.append("<dt><a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+")'>"+menu.desc+"</a></dt>");
+		var dl = $("<dl></dl>"),
+			dt = $("<dt></dt>"),
+			dta = $("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+","+menu.disabled+")'>"+menu.desc+"</a>");
+		if(menu.disabled){
+			dta.addClass("menu-disabled");
+			dta.attr("title","该菜单项没有被授权。");
+		}
+		dt.append(dta);
+		dl.append(dt);
 		cfg.idMenuMap["id_"+menu.id] = menu;
 		
 		// 第三级菜单
@@ -713,8 +740,13 @@ Flywet.Portal.menu.prototype.init=function(){
 						dd.append("<i></i>");
 					}
 				}
-				var subMenu = menu.children[i];
-				dd.append("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+subMenu.id+")'>"+subMenu.desc+"</a>");
+				var subMenu = menu.children[i],
+					dda = $("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+subMenu.id+","+subMenu.disabled+")'>"+subMenu.desc+"</a>");
+				if(subMenu.disabled){
+					dda.addClass("menu-disabled");
+					dda.attr("title","该菜单项没有被授权。");
+				}
+				dd.append(dda);
 				cfg.idMenuMap["id_"+subMenu.id] = subMenu;
 			}
 			dl.append(dd);

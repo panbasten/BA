@@ -16,6 +16,61 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bi_auto_start_job`
+--
+
+DROP TABLE IF EXISTS `bi_auto_start_job`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_auto_start_job` (
+  `ID_AUTO_START_JOB` bigint(20) NOT NULL,
+  `START_TYPE` int(11) DEFAULT NULL,
+  `ARG_LOG_LEVEL` int(11) DEFAULT NULL,
+  `CREATED_USER` varchar(255) DEFAULT NULL,
+  `CREATED_DATE` datetime DEFAULT NULL,
+  `MODIFIED_USER` varchar(255) DEFAULT NULL,
+  `MODIFIED_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_AUTO_START_JOB`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_auto_start_job`
+--
+
+LOCK TABLES `bi_auto_start_job` WRITE;
+/*!40000 ALTER TABLE `bi_auto_start_job` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bi_auto_start_job` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_auto_start_job_attr`
+--
+
+DROP TABLE IF EXISTS `bi_auto_start_job_attr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_auto_start_job_attr` (
+  `BI_AUTO_START_JOB_ATTR` bigint(20) NOT NULL,
+  `ID_ATTRIBUTE` int(11) DEFAULT NULL,
+  `ID_JOB` int(11) DEFAULT NULL,
+  `ATTR_TYPE` int(11) DEFAULT NULL,
+  `ATTR_KEY` varchar(255) DEFAULT NULL,
+  `ATTR_VALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`BI_AUTO_START_JOB_ATTR`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_auto_start_job_attr`
+--
+
+LOCK TABLES `bi_auto_start_job_attr` WRITE;
+/*!40000 ALTER TABLE `bi_auto_start_job_attr` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bi_auto_start_job_attr` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bi_domain`
 --
 
@@ -180,6 +235,68 @@ INSERT INTO `bi_func_type_attribute` VALUES (0,1010,'url','rest/systools/about')
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bi_msg`
+--
+
+DROP TABLE IF EXISTS `bi_msg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_msg` (
+  `ID_MSG` bigint(20) NOT NULL,
+  `ID_MSG_CHANNEL` int(11) DEFAULT NULL,
+  `STATUS` varchar(1) DEFAULT NULL,
+  `VALUE_STR` mediumtext,
+  `URL` varchar(255) DEFAULT NULL,
+  `START_TIME` datetime DEFAULT NULL,
+  `EXTEND_TIME` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_MSG`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_msg`
+--
+
+LOCK TABLES `bi_msg` WRITE;
+/*!40000 ALTER TABLE `bi_msg` DISABLE KEYS */;
+INSERT INTO `bi_msg` VALUES (0,0,'Y','请于2013-10-31之前，填报10月份预测文件。','rest/aa?year=2013&month=10','2013-10-01 00:00:10','2013-10-31 23:23:59'),(1,1,'Y','请于2013-10-10之前，填报10月份上旬延伸性预测信息。','rest/aa?year=2013&month=10&xun=1','2013-10-01 00:00:10','2013-10-10 23:23:59'),(2,1,'Y','请于2013-10-20之前，填报10月份中旬延伸性预测信息。','rest/aa?year=2013&month=10&xun=2','2013-10-10 00:00:10','2013-10-20 23:23:59');
+/*!40000 ALTER TABLE `bi_msg` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_msg_channel`
+--
+
+DROP TABLE IF EXISTS `bi_msg_channel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_msg_channel` (
+  `ID_MSG_CHANNEL` bigint(20) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  `AUTHENTICATE` varchar(1) DEFAULT NULL,
+  `STATUS` varchar(1) DEFAULT NULL,
+  `VALUE_TEMPLATE` mediumtext,
+  `URL_TEMPLATE` varchar(255) DEFAULT NULL,
+  `CREATED_USER` varchar(255) DEFAULT NULL,
+  `CREATED_DATE` datetime DEFAULT NULL,
+  `MODIFIED_USER` varchar(255) DEFAULT NULL,
+  `MODIFIED_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_MSG_CHANNEL`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_msg_channel`
+--
+
+LOCK TABLES `bi_msg_channel` WRITE;
+/*!40000 ALTER TABLE `bi_msg_channel` DISABLE KEYS */;
+INSERT INTO `bi_msg_channel` VALUES (0,'月预测提醒','每个月将生成一条月预测提醒','N','Y','请于${dataText}之前，填报${month}月份预测文件。','rest/aa?year=${year}&month=${month}',NULL,NULL,NULL,NULL),(1,'延伸性预测提醒','每个月上中下三旬填报延伸性预测提醒','N','Y','请于${dataText}之前，填报${month}月份${xunText}延伸性预测信息。','rest/aa?year=${year}&month=${month}&xun=${xun}',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `bi_msg_channel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bi_portal_menu`
 --
 
@@ -293,6 +410,63 @@ LOCK TABLES `bi_report_type` WRITE;
 /*!40000 ALTER TABLE `bi_report_type` DISABLE KEYS */;
 INSERT INTO `bi_report_type` VALUES (1,'dashboard','仪表板'),(3,'report','报表'),(4,'pivotreport','多维报表'),(2,'wordreport','报告');
 /*!40000 ALTER TABLE `bi_report_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_timed_exe`
+--
+
+DROP TABLE IF EXISTS `bi_timed_exe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_timed_exe` (
+  `ID_TIMED_EXE` bigint(20) NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `TYPE` int(11) DEFAULT NULL,
+  `REPEAT` varchar(1) DEFAULT NULL,
+  `CREATED_USER` varchar(255) DEFAULT NULL,
+  `CREATED_DATE` datetime DEFAULT NULL,
+  `MODIFIED_USER` varchar(255) DEFAULT NULL,
+  `MODIFIED_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_TIMED_EXE`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_timed_exe`
+--
+
+LOCK TABLES `bi_timed_exe` WRITE;
+/*!40000 ALTER TABLE `bi_timed_exe` DISABLE KEYS */;
+INSERT INTO `bi_timed_exe` VALUES (0,'',NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `bi_timed_exe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bi_timed_exe_attr`
+--
+
+DROP TABLE IF EXISTS `bi_timed_exe_attr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bi_timed_exe_attr` (
+  `ID_TIMED_EXE_ATTR` bigint(20) NOT NULL,
+  `ID_TIMED_EXT` int(11) DEFAULT NULL,
+  `NR` int(11) DEFAULT NULL,
+  `CODE` varchar(255) DEFAULT NULL,
+  `VALUE_NUM` bigint(20) DEFAULT NULL,
+  `VALUE_STR` mediumtext,
+  PRIMARY KEY (`ID_TIMED_EXE_ATTR`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bi_timed_exe_attr`
+--
+
+LOCK TABLES `bi_timed_exe_attr` WRITE;
+/*!40000 ALTER TABLE `bi_timed_exe_attr` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bi_timed_exe_attr` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1580,4 +1754,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-02 11:38:28
+-- Dump completed on 2013-10-06 15:42:54

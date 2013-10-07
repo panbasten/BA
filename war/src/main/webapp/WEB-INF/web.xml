@@ -20,8 +20,7 @@
 	</listener>
 
 	<listener>
-		<listener-class>
-			com.flywet.platform.bi.web.listener.BIEnvironmentListener</listener-class>
+		<listener-class>com.flywet.platform.bi.web.listener.BIEnvironmentListener</listener-class>
 	</listener>
 
 	<filter>

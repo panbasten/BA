@@ -741,6 +741,15 @@ div.section {
 	color: #fff;
 }
 
+#fly_portal_menus_ul .menu-disabled,
+#fly_portal_menus_ul .highlight .menu-disabled{
+	color: #777;
+}
+
+#fly_portal_menus_ul .sub-menu .highlight dl *{
+	color: #222;
+}
+
 #fly_portal_footer {
 }
 

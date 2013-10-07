@@ -33,6 +33,7 @@ import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
+import com.flywet.platform.bi.delegates.enums.PermissionCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.delegates.vo.User;
@@ -126,8 +127,11 @@ public class BIPortaletResource {
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
 
 			// 验证权限
-			if (pm.isAuthenticate() && !userService.authenticate(
-					AuthorizationObjectCategory.PORTAL_MENU, pm.getId())) {
+			if (pm.isAuthenticate()
+					&& !userService
+							.authenticate(
+									AuthorizationObjectCategory.PORTAL_MENU, pm
+											.getId())) {
 				return ActionMessage.instance().failure("未登录或者当前用户不具有权限。")
 						.toJSONString();
 			}
@@ -214,8 +218,9 @@ public class BIPortaletResource {
 						.getPortalMenusByParent(PORTAL_MENU_ROOT_ID);
 				User currentUser = userService.getCurrentUser();
 				JSONArray ja = null;
+
 				if (currentUser == null) {
-					ja = getAnomyousPortalMenus(menus);
+					ja = getNotAuthenticatePortalMenus(menus);
 				} else {
 					ja = getAuthenticatePortalMenus(currentUser.getId(), menus);
 				}
@@ -226,13 +231,20 @@ public class BIPortaletResource {
 		}
 	}
 
+	/**
+	 * 返回不需要权限验证的菜单
+	 * 
+	 * @param menus
+	 * @return
+	 * @throws BIException
+	 */
 	@SuppressWarnings("unchecked")
-	private JSONArray getAnomyousPortalMenus(List<PortalMenu> menus)
+	private JSONArray getNotAuthenticatePortalMenus(List<PortalMenu> menus)
 			throws BIException {
 		JSONArray ja = new JSONArray();
 		if (menus != null) {
 			for (PortalMenu pm : menus) {
-				JSONObject jo = getAnomyousPortalMenu(pm);
+				JSONObject jo = getNotAuthenticatePortalMenu(pm);
 				if (jo != null) {
 					ja.add(jo);
 				}
@@ -242,18 +254,28 @@ public class BIPortaletResource {
 	}
 
 	@SuppressWarnings("unchecked")
-	private JSONObject getAnomyousPortalMenu(PortalMenu pm) throws BIException {
+	private JSONObject getNotAuthenticatePortalMenu(PortalMenu pm)
+			throws BIException {
 		JSONObject jo = null;
 		if (pm != null) {
 			// 校验权限
 			if (!pm.isAuthenticate()) {
 				jo = pm.getSimpleJSON();
-				jo.put("children", getAnomyousPortalMenus(pm.getChildren()));
+				jo.put("children", getNotAuthenticatePortalMenus(pm
+						.getChildren()));
 			}
 		}
 		return jo;
 	}
 
+	/**
+	 * 返回所有菜单，对于需要权限验证的进行权限验证
+	 * 
+	 * @param uid
+	 * @param menus
+	 * @return
+	 * @throws BIException
+	 */
 	@SuppressWarnings("unchecked")
 	private JSONArray getAuthenticatePortalMenus(long uid,
 			List<PortalMenu> menus) throws BIException {
@@ -276,9 +298,20 @@ public class BIPortaletResource {
 		if (pm != null) {
 			// 校验权限
 			if (pm.isAuthenticate()) {
+				// 拥有读权限，可以显示出来
 				if (userService.authenticate(uid,
-						AuthorizationObjectCategory.PORTAL_MENU, pm.getId())) {
+						AuthorizationObjectCategory.PORTAL_MENU, pm.getId(),
+						PermissionCategory.R)) {
 					jo = pm.getSimpleJSON();
+					// 拥有执行权限，可以执行，否则提示没有权限执行。
+					if (userService.authenticate(uid,
+							AuthorizationObjectCategory.PORTAL_MENU,
+							pm.getId(), PermissionCategory.X)) {
+						jo.put("disabled", false);
+					} else {
+						jo.put("disabled", true);
+					}
+
 				}
 			} else {
 				jo = pm.getSimpleJSON();

@@ -96,8 +96,8 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 
 	public RowMetaAndData getOneRowWithMeta(String tablename, String keyfield,
 			ObjectId id) throws KettleException {
-		return getRepository().connectionDelegate.getOneRow(tablename,
-				keyfield, id);
+		return getRepository().connectionDelegate.getOneRow(
+				quoteTable(tablename), quote(keyfield), id);
 	}
 
 	/**
@@ -151,8 +151,8 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	public void insertTableRow(String tablename, RowMetaAndData values)
 			throws KettleException {
 		try {
-			getRepository().connectionDelegate
-					.insertTableRow(tablename, values);
+			getRepository().connectionDelegate.insertTableRow(
+					quoteTable(tablename), values);
 		} catch (KettleException e) {
 			logger.error("insert table row exception:", e);
 			throw e;
@@ -170,8 +170,8 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	public void updateTableRow(String tablename, String idfield,
 			RowMetaAndData values) throws KettleException {
 		try {
-			getRepository().connectionDelegate.updateTableRow(tablename,
-					idfield, values);
+			getRepository().connectionDelegate.updateTableRow(
+					quoteTable(tablename), quote(idfield), values);
 		} catch (KettleException e) {
 			logger.error("insert table row exception:", e);
 			throw e;
@@ -327,7 +327,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 			throws BIKettleException {
 		try {
 			LongObjectId batchId = getRepository().connectionDelegate
-					.getNextID(tableName, fieldName);
+					.getNextID(quoteTable(tableName), quote(fieldName));
 			return batchId.longValue();
 		} catch (KettleException e) {
 			logger.error("get batchid exception:", e);

@@ -15,6 +15,8 @@ public interface BIUserDelegate {
 
 	public User getCurrentUser() throws BIException;
 
+	public User getAnomyous() throws BIException;
+
 	public User getUserById(long uid) throws BIException;
 
 	public User getUserByLogin(String login) throws BIException;

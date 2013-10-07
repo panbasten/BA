@@ -16,6 +16,10 @@ import com.flywet.platform.bi.web.service.BIRoleDelegate;
 @Service("bi.service.roleService")
 public class BIRoleService implements BIRoleDelegate {
 
+	private static final long ROLE_ID_ANOMYOUS = 0L;
+	private static final long ROLE_ID_SUPER_ADMIN = 1L;
+	private static final long ROLE_ID_ADMIN = 2L;
+
 	@Override
 	public void delRole(long roleId) throws BIKettleException {
 		BIRoleAdaptor adaptor = BIAdaptorFactory
@@ -77,6 +81,21 @@ public class BIRoleService implements BIRoleDelegate {
 
 		Role role = getRoleById(rid);
 		role.setAuths(auths);
+	}
+
+	@Override
+	public boolean isSuperAdmin(long rid) {
+		return (ROLE_ID_SUPER_ADMIN == rid);
+	}
+
+	@Override
+	public boolean isAdmin(long rid) {
+		return (ROLE_ID_ADMIN == rid);
+	}
+
+	@Override
+	public boolean isAnomyous(long rid) {
+		return (ROLE_ID_ANOMYOUS == rid);
 	}
 
 }
