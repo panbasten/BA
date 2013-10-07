@@ -322,7 +322,7 @@ CREATE TABLE `bi_portal_menu` (
 
 LOCK TABLES `bi_portal_menu` WRITE;
 /*!40000 ALTER TABLE `bi_portal_menu` DISABLE KEYS */;
-INSERT INTO `bi_portal_menu` VALUES (0,'root','Anomyous','根',-1,'Portal的根节点',NULL,'N'),(10,'predictProduct','Anomyous','预测产品',0,'',0,'N'),(11,'predictScore','Anomyous','预测评分',0,NULL,1,'N'),(12,'methodEvaluate','Anomyous','方法评估',0,NULL,2,'N'),(100,'monthPredict','Anomyous','月预测',10,NULL,0,'N'),(101,'extendPredict','Anomyous','延伸期预测',10,NULL,1,'N'),(102,'monthPredictScore','Anomyous','月预测',11,NULL,0,'N'),(103,'extendPredictScore','Anomyous','延伸期预测',11,NULL,1,'N'),(20,'setting','Yuce','设置',0,NULL,3,'Y'),(121,'extendSetting','Yuce','当月延伸期预测填报',20,NULL,1,'Y'),(120,'predictSetting','Yuce','当月预测填报',20,NULL,0,'Y');
+INSERT INTO `bi_portal_menu` VALUES (0,'root','Anomyous','根',-1,'Portal的根节点',NULL,'N'),(10,'predictProduct','Anomyous','预测产品',0,'',0,'N'),(11,'predictScore','Anomyous','预测评分',0,NULL,1,'N'),(12,'methodEvaluate','Anomyous','方法评估',0,NULL,2,'N'),(100,'monthPredict','Anomyous','月预测',10,NULL,0,'N'),(101,'extendPredict','Anomyous','延伸期预测',10,NULL,1,'N'),(102,'monthPredictScore','Anomyous','月预测',11,NULL,0,'N'),(103,'extendPredictScore','Anomyous','延伸期预测',11,NULL,1,'N'),(20,'setting','Yuce','设置',0,NULL,10,'Y'),(104,'extendSetting','Yuce','当月延伸期预测填报',10,NULL,3,'Y'),(105,'predictSetting','Yuce','当月预测填报',10,NULL,2,'Y'),(106,'scoreSetting','Yuce','上月预测评分填报',11,NULL,2,'Y'),(107,'monthPredictEvaluate','Anomyous','月预测',12,NULL,0,'N'),(108,'extendPredictPrecipitation','Anomyous','延伸期降水过程预测',12,NULL,1,'N'),(113,'dataUpdate','Yuce','数据更新',20,NULL,0,'Y'),(14,'analyseTools','Yuce','分析工具',0,NULL,4,'Y'),(109,'sstMonthPredict','Yuce','海温月预测',14,NULL,0,'Y'),(110,'sstQuarterPredict','Yuce','海温季预测',14,NULL,1,'Y'),(15,'makeScoreData','Yuce','制作评分数据',0,NULL,5,'Y'),(111,'monthPredictData','Yuce','月预测',15,NULL,0,'Y'),(112,'extendPredictData','Yuce','延伸期预测',15,NULL,1,'Y'),(114,'dataUpload','Yuce','上传数据',20,NULL,1,'Y'),(115,'buzTimed','Anomyous','业务定时期',20,NULL,2,'N'),(16,'buzNorms','Anomyous','业务规范',0,NULL,6,'N'),(17,'links','Anomyous','相关网站链接',0,NULL,7,'N');
 /*!40000 ALTER TABLE `bi_portal_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -517,7 +517,7 @@ CREATE TABLE `r_authorization` (
 
 LOCK TABLES `r_authorization` WRITE;
 /*!40000 ALTER TABLE `r_authorization` DISABLE KEYS */;
-INSERT INTO `r_authorization` VALUES (100,20,2,1),(100,120,2,1),(100,121,2,1);
+INSERT INTO `r_authorization` VALUES (100,20,2,7),(100,104,2,7),(100,106,2,7),(100,14,2,7),(100,15,2,7),(100,105,2,7),(100,109,2,7),(100,110,2,7),(100,111,2,7),(100,0,0,0),(100,113,2,0),(100,114,2,7),(0,14,2,4),(0,15,2,4),(0,20,2,4),(0,104,2,4),(0,105,2,4),(0,106,0,0),(0,109,2,4),(0,110,2,4),(0,111,2,4),(0,112,2,4),(0,113,2,4),(0,114,2,4);
 /*!40000 ALTER TABLE `r_authorization` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1243,7 +1243,7 @@ CREATE TABLE `r_role` (
 
 LOCK TABLES `r_role` WRITE;
 /*!40000 ALTER TABLE `r_role` DISABLE KEYS */;
-INSERT INTO `r_role` VALUES (0,'admin','管理员','Y'),(1,'guest','游客','Y'),(10,'di_editor','DI编辑员','Y'),(11,'di_operator','DI操作员','Y'),(100,'Forecaster','预报员','N');
+INSERT INTO `r_role` VALUES (0,'anomyous','匿名用户角色','Y'),(1,'super_admin','超级管理员角色','Y'),(2,'admin','管理员角色','Y'),(10,'di_editor','DI编辑员角色','Y'),(11,'di_operator','DI操作员角色','Y'),(100,'forecaster','预报员角色','N');
 /*!40000 ALTER TABLE `r_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1665,7 +1665,7 @@ CREATE TABLE `r_user` (
 
 LOCK TABLES `r_user` WRITE;
 /*!40000 ALTER TABLE `r_user` DISABLE KEYS */;
-INSERT INTO `r_user` VALUES (1,'admin','2be98afc86aa7f2e4cb79ce61d68bacd1','系统管理员','系统管理账户','Y'),(2,'guest','2be98afc86aa7f2e4cb79ce77cb97bcce','游客','只读权限账户','Y'),(3,'yuce','2be98afc86aa7f2e4cb79ce10c787acdf','预测','预测操作账户','Y');
+INSERT INTO `r_user` VALUES (1,'admin','2be98afc86aa7f2e4cb79ce61d68bacd1','系统管理员','系统管理账户','Y'),(0,'anomyous','','匿名','匿名登录账户','Y'),(3,'yuce','2be98afc86aa7f2e4cb79ce10c787acdf','预测','预测操作账户','Y');
 /*!40000 ALTER TABLE `r_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1688,7 +1688,7 @@ CREATE TABLE `r_user_role` (
 
 LOCK TABLES `r_user_role` WRITE;
 /*!40000 ALTER TABLE `r_user_role` DISABLE KEYS */;
-INSERT INTO `r_user_role` VALUES (100,3);
+INSERT INTO `r_user_role` VALUES (100,3),(0,0),(1,1);
 /*!40000 ALTER TABLE `r_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1754,4 +1754,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-06 15:42:54
+-- Dump completed on 2013-10-08  7:43:52
