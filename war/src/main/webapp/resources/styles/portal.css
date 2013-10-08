@@ -698,7 +698,7 @@ div.section {
     width: 242px;
 }
 .sub-menu dd a {
-    color: #000000;
+    color: #000;
     line-height: 1.5em;
     margin: 0 10px 0 9px;
 }
@@ -721,6 +721,10 @@ div.section {
 #fly_portal_oper a {
 	text-decoration: none;
 	text-transform: uppercase;
+}
+
+#fly_portal_oper a.highlight *{
+	color: #fff;
 }
 
 #fly_portal_oper a div {
