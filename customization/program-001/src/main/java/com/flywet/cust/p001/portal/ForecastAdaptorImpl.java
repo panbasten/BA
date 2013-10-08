@@ -48,8 +48,43 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private static final String TEMPLATE_PREDICT_SETTING = "predictSetting.h";
 	private static final String TEMPLATE_EXTEND_SETTING = "extendSetting.h";
 
+	private static final String TEMPLATE_BUZ_NORMS = "buzNorms.h";
+	private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
+	private static final String TEMPLATE_DATA_UPDATE = "dataUpdate.h";
+	private static final String TEMPLATE_DATA_UPLOAD = "dataUpload.h";
+	private static final String TEMPLATE_EXTEND_PREDICT_DATA = "extendPredictData.h";
+	private static final String TEMPLATE_EXTEND_PREDICT_PRECIPITATION = "extendPredictPrecipitation.h";
+	private static final String TEMPLATE_LINKS = "links.h";
+
+	private static final String TEMPLATE_MONTH_PREDICT_DATA = "monthPredictData.h";
+	private static final String TEMPLATE_MONTH_PREDICT_EVALUATE = "monthPredictEvaluate.h";
+	private static final String TEMPLATE_SCORE_SETTING = "scoreSetting.h";
+	private static final String TEMPLATE_SST_MONTH_PREDICT = "sstMonthPredict.h";
+	private static final String TEMPLATE_SST_QUARTER_PREDICT = "sstQuarterPredict.h";
+
+	// 月预测数据存储位置
 	private static final String PROP_MONTH_PREDICT_FILE_ROOT_PATH = "custom.portal.monthPredict.file.rootPath";
 	private static final String PROP_MONTH_PREDICT_FILE_CATEGORY = "custom.portal.monthPredict.file.category";
+
+	// 11城市月数据
+	private static final String PROP_ELEVEN_MONTH_CITY_FILE_ROOT_PATH = "custom.portal.11MonthCity.file.rootPath";
+	private static final String PROP_ELEVEN_MONTH_CITY_FILE_CATEGORY = "custom.portal.11MonthCity.file.category";
+
+	// 11城市季数据
+	private static final String PROP_ELEVEN_QUARTER_CITY_FILE_ROOT_PATH = "custom.portal.11QuarterCity.file.rootPath";
+	private static final String PROP_ELEVEN_QUARTER_CITY_FILE_CATEGORY = "custom.portal.11QuarterCity.file.category";
+
+	// 142县站数据
+	private static final String PROP_142_STA_FILE_ROOT_PATH = "custom.portal.142sta.file.rootPath";
+	private static final String PROP_142_STA_FILE_CATEGORY = "custom.portal.142sta.file.category";
+
+	// 海温数据
+	private static final String PROP_SST_FILE_ROOT_PATH = "custom.portal.sst.file.rootPath";
+	private static final String PROP_SST_FILE_CATEGORY = "custom.portal.sst.file.category";
+
+	// 数据上传
+	private static final String PROP_UPLOAD_FILE_ROOT_PATH = "custom.portal.upload.file.rootPath";
+	private static final String PROP_UPLOAD_FILE_CATEGORY = "custom.portal.upload.file.category";
 
 	@Override
 	public String monthPredictUpdate(String targetId,
@@ -526,22 +561,73 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String dataUpdate(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("menuId", context.get("id"));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_DATA_UPDATE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开设置-数据更新界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开设置-数据更新界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override
 	public String dataUpload(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("menuId", context.get("id"));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_DATA_UPLOAD, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开设置-上传数据界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开设置-上传数据界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override
 	public String extendPredictData(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("menuId", context.get("id"));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_EXTEND_PREDICT_DATA, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开制作评分数据-延伸期预测出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开制作评分数据-延伸期预测出现问题。")
+				.toJSONString();
 	}
 
 	@Override
@@ -561,8 +647,25 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String monthPredictData(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("menuId", context.get("id"));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_MONTH_PREDICT_DATA, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开制作评分数据-月预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开制作评分数据-月预测界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override
@@ -582,15 +685,49 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String sstMonthPredict(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("menuId", context.get("id"));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_SST_MONTH_PREDICT, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开分析工具-海温月预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开分析工具-海温月预测界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override
 	public String sstQuarterPredict(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("menuId", context.get("id"));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_SST_QUARTER_PREDICT, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开分析工具-海温季预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开分析工具-海温季预测界面出现问题。")
+				.toJSONString();
 	}
 
 }

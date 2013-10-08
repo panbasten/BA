@@ -91,6 +91,13 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_ID_PORTAL_MENU = "ID_PORTAL_MENU";
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_CODE = "CODE";
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_VALUE_STR = "VALUE_STR";
+	
+	public static final String TABLE_BI_PORTAL_ACTION = "BI_PORTAL_ACTION";
+	public static final String FIELD_PORTAL_ACTION_ID_PORTAL_ACTION = "ID_PORTAL_ACTION";
+	public static final String FIELD_PORTAL_ACTION_CLS = "CLS";
+	public static final String FIELD_PORTAL_ACTION_METHOD = "METHOD";
+	public static final String FIELD_PORTAL_ACTION_URL_TYPE = "URL_TYPE";
+	public static final String FIELD_PORTAL_ACTION_FORM_ID = "FORM_ID";
 
 	public static final String TABLE_BI_FILESYS_TYPE = "BI_FILESYS_TYPE";
 	public static final String FIELD_FILESYS_TYPE_ID_FS_TYPE = "ID_FS_TYPE";

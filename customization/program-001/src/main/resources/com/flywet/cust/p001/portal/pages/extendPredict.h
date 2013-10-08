@@ -4,7 +4,7 @@
 			<fly:verticalLayout margin="0">
 				<h1 style="font-size:18px;">月份：</h1>
 				<fly:foreach items="${menus}" var="menu">
-					<a href="#" onclick="extendPredictClick('${menuId}','${menu[0]}');">${menu[1]}</a><br/>
+					<a href="#" onclick="Flywet.Portal.updateMenuDialog('${menuId}','extendPredictUpdate','extend_predict_context','${menu[0]}');">${menu[1]}</a><br/>
 				</fly:foreach>
 			</fly:verticalLayout>
 		</fly:gridLayoutItem>

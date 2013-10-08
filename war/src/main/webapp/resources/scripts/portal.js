@@ -386,6 +386,18 @@ Flywet.Portal = {
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
 	},
 	
+	updateMenuDialog: function(id, method, targetId, param){
+		Flywet.ab({
+			type : "get",
+			url : "rest/portalet/menu/"+id+"/update",
+			params : {
+				method : method
+				,targetId : targetId
+				,param : param
+			}
+		});
+	},
+	
 	openMenuDialog: function(id,disabled){
 		var menu = Flywet.Portal.MENU_VAR.getMenu(id);
 		
