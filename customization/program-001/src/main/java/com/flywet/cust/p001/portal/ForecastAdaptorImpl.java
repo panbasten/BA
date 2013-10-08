@@ -508,4 +508,89 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			return 0;
 		}
 	}
+
+	@Override
+	public String buzNorms(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String buzTimed(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String dataUpdate(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String dataUpload(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String extendPredictData(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String extendPredictPrecipitation(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String links(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String monthPredictData(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String monthPredictEvaluate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String scoreSetting(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sstMonthPredict(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sstQuarterPredict(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

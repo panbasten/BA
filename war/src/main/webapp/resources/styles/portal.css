@@ -751,6 +751,7 @@ div.section {
 #fly_portal_menus_ul .highlight .menu-disabled{
 	color: #777;
 	text-shadow: 1px 1px 0 #333;
+	cursor: default;
 }
 
 #fly_portal_oper .sub-menu a,
@@ -769,6 +770,7 @@ div.section {
 #fly_portal_menus_ul .sub-menu .highlight .menu-disabled {
 	color: #aaa;
 	text-shadow: 0 0 0;
+	cursor: default;
 }
 
 #fly_portal_footer {
