@@ -736,18 +736,35 @@ div.section {
 	line-height: 100%;
 }
 
-#fly_portal_oper .highlight *,
+#fly_portal_oper .highlight .first-level-menu,
 #fly_portal_menus_ul .highlight .first-level-menu{
 	color: #fff;
 }
 
+#fly_portal_oper .menu-disabled,
+#fly_portal_oper .highlight .menu-disabled,
 #fly_portal_menus_ul .menu-disabled,
 #fly_portal_menus_ul .highlight .menu-disabled{
 	color: #777;
+	text-shadow: 1px 1px 0 #333;
 }
 
-#fly_portal_menus_ul .sub-menu .highlight dl *{
+#fly_portal_oper .sub-menu a,
+#fly_portal_menus_ul .sub-menu a{
+	color: #777;
+}
+
+#fly_portal_oper .sub-menu a.highlight,
+#fly_portal_menus_ul .sub-menu .highlight a{
 	color: #222;
+}
+
+#fly_portal_oper .sub-menu .menu-disabled,
+#fly_portal_oper .sub-menu .highlight .menu-disabled,
+#fly_portal_menus_ul .sub-menu .menu-disabled,
+#fly_portal_menus_ul .sub-menu .highlight .menu-disabled {
+	color: #aaa;
+	text-shadow: 0 0 0;
 }
 
 #fly_portal_footer {

@@ -319,6 +319,15 @@ Flywet.Portal = {
 			}, 500);
 		});
 		
+		settingDiv.find("a").each(function(){
+			var dl = $(this);
+			dl.bind("mouseover", function(){
+				dl.addClass("highlight");
+			}).bind("mouseout", function(){
+				dl.removeClass("highlight");
+			});
+		});
+		
 		// --------------设置区域操作--------------------
 		// 生成并下载私钥
 		$("#createPriKey").bind("click", function(){
