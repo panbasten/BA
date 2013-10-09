@@ -442,18 +442,22 @@ Flywet.Portal = {
 							}
 						});
 					}else{
+						console.log(btnsSetting[i]);
 						var btn = {
 							componentType : "fly:PushButton",
 							type : "button",
 							label : btnsSetting[i].label,
 							title : btnsSetting[i].title,
-							url : btnsSetting[i].url,
+							url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].actionId),
+							urlType : btnsSetting[i].urlType || "GET",
+							formId : btnsSetting[i].formId || "portal_menu_form",
 							events: {
 								click:function(event,params){
+									console.log(params);
 									Flywet.ab({
-										type : "POST",
+										type : params.urlType,
 										url : params.url,
-										source:"portal_menu_form",
+										source : params.formId,
 										onsuccess:function(data, status, xhr) {
 											if (data.state == 0) {
 												window[dialogId + "_var"].hide();
