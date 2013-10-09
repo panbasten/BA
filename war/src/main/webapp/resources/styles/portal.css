@@ -734,10 +734,13 @@ div.section {
 	margin-right: 20px;
 }
 
-#fly_portal_oper a div span {
+#fly_portal_oper a div .oper-text {
 	padding-right: 3px;
 	padding-left: 8px;
 	line-height: 100%;
+	float: left;
+	margin: 0;
+	width: auto;
 }
 
 #fly_portal_oper .highlight .first-level-menu,
