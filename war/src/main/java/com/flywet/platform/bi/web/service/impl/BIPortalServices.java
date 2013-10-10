@@ -8,6 +8,7 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIPortalMenuAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.web.cache.PortalCache;
 import com.flywet.platform.bi.web.service.BIPortalDelegates;
@@ -37,6 +38,19 @@ public class BIPortalServices implements BIPortalDelegates {
 			PortalCache.putPortalMenuCache(pm);
 		}
 		return pm;
+	}
+
+	@Override
+	public PortalAction getPortalActionById(long id) throws BIKettleException {
+		PortalAction pa = PortalCache.matchPortalActionCache(id);
+		if (pa == null) {
+			BIPortalMenuAdaptor portalMenuDelegate = BIAdaptorFactory
+					.createAdaptor(BIPortalMenuAdaptor.class);
+			pa = portalMenuDelegate.getPortalAction(id);
+
+			PortalCache.putPortalActionCache(pa);
+		}
+		return pa;
 	}
 
 	private List<PortalMenu> getSubPortalMenus(

@@ -386,12 +386,12 @@ Flywet.Portal = {
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
 	},
 	
-	updateMenuDialog: function(id, method, targetId, param){
+	updateMenuDialog: function(id, action, targetId, param){
 		Flywet.ab({
 			type : "get",
 			url : "rest/portalet/menu/"+id+"/update",
 			params : {
-				method : method
+				action : action
 				,targetId : targetId
 				,param : param
 			}
@@ -442,7 +442,6 @@ Flywet.Portal = {
 							}
 						});
 					}else{
-						console.log(btnsSetting[i]);
 						var btn = {
 							componentType : "fly:PushButton",
 							type : "button",

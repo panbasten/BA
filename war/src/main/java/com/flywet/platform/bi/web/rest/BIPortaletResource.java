@@ -35,6 +35,7 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
 import com.flywet.platform.bi.delegates.enums.PermissionCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
@@ -151,17 +152,19 @@ public class BIPortaletResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updatePortalDialog(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId,
-			@QueryParam("method") String method,
+			@QueryParam("action") String action,
 			@QueryParam("param") String param) throws BIException {
 		try {
 			// 通过ID获得注册的菜单
 			PortalMenu pm = portalDelegates.getPortalMenuById(Long.valueOf(id));
-			method = (Const.isEmpty(method)) ? pm.getExtAttr("method") : method;
 			param = (Const.isEmpty(param)) ? pm.getExtAttr("param") : param;
 
 			Map<String, Object> context = getDefaultContext(id, param);
 
-			return invokeMethod(pm.getExtAttr("cls"), method, context, targetId);
+			PortalAction pa = portalDelegates.getPortalActionById(Long
+					.valueOf(action));
+
+			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
 		}
