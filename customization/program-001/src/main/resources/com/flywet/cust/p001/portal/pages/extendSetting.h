@@ -12,9 +12,7 @@
 			</textarea>
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
-	<fly:inputText id="id" name="id" type="hidden" 
-				value="" />
 
-	<fly:includeJs src="page.js"/>
+	<fly:inputText id="id" name="id" type="hidden" value="" />
 
 </form>

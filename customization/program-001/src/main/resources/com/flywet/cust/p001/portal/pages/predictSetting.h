@@ -1,19 +1,22 @@
 <form method="post" id="portal_menu_form">
 
-	<fly:gridLayout column="2" itemWidth="20%,78%" itemMargin="10" class="fly_portal_menu_content">
+	<fly:gridLayout column="2" itemWidth="20%,20%,58%" itemMargin="10" class="fly_portal_menu_content">
 		<fly:gridLayoutItem>
 			<span style="float:right;">填报日期：</span>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<span style="float:left;">2013年10月</span>
+			<span style="float:left;">${currentMonthText}</span>
 		</fly:gridLayoutItem>
-		<fly:gridLayoutItem cols="2">
-			ssssssssss
+		<fly:gridLayoutItem>
+			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" onclick="" title="添加" />
+			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" onclick="" title="删除" />
+		</fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="3">
+			<fly:horizontalLayout id="month_predict_files">
+				<fly:browse value="${currentMonthFiles}" />
+			</fly:horizontalLayout>
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
-	<fly:inputText id="id" name="id" type="hidden" 
-				value="" />
-
-	<fly:includeJs src="page.js"/>
+	<fly:inputText id="id" name="id" type="hidden" value="" />
 
 </form>

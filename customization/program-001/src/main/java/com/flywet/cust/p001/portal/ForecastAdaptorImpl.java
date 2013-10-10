@@ -3,6 +3,7 @@ package com.flywet.cust.p001.portal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
@@ -181,10 +183,18 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		return Const.NVL(monthCode, "");
 	}
 
+	private void checkOrCreateDir(String rootPathProp, String categoryProp,
+			String workDir) throws BIException, FileSystemException {
+		FileObject fileObj = getFileObject(categoryProp, workDir, rootPathProp);
+
+		if (!fileObj.exists()) {
+			fileObj.createFolder();
+		}
+	}
+
 	private BrowseMeta getBrowse(String rootPathProp, String categoryProp,
 			String workDir) throws BIException, FileSystemException {
-		String category = PropertyUtils
-				.getProperty(PROP_MONTH_PREDICT_FILE_CATEGORY);
+		String category = PropertyUtils.getProperty(categoryProp);
 
 		// 拼装文件信息
 		FileObject fileObj = getFileObject(categoryProp, workDir, rootPathProp);
@@ -399,6 +409,19 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String currentMonth = DateUtils.formatDate(new Date(), "yyyyMM");
+
+			checkOrCreateDir(PROP_MONTH_PREDICT_FILE_ROOT_PATH,
+					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth);
+
+			String currentMonthText = DateUtils.formatDate(new Date(),
+					"yyyy年MM月");
+			attrsMap.addVariable("currentMonth", currentMonth);
+			attrsMap.addVariable("currentMonthText", currentMonthText);
+			attrsMap.addVariable("currentMonthFiles", getBrowse(
+					PROP_MONTH_PREDICT_FILE_ROOT_PATH,
+					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth));
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_PREDICT_SETTING, attrsMap);

@@ -447,22 +447,27 @@ Flywet.Portal = {
 							type : "button",
 							label : btnsSetting[i].label,
 							title : btnsSetting[i].title,
-							url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].actionId),
+							action : btnsSetting[i].action,
+							func : btnsSetting[i].func,
+							url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].action),
 							urlType : btnsSetting[i].urlType || "GET",
 							formId : btnsSetting[i].formId || "portal_menu_form",
 							events: {
 								click:function(event,params){
-									console.log(params);
-									Flywet.ab({
-										type : params.urlType,
-										url : params.url,
-										source : params.formId,
-										onsuccess:function(data, status, xhr) {
-											if (data.state == 0) {
-												window[dialogId + "_var"].hide();
+									if(params.func){
+										eval(params.func+"(dialogId,event,params);");
+									}else{
+										Flywet.ab({
+											type : params.urlType,
+											url : params.url,
+											source : params.formId,
+											onsuccess:function(data, status, xhr) {
+												if (data.state == 0) {
+													window[dialogId + "_var"].hide();
+												}
 											}
-										}
-									});
+										});
+									}
 								}
 							}
 						};
