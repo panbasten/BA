@@ -8,8 +8,8 @@
 			<span style="float:left;">${currentMonthText}</span>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" onclick="" title="添加" />
-			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" onclick="" title="删除" />
+			<fly:pushbutton iconCls="ui-icon-plusthick" onclick="Flywet.Portal.actionMenuDialog(21,'添加文件')" label="添加" title="添加" />
+			<fly:pushbutton iconCls="ui-icon-closethick" onclick="" label="删除" title="删除" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
 			<fly:horizontalLayout id="month_predict_files">

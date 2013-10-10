@@ -41,6 +41,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 			throws BIJSONException;
 
 	/**
+	 * 预测产品-月预测，打开文件上传页面
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String predictSettingUploadFilesDialog(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
 	 * 预测产品-延伸期预测，更新旬
 	 * 
 	 * @param targetId
@@ -180,9 +191,9 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @return
 	 * @throws BIJSONException
 	 */
-	public String dataUpdate(String targetId,
-			HashMap<String, Object> context) throws BIJSONException;
-	
+	public String dataUpdate(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
+
 	/**
 	 * 设置-上传数据
 	 * 
@@ -191,8 +202,9 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @return
 	 * @throws BIJSONException
 	 */
-	public String dataUpload(String targetId,
-			HashMap<String, Object> context) throws BIJSONException;
+	public String dataUpload(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
+
 	/**
 	 * 设置-业务定时期
 	 * 
@@ -201,8 +213,9 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @return
 	 * @throws BIJSONException
 	 */
-	public String buzTimed(String targetId,
-			HashMap<String, Object> context) throws BIJSONException;
+	public String buzTimed(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
+
 	/**
 	 * 业务规范
 	 * 
@@ -211,9 +224,9 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @return
 	 * @throws BIJSONException
 	 */
-	public String buzNorms(String targetId,
-			HashMap<String, Object> context) throws BIJSONException;
-	
+	public String buzNorms(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
+
 	/**
 	 * 相关网站链接
 	 * 
@@ -222,7 +235,7 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @return
 	 * @throws BIJSONException
 	 */
-	public String links(String targetId,
-			HashMap<String, Object> context) throws BIJSONException;
+	public String links(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
 
 }

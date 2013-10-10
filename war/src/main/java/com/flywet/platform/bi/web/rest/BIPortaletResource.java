@@ -148,6 +148,25 @@ public class BIPortaletResource {
 	}
 
 	@GET
+	@Path("/action/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String openPortalActionDialog(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId,
+			@QueryParam("param") String param) throws BIException {
+		try {
+			// 通过ID获得注册的菜单
+			PortalAction pa = portalDelegates.getPortalActionById(Long
+					.valueOf(id));
+
+			Map<String, Object> context = getDefaultContext(id, param);
+
+			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
+		} catch (Exception ex) {
+			throw new BIException("执行Portal的行为出现错误。", ex);
+		}
+	}
+
+	@GET
 	@Path("/menu/{id}/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updatePortalDialog(@PathParam("id") String id,

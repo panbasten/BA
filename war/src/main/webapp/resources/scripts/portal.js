@@ -398,6 +398,77 @@ Flywet.Portal = {
 		});
 	},
 	
+	actionMenuDialog : function(actionId, header, optMenu, url) {
+		var dialogId = "dialog_" + actionId;
+		
+		var opt = $.extend({},{
+			id : dialogId,
+			url : url || "rest/portalet/action/"+actionId,
+			width : 700,
+			height : 400,
+			header : header,
+			autoOpen : true,
+//			autoMaximized : true,
+			showHeader : true,
+			modal : true,
+			closable : true,
+			maximizable : false
+		}, optMenu);
+		
+		if(opt.btn){
+			var btns = [];
+			var btnsSetting = Flywet.parseJSON(opt.btn);
+			for(var i=0;i<btnsSetting.length;i++){
+				if(btnsSetting[i].type && btnsSetting[i].type == "cancel"){
+					btns.push({
+						componentType : "fly:PushButton",
+						type : "button",
+						label : "取消",
+						title : "取消",
+						events : {
+							"click" : "hide"
+						}
+					});
+				}else{
+					var btn = {
+						componentType : "fly:PushButton",
+						type : "button",
+						label : btnsSetting[i].label,
+						title : btnsSetting[i].title,
+						action : btnsSetting[i].action,
+						func : btnsSetting[i].func,
+						url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].action),
+						urlType : btnsSetting[i].urlType || "GET",
+						formId : btnsSetting[i].formId || "portal_menu_form",
+						events: {
+							click:function(event,params){
+								if(params.func){
+									eval(params.func+"(dialogId,event,params);");
+								}else{
+									Flywet.ab({
+										type : params.urlType,
+										url : params.url,
+										source : params.formId,
+										onsuccess:function(data, status, xhr) {
+											if (data.state == 0) {
+												window[dialogId + "_var"].hide();
+											}
+										}
+									});
+								}
+							}
+						}
+					};
+					btns.push(btn);
+				}
+			}
+			opt.btn = undefined;
+			opt.footerButtons = btns;
+		}
+		
+		Flywet.cw("Dialog", dialogId+"_var", opt);
+	},
+	
 	openMenuDialog: function(id,disabled){
 		var menu = Flywet.Portal.MENU_VAR.getMenu(id);
 		
@@ -411,74 +482,76 @@ Flywet.Portal = {
 				return;
 			}
 			
-			var dialogId = "dialog_" + menu.id;
+			this.actionMenuDialog(menu.id, menu.desc, optMenu, "rest/portalet/menu/"+menu.id);
 			
-			var opt = $.extend({},{
-				id : dialogId,
-				url : "rest/portalet/menu/"+menu.id,
-				width : 700,
-				height : 400,
-				header : menu.desc,
-				autoOpen : true,
-//				autoMaximized : true,
-				showHeader : true,
-				modal : true,
-				closable : true,
-				maximizable : false
-			}, optMenu);
-			
-			if(opt.btn){
-				var btns = [];
-				var btnsSetting = Flywet.parseJSON(opt.btn);
-				for(var i=0;i<btnsSetting.length;i++){
-					if(btnsSetting[i].type && btnsSetting[i].type == "cancel"){
-						btns.push({
-							componentType : "fly:PushButton",
-							type : "button",
-							label : "取消",
-							title : "取消",
-							events : {
-								"click" : "hide"
-							}
-						});
-					}else{
-						var btn = {
-							componentType : "fly:PushButton",
-							type : "button",
-							label : btnsSetting[i].label,
-							title : btnsSetting[i].title,
-							action : btnsSetting[i].action,
-							func : btnsSetting[i].func,
-							url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].action),
-							urlType : btnsSetting[i].urlType || "GET",
-							formId : btnsSetting[i].formId || "portal_menu_form",
-							events: {
-								click:function(event,params){
-									if(params.func){
-										eval(params.func+"(dialogId,event,params);");
-									}else{
-										Flywet.ab({
-											type : params.urlType,
-											url : params.url,
-											source : params.formId,
-											onsuccess:function(data, status, xhr) {
-												if (data.state == 0) {
-													window[dialogId + "_var"].hide();
-												}
-											}
-										});
-									}
-								}
-							}
-						};
-						btns.push(btn);
-					}
-				}
-				opt.btn = undefined;
-				opt.footerButtons = btns;
-			}
-			
-			Flywet.cw("Dialog", dialogId+"_var", opt);
+//			var dialogId = "dialog_" + menu.id;
+//			
+//			var opt = $.extend({},{
+//				id : dialogId,
+//				url : "rest/portalet/menu/"+menu.id,
+//				width : 700,
+//				height : 400,
+//				header : menu.desc,
+//				autoOpen : true,
+////				autoMaximized : true,
+//				showHeader : true,
+//				modal : true,
+//				closable : true,
+//				maximizable : false
+//			}, optMenu);
+//			
+//			if(opt.btn){
+//				var btns = [];
+//				var btnsSetting = Flywet.parseJSON(opt.btn);
+//				for(var i=0;i<btnsSetting.length;i++){
+//					if(btnsSetting[i].type && btnsSetting[i].type == "cancel"){
+//						btns.push({
+//							componentType : "fly:PushButton",
+//							type : "button",
+//							label : "取消",
+//							title : "取消",
+//							events : {
+//								"click" : "hide"
+//							}
+//						});
+//					}else{
+//						var btn = {
+//							componentType : "fly:PushButton",
+//							type : "button",
+//							label : btnsSetting[i].label,
+//							title : btnsSetting[i].title,
+//							action : btnsSetting[i].action,
+//							func : btnsSetting[i].func,
+//							url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].action),
+//							urlType : btnsSetting[i].urlType || "GET",
+//							formId : btnsSetting[i].formId || "portal_menu_form",
+//							events: {
+//								click:function(event,params){
+//									if(params.func){
+//										eval(params.func+"(dialogId,event,params);");
+//									}else{
+//										Flywet.ab({
+//											type : params.urlType,
+//											url : params.url,
+//											source : params.formId,
+//											onsuccess:function(data, status, xhr) {
+//												if (data.state == 0) {
+//													window[dialogId + "_var"].hide();
+//												}
+//											}
+//										});
+//									}
+//								}
+//							}
+//						};
+//						btns.push(btn);
+//					}
+//				}
+//				opt.btn = undefined;
+//				opt.footerButtons = btns;
+//			}
+//			
+//			Flywet.cw("Dialog", dialogId+"_var", opt);
 		}
 	},
 	

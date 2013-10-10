@@ -50,6 +50,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private static final String TEMPLATE_PREDICT_SETTING = "predictSetting.h";
 	private static final String TEMPLATE_EXTEND_SETTING = "extendSetting.h";
 
+	private static final String TEMPLATE_UPLOAD_FILES = "uploadFiles.h";
+
 	private static final String TEMPLATE_BUZ_NORMS = "buzNorms.h";
 	private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
 	private static final String TEMPLATE_DATA_UPDATE = "dataUpdate.h";
@@ -425,6 +427,32 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_PREDICT_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开当月预测填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
+	public String predictSettingUploadFilesDialog(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String[] files = new String[5];
+			attrsMap.addVariable("files", files);
+			attrsMap.addVariable("filePath", PROP_MONTH_PREDICT_FILE_ROOT_PATH);
+			attrsMap.addVariable("fileType", PROP_MONTH_PREDICT_FILE_CATEGORY);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_UPLOAD_FILES, attrsMap);
 
 			// 设置响应
 			return AjaxResult.instanceDialogContent(targetId, domString)
