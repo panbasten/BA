@@ -1,6 +1,6 @@
 <form method="post" id="portal_menu_form">
 
-	<fly:gridLayout column="2" itemWidth="20%,20%,58%" itemMargin="10" class="fly_portal_menu_content">
+	<fly:gridLayout column="3" itemWidth="20%,20%,58%" itemMargin="10" class="fly_portal_menu_content">
 		<fly:gridLayoutItem>
 			<span style="float:right;">填报日期：</span>
 		</fly:gridLayoutItem>
@@ -8,7 +8,7 @@
 			<span style="float:left;">${currentMonthText}</span>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:pushbutton iconCls="ui-icon-plusthick" onclick="Flywet.Portal.actionMenuDialog(21,'添加文件')" label="添加" title="添加" />
+			<fly:pushbutton iconCls="ui-icon-plusthick" onclick="Flywet.Portal.openUploadDialog(5,'custom.portal.monthPredict.file.rootPath','${currentMonth}','custom.portal.monthPredict.file.category')" label="添加" title="添加" />
 			<fly:pushbutton iconCls="ui-icon-closethick" onclick="" label="删除" title="删除" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
@@ -18,5 +18,7 @@
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	<fly:inputText id="id" name="id" type="hidden" value="" />
+
+	<fly:includeJs src="page.js"/>
 
 </form>

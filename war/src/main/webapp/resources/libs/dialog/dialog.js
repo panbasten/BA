@@ -77,8 +77,9 @@ Flywet.widget.Dialog.prototype.ajax = function() {
 		if(this.cfg.params){
 			params = this.cfg.params;
 		}else{
-			params = {targetId : this.content.attr("id")};
+			params = {};
 		}
+		params.targetId = this.content.attr("id");
 		Flywet.ab({
 			type : "get",
 			url : this.cfg.url,

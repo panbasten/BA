@@ -1,6 +1,8 @@
 package com.flywet.platform.bi.component.resolvers.layout;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.component.core.ComponentResolverInterface;
 import com.flywet.platform.bi.component.resolvers.BaseComponentResolver;
+import com.flywet.platform.bi.component.resolvers.base.ForEachResolver;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.HTMLWriter;
@@ -29,7 +32,7 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 	public static final String ATTR_COLS = "cols";
 
 	public static final String ATTR_ITEM_WIDTH = "itemWidth";
-	
+
 	public static final String ATTR_ITEM_MARGIN = "itemMargin";
 
 	private static final String GRID_LAYOUT_CLASS = "ui-grid-layout "
@@ -86,8 +89,9 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 
 			List<String> subScript = new ArrayList<String>();
 
+			int index = 0;
 			renderItems(node, html, subScript, attrs, fileUrl, column,
-					itemWidth);
+					itemWidth, index);
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
@@ -108,53 +112,118 @@ public class FLYGridLayoutResolver extends BaseComponentResolver implements
 		}
 	}
 
-	private void renderItems(Node node, HTMLWriter html, List<String> script,
+	private int renderItems(Node node, HTMLWriter html, List<String> script,
 			FLYVariableResolver attrs, String fileUrl, int column,
-			int[] itemWidth) throws BIPageException {
+			int[] itemWidth, int index) throws BIPageException {
 		NodeList nodeList = node.getChildNodes();
-		int index = 0;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node subNode = nodeList.item(i);
-			if (HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM.equalsIgnoreCase(subNode
-					.getNodeName())) {
+			index = renderItemAsType(subNode, html, script, attrs, fileUrl,
+					column, itemWidth, index);
+		}
+		return index;
+	}
 
-				int cols = 1, w = 0;
-				String colsStr = HTML
-						.getTagAttribute(subNode, ATTR_COLS, attrs);
-				if (colsStr != null) {
-					cols = Integer.valueOf(colsStr);
+	private int renderItemAsType(Node subNode, HTMLWriter html,
+			List<String> script, FLYVariableResolver attrs, String fileUrl,
+			int column, int[] itemWidth, int index) throws BIPageException {
+		if (HTML.COMPONENT_TYPE_GRID_LAYOUT_ITEM.equalsIgnoreCase(subNode
+				.getNodeName())) {
+			return renderLayoutItem(subNode, html, script, attrs, fileUrl,
+					column, itemWidth, index);
+		} else if (HTML.COMPONENT_TYPE_FOR_EACH.equalsIgnoreCase(subNode
+				.getNodeName())) {
+			return renderForEach(subNode, html, script, attrs, fileUrl, column,
+					itemWidth, index);
+		} else {
+			// 其他类型的节点，不做操作
+		}
+		return index;
+	}
+
+	private int renderForEach(Node subNode, HTMLWriter html,
+			List<String> script, FLYVariableResolver attrs, String fileUrl,
+			int column, int[] itemWidth, int index) throws BIPageException {
+		String varStr = HTML.getTagAttribute(subNode,
+				ForEachResolver.ATTRIBUTE_VAR, attrs);
+		String indexVarStr = HTML.getTagAttribute(subNode,
+				ForEachResolver.ATTRIBUTE_INDEX_VAR, attrs);
+		String sizeVarStr = HTML.getTagAttribute(subNode,
+				ForEachResolver.ATTRIBUTE_SIZE_VAR, attrs);
+		Object obj = HTML.getTagAttributeObject(subNode,
+				ForEachResolver.ATTRIBUTE_ITEMS, attrs);
+		if (obj instanceof Object[]) {
+			Object[] items = (Object[]) obj;
+			if (items != null && items.length > 0) {
+				if (sizeVarStr != null) {
+					attrs.addVariable(sizeVarStr, items.length);
 				}
-				for (int c = 0; c < cols; c++) {
-					w += getWidth(index, column, itemWidth);
-					index++;
+				for (int i = 0; i < items.length; i++) {
+					attrs.addVariable(varStr, items[i]);
+					if (indexVarStr != null) {
+						attrs.addVariable(indexVarStr, i);
+					}
+					index = renderItems(subNode, html, script, attrs, fileUrl,
+							column, itemWidth, index);
 				}
-
-				html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
-				html.writeAttribute(HTML.ATTR_CLASS, GRID_LAYOUT_ITEM_CLASS);
-
-				String style = Const.NVL(HTML.getTagAttribute(subNode,
-						HTML.ATTR_STYLE, attrs), "");
-				style = "width:" + w + "%;" + style;
-				style = HTML.getShowStyle(subNode, attrs) + style;
-				html.writeAttribute(HTML.ATTR_STYLE, style);
-
-				HTML
-						.writeAttributes(subNode.getAttributes(), null, html,
-								attrs);
-
-				if (isEmptyItem(subNode)) {
-					html.writeText("<div class='" + GRID_LAYOUT_ITEM_EMPTY
-							+ "'>--空--</div>");
-				} else {
+			}
+		} else {
+			Collection<?> items = (Collection<?>) obj;
+			if (items != null && items.size() > 0) {
+				if (sizeVarStr != null) {
+					attrs.addVariable(sizeVarStr, items.size());
+				}
+				int itemIdx = 0;
+				for (Iterator<?> itet = items.iterator(); itet.hasNext();) {
+					attrs.addVariable(varStr, itet.next());
+					if (indexVarStr != null) {
+						attrs.addVariable(indexVarStr, itemIdx);
+					}
+					itemIdx++;
 					super.renderSub(subNode, html, script, attrs, fileUrl);
+					index = renderItems(subNode, html, script, attrs, fileUrl,
+							column, itemWidth, index);
 				}
-
-				html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
-			} else {
-				// 如果不是GRID_LAYOUT_ITEM类型的节点，不做操作
 			}
 		}
+		return index;
+	}
 
+	private int renderLayoutItem(Node subNode, HTMLWriter html,
+			List<String> script, FLYVariableResolver attrs, String fileUrl,
+			int column, int[] itemWidth, int index) throws BIPageException {
+
+		int cols = 1, w = 0;
+		String colsStr = HTML.getTagAttribute(subNode, ATTR_COLS, attrs);
+		if (colsStr != null) {
+			cols = Integer.valueOf(colsStr);
+		}
+		for (int c = 0; c < cols; c++) {
+			w += getWidth(index, column, itemWidth);
+			index++;
+		}
+
+		html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
+		html.writeAttribute(HTML.ATTR_CLASS, GRID_LAYOUT_ITEM_CLASS);
+
+		String style = Const.NVL(HTML.getTagAttribute(subNode, HTML.ATTR_STYLE,
+				attrs), "");
+		style = "width:" + w + "%;" + style;
+		style = HTML.getShowStyle(subNode, attrs) + style;
+		html.writeAttribute(HTML.ATTR_STYLE, style);
+
+		HTML.writeAttributes(subNode.getAttributes(), null, html, attrs);
+
+		if (isEmptyItem(subNode)) {
+			html.writeText("<div class='" + GRID_LAYOUT_ITEM_EMPTY
+					+ "'>--空--</div>");
+		} else {
+			super.renderSub(subNode, html, script, attrs, fileUrl);
+		}
+
+		html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
+
+		return index;
 	}
 
 	private boolean isEmptyItem(Node subNode) throws BIPageException {

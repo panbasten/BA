@@ -1,7 +1,7 @@
 <form method="POST" id="portal_menu_form" enctype="multipart/form-data"
 		target="portal_upload_space_frame">
 
-	<fly:gridLayout column="2" itemWidth="30%,70%">
+	<fly:gridLayout column="2" itemWidth="40%,58%">
 		<fly:gridLayoutItem>
 			<fly:labelObject text="11城市月数据：" buddy="fs1" style="margin:5px 30px 5px 5px;float:right;" />
 		</fly:gridLayoutItem>

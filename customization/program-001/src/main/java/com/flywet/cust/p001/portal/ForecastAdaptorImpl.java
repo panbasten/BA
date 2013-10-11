@@ -41,6 +41,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 	private static Class<?> PKG = ForecastAdaptorImpl.class;
 
+	public static final String PORTAL_ONLY_PARAM = "param";
+
 	private static final String[] YUN_DESC = new String[] { "上旬", "中旬", "下旬" };
 
 	private static final String TEMPLATE_MONTH_PREDICT = "monthPredict.h";
@@ -49,8 +51,6 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private static final String TEMPLATE_EXTEND_PREDICT_SCORE = "extendPredictScore.h";
 	private static final String TEMPLATE_PREDICT_SETTING = "predictSetting.h";
 	private static final String TEMPLATE_EXTEND_SETTING = "extendSetting.h";
-
-	private static final String TEMPLATE_UPLOAD_FILES = "uploadFiles.h";
 
 	private static final String TEMPLATE_BUZ_NORMS = "buzNorms.h";
 	private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
@@ -94,7 +94,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String monthPredictUpdate(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-			String currentMonth = (String) context.get("param");
+			String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
@@ -288,7 +288,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String currentXun = (String) context.get("param");
+			String currentXun = (String) context.get(PORTAL_ONLY_PARAM);
 			String[] xun = currentXun.split(":");
 
 			String sql = "SELECT "
@@ -427,32 +427,6 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_PREDICT_SETTING, attrsMap);
-
-			// 设置响应
-			return AjaxResult.instanceDialogContent(targetId, domString)
-					.toJSONString();
-		} catch (Exception e) {
-			log.error("打开当月预测填报界面出现问题。");
-		}
-
-		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
-				.toJSONString();
-	}
-
-	@Override
-	public String predictSettingUploadFilesDialog(String targetId,
-			HashMap<String, Object> context) throws BIJSONException {
-		try {
-			// 获得页面
-			FLYVariableResolver attrsMap = new FLYVariableResolver();
-
-			String[] files = new String[5];
-			attrsMap.addVariable("files", files);
-			attrsMap.addVariable("filePath", PROP_MONTH_PREDICT_FILE_ROOT_PATH);
-			attrsMap.addVariable("fileType", PROP_MONTH_PREDICT_FILE_CATEGORY);
-
-			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
-					TEMPLATE_UPLOAD_FILES, attrsMap);
 
 			// 设置响应
 			return AjaxResult.instanceDialogContent(targetId, domString)
