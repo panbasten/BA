@@ -1,5 +1,9 @@
 package com.flywet.cust.p001.portal;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -7,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -73,18 +78,23 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	// 11城市月数据
 	private static final String PROP_ELEVEN_MONTH_CITY_FILE_ROOT_PATH = "custom.portal.11MonthCity.file.rootPath";
 	private static final String PROP_ELEVEN_MONTH_CITY_FILE_CATEGORY = "custom.portal.11MonthCity.file.category";
+	private static final String PROP_ELEVEN_MONTH_CITY_FILE_FILENAME = "custom.portal.11MonthCity.file.fileName";
 
 	// 11城市季数据
 	private static final String PROP_ELEVEN_QUARTER_CITY_FILE_ROOT_PATH = "custom.portal.11QuarterCity.file.rootPath";
 	private static final String PROP_ELEVEN_QUARTER_CITY_FILE_CATEGORY = "custom.portal.11QuarterCity.file.category";
+	private static final String PROP_ELEVEN_QUARTER_CITY_FILE_FILENAME = "custom.portal.11QuarterCity.file.fileName";
 
 	// 142县站数据
 	private static final String PROP_142_STA_FILE_ROOT_PATH = "custom.portal.142sta.file.rootPath";
 	private static final String PROP_142_STA_FILE_CATEGORY = "custom.portal.142sta.file.category";
+	private static final String PROP_142_STA_FILE_LAST_FILENAME = "custom.portal.142sta.last.file.fileName";
+	private static final String PROP_142_STA_FILE_HISTORY_FILENAME = "custom.portal.142sta.history.file.fileName";
 
 	// 海温数据
 	private static final String PROP_SST_FILE_ROOT_PATH = "custom.portal.sst.file.rootPath";
 	private static final String PROP_SST_FILE_CATEGORY = "custom.portal.sst.file.category";
+	private static final String PROP_SST_FILE_FILENAME = "custom.portal.sst.file.fileName";
 
 	// 数据上传
 	private static final String PROP_UPLOAD_FILE_ROOT_PATH = "custom.portal.upload.file.rootPath";
@@ -440,6 +450,49 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	}
 
 	@Override
+	public String predictSettingUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String currentMonth = DateUtils.formatDate(new Date(), "yyyyMM");
+
+			checkOrCreateDir(PROP_MONTH_PREDICT_FILE_ROOT_PATH,
+					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth);
+
+			String currentMonthText = DateUtils.formatDate(new Date(),
+					"yyyy年MM月");
+			attrsMap.addVariable("currentMonth", currentMonth);
+			attrsMap.addVariable("currentMonthText", currentMonthText);
+			attrsMap.addVariable("currentMonthFiles", getBrowse(
+					PROP_MONTH_PREDICT_FILE_ROOT_PATH,
+					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth));
+
+			AjaxResult ar = AjaxResult.instance();
+
+			String[] targetIds = targetId.split(",");
+			for (String id : targetIds) {
+				Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+						TEMPLATE_PREDICT_SETTING, attrsMap, id);
+				AjaxResultEntity acc = AjaxResultEntity.instance()
+						.setOperation(Utils.RESULT_OPERATION_UPDATE)
+						.setTargetId(id).setDomAndScript(domString);
+				ar.addEntity(acc);
+			}
+
+			return ar.toJSONString();
+
+		} catch (Exception e) {
+			log.error("打开当月预测填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
 	public String extendSetting(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
 
@@ -605,6 +658,117 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 		return ActionMessage.instance().failure("打开设置-数据更新界面出现问题。")
 				.toJSONString();
+	}
+
+	@Override
+	public String dataUpdateFiles(ArrayList<FileItem> items,
+			HashMap<String, String> dataObj) throws BIJSONException {
+		ActionMessage resultMsg = new ActionMessage();
+		try {
+			// 遍历文件并逐次上传
+			for (FileItem item : items) {
+				if (item.isFormField() || Const.isEmpty(item.getName())) {
+					continue;
+				}
+
+				// 11城市月数据
+				if ("fs1".equals(item.getFieldName())) {
+					dataUpdateFile(item, PROP_ELEVEN_MONTH_CITY_FILE_ROOT_PATH,
+							PROP_ELEVEN_MONTH_CITY_FILE_CATEGORY,
+							PROP_ELEVEN_MONTH_CITY_FILE_FILENAME);
+				}
+				// 11城市季数据
+				else if ("fs2".equals(item.getFieldName())) {
+					dataUpdateFile(item,
+							PROP_ELEVEN_QUARTER_CITY_FILE_ROOT_PATH,
+							PROP_ELEVEN_QUARTER_CITY_FILE_CATEGORY,
+							PROP_ELEVEN_QUARTER_CITY_FILE_FILENAME);
+				}
+				// 142县站数据(上月)
+				else if ("fs3".equals(item.getFieldName())) {
+					dataUpdateFile(item, PROP_142_STA_FILE_ROOT_PATH,
+							PROP_142_STA_FILE_CATEGORY,
+							PROP_142_STA_FILE_LAST_FILENAME);
+				}
+				// 142县站数据(历史)
+				else if ("fs4".equals(item.getFieldName())) {
+					dataUpdateFile(item, PROP_142_STA_FILE_ROOT_PATH,
+							PROP_142_STA_FILE_CATEGORY,
+							PROP_142_STA_FILE_HISTORY_FILENAME);
+				}
+				// 海温数据
+				else if ("fs5".equals(item.getFieldName())) {
+					dataUpdateFile(item, PROP_SST_FILE_ROOT_PATH,
+							PROP_SST_FILE_CATEGORY, PROP_SST_FILE_FILENAME);
+				}
+			}
+			resultMsg.addMessage("上传操作成功");
+			return resultMsg.toJSONString();
+		} catch (Exception ioe) {
+			log.error("read or write file exception:", ioe);
+			resultMsg.addErrorMessage("上传文件失败");
+			return resultMsg.toJSONString();
+		}
+	}
+
+	private void dataUpdateFile(FileItem item, String rootDir, String category,
+			String fileName) throws BIException, IOException {
+		InputStream is = null;
+		OutputStream os = null;
+
+		File fullFile = new File(PropertyUtils.getProperty(fileName));
+		try {
+			String destFileStr = fullFile.getName();
+			FileObject destFileObj = composeVfsObject(category, destFileStr,
+					rootDir);
+
+			is = item.getInputStream();
+			os = destFileObj.getContent().getOutputStream();
+
+			byte[] bytes = new byte[1024];
+			int in = 0;
+			while ((in = is.read(bytes)) != -1) {
+				os.write(bytes);
+			}
+			os.flush();
+		} catch (IOException ioe) {
+			throw ioe;
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+			if (is != null) {
+				is.close();
+			}
+			item.delete();
+		}
+	}
+
+	private FileObject composeVfsObject(String categoryProp, String workDir,
+			String rootDirProp) throws BIException {
+		try {
+			String rootDir = PropertyUtils.getProperty(rootDirProp);
+			String category = PropertyUtils.getProperty(categoryProp);
+			FileSystemManager fsManager = VFS.getManager();
+			FileSystemOptions opts = new FileSystemOptions();
+
+			BIFileSystemCategory cate = BIFileSystemCategory
+					.getCategoryByCode(category);
+
+			String vfsPath = cate.getVfsPath(workDir, rootDir);
+
+			if (BIFileSystemCategory.FILESYS_TYPE_SFTP.getCategory().equals(
+					category)) {
+				SftpFileSystemConfigBuilder.getInstance()
+						.setStrictHostKeyChecking(opts, "no");
+			}
+
+			FileObject fileObj = fsManager.resolveFile(vfsPath, opts);
+			return fileObj;
+		} catch (FileSystemException e) {
+			log.error("get vfs fileobject exception", e);
+			throw new BIException("读取文件系统" + workDir + "失败");
+		}
 	}
 
 	@Override

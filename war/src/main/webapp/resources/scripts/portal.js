@@ -1,5 +1,6 @@
 Flywet.Portal = {
 	UPLOAD_DIALOG_ID : null,
+	UPLOAD_DIALOG_CALLBACK : null,
 	FIXED_SIZE : {
 		header : 35,
 		footer : 95,
@@ -418,7 +419,24 @@ Flywet.Portal = {
 		});
 	},
 	
-	openUploadDialog : function(filesNum,rootDir,workDir,category){
+	openUploadOneDialog : function(rootDir,category,fileName,text,callback){
+		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
+		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.uploadFiles"},{"type":"cancel"}];
+		this.openPortalDialog("upload","添加文件",{
+			width:400,
+			height:100,
+			btn:btn,
+			params:{
+				rootDir:rootDir
+				,category:category
+				,fileName:fileName
+				,text:text
+			}},
+			"rest/portalet/uploadone/open");
+	},
+	
+	openUploadDialog : function(filesNum,rootDir,workDir,category,callback){
+		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
 		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.uploadFiles"},{"type":"cancel"}];
 		this.openPortalDialog("upload","添加文件",{
 			width:400,
@@ -441,11 +459,15 @@ Flywet.Portal = {
 	
 	uploadResult : function(target){
 		Flywet.Portal.pageCover(false);
-		// 刷新上传页面 TODO
 		
 		var msg = $(document.getElementById('portal_upload_space_frame').contentWindow.document.body).find("pre");
 		msg = $(msg).html();
 		if(msg && msg != ""){
+			// 刷新上传页面
+			if(Flywet.Portal.UPLOAD_DIALOG_CALLBACK){
+				eval(Flywet.Portal.UPLOAD_DIALOG_CALLBACK+"();");
+			}
+			
 			msg = Flywet.parseJSON(msg);
 			// 清空
 			$(document.getElementById('portal_upload_space_frame').contentWindow.document.body).html("");

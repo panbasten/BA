@@ -8,7 +8,7 @@
 			<span style="float:left;">${currentMonthText}</span>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<fly:pushbutton iconCls="ui-icon-plusthick" onclick="Flywet.Portal.openUploadDialog(5,'custom.portal.monthPredict.file.rootPath','${currentMonth}','custom.portal.monthPredict.file.category')" label="添加" title="添加" />
+			<fly:pushbutton iconCls="ui-icon-plusthick" onclick="Flywet.Portal.openUploadDialog(5,'custom.portal.monthPredict.file.rootPath','${currentMonth}','custom.portal.monthPredict.file.category','predictSettingUpdate')" label="添加" title="添加" />
 			<fly:pushbutton iconCls="ui-icon-closethick" onclick="" label="删除" title="删除" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">

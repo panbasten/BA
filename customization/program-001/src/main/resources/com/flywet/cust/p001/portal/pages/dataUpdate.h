@@ -1,4 +1,4 @@
-<form method="POST" id="portal_menu_form" enctype="multipart/form-data"
+<form action="rest/portalet/actionFileForm/22" method="POST" id="portal_upload_form" enctype="multipart/form-data"
 		target="portal_upload_space_frame">
 
 	<fly:gridLayout column="2" itemWidth="40%,58%">
@@ -19,22 +19,32 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:labelObject text=" 142县站数据：" buddy="fs3" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text=" 142县站数据(上月)：" buddy="fs3" style="margin:5px 30px 5px 5px;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
 			<fly:inputText id="fs3" name="fs3" type="file" size="30" />
 		</fly:gridLayoutItem>
-
+		
 		<fly:gridLayoutItem>
-			<fly:labelObject text="海温数据：" buddy="fs4" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text=" 142县站数据(历史)：" buddy="fs4" style="margin:5px 30px 5px 5px;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
 			<fly:inputText id="fs4" name="fs4" type="file" size="30" />
 		</fly:gridLayoutItem>
 
-	</fly:gridLayout>
+		<fly:gridLayoutItem>
+			<fly:labelObject text="海温数据：" buddy="fs5" style="margin:5px 30px 5px 5px;float:right;" />
+		</fly:gridLayoutItem>
 
-	<iframe id="portal_upload_space_frame" name="portal_upload_space_frame" class="fly-space-frame" onload="Flywet.filesys.uploadResult(this);"></iframe>
+		<fly:gridLayoutItem>
+			<fly:inputText id="fs5" name="fs5" type="file" size="30" />
+		</fly:gridLayoutItem>
+
+	</fly:gridLayout>
+	
+	<fly:includeJs src="page.js"/>
+
+	<iframe id="portal_upload_space_frame" name="portal_upload_space_frame" class="fly-space-frame" onload="dataUpdateCallback(this);"></iframe>
 </form>

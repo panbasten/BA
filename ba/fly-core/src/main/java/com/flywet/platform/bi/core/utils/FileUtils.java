@@ -306,9 +306,10 @@ public class FileUtils {
 	 * @return
 	 */
 	public static String dirAppend(String dir1, String dir2) {
-		if (dir1 == null || dir2 == null) {
+		if (dir2 == null) {
 			return null;
 		}
+		dir1 = Const.NVL(dir1, "");
 		if (!dir1.endsWith("\\") && !dir1.endsWith("/")) {
 			dir1 = directoryComplete(dir1);
 		}
@@ -328,7 +329,7 @@ public class FileUtils {
 	 */
 	public static String directoryComplete(String dir) {
 		if (StringUtils.isEmpty(dir)) {
-			return null;
+			return "";
 		}
 
 		if (dir.endsWith("\\") || dir.endsWith("/")) {

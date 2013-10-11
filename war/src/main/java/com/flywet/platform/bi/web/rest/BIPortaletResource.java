@@ -74,6 +74,83 @@ public class BIPortaletResource {
 
 	private static final String TEMPLATE_UPLOAD_FILES = "portal/menu/uploadFiles.h";
 
+	private static final String TEMPLATE_UPLOAD_ONE_FILE = "portal/menu/uploadOneFile.h";
+
+	@GET
+	@Path("/action/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String portalAction(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId,
+			@QueryParam("param") String param) throws BIException {
+		try {
+			// 通过ID获得注册的菜单
+			PortalAction pa = portalDelegates.getPortalActionById(Long
+					.valueOf(id));
+
+			Map<String, Object> context = getDefaultContext(id, param);
+
+			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
+		} catch (Exception ex) {
+			throw new BIException("执行Portal的行为出现错误。", ex);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Path("/actionFileForm/{id}")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
+	public String portalActionFileForm(@PathParam("id") String id,
+			@Context HttpServletRequest request) throws Exception {
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(4096); // 设置缓冲区大小，这里是4kb
+
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		String fileSizeMax = PropertyUtils.getProperty("fs.upload.maxsize");
+		upload.setFileSizeMax(Long.parseLong(fileSizeMax));
+
+		List<FileItem> items = upload.parseRequest(request);// 得到所有的文件
+		// 提取参数
+		Map<String, String> dataObj = extractParams(items);
+
+		// 通过ID获得注册的菜单
+		PortalAction pa = portalDelegates.getPortalActionById(Long.valueOf(id));
+
+		return invokeMethod(pa.getCls(), pa.getMethod(), items, dataObj);
+	}
+
+	@GET
+	@Path("/uploadone/open")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String openUploadOneFileDialog(
+			@QueryParam("targetId") String targetId,
+			@QueryParam("rootDir") String rootDir,
+			@QueryParam("fileName") String fileName,
+			@QueryParam("category") String category,
+			@QueryParam("text") String text) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("text", text);
+			attrsMap.addVariable("rootDir", rootDir);
+			attrsMap.addVariable("fileName", fileName);
+			attrsMap.addVariable("category", category);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_UPLOAD_ONE_FILE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开当月预测填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+				.toJSONString();
+	}
+
 	@GET
 	@Path("/upload/open")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -113,6 +190,82 @@ public class BIPortaletResource {
 				.toJSONString();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Path("/uploadone")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
+	public String uploadOneFile(@Context HttpServletRequest request)
+			throws Exception {
+		ActionMessage resultMsg = new ActionMessage();
+
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(4096); // 设置缓冲区大小，这里是4kb
+
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		String fileSizeMax = PropertyUtils.getProperty("fs.upload.maxsize");
+		upload.setFileSizeMax(Long.parseLong(fileSizeMax));
+
+		List<FileItem> items = upload.parseRequest(request);// 得到所有的文件
+		// 提取参数
+		Map<String, String> dataObj = extractParams(items);
+
+		String rootDir = PropertyUtils.getProperty(dataObj.get("rootDir"));
+		String fileName = PropertyUtils.getProperty(dataObj.get("fileName"));
+		String category = PropertyUtils.getProperty(dataObj.get("category"));
+		String workDir = dataObj.get("workDir");
+
+		try {
+			// 遍历文件并逐次上传
+			for (FileItem item : items) {
+				if (item.isFormField() || Const.isEmpty(item.getName())) {
+					continue;
+				}
+				uploadFile(item, rootDir, workDir, category, fileName);
+			}
+			resultMsg.addMessage("上传操作成功");
+			return resultMsg.toJSONString();
+		} catch (Exception e) {
+			resultMsg.addErrorMessage("上传文件" + fileName + "失败");
+			return resultMsg.toJSONString();
+		}
+	}
+
+	private void uploadFile(FileItem item, String rootDir, String workDir,
+			String category, String fileName) throws IOException, BIException {
+		InputStream is = null;
+		OutputStream os = null;
+
+		File fullFile = new File(fileName);
+		try {
+			String destFileStr = FileUtils.dirAppend(workDir, fullFile
+					.getName());
+			FileObject destFileObj = filesysService.composeVfsObject(category,
+					destFileStr, rootDir);
+
+			is = item.getInputStream();
+			os = destFileObj.getContent().getOutputStream();
+
+			byte[] bytes = new byte[1024];
+			while ((is.read(bytes)) != -1) {
+				os.write(bytes);
+			}
+			os.flush();
+		} catch (IOException ioe) {
+			log.error("read or write file exception:", ioe);
+			throw ioe;
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+			if (is != null) {
+				is.close();
+			}
+			item.delete();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	@Path("/upload")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -133,50 +286,25 @@ public class BIPortaletResource {
 		Map<String, String> dataObj = extractParams(items);
 
 		String rootDir = PropertyUtils.getProperty(dataObj.get("rootDir"));
-		String workDir = dataObj.get("workDir");
 		String category = PropertyUtils.getProperty(dataObj.get("category"));
+		String workDir = dataObj.get("workDir");
 
-		// 遍历文件并逐次上传
-		for (FileItem item : items) {
-			if (item.isFormField() || Const.isEmpty(item.getName())) {
-				continue;
+		try {
+			// 遍历文件并逐次上传
+			for (FileItem item : items) {
+				if (item.isFormField() || Const.isEmpty(item.getName())) {
+					continue;
+				}
+
+				uploadFile(item, rootDir, workDir, category, item.getName());
 			}
+			resultMsg.addMessage("上传操作成功");
+			return resultMsg.toJSONString();
 
-			InputStream is = null;
-			OutputStream os = null;
-
-			File fullFile = new File(item.getName());
-			try {
-				String destFileStr = FileUtils.dirAppend(workDir, fullFile
-						.getName());
-				FileObject destFileObj = filesysService.composeVfsObject(
-						category, destFileStr, rootDir);
-
-				is = item.getInputStream();
-				os = destFileObj.getContent().getOutputStream();
-
-				byte[] bytes = new byte[1024];
-				int in = 0;
-				while ((in = is.read(bytes)) != -1) {
-					os.write(bytes);
-				}
-				os.flush();
-			} catch (IOException ioe) {
-				log.error("read or write file exception:", ioe);
-				resultMsg.addErrorMessage("上传文件" + fullFile.getName() + "失败");
-				return resultMsg.toJSONString();
-			} finally {
-				if (os != null) {
-					os.close();
-				}
-				if (is != null) {
-					is.close();
-				}
-				item.delete();
-			}
+		} catch (Exception e) {
+			resultMsg.addErrorMessage("上传文件失败");
+			return resultMsg.toJSONString();
 		}
-		resultMsg.addMessage("上传操作成功");
-		return resultMsg.toJSONString();
 	}
 
 	private Map<String, String> extractParams(List<FileItem> items)
@@ -283,25 +411,6 @@ public class BIPortaletResource {
 	}
 
 	@GET
-	@Path("/action/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String openPortalActionDialog(@PathParam("id") String id,
-			@QueryParam("targetId") String targetId,
-			@QueryParam("param") String param) throws BIException {
-		try {
-			// 通过ID获得注册的菜单
-			PortalAction pa = portalDelegates.getPortalActionById(Long
-					.valueOf(id));
-
-			Map<String, Object> context = getDefaultContext(id, param);
-
-			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
-		} catch (Exception ex) {
-			throw new BIException("执行Portal的行为出现错误。", ex);
-		}
-	}
-
-	@GET
 	@Path("/menu/{id}/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updatePortalDialog(@PathParam("id") String id,
@@ -358,6 +467,23 @@ public class BIPortaletResource {
 			log.error("打开Portal的菜单出现错误。");
 		}
 		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
+				.toJSONString();
+	}
+
+	private String invokeMethod(String cls, String method,
+			List<FileItem> items, Map<String, String> dataObj)
+			throws BIException {
+		try {
+			Class<?> clazz = Class.forName(cls);
+			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
+
+			return (String) ReflectionUtils.invokeMethod(prog, method, items,
+					dataObj);
+
+		} catch (Exception ex) {
+			log.error("打开Portal的文件上传出现错误。");
+		}
+		return ActionMessage.instance().failure("打开Portal的文件上传出现错误。")
 				.toJSONString();
 	}
 

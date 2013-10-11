@@ -1,6 +1,9 @@
 package com.flywet.cust.p001.portal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.apache.commons.fileupload.FileItem;
 
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.delegates.model.BIAdaptorInterface;
@@ -60,6 +63,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @throws BIJSONException
 	 */
 	public String predictSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 预测产品-当月预测填报，更新
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String predictSettingUpdate(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
@@ -173,7 +187,7 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
-	 * 设置-数据更新
+	 * 分析工具-数据更新
 	 * 
 	 * @param targetId
 	 * @param context
@@ -182,6 +196,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 */
 	public String dataUpdate(String targetId, HashMap<String, Object> context)
 			throws BIJSONException;
+
+	/**
+	 * 分析工具-数据更新-更新文件
+	 * 
+	 * @param items
+	 * @param dataObj
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String dataUpdateFiles(ArrayList<FileItem> items,
+			HashMap<String, String> dataObj) throws BIJSONException;
 
 	/**
 	 * 设置-上传数据
