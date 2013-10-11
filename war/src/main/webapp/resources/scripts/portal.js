@@ -419,6 +419,32 @@ Flywet.Portal = {
 		});
 	},
 	
+	openEditFileDialog : function(rootDir,category,fileName,text,callback){
+		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
+		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.saveEditFile"},{"type":"cancel"}];
+		this.openPortalDialog("edit","编辑文件",{
+			width:400,
+			height:300,
+			btn:btn,
+			params:{
+				rootDir:rootDir
+				,category:category
+				,fileName:fileName
+				,text:text
+			}},
+			"rest/portalet/editfile/open");
+	},
+	
+	saveEditFile : function(dialogId,event,params){
+		Flywet.Portal.pageCover(true);
+		Flywet.Portal.UPLOAD_DIALOG_ID = dialogId;
+		Flywet.ab({
+			type : "post",
+			formId : "portal_edit_form",
+			formAction : "rest/portalet/editfile/save"
+		});
+	},
+	
 	openUploadOneDialog : function(rootDir,category,fileName,text,callback){
 		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
 		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.uploadFiles"},{"type":"cancel"}];

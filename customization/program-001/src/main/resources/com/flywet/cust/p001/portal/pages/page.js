@@ -23,15 +23,15 @@ function dataUpdateCallback(target){
 }
 
 function seasonForecast(dialogId,event,params){
-	Flywet.Portal.openUploadOneDialog('custom.portal.seasonForecast.file.rootPath','custom.portal.seasonForecast.file.category','custom.portal.seasonForecast.file.fileName','namelist');
+	Flywet.Portal.openEditFileDialog('custom.portal.seasonForecast.file.rootPath','custom.portal.seasonForecast.file.category','custom.portal.seasonForecast.file.fileName','namelist');
 }
 
 function evaluation(dialogId,event,params){
-	Flywet.Portal.openUploadOneDialog('custom.portal.evaluation.file.rootPath','custom.portal.evaluation.file.category','custom.portal.evaluation.file.fileName','cityforecast.txt');
+	Flywet.Portal.openEditFileDialog('custom.portal.evaluation.file.rootPath','custom.portal.evaluation.file.category','custom.portal.evaluation.file.fileName','cityforecast.txt');
 }
 
 function processForecast(dialogId,event,params){
-	Flywet.Portal.openUploadOneDialog('custom.portal.processForecast.file.rootPath','custom.portal.processForecast.file.category','custom.portal.processForecast.file.fileName','namelist');
+	Flywet.Portal.openEditFileDialog('custom.portal.processForecast.file.rootPath','custom.portal.processForecast.file.category','custom.portal.processForecast.file.fileName','namelist');
 }
 
 function downloadFile(obj,data){

@@ -50,9 +50,11 @@ import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.delegates.vo.User;
+import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
 import com.flywet.platform.bi.web.service.BIPortalDelegates;
 import com.flywet.platform.bi.web.service.BIUserDelegate;
+import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.portalet")
 @Path("/portalet")
@@ -75,6 +77,8 @@ public class BIPortaletResource {
 	private static final String TEMPLATE_UPLOAD_FILES = "portal/menu/uploadFiles.h";
 
 	private static final String TEMPLATE_UPLOAD_ONE_FILE = "portal/menu/uploadOneFile.h";
+
+	private static final String TEMPLATE_EDIT_FILE = "portal/menu/editFile.h";
 
 	@GET
 	@Path("/action/{id}")
@@ -120,6 +124,67 @@ public class BIPortaletResource {
 	}
 
 	@GET
+	@Path("/editfile/open")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String openEditFileDialog(@QueryParam("targetId") String targetId,
+			@QueryParam("rootDir") String rootDir,
+			@QueryParam("fileName") String fileName,
+			@QueryParam("category") String category,
+			@QueryParam("text") String text) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String fileText = "aaaa";
+
+			attrsMap.addVariable("text", (Const.isEmpty(text)) ? fileName
+					: text);
+			attrsMap.addVariable("rootDir", rootDir);
+			attrsMap.addVariable("fileText", fileText);
+			attrsMap.addVariable("fileName", fileName);
+			attrsMap.addVariable("category", category);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_EDIT_FILE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开当月预测填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@POST
+	@Path("/editfile/save")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String saveAsTransSubmit(String body) throws BIJSONException {
+		ActionMessage am = new ActionMessage();
+		try {
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			// 页面设置
+			String fs = paramContext.getParameter("fs");
+
+			String rootDir = paramContext.getParameter("rootDir");
+			String fileName = paramContext.getParameter("fileName");
+			String category = paramContext.getParameter("category");
+
+			// 保存
+
+			am.addMessage("保存文件成功。");
+		} catch (Exception e) {
+			log.error("保存文件出现错误。");
+			am.addErrorMessage("保存文件出现错误。");
+		}
+		return am.toJSONString();
+	}
+
+	@GET
 	@Path("/uploadone/open")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openUploadOneFileDialog(
@@ -144,10 +209,10 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开当月预测填报界面出现问题。");
+			log.error("打开上传一个文件界面出现问题。");
 		}
 
-		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+		return ActionMessage.instance().failure("打开上传一个文件界面出现问题。")
 				.toJSONString();
 	}
 
@@ -183,10 +248,10 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开当月预测填报界面出现问题。");
+			log.error("打开上传多个文件报界面出现问题。");
 		}
 
-		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
+		return ActionMessage.instance().failure("打开上传多个文件界面出现问题。")
 				.toJSONString();
 	}
 
