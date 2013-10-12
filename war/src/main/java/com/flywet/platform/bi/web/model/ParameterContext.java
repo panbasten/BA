@@ -1,11 +1,14 @@
 package com.flywet.platform.bi.web.model;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.pentaho.di.core.Const;
 
 /**
  * 请求参数的上下文模型
@@ -20,8 +23,15 @@ public class ParameterContext {
 	 * 用参数字串填充参数上下文
 	 * 
 	 * @param paramsString
+	 * @throws UnsupportedEncodingException
 	 */
-	public void fillContext(String paramsString) {
+	public void fillContext(String paramsString)
+			throws UnsupportedEncodingException {
+		fillContextAndDecode(paramsString, null);
+	}
+
+	public void fillContextAndDecode(String paramsString, String charset)
+			throws UnsupportedEncodingException {
 		if (StringUtils.isEmpty(paramsString)) {
 			return;
 		}
@@ -43,7 +53,12 @@ public class ParameterContext {
 			if (values == null) {
 				values = new ArrayList<String>();
 			}
-			values.add(param[1]);
+			if (Const.isEmpty(charset) || Const.isEmpty(param[1])) {
+				values.add(param[1]);
+			} else {
+				values.add(URLDecoder.decode(param[1], charset));
+			}
+
 			parameterHolder.put(param[0], values);
 		}
 	}

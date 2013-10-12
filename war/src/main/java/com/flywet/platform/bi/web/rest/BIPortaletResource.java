@@ -135,10 +135,15 @@ public class BIPortaletResource {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String fileText = "aaaa";
+			FileObject fileObj = filesysService.composeVfsObject(PropertyUtils
+					.getProperty(category),
+					PropertyUtils.getProperty(fileName), PropertyUtils
+							.getProperty(rootDir));
+			String fileText = FileUtils.getString(fileObj.getContent()
+					.getInputStream());
 
-			attrsMap.addVariable("text", (Const.isEmpty(text)) ? fileName
-					: text);
+			attrsMap.addVariable("text", (Const.isEmpty(text)) ? PropertyUtils
+					.getProperty(fileName) : text);
 			attrsMap.addVariable("rootDir", rootDir);
 			attrsMap.addVariable("fileText", fileText);
 			attrsMap.addVariable("fileName", fileName);
@@ -161,7 +166,7 @@ public class BIPortaletResource {
 	@POST
 	@Path("/editfile/save")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveAsTransSubmit(String body) throws BIJSONException {
+	public String saveEditFile(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
@@ -170,11 +175,16 @@ public class BIPortaletResource {
 			// 页面设置
 			String fs = paramContext.getParameter("fs");
 
-			String rootDir = paramContext.getParameter("rootDir");
-			String fileName = paramContext.getParameter("fileName");
-			String category = paramContext.getParameter("category");
+			String rootDir = PropertyUtils.getProperty(paramContext
+					.getParameter("rootDir"));
+			String fileName = PropertyUtils.getProperty(paramContext
+					.getParameter("fileName"));
+			String category = PropertyUtils.getProperty(paramContext
+					.getParameter("category"));
 
 			// 保存
+			uploadFile(FileUtils.getInputStream(fs), rootDir, null, category,
+					fileName);
 
 			am.addMessage("保存文件成功。");
 		} catch (Exception e) {
@@ -293,6 +303,37 @@ public class BIPortaletResource {
 		} catch (Exception e) {
 			resultMsg.addErrorMessage("上传文件" + fileName + "失败");
 			return resultMsg.toJSONString();
+		}
+	}
+
+	private void uploadFile(InputStream is, String rootDir, String workDir,
+			String category, String fileName) throws IOException, BIException {
+		OutputStream os = null;
+
+		File fullFile = new File(fileName);
+		try {
+			String destFileStr = FileUtils.dirAppend(workDir, fullFile
+					.getName());
+			FileObject destFileObj = filesysService.composeVfsObject(category,
+					destFileStr, rootDir);
+
+			os = destFileObj.getContent().getOutputStream();
+
+			byte[] bytes = new byte[1024];
+			while ((is.read(bytes)) != -1) {
+				os.write(bytes);
+			}
+			os.flush();
+		} catch (IOException ioe) {
+			log.error("read or write file exception:", ioe);
+			throw ioe;
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+			if (is != null) {
+				is.close();
+			}
 		}
 	}
 

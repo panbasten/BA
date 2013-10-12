@@ -2,7 +2,7 @@
 
 	<fly:verticalLayout margin="20">
 		<fly:labelObject text="${text}" buddy="fs" style="margin:0 0 5px 0;" />
-		<textarea id="fs" name="fs" size="12">
+		<textarea id="fs" name="fs" rows="16">
 			${fileText}
 		</textarea>
 	</fly:verticalLayout>

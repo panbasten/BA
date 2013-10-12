@@ -55,7 +55,7 @@ public class BIWebUtils {
 	public static ParameterContext fillParameterContext(String paramsString,
 			String charset) throws UnsupportedEncodingException {
 		ParameterContext context = new ParameterContext();
-		context.fillContext(URLDecoder.decode(paramsString, charset));
+		context.fillContextAndDecode(paramsString, charset);
 		return context;
 	}
 

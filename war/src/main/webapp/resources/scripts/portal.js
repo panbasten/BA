@@ -423,8 +423,8 @@ Flywet.Portal = {
 		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
 		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.saveEditFile"},{"type":"cancel"}];
 		this.openPortalDialog("edit","编辑文件",{
-			width:400,
-			height:300,
+			width:600,
+			height:400,
 			btn:btn,
 			params:{
 				rootDir:rootDir
@@ -441,7 +441,11 @@ Flywet.Portal = {
 		Flywet.ab({
 			type : "post",
 			formId : "portal_edit_form",
-			formAction : "rest/portalet/editfile/save"
+			formAction : "rest/portalet/editfile/save",
+			onsuccess: function(data, status, xhr){
+				window[Flywet.Portal.UPLOAD_DIALOG_ID + "_var"].hide();
+				Flywet.Portal.pageCover(false);
+			}
 		});
 	},
 	
