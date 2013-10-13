@@ -3,7 +3,6 @@ package com.flywet.platform.bi.web.rest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
@@ -308,67 +307,25 @@ public class BIPortaletResource {
 
 	private void uploadFile(InputStream is, String rootDir, String workDir,
 			String category, String fileName) throws IOException, BIException {
-		OutputStream os = null;
-
 		File fullFile = new File(fileName);
-		try {
-			String destFileStr = FileUtils.dirAppend(workDir, fullFile
-					.getName());
-			FileObject destFileObj = filesysService.composeVfsObject(category,
-					destFileStr, rootDir);
+		String destFileStr = FileUtils.dirAppend(workDir, fullFile.getName());
+		FileObject destFileObj = filesysService.composeVfsObject(category,
+				destFileStr, rootDir);
 
-			os = destFileObj.getContent().getOutputStream();
+		FileUtils.write(is, destFileObj.getContent().getOutputStream());
 
-			byte[] bytes = new byte[1024];
-			while ((is.read(bytes)) != -1) {
-				os.write(bytes);
-			}
-			os.flush();
-		} catch (IOException ioe) {
-			log.error("read or write file exception:", ioe);
-			throw ioe;
-		} finally {
-			if (os != null) {
-				os.close();
-			}
-			if (is != null) {
-				is.close();
-			}
-		}
 	}
 
 	private void uploadFile(FileItem item, String rootDir, String workDir,
 			String category, String fileName) throws IOException, BIException {
-		InputStream is = null;
-		OutputStream os = null;
 
 		File fullFile = new File(fileName);
-		try {
-			String destFileStr = FileUtils.dirAppend(workDir, fullFile
-					.getName());
-			FileObject destFileObj = filesysService.composeVfsObject(category,
-					destFileStr, rootDir);
+		String destFileStr = FileUtils.dirAppend(workDir, fullFile.getName());
+		FileObject destFileObj = filesysService.composeVfsObject(category,
+				destFileStr, rootDir);
 
-			is = item.getInputStream();
-			os = destFileObj.getContent().getOutputStream();
+		FileUtils.write(item, destFileObj.getContent().getOutputStream());
 
-			byte[] bytes = new byte[1024];
-			while ((is.read(bytes)) != -1) {
-				os.write(bytes);
-			}
-			os.flush();
-		} catch (IOException ioe) {
-			log.error("read or write file exception:", ioe);
-			throw ioe;
-		} finally {
-			if (os != null) {
-				os.close();
-			}
-			if (is != null) {
-				is.close();
-			}
-			item.delete();
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -445,7 +402,6 @@ public class BIPortaletResource {
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response, String body)
 			throws IOException {
-		InputStream is = null;
 
 		try {
 			String rootDir = PropertyUtils.getProperty(rootPathProp);
@@ -454,7 +410,6 @@ public class BIPortaletResource {
 			FileObject fileObj = filesysService.composeVfsObject(category,
 					workPath, rootDir);
 
-			is = fileObj.getContent().getInputStream();
 			response.setContentType("application/octet-stream");
 			request.setCharacterEncoding(Const.XML_ENCODING);
 			response.setCharacterEncoding(Const.XML_ENCODING);
@@ -463,19 +418,11 @@ public class BIPortaletResource {
 			// 保证另存为文件名为中文
 			response.setHeader("Content-Disposition", "attachment;filename="
 					+ new String(fileName.getBytes(), "ISO8859_1"));
-			byte[] b = new byte[1024];
-			int i;
-			OutputStream os = response.getOutputStream();
-			while ((i = is.read(b)) != -1) {
-				os.write(b, 0, i);
-			}
-			os.flush();
+
+			FileUtils.write(fileObj.getContent().getInputStream(), response
+					.getOutputStream());
 		} catch (Exception e) {
 			log.error("download file exception:", e);
-		} finally {
-			if (is != null) {
-				is.close();
-			}
 		}
 	}
 

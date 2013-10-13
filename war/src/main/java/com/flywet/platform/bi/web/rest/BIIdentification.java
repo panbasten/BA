@@ -3,8 +3,6 @@ package com.flywet.platform.bi.web.rest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -178,8 +176,6 @@ public class BIIdentification {
 	public void createKey(@Context HttpServletRequest request,
 			@Context HttpServletResponse response, String body)
 			throws IOException {
-		InputStream is = null;
-
 		try {
 			KeyGenerater kg = KeyGenerater.instance(KEY);
 
@@ -190,26 +186,18 @@ public class BIIdentification {
 
 			createPriKey(key);
 
-			is = FileUtils.getInputStream(key);
 			response.setContentType("application/octet-stream");
 			request.setCharacterEncoding(Const.XML_ENCODING);
 			response.setCharacterEncoding(Const.XML_ENCODING);
 			String fileName = "ba.prikey";
 			response.setHeader("Content-Disposition", "attachment;filename="
 					+ fileName);
-			byte[] b = new byte[1024];
-			int i;
-			OutputStream os = response.getOutputStream();
-			while ((i = is.read(b)) != -1) {
-				os.write(b, 0, i);
-			}
-			os.flush();
+
+			FileUtils.write(FileUtils.getInputStream(key), response
+					.getOutputStream());
+
 		} catch (Exception e) {
 			log.error("download private key file exception:", e);
-		} finally {
-			if (is != null) {
-				is.close();
-			}
 		}
 	}
 

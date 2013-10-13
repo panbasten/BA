@@ -25,6 +25,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageInputStream;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 
@@ -35,6 +36,53 @@ import org.pentaho.di.core.Const;
  * @since 2011-4-20 下午05:28:25
  */
 public class FileUtils {
+
+	public static void write(InputStream is, OutputStream os)
+			throws IOException {
+		try {
+			byte[] bytes = new byte[1024];
+			int i;
+			while ((i = is.read(bytes)) != -1) {
+				os.write(bytes, 0, i);
+			}
+			os.flush();
+		} catch (IOException ioe) {
+			throw ioe;
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+			if (is != null) {
+				is.close();
+			}
+		}
+	}
+
+	public static void write(FileItem item, OutputStream os) throws IOException {
+
+		InputStream is = item.getInputStream();
+
+		try {
+			byte[] bytes = new byte[1024];
+			int i;
+			while ((i = is.read(bytes)) != -1) {
+				os.write(bytes, 0, i);
+			}
+			os.flush();
+		} catch (IOException ioe) {
+			throw ioe;
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+			if (is != null) {
+				is.close();
+			}
+			if (item != null) {
+				item.delete();
+			}
+		}
+	}
 
 	public static InputStream getInputStream(String fileName, Class<?> cls)
 			throws FileNotFoundException {
@@ -49,10 +97,15 @@ public class FileUtils {
 	}
 
 	public static InputStream getInputStream(String str) throws IOException {
+		return getInputStream(str, Const.XML_ENCODING);
+	}
+
+	public static InputStream getInputStream(String str, String codeSet)
+			throws IOException {
 		if (str != null && !str.trim().equals("")) {
 			ByteArrayInputStream is = null;
 			try {
-				is = new ByteArrayInputStream(str.getBytes());
+				is = new ByteArrayInputStream(str.getBytes(codeSet));
 				return is;
 			} catch (Exception e) {
 				if (is != null) {

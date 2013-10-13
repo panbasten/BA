@@ -3,7 +3,6 @@ package com.flywet.platform.bi.web.rest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -629,36 +628,18 @@ public class BIFileSystemResource {
 				continue;
 			}
 
-			InputStream is = null;
-			OutputStream os = null;
-
 			File fullFile = new File(item.getName());
+			String destFileStr = FileUtils.dirAppend(workDir, fullFile
+					.getName());
+			FileObject destFileObj = filesysService.composeVfsObject(category,
+					destFileStr, rootId);
 			try {
-				String destFileStr = FileUtils.dirAppend(workDir, fullFile
-						.getName());
-				FileObject destFileObj = filesysService.composeVfsObject(
-						category, destFileStr, rootId);
-
-				is = item.getInputStream();
-				os = destFileObj.getContent().getOutputStream();
-
-				byte[] bytes = new byte[1024];
-				while (is.read(bytes) != -1) {
-					os.write(bytes);
-				}
-				os.flush();
+				FileUtils.write(item, destFileObj.getContent()
+						.getOutputStream());
 			} catch (IOException ioe) {
 				log.error("read or write file exception:", ioe);
 				resultMsg.addErrorMessage("上传文件" + fullFile.getName() + "失败");
 				return resultMsg.toJSONString();
-			} finally {
-				if (os != null) {
-					os.close();
-				}
-				if (is != null) {
-					is.close();
-				}
-				item.delete();
 			}
 		}
 		if (resultMsg.state())
@@ -707,7 +688,6 @@ public class BIFileSystemResource {
 			FileObject fileObj = filesysService.composeVfsObject(category,
 					workPath, rootId);
 
-			is = fileObj.getContent().getInputStream();
 			response.setContentType("application/octet-stream");
 			request.setCharacterEncoding(Const.XML_ENCODING);
 			response.setCharacterEncoding(Const.XML_ENCODING);
@@ -716,13 +696,9 @@ public class BIFileSystemResource {
 			// 保证另存为文件名为中文
 			response.setHeader("Content-Disposition", "attachment;filename="
 					+ new String(fileName.getBytes(), "ISO8859_1"));
-			byte[] b = new byte[1024];
-			int i;
-			OutputStream os = response.getOutputStream();
-			while ((i = is.read(b)) != -1) {
-				os.write(b, 0, i);
-			}
-			os.flush();
+
+			FileUtils.write(fileObj.getContent().getInputStream(), response
+					.getOutputStream());
 		} catch (Exception e) {
 			log.error("download file exception:", e);
 		} finally {

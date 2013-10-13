@@ -2,8 +2,6 @@ package com.flywet.cust.p001.portal;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -745,35 +743,12 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 	private void dataUpdateFile(FileItem item, String rootDir, String category,
 			String fileName) throws BIException, IOException {
-		InputStream is = null;
-		OutputStream os = null;
-
 		File fullFile = new File(PropertyUtils.getProperty(fileName));
-		try {
-			String destFileStr = fullFile.getName();
-			FileObject destFileObj = composeVfsObject(category, destFileStr,
-					rootDir);
+		String destFileStr = fullFile.getName();
+		FileObject destFileObj = composeVfsObject(category, destFileStr,
+				rootDir);
 
-			is = item.getInputStream();
-			os = destFileObj.getContent().getOutputStream();
-
-			byte[] bytes = new byte[1024];
-			int in = 0;
-			while ((in = is.read(bytes)) != -1) {
-				os.write(bytes);
-			}
-			os.flush();
-		} catch (IOException ioe) {
-			throw ioe;
-		} finally {
-			if (os != null) {
-				os.close();
-			}
-			if (is != null) {
-				is.close();
-			}
-			item.delete();
-		}
+		FileUtils.write(item, destFileObj.getContent().getOutputStream());
 	}
 
 	private FileObject composeVfsObject(String categoryProp, String workDir,

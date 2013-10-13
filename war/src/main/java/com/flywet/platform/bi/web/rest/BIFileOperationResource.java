@@ -2,8 +2,6 @@ package com.flywet.platform.bi.web.rest;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -92,37 +90,19 @@ public class BIFileOperationResource {
 				continue;
 			}
 
-			InputStream is = null;
-			OutputStream os = null;
-
 			File fullFile = new File(item.getName());
+			String destFileStr = FileUtils.dirAppend(workDir, fullFile
+					.getName());
+			FileObject destFileObj = filesysService.composeVfsObject(category,
+					destFileStr, rootId);
+
 			try {
-				String destFileStr = FileUtils.dirAppend(workDir, fullFile
-						.getName());
-				FileObject destFileObj = filesysService.composeVfsObject(
-						category, destFileStr, rootId);
-
-				is = item.getInputStream();
-				os = destFileObj.getContent().getOutputStream();
-
-				byte[] bytes = new byte[1024];
-				int in = 0;
-				while ((in = is.read(bytes)) != -1) {
-					os.write(bytes);
-				}
-				os.flush();
+				FileUtils.write(item, destFileObj.getContent()
+						.getOutputStream());
 			} catch (IOException ioe) {
 				log.error("read or write file exception:", ioe);
 				resultMsg.addErrorMessage("上传文件" + fullFile.getName() + "失败");
 				return resultMsg.toJSONString();
-			} finally {
-				if (os != null) {
-					os.close();
-				}
-				if (is != null) {
-					is.close();
-				}
-				item.delete();
 			}
 		}
 		resultMsg.addMessage("上传操作成功");
