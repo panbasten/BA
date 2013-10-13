@@ -90,10 +90,9 @@ Flywet.filesys = {
 				type : "button",
 				label : "上传",
 				title : "上传",
-				events: {
-					click:function(){
-						$(Flywet.escapeClientId("fs_upload_form")).submit();
-					}
+				click : {
+					formId : "fs_upload_form",
+					formAction : "rest/fs/action/upload"
 				}
 			},{
 				componentType : "fly:PushButton",

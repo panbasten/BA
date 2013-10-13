@@ -932,12 +932,14 @@ Flywet.PortalAction = {
 			formAction : "rest/portalet/upload",
 			modal : true,
 			onsuccess: function(data, status, xhr){
-				if(params.click.funcCallback){
+				if(params && params.click && params.click.funcCallback){
 					eval(params.click.funcCallback);
 				}
 				window[dialogId + "_var"].hide();
 			}
 		}, cfg);
+		console.log("--------uf");
+		console.log(cfg);
 		Flywet.ab(cfg);
 	}
 };

@@ -1,4 +1,4 @@
-<form method="POST" id="portal_upload_form" enctype="multipart/form-data">
+<form id="portal_upload_form" enctype="multipart/form-data">
 
 	<fly:gridLayout column="2" itemWidth="40%,58%">
 		<fly:gridLayoutItem>
