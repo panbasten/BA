@@ -8,6 +8,10 @@ Flywet.desktop = {
 		// 设置浏览器环境
 		Flywet.env();
 		
+		// 注册方法
+		Flywet.triggerMark = Flywet.desktop.triggerMark;
+		Flywet.changeMarkText = Flywet.desktop.changeMarkText;
+		
 		// Editor
 		var layoutSettings_diEditor = {
 			name: "diEditor",	
@@ -50,9 +54,7 @@ Flywet.desktop = {
 		Flywet.ab({
 			type : "get",
 			url : "rest/base/navigatorpage",
-			beforeSend : function(){
-				Flywet.desktop.changeMarkText("正在加载导航页面...");
-			},
+			modalMessage: "正在加载导航页面...",
 			oncomplete : function(xhr, status){
 				// 创建导航页的选项卡
 				Flywet.cw("EasyTabs","diEditorNaviTabs",{
@@ -76,9 +78,7 @@ Flywet.desktop = {
 						type : "get",
 						url : "rest/"+$(naviLis[i]).attr("category")+"/navi",
 						params:{parentId : $(naviLis[i]).attr("id")},
-						beforeSend : function(){
-							Flywet.desktop.changeMarkText("正在加载导航内容...");
-						},
+						modalMessage: "正在加载导航内容...",
 						oncomplete : function(xhr, status){
 							
 						}
@@ -99,9 +99,7 @@ Flywet.desktop = {
 		Flywet.ab({
 			type : "get",
 			url : "rest/identification/usersettingpage",
-			beforeSend : function(){
-				Flywet.desktop.changeMarkText("正在加载用户信息页面...");
-			},
+			modalMessage: "正在加载用户信息页面...",
 			onsuccess : function(data, xhr, status){
 				$("#idUser").html(data.username);
 				Flywet.cw("Popup","userPopup_var",{

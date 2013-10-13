@@ -187,6 +187,38 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 				.toJSONString();
 	}
 
+	@Override
+	public String monthPredictDataRun(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+
+			// 设置响应
+			return ActionMessage.instance().success("已经提交统计尺度分析计算执行。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("提交统计尺度分析计算出现问题执行。");
+		}
+
+		return ActionMessage.instance().failure("提交统计尺度分析计算出现问题执行。")
+				.toJSONString();
+	}
+
+	@Override
+	public String extendPredictDataRun(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+
+			// 设置响应
+			return ActionMessage.instance().success("已经提交统计尺度分析计算执行。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("提交统计尺度分析计算出现问题执行。");
+		}
+
+		return ActionMessage.instance().failure("提交统计尺度分析计算出现问题执行。")
+				.toJSONString();
+	}
+
 	private String getMonthName(String monthCode) {
 		if (monthCode != null && monthCode.length() == 6) {
 			return monthCode.substring(0, 4) + "年"
@@ -892,6 +924,38 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		}
 
 		return ActionMessage.instance().failure("打开分析工具-海温月预测界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
+	public String sstMonthPredictRun(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+
+			// 设置响应
+			return ActionMessage.instance().success("已经提交月度海温预测分析计算执行。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("提交月度海温预测分析计算出现问题。");
+		}
+
+		return ActionMessage.instance().failure("提交月度海温预测分析计算出现问题。")
+				.toJSONString();
+	}
+
+	@Override
+	public String sstQuarterPredictRun(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+
+			// 设置响应
+			return ActionMessage.instance().success("已经提交季度海温预测分析计算执行。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("提交季度海温预测分析计算出现问题。");
+		}
+
+		return ActionMessage.instance().failure("提交季度海温预测分析计算出现问题。")
 				.toJSONString();
 	}
 

@@ -1,5 +1,4 @@
-<form action="rest/portalet/upload" method="POST" id="portal_upload_form" enctype="multipart/form-data"
-		target="portal_upload_space_frame">
+<form id="portal_upload_form" enctype="multipart/form-data">
 
 	<fly:gridLayout column="2" itemWidth="40%,58%">
 	
@@ -22,5 +21,4 @@
 	<fly:inputText id="workDir" name="workDir" type="hidden" value="${workDir}" />
 	<fly:inputText id="category" name="category" type="hidden" value="${category}" />
 
-	<iframe id="portal_upload_space_frame" name="portal_upload_space_frame" class="fly-space-frame" onload="Flywet.Portal.uploadResult(this);"></iframe>
 </form>

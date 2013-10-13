@@ -82,7 +82,11 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/core/core.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/libs/form/form.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/libs/menu/menu.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/metro/metro.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/layout/layout.js"></script>
 		<script type="text/javascript"

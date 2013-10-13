@@ -1,4 +1,4 @@
-<form action="rest/fs/items/editsubmit" method="post" id="fs_edit_form">
+<form method="post" id="fs_edit_form">
 
 	<fly:gridLayout column="2" itemWidth="30%,70%">
 		<fly:gridLayoutItem>

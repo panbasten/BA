@@ -23,9 +23,7 @@ Flywet.editors.dashboard = {
 		Flywet.ab({
 			type : "get",
 			url: "rest/report/dashboard/editor",
-			beforeSend : function(){
-				Flywet.desktop.changeMarkText("正在注册表单设计器页面...");
-			},
+			modalMessage: "正在注册表单设计器页面...",
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
 				var editorContainer = diEditorLayout.getPane("center"),

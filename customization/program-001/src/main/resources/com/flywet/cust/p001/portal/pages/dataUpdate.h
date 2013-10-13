@@ -1,5 +1,4 @@
-<form action="rest/portalet/actionFileForm/22" method="POST" id="portal_upload_form" enctype="multipart/form-data"
-		target="portal_upload_space_frame">
+<form method="POST" id="portal_upload_form" enctype="multipart/form-data">
 
 	<fly:gridLayout column="2" itemWidth="40%,58%">
 		<fly:gridLayoutItem>
@@ -44,7 +43,4 @@
 
 	</fly:gridLayout>
 	
-	<fly:includeJs src="page.js"/>
-
-	<iframe id="portal_upload_space_frame" name="portal_upload_space_frame" class="fly-space-frame" onload="dataUpdateCallback(this);"></iframe>
 </form>

@@ -128,6 +128,7 @@ Flywet.browse = {
 	openFileSettingByContext : function(event){
 		var data = Flywet.browse.TEMP.contextObjectData;
 		var category = data.data.category;
+		console.log("openFileSettingByContext----------");
 		var dialog_var = "dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var";
 		Flywet.cw("Dialog",dialog_var,{
 			id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
@@ -143,19 +144,9 @@ Flywet.browse = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : category+"_"+data.data.id,
-							formAction : "rest/"+data.attrs.src+"/setting/save",
-							onsuccess: function (data, status, xhr) {
-								if (data.state == 0) {
-                                	window[dialog_var].hide();
-                                	// 刷新页面 TODO
-                                }
-							}
-						});
-					}
+				click : {
+					formId : category+"_"+data.data.id,
+					formAction : "rest/"+data.attrs.src+"/setting/save"
 				}
 			},{
 				componentType : "fly:PushButton",

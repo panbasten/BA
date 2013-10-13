@@ -26,18 +26,14 @@ Flywet.di = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events: {
-					click:function(){
-						Flywet.ab({
-							formId:"folder_create_form",
-							formAction:"rest/di/dir/createsubmit",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[targetId + "_var"].hide();
-									_self.flushDir(dirId);
-								}
-							}
-						});
+				click : {
+					formId:"folder_create_form",
+					formAction:"rest/di/dir/createsubmit",
+					onsuccess:function(data, status, xhr) {
+						if (data.state == 0) {
+							window[targetId + "_var"].hide();
+							_self.flushDir(dirId);
+						}
 					}
 				}
 			},{
@@ -77,18 +73,14 @@ Flywet.di = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events: {
-					click:function(){
-						Flywet.ab({
-							formId:"di_create_form",
-							formAction:"rest/"+type+"/createsubmit",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[targetId + "_var"].hide();
-									_self.flushDir(dirId);
-								}
-							}
-						});
+				click : {
+					formId:"di_create_form",
+					formAction:"rest/"+type+"/createsubmit",
+					onsuccess:function(data, status, xhr) {
+						if (data.state == 0) {
+							window[targetId + "_var"].hide();
+							_self.flushDir(dirId);
+						}
 					}
 				}
 			},{
@@ -137,18 +129,14 @@ Flywet.di = {
 					type : "button",
 					label : "确定",
 					title : "确定",
-					events: {
-						click:function(){
-							Flywet.ab({
-								formId:"folder_edit_form",
-								formAction:"rest/di/dir/editsubmit",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-										_self.flushDir(dirId);
-									}
-								}
-							});
+					click : {
+						formId:"folder_edit_form",
+						formAction:"rest/di/dir/editsubmit",
+						onsuccess:function(data, status, xhr) {
+							if (data.state == 0) {
+								window[targetId + "_var"].hide();
+								_self.flushDir(dirId);
+							}
 						}
 					}
 				},{
@@ -323,9 +311,7 @@ Flywet.editors.trans = {
 		Flywet.ab({
 			type : "get",
 			url : "rest/di/trans/editor",
-			beforeSend : function(){
-				Flywet.desktop.changeMarkText("正在注册转换设计器页面...");
-			},
+			modalMessage: "正在注册转换设计器页面...",
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
 				var editorContainer = diEditorLayout.getPane("center"),
@@ -658,18 +644,14 @@ Flywet.editors.trans.action = {
 	    				type : "button",
 	    				label : "确定",
 	    				title : "确定",
-	    				events: {
-	    					click:function(){
-	    						Flywet.ab({
-	    							formId:"trans_saveas_form",
-	    							formAction:"rest/trans/saveassubmit",
-	    							onsuccess:function(data, status, xhr) {
-	    								if (data.state == 0) {
-	    									window[targetId + "_var"].hide();
-	    								}
-	    							}
-	    						});
-	    					}
+	    				click  : {
+		    				formId:"trans_saveas_form",
+							formAction:"rest/trans/saveassubmit",
+							onsuccess:function(data, status, xhr) {
+								if (data.state == 0) {
+									window[targetId + "_var"].hide();
+								}
+							}
 	    				}
 	    			},{
 	    				componentType : "fly:PushButton",
@@ -990,22 +972,12 @@ Flywet.editors.trans.action = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "form:"+dialogId,
-							formAction : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/save",
-							params : {
-								dx : model.dx,
-								dy : model.dy
-							},
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[dialogId + "_var"].hide();
-									// TODO 刷新页面
-								}
-							}
-						});
+				click : {
+					formId : "form:"+dialogId,
+					formAction : "rest/trans/step/"+flowObject.config.extendData.transId+"/"+model.extendData.stepName+"/save",
+					params : {
+						dx : model.dx,
+						dy : model.dy
 					}
 				}
 			},{
@@ -1042,18 +1014,9 @@ Flywet.editors.trans.action = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "form:"+dialogId,
-							formAction : "rest/trans/"+transId+"/run/do",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[dialogId + "_var"].hide();
-								}
-							}
-						});
-					}
+				click : {
+					formId : "form:"+dialogId,
+					formAction : "rest/trans/"+transId+"/run/do"
 				}
 			},{
 				componentType : "fly:PushButton",

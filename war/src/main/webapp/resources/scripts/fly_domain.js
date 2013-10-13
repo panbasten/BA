@@ -28,18 +28,14 @@ Flywet.domain = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events: {
-					click:function(){
-						Flywet.ab({
-							formId:"domain_folder_create_form",
-							formAction:"rest/domain/dir/createsubmit",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[targetId + "_var"].hide();
-									_self.flushDir(dirId);
-								}
-							}
-						});
+				click: {
+					formId:"domain_folder_create_form",
+					formAction:"rest/domain/dir/createsubmit",
+					onsuccess:function(data, status, xhr) {
+						if (data.state == 0) {
+							window[targetId + "_var"].hide();
+							_self.flushDir(dirId);
+						}
 					}
 				}
 			},{

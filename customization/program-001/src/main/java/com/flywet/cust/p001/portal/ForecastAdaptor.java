@@ -154,6 +154,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
+	 * 分析工具-海温月预测-预测
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String sstMonthPredictRun(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
 	 * 分析工具-海温季预测
 	 * 
 	 * @param targetId
@@ -162,6 +173,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @throws BIJSONException
 	 */
 	public String sstQuarterPredict(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 分析工具-海温季预测-预测
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String sstQuarterPredictRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
@@ -176,6 +198,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
+	 * 制作评分数据-月预测-执行
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String monthPredictDataRun(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
 	 * 制作评分数据-延伸期预测
 	 * 
 	 * @param targetId
@@ -184,6 +217,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @throws BIJSONException
 	 */
 	public String extendPredictData(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 制作评分数据-延伸期预测-执行
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendPredictDataRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**

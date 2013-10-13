@@ -49,15 +49,16 @@ public class ParameterContext {
 			if (param.length < 2) {
 				continue;
 			}
+			if (!Const.isEmpty(charset)) {
+				param[0] = URLDecoder.decode(param[0], charset);
+				param[1] = URLDecoder.decode(Const.NVL(param[1], ""), charset);
+			}
+			
 			List<String> values = parameterHolder.get(param[0]);
 			if (values == null) {
 				values = new ArrayList<String>();
 			}
-			if (Const.isEmpty(charset) || Const.isEmpty(param[1])) {
-				values.add(param[1]);
-			} else {
-				values.add(URLDecoder.decode(param[1], charset));
-			}
+			values.add(param[1]);
 
 			parameterHolder.put(param[0], values);
 		}

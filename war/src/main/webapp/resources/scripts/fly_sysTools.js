@@ -42,19 +42,9 @@ Flywet.sysTools = {
 						label : btnsSetting[i].label,
 						title : btnsSetting[i].title,
 						url : btnsSetting[i].url,
-						events: {
-							click:function(event,params){
-								Flywet.ab({
-									type : "POST",
-									url : params.url,
-									source:"sys_tools_item_form",
-									onsuccess:function(data, status, xhr) {
-										if (data.state == 0) {
-											window[dialogId + "_var"].hide();
-										}
-									}
-								});
-							}
+						click : {
+							formId : "sys_tools_item_form",
+							formAction : params.url
 						}
 					};
 					btns.push(btn);

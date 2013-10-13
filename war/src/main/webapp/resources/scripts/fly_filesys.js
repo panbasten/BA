@@ -73,8 +73,8 @@ Flywet.filesys = {
 				type : "button",
 				label : "新增",
 				title : "新增",
-				events: {
-					click:function(){
+				click : {
+					func : function(){
 						var layout = $(Flywet.escapeClientId("fs_upload_form")).find(".ui-grid-layout");
 						var num = layout.find("label").size() + 1;
 						layout.append('<div class="ui-grid-layout-item ui-layout-float ui-helper-clearfix" style="width: 30%; height: 28px;">' +
@@ -126,19 +126,9 @@ Flywet.filesys = {
 					type : "button",
 					label : "确定",
 					title : "确定",
-					events: {
-						click:function(){
-							Flywet.ab({
-								type : "post",
-								url : "rest/fsop/rename",
-								source:"fs_rename_form",
-								onsuccess:function(data, status, xhr) {
-									if (data.state == 0) {
-										window[targetId + "_var"].hide();
-									}
-								}
-							});
-						}
+					click : {
+						formAction : "rest/fsop/rename",
+						formId : "fs_rename_form"
 					}
 				},{
 					componentType : "fly:PushButton",
@@ -178,18 +168,14 @@ Flywet.filesys = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events: {
-					click:function(){
-						Flywet.ab({
-							formId:"fs_folder_create_form",
-							formAction:"rest/fs/items/folder/createsubmit",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[targetId + "_var"].hide();
-									_self.flushDir(category,currentCase);
-								}
-							}
-						});
+				click : {
+					formId:"fs_folder_create_form",
+					formAction:"rest/fs/items/folder/createsubmit",
+					onsuccess:function(data, status, xhr) {
+						if (data.state == 0) {
+							window[targetId + "_var"].hide();
+							_self.flushDir(category,currentCase);
+						}
 					}
 				}
 			},{
@@ -257,18 +243,14 @@ Flywet.filesys = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events: {
-					click:function(){
-						Flywet.ab({
-							type : "post",
-							formId:"fs_create_form",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[targetId + "_var"].hide();
-									_self.flush(category);
-								}
-							}
-						});
+				click : {
+					formId:"fs_create_form",
+					formAction : "rest/fs/items/createsubmit",
+					onsuccess:function(data, status, xhr) {
+						if (data.state == 0) {
+							window[targetId + "_var"].hide();
+							_self.flush(category);
+						}
 					}
 				}
 			},{
@@ -319,18 +301,14 @@ Flywet.filesys = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events: {
-					click:function(){
-						Flywet.ab({
-							type : "post",
-							formId:"fs_edit_form",
-							onsuccess:function(data, status, xhr) {
-								if (data.state == 0) {
-									window[targetId + "_var"].hide();
-									_self.flush(category);
-								}
-							}
-						});
+				click : {
+					formId:"fs_edit_form",
+					formAction : "rest/fs/items/editsubmit",
+					onsuccess:function(data, status, xhr) {
+						if (data.state == 0) {
+							window[targetId + "_var"].hide();
+							_self.flush(category);
+						}
 					}
 				}
 			},{

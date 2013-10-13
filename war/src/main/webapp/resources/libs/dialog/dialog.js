@@ -182,18 +182,9 @@ Flywet.widget.Dialog.prototype.init = function() {
 		var _self=this;
 		this.defaultFooter = $("<div></div>");
 		this.defaultFooter.addClass("ui-dialog-buttonpane-right");
-		for(var i=0;i<this.cfg.footerButtons.length;i++){
-			var cfg = this.cfg.footerButtons[i];
-			if(cfg.events){
-				for(var k in cfg.events){
-					if(cfg.events[k]=="hide"){
-						cfg.events[k]=function(){
-							_self.hide();
-						}
-					}
-				}
-			}
-		}
+		
+		this.checkBtns(this.cfg.footerButtons);
+		
 		Flywet.autocw(this.cfg.footerButtons,this.defaultFooter);
 		this.footer.append(this.defaultFooter);
 	}
@@ -202,24 +193,65 @@ Flywet.widget.Dialog.prototype.init = function() {
 		var _self=this;
 		this.settingFooter = $("<div></div>");
 		this.settingFooter.addClass("ui-dialog-buttonpane-left");
-		for(var i=0;i<this.cfg.footerSettingButtons.length;i++){
-			var cfg = this.cfg.footerSettingButtons[i];
-			if(cfg.events){
-				for(var k in cfg.events){
-					if(cfg.events[k]=="hide"){
-						cfg.events[k]=function(){
-							_self.hide();
-						}
-					}
-				}
-			}
-		}
+		
+		this.checkBtns(this.cfg.footerSettingButtons);
+		
 		Flywet.autocw(this.cfg.footerSettingButtons,this.settingFooter);
 		this.footer.append(this.settingFooter);
 	}
 	
 	
 	this.parent.append(this.jq);
+	
+};
+
+Flywet.widget.Dialog.prototype.checkBtns = function(btns){
+	var _self=this;
+	for(var i=0;i<btns.length;i++){
+		var cfg = btns[i];
+		if(cfg.events){
+			// 替换hide按钮事件
+			for(var k in cfg.events){
+				if(cfg.events[k]=="hide"){
+					cfg.events[k]=function(){
+						_self.hide();
+					}
+				}
+			}
+		}
+		
+		// 处理click事件
+		if(cfg.events && cfg.events.click){
+			// 执行默认的click方法
+		}else if(cfg.click){
+			if(!cfg.events){
+				cfg.events = {};
+			}
+			cfg.events.click = function(event,params){
+				if(params.click.func){
+					if(typeof params.click.func == 'function'){
+						params.click.func.call(this);
+					}else{
+						// 参数可以使用dialogId,event,params
+						eval(params.click.func);
+					}
+				}else{
+					var ajaxOpts = $.extend({},{
+						onsuccess:function(data, status, xhr) {
+							_self.hide();
+						}
+					},params.click);
+					
+					if(!ajaxOpts.params){
+						ajaxOpts.params = {};
+					}
+					ajaxOpts.params.targetId = (_self.id+":content");
+					
+					Flywet.ab(ajaxOpts);
+				}
+			};
+		}
+	}
 	
 };
 

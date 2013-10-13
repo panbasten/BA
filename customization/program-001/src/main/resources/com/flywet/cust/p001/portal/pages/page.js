@@ -1,5 +1,5 @@
 function predictSettingUpdate(){
-	Flywet.Portal.updateMenuDialog(105,21,'month_predict_files');
+	Flywet.PortalAction.updateMenuDialog(105,21,'month_predict_files');
 }
 
 function dataUpdateSubmit(dialogId,event,params){
@@ -20,18 +20,6 @@ function dataUpdateCallback(target){
 		window[Flywet.Portal.UPLOAD_DIALOG_ID + "_var"].hide();
 		Flywet.ajax.ShowMessage(msg);
 	}
-}
-
-function seasonForecast(dialogId,event,params){
-	Flywet.Portal.openEditFileDialog('custom.portal.seasonForecast.file.rootPath','custom.portal.seasonForecast.file.category','custom.portal.seasonForecast.file.fileName','namelist');
-}
-
-function evaluation(dialogId,event,params){
-	Flywet.Portal.openEditFileDialog('custom.portal.evaluation.file.rootPath','custom.portal.evaluation.file.category','custom.portal.evaluation.file.fileName','cityforecast.txt');
-}
-
-function processForecast(dialogId,event,params){
-	Flywet.Portal.openEditFileDialog('custom.portal.processForecast.file.rootPath','custom.portal.processForecast.file.category','custom.portal.processForecast.file.fileName','namelist');
 }
 
 function downloadFile(obj,data){

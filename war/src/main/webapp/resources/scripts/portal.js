@@ -1,6 +1,4 @@
 Flywet.Portal = {
-	UPLOAD_DIALOG_ID : null,
-	UPLOAD_DIALOG_CALLBACK : null,
 	FIXED_SIZE : {
 		header : 35,
 		footer : 95,
@@ -37,9 +35,9 @@ Flywet.Portal = {
 	
 	pageCover : function(show){
 		if(show){
-			$("#fly_portal_cover").show();
+			$("#fly_portal_cover").fadeIn();
 		}else{
-			$("#fly_portal_cover").hide();
+			$("#fly_portal_cover").fadeOut();
 		}
 	},
 	
@@ -57,10 +55,10 @@ Flywet.Portal = {
 		Flywet.ab({
 			formId: "loginForm",
 			formAction: "rest/identification",
+			modal : true,
 			beforeSend : function(){
 				$("#loginBtn").addClass("ui-login-button-disabled")
 					.unbind("click");
-				Flywet.Portal.pageCover(true);
 			},
 			onsuccess: function(data, status, xhr){
 				if(data.state == 0){
@@ -147,7 +145,6 @@ Flywet.Portal = {
 							Flywet.Portal.loginAction();
 						});
 					Flywet.dialog.error(msg);
-					Flywet.Portal.pageCover(false);
 				}
 				return true;
 			}
@@ -396,211 +393,12 @@ Flywet.Portal = {
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
 	},
 	
-	updateMenuDialog: function(id, action, targetId, param){
-		Flywet.ab({
-			type : "get",
-			url : "rest/portalet/menu/"+id+"/update",
-			params : {
-				action : action
-				,targetId : targetId
-				,param : param
-			}
-		});
-	},
-	
-	actionMenu: function(actionId, targetId, param){
-		Flywet.ab({
-			type : "get",
-			url : "rest/portalet/action/"+actionId,
-			params : {
-				targetId : targetId
-				,param : param
-			}
-		});
-	},
-	
-	openEditFileDialog : function(rootDir,category,fileName,text,callback){
-		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
-		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.saveEditFile"},{"type":"cancel"}];
-		this.openPortalDialog("edit","编辑文件",{
-			width:600,
-			height:400,
-			btn:btn,
-			params:{
-				rootDir:rootDir
-				,category:category
-				,fileName:fileName
-				,text:text
-			}},
-			"rest/portalet/editfile/open");
-	},
-	
-	saveEditFile : function(dialogId,event,params){
-		Flywet.Portal.pageCover(true);
-		Flywet.Portal.UPLOAD_DIALOG_ID = dialogId;
-		Flywet.ab({
-			type : "post",
-			formId : "portal_edit_form",
-			formAction : "rest/portalet/editfile/save",
-			onsuccess: function(data, status, xhr){
-				window[Flywet.Portal.UPLOAD_DIALOG_ID + "_var"].hide();
-				Flywet.Portal.pageCover(false);
-			}
-		});
-	},
-	
-	openUploadOneDialog : function(rootDir,category,fileName,text,callback){
-		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
-		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.uploadFiles"},{"type":"cancel"}];
-		this.openPortalDialog("upload","添加文件",{
-			width:400,
-			height:100,
-			btn:btn,
-			params:{
-				rootDir:rootDir
-				,category:category
-				,fileName:fileName
-				,text:text
-			}},
-			"rest/portalet/uploadone/open");
-	},
-	
-	openUploadDialog : function(filesNum,rootDir,workDir,category,callback){
-		Flywet.Portal.UPLOAD_DIALOG_CALLBACK = callback;
-		var btn = [{"label":"确定","title":"确定","func":"Flywet.Portal.uploadFiles"},{"type":"cancel"}];
-		this.openPortalDialog("upload","添加文件",{
-			width:400,
-			height:200,
-			btn:btn,
-			params:{
-				filesNum:filesNum
-				,rootDir:rootDir
-				,workDir:workDir
-				,category:category
-			}},
-			"rest/portalet/upload/open");
-	},
-	
-	uploadFiles : function(dialogId,event,params){
-		Flywet.Portal.pageCover(true);
-		Flywet.Portal.UPLOAD_DIALOG_ID = dialogId;
-		$(Flywet.escapeClientId("portal_upload_form")).submit();
-	},
-	
-	uploadResult : function(target){
-		Flywet.Portal.pageCover(false);
-		
-		var msg = $(document.getElementById('portal_upload_space_frame').contentWindow.document.body).find("pre");
-		msg = $(msg).html();
-		if(msg && msg != ""){
-			// 刷新上传页面
-			if(Flywet.Portal.UPLOAD_DIALOG_CALLBACK){
-				eval(Flywet.Portal.UPLOAD_DIALOG_CALLBACK+"();");
-			}
-			
-			msg = Flywet.parseJSON(msg);
-			// 清空
-			$(document.getElementById('portal_upload_space_frame').contentWindow.document.body).html("");
-			window[Flywet.Portal.UPLOAD_DIALOG_ID + "_var"].hide();
-			Flywet.ajax.ShowMessage(msg);
-		}
-	},
-	
-	openPortalDialog : function(actionId, header, optMenu, url) {
-		var dialogId = "dialog_" + actionId;
-		
-		var opt = $.extend({},{
-			id : dialogId,
-			url : url || "rest/portalet/action/"+actionId,
-			width : 700,
-			height : 400,
-			header : header,
-			autoOpen : true,
-//			autoMaximized : true,
-			showHeader : true,
-			modal : true,
-			closable : true,
-			maximizable : false
-		}, optMenu);
-		
-		if(opt.btn){
-			var btns = [];
-			var btnsSetting = opt.btn;
-			if(btnsSetting instanceof Array){
-			}else{
-				btnsSetting = Flywet.parseJSON(opt.btn);
-			}
-			for(var i=0;i<btnsSetting.length;i++){
-				if(btnsSetting[i].type && btnsSetting[i].type == "cancel"){
-					btns.push({
-						componentType : "fly:PushButton",
-						type : "button",
-						label : "取消",
-						title : "取消",
-						events : {
-							"click" : "hide"
-						}
-					});
-				}else{
-					var btn = {
-						componentType : "fly:PushButton",
-						type : "button",
-						label : btnsSetting[i].label,
-						title : btnsSetting[i].title,
-						action : btnsSetting[i].action,
-						func : btnsSetting[i].func,
-						url : btnsSetting[i].url || ("rest/portalet/action/"+btnsSetting[i].action),
-						urlType : btnsSetting[i].urlType || "GET",
-						formId : btnsSetting[i].formId || "portal_menu_form",
-						events: {
-							click:function(event,params){
-								if(params.func){
-									eval(params.func+"(dialogId,event,params);");
-								}else{
-									Flywet.ab({
-										type : params.urlType,
-										url : params.url,
-										source : params.formId,
-										onsuccess:function(data, status, xhr) {
-											if (data.state == 0) {
-												window[dialogId + "_var"].hide();
-											}
-										}
-									});
-								}
-							}
-						}
-					};
-					btns.push(btn);
-				}
-			}
-			opt.btn = undefined;
-			opt.footerButtons = btns;
-		}
-		
-		Flywet.cw("Dialog", dialogId+"_var", opt);
-	},
-	
-	openMenuDialog: function(id,disabled){
-		var menu = Flywet.Portal.MENU_VAR.getMenu(id);
-		
-		var optMenu = {};
-		for(var i=0; i<menu.extAttrs.length;i++){
-			optMenu[menu.extAttrs[i].name] = menu.extAttrs[i].value;
-		}
-		if(optMenu.cls){
-			if(disabled){
-				Flywet.dialog.warning("您未登陆，或者当前登陆用户不具有【"+menu.desc+"】的执行权限。");
-				return;
-			}
-			
-			this.openPortalDialog(menu.id, menu.desc, optMenu, "rest/portalet/menu/"+menu.id);
-		}
-	},
-	
 	initPage: function(){
 		
 		Flywet.env();
+		
+		// 注册方法
+		Flywet.triggerMark = Flywet.Portal.pageCover;
 		
 		// 1.替换标识文字
 		Flywet.ab({
@@ -837,7 +635,7 @@ Flywet.Portal.menu.prototype.init=function(){
 	
 	function initFirstLevel(menu, cfg){
 		var li = $("<li></li>");
-		var lia = $("<a class='first-level-menu' href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+","+menu.disabled+")'>"+menu.desc+"</a>");
+		var lia = $("<a class='first-level-menu' href='javascript:void(0);' onclick='Flywet.PortalAction.openMenuDialog("+menu.id+","+menu.disabled+")'>"+menu.desc+"</a>");
 		if(menu.disabled){
 			lia.addClass("menu-disabled");
 			lia.attr("title","该菜单项没有被授权。");
@@ -864,7 +662,7 @@ Flywet.Portal.menu.prototype.init=function(){
 	function initSecondLevel(menu, cfg){
 		var dl = $("<dl></dl>"),
 			dt = $("<dt></dt>"),
-			dta = $("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+menu.id+","+menu.disabled+")'>"+menu.desc+"</a>");
+			dta = $("<a href='javascript:void(0);' onclick='Flywet.PortalAction.openMenuDialog("+menu.id+","+menu.disabled+")'>"+menu.desc+"</a>");
 		if(menu.disabled){
 			dta.addClass("menu-disabled");
 			dta.attr("title","该菜单项没有被授权。");
@@ -886,7 +684,7 @@ Flywet.Portal.menu.prototype.init=function(){
 					}
 				}
 				var subMenu = menu.children[i],
-					dda = $("<a href='javascript:void(0);' onclick='Flywet.Portal.openMenuDialog("+subMenu.id+","+subMenu.disabled+")'>"+subMenu.desc+"</a>");
+					dda = $("<a href='javascript:void(0);' onclick='Flywet.PortalAction.openMenuDialog("+subMenu.id+","+subMenu.disabled+")'>"+subMenu.desc+"</a>");
 				if(subMenu.disabled){
 					dda.addClass("menu-disabled");
 					dda.attr("title","该菜单项没有被授权。");
@@ -900,4 +698,246 @@ Flywet.Portal.menu.prototype.init=function(){
 		return dl;
 	}
 	
+};
+
+/**
+ * Portal的行为
+ */
+Flywet.PortalAction = {
+	/**
+	 * 菜单执行打开对话框的方法
+	 */
+	openMenuDialog: function(id,disabled){
+		var menu = Flywet.Portal.MENU_VAR.getMenu(id);
+		
+		var optMenu = {};
+		for(var i=0; i<menu.extAttrs.length;i++){
+			optMenu[menu.extAttrs[i].name] = menu.extAttrs[i].value;
+		}
+		if(optMenu.cls){
+			if(disabled){
+				Flywet.dialog.warning("您未登陆，或者当前登陆用户不具有【"+menu.desc+"】的执行权限。");
+				return;
+			}
+			
+			this.openPortalDialog(menu.id, menu.desc, optMenu, "rest/portalet/menu/"+menu.id);
+		}
+	},
+	
+	/**
+	 * 打开一个Portal对话框
+	 */
+	openPortalDialog : function(actionId, header, optMenu, url) {
+		var dialogId = "dialog_" + actionId;
+		
+		var opt = $.extend({},{
+			id : dialogId,
+			url : url || "rest/portalet/action/"+actionId,
+			width : 700,
+			height : 400,
+			header : header,
+			autoOpen : true,
+//			autoMaximized : true,
+			showHeader : true,
+			modal : true,
+			closable : true,
+			maximizable : false
+		}, optMenu);
+		
+		if(opt.btn){
+			var btns = [];
+			var btnsSetting = opt.btn;
+			if(btnsSetting instanceof Array){
+			}else{
+				btnsSetting = Flywet.parseJSON(opt.btn);
+			}
+			for(var i=0;i<btnsSetting.length;i++){
+				if(btnsSetting[i].type && btnsSetting[i].type == "cancel"){
+					btns.push({
+						componentType : "fly:PushButton",
+						type : "button",
+						label : "取消",
+						title : "取消",
+						events : {
+							"click" : "hide"
+						}
+					});
+				}else{
+					var btnClick = {
+						func : null,
+						url : ("rest/portalet/action/"+btnsSetting[i].action),
+						formId : "portal_menu_form"
+					};
+					var btn = {
+						componentType : "fly:PushButton",
+						type : "button",
+						label : null,
+						title : null,
+						
+						events: {
+							click:function(event,params){
+								if(params.click){
+									if(params.click.func){
+										// 参数可以使用dialogId,event,params
+										eval(params.click.func);
+									}else{
+										var ajaxOpts = $.extend({},{
+											onsuccess:function(data, status, xhr) {
+												window[dialogId + "_var"].hide();
+											}
+										},params.click);
+										
+										if(!ajaxOpts.params){
+											ajaxOpts.params = {};
+										}
+										ajaxOpts.params.targetId = (dialogId+":content");
+										
+										Flywet.ab(ajaxOpts);
+									}
+								}
+							}
+						}
+					};
+					btn = $.extend(btn, btnsSetting[i]);
+					btn.click = $.extend({},btnClick,btnsSetting[i].click);
+					btns.push(btn);
+				}
+			}
+			opt.btn = undefined;
+			opt.footerButtons = btns;
+		}
+		
+		Flywet.cw("Dialog", dialogId+"_var", opt);
+	},
+	
+	/**
+	 * 更新菜单内容
+	 */
+	updateMenuDialog: function(id, action, targetId, param){
+		Flywet.ab({
+			type : "get",
+			url : "rest/portalet/menu/"+id+"/update",
+			params : {
+				action : action
+				,targetId : targetId
+				,param : param
+			}
+		});
+	},
+	
+	/**
+	 * 执行一个行为
+	 */
+	actionMenu: function(actionId, targetId, param){
+		Flywet.ab({
+			type : "get",
+			url : "rest/portalet/action/"+actionId,
+			params : {
+				targetId : targetId
+				,param : param
+			}
+		});
+	},
+	
+	openEditFileDialog : function(rootDir,category,fileName,text,callback){
+		var btn = [{
+				"label":"确定",
+				"title":"确定",
+				"click":{
+					"func":"Flywet.PortalAction.saveEditFile(dialogId,params);",
+					"funcCallback":callback
+				}
+			},
+			{"type":"cancel"}];
+		this.openPortalDialog("edit","编辑文件",{
+			width:600,
+			height:400,
+			btn:btn,
+			params:{
+				rootDir:rootDir
+				,category:category
+				,fileName:fileName
+				,text:text
+			}},
+			"rest/portalet/editfile/open");
+	},
+	
+	saveEditFile : function(dialogId,params){
+		var _self = this;
+		Flywet.ab({
+			type : "post",
+			formId : "portal_edit_form",
+			formAction : "rest/portalet/editfile/save",
+			modal : true,
+			onsuccess: function(data, status, xhr){
+				if(params.click.funcCallback){
+					eval(params.click.funcCallback);
+				}
+				window[dialogId + "_var"].hide();
+			}
+		});
+	},
+	
+	openUploadOneDialog : function(rootDir,category,fileName,text,callback){
+		var btn = [{
+				"label":"确定",
+				"title":"确定",
+				"click":{
+					"func":"Flywet.PortalAction.uploadFiles(dialogId,params);",
+					"funcCallback":callback
+				}
+			},
+			{"type":"cancel"}];
+		this.openPortalDialog("upload","添加文件",{
+			width:400,
+			height:100,
+			btn:btn,
+			params:{
+				rootDir:rootDir
+				,category:category
+				,fileName:fileName
+				,text:text
+			}},
+			"rest/portalet/uploadone/open");
+	},
+	
+	openUploadDialog : function(filesNum,rootDir,workDir,category,callback){
+		var btn = [{
+				"label":"确定",
+				"title":"确定",
+				"click":{
+					"func":"Flywet.PortalAction.uploadFiles(dialogId,params);",
+					"funcCallback":callback
+				}
+			},
+			{"type":"cancel"}];
+		this.openPortalDialog("upload","添加文件",{
+			width:400,
+			height:200,
+			btn:btn,
+			params:{
+				filesNum:filesNum
+				,rootDir:rootDir
+				,workDir:workDir
+				,category:category
+			}},
+			"rest/portalet/upload/open");
+	},
+	
+	uploadFiles : function(dialogId,params,cfg){
+		var _self = this;
+		cfg = $.extend({
+			type : "post",
+			formId : "portal_upload_form",
+			formAction : "rest/portalet/upload",
+			modal : true,
+			onsuccess: function(data, status, xhr){
+				if(params.click.funcCallback){
+					eval(params.click.funcCallback);
+				}
+				window[dialogId + "_var"].hide();
+			}
+		}, cfg);
+		Flywet.ab(cfg);
+	}
 };

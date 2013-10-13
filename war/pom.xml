@@ -205,6 +205,7 @@
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/form/form.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/menu/menu.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/metro/metro.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/layout/layout.js</include>

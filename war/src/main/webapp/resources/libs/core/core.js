@@ -1,4 +1,8 @@
 Flywet = {
+	triggerMark : function(show){
+	},
+	changeMarkText : function(text){
+	},
 	eventNames : ["click","blur","focus","change","dblclick",
 	              "keydown","keypress","keyup","mousedown",
 	              "mousemove","mouseout","mouseover","mouseup"],
@@ -1021,13 +1025,9 @@ Flywet.ajax.AjaxUtils = {
  * ajax请求
  */
 Flywet.ajax.AjaxRequest = function(cfg, ext) {
-    Flywet.Logger.debug('Initiating ajax request.');
-    
-    var ajaxURL=cfg.url,ajaxParams="",ajaxType=(cfg.type)?cfg.type:"post";
-    ajaxType=ajaxType.toLowerCase();
-    
-    if(ajaxType == 'post') {
-    	var form=null;
+	
+	function getPostOption(cfg, ext){
+		var ajaxURL=cfg.url,ajaxParams="",form=null;
         
         // 如果formId存在，表示为提交表单
         if(cfg.formId) {
@@ -1048,9 +1048,7 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
         	ajaxURL = cfg.formAction;
         }else if(form && form.length>0){
         	ajaxURL = form.attr('action');
-        }else if(cfg.url){
-    		ajaxURL = cfg.url;
-    	}
+        }
         
     	if (form && form.length>0 && $.fn.form) {
     		
@@ -1068,16 +1066,18 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
     	    	}
     	    	ajaxURL = ajaxURL + ajaxParams;
     	    }
+    	    
         	//form ajax submit
-        	form.form("submit", {
+    	    var xhrOptions = {
+    	    	formTarget : form,
         		url : ajaxURL,
         		dataType : "json",
         		onSubmit : function(data){
+	    	    	if(cfg.modalMessage){
+	    				Flywet.changeMarkText(cfg.modalMessage);
+	    			}
 	        		if(cfg.modal){
-	        			if(cfg.modalMessage){
-	        				Flywet.desktop.changeMarkText(cfg.modalMessage);
-	        			}
-	        			Flywet.desktop.triggerMark(true);
+	        			Flywet.triggerMark(true);
 	        		}
 	        		// 判断是否有DataGrid对象  TODO 合并到jqueryForm中
 	        		$(this).find(".ui-datagrid .ui-datagrid-original").each(
@@ -1137,10 +1137,27 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 	                        Flywet.ajax.AjaxResponse.call(this, data);
 	                        Flywet.Logger.debug('DOM is updated.');
 	                    }
-	                    
         			}
-        		}
-//        		},
+        			
+        			// 完成
+        			if(cfg.oncomplete) {
+    	                cfg.oncomplete.call(this, data, this.args);
+    	            }
+    	            
+    	            if(ext && ext.oncomplete) {
+    	                ext.oncomplete.call(this, data, this.args);
+    	            }
+    	            
+    	            if(cfg.modal){
+    	    			Flywet.triggerMark(false);
+    	    		}
+    	            
+    	            Flywet.Logger.debug('Response completed.');
+    	            
+    	            if(this.queued) {
+    	                Flywet.ajax.Queue.poll();
+    	            }
+        		},
 //        		onLoadError : function(data){
 //        			if(cfg.onerror) {
 //                        cfg.onerror.call(data);
@@ -1149,101 +1166,118 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 //                    Flywet.Logger.error('Request form return with error:' + status + '.');
 //        		}
         		
-        	});
-        	Flywet.Logger.debug('Form to post ' + form.attr('id') + '.');
-        	return;
+        	};
+    	    xhrOptions.abType = "form";
+        	return xhrOptions;
     	}
-    }
-    
-    if(form && form.length>0){
-		ajaxParams = form.serialize();
+    	
+    	return getGetOption(cfg, ext);
 	}
-
-    //params
-    if(cfg.params) {
-        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(cfg.params);
-    }
-    if(ext && ext.params) {
-        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(ext.params);
-    }
-    
-    Flywet.Logger.debug('Post Data:' + ajaxParams);
-    var xhrOptions = {
-        url : ajaxURL,
-        type : ajaxType,
-        cache : false,
-        dataType : "json",
-        data : ajaxParams,
-        source: cfg.source,
-        beforeSend: function(xhr, status) {
-    		if(cfg.modal){
-    			if(cfg.modalMessage){
-    				Flywet.desktop.changeMarkText(cfg.modalMessage);
-    			}
-    			Flywet.desktop.triggerMark(true);
-    		}
-            if(cfg.beforeSend) {
-                cfg.beforeSend.call(this, xhr, status);
-            }
-            
-            Flywet.Logger.debug('Request before send:' + status + '.');
-        },
-        error: function(xhr, status, errorThrown) {
-            if(cfg.onerror) {
-                cfg.onerror.call(xhr, status, errorThrown);
-            }
-    
-            Flywet.Logger.error('Request return with error:' + status + '.');
-        },
-        success : function(data, status, xhr) {
-            Flywet.Logger.debug('Response received succesfully.');
-            
-            var parsed;
-            //call user callback
-            if(cfg.onsuccess) {
-                parsed = cfg.onsuccess.call(this, data, status, xhr);
-            }
-
-            //extension callback that might parse response
-            if(ext && ext.onsuccess && !parsed) {
-                parsed = ext.onsuccess.call(this, data, status, xhr); 
-            }
-
-            //do not execute default handler as response already has been parsed
-            if(parsed) {
-                return;
-            } 
-            else {
-                Flywet.ajax.AjaxResponse.call(this, data);
-            }
-            
-            Flywet.Logger.debug('DOM is updated.');
-        },
-        complete : function(xhr, status) {
-            if(cfg.oncomplete) {
-                cfg.oncomplete.call(this, xhr, status, this.args);
-            }
-            
-            if(ext && ext.oncomplete) {
-                ext.oncomplete.call(this, xhr, status, this.args);
-            }
-            
-            if(cfg.modal){
-    			Flywet.desktop.triggerMark(false);
-    		}
-            
-            Flywet.Logger.debug('Response completed.');
-            
-            if(this.queued) {
-                Flywet.ajax.Queue.poll();
-            }
-        }
-    };
 	
-    xhrOptions.global = cfg.global == true || cfg.global == undefined ? true : false;
+	function getGetOption(cfg, ext){
+		var ajaxURL=cfg.url,ajaxParams="";
+		 //params
+	    if(cfg.params) {
+	        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(cfg.params);
+	    }
+	    if(ext && ext.params) {
+	        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(ext.params);
+	    }
+	    
+	    Flywet.Logger.debug('Post Data:' + ajaxParams);
+	    var xhrOptions = {
+	        url : ajaxURL,
+	        type : "GET",
+	        cache : false,
+	        dataType : "json",
+	        data : ajaxParams,
+	        source: cfg.source,
+	        beforeSend: function(xhr, status) {
+		    	if(cfg.modalMessage){
+					Flywet.changeMarkText(cfg.modalMessage);
+				}
+	    		if(cfg.modal){
+	    			Flywet.triggerMark(true);
+	    		}
+	            if(cfg.beforeSend) {
+	                cfg.beforeSend.call(this, xhr, status);
+	            }
+	            
+	            Flywet.Logger.debug('Request before send:' + status + '.');
+	        },
+	        error: function(xhr, status, errorThrown) {
+	            if(cfg.onerror) {
+	                cfg.onerror.call(xhr, status, errorThrown);
+	            }
+	    
+	            Flywet.Logger.error('Request return with error:' + status + '.');
+	        },
+	        success : function(data, status, xhr) {
+	            Flywet.Logger.debug('Response received succesfully.');
+	            
+	            var parsed;
+	            //call user callback
+	            if(cfg.onsuccess) {
+	                parsed = cfg.onsuccess.call(this, data, status, xhr);
+	            }
+
+	            //extension callback that might parse response
+	            if(ext && ext.onsuccess && !parsed) {
+	                parsed = ext.onsuccess.call(this, data, status, xhr); 
+	            }
+
+	            //do not execute default handler as response already has been parsed
+	            if(parsed) {
+	                return;
+	            } 
+	            else {
+	                Flywet.ajax.AjaxResponse.call(this, data);
+	            }
+	            
+	            Flywet.Logger.debug('DOM is updated.');
+	        },
+	        complete : function(xhr, status) {
+	            if(cfg.oncomplete) {
+	                cfg.oncomplete.call(this, xhr, status, this.args);
+	            }
+	            
+	            if(ext && ext.oncomplete) {
+	                ext.oncomplete.call(this, xhr, status, this.args);
+	            }
+	            
+	            if(cfg.modal){
+	    			Flywet.triggerMark(false);
+	    		}
+	            
+	            Flywet.Logger.debug('Response completed.');
+	            
+	            if(this.queued) {
+	                Flywet.ajax.Queue.poll();
+	            }
+	        }
+	    };
+	    xhrOptions.abType = "ajax";
+	    xhrOptions.global = cfg.global == true || cfg.global == undefined ? true : false;
+	    return xhrOptions;
+	}
+	
+    Flywet.Logger.debug('Initiating ajax request.');
     
+    var ajaxType=(cfg.type)?cfg.type:"post",xhrOptions;
+    ajaxType=ajaxType.toLowerCase();
+    
+    if(ajaxType == 'post') {
+    	xhrOptions = getPostOption(cfg, ext);
+    }else{
+    	xhrOptions = getGetOption(cfg, ext);
+    }
+   
     if(cfg.async) {
-    	$.ajax(xhrOptions);
+    	if(xhrOptions.abType == 'form'){
+    		xhrOptions.formTarget.form("submit",xhrOptions);
+    	}else if(xhrOptions.abType == 'ajax'){
+    		$.ajax(xhrOptions);
+    	}
     }
     else {
         Flywet.ajax.Queue.offer(xhrOptions);
@@ -1365,12 +1399,20 @@ Flywet.ajax.Queue = {
 		
     requests : new Array(),
     
+    run : function(xhrOptions){
+		if(xhrOptions.abType == 'form'){
+			xhrOptions.formTarget.form("submit",xhrOptions);
+		}else if(xhrOptions.abType == 'ajax'){
+			$.ajax(xhrOptions);
+		}
+	},
+    
     offer : function(request) {
         request.queued = true;
         this.requests.push(request);
         
         if(this.requests.length == 1) {
-        	$.ajax(this.peek());
+        	this.run(this.peek());
         }
     },
     
@@ -1384,7 +1426,7 @@ Flywet.ajax.Queue = {
         next = this.peek();
         
         if(next != null) {
-        	$.ajax(next);
+        	this.run(next);
         }
 
         return processed;

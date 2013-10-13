@@ -34,19 +34,15 @@ Flywet.database = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "db_create",
-							formAction : "rest/db/object/create/save",
-							onsuccess: function (data, status, xhr) {
-								if (data.state == 0) {
-                                	window[dialog_var].hide();
-                                	// 刷新页面
-                                	_self.flush();
-                                }
-							}
-						});
+				click : {
+					formId : "db_create",
+					formAction : "rest/db/object/create/save",
+					onsuccess: function (data, status, xhr) {
+						if (data.state == 0) {
+	                    	window[dialog_var].hide();
+	                    	// 刷新页面
+	                    	_self.flush();
+	                    }
 					}
 				}
 			},{
@@ -84,31 +80,20 @@ Flywet.database = {
 				type : "button",
 				label : "预览前100行",
 				title : "预览前100行",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "db_"+id,
-							formAction : "rest/db/object/"+id+"/explore/top100"
-						});
-					}
+				click : {
+					// TODO
+					formId : "db_"+id,
+					formAction : "rest/db/object/"+id+"/explore/top100"
 				}
 			},{
 				componentType : "fly:PushButton",
 				type : "button",
 				label : "预览前N行",
 				title : "预览前N行",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "db_"+id,
-							formAction : "rest/db/object/"+id+"/explore/topn",
-							onsuccess: function (data, status, xhr) {
-								if (data.state == 0) {
-                                	console.log("explore");
-                                }
-							}
-						});
-					}
+				click : {
+					// TODO
+					formId : "db_"+id,
+					formAction : "rest/db/object/"+id+"/explore/topn"
 				}
 			}],
 			footerButtons : [{
@@ -142,12 +127,11 @@ Flywet.database = {
 				type : "button",
 				label : "测试",
 				title : "测试",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "db_"+id,
-							formAction : "rest/db/object/"+id+"/test"
-						});
+				click : {
+					formId : "db_"+id,
+					formAction : "rest/db/object/"+id+"/test",
+					onsuccess:function(data, status, xhr) {
+						// DO NOTHING
 					}
 				}
 			},{
@@ -155,8 +139,8 @@ Flywet.database = {
 				type : "button",
 				label : "浏览数据库",
 				title : "浏览数据库",
-				events : {
-					"click" : function(){
+				click : {
+					func : function(){
 						Flywet.database.exploreDatabase(category, type, id, displayName);
 					}
 				}
@@ -166,19 +150,15 @@ Flywet.database = {
 				type : "button",
 				label : "确定",
 				title : "确定",
-				events : {
-					"click" : function(){
-						Flywet.ab({
-							formId : "db_"+id,
-							formAction : "rest/db/object/"+id+"/save",
-							onsuccess: function (data, status, xhr) {
-								if (data.state == 0) {
-                                	window[dialog_var].hide();
-                                	// 刷新页面
-                                	_self.flush();
-                                }
-							}
-						});
+				click : {
+					formId : "db_"+id,
+					formAction : "rest/db/object/"+id+"/save",
+					onsuccess: function (data, status, xhr) {
+						if (data.state == 0) {
+	                    	window[dialog_var].hide();
+	                    	// 刷新页面
+	                    	_self.flush();
+	                    }
 					}
 				}
 			},{
