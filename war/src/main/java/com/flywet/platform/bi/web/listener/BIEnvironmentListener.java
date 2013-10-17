@@ -21,6 +21,8 @@ public class BIEnvironmentListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
+			FLYPageTemplateUtils.configWebAppHome(sce.getServletContext()
+					.getRealPath("."));
 			FLYPageTemplateUtils.configTemplateHome(sce.getServletContext()
 					.getRealPath("pages/"));
 			BIEnvironmentDelegate ed = BIEnvironmentDelegate.instance();

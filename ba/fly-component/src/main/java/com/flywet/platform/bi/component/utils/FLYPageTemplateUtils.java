@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 
 public class FLYPageTemplateUtils {
+	private static String WEB_APP_HOME = null;
 	private static String TEMPLATE_HOME = null;
 
 	/**
@@ -104,6 +105,15 @@ public class FLYPageTemplateUtils {
 
 		File sysTemplate = new File(reletivePathCal(TEMPLATE_HOME, path));
 		return sysTemplate;
+	}
+
+	public static File getWebAppFile(String path) {
+		File sysTemplate = new File(reletivePathCal(WEB_APP_HOME, path));
+		return sysTemplate;
+	}
+
+	public static void configWebAppHome(String home) {
+		WEB_APP_HOME = home;
 	}
 
 	public static void configTemplateHome(String home) {

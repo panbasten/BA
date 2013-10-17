@@ -37,6 +37,10 @@ import org.pentaho.di.core.Const;
  */
 public class FileUtils {
 
+	public static void write(File file, OutputStream os) throws IOException {
+		write(org.apache.commons.io.FileUtils.openInputStream(file), os);
+	}
+
 	public static void write(InputStream is, OutputStream os)
 			throws IOException {
 		try {

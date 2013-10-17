@@ -103,7 +103,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
 			String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
-
+			
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 

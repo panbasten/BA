@@ -32,6 +32,7 @@ import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.component.utils.FLYPageTemplateUtils;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.component.web.ActionMessage;
@@ -78,6 +79,8 @@ public class BIPortaletResource {
 	private static final String TEMPLATE_UPLOAD_ONE_FILE = "portal/menu/uploadOneFile.h";
 
 	private static final String TEMPLATE_EDIT_FILE = "portal/menu/editFile.h";
+
+	private static final String DEFAULT_SHOW_IMAGE = "portal/menu/editFile.h";
 
 	@GET
 	@Path("/action/{id}")
@@ -382,6 +385,51 @@ public class BIPortaletResource {
 			params.put(fieldName, value);
 		}
 		return params;
+	}
+
+	/**
+	 * 展现图片
+	 * 
+	 * @param workPath
+	 * @param rootPathProp
+	 * @param categoryProp
+	 * @param request
+	 * @param response
+	 * @param body
+	 * @throws IOException
+	 */
+	@GET
+	@Path("/showImage")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public void showImage(@QueryParam("path") String workPath,
+			@QueryParam("rootPath") String rootPathProp,
+			@QueryParam("category") String categoryProp,
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response, String body)
+			throws IOException {
+
+		try {
+			String rootDir = PropertyUtils.getProperty(rootPathProp);
+			String category = PropertyUtils.getProperty(categoryProp);
+			// 拼装文件信息
+			FileObject fileObj = filesysService.composeVfsObject(category,
+					workPath, rootDir);
+
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+
+			if (!fileObj.exists()) {
+				File def = FLYPageTemplateUtils
+						.getWebAppFile("resources/images/default/default_img.jpg");
+				FileUtils.write(def, response.getOutputStream());
+			} else {
+				FileUtils.write(fileObj.getContent().getInputStream(), response
+						.getOutputStream());
+			}
+		} catch (Exception e) {
+			log.error("download file exception:", e);
+		}
 	}
 
 	/**
