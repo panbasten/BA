@@ -103,7 +103,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
 			String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
-			
+
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
@@ -836,8 +836,23 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String links(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_LINKS, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开相关网址链接界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开相关网址链接界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override

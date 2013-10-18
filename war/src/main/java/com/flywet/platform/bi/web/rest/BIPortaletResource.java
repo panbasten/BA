@@ -80,7 +80,7 @@ public class BIPortaletResource {
 
 	private static final String TEMPLATE_EDIT_FILE = "portal/menu/editFile.h";
 
-	private static final String DEFAULT_SHOW_IMAGE = "portal/menu/editFile.h";
+	private static final String DEFAULT_SHOW_IMAGE = "resources/images/default/default_img.jpg";
 
 	@GET
 	@Path("/action/{id}")
@@ -421,7 +421,7 @@ public class BIPortaletResource {
 
 			if (!fileObj.exists()) {
 				File def = FLYPageTemplateUtils
-						.getWebAppFile("resources/images/default/default_img.jpg");
+						.getWebAppFile(DEFAULT_SHOW_IMAGE);
 				FileUtils.write(def, response.getOutputStream());
 			} else {
 				FileUtils.write(fileObj.getContent().getInputStream(), response
