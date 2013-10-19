@@ -1044,10 +1044,15 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
             form = $(Flywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
         }
         
-        if(cfg.formAction){
+        console.log(ajaxURL);
+        
+        if(cfg.formAction && cfg.formAction != ""){
         	ajaxURL = cfg.formAction;
         }else if(form && form.length>0){
-        	ajaxURL = form.attr('action');
+        	var formAction = form.attr('action');
+        	if(formAction && formAction != ""){
+        		ajaxURL = formAction;
+        	}
         }
         
     	if (form && form.length>0 && $.fn.form) {
@@ -1184,10 +1189,10 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 	        ajaxParams = ajaxParams + Flywet.ajax.AjaxUtils.serialize(ext.params);
 	    }
 	    
-	    Flywet.Logger.debug('Post Data:' + ajaxParams);
+	    Flywet.Logger.debug('Data:' + ajaxParams);
 	    var xhrOptions = {
 	        url : ajaxURL,
-	        type : "GET",
+	        type : cfg.type,
 	        cache : false,
 	        dataType : "json",
 	        data : ajaxParams,

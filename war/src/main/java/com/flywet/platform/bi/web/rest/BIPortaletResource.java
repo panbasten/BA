@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -25,6 +26,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileType;
 import org.apache.log4j.Logger;
 import org.apache.wink.common.internal.utils.MediaTypeUtils;
 import org.json.simple.JSONArray;
@@ -40,7 +42,9 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.FileUtils;
+import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
@@ -50,7 +54,6 @@ import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.delegates.vo.User;
-import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
 import com.flywet.platform.bi.web.service.BIPortalDelegates;
 import com.flywet.platform.bi.web.service.BIUserDelegate;
@@ -98,6 +101,27 @@ public class BIPortaletResource {
 			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
 		} catch (Exception ex) {
 			throw new BIException("执行Portal的行为出现错误。", ex);
+		}
+	}
+
+	@POST
+	@Path("/actionForm/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String portalActionForm(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId, String body)
+			throws BIException {
+		try {
+			// 通过ID获得注册的菜单
+			PortalAction pa = portalDelegates.getPortalActionById(Long
+					.valueOf(id));
+
+			ParameterContext paramContext = BIWebUtils
+					.fillParameterContext(body);
+
+			return invokeMethod(pa.getCls(), pa.getMethod(), paramContext,
+					targetId);
+		} catch (Exception ex) {
+			throw new BIException("执行Portal Form的行为出现错误。", ex);
 		}
 	}
 
@@ -475,6 +499,45 @@ public class BIPortaletResource {
 	}
 
 	/**
+	 * 删除指定的文件项
+	 * 
+	 * @param dataStr
+	 *            文件标识信息，包括path，根目录id，类别等
+	 * @return
+	 * @throws Exception
+	 */
+	@DELETE
+	@Path("/deletefile")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String delete(@QueryParam("data") String dataStr) throws Exception {
+		ActionMessage am = new ActionMessage();
+		try {
+			JSONObject dataObj = JSONUtils.convertStringToJSONObject(dataStr);
+			String rootPath = PropertyUtils.getProperty(dataObj.get("rootPath")
+					.toString());
+			String workDir = dataObj.get("path").toString();
+			String category = PropertyUtils.getProperty(dataObj.get("category")
+					.toString());
+
+			FileObject fileObj = filesysService.composeVfsObject(category,
+					workDir, rootPath);
+
+			if (fileObj.getType().equals(FileType.FOLDER)
+					&& fileObj.getChildren().length != 0) {
+				am.addErrorMessage("目录不为空，不能执行删除操作。");
+				return am.toJSONString();
+			}
+
+			fileObj.delete();
+			am.addMessage("删除" + fileObj.getName().getBaseName() + "成功");
+		} catch (Exception e) {
+			log.error("delete operation exception:", e);
+			am.addErrorMessage("删除操作失败");
+		}
+		return am.toJSONString();
+	}
+
+	/**
 	 * 打开Portal菜单，通过注册ID
 	 * 
 	 * @param id
@@ -557,6 +620,22 @@ public class BIPortaletResource {
 	 */
 	private String invokeMethod(String cls, String method,
 			Map<String, Object> context, String targetId) throws BIException {
+		try {
+			Class<?> clazz = Class.forName(cls);
+			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
+
+			return (String) ReflectionUtils.invokeMethod(prog, method,
+					targetId, context);
+
+		} catch (Exception ex) {
+			log.error("打开Portal的菜单出现错误。");
+		}
+		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
+				.toJSONString();
+	}
+
+	private String invokeMethod(String cls, String method,
+			ParameterContext context, String targetId) throws BIException {
 		try {
 			Class<?> clazz = Class.forName(cls);
 			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);

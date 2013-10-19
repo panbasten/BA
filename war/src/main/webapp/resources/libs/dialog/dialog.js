@@ -370,8 +370,6 @@ Flywet.widget.Dialog.prototype.hide = function() {
     
     // for children TODO
     
-    $("")
-    
     if(this.cfg.hideEffect) {
         var _self = this;
     

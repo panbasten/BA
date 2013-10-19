@@ -45,7 +45,7 @@ Flywet.editors.item = {
 		}
 		
 		return null;
-	},
+	}
 };
 
 Flywet.editors.toolbarButton = {

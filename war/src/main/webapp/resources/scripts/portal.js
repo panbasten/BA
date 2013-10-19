@@ -763,9 +763,11 @@ Flywet.PortalAction = {
 						}
 					});
 				}else{
+					var ajaxType = (btnsSetting[i].ajaxType)?btnsSetting[i].ajaxType:"post";
 					var btnClick = {
 						func : null,
-						url : ("rest/portalet/action/"+btnsSetting[i].action),
+						type : ajaxType,
+						url : (ajaxType=="post")?("rest/portalet/actionForm/"+btnsSetting[i].action):("rest/portalet/action/"+btnsSetting[i].action),
 						formId : "portal_menu_form"
 					};
 					var btn = {
@@ -812,6 +814,10 @@ Flywet.PortalAction = {
 	
 	/**
 	 * 更新菜单内容
+	 * @param id 菜单ID
+	 * @param action 行为ID
+	 * @param targetId 更新对象
+	 * @param param 传递参数
 	 */
 	updateMenuDialog: function(id, action, targetId, param){
 		Flywet.ab({
@@ -938,8 +944,58 @@ Flywet.PortalAction = {
 				window[dialogId + "_var"].hide();
 			}
 		}, cfg);
-		console.log("--------uf");
-		console.log(cfg);
 		Flywet.ab(cfg);
+	},
+	
+	downloadFile : function(obj,data){
+		$(Flywet.escapeClientId("file-download-frame")).attr("src","rest/portalet/getfile?rootPath="+data.attrs.rootPath+"&category="+data.attrs.category+"&path="+encodeURIComponent(data.data.path));
+	},
+	
+	deleteFile : function(varName,callback){
+		if (!this.checkSelected(varName)) {
+			Flywet.dialog.warning("请先选中一个对象。");
+			return;
+		}
+		var selItem = this.getOneSelected(varName);
+		Flywet.ab({
+			type : "DELETE",
+			url : "rest/portalet/deletefile?data=" + this.getItemData(selItem),
+			onsuccess: function(data, status, xhr){
+				if(callback){
+					eval(callback);
+				}
+			}
+		});
+	},
+	
+	// 检查是否选中
+	checkSelected : function(target) {
+		var bpvar = (typeof(target)=="string")?(window[target]):target;
+		var selItems = bpvar.getSelections();
+		if (!selItems || selItems.length == 0) {
+			return false;
+		}
+		if (selItems.length > 1) {
+			return false;
+		}
+		return true;
+	},
+	// 获得一个选中节点
+	getOneSelected : function(target) {
+		var bpvar = (typeof(target)=="string")?(window[target]):target;
+		if (this.checkSelected(target)) {
+			var selItems = bpvar.getSelections();
+			return selItems[0];	
+		}
+		
+		return null;
+	},
+	getItemData : function(selItem) {
+		var data = {
+			rootPath:selItem.rootPath,
+			path:selItem.path,
+			category:selItem.category
+		};
+		return encodeURIComponent(Flywet.toJSONString(data));
 	}
 };

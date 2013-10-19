@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.model;
+package com.flywet.platform.bi.core.model;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

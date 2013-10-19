@@ -231,7 +231,7 @@ Flywet.PushButton = {
 	showMenu : function(menuId, target){
 		var $E = $(target),
 			x = $E.offset().left,
-			y = $E.offset().top
+			y = $E.offset().top,
 			w = $E.outerHeight();
 		window[menuId+'_var'].show({x:x,y:y+w});
 	},

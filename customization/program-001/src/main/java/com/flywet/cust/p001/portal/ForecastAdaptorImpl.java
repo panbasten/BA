@@ -19,6 +19,8 @@ import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.RowMetaAndData;
+import org.pentaho.di.core.row.ValueMetaInterface;
 
 import com.flywet.cust.p001.db.CustomDatabaseRepositoryBase;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
@@ -31,6 +33,7 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
@@ -97,6 +100,19 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	// 数据上传
 	private static final String PROP_UPLOAD_FILE_ROOT_PATH = "custom.portal.upload.file.rootPath";
 	private static final String PROP_UPLOAD_FILE_CATEGORY = "custom.portal.upload.file.category";
+
+	// 业务规范
+	private static final String PROP_BUZ_NORM_FILE_ROOT_PATH = "custom.portal.buzNorm.file.rootPath";
+	private static final String PROP_BUZ_NORM_FILE_CATEGORY = "custom.portal.buzNorm.file.category";
+	
+	// 海温月预测-海温预测分析计算
+	private static final String PROP_MONTH_FORECAST_RUN = "custom.portal.month.forecast.run";
+	
+	// 海温季度预测-海温预测分析计算
+	private static final String PROP_SEASON_FORECAST_RUN = "custom.portal.season.forecast.run";
+	
+	// 制作评分数据-延伸期预测-制作142站预测上传文件
+	private static final String PROP_PROCESS_FORECAST_RUN = "custom.portal.process.forecast.run";
 
 	@Override
 	public String monthPredictUpdate(String targetId,
@@ -270,7 +286,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 				node.addExtendAttribute("rootPath", rootPathProp);
 				node.addExtendAttribute("category", categoryProp);
 
-				node.addEvent("click", "downloadFile");
+				node.addEvent("dblclick", "Flywet.PortalAction.downloadFile");
 			}
 			browse.addContent(node);
 		}
@@ -343,8 +359,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
 					+ " = ?";
 			Object[] params = new Object[3];
-			params[0] = xun[0];
-			params[1] = xun[1];
+			params[0] = Long.valueOf(xun[0]);
+			params[1] = Long.valueOf(xun[1]);
 			params[2] = Long.valueOf(xun[2]);
 
 			Object[] row = getOneRow(sql, params);
@@ -436,11 +452,11 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	}
 
 	private String getExtendPredictKey(Object[] r) {
-		return (String) r[0] + ":" + (String) r[1] + ":" + (Long) r[2];
+		return (Long) r[0] + ":" + (Long) r[1] + ":" + (Long) r[2];
 	}
 
 	private String getExtendPredictValue(Object[] r) {
-		return (String) r[0] + "年" + (String) r[1] + "月"
+		return (Long) r[0] + "年" + (Long) r[1] + "月"
 				+ YUN_DESC[((Long) r[2]).intValue()];
 	}
 
@@ -487,13 +503,14 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String currentMonth = DateUtils.formatDate(new Date(), "yyyyMM");
+			Date now = new Date();
+
+			String currentMonth = DateUtils.formatDate(now, "yyyyMM");
 
 			checkOrCreateDir(PROP_MONTH_PREDICT_FILE_ROOT_PATH,
 					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth);
 
-			String currentMonthText = DateUtils.formatDate(new Date(),
-					"yyyy年MM月");
+			String currentMonthText = DateUtils.formatDate(now, "yyyy年MM月");
 			attrsMap.addVariable("currentMonth", currentMonth);
 			attrsMap.addVariable("currentMonthText", currentMonthText);
 			attrsMap.addVariable("currentMonthFiles", getBrowse(
@@ -522,6 +539,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 				.toJSONString();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public String extendSetting(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
@@ -530,6 +548,44 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
+			Date now = new Date();
+			String currentText = DateUtils.formatDate(now, "yyyy年MM月"), content = "";
+			long year = now.getYear() + 1900, month = now.getMonth() + 1, date = now
+					.getDate(), xun;
+
+			if (date <= 10) {
+				xun = 0;
+			} else if (date <= 20) {
+				xun = 1;
+			} else {
+				xun = 2;
+			}
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month, xun });
+			if (row != null) {
+				content = (String) row[0];
+			}
+
+			currentText = currentText + YUN_DESC[Long.valueOf(xun).intValue()];
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("content", content);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+			attrsMap.addVariable("xun", xun);
+
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_EXTEND_SETTING, attrsMap);
 
@@ -537,10 +593,95 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开延伸期预测填报界面出现问题。");
+			log.error("打开延伸期预测当月填报界面出现问题。");
 		}
 
-		return ActionMessage.instance().failure("打开当月延伸期预测填报界面出现问题。")
+		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
+	public String extendSettingUpdate(String targetId, ParameterContext context)
+			throws BIJSONException {
+		try {
+			String content = context.getStringParameter("content", "");
+			long year = context.getLongParameter("year");
+			long month = context.getLongParameter("month");
+			long xun = context.getLongParameter("xun");
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month, xun });
+			long rid;
+			if (row != null) {
+				rid = (Long) row[0];
+				RowMetaAndData rmd = new RowMetaAndData();
+				rmd
+						.addValue(
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT,
+								ValueMetaInterface.TYPE_INTEGER, rid);
+				rmd.addValue(
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR,
+						ValueMetaInterface.TYPE_INTEGER, year);
+				rmd
+						.addValue(
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH,
+								ValueMetaInterface.TYPE_INTEGER, month);
+				rmd.addValue(
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN,
+						ValueMetaInterface.TYPE_INTEGER, xun);
+				rmd
+						.addValue(
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION,
+								ValueMetaInterface.TYPE_STRING, content);
+				updateTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT,
+						rmd);
+			} else {
+				rid = getNextBatchId(
+						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT);
+				RowMetaAndData rmd = new RowMetaAndData();
+				rmd
+						.addValue(
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT,
+								ValueMetaInterface.TYPE_INTEGER, rid);
+				rmd.addValue(
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR,
+						ValueMetaInterface.TYPE_INTEGER, year);
+				rmd
+						.addValue(
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH,
+								ValueMetaInterface.TYPE_INTEGER, month);
+				rmd.addValue(
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN,
+						ValueMetaInterface.TYPE_INTEGER, xun);
+				rmd
+						.addValue(
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION,
+								ValueMetaInterface.TYPE_STRING, content);
+				insertTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
+						rmd);
+			}
+			return ActionMessage.instance().success("更新当前延伸期预测成功。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开延伸期预测当月更新行为出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开延伸期预测当月更新行为出现问题。")
 				.toJSONString();
 	}
 
@@ -655,8 +796,57 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String buzNorms(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("normFiles", getBrowse(
+					PROP_BUZ_NORM_FILE_ROOT_PATH, PROP_BUZ_NORM_FILE_CATEGORY,
+					""));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_BUZ_NORMS, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开业务规范界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开业务规范界面出现问题。").toJSONString();
+	}
+
+	@Override
+	public String buzNormsUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("normFiles", getBrowse(
+					PROP_BUZ_NORM_FILE_ROOT_PATH, PROP_BUZ_NORM_FILE_CATEGORY,
+					""));
+
+			AjaxResult ar = AjaxResult.instance();
+
+			String[] targetIds = targetId.split(",");
+			for (String id : targetIds) {
+				Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+						TEMPLATE_BUZ_NORMS, attrsMap, id);
+				AjaxResultEntity acc = AjaxResultEntity.instance()
+						.setOperation(Utils.RESULT_OPERATION_UPDATE)
+						.setTargetId(id).setDomAndScript(domString);
+				ar.addEntity(acc);
+			}
+
+			return ar.toJSONString();
+
+		} catch (Exception e) {
+			log.error("打开业务规范界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开业务规范界面出现问题。").toJSONString();
 	}
 
 	@Override
@@ -921,7 +1111,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String sstMonthPredictRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-
+			// TODO
+			
 			// 设置响应
 			return ActionMessage.instance().success("已经提交月度海温预测分析计算执行。")
 					.toJSONString();
@@ -937,7 +1128,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String sstQuarterPredictRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-
+			// TODO
+			
 			// 设置响应
 			return ActionMessage.instance().success("已经提交季度海温预测分析计算执行。")
 					.toJSONString();
@@ -953,7 +1145,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String sstQuarterPredict(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-
+			// TODO
+			
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 

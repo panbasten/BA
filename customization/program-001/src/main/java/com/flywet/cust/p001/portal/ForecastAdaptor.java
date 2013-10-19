@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.commons.fileupload.FileItem;
 
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.delegates.model.BIAdaptorInterface;
 
 public interface ForecastAdaptor extends BIAdaptorInterface {
@@ -64,6 +65,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 */
 	public String predictSetting(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 预测产品-延伸期预测-当月更新行为
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendSettingUpdate(String targetId, ParameterContext context)
+			throws BIJSONException;
 
 	/**
 	 * 预测产品-当月预测填报，更新
@@ -284,6 +296,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 */
 	public String buzNorms(String targetId, HashMap<String, Object> context)
 			throws BIJSONException;
+
+	/**
+	 * 业务规范更新
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String buzNormsUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
 	 * 相关网站链接

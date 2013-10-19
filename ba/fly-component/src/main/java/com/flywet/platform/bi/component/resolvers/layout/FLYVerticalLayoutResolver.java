@@ -19,6 +19,8 @@ import com.flywet.platform.bi.core.utils.Utils;
 public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
+	public static final String ATTR_ITEM_MARGIN = "itemMargin";
+
 	private static final String VERTICAL_LAYOUT_CLASS = "ui-vertical-layout "
 			+ HTML.LAYOUT_CLASS;
 
@@ -29,7 +31,9 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
 			HTML.writeStyleAttribute(node, html, attrs);
-			HTML.writeStyleClassAttribute(node, html, attrs, VERTICAL_LAYOUT_CLASS);
+
+			HTML.writeStyleClassAttribute(node, html, attrs,
+					VERTICAL_LAYOUT_CLASS);
 
 			HTML.writeAttributes(node.getAttributes(), html, attrs);
 
@@ -47,6 +51,12 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 		NodeList nodeList = node.getChildNodes();
 
+		String itemMargin = HTML.getTagAttribute(node, ATTR_ITEM_MARGIN, attrs);
+
+		if (!Const.isEmpty(itemMargin)) {
+			itemMargin = "margin:" + itemMargin + "px";
+		}
+
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node subNode = nodeList.item(i);
 
@@ -60,6 +70,9 @@ public class FLYVerticalLayoutResolver extends BaseComponentResolver implements
 
 			html.startElement(HTML.COMPONENT_TYPE_BASE_DIV);
 			html.writeAttribute(HTML.ATTR_CLASS, HTML.LAYOUT_SINGLE_CLASS);
+			if (!Const.isEmpty(itemMargin)) {
+				html.writeAttribute(HTML.ATTR_STYLE, itemMargin);
+			}
 			PageTemplateResolver.resolverNode(subNode, html, script, attrs,
 					fileUrl);
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);

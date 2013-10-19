@@ -45,9 +45,9 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.web.model.ParameterContext;
 import com.flywet.platform.bi.web.service.BIDatabaseDelegates;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 

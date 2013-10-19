@@ -2,7 +2,6 @@ package com.flywet.platform.bi.web.utils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,8 @@ import org.pentaho.di.core.Const;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
-import com.flywet.platform.bi.web.model.ParameterContext;
 
 @SuppressWarnings("unchecked")
 public class BIWebUtils {

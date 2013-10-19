@@ -5,14 +5,17 @@
 			<span style="float:right;">填报日期：</span>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-			<span style="float:left;">2013年10月上旬</span>
+			<span style="float:left;">${currentText}</span>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="2">
 			<textarea id="content" name="content" style="width:100%;" rows="16">
+			${content}
 			</textarea>
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 
-	<fly:inputText id="id" name="id" type="hidden" value="" />
+	<fly:inputText id="year" name="year" type="hidden" value="${year}" />
+	<fly:inputText id="month" name="month" type="hidden" value="${month}" />
+	<fly:inputText id="xun" name="xun" type="hidden" value="${xun}" />
 
 </form>
