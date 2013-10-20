@@ -21,12 +21,12 @@ import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.delegates.intf.BIDomainAdaptor;
 import com.flywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
 import com.flywet.platform.bi.delegates.intf.BIReportAdaptor;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
 import com.flywet.platform.bi.web.service.BIPageDelegates;
@@ -155,7 +155,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			BrowseMeta browse) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 
 			List<RepositoryElementMetaInterface> repObjects = null;
 			if (Utils.CATEGORY_DI_TRANS.equals(category)) {
@@ -187,7 +187,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("创建目录下面的子对象页面出现错误。");
 			throw new BIException("创建目录下面的子对象页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 
 	}
@@ -269,7 +269,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			RepositoryDirectoryInterface dir = this.getDirecotry(dirId,
 					category);
 			if (dir.getChildren() != null && dir.getChildren().size() > 0) {
@@ -283,7 +283,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("保存目录出现错误。");
 			throw new BIException("保存目录现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -292,7 +292,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			RepositoryDirectoryInterface dir = this.getDirecotry(parentDirId,
 					category);
 			if (dir.findChild(name) != null) {
@@ -306,7 +306,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("保存目录出现错误。");
 			throw new BIException("保存目录现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -315,7 +315,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			RepositoryDirectoryInterface pdir = this.getDirecotry(parentDirId,
 					category);
 			RepositoryDirectoryInterface dir = this.getDirecotry(dirId,
@@ -334,7 +334,7 @@ public class BIPageServices extends AbstractDirectoryServices implements
 			log.error("保存目录出现错误。");
 			throw new BIException("保存目录现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 }

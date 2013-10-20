@@ -14,8 +14,8 @@ import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 
 public abstract class AbstractDirectoryServices {
 
@@ -33,7 +33,7 @@ public abstract class AbstractDirectoryServices {
 			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 
 			RepositoryDirectoryInterface root = getRootDirectory(category);
 
@@ -46,7 +46,7 @@ public abstract class AbstractDirectoryServices {
 			log.error("创建父目录页面出现错误。");
 			throw new BIException("创建父目录页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -55,7 +55,7 @@ public abstract class AbstractDirectoryServices {
 		Repository rep = null;
 		try {
 			BreadCrumbMeta bce = new BreadCrumbMeta();
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			RepositoryDirectoryInterface root = getRootDirectory(category);
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
@@ -84,7 +84,7 @@ public abstract class AbstractDirectoryServices {
 			log.error("创建父目录页面出现错误。");
 			throw new BIException("创建父目录页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -92,7 +92,7 @@ public abstract class AbstractDirectoryServices {
 			BIDirectoryCategory category) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			RepositoryDirectoryInterface root = getRootDirectory(category);
 			RepositoryDirectoryInterface rd = rep.loadRepositoryDirectoryTree(
 					root).findDirectory(new LongObjectId(id));
@@ -114,7 +114,7 @@ public abstract class AbstractDirectoryServices {
 			log.error("创建子目录页面出现错误。");
 			throw new BIException("创建子目录页面出现错误。");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 
 	}

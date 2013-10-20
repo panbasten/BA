@@ -6,8 +6,8 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 
 import com.flywet.platform.bi.component.utils.FLYPageTemplateUtils;
+import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 
 public class BIEnvironmentListener implements ServletContextListener {
 	private final static Logger log = Logger
@@ -25,10 +25,11 @@ public class BIEnvironmentListener implements ServletContextListener {
 					.getRealPath("."));
 			FLYPageTemplateUtils.configTemplateHome(sce.getServletContext()
 					.getRealPath("pages/"));
+
 			BIEnvironmentDelegate ed = BIEnvironmentDelegate.instance();
 			ed.init();
-			ed.initRepPool();
-		} catch (BIKettleException e) {
+
+		} catch (BIException e) {
 			log.error("start kettle exception:", e);
 		}
 	}

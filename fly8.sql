@@ -318,7 +318,7 @@ CREATE TABLE `bi_portal_action` (
 
 LOCK TABLES `bi_portal_action` WRITE;
 /*!40000 ALTER TABLE `bi_portal_action` DISABLE KEYS */;
-INSERT INTO `bi_portal_action` VALUES (1,'Ô¤²â²úÆ·-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredict'),(2,'Ô¤²â²úÆ·-ÑÓÉìÆÚÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredict'),(3,'Ô¤²âÆÀ·Ö-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictScore'),(4,'Ô¤²âÆÀ·Ö-ÑÓÉìÆÚÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictScore'),(5,'Ô¤²â²úÆ·-µ±ÔÂÔ¤²âÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','predictSetting'),(6,'Ô¤²â²úÆ·-µ±ÔÂÑÓÉìÆÚÔ¤²âÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendSetting'),(7,'Ô¤²âÆÀ·Ö-ÉÏÔÂÔ¤²âÆÀ·ÖÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','scoreSetting'),(8,'·½·¨ÆÀ¹À-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictEvaluate'),(9,'·½·¨ÆÀ¹À-ÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictPrecipitation'),(10,'·ÖÎö¹¤¾ß-º£ÎÂÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstMonthPredict'),(11,'·ÖÎö¹¤¾ß-º£ÎÂ¼¾Ô¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstQuarterPredict'),(12,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictData'),(13,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÑÓÉìÆÚÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictData'),(14,'·ÖÎö¹¤¾ß-Êı¾İ¸üĞÂ-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','dataUpdate'),(15,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÉÏ±¨Êı¾İ-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','dataUpload'),(16,'ÒµÎñ¶¨Ê±ÆÚ-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','buzTimed'),(17,'ÒµÎñ¹æ·¶-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','buzNorms'),(18,'Ïà¹ØÍøÕ¾Á´½Ó-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','links'),(19,'Ô¤²â²úÆ·-ÔÂÔ¤²â-°´ÔÂ·İ¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictUpdate'),(20,'Ô¤²â²úÆ·-ÑÓÉìÆÚÔ¤²â-°´Ñ®¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictUpdate'),(21,'Ô¤²â²úÆ·-µ±ÔÂÔ¤²âÌî±¨-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','predictSettingUpdate'),(22,'·ÖÎö¹¤¾ß-Êı¾İ¸üĞÂ-¸üĞÂÎÄ¼ş','com.flywet.cust.p001.portal.ForecastAdaptorImpl','dataUpdateFiles'),(23,'·ÖÎö¹¤¾ß-º£ÎÂÔÂÔ¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstMonthPredictRun'),(24,'·ÖÎö¹¤¾ß-º£ÎÂ¼¾Ô¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstQuarterPredictRun'),(25,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÔÂÔ¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictDataRun'),(26,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÑÓÉìÆÚÔ¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictDataRun'),(27,'Ô¤²â²úÆ·-ÑÓÉìÆÚÔ¤²â-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendSettingUpdate'),(28,'ÒµÎñ¹æ·¶-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','buzNormsUpdate');
+INSERT INTO `bi_portal_action` VALUES (1,'Ô¤²â²úÆ·-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredict'),(2,'Ô¤²â²úÆ·-ÑÓÉìÆÚÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredict'),(3,'Ô¤²âÆÀ·Ö-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictScore'),(4,'Ô¤²âÆÀ·Ö-ÑÓÉìÆÚÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictScore'),(5,'Ô¤²â²úÆ·-µ±ÔÂÔ¤²âÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','predictSetting'),(6,'Ô¤²â²úÆ·-µ±ÔÂÑÓÉìÆÚÔ¤²âÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendSetting'),(7,'Ô¤²âÆÀ·Ö-ÉÏÔÂÔ¤²âÆÀ·ÖÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','scoreSetting'),(8,'·½·¨ÆÀ¹À-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictEvaluate'),(9,'·½·¨ÆÀ¹À-ÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictPrecipitation'),(10,'·ÖÎö¹¤¾ß-º£ÎÂÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstMonthPredict'),(11,'·ÖÎö¹¤¾ß-º£ÎÂ¼¾Ô¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstQuarterPredict'),(12,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÔÂÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictData'),(13,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÑÓÉìÆÚÔ¤²â-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictData'),(14,'·ÖÎö¹¤¾ß-Êı¾İ¸üĞÂ-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','dataUpdate'),(15,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÉÏ±¨Êı¾İ-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','dataUpload'),(16,'ÒµÎñ¶¨Ê±ÆÚ-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','buzTimed'),(17,'ÒµÎñ¹æ·¶-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','buzNorms'),(18,'Ïà¹ØÍøÕ¾Á´½Ó-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','links'),(19,'Ô¤²â²úÆ·-ÔÂÔ¤²â-°´ÔÂ·İ¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictUpdate'),(20,'Ô¤²â²úÆ·-ÑÓÉìÆÚÔ¤²â-°´Ñ®¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictUpdate'),(21,'Ô¤²â²úÆ·-µ±ÔÂÔ¤²âÌî±¨-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','predictSettingUpdate'),(22,'·ÖÎö¹¤¾ß-Êı¾İ¸üĞÂ-¸üĞÂÎÄ¼ş','com.flywet.cust.p001.portal.ForecastAdaptorImpl','dataUpdateFiles'),(23,'·ÖÎö¹¤¾ß-º£ÎÂÔÂÔ¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstMonthPredictRun'),(24,'·ÖÎö¹¤¾ß-º£ÎÂ¼¾Ô¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','sstQuarterPredictRun'),(25,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÔÂÔ¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictDataRun'),(26,'ÖÆ×÷ÆÀ·ÖÊı¾İ-ÑÓÉìÆÚÔ¤²â-Ö´ĞĞ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictDataRun'),(27,'Ô¤²â²úÆ·-ÑÓÉìÆÚÔ¤²â-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendSettingUpdate'),(28,'ÒµÎñ¹æ·¶-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','buzNormsUpdate'),(29,'Ô¤²âÆÀ·Ö-ÉÏÔÂÔ¤²âÆÀ·ÖÌî±¨-¸üĞÂ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','scoreSettingUpdate'),(30,'·½·¨ÆÀ¹À-ÉÏÔÂÔ¤²âÆÀ¹ÀÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictEvaluateSetting'),(31,'·½·¨ÆÀ¹À-ÉÏÔÂÔ¤²âÆÀ¹ÀÌî±¨-Ìá½»','com.flywet.cust.p001.portal.ForecastAdaptorImpl','monthPredictEvaluateSettingSubmit'),(32,'·½·¨ÆÀ¹À-ÉÏÔÂÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²âÆÀ¹ÀÌî±¨-´ò¿ªÒ³Ãæ','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictPrecipitationSetting'),(33,'·½·¨ÆÀ¹À-ÉÏÔÂÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²âÆÀ¹ÀÌî±¨-Ìá½»','com.flywet.cust.p001.portal.ForecastAdaptorImpl','extendPredictPrecipitationSettingSubmit');
 /*!40000 ALTER TABLE `bi_portal_action` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,6 +338,7 @@ CREATE TABLE `bi_portal_menu` (
   `HELPTEXT` mediumtext,
   `MENU_INDEX` int(11) DEFAULT NULL,
   `AUTHENTICATE` char(1) DEFAULT 'Y',
+  `VALID` char(1) DEFAULT 'Y',
   PRIMARY KEY (`ID_PORTAL_MENU`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -348,7 +349,7 @@ CREATE TABLE `bi_portal_menu` (
 
 LOCK TABLES `bi_portal_menu` WRITE;
 /*!40000 ALTER TABLE `bi_portal_menu` DISABLE KEYS */;
-INSERT INTO `bi_portal_menu` VALUES (0,'root','Anomyous','¸ù',-1,'PortalµÄ¸ù½Úµã',NULL,'N'),(10,'predictProduct','Anomyous','Ô¤²â²úÆ·',0,'',0,'N'),(11,'predictScore','Anomyous','Ô¤²âÆÀ·Ö',0,NULL,1,'N'),(12,'methodEvaluate','Anomyous','·½·¨ÆÀ¹À',0,NULL,2,'N'),(100,'monthPredict','Anomyous','ÔÂÔ¤²â',10,NULL,0,'N'),(101,'extendPredict','Anomyous','ÑÓÉìÆÚÔ¤²â',10,NULL,1,'N'),(102,'monthPredictScore','Anomyous','ÔÂÔ¤²â',11,NULL,0,'N'),(103,'extendPredictScore','Anomyous','ÑÓÉìÆÚÔ¤²â',11,NULL,1,'N'),(20,'setting','Yuce','ÉèÖÃ',0,NULL,10,'Y'),(104,'extendSetting','Yuce','µ±ÔÂÑÓÉìÆÚÔ¤²âÌî±¨',10,NULL,3,'Y'),(105,'predictSetting','Yuce','µ±ÔÂÔ¤²âÌî±¨',10,NULL,2,'Y'),(106,'scoreSetting','Yuce','ÉÏÔÂÔ¤²âÆÀ·ÖÌî±¨',11,NULL,2,'Y'),(107,'monthPredictEvaluate','Anomyous','ÔÂÔ¤²â',12,NULL,0,'N'),(108,'extendPredictPrecipitation','Anomyous','ÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²â',12,NULL,1,'N'),(113,'dataUpdate','Yuce','Êı¾İ¸üĞÂ',14,NULL,2,'Y'),(14,'analyseTools','Yuce','·ÖÎö¹¤¾ß',0,NULL,4,'Y'),(109,'sstMonthPredict','Yuce','º£ÎÂÔÂÔ¤²â',14,NULL,0,'Y'),(110,'sstQuarterPredict','Yuce','º£ÎÂ¼¾Ô¤²â',14,NULL,1,'Y'),(15,'makeScoreData','Yuce','ÖÆ×÷ÆÀ·ÖÊı¾İ',0,NULL,5,'Y'),(111,'monthPredictData','Yuce','ÔÂÔ¤²â',15,NULL,0,'Y'),(112,'extendPredictData','Yuce','ÑÓÉìÆÚÔ¤²â',15,NULL,1,'Y'),(114,'dataUpload','Yuce','ÉÏ±¨Êı¾İ',15,NULL,2,'Y'),(115,'buzTimed','Anomyous','ÒµÎñ¶¨Ê±ÆÚ',20,NULL,2,'N'),(16,'buzNorms','Anomyous','ÒµÎñ¹æ·¶',0,NULL,6,'N'),(17,'links','Anomyous','Ïà¹ØÍøÕ¾Á´½Ó',0,NULL,7,'N');
+INSERT INTO `bi_portal_menu` VALUES (0,'root','Anomyous','¸ù',-1,'PortalµÄ¸ù½Úµã',NULL,'N','Y'),(10,'predictProduct','Anomyous','Ô¤²â²úÆ·',0,'',0,'N','Y'),(11,'predictScore','Anomyous','Ô¤²âÆÀ·Ö',0,NULL,1,'N','Y'),(12,'methodEvaluate','Anomyous','·½·¨ÆÀ¹À',0,NULL,2,'N','Y'),(100,'monthPredict','Anomyous','ÔÂÔ¤²â',10,NULL,0,'N','Y'),(101,'extendPredict','Anomyous','ÑÓÉìÆÚÔ¤²â',10,NULL,1,'N','Y'),(102,'monthPredictScore','Anomyous','ÔÂÔ¤²â',11,NULL,0,'N','Y'),(103,'extendPredictScore','Anomyous','ÑÓÉìÆÚÔ¤²â',11,NULL,1,'N','N'),(20,'setting','Yuce','ÉèÖÃ',0,NULL,10,'Y','N'),(104,'extendSetting','Yuce','µ±ÔÂÑÓÉìÆÚÔ¤²âÌî±¨',10,NULL,3,'Y','Y'),(105,'predictSetting','Yuce','µ±ÔÂÔ¤²âÌî±¨',10,NULL,2,'Y','Y'),(106,'scoreSetting','Yuce','ÉÏÔÂÔ¤²âÆÀ·ÖÌî±¨',11,NULL,2,'Y','Y'),(107,'monthPredictEvaluate','Anomyous','ÔÂÔ¤²â',12,NULL,0,'N','Y'),(108,'extendPredictPrecipitation','Anomyous','ÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²â',12,NULL,1,'N','Y'),(113,'dataUpdate','Yuce','Êı¾İ¸üĞÂ',14,NULL,2,'Y','Y'),(14,'analyseTools','Yuce','·ÖÎö¹¤¾ß',0,NULL,4,'Y','Y'),(109,'sstMonthPredict','Yuce','º£ÎÂÔÂÔ¤²â',14,NULL,0,'Y','Y'),(110,'sstQuarterPredict','Yuce','º£ÎÂ¼¾Ô¤²â',14,NULL,1,'Y','Y'),(15,'makeScoreData','Yuce','ÖÆ×÷ÆÀ·ÖÊı¾İ',0,NULL,5,'Y','Y'),(111,'monthPredictData','Yuce','ÔÂÔ¤²â',15,NULL,0,'Y','Y'),(112,'extendPredictData','Yuce','ÑÓÉìÆÚÔ¤²â',15,NULL,1,'Y','Y'),(114,'dataUpload','Yuce','ÉÏ±¨Êı¾İ',15,NULL,2,'Y','Y'),(115,'buzTimed','Anomyous','ÒµÎñ¶¨Ê±ÆÚ',20,NULL,2,'N','N'),(16,'buzNorms','Anomyous','ÒµÎñ¹æ·¶',0,NULL,6,'N','Y'),(17,'links','Anomyous','Ïà¹ØÍøÕ¾Á´½Ó',0,NULL,7,'N','Y'),(116,'monthPredictEvaluateSetting','Yuce','ÉÏÔÂÔ¤²âÆÀ¹ÀÌî±¨',12,NULL,2,'Y','Y'),(117,'extendPredictPrecipitationSetting','Yuce','ÉÏÔÂÑÓÉìÆÚ½µË®¹ı³ÌÔ¤²âÆÀ¹ÀÌî±¨',12,NULL,3,'Y','Y');
 /*!40000 ALTER TABLE `bi_portal_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,7 +375,7 @@ CREATE TABLE `bi_portal_menu_attribute` (
 
 LOCK TABLES `bi_portal_menu_attribute` WRITE;
 /*!40000 ALTER TABLE `bi_portal_menu_attribute` DISABLE KEYS */;
-INSERT INTO `bi_portal_menu_attribute` VALUES (1,100,'action','1'),(3,101,'action','2'),(4,102,'action','3'),(5,103,'action','4'),(2,100,'autoMaximized','true'),(10,105,'action','5'),(12,104,'action','6'),(15,104,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"action\":\"27\"},{\"type\":\"cancel\"}]'),(16,106,'action','7'),(18,107,'action','8'),(20,108,'action','9'),(22,109,'action','10'),(24,110,'action','11'),(26,111,'action','12'),(28,112,'action','13'),(30,113,'action','14'),(32,114,'action','15'),(34,115,'action','16'),(36,16,'action','17'),(38,17,'action','18'),(31,113,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"click\":{\"func\":\"Flywet.PortalAction.uploadFiles(dialogId,{formAction:\'rest/portalet/actionFileForm/22\'})\"}},{\"type\":\"cancel\"}]'),(23,109,'btn','[{\"label\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"title\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"action\":\"23\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(25,110,'btn','[{\"label\":\" ±à¼­ÊäÈëÎÄ¼şnamelist\",\"title\":\"±à¼­ÊäÈëÎÄ¼şnamelist\",\"click\":{\"func\":\"Flywet.PortalAction.openEditFileDialog(\'custom.portal.seasonForecast.file.rootPath\',\'custom.portal.seasonForecast.file.category\',\'custom.portal.seasonForecast.file.fileName\',\'namelist\');\"}},{\"label\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"title\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"action\":\"24\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(33,114,'btn','[{\"label\":\"ÔÂÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"title\":\"ÔÂÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"url\":\"rest/user/create/save\"},{\"label\":\"ÑÓÉìÆÚÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"title\":\"ÑÓÉìÆÚÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]'),(27,111,'btn','[{\"label\":\"±à¼­ÊäÈëÎÄ¼şcityforecast.txt\",\"title\":\"±à¼­ÊäÈëÎÄ¼şcityforecast.txt\",\"click\":{\"func\":\"Flywet.PortalAction.openEditFileDialog(\'custom.portal.evaluation.file.rootPath\',\'custom.portal.evaluation.file.category\',\'custom.portal.evaluation.file.fileName\',\'cityforecast.txt\');\"}},{\"label\":\"Í³¼Æ½«³ß¶È·ÖÎö¼ÆËã\",\"title\":\"Í³¼Æ½«³ß¶È·ÖÎö¼ÆËã\",\"action\":\"25\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(29,112,'btn','[{\"label\":\"±à¼­ÊäÈëÎÄ¼şnamelist\",\"title\":\"±à¼­ÊäÈëÎÄ¼şnamelist\",\"click\":{\"func\":\"Flywet.PortalAction.openEditFileDialog(\'custom.portal.processForecast.file.rootPath\',\'custom.portal.processForecast.file.category\',\'custom.portal.processForecast.file.fileName\',\'namelist\');\"}},{\"label\":\"ÖÆ×÷142Õ¾Ô¤²âÉÏ´«ÎÄ¼ş\",\"title\":\"ÖÆ×÷142Õ¾Ô¤²âÉÏ´«ÎÄ¼ş\",\"action\":\"26\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(46,109,'height','100'),(47,110,'height','100'),(48,111,'height','100'),(49,112,'height','100'),(50,113,'height','200'),(51,114,'height','100'),(39,17,'width','300');
+INSERT INTO `bi_portal_menu_attribute` VALUES (1,100,'action','1'),(3,101,'action','2'),(4,102,'action','3'),(5,103,'action','4'),(2,100,'autoMaximized','true'),(10,105,'action','5'),(12,104,'action','6'),(15,104,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"action\":\"27\"},{\"type\":\"cancel\"}]'),(16,106,'action','7'),(18,107,'action','8'),(20,108,'action','9'),(22,109,'action','10'),(24,110,'action','11'),(26,111,'action','12'),(28,112,'action','13'),(30,113,'action','14'),(32,114,'action','15'),(34,115,'action','16'),(36,16,'action','17'),(38,17,'action','18'),(31,113,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"click\":{\"func\":\"Flywet.PortalAction.uploadFiles(dialogId,{formAction:\'rest/portalet/actionFileForm/22\'})\"}},{\"type\":\"cancel\"}]'),(23,109,'btn','[{\"label\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"title\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"action\":\"23\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(25,110,'btn','[{\"label\":\" ±à¼­ÊäÈëÎÄ¼şnamelist\",\"title\":\"±à¼­ÊäÈëÎÄ¼şnamelist\",\"click\":{\"func\":\"Flywet.PortalAction.openEditFileDialog(\'custom.portal.seasonForecast.file.rootPath\',\'custom.portal.seasonForecast.file.category\',\'custom.portal.seasonForecast.file.fileName\',\'namelist\');\"}},{\"label\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"title\":\"º£ÎÂÔ¤²â·ÖÎö¼ÆËã\",\"action\":\"24\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(33,114,'btn','[{\"label\":\"ÔÂÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"title\":\"ÔÂÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"url\":\"rest/user/create/save\"},{\"label\":\"ÑÓÉìÆÚÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"title\":\"ÑÓÉìÆÚÔ¤²âÆÀ·ÖÊı¾İÉÏ´«\",\"url\":\"rest/user/create/save\"},{\"type\":\"cancel\"}]'),(27,111,'btn','[{\"label\":\"±à¼­ÊäÈëÎÄ¼şcityforecast.txt\",\"title\":\"±à¼­ÊäÈëÎÄ¼şcityforecast.txt\",\"click\":{\"func\":\"Flywet.PortalAction.openEditFileDialog(\'custom.portal.evaluation.file.rootPath\',\'custom.portal.evaluation.file.category\',\'custom.portal.evaluation.file.fileName\',\'cityforecast.txt\');\"}},{\"label\":\"Í³¼Æ½«³ß¶È·ÖÎö¼ÆËã\",\"title\":\"Í³¼Æ½«³ß¶È·ÖÎö¼ÆËã\",\"action\":\"25\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(29,112,'btn','[{\"label\":\"±à¼­ÊäÈëÎÄ¼şnamelist\",\"title\":\"±à¼­ÊäÈëÎÄ¼şnamelist\",\"click\":{\"func\":\"Flywet.PortalAction.openEditFileDialog(\'custom.portal.processForecast.file.rootPath\',\'custom.portal.processForecast.file.category\',\'custom.portal.processForecast.file.fileName\',\'namelist\');\"}},{\"label\":\"ÖÆ×÷142Õ¾Ô¤²âÉÏ´«ÎÄ¼ş\",\"title\":\"ÖÆ×÷142Õ¾Ô¤²âÉÏ´«ÎÄ¼ş\",\"action\":\"26\",\"ajaxType\":\"get\"},{\"type\":\"cancel\"}]'),(46,109,'height','100'),(47,110,'height','100'),(48,111,'height','100'),(49,112,'height','100'),(50,113,'height','200'),(51,114,'height','100'),(39,17,'width','300'),(6,102,'width','800'),(17,106,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"action\":\"29\"},{\"type\":\"cancel\"}]'),(52,116,'action','30'),(53,116,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"action\":\"31\"},{\"type\":\"cancel\"}]'),(54,117,'action','32'),(55,117,'btn','[{\"label\":\"È·¶¨\",\"title\":\"È·¶¨\",\"action\":\"33\"},{\"type\":\"cancel\"}]'),(56,116,'autoMaximized','true');
 /*!40000 ALTER TABLE `bi_portal_menu_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -523,6 +524,136 @@ INSERT INTO `c_extend_predict` VALUES (0,2013,6,0,'2¡«5ÈÕ£¬È«Ê¡´ó²¿·ÖµØÇøÓĞÕóÓê»
 UNLOCK TABLES;
 
 --
+-- Table structure for table `c_extend_predict_eva`
+--
+
+DROP TABLE IF EXISTS `c_extend_predict_eva`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `c_extend_predict_eva` (
+  `ID_EXTEND_PREDICT_EVA` bigint(20) NOT NULL,
+  `YEAR` int(11) DEFAULT NULL,
+  `MONTH` int(11) DEFAULT NULL,
+  `S1` int(11) DEFAULT NULL,
+  `S2` int(11) DEFAULT NULL,
+  `S3` int(11) DEFAULT NULL,
+  `S4` int(11) DEFAULT NULL,
+  `S5` int(11) DEFAULT NULL,
+  `S6` int(11) DEFAULT NULL,
+  `S7` int(11) DEFAULT NULL,
+  `S8` int(11) DEFAULT NULL,
+  `S9` int(11) DEFAULT NULL,
+  `DESCRIPTION` mediumtext,
+  PRIMARY KEY (`ID_EXTEND_PREDICT_EVA`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_extend_predict_eva`
+--
+
+LOCK TABLES `c_extend_predict_eva` WRITE;
+/*!40000 ALTER TABLE `c_extend_predict_eva` DISABLE KEYS */;
+INSERT INTO `c_extend_predict_eva` VALUES (1,2013,7,3,2,1,3,2,1,3,3,0,NULL),(2,2013,8,3,3,0,3,1,2,3,2,1,NULL),(3,2013,9,3,2,1,0,0,0,0,0,0,'fsdfsf\r\ndfdfs\r\nÀÍ¶¯·¨Ë¹µÙ·Ò\r\nµØ·½µÄËµ·¨');
+/*!40000 ALTER TABLE `c_extend_predict_eva` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `c_month_predict_eva`
+--
+
+DROP TABLE IF EXISTS `c_month_predict_eva`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `c_month_predict_eva` (
+  `ID_MONTH_PREDICT_EVA` bigint(20) NOT NULL,
+  `YEAR` int(11) DEFAULT NULL,
+  `MONTH` int(11) DEFAULT NULL,
+  `S1` int(11) DEFAULT NULL,
+  `S2` int(11) DEFAULT NULL,
+  `S3` int(11) DEFAULT NULL,
+  `S4` int(11) DEFAULT NULL,
+  `S5` int(11) DEFAULT NULL,
+  `S6` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_MONTH_PREDICT_EVA`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_month_predict_eva`
+--
+
+LOCK TABLES `c_month_predict_eva` WRITE;
+/*!40000 ALTER TABLE `c_month_predict_eva` DISABLE KEYS */;
+INSERT INTO `c_month_predict_eva` VALUES (1,2013,7,55,85,77,78,65,73),(2,2013,8,65,55,63,78,45,77),(3,2013,9,90,96,89,96,100,100);
+/*!40000 ALTER TABLE `c_month_predict_eva` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `c_month_predict_eva_d`
+--
+
+DROP TABLE IF EXISTS `c_month_predict_eva_d`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `c_month_predict_eva_d` (
+  `YEAR` int(11) DEFAULT NULL,
+  `MONTH` int(11) DEFAULT NULL,
+  `CITY` varchar(255) DEFAULT NULL,
+  `S1` int(11) DEFAULT NULL,
+  `S2` int(11) DEFAULT NULL,
+  `S3` int(11) DEFAULT NULL,
+  `S4` int(11) DEFAULT NULL,
+  `S5` int(11) DEFAULT NULL,
+  `S6` int(11) DEFAULT NULL,
+  `S7` int(11) DEFAULT NULL,
+  `S8` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_month_predict_eva_d`
+--
+
+LOCK TABLES `c_month_predict_eva_d` WRITE;
+/*!40000 ALTER TABLE `c_month_predict_eva_d` DISABLE KEYS */;
+INSERT INTO `c_month_predict_eva_d` VALUES (2013,9,'xt',0,0,0,0,0,0,0,0),(2013,9,'sjz',0,0,0,0,0,0,0,0),(2013,9,'bd',0,0,0,0,-1,0,0,0),(2013,9,'hs',0,0,0,0,0,0,0,0),(2013,9,'cz',0,0,1,0,0,0,0,0),(2013,9,'lf',0,0,-1,0,0,0,0,0),(2013,9,'ts',-1,0,0,1,0,0,0,0),(2013,9,'qhd',0,0,0,0,0,0,0,0),(2013,9,'cd',0,0,0,0,0,0,0,0),(2013,9,'zjk',0,0,0,0,0,0,0,0),(2013,9,'hd',0,0,0,0,0,0,0,0);
+/*!40000 ALTER TABLE `c_month_predict_eva_d` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `c_month_predict_score`
+--
+
+DROP TABLE IF EXISTS `c_month_predict_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `c_month_predict_score` (
+  `ID_MONTH_PREDICT_SCORE` bigint(20) NOT NULL,
+  `YEAR` int(11) DEFAULT NULL,
+  `MONTH` int(11) DEFAULT NULL,
+  `S1` varchar(255) DEFAULT NULL,
+  `S2` varchar(255) DEFAULT NULL,
+  `S3` varchar(255) DEFAULT NULL,
+  `S4` varchar(255) DEFAULT NULL,
+  `S5` varchar(255) DEFAULT NULL,
+  `S6` varchar(255) DEFAULT NULL,
+  `S7` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID_MONTH_PREDICT_SCORE`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_month_predict_score`
+--
+
+LOCK TABLES `c_month_predict_score` WRITE;
+/*!40000 ALTER TABLE `c_month_predict_score` DISABLE KEYS */;
+INSERT INTO `c_month_predict_score` VALUES (1,2013,6,'100 / 67','32 / 23','12 / 5',' 67.1 / 55.2','80.1 / 67.0','67.3 / 55.8',' 0.32 / 0.33'),(2,2013,8,'90 / 67','32 / 23','12 / 5','67.1 / 55.2','80.1 / 67.0','67.3 / 55.8','0.32 / 0.33'),(3,2013,9,'10 / ',' / ',' / ',' / ',' / ',' / ',' / ');
+/*!40000 ALTER TABLE `c_month_predict_score` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `r_authorization`
 --
 
@@ -543,7 +674,7 @@ CREATE TABLE `r_authorization` (
 
 LOCK TABLES `r_authorization` WRITE;
 /*!40000 ALTER TABLE `r_authorization` DISABLE KEYS */;
-INSERT INTO `r_authorization` VALUES (100,20,2,7),(100,104,2,7),(100,106,2,7),(100,14,2,7),(100,15,2,7),(100,105,2,7),(100,109,2,7),(100,110,2,7),(100,111,2,7),(100,112,2,7),(100,113,2,7),(100,114,2,7),(0,14,2,4),(0,15,2,4),(0,20,2,4),(0,104,2,4),(0,105,2,4),(0,106,2,4),(0,109,2,4),(0,110,2,4),(0,111,2,4),(0,112,2,4),(0,113,2,4),(0,114,2,4);
+INSERT INTO `r_authorization` VALUES (100,20,2,7),(100,104,2,7),(100,106,2,7),(100,14,2,7),(100,15,2,7),(100,105,2,7),(100,109,2,7),(100,110,2,7),(100,111,2,7),(100,112,2,7),(100,113,2,7),(100,114,2,7),(0,14,2,4),(0,15,2,4),(0,20,2,4),(0,104,2,4),(0,105,2,4),(0,106,2,4),(0,109,2,4),(0,110,2,4),(0,111,2,4),(0,112,2,4),(0,113,2,4),(0,114,2,4),(100,116,2,7),(100,117,2,7),(0,116,2,4),(0,117,2,4);
 /*!40000 ALTER TABLE `r_authorization` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1780,4 +1911,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-20  0:17:57
+-- Dump completed on 2013-10-21  1:47:40

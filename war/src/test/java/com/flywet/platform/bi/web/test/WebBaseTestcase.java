@@ -15,7 +15,6 @@ public class WebBaseTestcase {
 	public void setUp() throws Exception {
 		BIEnvironmentDelegate ed = BIEnvironmentDelegate.instance();
 		ed.init();
-		ed.initRepPool();
 
 		ContextHolder.setRepositoryName("dbrep");
 		ContextHolder.setRepositoryType("db");

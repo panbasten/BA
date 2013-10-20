@@ -6,10 +6,12 @@ import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 
 import com.flywet.platform.bi.core.ContextHolder;
+import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 
 public class BISecurityUtils {
 	/**
@@ -37,7 +39,7 @@ public class BISecurityUtils {
 	 * @return
 	 * @throws BIKettleException
 	 */
-	public static String checkRepository() throws BIKettleException {
+	public static String checkRepository() throws BIException {
 		String repository = ContextHolder.getRepositoryName();
 		// 如果repository为空，检查是否可以匿名登录
 		if (Const.isEmpty(repository)) {
@@ -47,8 +49,7 @@ public class BISecurityUtils {
 				repository = PropertyUtils
 						.getProperty(PropertyUtils.PORTAL_ANONYMOUS_REPOSITORY);
 				if (Const.isEmpty(repository)) {
-					String[] repNames = BIEnvironmentDelegate.instance()
-							.getRepNames();
+					String[] repNames = RepPool.instance().getRepNames();
 					if (repNames != null && repNames.length > 0) {
 						repository = repNames[0];
 					}
@@ -71,12 +72,11 @@ public class BISecurityUtils {
 	 * @param rep
 	 * @throws BIKettleException
 	 */
-	private static void registerRepository(String rep) throws BIKettleException {
+	private static void registerRepository(String rep) throws BIException {
 		BIEnvironmentDelegate ed = BIEnvironmentDelegate.instance();
 		ed.init();
-		ed.initRepPool();
 
 		ContextHolder.setRepositoryName(rep);
-		ContextHolder.setRepositoryType(ed.getRepType(rep));
+		ContextHolder.setRepositoryType(RepPool.instance().getRepType(rep));
 	}
 }

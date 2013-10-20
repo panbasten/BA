@@ -133,6 +133,17 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 			throws BIJSONException;
 
 	/**
+	 * 预测评分-上月预测评分更新
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String scoreSettingUpdate(String targetId, ParameterContext context)
+			throws BIJSONException;
+
+	/**
 	 * 方法评估-月预测
 	 * 
 	 * @param targetId
@@ -318,5 +329,49 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 */
 	public String links(String targetId, HashMap<String, Object> context)
 			throws BIJSONException;
+
+	/**
+	 * 方法评估-上月预测评估填报-打开页面
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String monthPredictEvaluateSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 方法评估-上月预测评估填报-提交
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String monthPredictEvaluateSettingSubmit(String targetId,
+			ParameterContext context) throws BIJSONException;
+
+	/**
+	 * 方法评估-上月延伸期降水过程预测评估填报-打开页面
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendPredictPrecipitationSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 方法评估-上月延伸期降水过程预测评估填报-提交
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendPredictPrecipitationSettingSubmit(String targetId,
+			ParameterContext context) throws BIJSONException;
 
 }

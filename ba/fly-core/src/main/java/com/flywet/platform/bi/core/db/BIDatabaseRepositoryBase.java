@@ -85,6 +85,7 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_PORTAL_MENU_HELPTEXT = "HELPTEXT";
 	public static final String FIELD_PORTAL_MENU_MENU_INDEX = "MENU_INDEX";
 	public static final String FIELD_PORTAL_MENU_AUTHENTICATE = "AUTHENTICATE";
+	public static final String FIELD_PORTAL_MENU_VALID = "VALID";
 
 	public static final String TABLE_BI_PORTAL_MENU_ATTRIBUTE = "BI_PORTAL_MENU_ATTRIBUTE";
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_ID_PORTAL_MENU_ATTR = "ID_PORTAL_MENU_ATTR";

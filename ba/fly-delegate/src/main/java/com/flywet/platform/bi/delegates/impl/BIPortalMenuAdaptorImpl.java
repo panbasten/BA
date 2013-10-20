@@ -43,7 +43,10 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 				+ ","
 				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_AUTHENTICATE)
 				+ " FROM "
-				+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_PORTAL_MENU);
+				+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_PORTAL_MENU)
+				+ " WHERE "
+				+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_VALID)
+				+ " = 'Y'";
 	}
 
 	private PortalMenu createPortalMenu(RowMetaAndData rmd)
@@ -167,7 +170,7 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 	public PortalMenu getPortalMenuById(long id) throws BIKettleException {
 		try {
 			String sql = getSQL()
-					+ " WHERE "
+					+ " AND "
 					+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU)
 					+ " = " + id;
 			RowMetaAndData rmd = getOneRowWithMeta(sql);
@@ -186,7 +189,7 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = getSQL()
-					+ " WHERE "
+					+ " AND "
 					+ quote(BIDatabaseRepositoryBase.FIELD_PORTAL_MENU_ID_PORTAL_MENU_PARENT)
 					+ " = "
 					+ id

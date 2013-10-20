@@ -13,8 +13,8 @@ import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 import com.flywet.platform.bi.web.service.BIDatabaseDelegates;
 
 @Service("bi.service.databaseServices")
@@ -27,7 +27,7 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			List<DatabaseMeta> databaseMetas = rep.getDatabases();
 			for (DatabaseMeta d : databaseMetas) {
 				BrowseNodeMeta node = new BrowseNodeMeta();
@@ -49,7 +49,7 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 			log.error("获得数据库对象列表出现异常", ex);
 			throw new BIException("获得数据库对象列表出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 
 	}
@@ -58,13 +58,13 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 	public DatabaseMeta getDatabaseMeta(Long id) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			return rep.loadDatabaseMeta(new LongObjectId(id), null);
 		} catch (Exception ex) {
 			log.error("获得数据库对象出现异常", ex);
 			throw new BIException("获得数据库对象出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -72,13 +72,13 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 	public void saveDatabaseMeta(DatabaseMeta databaseMeta) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			rep.save(databaseMeta, null, null);
 		} catch (Exception ex) {
 			log.error("保存数据库对象出现异常", ex);
 			throw new BIException("保存数据库对象出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -86,13 +86,13 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 	public void deleteDatabaseMeta(String dbName) throws BIException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			rep.deleteDatabaseMeta(dbName);
 		} catch (Exception ex) {
 			log.error("删除数据库对象出现异常", ex);
 			throw new BIException("删除数据库对象出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -100,12 +100,12 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 	public boolean existDatabaseMeta(String dbName) throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			return rep.getDatabaseID(dbName) != null;
 		} catch (Exception ex) {
 			log.error("判断数据库对象是否存在出现异常", ex);
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 		return false;
 	}

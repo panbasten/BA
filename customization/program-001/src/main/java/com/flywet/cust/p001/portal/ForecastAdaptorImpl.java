@@ -8,8 +8,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -23,8 +25,13 @@ import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.row.ValueMetaInterface;
 
 import com.flywet.cust.p001.db.CustomDatabaseRepositoryBase;
+import com.flywet.cust.p001.vo.ExtendPredictEvaVo;
+import com.flywet.cust.p001.vo.MonthPredictEvaVo;
+import com.flywet.cust.p001.vo.MonthPredictScoreVo;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
+import com.flywet.platform.bi.component.components.grid.GridDataObject;
+import com.flywet.platform.bi.component.components.selectMenu.OptionsData;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
@@ -51,6 +58,12 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 	private static final String[] YUN_DESC = new String[] { "上旬", "中旬", "下旬" };
 
+	private static final String[] CITY_CODES = new String[] { "zjk", "cd",
+			"qhd", "ts", "lf", "cz", "hs", "bd", "sjz", "xt", "hd" };
+
+	private static final String[] CITY_NAMES = new String[] { "张家口", "承德",
+			"秦皇岛", "唐山", "廊坊", "沧州", "衡水", "保定", "石家庄", "邢台", "邯郸" };
+
 	private static final String TEMPLATE_MONTH_PREDICT = "monthPredict.h";
 	private static final String TEMPLATE_EXTEND_PREDICT = "extendPredict.h";
 	private static final String TEMPLATE_MONTH_PREDICT_SCORE = "monthPredictScore.h";
@@ -59,7 +72,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private static final String TEMPLATE_EXTEND_SETTING = "extendSetting.h";
 
 	private static final String TEMPLATE_BUZ_NORMS = "buzNorms.h";
-	private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
+	// private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
 	private static final String TEMPLATE_DATA_UPDATE = "dataUpdate.h";
 	private static final String TEMPLATE_DATA_UPLOAD = "dataUpload.h";
 	private static final String TEMPLATE_EXTEND_PREDICT_DATA = "extendPredictData.h";
@@ -71,6 +84,9 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	private static final String TEMPLATE_SCORE_SETTING = "scoreSetting.h";
 	private static final String TEMPLATE_SST_MONTH_PREDICT = "sstMonthPredict.h";
 	private static final String TEMPLATE_SST_QUARTER_PREDICT = "sstQuarterPredict.h";
+
+	private static final String TEMPLATE_MONTH_PREDICT_EVALUATE_SETTING = "monthPredictEvaluateSetting.h";
+	private static final String TEMPLATE_MONTH_PREDICT_PRECIPTATION_SETTING = "extendPredictPrecipitationSetting.h";
 
 	// 月预测数据存储位置
 	private static final String PROP_MONTH_PREDICT_FILE_ROOT_PATH = "custom.portal.monthPredict.file.rootPath";
@@ -104,13 +120,13 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	// 业务规范
 	private static final String PROP_BUZ_NORM_FILE_ROOT_PATH = "custom.portal.buzNorm.file.rootPath";
 	private static final String PROP_BUZ_NORM_FILE_CATEGORY = "custom.portal.buzNorm.file.category";
-	
+
 	// 海温月预测-海温预测分析计算
 	private static final String PROP_MONTH_FORECAST_RUN = "custom.portal.month.forecast.run";
-	
+
 	// 海温季度预测-海温预测分析计算
 	private static final String PROP_SEASON_FORECAST_RUN = "custom.portal.season.forecast.run";
-	
+
 	// 制作评分数据-延伸期预测-制作142站预测上传文件
 	private static final String PROP_PROCESS_FORECAST_RUN = "custom.portal.process.forecast.run";
 
@@ -686,27 +702,6 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	}
 
 	@Override
-	public String monthPredictScore(String targetId,
-			HashMap<String, Object> context) throws BIJSONException {
-		try {
-			// 获得页面
-			FLYVariableResolver attrsMap = new FLYVariableResolver();
-
-			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
-					TEMPLATE_MONTH_PREDICT_SCORE, attrsMap);
-
-			// 设置响应
-			return AjaxResult.instanceDialogContent(targetId, domString)
-					.toJSONString();
-		} catch (Exception e) {
-			log.error("打开预测评分-月预测界面出现问题。");
-		}
-
-		return ActionMessage.instance().failure("打开预测评分-月预测界面出现问题。")
-				.toJSONString();
-	}
-
-	@Override
 	public String extendPredictScore(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
@@ -852,7 +847,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String buzTimed(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
-		// TODO Auto-generated method stub
+		// DO NOTHING
 		return null;
 	}
 
@@ -1019,8 +1014,529 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String extendPredictPrecipitation(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S1)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S2)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S3)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S4)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S5)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S6)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S7)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S8)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S9)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA)
+					+ " ORDER BY "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
+					+ " DESC , "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
+					+ " DESC";
+
+			List<Object[]> rows = getRows(sql);
+
+			GridDataObject grid = GridDataObject.instance();
+			if (rows != null) {
+				for (Object[] row : rows) {
+					String yearMonth = row[0] + "年" + row[1] + "月";
+					ExtendPredictEvaVo vo = ExtendPredictEvaVo.instance()
+							.setYearMonth(yearMonth).setS1((Long) row[2])
+							.setS2((Long) row[3]).setS3((Long) row[4]).setS4(
+									(Long) row[5]).setS5((Long) row[6]).setS6(
+									(Long) row[7]).setS7((Long) row[8]).setS8(
+									(Long) row[9]).setS9((Long) row[10]);
+					grid.putObject(vo);
+				}
+			}
+
+			attrsMap.addVariable("extendPredictEva", grid);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_EXTEND_PREDICT_PRECIPITATION, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开预测方法评估-延伸期降水过程预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开预测方法评估-延伸期降水过程预测界面出现问题。")
+				.toJSONString();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public String monthPredictEvaluateSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			String currentText = year + "年" + month + "月";
+
+			OptionsData tempOpts = OptionsData.instance();
+			tempOpts.addOption("-1", "偏低");
+			tempOpts.addOption("0", "正常");
+			tempOpts.addOption("1", "偏高");
+
+			OptionsData preOpts = OptionsData.instance();
+			preOpts.addOption("-1", "偏少");
+			preOpts.addOption("0", "正常");
+			preOpts.addOption("1", "偏多");
+
+			attrsMap.addVariable("tempOpts", tempOpts.getOptions());
+			attrsMap.addVariable("preOpts", preOpts.getOptions());
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_CITY)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S1)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S2)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S3)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S4)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S5)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S6)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S7)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S8)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_MONTH)
+					+ " = ?";
+
+			List<Object[]> rows = getRows(sql, new Object[] { year, month });
+
+			Map<String, Object[]> detailMap = new HashMap<String, Object[]>();
+
+			if (rows != null) {
+				for (Object[] row : rows) {
+					detailMap.put((String) row[0], row);
+				}
+			}
+
+			for (String code : CITY_CODES) {
+				if (!detailMap.containsKey(code)) {
+					detailMap.put(code, new String[] { code, "0", "0", "0",
+							"0", "0", "0", "0", "0" });
+				}
+			}
+
+			attrsMap.addVariable("detailMap", detailMap);
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+
+			attrsMap.addVariable("cityCodes", CITY_CODES);
+			attrsMap.addVariable("cityNames", CITY_NAMES);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_MONTH_PREDICT_EVALUATE_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开方法评估-上月预测评估填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开方法评估-上月预测评估填报界面出现问题。")
+				.toJSONString();
+	}
+
+	private long getEvaluateScore(long t1, long t2) {
+		if (t1 == t2) {
+			return 100;
+		} else if (Math.abs(t1 - t2) <= 1) {
+			return 60;
+		} else {
+			return 0;
+		}
+	}
+
+	private long getAvgScore(long t) {
+		return Math.round(t / CITY_CODES.length);
+	}
+
+	@Override
+	public String monthPredictEvaluateSettingSubmit(String targetId,
+			ParameterContext context) throws BIJSONException {
+		try {
+			long year = context.getLongParameter("year");
+			long month = context.getLongParameter("month");
+
+			// 删除旧的记录
+			String delSql = "DELETE FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_MONTH)
+					+ " = ?";
+			execSql(delSql, new Object[] { year, month });
+
+			List<String> cityL = context.getParameterValues("city");
+			List<String> s1 = context.getParameterValues("s1");
+			List<String> s2 = context.getParameterValues("s2");
+			List<String> s3 = context.getParameterValues("s3");
+			List<String> s4 = context.getParameterValues("s4");
+			List<String> s5 = context.getParameterValues("s5");
+			List<String> s6 = context.getParameterValues("s6");
+			List<String> s7 = context.getParameterValues("s7");
+			List<String> s8 = context.getParameterValues("s8");
+
+			long[] avgS = new long[6];
+
+			// 添加新的明细
+			if (cityL != null) {
+				for (int i = 0; i < cityL.size(); i++) {
+					long s1L = Long.valueOf(s1.get(i)), s2L = Long.valueOf(s2
+							.get(i)), s3L = Long.valueOf(s3.get(i)), s4L = Long
+							.valueOf(s4.get(i)), s5L = Long.valueOf(s5.get(i)), s6L = Long
+							.valueOf(s6.get(i)), s7L = Long.valueOf(s7.get(i)), s8L = Long
+							.valueOf(s8.get(i));
+
+					avgS[0] += getEvaluateScore(s1L, s4L);
+					avgS[1] += getEvaluateScore(s2L, s4L);
+					avgS[2] += getEvaluateScore(s3L, s4L);
+					avgS[3] += getEvaluateScore(s5L, s8L);
+					avgS[4] += getEvaluateScore(s6L, s8L);
+					avgS[5] += getEvaluateScore(s7L, s8L);
+
+					RowMetaAndData rmd = new RowMetaAndData();
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_YEAR,
+									ValueMetaInterface.TYPE_INTEGER, year);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_MONTH,
+									ValueMetaInterface.TYPE_INTEGER, month);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_CITY,
+									ValueMetaInterface.TYPE_STRING, cityL
+											.get(i));
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S1,
+									ValueMetaInterface.TYPE_INTEGER, s1L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S2,
+									ValueMetaInterface.TYPE_INTEGER, s2L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S3,
+									ValueMetaInterface.TYPE_INTEGER, s3L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S4,
+									ValueMetaInterface.TYPE_INTEGER, s4L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S5,
+									ValueMetaInterface.TYPE_INTEGER, s5L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S6,
+									ValueMetaInterface.TYPE_INTEGER, s6L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S7,
+									ValueMetaInterface.TYPE_INTEGER, s7L);
+					rmd
+							.addValue(
+									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S8,
+									ValueMetaInterface.TYPE_INTEGER, s8L);
+
+					insertTableRow(
+							CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D,
+							rmd);
+				}
+			}
+
+			// 添加统计
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month });
+			long rid;
+			if (row != null) {
+				rid = (Long) row[0];
+			} else {
+				rid = getNextBatchId(
+						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
+						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA);
+			}
+
+			RowMetaAndData rmd = new RowMetaAndData();
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
+							ValueMetaInterface.TYPE_INTEGER, rid);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR,
+					ValueMetaInterface.TYPE_INTEGER, year);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH,
+					ValueMetaInterface.TYPE_INTEGER, month);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S1,
+					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[0]));
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S2,
+					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[1]));
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S3,
+					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[2]));
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S4,
+					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[3]));
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S5,
+					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[4]));
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S6,
+					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[5]));
+
+			if (row != null) {
+				updateTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
+						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
+						rmd);
+			} else {
+				insertTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
+						rmd);
+			}
+
+			return ActionMessage.instance().success("更新上月预测评估填报成功。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("更新上月预测评估填报行为出现问题。");
+		}
+
+		return ActionMessage.instance().failure("更新上月预测评估填报行为出现问题。")
+				.toJSONString();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public String extendPredictPrecipitationSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			String currentText = year + "年" + month + "月";
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S1)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S2)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S3)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S4)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S5)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S6)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S7)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S8)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S9)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_DESCRIPTION)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month });
+			if (row != null) {
+				for (int i = 0; i < 9; i++) {
+					attrsMap.addVariable("s" + (i + 1), row[i]);
+				}
+				attrsMap.addVariable("desc", row[9]);
+			} else {
+				for (int i = 0; i < 9; i++) {
+					attrsMap.addVariable("s" + (i + 1), "");
+				}
+				attrsMap.addVariable("desc", "");
+			}
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_MONTH_PREDICT_PRECIPTATION_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。");
+		}
+
+		return ActionMessage.instance()
+				.failure("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。").toJSONString();
+	}
+
+	@Override
+	public String extendPredictPrecipitationSettingSubmit(String targetId,
+			ParameterContext context) throws BIJSONException {
+		try {
+			long year = context.getLongParameter("year");
+			long month = context.getLongParameter("month");
+
+			long s1 = context.getLongParameter("s1");
+			long s2 = context.getLongParameter("s2");
+			long s3 = context.getLongParameter("s3");
+			long s4 = context.getLongParameter("s4");
+			long s5 = context.getLongParameter("s5");
+			long s6 = context.getLongParameter("s6");
+			long s7 = context.getLongParameter("s7");
+			long s8 = context.getLongParameter("s8");
+			long s9 = context.getLongParameter("s9");
+			String desc = context.getStringParameter("desc", "");
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month });
+			long rid;
+			if (row != null) {
+				rid = (Long) row[0];
+			} else {
+				rid = getNextBatchId(
+						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA);
+			}
+
+			RowMetaAndData rmd = new RowMetaAndData();
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
+							ValueMetaInterface.TYPE_INTEGER, rid);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR,
+					ValueMetaInterface.TYPE_INTEGER, year);
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH,
+							ValueMetaInterface.TYPE_INTEGER, month);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S1,
+					ValueMetaInterface.TYPE_INTEGER, s1);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S2,
+					ValueMetaInterface.TYPE_INTEGER, s2);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S3,
+					ValueMetaInterface.TYPE_INTEGER, s3);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S4,
+					ValueMetaInterface.TYPE_INTEGER, s4);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S5,
+					ValueMetaInterface.TYPE_INTEGER, s5);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S6,
+					ValueMetaInterface.TYPE_INTEGER, s6);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S7,
+					ValueMetaInterface.TYPE_INTEGER, s7);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S8,
+					ValueMetaInterface.TYPE_INTEGER, s8);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S9,
+					ValueMetaInterface.TYPE_INTEGER, s9);
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_DESCRIPTION,
+							ValueMetaInterface.TYPE_STRING, desc);
+
+			if (row != null) {
+				updateTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
+						rmd);
+			} else {
+				insertTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
+						rmd);
+			}
+
+			return ActionMessage.instance().success("更新上月延伸期降水过程预测评估成功。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("上月延伸期降水过程预测评估填报更新行为出现问题。");
+		}
+
+		return ActionMessage.instance().failure("上月延伸期降水过程预测评估填报更新行为出现问题。")
+				.toJSONString();
 	}
 
 	@Override
@@ -1072,15 +1588,305 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public String monthPredictEvaluate(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S1)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S2)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S3)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S4)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S5)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S6)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA)
+					+ " ORDER BY "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR)
+					+ " DESC , "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH)
+					+ " DESC";
+
+			List<Object[]> rows = getRows(sql);
+
+			GridDataObject grid = GridDataObject.instance();
+			if (rows != null) {
+				for (Object[] row : rows) {
+					String yearMonth = row[0] + "年" + row[1] + "月";
+					MonthPredictEvaVo vo = MonthPredictEvaVo.instance()
+							.setYearMonth(yearMonth).setS1((Long) row[2])
+							.setS2((Long) row[3]).setS3((Long) row[4]).setS4(
+									(Long) row[5]).setS5((Long) row[6]).setS6(
+									(Long) row[7]);
+					grid.putObject(vo);
+				}
+			}
+
+			attrsMap.addVariable("monthPredictEva", grid);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_MONTH_PREDICT_EVALUATE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开预测方法评估-月预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开预测方法评估-月预测界面出现问题。")
+				.toJSONString();
 	}
 
 	@Override
+	public String monthPredictScore(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S1)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S2)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S3)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S4)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S5)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S6)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S7)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE)
+					+ " ORDER BY "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
+					+ " DESC , "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
+					+ " DESC";
+
+			List<Object[]> rows = getRows(sql);
+
+			GridDataObject grid = GridDataObject.instance();
+			if (rows != null) {
+				for (Object[] row : rows) {
+					String yearMonth = row[0] + "年" + row[1] + "月";
+					MonthPredictScoreVo vo = MonthPredictScoreVo.instance()
+							.setYearMonth(yearMonth).setS1((String) row[2])
+							.setS2((String) row[3]).setS3((String) row[4])
+							.setS4((String) row[5]).setS5((String) row[6])
+							.setS6((String) row[7]).setS7((String) row[8]);
+					grid.putObject(vo);
+				}
+			}
+
+			attrsMap.addVariable("monthPredictScore", grid);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_MONTH_PREDICT_SCORE, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开预测评分-月预测界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开预测评分-月预测界面出现问题。")
+				.toJSONString();
+	}
+
+	private String[] getScoreArray(String str) {
+		String[] s = StringUtils.split(str, "/");
+		for (int i = 0; i < s.length; i++) {
+			s[i] = StringUtils.trimToEmpty(s[i]);
+		}
+		return s;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
 	public String scoreSetting(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			String currentText = year + "年" + month + "月";
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S1)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S2)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S3)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S4)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S5)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S6)
+					+ ","
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S7)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month });
+			if (row != null) {
+				for (int i = 0; i < 7; i++) {
+					String[] s = getScoreArray((String) row[i]);
+					attrsMap.addVariable("s" + (i + 1), s);
+				}
+			} else {
+				for (int i = 0; i < 7; i++) {
+					String[] s = new String[2];
+					s[0] = "";
+					s[1] = "";
+					attrsMap.addVariable("s" + (i + 1), s);
+				}
+			}
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_SCORE_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开延伸期预测当月填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@Override
+	public String scoreSettingUpdate(String targetId, ParameterContext context)
+			throws BIJSONException {
+		try {
+			long year = context.getLongParameter("year");
+			long month = context.getLongParameter("month");
+
+			String s1 = context.getStringParameter("s1_0", "") + " / "
+					+ context.getStringParameter("s1_1", "");
+			String s2 = context.getStringParameter("s2_0", "") + " / "
+					+ context.getStringParameter("s2_1", "");
+			String s3 = context.getStringParameter("s3_0", "") + " / "
+					+ context.getStringParameter("s3_1", "");
+			String s4 = context.getStringParameter("s4_0", "") + " / "
+					+ context.getStringParameter("s4_1", "");
+			String s5 = context.getStringParameter("s5_0", "") + " / "
+					+ context.getStringParameter("s5_1", "");
+			String s6 = context.getStringParameter("s6_0", "") + " / "
+					+ context.getStringParameter("s6_1", "");
+			String s7 = context.getStringParameter("s7_0", "") + " / "
+					+ context.getStringParameter("s7_1", "");
+
+			String sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
+					+ " = ?";
+
+			Object[] row = getOneRow(sql, new Object[] { year, month });
+			long rid;
+			if (row != null) {
+				rid = (Long) row[0];
+			} else {
+				rid = getNextBatchId(
+						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
+						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE);
+			}
+
+			RowMetaAndData rmd = new RowMetaAndData();
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE,
+							ValueMetaInterface.TYPE_INTEGER, rid);
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR,
+							ValueMetaInterface.TYPE_INTEGER, year);
+			rmd
+					.addValue(
+							CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH,
+							ValueMetaInterface.TYPE_INTEGER, month);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S1,
+					ValueMetaInterface.TYPE_STRING, s1);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S2,
+					ValueMetaInterface.TYPE_STRING, s2);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S3,
+					ValueMetaInterface.TYPE_STRING, s3);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S4,
+					ValueMetaInterface.TYPE_STRING, s4);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S5,
+					ValueMetaInterface.TYPE_STRING, s5);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S6,
+					ValueMetaInterface.TYPE_STRING, s6);
+			rmd.addValue(
+					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S7,
+					ValueMetaInterface.TYPE_STRING, s7);
+
+			if (row != null) {
+				updateTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
+						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE,
+						rmd);
+			} else {
+				insertTableRow(
+						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
+						rmd);
+			}
+
+			return ActionMessage.instance().success("更新当前延伸期预测成功。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开延伸期预测当月更新行为出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开延伸期预测当月更新行为出现问题。")
+				.toJSONString();
 	}
 
 	@Override
@@ -1112,7 +1918,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
 			// TODO
-			
+
 			// 设置响应
 			return ActionMessage.instance().success("已经提交月度海温预测分析计算执行。")
 					.toJSONString();
@@ -1129,7 +1935,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
 			// TODO
-			
+
 			// 设置响应
 			return ActionMessage.instance().success("已经提交季度海温预测分析计算执行。")
 					.toJSONString();
@@ -1146,7 +1952,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
 			// TODO
-			
+
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 

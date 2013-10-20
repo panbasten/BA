@@ -116,13 +116,16 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 		return rows;
 	}
 
-	public List<Object[]> getRows(String sql, Object data)
+	public List<Object[]> getRows(String sql, List<Object> data)
 			throws KettleDatabaseException {
 		return getRows(replaceParam(sql, data));
 	}
 
-	public List<Object[]> getRows(String sql, List<Object> data)
+	public List<Object[]> getRows(String sql, Object data)
 			throws KettleDatabaseException {
+		if (data instanceof Object[]) {
+			return getRows(replaceParamArray(sql, (Object[]) data));
+		}
 		return getRows(replaceParam(sql, data));
 	}
 
@@ -137,6 +140,11 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	}
 
 	public List<RowMetaAndData> getRowsWithMeta(String sql, List<Object> data)
+			throws KettleDatabaseException {
+		return getRowsWithMeta(replaceParam(sql, data));
+	}
+
+	public List<RowMetaAndData> getRowsWithMeta(String sql, Object[] data)
 			throws KettleDatabaseException {
 		return getRowsWithMeta(replaceParam(sql, data));
 	}
@@ -272,6 +280,16 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 			getRepository().connectionDelegate.getDatabase().rollback();
 			throw e;
 		}
+	}
+
+	private String replaceParamArray(String sql, Object[] params) {
+		if (params == null) {
+			return sql;
+		}
+		for (Object param : params) {
+			sql = replaceParam(sql, param);
+		}
+		return sql;
 	}
 
 	/**

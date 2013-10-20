@@ -38,7 +38,7 @@ import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
 import com.flywet.platform.bi.web.service.BIUserDelegate;
@@ -71,7 +71,7 @@ public class BIIdentification {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String loadRepNames() throws BIException {
 		try {
-			String[] repNames = BIEnvironmentDelegate.instance().getRepNames();
+			String[] repNames = RepPool.instance().getRepNames();
 			return JSONUtils.toJsonString(repNames);
 		} catch (Exception ex) {
 			throw new BIException("活动资源库命名出现错误。", ex);
@@ -270,7 +270,7 @@ public class BIIdentification {
 				return am.toJSONString();
 			}
 
-			rep = BIEnvironmentDelegate.instance().borrowRep(repository, null);
+			rep = RepPool.instance().borrowRep(repository, null);
 			if (rep == null) {
 				am.addErrorMessage("指定的资源库不存在!");
 				return am.toJSONString();
@@ -288,7 +288,7 @@ public class BIIdentification {
 			log.error("identifacation exception:", ex);
 			am.addErrorMessage(ex.getMessage());
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(repository, rep);
+			RepPool.instance().returnRep(repository, rep);
 		}
 
 		return am.toJSONString();
@@ -301,8 +301,7 @@ public class BIIdentification {
 		map.put(LOGINNAME, user.getLogin());
 
 		map.put(REPOSITORYNAME, repository);
-		map.put(REPOSITORYTYPE, BIEnvironmentDelegate.instance().getRepType(
-				repository));
+		map.put(REPOSITORYTYPE, RepPool.instance().getRepType(repository));
 		map.put(TOEDITOR, toeditor);
 
 		// TODO 写入用户和有效时间的密文，和path信息

@@ -5,8 +5,8 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.RepositoryElementInterface;
 
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 
 public abstract class AbstractRepositoryServices {
 
@@ -24,12 +24,12 @@ public abstract class AbstractRepositoryServices {
 			throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 			save(rep, repositoryElement);
 		} catch (Exception ex) {
 			log.error("通过ID保存对象出现异常", ex);
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 

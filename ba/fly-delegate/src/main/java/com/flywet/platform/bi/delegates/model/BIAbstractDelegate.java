@@ -5,8 +5,8 @@ import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 
 import com.flywet.platform.bi.core.ContextHolder;
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 
 /**
  * 资源库操作基类 file资源库和DB资源库均派生自此类
@@ -26,8 +26,7 @@ public abstract class BIAbstractDelegate implements BIAdaptorInterface {
 	@Override
 	public void returnRepositoryQuietly() {
 		try {
-			BIEnvironmentDelegate.instance().returnRep(repositoryName,
-					repository);
+			RepPool.instance().returnRep(repositoryName, repository);
 		} catch (BIKettleException e) {
 			logger.error("return repository exception:", e);
 		}
@@ -48,8 +47,7 @@ public abstract class BIAbstractDelegate implements BIAdaptorInterface {
 	}
 
 	private void doConfig() throws BIKettleException {
-		Repository rep = BIEnvironmentDelegate.instance().borrowRep(
-				repositoryName);
+		Repository rep = RepPool.instance().borrowRep(repositoryName);
 		if (rep == null) {
 			throw new BIKettleException("资源库" + repository + "不存在.");
 		}

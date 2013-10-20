@@ -11,9 +11,9 @@ import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.TransMeta;
 import org.springframework.stereotype.Service;
 
-import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.delegates.pools.RepPool;
 import com.flywet.platform.bi.web.cache.TransOrJobMetaCache;
 import com.flywet.platform.bi.web.service.BITransDelegates;
 import com.flywet.platform.bi.web.utils.DIUtils;
@@ -36,13 +36,13 @@ public class BITransServices extends AbstractRepositoryServices implements
 		if (transMeta == null) {
 			Repository rep = null;
 			try {
-				rep = BIEnvironmentDelegate.instance().borrowRep();
+				rep = RepPool.instance().borrowRep();
 				transMeta = rep.loadTransformation(new LongObjectId(id), null);
 				TransOrJobMetaCache.putTrans(id, transMeta);
 			} catch (Exception ex) {
 				log.error("通过ID获得转换出现异常", ex);
 			} finally {
-				BIEnvironmentDelegate.instance().returnRep(rep);
+				RepPool.instance().returnRep(rep);
 			}
 		}
 		return transMeta;
@@ -62,7 +62,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			String transName) throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 
 			RepositoryDirectoryInterface dir = DIUtils.getDirecotry(rep, dirId,
 					BIDirectoryCategory.DI);
@@ -97,7 +97,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			log.error("另存为转换出现异常", ex);
 			throw new BIKettleException("另存为转换出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			throws BIKettleException {
 		Repository rep = null;
 		try {
-			rep = BIEnvironmentDelegate.instance().borrowRep();
+			rep = RepPool.instance().borrowRep();
 
 			RepositoryDirectoryInterface dir = DIUtils.getDirecotry(rep, dirId,
 					BIDirectoryCategory.DI);
@@ -149,7 +149,7 @@ public class BITransServices extends AbstractRepositoryServices implements
 			log.error("创建转换出现异常", ex);
 			throw new BIKettleException("创建转换出现异常");
 		} finally {
-			BIEnvironmentDelegate.instance().returnRep(rep);
+			RepPool.instance().returnRep(rep);
 		}
 	}
 

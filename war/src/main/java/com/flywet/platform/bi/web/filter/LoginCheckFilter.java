@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 
 /**
@@ -63,7 +63,7 @@ public class LoginCheckFilter implements Filter {
 		if (isAnonymous) {
 			try {
 				BISecurityUtils.checkRepository();
-			} catch (BIKettleException e) {
+			} catch (BIException e) {
 				throw new ServletException("检查默认资源库失败。");
 			}
 		}
