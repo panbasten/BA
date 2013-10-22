@@ -14,6 +14,9 @@ public class PropertyUtils {
 
 	public static final String REPOSITORY_POOL_MAXIDLE = "repository.pool.maxidle";
 	public static final String REPOSITORY_POOL_MAXACTIVE = "repository.pool.maxactive";
+	
+	public static final String TRANS_POOL_MAX_SIZE = "trans.pool.maxsize";
+	public static final String TRANS_POOL_MAX_ACTIVE_SIZE = "trans.pool.maxactive";
 
 	public static final String APPLICATION_TYPE = "application.type";
 	public static final String APPLICATION_TYPE_RELEASE = "release";
