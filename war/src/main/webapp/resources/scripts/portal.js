@@ -61,6 +61,7 @@ Flywet.Portal = {
 					.unbind("click");
 			},
 			onsuccess: function(data, status, xhr){
+				
 				if(data.state == 0){
 					var cookieJson = Flywet.parseJSON(data.data);
 					for(var p in cookieJson){
@@ -93,6 +94,10 @@ Flywet.Portal = {
 								}
 							}
 							var interval = setInterval(checkWebPageForIE, 500);
+							
+							if(window["editorPageHandle"]){
+								window["editorPageHandle"].focus();
+							}
 						
 						}else if (Flywet.browserDetect.webkit){
 							window["editorPageHandle"] = window.open("editor","","left=0,top=0,width="+window.screen.availWidth+",height="+window.screen.availHeight+",modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
@@ -113,6 +118,10 @@ Flywet.Portal = {
 							}
 							var interval = setInterval(checkWebPageForWebkit, 500);
 							
+							if(window["editorPageHandle"]){
+								window["editorPageHandle"].focus();
+							}
+							
 						}else if (Flywet.browserDetect.mozilla){
 							try{
 								window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,toolbar=0,menubar=0,location=0,personalbar=0,location=0,scrollbars=0,status=0,resizable=0");
@@ -124,9 +133,12 @@ Flywet.Portal = {
 							catch(e){
 								Flywet.Portal.pageBlocked();
 							}
-						}
-						if(window["editorPageHandle"]){
-							window["editorPageHandle"].focus();
+							
+							if(window["editorPageHandle"]){
+								window["editorPageHandle"].focus();
+							}
+						}else{
+							window.location = "editor";
 						}
 					}else{
 						window.location = "portal";
@@ -153,8 +165,8 @@ Flywet.Portal = {
 	
 	resize: function(){
 		var win = Flywet.getWindowScroll();
-		var h = Math.max(0,(win.height-580)),
-			w = Math.max(0,(win.width-1100));
+		var h = Math.max(0,((win.height-593)/2)),
+			w = Math.max(0,((win.width-955)/2));
 		// login
 		$("#fly_login_wrapper").css({
 			"margin-top":h+"px",

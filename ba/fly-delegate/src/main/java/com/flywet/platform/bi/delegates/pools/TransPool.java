@@ -2,17 +2,20 @@ package com.flywet.platform.bi.delegates.pools;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.trans.Trans;
-import org.pentaho.di.trans.TransMeta;
+import org.pentaho.di.trans.TransListener;
+import org.pentaho.di.trans.TransStoppedListener;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.delegates.exceptions.BIPoolException;
+import com.flywet.platform.bi.delegates.vo.TransPoolWapper;
 
 public class TransPool implements BIPoolInterface {
 
@@ -24,11 +27,11 @@ public class TransPool implements BIPoolInterface {
 
 	private int maxActiveSize = 3;
 
-	private List<TransPoolVo> requests = Collections
-			.synchronizedList(new ArrayList<TransPoolVo>());
+	private List<TransPoolWapper> requests = Collections
+			.synchronizedList(new ArrayList<TransPoolWapper>());
 
-	private Map<Long, TransPoolVo> actives = Collections
-			.synchronizedMap(new HashMap<Long, TransPoolVo>());
+	private Map<Trans, TransPoolWapper> actives = Collections
+			.synchronizedMap(new HashMap<Trans, TransPoolWapper>());
 
 	@Override
 	public void initPool() throws BIException {
@@ -53,94 +56,102 @@ public class TransPool implements BIPoolInterface {
 		return delegate;
 	}
 
-	public void offer(TransMeta transMeta) {
-		synchronized (actives) {
-			if (actives.size() >= maxActiveSize) {
-				synchronized (requests) {
-					if (requests.size() >= maxPoolSize) {
-//						throw new 
-					}else{
-						
-					}
-				}
+	public synchronized void offer(TransPoolWapper vo) throws BIException {
+		if (actives.size() >= maxActiveSize) {
+			if (requests.size() >= maxPoolSize) {
+				throw new BIPoolException("超出最大缓存值");
 			} else {
-//				run(transMeta);
+				requests.add(vo);
 			}
+		} else {
+			run(vo);
 		}
+	}
+
+	public synchronized void poll(Trans trans) {
+		actives.remove(trans);
+		if (this.requests.isEmpty()) {
+			return;
+		}
+
+		TransPoolWapper vo = this.requests.remove(0);
+		run(vo);
+	}
+
+	public void run(TransPoolWapper vo) {
+		try {
+			Trans trans = new Trans(vo.getTransMeta());
+			// trans.setRepository(rep);
+			trans.addTransListener(new TransPoolListener());
+			trans.addTransStoppedListener(new TransPoolStoppedListener());
+
+			trans.initializeVariablesFrom(null);
+			trans.getTransMeta().setInternalKettleVariables(trans);
+			// trans.setLogLevel(log.getLogLevel());
+
+			String[] transParams = trans.listParameters();
+			for (String param : transParams) {
+				String value = vo.getParamValue(param);
+				if (value != null) {
+					trans.setParameterValue(param, value);
+				}
+			}
+
+			trans.activateParameters();
+
+			trans.execute(null);
+			// trans.waitUntilFinished();
+
+			// 参考Pan.java 390
+
+			// TODO
+
+			actives.put(trans, vo);
+
+		} catch (Exception e) {
+
+		}
+
 	}
 }
 
-class TransPoolVo {
+class TransPoolStoppedListener implements TransStoppedListener {
 
-	// 日志ID
-	private long logId;
-	// 唯一标识
-	private String single;
-	// 转换
-	private TransMeta transMeta;
-	// 提交时间
-	private Date submitTime;
-	// 提交用户
-	private String submitUser;
-	// 执行时间
-	private Date startTime;
-	// 执行结束时间
-	private Date finishTime;
-
-	public long getLogId() {
-		return logId;
+	@Override
+	public void transStopped(Trans trans) throws KettleException {
+		try {
+			TransPool.instance().poll(trans);
+		} catch (Exception e) {
+			throw new KettleException("执行转换运行池执行出现错误。");
+		}
 	}
 
-	public void setLogId(long logId) {
-		this.logId = logId;
+}
+
+class TransPoolListener implements TransListener {
+
+	@Override
+	public void transActive(Trans trans) {
+
 	}
 
-	public String getSingle() {
-		return single;
+	@Override
+	public void transFinished(Trans trans) throws KettleException {
+		try {
+			TransPool.instance().poll(trans);
+		} catch (Exception e) {
+			throw new KettleException("执行转换运行池执行出现错误。");
+		}
 	}
 
-	public void setSingle(String single) {
-		this.single = single;
+	@Override
+	public void transIdle(Trans trans) {
+
 	}
 
-	public TransMeta getTransMeta() {
-		return transMeta;
-	}
+	@Override
+	public void transStarted(Trans trans) throws KettleException {
 
-	public void setTrans(TransMeta transMeta) {
-		this.transMeta = transMeta;
-	}
-
-	public Date getSubmitTime() {
-		return submitTime;
-	}
-
-	public void setSubmitTime(Date submitTime) {
-		this.submitTime = submitTime;
-	}
-
-	public String getSubmitUser() {
-		return submitUser;
-	}
-
-	public void setSubmitUser(String submitUser) {
-		this.submitUser = submitUser;
-	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getFinishTime() {
-		return finishTime;
-	}
-
-	public void setFinishTime(Date finishTime) {
-		this.finishTime = finishTime;
 	}
 
 }

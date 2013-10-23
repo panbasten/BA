@@ -1044,8 +1044,6 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
             form = $(Flywet.escapeClientId(sourceId)).parents('form:first');//look for a parent of source
         }
         
-        console.log(ajaxURL);
-        
         if(cfg.formAction && cfg.formAction != ""){
         	ajaxURL = cfg.formAction;
         }else if(form && form.length>0){
