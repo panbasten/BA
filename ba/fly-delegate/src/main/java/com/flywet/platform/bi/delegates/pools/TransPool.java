@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.trans.Trans;
 import org.pentaho.di.trans.TransListener;
@@ -58,15 +59,35 @@ public class TransPool implements BIPoolInterface {
 	}
 
 	public synchronized void offer(TransPoolWapper vo) throws BIException {
+		if (checkDuplicateTrans(vo.getSingle())) {
+			throw new BIPoolException("重复提交转换");
+		}
 		if (actives.size() >= maxActiveSize) {
 			if (requests.size() >= maxPoolSize) {
-				throw new BIPoolException("超出最大缓存值");
+				throw new BIPoolException("超出最大缓存数量");
 			} else {
 				requests.add(vo);
 			}
 		} else {
 			run(vo);
 		}
+	}
+
+	public boolean checkDuplicateTrans(String single) {
+		if (Const.isEmpty(single)) {
+			return false;
+		}
+		for (TransPoolWapper tpw : actives.values()) {
+			if (single.equals(tpw.getSingle())) {
+				return true;
+			}
+		}
+		for (TransPoolWapper tpw : requests) {
+			if (single.equals(tpw.getSingle())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public synchronized void poll(Trans trans) throws BIException {

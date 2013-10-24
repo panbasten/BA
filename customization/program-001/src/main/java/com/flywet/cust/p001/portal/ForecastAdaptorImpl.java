@@ -133,6 +133,9 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	// 海温季度预测-海温预测分析计算
 	private static final String PROP_SEASON_FORECAST_RUN = "custom.portal.season.forecast.run";
 
+	// 制作评分数据-月预测-统计将尺度技术
+	private static final String PROP_FORECAST_EVALUATION_RUN = "custom.portal.forecast.evaluation.run";
+
 	// 制作评分数据-延伸期预测-制作142站预测上传文件
 	private static final String PROP_PROCESS_FORECAST_RUN = "custom.portal.process.forecast.run";
 
@@ -227,15 +230,25 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String monthPredictDataRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
+			InputStream is = getTransMetaString(TRANS_RUN_PROC);
+			TransMeta tm = new TransMeta(is, null, true, null, null);
+			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
+			wapper.putParam("cmd", PropertyUtils
+					.getProperty(PROP_FORECAST_EVALUATION_RUN));
+			TransPool.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交统计尺度分析计算执行。")
 					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return ActionMessage.instance().failure(e.getMessage())
+					.toJSONString();
 		} catch (Exception e) {
-			log.error("提交统计尺度分析计算出现问题执行。");
+			log.error("提交统计尺度分析计算执行出现问题。");
 		}
 
-		return ActionMessage.instance().failure("提交统计尺度分析计算出现问题执行。")
+		return ActionMessage.instance().failure("提交统计尺度分析计算执行出现问题。")
 				.toJSONString();
 	}
 
@@ -243,15 +256,25 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String extendPredictDataRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
+			InputStream is = getTransMetaString(TRANS_RUN_PROC);
+			TransMeta tm = new TransMeta(is, null, true, null, null);
+			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
+			wapper.putParam("cmd", PropertyUtils
+					.getProperty(PROP_PROCESS_FORECAST_RUN));
+			TransPool.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交统计尺度分析计算执行。")
 					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return ActionMessage.instance().failure(e.getMessage())
+					.toJSONString();
 		} catch (Exception e) {
-			log.error("提交统计尺度分析计算出现问题执行。");
+			log.error("提交统计尺度分析计算执行出现问题。");
 		}
 
-		return ActionMessage.instance().failure("提交统计尺度分析计算出现问题执行。")
+		return ActionMessage.instance().failure("提交统计尺度分析计算执行出现问题。")
 				.toJSONString();
 	}
 
@@ -1923,7 +1946,6 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String sstMonthPredictRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-			// TODO
 			InputStream is = getTransMetaString(TRANS_RUN_PROC);
 			TransMeta tm = new TransMeta(is, null, true, null, null);
 			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
@@ -1933,6 +1955,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交月度海温预测分析计算执行。")
+					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return ActionMessage.instance().failure(e.getMessage())
 					.toJSONString();
 		} catch (Exception e) {
 			log.error("提交月度海温预测分析计算出现问题。");
@@ -1946,10 +1972,20 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String sstQuarterPredictRun(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-			// TODO
+			InputStream is = getTransMetaString(TRANS_RUN_PROC);
+			TransMeta tm = new TransMeta(is, null, true, null, null);
+			TransPoolWapper wapper = new TransPoolWapper("sstQuarterPredict",
+					tm);
+			wapper.putParam("cmd", PropertyUtils
+					.getProperty(PROP_SEASON_FORECAST_RUN));
+			TransPool.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交季度海温预测分析计算执行。")
+					.toJSONString();
+		} catch (BIException e) {
+			log.error(e.getMessage());
+			return ActionMessage.instance().failure(e.getMessage())
 					.toJSONString();
 		} catch (Exception e) {
 			log.error("提交季度海温预测分析计算出现问题。");
@@ -1963,8 +1999,6 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String sstQuarterPredict(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
-			// TODO
-
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
