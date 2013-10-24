@@ -100,6 +100,8 @@ public class RowGenerator extends BaseStep implements StepInterface
                 {
                     String stringValue = meta.getValue()[i];
                     
+                    // TODO environmentSubstitute 替换
+                    
 	                // If the value is empty: consider it to be NULL.
 	                if (Const.isEmpty(stringValue))
 	                {

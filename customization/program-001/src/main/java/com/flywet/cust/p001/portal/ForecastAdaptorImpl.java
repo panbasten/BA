@@ -2,6 +2,7 @@ package com.flywet.cust.p001.portal;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.row.ValueMetaInterface;
+import org.pentaho.di.trans.TransMeta;
 
 import com.flywet.cust.p001.db.CustomDatabaseRepositoryBase;
 import com.flywet.cust.p001.vo.ExtendPredictEvaVo;
@@ -47,6 +49,8 @@ import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
+import com.flywet.platform.bi.delegates.pools.TransPool;
+import com.flywet.platform.bi.delegates.vo.TransPoolWapper;
 
 public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		ForecastAdaptor {
@@ -120,6 +124,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	// 业务规范
 	private static final String PROP_BUZ_NORM_FILE_ROOT_PATH = "custom.portal.buzNorm.file.rootPath";
 	private static final String PROP_BUZ_NORM_FILE_CATEGORY = "custom.portal.buzNorm.file.category";
+
+	private static final String TRANS_RUN_PROC = "run_proc.xml";
 
 	// 海温月预测-海温预测分析计算
 	private static final String PROP_MONTH_FORECAST_RUN = "custom.portal.month.forecast.run";
@@ -1918,6 +1924,12 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
 			// TODO
+			InputStream is = getTransMetaString(TRANS_RUN_PROC);
+			TransMeta tm = new TransMeta(is, null, true, null, null);
+			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
+			wapper.putParam("cmd", PropertyUtils
+					.getProperty(PROP_MONTH_FORECAST_RUN));
+			TransPool.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交月度海温预测分析计算执行。")
@@ -1970,6 +1982,16 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 		return ActionMessage.instance().failure("打开分析工具-海温季预测界面出现问题。")
 				.toJSONString();
+	}
+
+	private InputStream getTransMetaString(String relativePath)
+			throws BIException {
+		try {
+			return FileUtils.getInputStreamByRelativePath("di/" + relativePath,
+					PKG);
+		} catch (Exception e) {
+			throw new BIException("获得转换内容出现错误。");
+		}
 	}
 
 }

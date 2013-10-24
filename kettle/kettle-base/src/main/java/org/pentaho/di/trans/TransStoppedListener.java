@@ -22,9 +22,6 @@
 
 package org.pentaho.di.trans;
 
-import org.pentaho.di.core.exception.KettleException;
-
-
 public interface TransStoppedListener {
-  public void transStopped(Trans trans) throws KettleException;
+	public void transStopped(Trans trans);
 }

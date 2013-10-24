@@ -88,11 +88,20 @@ public class FileUtils {
 		}
 	}
 
+	public static InputStream getInputStreamByRelativePath(String relativePath,
+			Class<?> cls) throws FileNotFoundException {
+		String url = getPackagePath(cls, relativePath);
+		return getInputStream(url, cls);
+	}
+
 	public static InputStream getInputStream(String fileName, Class<?> cls)
 			throws FileNotFoundException {
 		InputStream inputStream = cls.getResourceAsStream(fileName);
 		if (inputStream == null) {
 			inputStream = cls.getResourceAsStream("/" + fileName);
+		}
+		if (inputStream == null) {
+			inputStream = ClassLoader.getSystemResourceAsStream(fileName);
 		}
 		if (inputStream == null) {
 			inputStream = new FileInputStream(fileName);
@@ -118,6 +127,33 @@ public class FileUtils {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 通过类和相对类的路径，获得包中的文件
+	 * 
+	 * @param clazz
+	 * @param relativePath
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getStringByRelativePath(String relativePath,
+			Class<?> clazz) throws IOException {
+		String url = getPackagePath(clazz, relativePath);
+		return getString(url, clazz);
+	}
+
+	public static String getString(String url, Class<?> clazz)
+			throws IOException {
+		InputStream inputStream = clazz.getResourceAsStream(url);
+		if (inputStream == null) {
+			inputStream = ClassLoader.getSystemResourceAsStream(url);
+		}
+		if (inputStream != null) {
+			return getString(inputStream);
+		} else {
+			throw new IOException("无法读取文件：" + url);
+		}
 	}
 
 	public static String getString(String path) throws IOException {
@@ -410,6 +446,25 @@ public class FileUtils {
 			dirs.add(item);
 		}
 		return dirs;
+	}
+
+	/**
+	 * 通过类路径获得绝对路径
+	 * 
+	 * @param packageClass
+	 * @param fileName
+	 * @return
+	 */
+	public static String getPackagePath(Class<?> packageClass, String fileName) {
+		return getPackagePath(packageClass.getPackage().getName(), fileName);
+	}
+
+	public static String getPackagePath(String packageClass, String fileName) {
+		fileName = StringUtils.replace(fileName, "\\", "/");
+		if (!StringUtils.startsWith(fileName, "/")) {
+			fileName = "/" + fileName;
+		}
+		return "/" + packageClass.replace('.', '/') + fileName;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.log4j.Logger;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.trans.Trans;
 import org.pentaho.di.trans.TransListener;
@@ -68,7 +69,7 @@ public class TransPool implements BIPoolInterface {
 		}
 	}
 
-	public synchronized void poll(Trans trans) {
+	public synchronized void poll(Trans trans) throws BIException {
 		actives.remove(trans);
 		if (this.requests.isEmpty()) {
 			return;
@@ -78,7 +79,7 @@ public class TransPool implements BIPoolInterface {
 		run(vo);
 	}
 
-	public void run(TransPoolWapper vo) {
+	public synchronized void run(TransPoolWapper vo) throws BIException {
 		try {
 			Trans trans = new Trans(vo.getTransMeta());
 			// trans.setRepository(rep);
@@ -99,6 +100,8 @@ public class TransPool implements BIPoolInterface {
 
 			trans.activateParameters();
 
+			actives.put(trans, vo);
+
 			trans.execute(null);
 			// trans.waitUntilFinished();
 
@@ -106,10 +109,8 @@ public class TransPool implements BIPoolInterface {
 
 			// TODO
 
-			actives.put(trans, vo);
-
 		} catch (Exception e) {
-
+			throw new BIPoolException("运行转换出现错误。");
 		}
 
 	}
@@ -117,12 +118,14 @@ public class TransPool implements BIPoolInterface {
 
 class TransPoolStoppedListener implements TransStoppedListener {
 
+	private final Logger logger = Logger.getLogger(TransPool.class);
+
 	@Override
-	public void transStopped(Trans trans) throws KettleException {
+	public void transStopped(Trans trans) {
 		try {
 			TransPool.instance().poll(trans);
 		} catch (Exception e) {
-			throw new KettleException("执行转换运行池执行出现错误。");
+			logger.error("执行转换运行池执行出现错误。");
 		}
 	}
 

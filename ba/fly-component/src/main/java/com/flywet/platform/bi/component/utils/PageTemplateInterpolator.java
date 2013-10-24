@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.component.vo.ComponentPlugin;
 import com.flywet.platform.bi.core.exception.BIPageException;
+import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 import com.flywet.platform.bi.el.expression.Expression;
 import com.flywet.platform.bi.el.expression.ExpressionString;
@@ -294,7 +295,7 @@ public class PageTemplateInterpolator {
 	}
 
 	public static String getPackagePath(String packageClass, String fileName) {
-		return "/" + packageClass.replace('.', '/') + "/pages/" + fileName;
+		return FileUtils.getPackagePath(packageClass, "/pages/" + fileName);
 	}
 
 	public static Document getDom(Class<?> packageClass, String fileName)

@@ -23,7 +23,7 @@ public class FLYPageTemplateUtils {
 	public static String readPageTemplateFileContent(String url)
 			throws IOException {
 		File file = getPageTemplateFile(url);
-		return FileUtils.readFileToString(file, "utf-8");
+		return FileUtils.readFileToString(file, Const.XML_ENCODING);
 	}
 
 	/**
@@ -47,7 +47,6 @@ public class FLYPageTemplateUtils {
 		} else {
 			throw new IOException("无法读取文件：" + url);
 		}
-
 	}
 
 	/**
