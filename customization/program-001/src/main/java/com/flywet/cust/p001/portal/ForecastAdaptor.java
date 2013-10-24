@@ -374,4 +374,26 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	public String extendPredictPrecipitationSettingSubmit(String targetId,
 			ParameterContext context) throws BIJSONException;
 
+	/**
+	 * 制作评分数据-上报数据-月预测评分数据上传
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String monthPredictDataUpload(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
+	 * 制作评分数据-上报数据-延伸期预测评分数据上传
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String extendPredictDataUpload(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
 }

@@ -1615,6 +1615,21 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	}
 
 	@Override
+	public String monthPredictDataUpload(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO
+		return ActionMessage.instance().success("月预测评分数据上传成功。").toJSONString();
+	}
+
+	@Override
+	public String extendPredictDataUpload(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		// TODO
+		return ActionMessage.instance().success("延伸期预测评分数据上传成功。")
+				.toJSONString();
+	}
+
+	@Override
 	public String monthPredictEvaluate(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
