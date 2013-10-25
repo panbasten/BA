@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.apache.commons.fileupload.FileItem;
 
+import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.delegates.model.BIAdaptorInterface;
@@ -380,10 +381,10 @@ public interface ForecastAdaptor extends BIAdaptorInterface {
 	 * @param targetId
 	 * @param context
 	 * @return
-	 * @throws BIJSONException
+	 * @throws BIException
 	 */
 	public String monthPredictDataUpload(String targetId,
-			HashMap<String, Object> context) throws BIJSONException;
+			HashMap<String, Object> context) throws BIException;
 
 	/**
 	 * 制作评分数据-上报数据-延伸期预测评分数据上传

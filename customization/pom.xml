@@ -38,6 +38,11 @@
 			<artifactId>fly-delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.ba</groupId>
+			<artifactId>fly-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>javax.servlet</groupId>

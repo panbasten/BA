@@ -48,9 +48,11 @@ import com.flywet.platform.bi.core.pools.TransPool;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
+import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 
 public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		ForecastAdaptor {
@@ -120,6 +122,12 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	// 数据上传
 	private static final String PROP_UPLOAD_FILE_ROOT_PATH = "custom.portal.upload.file.rootPath";
 	private static final String PROP_UPLOAD_FILE_CATEGORY = "custom.portal.upload.file.category";
+
+	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH = "custom.portal.upload.month.predict.data.file.rootPath";
+	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY = "custom.portal.upload.month.predict.data.file.category";
+
+	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_ROOT_PATH = "custom.portal.upload.extend.predict.data.file.rootPath";
+	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_CATEGORY = "custom.portal.upload.extend.predict.data.file.category";
 
 	// 业务规范
 	private static final String PROP_BUZ_NORM_FILE_ROOT_PATH = "custom.portal.buzNorm.file.rootPath";
@@ -1616,11 +1624,39 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 	@Override
 	public String monthPredictDataUpload(String targetId,
-			HashMap<String, Object> context) throws BIJSONException {
-		// TODO
-		// BIFileSystemDelegate filesysService = ReflectionUtils
-		// .getBean("bi.service.filesystemService");
-		return ActionMessage.instance().success("月预测评分数据上传成功。").toJSONString();
+			HashMap<String, Object> context) throws BIException {
+		try {
+			BIFileSystemDelegate filesysService = ReflectionUtils
+					.getBean("bi.service.filesystemService");
+
+			// 获得文件夹
+			FileObject dir = filesysService.composeVfsObject(
+					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY, "",
+					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH);
+
+			// 文件名称
+			// TODO
+			String fileName = "";
+
+			FileObject fileObj = filesysService.composeVfsObject(
+					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY, fileName,
+					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH);
+
+			// 上传文件
+			FileObject destFileObj = filesysService.composeVfsObject(
+					PropertyUtils.getProperty(PROP_UPLOAD_FILE_CATEGORY),
+					fileName, PropertyUtils
+							.getProperty(PROP_UPLOAD_FILE_ROOT_PATH));
+			FileUtils.write(fileObj.getContent().getInputStream(), destFileObj
+					.getContent().getOutputStream());
+			return ActionMessage.instance().success("月预测评分数据上传成功。")
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("月预测评分数据上传出现问题。");
+		}
+
+		return ActionMessage.instance().failure("月预测评分数据上传出现问题。")
+				.toJSONString();
 	}
 
 	@Override
