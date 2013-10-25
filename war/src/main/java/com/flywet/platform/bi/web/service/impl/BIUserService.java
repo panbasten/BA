@@ -19,9 +19,9 @@ import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.Authorization;
 import com.flywet.platform.bi.delegates.vo.Role;
 import com.flywet.platform.bi.delegates.vo.User;
+import com.flywet.platform.bi.services.intf.BIRoleDelegate;
+import com.flywet.platform.bi.services.intf.BIUserDelegate;
 import com.flywet.platform.bi.web.cache.IdentificationCache;
-import com.flywet.platform.bi.web.service.BIRoleDelegate;
-import com.flywet.platform.bi.web.service.BIUserDelegate;
 
 @Service("bi.service.userService")
 public class BIUserService implements BIUserDelegate {

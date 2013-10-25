@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.vo.Role;
 import com.flywet.platform.bi.delegates.vo.User;
-import com.flywet.platform.bi.web.service.BIUserDelegate;
+import com.flywet.platform.bi.services.intf.BIUserDelegate;
 
 public class BIUserDelegateTest extends WebBaseTestcase {
 	@Test

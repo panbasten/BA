@@ -17,7 +17,7 @@ import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.ObjectId;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 
 /**
  * DB资源库操作抽象基类

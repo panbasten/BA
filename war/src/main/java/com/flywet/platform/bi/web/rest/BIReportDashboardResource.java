@@ -32,8 +32,8 @@ import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.dashboard.model.TemplateMeta;
+import com.flywet.platform.bi.services.intf.BIReportDelegates;
 import com.flywet.platform.bi.web.cache.TemplateCache;
-import com.flywet.platform.bi.web.service.BIReportDelegates;
 
 @Service("bi.resource.reportDashboardResource")
 @Path("/dashboard")

@@ -20,7 +20,7 @@ import com.flywet.platform.bi.delegates.intf.BIFilesysTypeAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.FilesysDirectory;
 import com.flywet.platform.bi.delegates.vo.FilesysType;
-import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
+import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 
 @Service("bi.service.filesystemService")
 public class BIFileSystemService implements BIFileSystemDelegate {

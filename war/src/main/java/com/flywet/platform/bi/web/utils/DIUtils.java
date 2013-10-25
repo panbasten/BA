@@ -9,8 +9,8 @@ import org.pentaho.di.repository.RepositoryDirectory;
 import org.pentaho.di.repository.RepositoryDirectoryInterface;
 
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 
 public class DIUtils {
 

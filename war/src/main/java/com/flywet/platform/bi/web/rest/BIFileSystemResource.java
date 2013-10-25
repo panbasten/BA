@@ -51,7 +51,7 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.flywet.platform.bi.delegates.vo.FilesysDirectory;
 import com.flywet.platform.bi.delegates.vo.FilesysType;
-import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
+import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.filesysResource")

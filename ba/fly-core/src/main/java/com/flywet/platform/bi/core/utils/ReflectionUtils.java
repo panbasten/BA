@@ -4,6 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * 反射的工具类
  * 
@@ -12,6 +15,21 @@ import java.lang.reflect.Method;
  * 
  */
 public class ReflectionUtils {
+
+	private static ApplicationContext ctx = new ClassPathXmlApplicationContext(
+			"applicationContext-ui.xml");
+
+	/**
+	 * 获得系统注册的Bean
+	 * 
+	 * @param <T>
+	 * @param beanName
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T getBean(String beanName) {
+		return (T) ctx.getBean(beanName);
+	}
 
 	/**
 	 * 得到某个对象的公共属性

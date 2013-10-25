@@ -17,7 +17,7 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.web.service.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIPageDelegates;
 
 @Service("bi.resource.baseResource")
 @Path("/base")

@@ -51,10 +51,10 @@ import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.delegates.vo.User;
+import com.flywet.platform.bi.services.intf.BITransDelegates;
+import com.flywet.platform.bi.services.intf.BIUserDelegate;
 import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
-import com.flywet.platform.bi.web.service.BITransDelegates;
-import com.flywet.platform.bi.web.service.BIUserDelegate;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.transResource")

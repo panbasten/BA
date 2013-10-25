@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.pools;
+package com.flywet.platform.bi.core.pools;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,9 +19,9 @@ import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryMeta;
 
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.core.model.RepositoryFactory;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.model.BIRepositoryFactory;
 
 public class RepPool implements BIPoolInterface {
 
@@ -113,7 +113,7 @@ public class RepPool implements BIPoolInterface {
 		int maxActive = PropertyUtils
 				.getIntProperty(PropertyUtils.REPOSITORY_POOL_MAXACTIVE);
 
-		BIRepositoryFactory repFactory = new BIRepositoryFactory(repMeta);
+		RepositoryFactory repFactory = new RepositoryFactory(repMeta);
 		GenericObjectPool.Config cfg = new GenericObjectPool.Config();
 		cfg.maxActive = maxActive;
 		cfg.maxIdle = maxIdle;

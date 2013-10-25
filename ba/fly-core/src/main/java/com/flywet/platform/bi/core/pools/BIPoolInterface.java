@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.pools;
+package com.flywet.platform.bi.core.pools;
 
 import com.flywet.platform.bi.core.exception.BIException;
 

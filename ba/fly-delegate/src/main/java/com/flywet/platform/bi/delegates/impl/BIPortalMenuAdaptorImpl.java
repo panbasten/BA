@@ -10,10 +10,10 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.LongObjectId;
 
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIPortalMenuAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 import com.flywet.platform.bi.delegates.vo.PortalAction;

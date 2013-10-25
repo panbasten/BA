@@ -5,8 +5,8 @@ import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 
 import com.flywet.platform.bi.core.ContextHolder;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.pools.RepPool;
+import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.core.pools.RepPool;
 
 /**
  * 资源库操作基类 file资源库和DB资源库均派生自此类

@@ -2,7 +2,7 @@ package com.flywet.platform.bi.delegates.intf;
 
 import java.util.List;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.vo.FilesysDirectory;
 
 public interface BIFsAdaptor {

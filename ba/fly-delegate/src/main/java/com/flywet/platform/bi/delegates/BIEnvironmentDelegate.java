@@ -9,8 +9,8 @@ import org.pentaho.di.core.Props;
 import org.pentaho.di.core.exception.KettleException;
 
 import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.pools.RepPool;
+import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.core.pools.RepPool;
 
 public class BIEnvironmentDelegate {
 	private static BIEnvironmentDelegate delegate;

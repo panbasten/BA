@@ -11,11 +11,11 @@ import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.TransMeta;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.core.pools.RepPool;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.pools.RepPool;
+import com.flywet.platform.bi.services.intf.BITransDelegates;
 import com.flywet.platform.bi.web.cache.TransOrJobMetaCache;
-import com.flywet.platform.bi.web.service.BITransDelegates;
 import com.flywet.platform.bi.web.utils.DIUtils;
 
 @Service("bi.service.transServices")

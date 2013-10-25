@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.web.service.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIPageDelegates;
 
 public class BIPageDelegateTest extends WebBaseTestcase {
 	@Test

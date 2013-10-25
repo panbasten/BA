@@ -24,7 +24,7 @@ import com.flywet.platform.bi.core.utils.PropertyUtils;
 public class BIWebUtils {
 
 	private static ApplicationContext ctx = new ClassPathXmlApplicationContext(
-			"applicationContext-ui.xml");;
+			"applicationContext-ui.xml");
 
 	/**
 	 * 返回内容至response

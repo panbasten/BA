@@ -7,11 +7,11 @@ import org.pentaho.di.core.Const;
 
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.core.pools.RepPool;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.BIEnvironmentDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.pools.RepPool;
 
 public class BISecurityUtils {
 	/**

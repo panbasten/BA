@@ -1,10 +1,10 @@
-package com.flywet.platform.bi.web.service;
+package com.flywet.platform.bi.services.intf;
 
 import org.pentaho.di.core.database.DatabaseMeta;
 
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 
 public interface BIDatabaseDelegates {
 	/**

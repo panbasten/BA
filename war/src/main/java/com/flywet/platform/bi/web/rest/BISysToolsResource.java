@@ -31,7 +31,7 @@ import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.web.service.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIPageDelegates;
 
 @Service("bi.resource.sysToolsResource")
 @Path("/systools")

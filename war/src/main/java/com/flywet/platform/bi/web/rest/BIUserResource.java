@@ -22,7 +22,7 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.vo.User;
-import com.flywet.platform.bi.web.service.BIUserDelegate;
+import com.flywet.platform.bi.services.intf.BIUserDelegate;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.userResource")

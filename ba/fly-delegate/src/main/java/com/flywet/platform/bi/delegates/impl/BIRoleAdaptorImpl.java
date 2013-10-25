@@ -16,8 +16,8 @@ import org.pentaho.di.repository.UserInfo;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepositoryBase;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepositorySecurityProvider;
 
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIRoleAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 import com.flywet.platform.bi.delegates.vo.Role;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.intf.BIDomainAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
-import com.flywet.platform.bi.web.service.BIDomainDelegates;
+import com.flywet.platform.bi.services.intf.BIDomainDelegates;
 
 @Service("bi.service.domainService")
 public class BIDomainService implements BIDomainDelegates {

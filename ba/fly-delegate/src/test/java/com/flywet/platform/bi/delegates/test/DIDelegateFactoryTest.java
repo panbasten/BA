@@ -4,7 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 

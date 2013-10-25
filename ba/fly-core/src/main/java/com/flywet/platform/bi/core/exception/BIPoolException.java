@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.exceptions;
+package com.flywet.platform.bi.core.exception;
 
 import com.flywet.platform.bi.core.exception.BIException;
 

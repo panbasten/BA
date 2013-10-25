@@ -8,10 +8,10 @@ import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
 
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 import com.flywet.platform.bi.delegates.vo.FunctionType;

@@ -20,16 +20,16 @@ import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.pools.RepPool;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.delegates.intf.BIDomainAdaptor;
 import com.flywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
 import com.flywet.platform.bi.delegates.intf.BIReportAdaptor;
-import com.flywet.platform.bi.delegates.pools.RepPool;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.web.service.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIPageDelegates;
 
 /**
  * 元数据服务层接口实现类

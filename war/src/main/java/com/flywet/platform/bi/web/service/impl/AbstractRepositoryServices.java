@@ -5,8 +5,8 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.RepositoryElementInterface;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
-import com.flywet.platform.bi.delegates.pools.RepPool;
+import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.core.pools.RepPool;
 
 public abstract class AbstractRepositoryServices {
 

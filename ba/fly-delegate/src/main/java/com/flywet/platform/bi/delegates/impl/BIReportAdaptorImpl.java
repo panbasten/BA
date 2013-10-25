@@ -10,8 +10,8 @@ import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.core.row.ValueMetaInterface;
 
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIReportAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 

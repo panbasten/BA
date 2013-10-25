@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.vo;
+package com.flywet.platform.bi.core.model;
 
 import java.util.Date;
 import java.util.HashMap;

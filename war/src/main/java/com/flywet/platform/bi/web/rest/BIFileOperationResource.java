@@ -37,7 +37,7 @@ import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
-import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
+import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 /**

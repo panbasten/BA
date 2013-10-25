@@ -1,8 +1,8 @@
-package com.flywet.platform.bi.web.service;
+package com.flywet.platform.bi.services.intf;
 
 import org.pentaho.di.repository.RepositoryElementInterface;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 
 /**
  * 资源库代理

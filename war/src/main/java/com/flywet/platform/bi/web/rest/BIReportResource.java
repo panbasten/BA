@@ -32,8 +32,8 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.enums.BIReportCategory;
-import com.flywet.platform.bi.web.service.BIPageDelegates;
-import com.flywet.platform.bi.web.service.BIReportDelegates;
+import com.flywet.platform.bi.services.intf.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIReportDelegates;
 
 @Service("bi.resource.reportResource")
 @Path("/report")

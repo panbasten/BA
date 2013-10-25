@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import org.pentaho.di.core.exception.KettleException;
 
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIDomainAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 

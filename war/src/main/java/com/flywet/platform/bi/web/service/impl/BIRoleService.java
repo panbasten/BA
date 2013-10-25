@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIAuthorizationAdaptor;
 import com.flywet.platform.bi.delegates.intf.BIRoleAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.Authorization;
 import com.flywet.platform.bi.delegates.vo.Role;
+import com.flywet.platform.bi.services.intf.BIRoleDelegate;
 import com.flywet.platform.bi.web.cache.IdentificationCache;
-import com.flywet.platform.bi.web.service.BIRoleDelegate;
 
 @Service("bi.service.roleService")
 public class BIRoleService implements BIRoleDelegate {

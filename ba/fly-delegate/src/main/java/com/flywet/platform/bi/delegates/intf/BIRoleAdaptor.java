@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.pentaho.di.repository.IUser;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.vo.Role;
 
 public interface BIRoleAdaptor {

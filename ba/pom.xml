@@ -18,6 +18,7 @@
 		<module>fly-el</module>
 		<module>fly-component</module>
 		<module>fly-delegate</module>
+		<module>fly-service</module>
 	</modules>
 
 	<dependencies>
@@ -67,6 +68,36 @@
 			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-report-steps</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- web -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5.4</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.wink</groupId>
+		    <artifactId>wink-server</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.wink</groupId>
+		  <artifactId>wink-spring-support</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.apache.wink</groupId>
+            <artifactId>wink-json-provider</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
 		</dependency>
 		
 		<dependency>

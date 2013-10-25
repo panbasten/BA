@@ -28,8 +28,8 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
+import com.flywet.platform.bi.services.intf.BIPageDelegates;
 import com.flywet.platform.bi.web.functions.DIFunctions;
-import com.flywet.platform.bi.web.service.BIPageDelegates;
 
 @Service("bi.resource.diResource")
 @Path("/di")

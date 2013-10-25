@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.model;
+package com.flywet.platform.bi.core.model;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.log4j.Logger;
@@ -10,12 +10,12 @@ import org.pentaho.di.repository.RepositoryMeta;
 import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 
 
-public class BIRepositoryFactory implements PoolableObjectFactory {
-	private final Logger logger = Logger.getLogger(BIRepositoryFactory.class);
+public class RepositoryFactory implements PoolableObjectFactory {
+	private final Logger logger = Logger.getLogger(RepositoryFactory.class);
 	
 	private RepositoryMeta repositoryMeta;
 
-	public BIRepositoryFactory(RepositoryMeta repositoryMeta) {
+	public RepositoryFactory(RepositoryMeta repositoryMeta) {
 		this.repositoryMeta = repositoryMeta;
 	}
 	

@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.pools;
+package com.flywet.platform.bi.core.pools;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +15,9 @@ import org.pentaho.di.trans.TransListener;
 import org.pentaho.di.trans.TransStoppedListener;
 
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.exception.BIPoolException;
+import com.flywet.platform.bi.core.model.TransPoolWapper;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
-import com.flywet.platform.bi.delegates.exceptions.BIPoolException;
-import com.flywet.platform.bi.delegates.vo.TransPoolWapper;
 
 public class TransPool implements BIPoolInterface {
 

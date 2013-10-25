@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.intf.BIReportAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
-import com.flywet.platform.bi.web.service.BIReportDelegates;
+import com.flywet.platform.bi.services.intf.BIReportDelegates;
 
 @Service("bi.service.reportService")
 public class BIReportService implements BIReportDelegates {

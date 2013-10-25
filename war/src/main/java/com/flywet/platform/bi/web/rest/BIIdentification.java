@@ -32,16 +32,16 @@ import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BISecurityException;
 import com.flywet.platform.bi.core.model.ParameterContext;
+import com.flywet.platform.bi.core.pools.RepPool;
 import com.flywet.platform.bi.core.sec.KeyGenerater;
 import com.flywet.platform.bi.core.sec.SignProvider;
 import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.delegates.pools.RepPool;
 import com.flywet.platform.bi.delegates.vo.User;
+import com.flywet.platform.bi.services.intf.BIUserDelegate;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
-import com.flywet.platform.bi.web.service.BIUserDelegate;
 import com.flywet.platform.bi.web.utils.BISecurityUtils;
 import com.flywet.platform.bi.web.utils.BIWebUtils;
 

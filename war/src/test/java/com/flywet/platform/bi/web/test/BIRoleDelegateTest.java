@@ -5,9 +5,9 @@ import java.util.List;
 import org.junit.Test;
 import org.pentaho.di.core.util.Assert;
 
-import com.flywet.platform.bi.delegates.exceptions.BIKettleException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.vo.Role;
-import com.flywet.platform.bi.web.service.BIRoleDelegate;
+import com.flywet.platform.bi.services.intf.BIRoleDelegate;
 
 public class BIRoleDelegateTest extends WebBaseTestcase {
 	@Test

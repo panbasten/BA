@@ -43,14 +43,14 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
+import com.flywet.platform.bi.core.model.TransPoolWapper;
+import com.flywet.platform.bi.core.pools.TransPool;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
-import com.flywet.platform.bi.delegates.pools.TransPool;
-import com.flywet.platform.bi.delegates.vo.TransPoolWapper;
 
 public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 		ForecastAdaptor {
@@ -1618,6 +1618,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 	public String monthPredictDataUpload(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		// TODO
+		// BIFileSystemDelegate filesysService = ReflectionUtils
+		// .getBean("bi.service.filesystemService");
 		return ActionMessage.instance().success("月预测评分数据上传成功。").toJSONString();
 	}
 

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.vo.FilesysType;
-import com.flywet.platform.bi.web.service.BIFileSystemDelegate;
+import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 
 public class BIFilesysDelegateTest extends WebBaseTestcase {
 	@Test
