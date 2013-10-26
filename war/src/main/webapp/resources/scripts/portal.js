@@ -67,11 +67,14 @@ Flywet.Portal = {
 					for(var p in cookieJson){
 						Flywet.CookieUtils.write(p,cookieJson[p]);
 					}
-					// 判断是否是子页面
-					//window.location = "editor";
 					
 					if(cookieJson.toeditor){
-						if (Flywet.browserDetect.msie){
+						// 判断是否是子页面
+						//window.location = "editor";
+						// TODO
+						if (true){
+							window.location = "editor";
+						}else if (Flywet.browserDetect.msie){
 							window["editorPageHandle"] = window.open("editor","","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
 							var num = 0;
 							function checkWebPageForIE(){

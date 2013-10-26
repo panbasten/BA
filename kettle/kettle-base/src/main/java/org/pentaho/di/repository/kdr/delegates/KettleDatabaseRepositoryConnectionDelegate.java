@@ -63,8 +63,8 @@ import org.pentaho.di.repository.kdr.KettleDatabaseRepository;
 public class KettleDatabaseRepositoryConnectionDelegate extends
 		KettleDatabaseRepositoryBaseDelegate {
 	private static Class<?> PKG = Repository.class; // for i18n purposes, needed
-													// by Translator2!!
-													// $NON-NLS-1$
+	// by Translator2!!
+	// $NON-NLS-1$
 
 	public static final LoggingObjectInterface loggingObject = new SimpleLoggingObject(
 			"Database repository", LoggingObjectType.REPOSITORY, null);
@@ -440,14 +440,14 @@ public class KettleDatabaseRepositoryConnectionDelegate extends
 		// database ordering may or may not be case-insensitive
 		//
 		Collections.sort(stepAttributesBuffer, new StepAttributeComparator()); // in
-																				// case
-																				// db
-																				// sort
-																				// does
-																				// not
-																				// match
-																				// our
-																				// sort
+		// case
+		// db
+		// sort
+		// does
+		// not
+		// match
+		// our
+		// sort
 	}
 
 	/**
@@ -2121,11 +2121,12 @@ public class KettleDatabaseRepositoryConnectionDelegate extends
 	public List<Object[]> getRows(String sql) throws KettleDatabaseException {
 		return database.getRows(sql, 0);
 	}
-	
-	public List<RowMetaAndData> getRowsWithMeta(String sql) throws KettleDatabaseException {
+
+	public List<RowMetaAndData> getRowsWithMeta(String sql)
+			throws KettleDatabaseException {
 		return database.getRowsWithMeta(sql, 0);
 	}
-	
+
 	public List<Object[]> getRows(String sql, int limit)
 			throws KettleDatabaseException {
 		return database.getRows(sql, limit);
@@ -2179,7 +2180,7 @@ public class KettleDatabaseRepositoryConnectionDelegate extends
 						repository.connectionDelegate.getReturnRowMeta(), row);
 				long id = rowWithMeta
 						.getInteger(
-								quote(KettleDatabaseRepository.FIELD_DATABASE_ATTRIBUTE_ID_DATABASE_ATTRIBUTE),
+								KettleDatabaseRepository.FIELD_DATABASE_ATTRIBUTE_ID_DATABASE_ATTRIBUTE,
 								0);
 				if (id > 0) {
 					attrs.add(rowWithMeta);

@@ -15,7 +15,8 @@ public class XorTest extends TestCase {
 	}
 
 	public void testRep() throws IOException {
-		String key = "root";
+		String key = "J3i4D8c2";
+		System.out.println("testRep");
 		System.out.println(Xor.encryptRep(key));
 	}
 

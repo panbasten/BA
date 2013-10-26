@@ -137,9 +137,7 @@ Flywet.editors.toolbarButton = {
 	 */
 	deleteRow : function(id){
 		var grid = $(Flywet.escapeClientId(id));
-		console.log(grid);
 		var row = grid.datagrid('getSelected');
-		console.log(row);
         if (row) {
             var index = grid.datagrid('getRowIndex', row);
             grid.datagrid('deleteRow', index);

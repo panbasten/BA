@@ -958,7 +958,7 @@ $FC = {
 		var msg = 'flychart error #' + code;
 		if (stop) {
 			throw msg;
-		} else if (window.console) {
+		} else if (window.console && console.log) {
 			console.log(msg);
 		}
 	},

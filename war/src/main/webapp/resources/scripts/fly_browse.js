@@ -128,7 +128,6 @@ Flywet.browse = {
 	openFileSettingByContext : function(event){
 		var data = Flywet.browse.TEMP.contextObjectData;
 		var category = data.data.category;
-		console.log("openFileSettingByContext----------");
 		var dialog_var = "dialog_"+category+"_"+data.data.type+"_"+data.data.id+"_var";
 		Flywet.cw("Dialog",dialog_var,{
 			id : "dialog:"+category+":"+data.data.type+":"+data.data.id,
@@ -199,7 +198,7 @@ Flywet.browse = {
 			Flywet.database.editObject(category,data.data.type,data.data.id,displayName);
 		}
 		else if(category=="local" || category=="ftp"){
-			console.log(data);
+			//console.log(data);
 		}
 	}
 };

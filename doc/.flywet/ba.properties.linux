@@ -1,0 +1,70 @@
+#repository pool configuation
+repository.pool.maxidle=8
+repository.pool.maxactive=8
+
+#trans pool
+trans.pool.maxsize=50
+trans.pool.maxactive=10
+
+#application type : release, debug. Default is release
+application.type=debug
+
+#file system
+fs.upload.maxsize=102400000
+
+#dialog position
+ui.dialog.ReportFileOutput.position=full
+
+#page i18n package
+page.i18n.package.name=com.flywet.platform.bi.web.i18n
+
+#portal
+portal.anonymous.allow=Y
+#default first repository
+portal.anonymous.repository=
+
+
+
+#custom properties
+custom.portal.monthPredict.file.rootPath=/root/forecast/data/monthPredict
+custom.portal.monthPredict.file.category=local
+
+custom.portal.11MonthCity.file.rootPath=/root/forecast/data/11cityMon
+custom.portal.11MonthCity.file.category=local
+custom.portal.11MonthCity.file.fileName=city_mon_197101-thismonth.txt
+
+custom.portal.11QuarterCity.file.rootPath=/root/forecast/data/11cityandhebei
+custom.portal.11QuarterCity.file.category=local
+custom.portal.11QuarterCity.file.fileName=data_11cityAndHebei_season_1982-thisYear.txt
+
+custom.portal.142sta.file.rootPath=/root/forecast/data/142sta
+custom.portal.142sta.file.category=local
+custom.portal.142sta.last.file.fileName=142staMondep_lastmonth.txt
+custom.portal.142sta.history.file.fileName=142staMon_history.txt
+
+custom.portal.sst.file.rootPath=/root/forecast/data/sst_data
+custom.portal.sst.file.category=local
+custom.portal.sst.file.fileName=sst.mnmean.nc
+
+custom.portal.upload.file.rootPath=ftp://x28:x28x28@10.48.36.15/sevp
+custom.portal.upload.file.category=ftp
+
+custom.portal.seasonForecast.file.rootPath=/root/forecast/SeasonForecast
+custom.portal.seasonForecast.file.category=local
+custom.portal.seasonForecast.file.fileName=namelist
+
+custom.portal.evaluation.file.rootPath=/root/forecast/evaluation
+custom.portal.evaluation.file.category=local
+custom.portal.evaluation.file.fileName=cityforecast.txt
+
+custom.portal.processForecast.file.rootPath=/root/forecast/processforecast
+custom.portal.processForecast.file.category=local
+custom.portal.processForecast.file.fileName=namelist
+
+custom.portal.buzNorm.file.rootPath=/root/forecast/buzNorm
+custom.portal.buzNorm.file.category=local
+
+custom.portal.month.forecast.run=/root/forecast/monthforecast/run
+custom.portal.season.forecast.run=/root/forecast/SeasonForecast/run
+custom.portal.forecast.evaluation.run=/root/forecast/evaluation/run
+custom.portal.process.forecast.run=/root/forecast/processforecast/run

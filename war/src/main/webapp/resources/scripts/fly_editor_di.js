@@ -829,9 +829,6 @@ Flywet.editors.trans.action = {
     },
 
     stepContent : function (coords,flowChart,flowObject,model){
-    	console.log(flowChart.oraData);
-        console.log(flowObject);
-        console.log(model);
         if(window["menu_trans_step_var"] == undefined){
 			Flywet.cw("Menu","menu_trans_step_var",{
 				id : "menu_trans_step",
@@ -1063,7 +1060,6 @@ Flywet.editors.trans.action = {
     checkShowSuccess : function(val){
     	// 显示成功记录
     	if(val){
-    		console.log(val);
     		trans_check_var.jq.datagrid("setOptions",{dataFilter:function(index, row) {return true;}})
     		trans_check_var.jq.datagrid("reload");
     	}else{
