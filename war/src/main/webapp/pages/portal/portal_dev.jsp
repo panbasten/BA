@@ -335,7 +335,7 @@
 		
 		</div>
 		
-		<iframe id="file-download-frame" class="fly-space-frame"></iframe>
+		<iframe id="file-download-frame" name="file-download-frame" class="fly-space-frame"></iframe>
 	</body>
 	<script type="text/javascript">
 	$(document).ready( function() {
