@@ -15,7 +15,7 @@
 		if (options.url) {
 			form.attr("action", options.url);
 		}
-		var frameId = "easyui_frame_" + (new Date().getTime());
+		var frameId = "ui_frame_" + (new Date().getTime());
 		var frame = $("<iframe id=" + frameId + " name=" + frameId + "></iframe>")
 			.attr("src", window.ActiveXObject ? "javascript:false" : "about:blank")
 			.css({
