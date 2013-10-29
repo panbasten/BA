@@ -63,7 +63,7 @@ public class BIFileOperationResource {
 	 */
 	@Path("/upload")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
 	public String uploadFiles(@Context HttpServletRequest request)
 			throws Exception {
@@ -168,7 +168,7 @@ public class BIFileOperationResource {
 	 */
 	@POST
 	@Path("/rename")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String rename(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
 		try {

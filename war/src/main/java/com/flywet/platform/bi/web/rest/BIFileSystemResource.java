@@ -394,7 +394,7 @@ public class BIFileSystemResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/items/folder/createsubmit")
 	public String openFolderCreateSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
@@ -457,7 +457,7 @@ public class BIFileSystemResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/items/createsubmit")
 	public String openCreateSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
@@ -509,7 +509,7 @@ public class BIFileSystemResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/items/editsubmit")
 	public String openEditSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
@@ -607,7 +607,7 @@ public class BIFileSystemResource {
 	 */
 	@Path("/action/upload")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
 	public String uploadFiles(@Context HttpServletRequest request)
 			throws Exception {

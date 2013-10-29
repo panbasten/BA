@@ -113,7 +113,7 @@ public class BITransResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/createsubmit")
 	public String openTransCreateSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
@@ -194,7 +194,7 @@ public class BITransResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/saveassubmit")
 	public String saveAsTransSubmit(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
@@ -241,7 +241,7 @@ public class BITransResource {
 	@POST
 	@Path("/{id}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String saveTrans(@PathParam("id") String id, String body)
 			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
@@ -494,7 +494,7 @@ public class BITransResource {
 	@POST
 	@Path("/{id}/run/do")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String doRun(@PathParam("id") String id, String body)
 			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
@@ -567,7 +567,7 @@ public class BITransResource {
 	@POST
 	@Path("/{id}/setting/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String saveSetting(@PathParam("id") String id, String body)
 			throws BIJSONException {
 		ActionMessage am = ActionMessage.instance();
@@ -718,7 +718,7 @@ public class BITransResource {
 	@POST
 	@Path("/step/{transId}/{stepMetaName}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String saveTransStep(@PathParam("transId") String transId,
 			@PathParam("stepMetaName") String stepMetaName,
 			@QueryParam("dx") String dx, @QueryParam("dy") String dy,

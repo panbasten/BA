@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -25,6 +26,9 @@ public class BIWebUtils {
 
 	private static ApplicationContext ctx = new ClassPathXmlApplicationContext(
 			"applicationContext-ui.xml");
+
+	public static final String TEXT_PLAIN_DEFAULT_CHARSET = MediaType.TEXT_PLAIN
+			+ "; charset=" + Const.XML_ENCODING;
 
 	/**
 	 * 返回内容至response

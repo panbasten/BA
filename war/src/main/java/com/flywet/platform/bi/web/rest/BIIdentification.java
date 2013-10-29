@@ -235,7 +235,7 @@ public class BIIdentification {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String identification(String userinfo) throws BIException {
 		ActionMessage am = new ActionMessage();
 		Repository rep = null;
