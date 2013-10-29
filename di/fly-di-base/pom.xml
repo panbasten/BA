@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.flywet.platform.di</groupId>
+	<artifactId>fly-di-base</artifactId>
+	<name>数据整合平台源代码-基础</name>
+	<version>8.0.0</version>
+	<parent>
+		<artifactId>di</artifactId>
+		<groupId>com.flywet.platform</groupId>
+		<version>8.0.0</version>
+	</parent>
+	<description>数据整合平台源代码-服务端</description>
+</project>

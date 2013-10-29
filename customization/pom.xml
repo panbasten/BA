@@ -34,12 +34,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.flywet.platform.ba</groupId>
+			<groupId>com.flywet.platform.war-service</groupId>
 			<artifactId>fly-delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.flywet.platform.ba</groupId>
+			<groupId>com.flywet.platform.war-service</groupId>
 			<artifactId>fly-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -3,21 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.flywet.platform</groupId>
-	<artifactId>report</artifactId>
+	<artifactId>di</artifactId>
 	<packaging>pom</packaging>
-	<name>报表源代码</name>
+	<name>数据整合源代码</name>
 	<version>8.0.0</version>
-	<description>报表源代码</description>
+	<description>数据整合源代码</description>
 	<parent>
 		<artifactId>platform</artifactId>
 		<groupId>com.flywet</groupId>
 		<version>8.0.0</version>
 	</parent>
 	<modules>
-		<module>fly-report-base</module>
-		<module>fly-report</module>
-		<module>fly-dashboard</module>
-		<module>fly-report-steps</module>
+		<module>fly-di-base</module>
 	</modules>
 
 	<dependencies>

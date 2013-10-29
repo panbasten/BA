@@ -11,8 +11,10 @@
 	<modules>
 		<module>kettle</module>
 		<module>mondrian</module>
-		<module>report</module>
 		<module>ba</module>
+		<module>di</module>
+		<module>report</module>
+		<module>war-service</module>
 		<module>customization</module>
 		<module>war</module>
 		<module>lic</module>
@@ -955,9 +957,8 @@
 		</plugins>
 	</build>
 
-	<!--  -->
+	<!-- 
 	<repositories>
-	<!--  
 		<repository>
 			<id>fly-public</id>
 			<name>Flywet Public Repository</name>
@@ -967,7 +968,6 @@
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
 		</repository>
--->
 		<repository>
 			<id>pentaho-repo</id>
 			<name>Pentaho Maven Repository</name>
@@ -1093,6 +1093,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	 -->
 
 	<pluginRepositories>
 		<pluginRepository>

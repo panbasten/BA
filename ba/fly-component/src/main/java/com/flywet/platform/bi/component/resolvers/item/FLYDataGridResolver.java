@@ -38,6 +38,9 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	public static final String ATTR_OPERTION = "opertion";
 	public static final String ATTR_CONDITION = "condition";
 
+	public static final String ATTR_EDITOR = "editor";
+	public static final String ATTR_OPTIONS = "options";
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
@@ -177,7 +180,7 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 				}
 			}
 			func.addStatement("){return true;}return false;");
-		}else{
+		} else {
 			func.addStatement("return true;");
 		}
 
@@ -284,6 +287,7 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 				null, attrs);
 		map.put(HTML.ATTR_WIDTH, HTML.getTagAttribute(node, HTML.ATTR_WIDTH,
 				attrs));
+
 		return JSONUtils.convertToJSONObject(map);
 	}
 

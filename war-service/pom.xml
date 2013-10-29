@@ -3,47 +3,62 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.flywet.platform</groupId>
-	<artifactId>ba</artifactId>
+	<artifactId>war-service</artifactId>
 	<packaging>pom</packaging>
-	<name>BA源代码</name>
+	<name>BA War的服务包源代码</name>
 	<version>8.0.0</version>
-	<description>BA源代码</description>
+	<description>BA War的服务包源代码</description>
 	<parent>
 		<artifactId>platform</artifactId>
 		<groupId>com.flywet</groupId>
 		<version>8.0.0</version>
 	</parent>
 	<modules>
-		<module>fly-core</module>
-		<module>fly-el</module>
-		<module>fly-component</module>
+		<module>fly-delegate</module>
+		<module>fly-service</module>
 	</modules>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.flywet.platform.kettle</groupId>
-			<artifactId>kettle-core</artifactId>
+			<groupId>com.flywet.platform.ba</groupId>
+			<artifactId>fly-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.flywet.platform.kettle</groupId>
-			<artifactId>kettle-db</artifactId>
+			<groupId>com.flywet.platform.ba</groupId>
+			<artifactId>fly-el</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.flywet.platform.kettle</groupId>
-			<artifactId>kettle-base</artifactId>
+			<groupId>com.flywet.platform.ba</groupId>
+			<artifactId>fly-component</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.flywet.platform.mondrian</groupId>
-			<artifactId>mondrian-srv</artifactId>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-report-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.flywet.platform.mondrian</groupId>
-			<artifactId>mondrian-steps</artifactId>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-report</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-dashboard</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-report-steps</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.flywet.platform.di</groupId>
+			<artifactId>fly-di-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		

@@ -32,6 +32,7 @@ import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.dashboard.model.TemplateMeta;
+import com.flywet.platform.bi.dashboard.utils.PageEditTemplateInterpolator;
 import com.flywet.platform.bi.services.intf.BIReportDelegates;
 import com.flywet.platform.bi.web.cache.TemplateCache;
 
@@ -61,9 +62,10 @@ public class BIReportDashboardResource {
 		try {
 			// 获得报表对象
 			Object[] report = reportService.getReportObject(Long.valueOf(id));
-			Document doc = PageTemplateInterpolator.getDomForEditorWithContent(
-					(String) report[1],
-					TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_ID_PREFIX + id);
+			Document doc = PageEditTemplateInterpolator
+					.getDomForEditorWithContent((String) report[1],
+							TemplateMeta.TEMPLATE_ATTRIBUTE_EDITOR_ID_PREFIX
+									+ id);
 
 			// 保留编辑状态，对于集群应用需要使用共享缓存
 			TemplateMeta templateMeta = new TemplateMeta(id, doc);

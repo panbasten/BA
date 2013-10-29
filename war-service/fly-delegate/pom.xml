@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>ba</artifactId>
+		<artifactId>war-service</artifactId>
 		<groupId>com.flywet.platform</groupId>
 		<version>8.0.0</version>
 	</parent>
-	<groupId>com.flywet.platform.ba</groupId>
-	<artifactId>fly-service</artifactId>
-	<name>BA的web服务类的接口包</name>
+	<groupId>com.flywet.platform.war-service</groupId>
+	<artifactId>fly-delegate</artifactId>
+	<name>BA使用Kettle数据库持久化的代理包</name>
 	<version>8.0.0</version>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
@@ -25,11 +25,6 @@
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-component</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.flywet.platform.ba</groupId>
-			<artifactId>fly-delegate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
