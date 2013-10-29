@@ -256,22 +256,19 @@ Flywet.Portal = {
 		// 显示用户名称
 		var username = Flywet.CookieUtils.read("username");
 		var loginname = Flywet.CookieUtils.read("loginname");
-		var loginUser = $("#btn_login_user");
-		if(username){
-			$("#btn_login_user_text").html(username);
-			loginUser.bind("mouseover", function(){
-					$(this).addClass("highlight");
-				}).bind("mouseout", function(){
-					$(this).removeClass("highlight");
-				});
-		}else{
-			loginUser.hide();
-		}
 		
 		// 登录按钮
 		var btnLogin = $("#btn_login");
 		if(username){
-			btnLogin.hide();
+			btnLogin.html("<div>" +
+					"<div class='oper-text'>用户：</div>" +
+					"<div class='oper-text'>" + username + "</div>" +
+					"</div>");
+			btnLogin.bind("mouseover", function(){
+				$(this).addClass("highlight");
+			}).bind("mouseout", function(){
+				$(this).removeClass("highlight");
+			});
 		}else{
 			btnLogin.bind("click", function(){
 				if(Flywet.browserDetect.msie){

@@ -181,14 +181,6 @@
 					<tbody>
 					<tr>
 					<td>
-						<a id="btn_login_user" href="javascript:void(0);">
-							<div>
-								<div class="oper-text">用户：</div>
-								<div class="oper-text" id="btn_login_user_text"></div>
-							</div>
-						</a>
-					</td>
-					<td>
 						<a id="btn_login" href="javascript:void(0);">
 							<div><div class="oper-text" id="btn_login_text">登录</div></div>
 						</a>
