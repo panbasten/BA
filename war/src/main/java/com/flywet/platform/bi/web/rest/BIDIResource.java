@@ -30,6 +30,7 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.services.intf.BIPageDelegates;
 import com.flywet.platform.bi.web.functions.DIFunctions;
+import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.diResource")
 @Path("/di")
@@ -73,7 +74,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/editsubmit")
 	public String openDirectoryEditSubmit(String body) throws BIJSONException {
 		return super.openDirectoryEditSubmit(pageDelegates, body, DIR_CATEGORY);
@@ -88,7 +89,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/createsubmit")
 	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
 		return super.openDirectoryCreateSubmit(pageDelegates, body,

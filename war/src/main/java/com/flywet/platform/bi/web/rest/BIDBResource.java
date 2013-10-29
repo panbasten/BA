@@ -203,7 +203,7 @@ public class BIDBResource {
 	@POST
 	@Path("/object/{id}/explore")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String exploreSetting(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId, String body)
 			throws BIException {
@@ -337,7 +337,7 @@ public class BIDBResource {
 	@POST
 	@Path("/object/{id}/test")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String testSetting(@PathParam("id") String id, String body)
 			throws BIException {
 		ActionMessage am = ActionMessage.instance();
@@ -379,7 +379,7 @@ public class BIDBResource {
 	@POST
 	@Path("/object/{id}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String saveSetting(@PathParam("id") String id, String body)
 			throws BIException {
 		ActionMessage am = ActionMessage.instance();

@@ -106,7 +106,7 @@ public class BIPortaletResource {
 
 	@POST
 	@Path("/actionForm/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String portalActionForm(@PathParam("id") String id,
 			@QueryParam("targetId") String targetId, String body)
 			throws BIException {
@@ -128,7 +128,7 @@ public class BIPortaletResource {
 	@SuppressWarnings("unchecked")
 	@Path("/actionFileForm/{id}")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
 	public String portalActionFileForm(@PathParam("id") String id,
 			@Context HttpServletRequest request) throws Exception {
@@ -191,7 +191,7 @@ public class BIPortaletResource {
 
 	@POST
 	@Path("/editfile/save")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String saveEditFile(String body) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
@@ -294,7 +294,7 @@ public class BIPortaletResource {
 	@SuppressWarnings("unchecked")
 	@Path("/uploadone")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
 	public String uploadOneFile(@Context HttpServletRequest request)
 			throws Exception {
@@ -358,7 +358,7 @@ public class BIPortaletResource {
 	@SuppressWarnings("unchecked")
 	@Path("/upload")
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Consumes(MediaTypeUtils.MULTIPART_FORM_DATA)
 	public String uploadFiles(@Context HttpServletRequest request)
 			throws Exception {

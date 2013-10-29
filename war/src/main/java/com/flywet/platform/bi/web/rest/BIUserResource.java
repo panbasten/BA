@@ -50,7 +50,7 @@ public class BIUserResource {
 
 	@POST
 	@Path("/create/save")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	public String save(String body) throws Exception {
 		ActionMessage am = new ActionMessage();
 		try {

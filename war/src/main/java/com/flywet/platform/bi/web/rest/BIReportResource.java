@@ -34,6 +34,7 @@ import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.services.intf.BIPageDelegates;
 import com.flywet.platform.bi.services.intf.BIReportDelegates;
+import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.reportResource")
 @Path("/report")
@@ -79,7 +80,7 @@ public class BIReportResource extends AbastractDirectoryResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/createsubmit")
 	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
 		return super.openDirectoryCreateSubmit(pageDelegates, body,
