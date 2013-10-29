@@ -469,7 +469,8 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ " DESC , "
 					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
 					+ " DESC , "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN);
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
+					+ " DESC";
 
 			List<Object[]> rows = getRows(sql);
 

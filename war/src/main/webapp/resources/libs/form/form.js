@@ -23,6 +23,7 @@
 					top : -1000,
 					left : -1000
 				});
+		frame.get(0).name = frameId;
 		var t = form.attr("target"), a = form.attr("action");
 		form.attr("target", frameId);
 		form.attr("method", "POST");
