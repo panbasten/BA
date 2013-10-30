@@ -85,7 +85,8 @@ public class ComboBoxMeta extends ComboMeta implements ComponentMetaInterface {
 		return (String) this.getAttribute(ATTR_ON_UNSELECT);
 	}
 
-	public ComboBoxMeta setLocalData(List<Object> list) throws BIJSONException {
+	public ComboBoxMeta setLocalData(List<? extends Object> list)
+			throws BIJSONException {
 		this.addAttribute(ATTR_MODE, ATTR_MODE_LOCAL);
 		this.setData(list);
 		return this;

@@ -5,19 +5,26 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.log4j.Logger;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.trans.TransMeta;
 
+import com.flywet.platform.bi.component.components.combo.ComboBoxMeta;
+import com.flywet.platform.bi.component.components.grid.EditorObjectData;
 import com.flywet.platform.bi.component.components.grid.GridDataObject;
 import com.flywet.platform.bi.component.components.selectMenu.OptionsData;
 import com.flywet.platform.bi.component.utils.FLYFunctionMapper;
 import com.flywet.platform.bi.component.utils.HTML;
+import com.flywet.platform.bi.component.vo.NameValuePair;
+import com.flywet.platform.bi.core.exception.BIException;
 
 public class DIFunctions {
 
 	private static Class<?> PKG = DIFunctions.class;
+
+	private final static Logger logger = Logger.getLogger(DIFunctions.class);
 
 	private static String PREFIX = "di";
 
@@ -36,14 +43,38 @@ public class DIFunctions {
 					BaseMessages.getString(PKG,
 							"Page.Trans.Transstatus.Production.Label") });
 
+	// field type
+	private static EditorObjectData fieldType;
+
 	private static Map<String, OptionsData> options = new ConcurrentHashMap<String, OptionsData>();
 	private static AtomicBoolean initCache = new AtomicBoolean(false);
 
 	static {
-		if (!initCache.get()) {
+		if (!initCache.getAndSet(true)) {
 			options.put(OPTIONS_KEY_VALUE_TYPES, valueTypesOptionsData);
 			options.put(OPTIONS_KEY_TRANS_STATUS, transStatusOptionsData);
-			initCache.set(true);
+
+			initFieldType();
+		}
+	}
+
+	/**
+	 * 获得列表字段类型的编辑对象
+	 * 
+	 * @return
+	 */
+	public static EditorObjectData getFieldType() {
+		return fieldType;
+	}
+
+	private static void initFieldType() {
+		try {
+			fieldType = new EditorObjectData();
+			ComboBoxMeta cbm = new ComboBoxMeta();
+			cbm.setLocalData(NameValuePair.instance(ValueMeta.getTypes()));
+			fieldType.initCombobox(cbm);
+		} catch (BIException e) {
+			logger.error(e.getMessage());
 		}
 	}
 

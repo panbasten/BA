@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 
+import com.flywet.platform.bi.component.vo.NameValuePair;
 import com.flywet.platform.bi.core.exception.BIJSONException;
-import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 
 public class PortalMenu {

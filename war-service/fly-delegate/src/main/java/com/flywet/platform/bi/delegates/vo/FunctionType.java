@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 
+import com.flywet.platform.bi.component.vo.NameValuePair;
 import com.flywet.platform.bi.core.exception.BISecurityException;
-import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.Utils;
 

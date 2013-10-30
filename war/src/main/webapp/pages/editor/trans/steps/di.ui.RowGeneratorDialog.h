@@ -30,7 +30,7 @@
 			<fly:columns>
 				<fly:row>
 					<fly:column field="fieldName" title="名称" width="80" editor="text" align="center" />
-					<fly:column field="fieldType" title="类型" width="80" editor="text" align="center" />
+					<fly:column field="fieldType" title="类型" width="80" editor="${di:getFieldType()}" align="center" />
 					<fly:column field="fieldFormat" title="格式" width="150" editor="text" align="center" />
 					<fly:column field="fieldLength" title="长度" width="80" editor="text" align="center" />
 					<fly:column field="fieldPrecision" title="精度" width="80" editor="text" align="center" />

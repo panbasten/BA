@@ -10,6 +10,7 @@ import org.pentaho.pms.util.Const;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.flywet.platform.bi.component.components.grid.EditorObjectData;
 import com.flywet.platform.bi.component.core.ComponentResolverInterface;
 import com.flywet.platform.bi.component.resolvers.BaseComponentResolver;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
@@ -39,7 +40,6 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	public static final String ATTR_CONDITION = "condition";
 
 	public static final String ATTR_EDITOR = "editor";
-	public static final String ATTR_OPTIONS = "options";
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -287,6 +287,10 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 				null, attrs);
 		map.put(HTML.ATTR_WIDTH, HTML.getTagAttribute(node, HTML.ATTR_WIDTH,
 				attrs));
+		Object editor = HTML.getTagAttributeObject(node, ATTR_EDITOR, attrs);
+		if (editor instanceof EditorObjectData) {
+			map.put(ATTR_EDITOR, ((EditorObjectData) editor).getFormDataJo());
+		}
 
 		return JSONUtils.convertToJSONObject(map);
 	}

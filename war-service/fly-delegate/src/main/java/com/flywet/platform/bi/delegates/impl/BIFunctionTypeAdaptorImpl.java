@@ -7,9 +7,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
 
+import com.flywet.platform.bi.component.vo.NameValuePair;
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.core.exception.BIKettleException;
-import com.flywet.platform.bi.core.model.NameValuePair;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
 import com.flywet.platform.bi.delegates.intf.BIFunctionTypeAdaptor;
