@@ -50,6 +50,9 @@ public class EditorObjectData implements ComponentDataInterface {
 
 	public void initCheckbox(String on, String off) {
 		this.type = TYPE_CHECKBOX;
+		if (this.optionsMap == null) {
+			this.optionsMap = new HashMap<String, Object>();
+		}
 		if (on != null)
 			this.optionsMap.put("on", on);
 		if (off != null)
@@ -82,7 +85,7 @@ public class EditorObjectData implements ComponentDataInterface {
 	}
 
 	public void addOptionMap(String key, Object val) {
-		if (this.optionsMap != null) {
+		if (this.optionsMap == null) {
 			this.optionsMap = new HashMap<String, Object>();
 		}
 		this.optionsMap.put(key, val);

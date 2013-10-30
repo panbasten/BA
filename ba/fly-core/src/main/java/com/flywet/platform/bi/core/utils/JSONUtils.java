@@ -171,7 +171,12 @@ public class JSONUtils {
 					}
 				}
 				if (march != dis) {
-					Object val = PropertyUtils.getProperty(obj, fieldName);
+					Object val = null;
+					try {
+						val = PropertyUtils.getProperty(obj, fieldName);
+					} catch (Exception e) {
+						continue;
+					}
 					if (val == null) {
 						json.put(fieldName, null);
 						continue;

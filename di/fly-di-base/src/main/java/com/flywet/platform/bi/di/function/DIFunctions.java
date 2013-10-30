@@ -1,11 +1,13 @@
 package com.flywet.platform.bi.di.function;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.i18n.BaseMessages;
@@ -46,6 +48,12 @@ public class DIFunctions {
 	// field type
 	private static EditorObjectData fieldType;
 
+	// field format
+	private static EditorObjectData fieldFormat;
+
+	// yes or no
+	private static EditorObjectData fieldBoolean;
+
 	private static Map<String, OptionsData> options = new ConcurrentHashMap<String, OptionsData>();
 	private static AtomicBoolean initCache = new AtomicBoolean(false);
 
@@ -55,6 +63,45 @@ public class DIFunctions {
 			options.put(OPTIONS_KEY_TRANS_STATUS, transStatusOptionsData);
 
 			initFieldType();
+
+			initFieldFormat();
+
+			initFieldBoolean();
+		}
+	}
+
+	/**
+	 * 获得列表字段布尔的编辑对象
+	 * 
+	 * @return
+	 */
+	public static EditorObjectData getFieldBoolean() {
+		return fieldBoolean;
+	}
+
+	private static void initFieldBoolean() {
+		fieldBoolean = new EditorObjectData();
+		fieldBoolean.initCheckbox("是", "否");
+	}
+
+	/**
+	 * 获得列表字段格式的编辑对象
+	 * 
+	 * @return
+	 */
+	public static EditorObjectData getFieldFormat() {
+		return fieldFormat;
+	}
+
+	private static void initFieldFormat() {
+		try {
+			fieldFormat = new EditorObjectData();
+			ComboBoxMeta cbm = new ComboBoxMeta();
+			cbm.setLocalDataWithNameValuePair(NameValuePair.instance(Const
+					.getDateFormats()));
+			fieldFormat.initCombobox(cbm);
+		} catch (BIException e) {
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -71,7 +118,8 @@ public class DIFunctions {
 		try {
 			fieldType = new EditorObjectData();
 			ComboBoxMeta cbm = new ComboBoxMeta();
-			cbm.setLocalData(NameValuePair.instance(ValueMeta.getTypes()));
+			cbm.setLocalDataWithNameValuePair(NameValuePair.instance(ValueMeta
+					.getTypes()));
 			fieldType.initCombobox(cbm);
 		} catch (BIException e) {
 			logger.error(e.getMessage());

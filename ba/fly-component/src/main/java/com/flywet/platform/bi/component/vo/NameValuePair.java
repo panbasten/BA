@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NameValuePair {
+
+	public static final String ATTR_NAME = "name";
+	public static final String ATTR_VALUE = "value";
+
 	private String name;
 	private String value;
 

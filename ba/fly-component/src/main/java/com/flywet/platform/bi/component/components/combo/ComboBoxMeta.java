@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.flywet.platform.bi.component.core.ComponentMetaInterface;
 import com.flywet.platform.bi.component.utils.HTML;
+import com.flywet.platform.bi.component.vo.NameValuePair;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 
 public class ComboBoxMeta extends ComboMeta implements ComponentMetaInterface {
@@ -83,6 +84,13 @@ public class ComboBoxMeta extends ComboMeta implements ComponentMetaInterface {
 
 	public String getOnUnselect() {
 		return (String) this.getAttribute(ATTR_ON_UNSELECT);
+	}
+
+	public ComboBoxMeta setLocalDataWithNameValuePair(List<NameValuePair> list)
+			throws BIJSONException {
+		setTextField(NameValuePair.ATTR_NAME);
+		setValueField(NameValuePair.ATTR_VALUE);
+		return setLocalData(list);
 	}
 
 	public ComboBoxMeta setLocalData(List<? extends Object> list)
