@@ -26,7 +26,8 @@
 
 	<fly:verticalLayout margin="10">
 		<fly:labelObject buddy="${formId}:fields" text="字段" />
-		<fly:dataGrid id="${formId}:fields" singleSelect="true" data="${di:createDGDataSet(stepMetaInterface.fieldsDGKeys,stepMetaInterface.fieldsDGValues)}" height="280">
+		<fly:dataGrid id="${formId}:fields" singleSelect="true"
+			data="${di:createDGDataSet(stepMetaInterface.fieldsDGKeys,stepMetaInterface.fieldsDGValues)}" height="280">
 			<fly:columns>
 				<fly:row>
 					<fly:column field="fieldName" title="名称" width="80" editor="text" align="center" />
