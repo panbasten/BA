@@ -12,6 +12,9 @@
 		}
 		
 		var form = $(target);
+		
+		getValues();
+		
 		if (options.url) {
 			form.attr("action", options.url);
 		}
@@ -38,6 +41,35 @@
 		}
 		
 		var checkCount = 10;
+		
+		function getValues() {
+			getDataGridValues();
+		}
+		
+		// 处理DataGrid对象 
+		function getDataGridValues(){
+			form.find(".ui-datagrid .ui-datagrid-original").each(
+				function(idx, dom){
+					var $dom = $(dom);
+					var options = $dom.datagrid("options");
+					var domValue = $(this).find(Flywet.escapeClientId(options.id+":rows"));
+					if(!domValue || domValue.length == 0){
+						domValue = $("<input id='"+options.id+":rows' name='"+options.id+":rows' type='hidden'>");
+						domValue.appendTo(form);
+					}
+					// 提交选中的行
+					$dom.datagrid("acceptChanges");
+					
+					// 如果是checkbox选择
+					if(!$dom.datagrid("options").checkOnSelect){
+						var rows = $dom.datagrid("getChecked");
+						domValue.val(Flywet.toJSONString($dom.datagrid("getConvertRows", rows)));
+					}else{
+						var rows = $dom.datagrid("getRows");
+						domValue.val(Flywet.toJSONString($dom.datagrid("getConvertRows", rows)));
+					}
+				});
+		}
 		
 		function cb() {
 			frame.unbind();

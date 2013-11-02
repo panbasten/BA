@@ -85,8 +85,8 @@ Flywet = {
      * 将javascript对象转换为json串
      */
 	toJSONString:function (object){
-		if(!object){
-			return "{}";
+		if(object == undefined || object == null){
+			return undefined;
 		}
 		var type=typeof object;			
 		if('object'==type){
@@ -1082,24 +1082,6 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 	        		if(cfg.modal){
 	        			Flywet.triggerMark(true);
 	        		}
-	        		// 判断是否有DataGrid对象  TODO 合并到jqueryForm中
-	        		$(this).find(".ui-datagrid .ui-datagrid-original").each(
-        				function(idx, dom){
-        					var $dom = $(dom);
-        					var options = $dom.datagrid("options");
-        					var domValue = $(this).find(Flywet.escapeClientId(options.id+":rows"));
-        					if(!domValue || domValue.length == 0){
-        						domValue = $("<input id='"+options.id+":rows' name='"+options.id+":rows' type='hidden'>");
-        						domValue.appendTo($(this));
-        					}
-        					// 如果是checkbox选择
-        					if(!$dom.datagrid("options").checkOnSelect){
-        						var ch = $dom.datagrid("getChecked");
-        						domValue.val(Flywet.toJSONString($dom.datagrid("getChecked")));
-        					}else{
-        						domValue.val(Flywet.toJSONString($dom.datagrid("getData").rows));
-        					}
-        				});
 	        		
 	                if(cfg.beforeSend) {
 	                    cfg.beforeSend.call(this, data);

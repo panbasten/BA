@@ -340,6 +340,7 @@
 		var opts = grid.options;
 		var dc = grid.dc;
 		var panel = grid.panel;
+		
 		panel.panel($.extend( {}, opts, {
 			id : null,
 			doSize : false,
@@ -405,8 +406,8 @@
 			opts.pageSize = pager.pagination("options").pageSize;
 		}
 		
-		// oraData
-		opts.oraData = Flywet.deepClone(opts.data);
+		// originalData
+		 grid.originalData = Flywet.deepClone(opts.data);
 		
 		function initHeader(header, columns, fromFrozenColumns) {
 			if (!columns) {
@@ -655,11 +656,12 @@
 							_beginEdit(target, index);
 							opts.lastEditIndex = index;
 						} else {
-							_endEdit(target, opts.lastEditIndex);
 							if(opts.lastEditIndex != index){
+								_endEdit(target, opts.lastEditIndex);
 								_beginEdit(target, index);
 								opts.lastEditIndex = index;
 							} else {
+								_endEdit(target, opts.lastEditIndex);
 								opts.lastEditIndex = undefined;
 							}
 						}
@@ -1013,6 +1015,92 @@
 		return fields;
 	}
 	
+	function _loadConvertData(target, data) {
+		var opts = $(target).datagrid("options");
+		if(data.rows){
+			var cols, colOpt, colsConvertAction={}, editorType;
+			// 可转换类型的字段
+			cols = _getColumnFields(target, true).concat(_getColumnFields(target, false));
+			
+			for(var i=0;i<cols.length;i++){
+				colOpt = _getColumnOption(target, cols[i]);
+				if(colOpt.editor){
+					var editorOpts;
+					if (typeof colOpt.editor == "string") {
+						editorType = colOpt.editor;
+					} else {
+						editorType = colOpt.editor.type;
+						editorOpts = colOpt.editor.options;
+					}
+					var editorAction = opts.editors[editorType];
+					if (editorAction && editorAction.convertValue) {
+						colsConvertAction[cols[i]] = {
+							action: editorAction.convertValue,
+							options: editorOpts
+						};
+					}
+				}
+			}
+			
+			var row;
+			for(var i=0;i<data.rows.length;i++){
+				row = data.rows[i];
+				if(row){
+					for(var fieldName in colsConvertAction){
+						row[fieldName] = colsConvertAction[fieldName].action(colsConvertAction[fieldName].options, row[fieldName]);
+					}
+				}
+			}
+		}
+		
+		return data;
+	}
+	
+	/**
+	 * 获得表格数据
+	 */
+	function _getConvertRows(target, rows) {
+		var opts = $(target).datagrid("options");
+		if(rows){
+			var cols, colOpt, colsConvertAction={}, editorType;
+			// 可转换类型的字段
+			cols = _getColumnFields(target, true).concat(_getColumnFields(target, false));
+			
+			for(var i=0;i<cols.length;i++){
+				colOpt = _getColumnOption(target, cols[i]);
+				if(colOpt.editor){
+					var editorOpts;
+					if (typeof colOpt.editor == "string") {
+						editorType = colOpt.editor;
+					} else {
+						editorType = colOpt.editor.type;
+						editorOpts = colOpt.editor.options;
+					}
+					var editorAction = opts.editors[editorType];
+					if (editorAction && editorAction.getConvertValue) {
+						colsConvertAction[cols[i]] = {
+							action: editorAction.getConvertValue,
+							options: editorOpts
+						};
+					}
+				}
+			}
+			
+			var row;
+			for(var i=0;i<rows.length;i++){
+				row = rows[i];
+				if(row){
+					for(var fieldName in colsConvertAction){
+						if(row[fieldName]){
+							row[fieldName] = colsConvertAction[fieldName].action(colsConvertAction[fieldName].options, row[fieldName]);
+						}
+					}
+				}
+			}
+		}
+		return rows;
+	}
+	
 	/**
 	 * 加载数据
 	 */
@@ -1021,7 +1109,13 @@
 		var opts = gridData.options;
 		var dc = gridData.dc;
 		var selectedRows = gridData.selectedRows;
+		
+		// 过滤数据
 		data = opts.loadFilter(target, data);
+		
+		// 转换数据，主要对于checkbox和combobox等，显示值和实际值不一致的对象
+		data = _loadConvertData(target, data);
+		
 		gridData.data = data;
 		if (data.footer) {
 			gridData.footer = data.footer;
@@ -1335,6 +1429,14 @@
 	}
 	
 	/**
+	 * 获得当前编辑行索引
+	 */
+	function _getEditRowIndex(target){
+		var opts = $.data(target, "datagrid").options;
+		return opts.lastEditIndex;
+	}
+	
+	/**
 	 * 开始编辑一行
 	 * @param target grid目标对象
 	 * @param ridx 行索引号
@@ -1352,6 +1454,8 @@
 		tr.addClass("ui-datagrid-row-editing");
 		_startEditState(target, ridx);
 		_fixEditableColumnSize(target);
+		
+		// 给编辑行元素赋值
 		tr.find("div.ui-datagrid-editable").each(function() {
 			var _fc = $(this).parent().attr("field");
 			var ed = $.data(this, "datagrid.editor");
@@ -1465,15 +1569,17 @@
 						cell.addClass("ui-datagrid-editable");
 						cell._outerWidth(width);
 						cell.html("<table border=\"0\" cellspacing=\"0\" cellpadding=\"1\"><tr><td></td></tr></table>");
-						cell.children("table").attr("align", col.align);
-						cell.children("table").bind(
+						var table = cell.children("table");
+						table.attr("align", col.align);
+						table.find("td").css("text-align", col.align);
+						table.bind(
 								"click dblclick contextmenu",
 								function(e) {
 									e.stopPropagation();
 								});
 						$.data(cell[0], "datagrid.editor", {
 							actions : actions,
-							target : actions.init(cell.find("td"), editorOpts),
+							target : actions.init(table.find("td"), editorOpts),
 							field : field,
 							type : editorType,
 							oldHtml : oldHtml
@@ -1664,7 +1770,7 @@
 	}
 	
 	/**
-	 * 从远端请求数据
+	 * 请求数据，分别可以从远端和本地加载数据
 	 */
 	function request(target, param) {
 		var opts = $.data(target, "datagrid").options;
@@ -1688,10 +1794,13 @@
 			return;
 		}
 		
+		// 远程加载数据
 		if (opts.mode == "remote") {
 			$(target).datagrid("loading");
 			loader();
-		}else{
+		}
+		// 本地加载数据
+		else{
 			_loadData(target, opts.data);
 			$(target).datagrid("loaded");
 			_initData(target);
@@ -1869,6 +1978,31 @@
 					v = true;
 				}
 				$(target)._propAttr("checked", v);
+			},
+			convertValue : function(opts, val) {
+				if(opts == undefined || val == undefined){
+					return val;
+				}
+				
+				if(val == true || val == "true" 
+					|| val == "on" || val == "Y" || val == "yes"){
+					return opts.on;
+				} else {
+					return opts.off;
+				}
+			},
+			getConvertValue : function(opts, val) {
+				if(opts == undefined || val == undefined){
+					return val;
+				}
+				
+				if(val == opts.on){
+					return true;
+				} else if(val == opts.off){
+					return false;
+				}
+				
+				return val;
 			}
 		},
 		numberbox : {
@@ -1999,8 +2133,8 @@
 			return $.data(jq[0], "datagrid").panel
 					.children("div.ui-datagrid-pager");
 		},
-		getColumnFields : function(jq, fromFrozenColumns) {
-			return _getColumnFields(jq[0], fromFrozenColumns);
+		getColumnFields : function(jq, colType) {
+			return _getColumnFields(jq[0], colType);
 		},
 		getColumnOption : function(jq, field) {
 			return _getColumnOption(jq[0], field);
@@ -2024,7 +2158,8 @@
 		reload : function(jq, param) {
 			return jq.each(function() {
 				var opts = $.data(this, "datagrid").options;
-				opts.data = Flywet.deepClone(opts.oraData);
+				var originalData = $.data(this, "datagrid").originalData;
+				opts.data = Flywet.deepClone(originalData);
 				request(this, param);
 			});
 		},
@@ -2113,6 +2248,9 @@
 		getRows : function(jq) {
 			return $.data(jq[0], "datagrid").data.rows;
 		},
+		getConvertRows : function(jq, rows){
+			return _getConvertRows(jq[0], rows);
+		},
 		getFooterRows : function(jq) {
 			return $.data(jq[0], "datagrid").footer;
 		},
@@ -2199,6 +2337,9 @@
 			return jq.each(function() {
 				_endEdit(this, index, false);
 			});
+		},
+		getEditRowIndex : function(jq){
+			return _getEditRowIndex(jq[0]);
 		},
 		cancelEdit : function(jq, index) {
 			return jq.each(function() {
@@ -2360,6 +2501,9 @@
 			tb.push("</tbody></table>");
 			$(footer).html(tb.join(""));
 		},
+		/**
+		 * 渲染一行记录
+		 */
 		renderRow : function(target, columns, fromFrozenColumns, ridx, row) {
 			var opts = $.data(target, "datagrid").options;
 			var cc = [];
@@ -2601,6 +2745,7 @@
 				return data;
 			}
 		},
+		// 用于过滤数据
 		dataFilter : function(index, row) {return true;},
 		editors : editors,
 		finder : {
@@ -2720,6 +2865,7 @@ Flywet.widget.Grid = function(cfg) {
 			[ {checkbox : true} ].concat(this.cfg.columns[0]) 
 			: this.cfg.columns[0];
 	this.cfg.rownumbers = this.cfg.rownumbers != false ? true : false;
+	
 	this.datagrid = this.jq.datagrid(this.cfg);
 };
 
