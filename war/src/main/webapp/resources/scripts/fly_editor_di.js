@@ -1106,4 +1106,11 @@ Flywet.editors.trans.action = {
     showLog : function(){
     	$transLayout.toggle('south',true);
     }
+    
+};
+
+Flywet.editors.trans.page = {
+	formatterBoolean : function(){
+		console.log("---------cq-------");
+	}
 };
