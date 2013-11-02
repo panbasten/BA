@@ -1108,9 +1108,3 @@ Flywet.editors.trans.action = {
     }
     
 };
-
-Flywet.editors.trans.page = {
-	formatterBoolean : function(){
-		console.log("---------cq-------");
-	}
-};
