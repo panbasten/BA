@@ -31,7 +31,6 @@ import org.pentaho.di.core.SQLStatement;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
-import org.pentaho.di.core.exception.KettlePageException;
 import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.RowMetaInterface;
@@ -187,10 +186,10 @@ public interface StepMetaInterface
 	/**
 	 * Load the values for this step from an Page
 	 * @param parameterHolder
-	 * @throws KettlePageException When an unexpected Page error occurred. (malformed etc.)
+	 * @throws KettleException When an unexpected Page error occurred. (malformed etc.)
 	 */
 	public void loadPage(Map<String, List<String>> parameterHolder)
-		throws KettlePageException;
+		throws KettleException;
 	
 	/**
 	 * Save the steps data into a Kettle repository

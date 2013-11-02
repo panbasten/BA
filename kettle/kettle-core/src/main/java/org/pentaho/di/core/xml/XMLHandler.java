@@ -39,7 +39,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -54,6 +56,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.KettleAttributeInterface;
 import org.pentaho.di.core.exception.KettleException;
@@ -99,6 +104,59 @@ public class XMLHandler {
 	public static final String getXMLHeader(String encoding) {
 		return "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>"
 				+ Const.CR;
+	}
+
+	/**
+	 * 获得页面的一个固定值
+	 * 
+	 * @param parameterHolder
+	 * @param name
+	 * @return
+	 */
+	public static final String getPageValue(
+			Map<String, List<String>> parameterHolder, String name) {
+		String[] vals = getPageValues(parameterHolder, name);
+		if (vals != null && vals.length > 0) {
+			return vals[0];
+		}
+		return null;
+	}
+
+	/**
+	 * 获得页面的多个值
+	 * 
+	 * @param parameterHolder
+	 * @param name
+	 * @return
+	 */
+	public static final String[] getPageValues(
+			Map<String, List<String>> parameterHolder, String name) {
+		List<String> vals = parameterHolder.get(name);
+		if (vals != null && vals.size() > 0) {
+			return vals.toArray(new String[vals.size()]);
+		}
+		return null;
+	}
+
+	public static final JSONArray getPageRows(
+			Map<String, List<String>> parameterHolder, String name)
+			throws org.json.simple.parser.ParseException {
+		String rows = getPageValue(parameterHolder, name + ":rows");
+		if (!Const.isEmpty(rows)) {
+			JSONParser parser = new JSONParser();
+			JSONArray ja = (JSONArray) parser.parse(rows);
+
+			for (Iterator<?> iter = ja.iterator(); iter.hasNext();) {
+				JSONObject jo = (JSONObject) iter.next();
+				if (jo == null || jo.size() == 0) {
+					iter.remove();
+				}
+			}
+
+			return ja;
+		}
+
+		return null;
 	}
 
 	/**

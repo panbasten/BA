@@ -240,25 +240,33 @@ input[type=file]:focus,input[type=checkbox]:focus,select:focus {
     display: inline-block;
 }
 
-.ui-login-button-default {
-	background: url("../images/login/button.normal.bg.png") no-repeat;
+.ui-login-button-default,
+.ui-login-button-hover,
+.ui-login-button-disabled {
+	background: url("../images/login/button.bg.png");
+	width: 85px;
+	height: 32px;
+}
+
+.ui-login-button-default{
+	background-position: 0 -64px;
 	color: #FFFFFF;
 	float:right;
 	margin-right: 8px;
 }
-.ui-login-button-default:FOCUS{
-	background: url("../images/login/button.pressed.bg.png") no-repeat;
+.ui-login-button-default:focus{
+	background-position: 0 -96px;
 }
 
 .ui-login-button-hover {
+	background-position: 0 -32px;
 	color: #FFFFFF;
-    background:url("../images/login/button.hover.bg.png") no-repeat;
     box-shadow: 0px 0px 0px;
 }
 
 .ui-login-button-disabled {
+	background-position: 0 0;
 	color: #FFFFFF;
-    background:url("../images/login/button.disabled.bg.png") no-repeat !important;
     box-shadow: 0px 0px 0px;
     cursor: auto !important;
 }
@@ -351,7 +359,6 @@ div.overlay-widget {
 	float: left;
 	width: 655px;
 	background: transparent;
-	/*background: url(../images/login/container.bg.jpg) 0 0 repeat-x;*/
 }
 
 #fly_login_sidebar {

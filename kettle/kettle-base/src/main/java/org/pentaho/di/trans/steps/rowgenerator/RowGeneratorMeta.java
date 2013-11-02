@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.CheckResult;
 import org.pentaho.di.core.CheckResultInterface;
 import org.pentaho.di.core.Const;
@@ -278,12 +280,6 @@ public class RowGeneratorMeta extends BaseStepMeta implements StepMetaInterface 
 		readData(stepnode);
 	}
 
-	@Override
-	public void loadPage(Map<String, List<String>> parameterHolder)
-			throws KettlePageException {
-		// TODO
-	}
-
 	public void allocate(int nrfields) {
 		fieldName = new String[nrfields];
 		fieldType = new String[nrfields];
@@ -318,6 +314,43 @@ public class RowGeneratorMeta extends BaseStepMeta implements StepMetaInterface 
 		}
 
 		return retval;
+	}
+
+	@Override
+	public void loadPage(Map<String, List<String>> parameterHolder)
+			throws KettlePageException {
+		try {
+			JSONArray fields = XMLHandler.getPageRows(parameterHolder,
+					fid("fields"));
+			int nrfields = fields.size();
+
+			allocate(nrfields);
+
+			for (int i = 0; i < nrfields; i++) {
+				JSONObject field = (JSONObject) fields.get(i);
+
+				fieldName[i] = (String) field.get("fieldName");
+				fieldType[i] = (String) field.get("fieldType");
+				fieldFormat[i] = (String) field.get("fieldFormat");
+				currency[i] = (String) field.get("currency");
+				decimal[i] = (String) field.get("decimal");
+				group[i] = (String) field.get("group");
+				value[i] = (String) field.get("value");
+
+				fieldLength[i] = Const.toInt(String.valueOf(field
+						.get("fieldLength")), -1);
+				fieldPrecision[i] = Const.toInt(String.valueOf(field
+						.get("fieldPrecision")), -1);
+				setEmptyString[i] = Const.toBoolean(String.valueOf(field
+						.get("setEmptyString")), false);
+			}
+
+			rowLimit = XMLHandler.getPageValue(parameterHolder, fid("limit"));
+		} catch (Exception e) {
+			throw new KettlePageException(
+					"Unexpected error reading step information from the repository",
+					e);
+		}
 	}
 
 	private void readData(Node stepnode) throws KettleXMLException {

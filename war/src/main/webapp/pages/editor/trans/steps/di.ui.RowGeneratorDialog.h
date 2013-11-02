@@ -14,10 +14,10 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:labelObject buddy="${formId}:rowLimit" text="限制" />
+			<fly:labelObject buddy="${formId}:limit" text="限制" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
-			<fly:inputText id="${formId}:rowLimit" name="${formId}:rowLimit" type="text"
+			<fly:inputText id="${formId}:limit" name="${formId}:limit" type="text"
 				validate="required:true"
 				value="${stepMetaInterface.rowLimit}" />
 		</fly:gridLayoutItem>
