@@ -171,27 +171,11 @@ Flywet.browse = {
 		
 		// 转换、作业、表单报表打开转换设计器（TAB）
 		if(category=="trans" || category=="job" || category=="dashboard"){
-			if (diEditorPageTabs.hasMatch(tabName)) {
-				diEditorPageTabs.select(tabName);
+			if (baEditorPageTabs.hasMatch(tabName)) {
+				baEditorPageTabs.select(tabName);
 				return;
 			}
-			Flywet.ab({
-				type : "get",
-				modal : true,
-				modalMessage : "正在加载【"+displayName+"】...",
-				url : "rest/"+data.attrs.src,
-				onsuccess : function(data, status, xhr){
-					diEditorPageTabs.addTab({
-						exdata: data,
-						tabId: category,
-						tabText: displayName,
-						dataTarget: tabName,
-						closable: true,
-						closePanel: false,
-				        checkModify: true
-					});
-				}
-			});
+			Flywet.editors[category].openTab(category,data,displayName,tabName);
 		}
 		// 数据库文件打开数据库配置页面
 		else if(category=="db"){

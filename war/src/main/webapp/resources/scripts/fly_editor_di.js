@@ -162,7 +162,7 @@ Flywet.di = {
 				modalMessage : "正在加载【"+selItem.displayName+"】...",
 				url : "rest/"+selItem.category+"/"+selItem.id,
 				onsuccess : function(data, status, xhr){
-					diEditorPageTabs.addTab({
+					baEditorPageTabs.addTab({
 						exdata: data,
 						tabId: selItem.category,
 						tabText: selItem.displayName,
@@ -233,23 +233,8 @@ Flywet.di = {
 // 转换
 Flywet.editors.trans = {
 	type : "trans",
-	resize : function(){
-		// TODO 
-		
-	},
-	saveStatus : function ($tabo) {
-		// 保存原来的结果
-		if ($tabo && $tabo.data("exdata")){
-			var canvasObj = transEditorPanel_var.flowChart;
-			if(canvasObj && canvasObj.childCanvas){
-				var flow = canvasObj.getChildCanvasByIndex(0);
-				$tabo.data("exdata").data = Flywet.parseJSON(flow.getElsValue());
-			}
-		}
-	},
-	reloadStatus : function ($taba) {
-		if (typeof($taba.data("exdata"))=='undefined')return;
-		var canvasData = {
+	defaultOptions : {
+		canvasData : {
 			onClearAll: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj)",
 			onModify: "Flywet.editors.trans.action.modify(canvasObj,flowObj)",
 			canvasEls : {},
@@ -275,8 +260,30 @@ Flywet.editors.trans = {
 					onClick: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
 				}
 			}
-		};
-		var tabData = $taba.data("exdata").data;
+		}
+	},
+	resize : function(){
+		// TODO 
+		
+	},
+	saveStatus : function ($tabo) {
+		// 保存原来的结果
+		if ($tabo && $tabo.data("exdata")){
+			var canvasObj = transEditorPanel_var.flowChart;
+			if(canvasObj && canvasObj.childCanvas){
+				var flow = canvasObj.getChildCanvasByIndex(0);
+				$tabo.data("exdata").data = Flywet.parseJSON(flow.getElsValue());
+			}
+			$tabo.data("exdata").canvasConfig = canvasObj.getShowConfig();
+		}
+	},
+	reloadStatus : function ($taba) {
+		if (typeof($taba.data("exdata"))=='undefined')return;
+		var canvasData = Flywet.deepClone(Flywet.editors.trans.defaultOptions.canvasData);
+		
+		var tabData = $taba.data("exdata").data,
+			canvasConfig = $taba.data("exdata").canvasConfig;
+		
 		if(tabData.canvasEls) $.extend(canvasData.canvasEls,tabData.canvasEls);
 		if(tabData.defaultAttributes){
 			if(tabData.defaultAttributes.onInitStep) $.extend(canvasData.defaultAttributes.onInitStep,tabData.defaultAttributes.onInitStep);
@@ -299,8 +306,39 @@ Flywet.editors.trans = {
 				data: canvasData
 			});
 		}else{
-			transEditorPanel_var.flush(canvasData);
+			if(!canvasConfig){
+				canvasConfig = transEditorPanel_var.flowChart.getDefaultShowConfig();
+			}
+			transEditorPanel_var.flush(canvasData,canvasConfig);
 		}
+	},
+	flushStatus : function($taba,params){
+		if(params && params.data){
+			var tabData = $taba.data("exdata").data;
+			$taba.data("exdata").data = params.data;
+			
+			//修改taba
+			this.reloadStatus($taba);
+		}
+	},
+	openTab : function(category,data,displayName,tabName){
+		Flywet.ab({
+			type : "get",
+			modal : true,
+			modalMessage : "正在加载【"+displayName+"】...",
+			url : "rest/"+data.attrs.src,
+			onsuccess : function(data, status, xhr){
+				baEditorPageTabs.addTab({
+					exdata: data,
+					tabId: category,
+					tabText: displayName,
+					dataTarget: tabName,
+					closable: true,
+					closePanel: false,
+			        checkModify: true
+				});
+			}
+		});
 	},
 	register : function(){
 		if(Flywet.editors.register[Flywet.editors.trans.type]){
@@ -591,7 +629,7 @@ Flywet.editors.trans.action = {
     save : function (func,silence){
     	silence = silence || false;
     	
-    	if(!diEditorPageTabs.isTabModify(null)){
+    	if(!baEditorPageTabs.isTabModify(null)){
     		return;
     	}
     	
@@ -611,7 +649,7 @@ Flywet.editors.trans.action = {
     				val : flow.getElsValue()
     			},
     			onsuccess : function(){
-    				diEditorPageTabs.setTabModify(null, false);
+    				baEditorPageTabs.setTabModify(null, false);
     				if(func){
     					func.call(_self);
     				}
@@ -669,7 +707,7 @@ Flywet.editors.trans.action = {
         	}
     	};
     	
-    	if(diEditorPageTabs.isTabModify(null)){
+    	if(baEditorPageTabs.isTabModify(null)){
     		this.save(showSaveas,true);
     	}else{
     		showSaveas.call(this);
@@ -684,7 +722,7 @@ Flywet.editors.trans.action = {
     
     // @Override 必要方法：用于在Tab发生修改时，点击保存按钮调用的方法。
     saveTab : function (clicked) {
-    	var isActive = diEditorPageTabs.isActive(clicked.data("exdata").id+"-tab");
+    	var isActive = baEditorPageTabs.isActive(clicked.data("exdata").id+"-tab");
     	if(isActive){
     		this.save("trans");
     	}else{
@@ -934,7 +972,11 @@ Flywet.editors.trans.action = {
     
     modify : function(flowChart,flowObject){
     	// 表示修改
-		diEditorPageTabs.setTabModify(null, true);
+    	baEditorPageTabs.setTabModify(null, true);
+    },
+    
+    flush: function(params){
+    	baEditorPageTabs.flush(null,params);
     },
 
     stepDblclick : function (flowChart,flowObject,model){
@@ -975,6 +1017,15 @@ Flywet.editors.trans.action = {
 					params : {
 						dx : model.dx,
 						dy : model.dy
+					},
+					onsuccess : function(data){
+						Flywet.editors.trans.action.modify(flowChart,flowObject);
+						if(data.data){
+							var flag = Flywet.parseJSON(data.data);
+							if(flag.reflush){
+								Flywet.editors.trans.action.flush(flag.data);
+							}
+						}
 					}
 				}
 			},{

@@ -2012,6 +2012,13 @@ public class Const {
 		return string == null || string.length() == 0;
 	}
 
+	public static final boolean isTrimEmpty(String string) {
+		if (string == null) {
+			return true;
+		}
+		return isEmpty(trim(string));
+	}
+
 	/**
 	 * Check if the stringBuffer supplied is empty. A StringBuffer is empty when
 	 * it is null or when the length is 0

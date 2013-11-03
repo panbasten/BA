@@ -3173,6 +3173,50 @@
 			}
 			
 		};
+		
+		// 获得画布的显示配置
+		this.getShowConfig = function(){
+			var canvasConfig = {
+				showGrid : this.config.showGrid,
+				closeGrid : this.config.closeGrid,
+				gridPoints : {
+					distance : this.config.gridPoints.distance
+				},
+				offset : {
+					x : this.config.offset.x,
+					y : this.config.offset.y
+				},
+				scale : this.config.scale
+			};
+			return canvasConfig;
+		};
+		
+		this.getDefaultShowConfig = function(){
+			var canvasConfig = {
+				showGrid : false,
+				closeGrid : false,
+				gridPoints : {
+					distance : 50
+				},
+				offset : {
+					x : 0,
+					y : 0
+				},
+				scale : 1
+			};
+			return canvasConfig;
+		};
+		
+		this.setShowConfig = function(canvasConfig){
+			if(canvasConfig){
+				this.config.showGrid = canvasConfig.showGrid;
+				this.config.closeGrid = canvasConfig.closeGrid;
+				this.config.gridPoints.distance = canvasConfig.gridPoints.distance;
+				this.config.offset.x = canvasConfig.offset.x;
+				this.config.offset.y = canvasConfig.offset.y;
+				this.config.scale = canvasConfig.scale;
+			}
+		};
 	
 		this.constructCanvasDiv = function(){
 			var canvasObj = this;
@@ -3859,8 +3903,13 @@ Flywet.widget.FlowChart.prototype.autoChangeSize = function(){
 /**
  * 刷新内容
  */
-Flywet.widget.FlowChart.prototype.flush = function(exdata){
-	 this.oraData = exdata;
-	 this.flowObject.init(this.flowChart,exdata);
-	 this.flowChart.redraw();
+Flywet.widget.FlowChart.prototype.flush = function(exdata,cfg){
+	if(cfg){
+		this.flowChart.setShowConfig(cfg);
+		// TODO 刷新工具条
+	}
+	
+	this.oraData = exdata;
+	this.flowObject.init(this.flowChart,exdata);
+	this.flowChart.redraw();
 };

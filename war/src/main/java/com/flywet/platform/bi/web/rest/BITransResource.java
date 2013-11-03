@@ -24,10 +24,12 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
+import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.DatabaseImpact;
 import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
+import org.pentaho.di.trans.step.BaseStepMeta;
 import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,7 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
+import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
@@ -660,14 +663,11 @@ public class BITransResource {
 		return ActionMessage.instance().success().toJSONString();
 	}
 
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String openTransEditor(@PathParam("id") String id)
-			throws BIException {
+	private FlowChartMeta getFlowChartMeta(String id) throws BIKettleException {
 		PluginRegistry registry = PluginRegistry.getInstance();
 		Long idL = Long.parseLong(id);
 		TransMeta transMeta = transDelegates.loadTransformation(idL);
+
 		FlowChartMeta meta = new FlowChartMeta();
 		meta.init();
 		FlowElementSet els = meta.getFlowChartData().getElementSet();
@@ -712,9 +712,18 @@ public class BITransResource {
 			els.addHop(h);
 		}
 
-		return meta.getFormJo().toJSONString();
+		return meta;
 	}
 
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String openTransEditor(@PathParam("id") String id)
+			throws BIException {
+		return getFlowChartMeta(id).getFormJo().toJSONString();
+	}
+
+	@SuppressWarnings("unchecked")
 	@POST
 	@Path("/step/{transId}/{stepMetaName}/save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -733,14 +742,34 @@ public class BITransResource {
 			transName = transMeta.getName();
 
 			StepMeta stepMeta = transMeta.findStep(stepMetaName);
-			stepMeta.setLocation(Integer.valueOf(dx), Integer.valueOf(dy));
 
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
+			String newStepMetaName = XMLHandler.getPageValue(paramContext
+					.getParameterHolder(), BaseStepMeta.FORM_PREFIX + "name");
+
+			// 如果新名称为空，提示报错
+			if (Const.isTrimEmpty(newStepMetaName)) {
+				return am.addErrorMessage("请填写转换步骤的名称！").toJSONString();
+			}
+
+			// 如果名称发生变化，刷新页面
+			newStepMetaName = Const.trim(newStepMetaName);
+			if (!newStepMetaName.equals(stepMetaName)) {
+				stepMeta.setName(newStepMetaName);
+				JSONObject jo = new JSONObject();
+				jo.put("reflush", true);
+				jo.put("data", getFlowChartMeta(transId).getFormJo());
+				am.setData(jo.toJSONString());
+			}
+
+			stepMeta.setLocation(Integer.valueOf(dx), Integer.valueOf(dy));
+
 			// 设置具体的stepMeta
 			stepMeta.getStepMetaInterface().loadPage(
 					paramContext.getParameterHolder());
+
 			return am.addMessage(
 					"保存转换【" + transName + "】步骤【" + stepMetaName + "】设置成功！")
 					.toJSONString();

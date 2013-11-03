@@ -71,40 +71,44 @@ Flywet.widget.Dialog = function(cfg) {
 Flywet.extend(Flywet.widget.Dialog, Flywet.widget.BaseWidget);
 
 Flywet.widget.Dialog.prototype.ajax = function() {
+	var _self = this;
+	var params;
+	if(this.cfg.params){
+		params = this.cfg.params;
+	}else{
+		params = {};
+	}
+	params.targetId = this.content.attr("id");
+	
 	if(this.cfg.url){
-		var _self = this;
-		var params;
-		if(this.cfg.params){
-			params = this.cfg.params;
-		}else{
-			params = {};
-		}
-		params.targetId = this.content.attr("id");
 		Flywet.ab({
 			type : "get",
 			url : this.cfg.url,
 			params : params,
-			beforeSend : function(){
+			beforeSend : function(data){
 				_self.content.append("<div class='ui-dialog-content-loader-text'>正在加载...</div><div class='ui-dialog-content-loader'></div>");
-			}
+				if(_self.cfg.beforeSend) {
+					_self.cfg.beforeSend.call(this, data);
+				}
+			},
+			onsuccess : this.cfg.onsuccess,
+			onerror : this.cfg.onerror
 		});
 	}
 	else if(this.cfg.formId){
-		var _self = this;
-		var params;
-		if(this.cfg.params){
-			params = this.cfg.params;
-		}else{
-			params = {targetId : this.content.attr("id")};
-		}
 		Flywet.ab({
 			type : "post",
 			formId : this.cfg.formId,
 			formAction : this.cfg.formAction,
 			params : params,
-			beforeSend : function(){
+			beforeSend : function(data){
 				_self.content.append("<div class='ui-dialog-content-loader-text'>正在加载...</div><div class='ui-dialog-content-loader'></div>");
-			}
+				if(_self.cfg.beforeSend) {
+					_self.cfg.beforeSend.call(this, data);
+				}
+			},
+			onsuccess : this.cfg.onsuccess,
+			onerror : this.cfg.onerror
 		});
 	}
 };
@@ -236,11 +240,14 @@ Flywet.widget.Dialog.prototype.checkBtns = function(btns){
 						eval(params.click.func);
 					}
 				}else{
-					var ajaxOpts = $.extend({},{
+					var ajaxOpts = $.extend({},params.click,{
 						onsuccess:function(data, status, xhr) {
+							if(params.click.onsuccess) {
+								params.click.onsuccess.call(this, data, status, xhr);
+							}
 							_self.hide();
 						}
-					},params.click);
+					});
 					
 					if(!ajaxOpts.params){
 						ajaxOpts.params = {};

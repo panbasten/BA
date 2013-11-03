@@ -20,6 +20,11 @@ Flywet.editors = {
 	},
 	discardTab : function(clicked) {
 		eval("Flywet.editors."+clicked.data("tabId")+".action.discardTab(clicked);");
+	},
+	flushTab : function($taba,params) {
+		if($taba && $taba.data("tabId")){
+			eval("Flywet.editors."+$taba.data("tabId")+".flushStatus($taba,params);");
+		}
 	}
 };
 

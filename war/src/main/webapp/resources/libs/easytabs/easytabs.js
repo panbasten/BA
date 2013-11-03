@@ -48,6 +48,7 @@
           onAfterSelect: "",
           onSave: "",
           onDiscard: "",
+          onFlush: "",
           cache: true,
           closable: false,
           closePanel: true,
@@ -268,6 +269,13 @@
     	}
     };
     
+    // 如果tabSelector为空说明是当前激活的tab
+    plugin.flushTab = function($tab,params){
+    	if(settings.onFlush){
+		  	eval(settings.onFlush+"($tab,params);");
+	  	}
+    };
+    
     plugin.getActiveTab = function(){
     	var $tab;
     	for(var i=0;i<plugin.tabs.length;i++){
@@ -467,6 +475,11 @@
     plugin.publicMethods = {
       select: function(tabSelector){
     	  plugin.selectTab(plugin.getTab(tabSelector));
+      },
+      
+      flush: function(data){
+    	 var tabSelector=data.tabSelector,params=data.params;
+    	  plugin.flushTab(plugin.getTab(tabSelector),params);
       },
       
       isActive: function(tabSelector){
@@ -941,6 +954,10 @@ Flywet.widget.EasyTabs.prototype.isActive = function(tabSelector){
  */
 Flywet.widget.EasyTabs.prototype.setTabModify = function(tabSelector,modify){
 	this.jq.easytabs("setTabModify",{tabSelector:tabSelector,modify:modify});
+};
+
+Flywet.widget.EasyTabs.prototype.flush = function(tabSelector,params){
+	this.jq.easytabs("flush",{tabSelector:tabSelector,params:params});
 };
 
 /**

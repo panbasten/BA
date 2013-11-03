@@ -1550,8 +1550,7 @@ Flywet.editors.dashboard.action = {
 	},
 	// 表示修改
 	modify : function(){
-    	
-		diEditorPageTabs.setTabModify(null, true);
+		baEditorPageTabs.setTabModify(null, true);
     },
     // @Override 必要方法：用于在Tab发生修改时，点击保存按钮调用的方法。
     saveTab : function (clicked) {

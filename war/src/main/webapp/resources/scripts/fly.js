@@ -133,13 +133,14 @@ Flywet.desktop = {
 	initComplete : function() {
 		
 		// 创建编辑器总体Tab页面
-		Flywet.cw("EasyTabs","diEditorPageTabs",{
+		Flywet.cw("EasyTabs","baEditorPageTabs",{
 			id : "editorContent",
 //			animate:false,
 			createTab: "<li><a class='ui-tab-a' href='##tabId'><div class='ui-tab-left'></div><div class='ui-tab-middle'>#modifyTag<span class='ui-tab-text'>#tabText</span>#closeButton</div><div class='ui-tab-right'></div></a></li>",
 			onBeforeSelect : "Flywet.editors.changeEditor",
 			onSave : "Flywet.editors.saveTab",
 			onDiscard : "Flywet.editors.discardTab",
+			onFlush: "Flywet.editors.flushTab",
 			modifyCloseTip : "即将关闭设计【#tabText】已经被修改。<br>选择【保存】按钮进行保存操作然后关闭选项卡，选择【放弃】按钮所进行的修改操作将丢失，请进行选择？"
 		});
 		
