@@ -5,7 +5,7 @@ Flywet.Portal = {
 		footerContent : 60,
 		loading : 48
 	},
-	PIC_TOTILE_NUM : 10,
+	PIC_TOTILE_NUM : 20,
 	PIC_NUM : 0,
 	MENU_VAR : null,
 	MAX_SCEEN : false,
