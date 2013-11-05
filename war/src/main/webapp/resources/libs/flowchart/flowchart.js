@@ -3182,6 +3182,9 @@
 				gridPoints : {
 					distance : this.config.gridPoints.distance
 				},
+				outerControl : this.config.outerControl,
+				outerControlType : this.config.outerControlType,
+				innerControlType : this.config.innerControlType,
 				offset : {
 					x : this.config.offset.x,
 					y : this.config.offset.y
@@ -3191,27 +3194,14 @@
 			return canvasConfig;
 		};
 		
-		this.getDefaultShowConfig = function(){
-			var canvasConfig = {
-				showGrid : false,
-				closeGrid : false,
-				gridPoints : {
-					distance : 50
-				},
-				offset : {
-					x : 0,
-					y : 0
-				},
-				scale : 1
-			};
-			return canvasConfig;
-		};
-		
 		this.setShowConfig = function(canvasConfig){
 			if(canvasConfig){
 				this.config.showGrid = canvasConfig.showGrid;
 				this.config.closeGrid = canvasConfig.closeGrid;
 				this.config.gridPoints.distance = canvasConfig.gridPoints.distance;
+				this.config.outerControl = canvasConfig.outerControl,
+				this.config.outerControlType = canvasConfig.outerControlType,
+				this.config.innerControlType = canvasConfig.innerControlType,
 				this.config.offset.x = canvasConfig.offset.x;
 				this.config.offset.y = canvasConfig.offset.y;
 				this.config.scale = canvasConfig.scale;

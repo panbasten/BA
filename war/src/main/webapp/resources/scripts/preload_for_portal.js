@@ -11,14 +11,14 @@ function preload_images() {
 }
 preload_images(
 	// wallpaper
-	'wallpaper1'
-	,'wallpaper2'
-	,'wallpaper3'
-	,'wallpaper4'
-	,'wallpaper5'
-	,'wallpaper6'
-	,'wallpaper7'
-	,'wallpaper8'
-	,'wallpaper9'
-	,'wallpaper10'
+//	'wallpaper1'
+//	,'wallpaper2'
+//	,'wallpaper3'
+//	,'wallpaper4'
+//	,'wallpaper5'
+//	,'wallpaper6'
+//	,'wallpaper7'
+//	,'wallpaper8'
+//	,'wallpaper9'
+//	,'wallpaper10'
 );

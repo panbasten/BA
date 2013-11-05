@@ -54,8 +54,56 @@ Flywet.editors.item = {
 };
 
 Flywet.editors.toolbarButton = {
+	getStatus : function(id){
+		if(typeof(id)=="string"){
+			var rtn = {};
+			rtn.active = this.isActive(id);
+			rtn.enabled = this.isEnabled(id);
+			rtn.show = this.isShow(id);
+			return rtn;
+		}else if(id instanceof Array){
+			var rtn = {};
+			for(var i=0;i<id.length;i++){
+				rtn[id[i]] = this.getStatus(id[i]);
+			}
+			return rtn;
+		}
+	},
+	
+	setStatus : function(id,status){
+		if(status.active != undefined){
+			if(status.active){
+				this.active(id);
+			}else{
+				this.inactive(id);
+			}
+		}
+		if(status.enabled != undefined){
+			if(status.enabled){
+				this.enabled(id);
+			}else{
+				this.disabled(id);
+			}
+		}
+		if(status.show != undefined){
+			if(status.show){
+				this.show(id);
+			}else{
+				this.hide(id);
+			}
+		}
+	},
+		
 	isActive : function(id){
-		return $(Flywet.escapeClientId(id)).hasClass("ui-state-active");
+		if(typeof(id)=="string"){
+			return $(Flywet.escapeClientId(id)).hasClass("ui-state-active");
+		}else if(id instanceof Array){
+			var rtn = {};
+			for(var i=0;i<id.length;i++){
+				rtn[id[i]] = this.isActive(id[i]);
+			}
+			return rtn;
+		}
 	},
 	
 	active : function(id){
@@ -63,7 +111,7 @@ Flywet.editors.toolbarButton = {
 			$(Flywet.escapeClientId(id)).addClass("ui-state-active");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
-				$(Flywet.escapeClientId(id[i])).addClass("ui-state-active");
+				this.active(id[i]);
 			}
 		}
 	},
@@ -73,8 +121,20 @@ Flywet.editors.toolbarButton = {
 			$(Flywet.escapeClientId(id)).removeClass("ui-state-active");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
-				$(Flywet.escapeClientId(id[i])).removeClass("ui-state-active");
+				this.inactive(id[i]);
 			}
+		}
+	},
+	
+	isEnabled : function(id){
+		if(typeof(id)=="string"){
+			return !$(Flywet.escapeClientId(id)).hasClass("ui-state-disabled");
+		}else if(id instanceof Array){
+			var rtn = {};
+			for(var i=0;i<id.length;i++){
+				rtn[id[i]] = this.isEnabled(id[i]);
+			}
+			return rtn;
 		}
 	},
 	
@@ -83,7 +143,7 @@ Flywet.editors.toolbarButton = {
 			$(Flywet.escapeClientId(id)).removeClass("ui-state-disabled").removeAttr("disabled");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
-				$(Flywet.escapeClientId(id[i])).removeClass("ui-state-disabled").removeAttr("disabled");
+				this.enabled(id[i]);
 			}
 		}
 	},
@@ -93,8 +153,20 @@ Flywet.editors.toolbarButton = {
 			$(Flywet.escapeClientId(id)).addClass("ui-state-disabled").attr("disabled","disabled");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
-				$(Flywet.escapeClientId(id[i])).addClass("ui-state-disabled").attr("disabled","disabled");
+				this.disabled(id[i]);
 			}
+		}
+	},
+	
+	isShow : function(id){
+		if(typeof(id)=="string"){
+			return $(Flywet.escapeClientId(id)).is(":visible");
+		}else if(id instanceof Array){
+			var rtn = {};
+			for(var i=0;i<id.length;i++){
+				rtn[id[i]] = this.isShow(id[i]);
+			}
+			return rtn;
 		}
 	},
 	
@@ -103,7 +175,7 @@ Flywet.editors.toolbarButton = {
 			$(Flywet.escapeClientId(id)).show();
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
-				$(Flywet.escapeClientId(id[i])).show();
+				this.show(id[i]);
 			}
 		}
 	},
@@ -113,7 +185,7 @@ Flywet.editors.toolbarButton = {
 			$(Flywet.escapeClientId(id)).hide();
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
-				$(Flywet.escapeClientId(id[i])).hide();
+				this.hide(id[i]);
 			}
 		}
 	},

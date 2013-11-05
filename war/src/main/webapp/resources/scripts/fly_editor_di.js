@@ -262,6 +262,21 @@ Flywet.editors.trans = {
 			}
 		}
 	},
+	defaultShowConfig : {
+		showGrid : false,
+		closeGrid : false,
+		gridPoints : {
+			distance : 50
+		},
+		outerControl : true,
+		outerControlType : "",
+		innerControlType : "",
+		offset : {
+			x : 0,
+			y : 0
+		},
+		scale : 1
+	},
 	resize : function(){
 		// TODO 
 		
@@ -275,6 +290,8 @@ Flywet.editors.trans = {
 				$tabo.data("exdata").data = Flywet.parseJSON(flow.getElsValue());
 			}
 			$tabo.data("exdata").canvasConfig = canvasObj.getShowConfig();
+			$tabo.data("exdata").btnsConfig = Flywet.editors.trans.action.getButtonsStatus();
+			console.log($tabo.data("exdata").btnsConfig);
 		}
 	},
 	reloadStatus : function ($taba) {
@@ -282,7 +299,8 @@ Flywet.editors.trans = {
 		var canvasData = Flywet.deepClone(Flywet.editors.trans.defaultOptions.canvasData);
 		
 		var tabData = $taba.data("exdata").data,
-			canvasConfig = $taba.data("exdata").canvasConfig;
+			canvasConfig = $taba.data("exdata").canvasConfig,
+			btnsConfig = $taba.data("exdata").btnsConfig;
 		
 		if(tabData.canvasEls) $.extend(canvasData.canvasEls,tabData.canvasEls);
 		if(tabData.defaultAttributes){
@@ -305,11 +323,20 @@ Flywet.editors.trans = {
 				outerControl:true,
 				data: canvasData
 			});
+			
+			Flywet.editors.trans.action.initButtonsStatus();
 		}else{
 			if(!canvasConfig){
-				canvasConfig = transEditorPanel_var.flowChart.getDefaultShowConfig();
+				canvasConfig = Flywet.deepClone(this.defaultShowConfig);
 			}
 			transEditorPanel_var.flush(canvasData,canvasConfig);
+			
+			console.log(btnsConfig);
+			if(!btnsConfig){
+				btnsConfig = Flywet.deepClone(Flywet.editors.trans.action.defalutBtnStatus);
+			}
+			console.log(btnsConfig);
+			Flywet.editors.trans.action.setButtonsStatus(btnsConfig);
 		}
 	},
 	flushStatus : function($taba,params){
@@ -555,11 +582,58 @@ Flywet.editors.trans.action = {
 	tb : Flywet.editors.toolbarButton,
 	editorPrefix : "trans",
 	ids : {
-		operations : ["run","runstep","runreturn","pause","stop","validate","analize","runstep"],
+		operations : ["run","runreturn","pause","stop","validate","analize"],
 		editors : ["edit","magnify","lessen","partMagnify","zoom_100","zoom_fit","screenMove"],
 		grids : ["grid_show","grid_close"],
 		systems : ["cut","copy","paste","delete"],
 		saves : ["save","saveas","save_xml","save_image"]
+	},
+	defalutBtnStatus : {
+		run 		: {active:false,enabled:true,show:true}
+		,runreturn 	: {active:false,enabled:true,show:true}
+		,pause 		: {active:false,enabled:false,show:true}
+		,stop 		: {active:false,enabled:false,show:true}
+		,validate 	: {active:false,enabled:true,show:true}
+		,analize 	: {active:false,enabled:true,show:true}
+		
+		,edit	 	: {active:false,enabled:true,show:true}
+		,magnify 	: {active:false,enabled:true,show:true}
+		,lessen 	: {active:false,enabled:true,show:true}
+		,partMagnify: {active:false,enabled:true,show:true}
+		,zoom_100 	: {active:false,enabled:true,show:true}
+		,zoom_fit 	: {active:false,enabled:true,show:true}
+		,screenMove : {active:false,enabled:true,show:true}
+		
+		,grid_show 	: {active:false,enabled:true,show:true}
+		,grid_close : {active:false,enabled:false,show:true}
+		
+		,cut 		: {active:false,enabled:false,show:true}
+		,copy 		: {active:false,enabled:false,show:true}
+		,paste 		: {active:false,enabled:false,show:true}
+		,"delete" 	: {active:false,enabled:false,show:true}
+		
+		,save 		: {active:false,enabled:true,show:true}
+		,saveas 	: {active:false,enabled:true,show:true}
+		,save_xml 	: {active:false,enabled:true,show:true}
+		,save_image : {active:false,enabled:true,show:true}
+	},
+	getButtonsStatus : function(){
+		var btns = [], conf = {};
+		btns = btns.concat(this.ids.operations,this.ids.editors,this.ids.grids,this.ids.systems,this.ids.saves);
+		for(var i=0;i<btns.length;i++){
+			conf[btns[i]] = this.tb.getStatus(this.getId(btns[i]));
+		}
+		return conf;
+	},
+	setButtonsStatus : function(conf){
+		if(conf){
+			for(var key in conf){
+				this.tb.setStatus(this.getId(key),conf[key]);
+			}
+		}
+	},
+	initButtonsStatus : function(){
+		this.setButtonsStatus(this.defalutBtnStatus);
 	},
 	getId : function(id){
 		if(typeof(id)=="string"){

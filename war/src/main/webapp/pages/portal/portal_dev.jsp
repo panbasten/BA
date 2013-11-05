@@ -300,7 +300,7 @@
 								</div>
 								
 								<div class="ui-toeditor-div"> 
-									<input id="toeditor" name="toeditor" type="checkbox" style="float:left;" />
+									<input id="toeditor" name="toeditor" type="checkbox" checked="checked" style="float:left;" />
 									<label for="toeditor">管理控制台</label>
 								</div>
 								<div class="buttonBox">

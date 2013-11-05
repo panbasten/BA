@@ -19,8 +19,8 @@
 		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
 			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" onclick="Flywet.editors.trans.action.run();" title="运行" />
 			<fly:pushbutton id="trans_runreturn" iconCls="ui-icon-editor-return" onclick="" title="重复运行" />
-			<fly:pushbutton id="trans_pause" iconCls="ui-icon-editor-pause" onclick="" title="暂停" state="disabled" />
-			<fly:pushbutton id="trans_stop" iconCls="ui-icon-editor-stop" onclick="" title="停止" state="disabled" />
+			<fly:pushbutton id="trans_pause" iconCls="ui-icon-editor-pause" onclick="" title="暂停" />
+			<fly:pushbutton id="trans_stop" iconCls="ui-icon-editor-stop" onclick="" title="停止" />
 			<fly:pushbutton id="trans_validate" iconCls="ui-icon-editor-validate" onclick="Flywet.editors.trans.action.check();" title="验证" />
 			<fly:pushbutton id="trans_analize" iconCls="ui-icon-editor-analize" onclick="Flywet.editors.trans.action.analyse();" title="分析对数据库影响" />
 			<fly:pushbutton id="trans_show" iconCls="ui-icon-editor-show" onclick="Flywet.editors.trans.action.showLog();" title="显示结果" />
@@ -34,12 +34,12 @@
 			<fly:pushbutton id="trans_screenMove" iconCls="ui-icon-editor-move" onclick="Flywet.editors.trans.action.changeOuterControlType('screenMove');" title="屏幕移动" />
 			<fly:pushbutton type="separator" />
 			<fly:pushbutton id="trans_grid_show" iconCls="ui-icon-grid-show" onclick="Flywet.editors.trans.action.showGrid();" title="显示网格" />
-			<fly:pushbutton id="trans_grid_close" iconCls="ui-icon-grid-close" onclick="Flywet.editors.trans.action.closeGrid();" title="贴近网格" state="disabled" />
+			<fly:pushbutton id="trans_grid_close" iconCls="ui-icon-grid-close" onclick="Flywet.editors.trans.action.closeGrid();" title="贴近网格" />
 			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="trans_cut" iconCls="ui-icon-system-cut" onclick="" title="剪切" state="disabled" />
-			<fly:pushbutton id="trans_copy" iconCls="ui-icon-system-copy" onclick="" title="复制" state="disabled" />
-			<fly:pushbutton id="trans_paste" iconCls="ui-icon-system-paste" onclick="" title="粘贴" state="disabled" />
-			<fly:pushbutton id="trans_delete" iconCls="ui-icon-system-delete" onclick="Flywet.editors.trans.action.deleteSelectedElFromOutset();" title="删除" state="disabled" />
+			<fly:pushbutton id="trans_cut" iconCls="ui-icon-system-cut" onclick="" title="剪切" />
+			<fly:pushbutton id="trans_copy" iconCls="ui-icon-system-copy" onclick="" title="复制" />
+			<fly:pushbutton id="trans_paste" iconCls="ui-icon-system-paste" onclick="" title="粘贴" />
+			<fly:pushbutton id="trans_delete" iconCls="ui-icon-system-delete" onclick="Flywet.editors.trans.action.deleteSelectedElFromOutset();" title="删除" />
 			<fly:pushbutton type="separator" />
 			<fly:pushbutton id="trans_save" iconCls="ui-icon-save" onclick="Flywet.editors.trans.action.save();" title="保存" />
 			<fly:pushbutton id="trans_saveas" iconCls="ui-icon-saveas" onclick="Flywet.editors.trans.action.saveas();" title="另存为..." />
