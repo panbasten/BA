@@ -585,7 +585,7 @@ CREATE TABLE `c_month_predict_eva` (
 
 LOCK TABLES `c_month_predict_eva` WRITE;
 /*!40000 ALTER TABLE `c_month_predict_eva` DISABLE KEYS */;
-INSERT INTO `c_month_predict_eva` VALUES (1,2013,7,55,85,77,78,65,73),(2,2013,8,65,55,63,78,45,77),(3,2013,9,87,92,85,96,100,100);
+INSERT INTO `c_month_predict_eva` VALUES (1,2013,7,55,85,77,78,65,73),(2,2013,8,65,55,63,78,45,77),(3,2013,9,87,92,85,96,100,100),(4,2013,10,96,100,100,100,100,100);
 /*!40000 ALTER TABLE `c_month_predict_eva` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -617,7 +617,7 @@ CREATE TABLE `c_month_predict_eva_d` (
 
 LOCK TABLES `c_month_predict_eva_d` WRITE;
 /*!40000 ALTER TABLE `c_month_predict_eva_d` DISABLE KEYS */;
-INSERT INTO `c_month_predict_eva_d` VALUES (2013,9,'xt',0,0,0,0,0,0,0,0),(2013,9,'sjz',0,0,0,0,0,0,0,0),(2013,9,'bd',0,0,0,0,-1,0,0,0),(2013,9,'hs',0,0,0,-1,0,0,0,0),(2013,9,'cz',0,0,1,0,0,0,0,0),(2013,9,'lf',0,0,-1,0,0,0,0,0),(2013,9,'ts',-1,0,0,1,0,0,0,0),(2013,9,'qhd',0,0,0,0,0,0,0,0),(2013,9,'cd',0,0,0,0,0,0,0,0),(2013,9,'zjk',0,0,0,0,0,0,0,0),(2013,9,'hd',0,0,0,0,0,0,0,0);
+INSERT INTO `c_month_predict_eva_d` VALUES (2013,9,'xt',0,0,0,0,0,0,0,0),(2013,9,'sjz',0,0,0,0,0,0,0,0),(2013,9,'bd',0,0,0,0,-1,0,0,0),(2013,9,'hs',0,0,0,-1,0,0,0,0),(2013,9,'cz',0,0,1,0,0,0,0,0),(2013,9,'lf',0,0,-1,0,0,0,0,0),(2013,9,'ts',-1,0,0,1,0,0,0,0),(2013,9,'qhd',0,0,0,0,0,0,0,0),(2013,9,'cd',0,0,0,0,0,0,0,0),(2013,9,'zjk',0,0,0,0,0,0,0,0),(2013,9,'hd',0,0,0,0,0,0,0,0),(2013,10,'zjk',0,0,0,0,0,0,0,0),(2013,10,'cd',0,0,0,0,0,0,0,0),(2013,10,'qhd',0,0,0,0,0,0,0,0),(2013,10,'ts',1,0,0,0,0,0,0,0),(2013,10,'lf',0,0,0,0,0,0,0,0),(2013,10,'cz',0,0,0,0,0,0,0,0),(2013,10,'hs',0,0,0,0,0,0,0,0),(2013,10,'bd',0,0,0,0,0,0,0,0),(2013,10,'sjz',0,0,0,0,0,0,0,0),(2013,10,'xt',0,0,0,0,0,0,0,0),(2013,10,'hd',0,0,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `c_month_predict_eva_d` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1911,4 +1911,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-30  6:49:21
+-- Dump completed on 2013-11-04 21:38:39
