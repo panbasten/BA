@@ -86,6 +86,8 @@ a {
     background: #222222 linear-gradient(top, rgba(255,255,255,0.4), rgba(255,255,255,0));
     background: #222222 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.4)), to(rgba(255,255,255,0)));
     background: #222222 -moz-linear-gradient(top, rgba(255,255,255,0.4), rgba(255,255,255,0));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#44FFFFFF, endColorstr=#00FFFFFF);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#44FFFFFF, endColorstr=#00FFFFFF)";
 }
 
 .ui-state-default
@@ -131,11 +133,11 @@ a {
     background: #0972a5 linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,0.4));
     background: #0972a5 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0)), to(rgba(255,255,255,0.4)));
     background: #0972a5 -moz-linear-gradient(top, #314ffe, #7086ff); 
-    /*    
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#CCFFFFFF);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#CCFFFFFF)"; 
-    */
     color: #1C4257;
+    /*
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#66FFFFFF);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#66FFFFFF)"; 
+    */
 }
 
 .ui-dialog-buttonpane .ui-state-active 
@@ -240,6 +242,11 @@ fieldset.ui-state-disabled legend,
 .ui-datagrid .ui-icon
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
+}
+
+.ui-icon-no-hover
+{
+	background-image: url("images/ui-icons_ffffff_256x384.png") !important;
 }
 
 .ui-widget-header .ui-icon:hover {

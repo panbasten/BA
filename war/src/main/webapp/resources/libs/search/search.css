@@ -13,7 +13,10 @@
 .ui-search-input-normal{
 	width: 155px;
 	height: 30px;
-	background:transparent;
+	max-height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	background: transparent;
 	position: relative;	
 	font-size: 12px;
 	font-family: Arial;
