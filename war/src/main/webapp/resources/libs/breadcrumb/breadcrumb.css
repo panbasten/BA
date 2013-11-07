@@ -28,7 +28,7 @@
     overflow: hidden;
     float: left; 
     *cursor: pointer;
-    margin-top:3px;
+    margin:1px 0 2px;
 }
 
 .ui-breadcrumb ul li a.ui-icon-home {

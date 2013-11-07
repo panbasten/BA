@@ -399,6 +399,7 @@ Flywet.Portal = {
 		
 		// 将背景置底
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
+		
 	},
 	
 	initPage: function(){
