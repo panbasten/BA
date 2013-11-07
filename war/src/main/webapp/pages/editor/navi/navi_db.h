@@ -1,6 +1,6 @@
 <div id="editorContent-navi-${entity.code}" class="fly-editor-tab">
 	<div id="editorContent-navi-db-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
-		<div class="ui-toolbar-group-left" style="width: 20%;">
+		<div class="ui-toolbar-group-left" style="width: 20%; margin: 1px 0 2px;">
 			数据源
 		</div>
 		<div class="ui-toolbar-group-right">

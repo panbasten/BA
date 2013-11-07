@@ -384,7 +384,7 @@ public class HTML {
 
 	public final static String SEPARATOR_DEFAULT_CLASS = "ui-separator ui-state-default ui-corner-all";
 	public final static String SEPARATOR_CLASS = "ui-separator";
-	public final static String SEPARATOR_ICON_CLASS = "ui-icon ui-icon-grip-dotted-vertical-narrow";
+	public final static String SEPARATOR_ICON_CLASS = "ui-icon ui-icon-no-hover ui-icon-grip-dotted-vertical-narrow";
 
 	public static final String REQUIRED_CLASS = "ui-required-tag";
 

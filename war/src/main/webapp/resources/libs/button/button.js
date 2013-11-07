@@ -4,7 +4,7 @@
 		var separator = $("<span></span>").insertAfter(target);
 		$(target).addClass("ui-button-original").hide().appendTo(separator);
 		separator.addClass("ui-separator")
-			.append($("<span class='ui-icon ui-icon-grip-dotted-vertical-narrow'></span>"));
+			.append($("<span class='ui-icon ui-icon-no-hover ui-icon-grip-dotted-vertical-narrow'></span>"));
 	
 		return separator;
 	}
