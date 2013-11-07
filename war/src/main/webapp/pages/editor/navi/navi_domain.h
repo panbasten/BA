@@ -6,8 +6,10 @@
 		</div>
 		<div class="ui-toolbar-group-right">
             <fly:pushbutton iconCls="ui-icon-folder-open" 
-            	label="新增" title="新增"
-            	onclick="Flywet.domain.create()" />
+            	label="新增" title="新增">
+				<fly:menuItem text="新增语义模型" iconCls="ui-icon-folder-open" onclick="Flywet.domain.create('smart')"></fly:menuItem>
+				<fly:menuItem text="新增多维模型" iconCls="ui-icon-folder-open" onclick="Flywet.domain.create('cube')"></fly:menuItem>
+			</fly:pushbutton>
             <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="编辑" title="编辑"
             	onclick="Flywet.domain.edit()" />

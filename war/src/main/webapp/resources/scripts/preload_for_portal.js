@@ -10,7 +10,7 @@ function preload_images() {
         img.setAttribute('id', "id_"+preloaded.length);
         img.setAttribute('src', "resources/images/"+arguments[i]);
         preloaded.push(img);
-        preloadedKeys(arguments[i]);
+        preloadedKeys.push(arguments[i]);
     }
 }
 function preload_images_with_check(){
@@ -22,7 +22,7 @@ function preload_images_with_check(){
         img.setAttribute('id', "id_"+preloaded.length);
         img.setAttribute('src', "resources/images/"+arguments[i]);
         preloaded.push(img);
-        preloadedKeys(arguments[i]);
+        preloadedKeys.push(arguments[i]);
     }
 }
 function preload_images_match(path){
