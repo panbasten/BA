@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.utils;
+package com.flywet.platform.bi.di.utils;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.exception.KettleException;

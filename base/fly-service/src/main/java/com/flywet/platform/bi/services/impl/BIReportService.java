@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.service.impl;
+package com.flywet.platform.bi.services.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;

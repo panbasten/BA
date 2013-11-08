@@ -1,9 +1,10 @@
-package com.flywet.platform.bi.web.service.impl;
+package com.flywet.platform.bi.services.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.cache.PortalCache;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.intf.BIPortalMenuAdaptor;
@@ -11,7 +12,6 @@ import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.services.intf.BIPortalDelegates;
-import com.flywet.platform.bi.web.cache.PortalCache;
 
 @Service("bi.service.portalServices")
 public class BIPortalServices implements BIPortalDelegates {

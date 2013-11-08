@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.service.impl;
+package com.flywet.platform.bi.services.impl;
 
 import java.util.List;
 

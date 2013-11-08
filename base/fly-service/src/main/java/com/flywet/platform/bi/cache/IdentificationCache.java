@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.cache;
+package com.flywet.platform.bi.cache;
 
 import java.lang.ref.SoftReference;
 import java.util.Map;

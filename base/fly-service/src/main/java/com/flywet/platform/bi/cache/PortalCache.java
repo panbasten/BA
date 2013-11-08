@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.cache;
+package com.flywet.platform.bi.cache;
 
 import java.util.List;
 import java.util.Map;

@@ -1,9 +1,10 @@
-package com.flywet.platform.bi.services.intf;
+package com.flywet.platform.bi.di.service.intf;
 
 import org.pentaho.di.repository.IUser;
 import org.pentaho.di.trans.TransMeta;
 
 import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.services.intf.BIRepositoryDelegates;
 
 public interface BITransDelegates extends BIRepositoryDelegates {
 	/**

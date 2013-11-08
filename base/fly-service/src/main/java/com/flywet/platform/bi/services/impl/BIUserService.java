@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.service.impl;
+package com.flywet.platform.bi.services.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.repository.IUser;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.cache.IdentificationCache;
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
@@ -21,7 +22,6 @@ import com.flywet.platform.bi.delegates.vo.Role;
 import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.services.intf.BIRoleDelegate;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
-import com.flywet.platform.bi.web.cache.IdentificationCache;
 
 @Service("bi.service.userService")
 public class BIUserService implements BIUserDelegate {

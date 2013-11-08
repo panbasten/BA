@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.service.impl;
+package com.flywet.platform.bi.di.service.impl;
 
 import java.util.Date;
 
@@ -11,12 +11,13 @@ import org.pentaho.di.repository.RepositoryDirectoryInterface;
 import org.pentaho.di.trans.TransMeta;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.cache.TransOrJobMetaCache;
 import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.pools.RepPool;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.services.intf.BITransDelegates;
-import com.flywet.platform.bi.web.cache.TransOrJobMetaCache;
-import com.flywet.platform.bi.web.utils.DIUtils;
+import com.flywet.platform.bi.di.service.intf.BITransDelegates;
+import com.flywet.platform.bi.di.utils.DIUtils;
+import com.flywet.platform.bi.services.impl.AbstractRepositoryServices;
 
 @Service("bi.service.transServices")
 public class BITransServices extends AbstractRepositoryServices implements

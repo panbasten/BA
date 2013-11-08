@@ -54,7 +54,7 @@ import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.delegates.vo.User;
-import com.flywet.platform.bi.services.intf.BITransDelegates;
+import com.flywet.platform.bi.di.service.intf.BITransDelegates;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
 import com.flywet.platform.bi.web.model.CheckResultObject;
 import com.flywet.platform.bi.web.model.NamedParameterObject;
