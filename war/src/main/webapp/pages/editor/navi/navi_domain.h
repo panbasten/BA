@@ -9,6 +9,7 @@
             	label="新增" title="新增">
 				<fly:menuItem text="新增语义模型" iconCls="ui-icon-folder-open" onclick="Flywet.domain.create('smart')"></fly:menuItem>
 				<fly:menuItem text="新增多维模型" iconCls="ui-icon-folder-open" onclick="Flywet.domain.create('cube')"></fly:menuItem>
+				<fly:menuItem text="新增目录" iconCls="ui-icon-folder-open" onclick="Flywet.domain.createDir()"></fly:menuItem>
 			</fly:pushbutton>
             <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="编辑" title="编辑"
@@ -16,9 +17,6 @@
             <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="删除" title="删除"
             	onclick="Flywet.domain.remove()" />
-            <fly:pushbutton iconCls="ui-icon-folder-open"
-            	label="创建目录" title="创建目录"
-            	onclick="Flywet.domain.createDir()" />
 			<fly:pushbutton iconCls="ui-icon-folder-open"
             	label="上传" title="上传"
             	onclick="Flywet.domain.uploadFile()" />

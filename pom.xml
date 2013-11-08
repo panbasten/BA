@@ -11,10 +11,15 @@
 	<modules>
 		<module>kettle</module>
 		<module>mondrian</module>
+		<!-- 核心模块 -->
 		<module>ba</module>
+		
+		<!-- 基础模块 -->
+		<module>base</module>
 		<module>di</module>
 		<module>report</module>
-		<module>war-service</module>
+		
+		<!-- 自定义模块 -->
 		<module>customization</module>
 		<module>war</module>
 		<module>lic</module>

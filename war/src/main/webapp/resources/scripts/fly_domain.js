@@ -19,9 +19,7 @@ Flywet.domain = {
 			modal : true,
 			url : "rest/domain/dir/create/"+dirId,
 			params : {
-				targetId : targetId+":content",
-				rootId : currentCase.rootId,
-				path : currentCase.path
+				targetId : targetId+":content"
 			},
 			footerButtons : [{
 				componentType : "fly:PushButton",
@@ -29,7 +27,7 @@ Flywet.domain = {
 				label : "确定",
 				title : "确定",
 				click: {
-					formId:"domain_folder_create_form",
+					formId:"folder_create_form",
 					formAction:"rest/domain/dir/createsubmit",
 					onsuccess:function(data, status, xhr) {
 						if (data.state == 0) {

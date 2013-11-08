@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.flywet.platform</groupId>
-	<artifactId>war-service</artifactId>
+	<artifactId>base</artifactId>
 	<packaging>pom</packaging>
 	<name>BA War的服务包源代码</name>
 	<version>8.0.0</version>
@@ -32,33 +32,6 @@
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-component</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.flywet.platform.report</groupId>
-			<artifactId>fly-report-base</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.flywet.platform.report</groupId>
-			<artifactId>fly-report</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.flywet.platform.report</groupId>
-			<artifactId>fly-dashboard</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.flywet.platform.report</groupId>
-			<artifactId>fly-report-steps</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.flywet.platform.di</groupId>
-			<artifactId>fly-di-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
