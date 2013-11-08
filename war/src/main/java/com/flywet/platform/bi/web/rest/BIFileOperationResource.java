@@ -37,8 +37,8 @@ import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
-import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 /**
  * 文件系统操作资源

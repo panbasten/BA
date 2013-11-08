@@ -27,8 +27,6 @@ public class BIBaseResource {
 	public static final String ID_EDITOR_CONTENT_PANELS = "editorContentPanels";
 
 	public static final String ID_EDITOR_NAVIS = "navis";
-	public static final String ID_EDITOR_TRANS = "trans";
-	public static final String ID_EDITOR_JOBS = "jobs";
 
 	@Resource(name = "bi.service.pageServices")
 	private BIPageDelegates pageDelegates;

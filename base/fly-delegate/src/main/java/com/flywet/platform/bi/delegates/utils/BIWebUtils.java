@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.utils;
+package com.flywet.platform.bi.delegates.utils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.rest;
+package com.flywet.platform.bi.di.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,10 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
+import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.di.function.DIFunctions;
+import com.flywet.platform.bi.rest.AbastractDirectoryResource;
 import com.flywet.platform.bi.services.intf.BIPageDelegates;
-import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.diResource")
 @Path("/di")
@@ -39,7 +40,11 @@ public class BIDIResource extends AbastractDirectoryResource {
 
 	private static Class<?> PKG = BIDIResource.class;
 
+	public static final String ID_EDITOR_TRANS = "trans";
+	public static final String ID_EDITOR_JOBS = "jobs";
+
 	public static final String TRANS_TEMPLATE = "editor/editor_trans.h";
+	public static final String ID_EDITOR_CONTENT_PANELS = "editorContentPanels";
 
 	private static final BIDirectoryCategory DIR_CATEGORY = BIDirectoryCategory.DI;
 
@@ -149,7 +154,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 			}
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
-			attrsMap.addVariable("editorId", BIBaseResource.ID_EDITOR_TRANS);
+			attrsMap.addVariable("editorId", ID_EDITOR_TRANS);
 			attrsMap.addVariable("transStepBar", transStepBar);
 			attrsMap.addVariable("transStepBrowses", transStepBrowses);
 
@@ -182,8 +187,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 			// 创建一个更新操作
 			AjaxResultEntity entity = AjaxResultEntity.instance().setOperation(
 					Utils.RESULT_OPERATION_APPEND).setTargetId(
-					BIBaseResource.ID_EDITOR_CONTENT_PANELS).setDomAndScript(
-					domString);
+					ID_EDITOR_CONTENT_PANELS).setDomAndScript(domString);
 
 			AjaxResult result = AjaxResult.instance();
 			result.addEntity(entity);

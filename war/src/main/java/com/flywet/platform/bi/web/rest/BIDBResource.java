@@ -48,8 +48,8 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.services.intf.BIDatabaseDelegates;
-import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.dbResource")
 @Path("/db")

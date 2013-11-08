@@ -51,13 +51,13 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
 import com.flywet.platform.bi.delegates.enums.PermissionCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 import com.flywet.platform.bi.services.intf.BIPortalDelegates;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
-import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.portalet")
 @Path("/portalet")

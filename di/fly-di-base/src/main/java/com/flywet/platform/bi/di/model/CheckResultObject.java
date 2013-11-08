@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.model;
+package com.flywet.platform.bi.di.model;
 
 import org.pentaho.di.core.CheckResultInterface;
 import org.pentaho.di.trans.step.StepMeta;

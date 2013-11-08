@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.rest;
+package com.flywet.platform.bi.di.rest;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,12 +53,12 @@ import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.delegates.vo.User;
+import com.flywet.platform.bi.di.model.CheckResultObject;
+import com.flywet.platform.bi.di.model.NamedParameterObject;
 import com.flywet.platform.bi.di.service.intf.BITransDelegates;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
-import com.flywet.platform.bi.web.model.CheckResultObject;
-import com.flywet.platform.bi.web.model.NamedParameterObject;
-import com.flywet.platform.bi.web.utils.BIWebUtils;
 
 @Service("bi.resource.transResource")
 @Path("/trans")
