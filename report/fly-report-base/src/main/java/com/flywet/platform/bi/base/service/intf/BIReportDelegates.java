@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.services.intf;
+package com.flywet.platform.bi.base.service.intf;
 
 import com.flywet.platform.bi.core.exception.BIException;
 

@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.web.utils.BISecurityUtils;
+import com.flywet.platform.bi.delegates.utils.BISecurityUtils;
 
 /**
  * 所有请求（除排除之外的请求），需要在cookie中有登录用户名称

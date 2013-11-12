@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.rest;
+package com.flywet.platform.bi.dashboard.rest;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.component.exceptions.BIComponentException;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
@@ -31,10 +32,9 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.dashboard.cache.TemplateCache;
 import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 import com.flywet.platform.bi.dashboard.utils.PageEditTemplateInterpolator;
-import com.flywet.platform.bi.services.intf.BIReportDelegates;
-import com.flywet.platform.bi.web.cache.TemplateCache;
 
 @Service("bi.resource.reportDashboardResource")
 @Path("/dashboard")

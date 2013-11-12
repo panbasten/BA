@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.test;
+package com.flywet.platform.bi.services.test;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.test;
+package com.flywet.platform.bi.services.test;
 
 import java.util.ArrayList;
 import java.util.List;

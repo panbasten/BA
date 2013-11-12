@@ -1,12 +1,12 @@
-package com.flywet.platform.bi.services.impl;
+package com.flywet.platform.bi.base.service.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.intf.BIReportAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
-import com.flywet.platform.bi.services.intf.BIReportDelegates;
 
 @Service("bi.service.reportService")
 public class BIReportService implements BIReportDelegates {

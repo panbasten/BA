@@ -39,11 +39,11 @@ import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.delegates.utils.BISecurityUtils;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
 import com.flywet.platform.bi.web.i18n.BIWebMessages;
-import com.flywet.platform.bi.web.utils.BISecurityUtils;
 
 @Service("bi.resource.identification")
 @Path("/identification")

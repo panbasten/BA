@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.rest;
+package com.flywet.platform.bi.base.rest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
@@ -34,8 +35,8 @@ import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.rest.AbastractDirectoryResource;
+import com.flywet.platform.bi.rest.BIBaseResource;
 import com.flywet.platform.bi.services.intf.BIPageDelegates;
-import com.flywet.platform.bi.services.intf.BIReportDelegates;
 
 @Service("bi.resource.reportResource")
 @Path("/report")

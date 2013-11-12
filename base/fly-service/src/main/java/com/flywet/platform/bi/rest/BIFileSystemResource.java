@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.rest;
+package com.flywet.platform.bi.rest;
 
 import java.io.File;
 import java.io.IOException;
