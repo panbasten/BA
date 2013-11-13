@@ -17,6 +17,7 @@ public class BIUserDelegateTest extends WebBaseTestcase {
 		BIUserDelegate userDelegate = (BIUserDelegate) ctx
 				.getBean("bi.service.userService");
 		Assert.assertNotNull(userDelegate);
+		
 		userDelegate.delUser(3);
 	}
 

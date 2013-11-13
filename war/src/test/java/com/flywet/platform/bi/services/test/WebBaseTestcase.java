@@ -16,7 +16,7 @@ public class WebBaseTestcase {
 		BIEnvironmentDelegate ed = BIEnvironmentDelegate.instance();
 		ed.init();
 
-		ContextHolder.setRepositoryName("dbrep");
+		ContextHolder.setRepositoryName("dbreptest");
 		ContextHolder.setRepositoryType("db");
 
 		ctx = new ClassPathXmlApplicationContext("applicationContext-ui.xml");

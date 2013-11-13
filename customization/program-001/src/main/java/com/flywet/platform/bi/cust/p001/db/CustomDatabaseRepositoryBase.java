@@ -1,4 +1,4 @@
-package com.flywet.cust.p001.db;
+package com.flywet.platform.bi.cust.p001.db;
 
 public class CustomDatabaseRepositoryBase {
 

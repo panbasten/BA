@@ -1,4 +1,4 @@
-package com.flywet.cust.p001.portal;
+package com.flywet.platform.bi.cust.p001.services;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +25,8 @@ import org.pentaho.di.core.Const;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.trans.TransMeta;
+import org.springframework.stereotype.Service;
 
-import com.flywet.cust.p001.db.CustomDatabaseRepositoryBase;
-import com.flywet.cust.p001.vo.ExtendPredictEvaVo;
-import com.flywet.cust.p001.vo.MonthPredictEvaVo;
-import com.flywet.cust.p001.vo.MonthPredictScoreVo;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.components.grid.GridDataObject;
@@ -50,15 +47,23 @@ import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.cust.p001.db.CustomDatabaseRepositoryBase;
+import com.flywet.platform.bi.cust.p001.delegates.ForecastDBAdaptor;
+import com.flywet.platform.bi.cust.p001.delegates.ForecastDBAdaptorImpl;
+import com.flywet.platform.bi.cust.p001.vo.ExtendPredictEvaVo;
+import com.flywet.platform.bi.cust.p001.vo.MonthPredictEvaVo;
+import com.flywet.platform.bi.cust.p001.vo.MonthPredictScoreVo;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
-import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
+import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.services.impl.AbstractRepositoryServices;
 import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 
-public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
-		ForecastAdaptor {
-	private final Logger log = Logger.getLogger(ForecastAdaptorImpl.class);
+@Service("cust.service.forecastServices")
+public class ForecastServices extends AbstractRepositoryServices implements
+		ForecastDelegates {
+	private final Logger log = Logger.getLogger(ForecastServices.class);
 
-	private static Class<?> PKG = ForecastAdaptorImpl.class;
+	private static Class<?> PKG = ForecastServices.class;
 
 	public static final String PORTAL_ONLY_PARAM = "param";
 
@@ -400,23 +405,16 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			String currentXun = (String) context.get(PORTAL_ONLY_PARAM);
 			String[] xun = currentXun.split(":");
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
-					+ " = ?";
-			Object[] params = new Object[3];
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
+
+			Long[] params = new Long[3];
 			params[0] = Long.valueOf(xun[0]);
 			params[1] = Long.valueOf(xun[1]);
 			params[2] = Long.valueOf(xun[2]);
 
-			Object[] row = getOneRow(sql, params);
+			Object[] row = prog.getExtendPredict(params[0], params[1],
+					params[2]);
 
 			String extendDesc = Const.NVL((String) row[0], "");
 			extendDesc = Const.replace(extendDesc, Const.CR, "<br/>");
@@ -454,25 +452,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
-					+ " ORDER BY "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
-					+ " DESC , "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
-					+ " DESC , "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
-					+ " DESC";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			List<Object[]> rows = getRows(sql);
+			List<Object[]> rows = prog.getAllExtendPredict();
 
 			List<String[]> menus = new ArrayList<String[]>();
 			for (Object[] r : rows) {
@@ -603,7 +586,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
 			Date now = new Date();
-			String currentText = DateUtils.formatDate(now, "yyyy年MM月"), content = "";
+			String currentText = DateUtils.formatDate(now, "yyyy年MM月");
 			long year = now.getYear() + 1900, month = now.getMonth() + 1, date = now
 					.getDate(), xun;
 
@@ -615,22 +598,11 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 				xun = 2;
 			}
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
-					+ " = ?";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Object[] row = getOneRow(sql, new Object[] { year, month, xun });
-			if (row != null) {
-				content = (String) row[0];
-			}
+			String content = Const.NVL(prog.getDescriptionFromExtendPredict(
+					year, month, xun), "");
 
 			currentText = currentText + YUN_DESC[Long.valueOf(xun).intValue()];
 
@@ -663,22 +635,11 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			long month = context.getLongParameter("month");
 			long xun = context.getLongParameter("xun");
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_MONTH)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_XUN)
-					+ " = ?";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Object[] row = getOneRow(sql, new Object[] { year, month, xun });
-			long rid;
-			if (row != null) {
-				rid = (Long) row[0];
+			Long rid = prog.getIDFromExtendPredict(year, month, xun);
+			if (rid != null) {
 				RowMetaAndData rmd = new RowMetaAndData();
 				rmd
 						.addValue(
@@ -698,14 +659,16 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 						.addValue(
 								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION,
 								ValueMetaInterface.TYPE_STRING, content);
-				updateTableRow(
-						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
-						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT,
-						rmd);
+				prog
+						.updateTableRow(
+								CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT,
+								rmd);
 			} else {
-				rid = getNextBatchId(
-						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
-						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT);
+				rid = prog
+						.getNextBatchId(
+								CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT);
 				RowMetaAndData rmd = new RowMetaAndData();
 				rmd
 						.addValue(
@@ -725,7 +688,7 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 						.addValue(
 								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION,
 								ValueMetaInterface.TYPE_STRING, content);
-				insertTableRow(
+				prog.insertTableRow(
 						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
 						rmd);
 			}
@@ -1056,37 +1019,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S1)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S2)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S3)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S4)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S5)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S6)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S7)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S8)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S9)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA)
-					+ " ORDER BY "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
-					+ " DESC , "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
-					+ " DESC";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			List<Object[]> rows = getRows(sql);
+			List<Object[]> rows = prog.getAllExtendPredictEva();
 
 			GridDataObject grid = GridDataObject.instance();
 			if (rows != null) {
@@ -1148,33 +1084,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			attrsMap.addVariable("tempOpts", tempOpts.getOptions());
 			attrsMap.addVariable("preOpts", preOpts.getOptions());
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_CITY)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S1)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S2)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S3)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S4)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S5)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S6)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S7)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S8)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_MONTH)
-					+ " = ?";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			List<Object[]> rows = getRows(sql, new Object[] { year, month });
+			List<Object[]> rows = prog.getMonthPredictEvaD(year, month);
 
 			Map<String, Object[]> detailMap = new HashMap<String, Object[]>();
 
@@ -1235,15 +1148,11 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			long year = context.getLongParameter("year");
 			long month = context.getLongParameter("month");
 
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
+
 			// 删除旧的记录
-			String delSql = "DELETE FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_MONTH)
-					+ " = ?";
-			execSql(delSql, new Object[] { year, month });
+			prog.delMonthPredictEvaD(year, month);
 
 			List<String> cityL = context.getParameterValues("city");
 			List<String> s1 = context.getParameterValues("s1");
@@ -1320,31 +1229,22 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 									CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_D_S8,
 									ValueMetaInterface.TYPE_INTEGER, s8L);
 
-					insertTableRow(
-							CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D,
-							rmd);
+					prog
+							.insertTableRow(
+									CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA_D,
+									rmd);
 				}
 			}
 
 			// 添加统计
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH)
-					+ " = ?";
-
-			Object[] row = getOneRow(sql, new Object[] { year, month });
-			long rid;
-			if (row != null) {
-				rid = (Long) row[0];
-			} else {
-				rid = getNextBatchId(
-						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
-						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA);
+			Long rid = prog.getIDFromMonthPredictEva(year, month);
+			boolean isNew = false;
+			if (rid == null) {
+				rid = prog
+						.getNextBatchId(
+								CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
+								CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA);
+				isNew = true;
 			}
 
 			RowMetaAndData rmd = new RowMetaAndData();
@@ -1377,15 +1277,16 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S6,
 					ValueMetaInterface.TYPE_STRING, getAvgScore(avgS[5]));
 
-			if (row != null) {
-				updateTableRow(
+			if (isNew) {
+				prog.insertTableRow(
 						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
-						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
 						rmd);
 			} else {
-				insertTableRow(
-						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
-						rmd);
+				prog
+						.updateTableRow(
+								CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA,
+								CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
+								rmd);
 			}
 
 			return ActionMessage.instance().success("更新上月预测评估填报成功。")
@@ -1415,35 +1316,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 
 			String currentText = year + "年" + month + "月";
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S1)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S2)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S3)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S4)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S5)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S6)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S7)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S8)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_S9)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_DESCRIPTION)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
-					+ " = ?";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Object[] row = getOneRow(sql, new Object[] { year, month });
+			Object[] row = prog.getExtendPredictEva(year, month);
 			if (row != null) {
 				for (int i = 0; i < 9; i++) {
 					attrsMap.addVariable("s" + (i + 1), row[i]);
@@ -1492,24 +1368,17 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			long s9 = context.getLongParameter("s9");
 			String desc = context.getStringParameter("desc", "");
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_MONTH)
-					+ " = ?";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Object[] row = getOneRow(sql, new Object[] { year, month });
-			long rid;
-			if (row != null) {
-				rid = (Long) row[0];
-			} else {
-				rid = getNextBatchId(
-						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
-						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA);
+			Long rid = prog.getIDFromExtendPredictEva(year, month);
+			boolean isNew = false;
+			if (rid == null) {
+				isNew = true;
+				rid = prog
+						.getNextBatchId(
+								CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA);
 			}
 
 			RowMetaAndData rmd = new RowMetaAndData();
@@ -1556,15 +1425,17 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 							CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_DESCRIPTION,
 							ValueMetaInterface.TYPE_STRING, desc);
 
-			if (row != null) {
-				updateTableRow(
-						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
-						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
-						rmd);
+			if (isNew) {
+				prog
+						.insertTableRow(
+								CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
+								rmd);
 			} else {
-				insertTableRow(
-						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
-						rmd);
+				prog
+						.updateTableRow(
+								CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT_EVA,
+								CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_EVA_ID_MONTH_PREDICT_EVA,
+								rmd);
 			}
 
 			return ActionMessage.instance().success("更新上月延伸期降水过程预测评估成功。")
@@ -1675,31 +1546,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S1)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S2)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S3)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S4)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S5)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_S6)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_EVA)
-					+ " ORDER BY "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_YEAR)
-					+ " DESC , "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_EVA_MONTH)
-					+ " DESC";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			List<Object[]> rows = getRows(sql);
+			List<Object[]> rows = prog.getAllMonthPredictEva();
 
 			GridDataObject grid = GridDataObject.instance();
 			if (rows != null) {
@@ -1737,33 +1587,10 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S1)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S2)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S3)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S4)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S5)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S6)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S7)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE)
-					+ " ORDER BY "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
-					+ " DESC , "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
-					+ " DESC";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			List<Object[]> rows = getRows(sql);
+			List<Object[]> rows = prog.getAllMonthPredictScore();
 
 			GridDataObject grid = GridDataObject.instance();
 			if (rows != null) {
@@ -1817,31 +1644,12 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 				month = 12;
 			}
 
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
+
 			String currentText = year + "年" + month + "月";
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S1)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S2)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S3)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S4)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S5)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S6)
-					+ ","
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S7)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
-					+ " = ?";
-
-			Object[] row = getOneRow(sql, new Object[] { year, month });
+			Object[] row = prog.getMonthPredictScore(year, month);
 			if (row != null) {
 				for (int i = 0; i < 7; i++) {
 					String[] s = getScoreArray((String) row[i]);
@@ -1896,24 +1704,17 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 			String s7 = context.getStringParameter("s7_0", "") + " / "
 					+ context.getStringParameter("s7_1", "");
 
-			String sql = "SELECT "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE)
-					+ " FROM "
-					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE)
-					+ " WHERE "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_YEAR)
-					+ " = ? AND "
-					+ quote(CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_MONTH)
-					+ " = ?";
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Object[] row = getOneRow(sql, new Object[] { year, month });
-			long rid;
-			if (row != null) {
-				rid = (Long) row[0];
-			} else {
-				rid = getNextBatchId(
-						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
-						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE);
+			Long rid = prog.getIDFromMonthPredictScore(year, month);
+			boolean isNew = false;
+			if (rid == null) {
+				isNew = true;
+				rid = prog
+						.getNextBatchId(
+								CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
+								CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE);
 			}
 
 			RowMetaAndData rmd = new RowMetaAndData();
@@ -1951,15 +1752,17 @@ public class ForecastAdaptorImpl extends BIAbstractDbAdaptor implements
 					CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_S7,
 					ValueMetaInterface.TYPE_STRING, s7);
 
-			if (row != null) {
-				updateTableRow(
-						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
-						CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE,
-						rmd);
+			if (isNew) {
+				prog
+						.insertTableRow(
+								CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
+								rmd);
 			} else {
-				insertTableRow(
-						CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
-						rmd);
+				prog
+						.updateTableRow(
+								CustomDatabaseRepositoryBase.TABLE_C_MONTH_PREDICT_SCORE,
+								CustomDatabaseRepositoryBase.FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE,
+								rmd);
 			}
 
 			return ActionMessage.instance().success("更新当前延伸期预测成功。")

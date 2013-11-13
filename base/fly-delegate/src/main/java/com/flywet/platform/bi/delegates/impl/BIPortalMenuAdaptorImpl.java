@@ -109,12 +109,12 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 						BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_ID_PORTAL_ACTION,
 						new LongObjectId(Long.valueOf(action)));
 				if (row != null) {
-					NameValuePair cls = new NameValuePair();
-					cls.setName("cls");
-					cls.setValue(row.getString(
-							BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_CLS,
+					NameValuePair beanName = new NameValuePair();
+					beanName.setName("beanName");
+					beanName.setValue(row.getString(
+							BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_BEAN_NAME,
 							""));
-					ft.addExtAttr(cls);
+					ft.addExtAttr(beanName);
 
 					NameValuePair method = new NameValuePair();
 					method.setName("method");
@@ -150,9 +150,9 @@ public class BIPortalMenuAdaptorImpl extends BIAbstractDbAdaptor implements
 										BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_DESCRIPTION,
 										null));
 				pa
-						.setCls(row
+						.setBeanName(row
 								.getString(
-										BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_CLS,
+										BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_BEAN_NAME,
 										null));
 				pa.setMethod(row.getString(
 						BIDatabaseRepositoryBase.FIELD_PORTAL_ACTION_METHOD,

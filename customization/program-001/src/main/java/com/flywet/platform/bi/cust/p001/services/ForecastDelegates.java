@@ -1,4 +1,4 @@
-package com.flywet.cust.p001.portal;
+package com.flywet.platform.bi.cust.p001.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +8,9 @@ import org.apache.commons.fileupload.FileItem;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
-import com.flywet.platform.bi.delegates.model.BIAdaptorInterface;
+import com.flywet.platform.bi.services.intf.BIRepositoryDelegates;
 
-public interface ForecastAdaptor extends BIAdaptorInterface {
+public interface ForecastDelegates extends BIRepositoryDelegates {
 
 	/**
 	 * 预测产品-月预测

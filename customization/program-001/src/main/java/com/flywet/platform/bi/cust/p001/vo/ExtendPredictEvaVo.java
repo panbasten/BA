@@ -1,4 +1,4 @@
-package com.flywet.cust.p001.vo;
+package com.flywet.platform.bi.cust.p001.vo;
 
 public class ExtendPredictEvaVo {
 

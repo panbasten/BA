@@ -3,7 +3,7 @@ package com.flywet.platform.bi.delegates.vo;
 public class PortalAction {
 	private long id;
 	private String description;
-	private String cls;
+	private String beanName;
 	private String method;
 
 	public long getId() {
@@ -22,12 +22,12 @@ public class PortalAction {
 		this.description = description;
 	}
 
-	public String getCls() {
-		return cls;
+	public String getBeanName() {
+		return beanName;
 	}
 
-	public void setCls(String cls) {
-		this.cls = cls;
+	public void setBeanName(String beanName) {
+		this.beanName = beanName;
 	}
 
 	public String getMethod() {

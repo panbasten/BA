@@ -96,7 +96,7 @@ public class BIDatabaseRepositoryBase {
 	public static final String TABLE_BI_PORTAL_ACTION = "BI_PORTAL_ACTION";
 	public static final String FIELD_PORTAL_ACTION_ID_PORTAL_ACTION = "ID_PORTAL_ACTION";
 	public static final String FIELD_PORTAL_ACTION_DESCRIPTION = "DESCRIPTION";
-	public static final String FIELD_PORTAL_ACTION_CLS = "CLS";
+	public static final String FIELD_PORTAL_ACTION_BEAN_NAME = "BEAN_NAME";
 	public static final String FIELD_PORTAL_ACTION_METHOD = "METHOD";
 
 	public static final String TABLE_BI_FILESYS_TYPE = "BI_FILESYS_TYPE";

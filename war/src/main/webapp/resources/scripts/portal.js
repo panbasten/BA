@@ -723,7 +723,7 @@ Flywet.PortalAction = {
 		for(var i=0; i<menu.extAttrs.length;i++){
 			optMenu[menu.extAttrs[i].name] = menu.extAttrs[i].value;
 		}
-		if(optMenu.cls){
+		if(optMenu.beanName){
 			if(disabled){
 				Flywet.dialog.warning("您未登陆，或者当前登陆用户不具有【"+menu.desc+"】的执行权限。");
 				return;

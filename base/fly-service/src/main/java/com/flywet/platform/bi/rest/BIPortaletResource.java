@@ -50,7 +50,6 @@ import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
 import com.flywet.platform.bi.delegates.enums.PermissionCategory;
-import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
@@ -98,7 +97,8 @@ public class BIPortaletResource {
 
 			Map<String, Object> context = getDefaultContext(id, param);
 
-			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
+			return invokeMethod(pa.getBeanName(), pa.getMethod(), context,
+					targetId);
 		} catch (Exception ex) {
 			throw new BIException("执行Portal的行为出现错误。", ex);
 		}
@@ -118,7 +118,7 @@ public class BIPortaletResource {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			return invokeMethod(pa.getCls(), pa.getMethod(), paramContext,
+			return invokeMethod(pa.getBeanName(), pa.getMethod(), paramContext,
 					targetId);
 		} catch (Exception ex) {
 			throw new BIException("执行Portal Form的行为出现错误。", ex);
@@ -146,7 +146,7 @@ public class BIPortaletResource {
 		// 通过ID获得注册的菜单
 		PortalAction pa = portalDelegates.getPortalActionById(Long.valueOf(id));
 
-		return invokeMethod(pa.getCls(), pa.getMethod(), items, dataObj);
+		return invokeMethod(pa.getBeanName(), pa.getMethod(), items, dataObj);
 	}
 
 	@GET
@@ -567,7 +567,7 @@ public class BIPortaletResource {
 			Map<String, Object> context = getDefaultContext(id, pm
 					.getExtAttr(PORTAL_ONLY_PARAM));
 
-			return invokeMethod(pm.getExtAttr("cls"), pm.getExtAttr("method"),
+			return invokeMethod(pm.getExtAttr("beanName"), pm.getExtAttr("method"),
 					context, targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
@@ -592,7 +592,8 @@ public class BIPortaletResource {
 			PortalAction pa = portalDelegates.getPortalActionById(Long
 					.valueOf(action));
 
-			return invokeMethod(pa.getCls(), pa.getMethod(), context, targetId);
+			return invokeMethod(pa.getBeanName(), pa.getMethod(), context,
+					targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
 		}
@@ -612,18 +613,16 @@ public class BIPortaletResource {
 	/**
 	 * 调用业务方法
 	 * 
-	 * @param cls
+	 * @param beanName
 	 * @param method
 	 * @param param
 	 * @return
 	 * @throws BIException
 	 */
-	private String invokeMethod(String cls, String method,
+	private String invokeMethod(String beanName, String method,
 			Map<String, Object> context, String targetId) throws BIException {
 		try {
-			Class<?> clazz = Class.forName(cls);
-			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
-
+			Object prog = ReflectionUtils.getBean(beanName);
 			return (String) ReflectionUtils.invokeMethod(prog, method,
 					targetId, context);
 
@@ -634,12 +633,10 @@ public class BIPortaletResource {
 				.toJSONString();
 	}
 
-	private String invokeMethod(String cls, String method,
+	private String invokeMethod(String beanName, String method,
 			ParameterContext context, String targetId) throws BIException {
 		try {
-			Class<?> clazz = Class.forName(cls);
-			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
-
+			Object prog = ReflectionUtils.getBean(beanName);
 			return (String) ReflectionUtils.invokeMethod(prog, method,
 					targetId, context);
 
@@ -650,13 +647,11 @@ public class BIPortaletResource {
 				.toJSONString();
 	}
 
-	private String invokeMethod(String cls, String method,
+	private String invokeMethod(String beanName, String method,
 			List<FileItem> items, Map<String, String> dataObj)
 			throws BIException {
 		try {
-			Class<?> clazz = Class.forName(cls);
-			Object prog = BIAdaptorFactory.createCustomAdaptor(clazz);
-
+			Object prog = ReflectionUtils.getBean(beanName);
 			return (String) ReflectionUtils.invokeMethod(prog, method, items,
 					dataObj);
 

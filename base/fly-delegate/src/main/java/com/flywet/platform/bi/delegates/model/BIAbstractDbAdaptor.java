@@ -25,7 +25,8 @@ import com.flywet.platform.bi.core.exception.BIKettleException;
  * @author han
  * 
  */
-public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
+public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate implements
+		BIDBAdaptorInterface {
 	private final Logger logger = Logger.getLogger(BIAbstractDbAdaptor.class);
 
 	public String quote(String identifier) {
@@ -156,6 +157,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @param values
 	 * @throws KettleException
 	 */
+	@Override
 	public void insertTableRow(String tablename, RowMetaAndData values)
 			throws KettleException {
 		try {
@@ -175,6 +177,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @param values
 	 * @throws KettleException
 	 */
+	@Override
 	public void updateTableRow(String tablename, String idfield,
 			RowMetaAndData values) throws KettleException {
 		try {
@@ -193,6 +196,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @param ids
 	 * @throws KettleException
 	 */
+	@Override
 	public void performDelete(String sql, ObjectId... ids)
 			throws KettleException {
 		try {
@@ -210,11 +214,13 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @param data
 	 * @throws KettleDatabaseException
 	 */
+	@Override
 	public void execSql(String rawsql, Object[] data)
 			throws KettleDatabaseException {
 		execSql(rawsql, data, true);
 	}
 
+	@Override
 	public void execSql(String rawsql, Object[] data, boolean commit)
 			throws KettleDatabaseException {
 		try {
@@ -238,11 +244,13 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @param data
 	 * @throws KettleDatabaseException
 	 */
+	@Override
 	public void execSql(String rawsql, RowMetaInterface params, Object[] data)
 			throws KettleDatabaseException {
 		execSql(rawsql, params, data, true);
 	}
 
+	@Override
 	public void execSql(String rawsql, RowMetaInterface params, Object[] data,
 			boolean commit) throws KettleDatabaseException {
 		try {
@@ -264,10 +272,12 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @param sql
 	 * @throws KettleDatabaseException
 	 */
+	@Override
 	public void execSql(String sql) throws KettleDatabaseException {
 		execSql(sql, true);
 	}
 
+	@Override
 	public void execSql(String sql, boolean commit)
 			throws KettleDatabaseException {
 		try {
@@ -341,6 +351,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate {
 	 * @return
 	 * @throws BIKettleException
 	 */
+	@Override
 	public long getNextBatchId(String tableName, String fieldName)
 			throws BIKettleException {
 		try {
