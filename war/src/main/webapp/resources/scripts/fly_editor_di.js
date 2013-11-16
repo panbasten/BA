@@ -380,8 +380,8 @@ Flywet.editors.trans = {
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
 				var editorContainer = diEditorLayout.getPane("center"),
-				editorContentWidth = editorContainer.outerWidth(),
-				editorContentHeight = editorContainer.outerHeight()-40;
+					editorContentWidth = editorContainer.outerWidth(),
+					editorContentHeight = editorContainer.outerHeight()-40;
 				var $trans = $("#trans");
 				$trans.width(editorContentWidth).height(editorContentHeight);
 				

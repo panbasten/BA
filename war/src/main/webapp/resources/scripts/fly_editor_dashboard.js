@@ -1,5 +1,6 @@
 // 表单
 Flywet.editors.dashboard = {
+	type : "dashboard",
 	saveStatus : function ($tabo) {
 		$tabo.data("exdata",dashboardEditorPanel_var.getData())
 	},
@@ -15,15 +16,34 @@ Flywet.editors.dashboard = {
 		// TODO 工具箱的滚动按钮
 		
 	},
+	openTab : function(category,data,displayName,tabName){
+		Flywet.ab({
+			type : "get",
+			modal : true,
+			modalMessage : "正在加载【"+displayName+"】...",
+			url : "rest/"+data.attrs.src,
+			onsuccess : function(data, status, xhr){
+				baEditorPageTabs.addTab({
+					exdata: data,
+					tabId: category,
+					tabText: displayName,
+					dataTarget: tabName,
+					closable: true,
+					closePanel: false,
+			        checkModify: true
+				});
+			}
+		});
+	},
 	register : function(){
-		if(Flywet.editors.register["dashboard"]){
+		if(Flywet.editors.register[Flywet.editors.dashboard.type]){
 			return;
 		}
 		
 		Flywet.ab({
 			type : "get",
-			url: "rest/report/dashboard/editor",
-			modalMessage: "正在注册表单设计器页面...",
+			url: "rest/dashboard/editor",
+			modalMessage: "正在注册仪表板设计器页面...",
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
 				var editorContainer = diEditorLayout.getPane("center"),
@@ -162,7 +182,7 @@ Flywet.editors.dashboard = {
 				
 				$dashboard.hide();
 				
-				Flywet.editors.register["dashboard"] = "Y";
+				Flywet.editors.register[Flywet.editors.dashboard.type] = "Y";
 			}
 		});
 	},
@@ -1013,12 +1033,13 @@ Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	}
 	
 	// 1.DOM结构树
+	console.log([getNodeStructure(this.domStructure, this)]);
 	if(!this.domStructureTree){
 		var config = {
 			id : 			"dashboardStructPanelContent"
 			,dnd :			true
 			,onSelect : 	Flywet.editors.dashboard.action.struct_on_select
-			,els :			[getNodeStructure(this.domStructure, this)]
+			,data :			[getNodeStructure(this.domStructure, this)]
 		};
 		this.domStructureTree = new Flywet.widget.EasyTree(config);
 	}else{
@@ -1210,19 +1231,19 @@ Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		var rtn = {
 			id : id
 			,type : "node"
-			,data : {
+			,attributes : {
 				pluginType : type
 			}
-			,displayName : "<b>"+domId+"</b>&nbsp;&nbsp;["+typeName+"]"
+			,text : "<b>"+domId+"</b>&nbsp;&nbsp;["+typeName+"]"
 		};
 		
 		var subNodes = node.children();
 		if(subNodes.size() > 0){
-			var els = [];
+			var children = [];
 			for(var i=0;i<subNodes.size();i++){
-				els.push(getNodeStructure($(subNodes[i]), _self));
+				children.push(getNodeStructure($(subNodes[i]), _self));
 			}
-			rtn.els = els;
+			rtn.children = children;
 		}
 		
 		return rtn;
