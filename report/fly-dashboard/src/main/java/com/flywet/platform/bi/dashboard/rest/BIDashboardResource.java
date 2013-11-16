@@ -50,13 +50,11 @@ import com.flywet.platform.bi.rest.BIBaseResource;
 @Path("/dashboard")
 public class BIDashboardResource {
 
-	private final Logger logger = Logger
-			.getLogger(BIDashboardResource.class);
-	
+	private final Logger logger = Logger.getLogger(BIDashboardResource.class);
+
 	private static final String ICON_PATH = "resources/images/plugins/";
 
 	private static final String DASHBOARD_TEMPLATE_PREFIX = "editor/editor_";
-
 
 	@Resource(name = "bi.service.reportService")
 	private BIReportDelegates reportService;
@@ -117,7 +115,8 @@ public class BIDashboardResource {
 	public String resizedDashboard(@PathParam("id") String id,
 			@QueryParam("target") String target, @QueryParam("x") String x,
 			@QueryParam("y") String y, @QueryParam("width") String width,
-			@QueryParam("height") String height) throws BIException {
+			@QueryParam("height") String height, @QueryParam("type") String type)
+			throws BIException {
 		try {
 			TemplateMeta templateMeta = TemplateCache.get(id);
 			Document doc = templateMeta.getDoc();
@@ -141,8 +140,12 @@ public class BIDashboardResource {
 					XMLUtils.setAttribute(targetNode, HTML.ATTR_Y, y);
 				}
 
-				XMLUtils.setAttribute(targetNode, HTML.ATTR_WIDTH, width);
-				XMLUtils.setAttribute(targetNode, HTML.ATTR_HEIGHT, height);
+				if (type.indexOf("w") > -1 || type.indexOf("e") > -1) {
+					XMLUtils.setAttribute(targetNode, HTML.ATTR_WIDTH, width);
+				}
+				if (type.indexOf("s") > -1 || type.indexOf("n") > -1) {
+					XMLUtils.setAttribute(targetNode, HTML.ATTR_HEIGHT, height);
+				}
 
 			}
 
@@ -342,7 +345,7 @@ public class BIDashboardResource {
 
 		return jo;
 	}
-	
+
 	/**
 	 * 初始化加载Dashboard编辑器页面
 	 * 
@@ -423,7 +426,7 @@ public class BIDashboardResource {
 			throw new BIException("初始化加载Dashboard编辑器页面出现错误。", ex);
 		}
 	}
-	
+
 	private String getTemplateString(String cate) {
 		return DASHBOARD_TEMPLATE_PREFIX + cate + ".h";
 	}

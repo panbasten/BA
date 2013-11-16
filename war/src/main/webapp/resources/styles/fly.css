@@ -690,7 +690,7 @@ div.ui-fs-local-sftp-icon {
 	-moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-	margin: 5px;
+	margin: 16px 5px 5px 16px;
 }
 
 .fly-dashboard-editor-component{

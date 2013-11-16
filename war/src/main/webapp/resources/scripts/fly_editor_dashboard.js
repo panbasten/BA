@@ -170,8 +170,8 @@ Flywet.editors.dashboard = {
 				// 拖拽
 				$(".fly-dashboard-step-plugin").draggable({
 					revert:true,
-					deltaX:-10,
-					deltaY:-10,
+					deltaX:-21,
+					deltaY:-21,
 					proxy:function(source){
 						var n = $('<div class="proxy"></div>');
 						n.append($(source).children("div").clone());
@@ -274,7 +274,8 @@ Flywet.widget.DashboardEditor = function(cfg) {
 		drawRectStyle : {strokeStyle:'#f00'},
 		dropRectStyle : {strokeStyle:'#0972a5',fillStyle:'#0972a5',isFill:true},
 		drawResizerStyle : {fillStyle:'#a0a0a0'},
-		drawLineStyle : {strokeStyle:'#00f',fillStyle:'#00f'}
+		drawLineStyle : {strokeStyle:'#00f',fillStyle:'#00f'},
+		drawRulerLineStyle : {strokeStyle:'#eeb758',fillStyle:'#eeb758',font:'12px Arial'}
 	};
 	
 	this.component = {
@@ -338,7 +339,11 @@ Flywet.widget.DashboardEditor = function(cfg) {
 		}
 	};
 	
-	this.off = {x:5,y:5};
+	this.rulerSize = 16;
+	
+	this.canvasExtSize = this.rulerSize + 50;
+	
+	this.off = {x:this.rulerSize,y:this.rulerSize};
 	
 	// 鼠标一次按下抬起操作
 	this.holder = false;
@@ -690,6 +695,7 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
  * 通过坐标，获得Dom
  */
 Flywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
+	var _self = this;
 	var dim = getSubDomByMouseCoords(this.domsProp);
 	if(!dim){
 		dim = this.domsProp[0];
@@ -701,8 +707,8 @@ Flywet.widget.DashboardEditor.prototype.getDomByMouseCoords = function(m) {
 		for (var i=0;i<domsProp.length;i++) {
 			dim = domsProp[i];
 			
-			if(dim.offsetLeft <= m.x && (dim.offsetLeft+dim.offsetWidth) >= m.x
-				&& dim.offsetTop <= m.y && (dim.offsetTop+dim.offsetHeight) >= m.y){
+			if(dim.offsetLeft <= (m.x-_self.off.x) && (dim.offsetLeft+dim.offsetWidth) >= (m.x-_self.off.x)
+				&& dim.offsetTop <= (m.y-_self.off.y) && (dim.offsetTop+dim.offsetHeight) >= (m.y-_self.off.y)){
 				if(dim.children){
 					dim = getSubDomByMouseCoords(dim.children) || dim;
 				}
@@ -889,11 +895,12 @@ Flywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
 		type : "get",
 		url: "rest/dashboard/resized/"+this.reportInfo.id,
 		params: {
-			target :	target,
+			target : target,
 			x : newSize.x,
 			y : newSize.y,
 			width : newSize.width,
-			height : newSize.height
+			height : newSize.height,
+			type : newSize.type
 		},
 		onsuccess : function(data, status, xhr){
 			_self.reInitEditor(data);
@@ -1187,24 +1194,24 @@ Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		
 		if (w) {
 			_self.width= w || 600;
-			_self.editorWrapper.width(w+10);
+			_self.editorWrapper.width(w+_self.canvasExtSize);
 			_self.editorContent.width(w);
 			
 			if ($.browser.msie && $.browser.version < 9){
-				$canvas.width(w+10);
+				$canvas.width(w+_self.canvasExtSize);
 			} else {
-				$canvas.attr("width", w+10);
+				$canvas.attr("width", w+_self.canvasExtSize);
 			}
 		}
 		if (h) {
 			_self.height= h || 400;
-			_self.editorWrapper.height(h+10);
+			_self.editorWrapper.height(h+_self.canvasExtSize);
 			_self.editorContent.height(h);
 			
 			if ($.browser.msie && $.browser.version < 9){
-				$canvas.height(h+10);
+				$canvas.height(h+_self.canvasExtSize);
 			} else {
-				$canvas.attr("height", h+10);
+				$canvas.attr("height", h+_self.canvasExtSize);
 			}
 		}
 		
@@ -1365,15 +1372,18 @@ Flywet.widget.DashboardEditor.prototype.getNewSize = function(dim, coords){
 	h=(h<10)?10:h;
 	w=(w<10)?10:w;
 	
-	return {x:x,y:y,width:w,height:h};
+	return {x:x,y:y,width:w,height:h,type:this.mouseType};
 };
 
 Flywet.widget.DashboardEditor.prototype.redraw = function() {
 	
-	this.ctx.clearRect(0,0,this.width+10,this.height+10);
+	this.ctx.clearRect(0,0,this.width+this.canvasExtSize,this.height+this.canvasExtSize);
 	this.ctx.lineWidth=1;
 	
 	var _self = this;
+	
+	redrawRuler();
+	
 	if(this.reportInfo){
 		if(this.reportInfo.editorState == "component"){
 			redrawForComponent();
@@ -1384,6 +1394,56 @@ Flywet.widget.DashboardEditor.prototype.redraw = function() {
 		} else if(this.reportInfo.editorState == "tab_sequence"){
 			redrawForTabSequence();
 		}
+	}
+	
+	// 绘制标尺
+	function redrawRuler(){
+		_self.ctx.save();
+		_self.ctx.lineWidth = 1;
+		_self.ctx.strokeStyle = _self.drawStyle.drawRulerLineStyle.strokeStyle;
+		_self.ctx.fillStyle = _self.drawStyle.drawRulerLineStyle.fillStyle;
+		
+		_self.ctx.font = _self.drawStyle.drawRulerLineStyle.font;
+		
+		// x坐标
+		var idx = 0, size;
+		for(var i=_self.rulerSize;i<=(_self.width+_self.rulerSize);i=(i+20)){
+			if(idx%5==0){
+				size = 2;
+				_self.ctx.fillText((i-_self.rulerSize),i+2,12);
+			}else{
+				size = _self.rulerSize - 4;
+			}
+			_self.ctx.beginPath();
+			Flywet.widget.FlowChartUtils.drawLine.factory(_self.ctx, "line", 
+					i, size, i, _self.rulerSize);
+			_self.ctx.stroke();
+			
+			idx++;
+		}
+		
+		// y坐标
+		idx = 0;
+		for(var i=_self.rulerSize;i<=(_self.height+_self.rulerSize);i=(i+20)){
+			if(idx%5==0){
+				size = 2;
+				_self.ctx.save();
+				_self.ctx.translate(4,i+2);
+				_self.ctx.rotate(Math.PI/2);
+				_self.ctx.fillText((i-_self.rulerSize),0,0);
+				_self.ctx.restore();
+			}else{
+				size = _self.rulerSize - 4;
+			}
+			_self.ctx.beginPath();
+			Flywet.widget.FlowChartUtils.drawLine.factory(_self.ctx, "line", 
+					size, i, _self.rulerSize, i);
+			_self.ctx.stroke();
+			
+			idx++;
+		}
+		
+		_self.ctx.restore();
 	}
 	
 	function redrawForComponent(){
@@ -1404,6 +1464,9 @@ Flywet.widget.DashboardEditor.prototype.redraw = function() {
 				// 绘制选中节点的边框
 				redrawSelectedComponents(dim);
 				
+				// 绘制选中节点的特殊绘制
+				redrawSelectedComponentsSpecial(dim);
+				
 				// 绘制选中节点的拖动框
 				if(_self.mouseType == ""){
 					if(_self.mouseMovingCoords){
@@ -1411,11 +1474,6 @@ Flywet.widget.DashboardEditor.prototype.redraw = function() {
 					}
 				}
 			}
-		}
-		
-		// 绘制所有布局的提示外框
-		if(_self.domsProp){
-			redrawLayoutBorder(_self.domsProp);
 		}
 		
 		// 绘制拖动目标对象的边框
@@ -1500,25 +1558,24 @@ Flywet.widget.DashboardEditor.prototype.redraw = function() {
 		
 	}
 	
-	function redrawLayoutBorder(domsProp){
-		var dim;
-		for (var i=0;i<domsProp.length;i++) {
-			dim = domsProp[i];
-			
-			if(dim.type == "fly:GridLayoutItem"){
-				redrawLayoutComponent(dim);
-			}
-			
+	function redrawSelectedComponentsSpecial(dim){
+		if(dim.type == "fly:GridLayout"){
 			if(dim.children){
-				redrawLayoutBorder(dim.children);
+				var sub_dim;
+				for(var i=0;i<dim.children.length;i++){
+					sub_dim = dim.children[i];
+					if(sub_dim.type == "fly:GridLayoutItem"){
+						redrawLayoutItemComponentSpecial(sub_dim);
+					}
+				}
 			}
 		}
 	}
 	
-	function redrawLayoutComponent(dim) {
+	function redrawLayoutItemComponentSpecial(dim) {
 		if(dim){
 			Flywet.widget.FlowChartUtils.drawRect(_self.ctx, 
-					{x:(dim.offsetLeft+2),y:(dim.offsetTop+2),width:(dim.offsetWidth-4),height:(dim.offsetHeight-4)}, 
+					{x:(dim.offsetLeft),y:(dim.offsetTop),width:(dim.offsetWidth),height:(dim.offsetHeight)}, 
 					_self.drawStyle.drawRectStyle, "line", _self.off);
 		}
 	}
