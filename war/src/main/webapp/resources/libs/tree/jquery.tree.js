@@ -417,9 +417,9 @@
         }
         opts.onLoadSuccess.call(target, node, data);
         
-        function _loadNodes(ul, nodeDatas, len){
+        function _loadNodes(_ul, nodeDatas, len){
             for (var i = 0; i < nodeDatas.length; i++) {
-                var li = $("<li></li>").appendTo(ul);
+                var li = $("<li></li>").appendTo(_ul);
                 var nodeData = nodeDatas[i];
                 if (nodeData.state != "open" && nodeData.state != "closed") {
                 	nodeData.state = "open";
@@ -456,7 +456,7 @@
                 }
                 var nodeIcon;
                 if (nodeData.children && nodeData.children.length) {
-                    var ul = $("<ul></ul>").appendTo(li);
+                    var _sub_ul = $("<ul></ul>").appendTo(li);
                     if (nodeData.state == "open") {
                         nodeIcon = $("<span class=\"ui-tree-icon ui-icon ui-tree-folder ui-tree-folder-open\"></span>").addClass(nodeData.iconCls);
                         nodeIcon.prependTo(nodeDom);
@@ -466,9 +466,9 @@
                     	nodeIcon = $("<span class=\"ui-tree-icon ui-icon ui-tree-folder\"></span>").addClass(nodeData.iconCls);
                     	nodeIcon.prependTo(nodeDom);
                         $("<span class=\"ui-tree-hit ui-icon ui-tree-collapsed\"></span>").prependTo(nodeDom);
-                        ul.css("display", "none");
+                        _sub_ul.css("display", "none");
                     }
-                    _loadNodes(ul, nodeData.children, len + 1);
+                    _loadNodes(_sub_ul, nodeData.children, len + 1);
                 }
                 else {
                     if (nodeData.state == "closed") {

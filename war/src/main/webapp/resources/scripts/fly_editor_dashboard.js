@@ -126,7 +126,7 @@ Flywet.editors.dashboard = {
 								,	fxSettings_size:		{ easing: "easeInQuint" }
 							}
 							, north: {
-								size : 30
+								size : 26
 								,	resizable:				false
 								,	closable : 				false
 								,	paneSelector : 			"#dashboardEditorToolbar"

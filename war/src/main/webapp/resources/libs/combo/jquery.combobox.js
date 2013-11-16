@@ -425,9 +425,11 @@ Flywet.widget.ComboBox = function(cfg) {
 	}
 	
 	// width
-	var w = this.jq.width();
-	if(w>0){
-		this.cfg.width = w;
+	if(this.cfg.width == undefined){
+		var w = this.jq.width();
+		if(w>0){
+			this.cfg.width = w;
+		}
 	}
 	
 	this.init();

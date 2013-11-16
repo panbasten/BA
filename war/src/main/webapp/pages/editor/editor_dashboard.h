@@ -1,5 +1,5 @@
 <div id="${editorId}">
-	<div id="${editorId}StepBar" class="fly-flow-step-bar ui-tab-side-container ui-corner-all">
+	<div id="${editorId}StepBar" class="fly-flow-step-bar ui-tab-side-container ui-corner-top">
 		<ul id="${editorId}StepBar-ul" class="ui-tabs">
 			<fly:foreach items="${dashboardStepBar}" var="entity" indexVar="entityIndex">
 				<li>
@@ -41,6 +41,10 @@
 				onclick="Flywet.editors.dashboard.action.preview();" title="预览" />
 			<fly:pushbutton id="dashboard_save" iconCls="ui-icon-save" 
 				onclick="Flywet.editors.dashboard.action.save();" title="保存" />
+			<fly:pushbutton type="separator" />
+			<fly:combobox id="dashboard_size" name="dashboard_size" editable="false" type="text" value="" width="80">
+				<fly:option value="0" label="1" />
+			</fly:combobox>
 		</div>
 		
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
