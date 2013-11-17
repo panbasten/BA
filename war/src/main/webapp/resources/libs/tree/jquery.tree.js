@@ -139,9 +139,16 @@
                 if (e.which != 1) {
                     return false;
                 }
-                $(this).next("ul").find("div.ui-tree-node").droppable({
-                    accept: "no-accept"
-                });
+                
+                // 设置节点不能被拖放
+                if(options.onBeforeDrag){
+                	options.onBeforeDrag.call(target,target,this);
+                }else{
+	                $(this).next("ul").find("div.ui-tree-node").droppable({
+	                    accept: "no-accept"
+	                });
+                }
+                
                 var indent = $(this).find("span.ui-tree-indent");
                 if (indent.length) {
                     e.data.startLeft += indent.length * indent.width();
@@ -162,34 +169,43 @@
                 this.pageY = e.pageY;
             },
             onStopDrag: function(){
-                $(this).next("ul").find("div.ui-tree-node").droppable({
-                    accept: "div.ui-tree-node"
-                });
+            	// 恢复节点接受拖放属性
+            	if(options.onStopDrag){
+                	options.onStopDrag.call(target,target,this);
+                }else{
+	                $(this).next("ul").find("div.ui-tree-node").droppable({
+	                    accept: "div.ui-tree-node"
+	                });
+                }
             }
         }).droppable({
             accept: "div.ui-tree-node",
             onDragOver: function(e, node){
-                var pageY = node.pageY;
-                var top = $(this).offset().top;
-                var top2 = top + $(this).outerHeight();
-                $(node).draggable("proxy").removeClass("ui-tree-dnd-no").addClass("ui-tree-dnd-yes");
-                $(this).removeClass("ui-tree-node-append ui-tree-node-top ui-tree-node-bottom");
-                if (pageY > top + (top2 - top) / 2) {
-                    if (top2 - pageY < 5) {
-                        $(this).addClass("ui-tree-node-bottom");
-                    }
-                    else {
-                        $(this).addClass("ui-tree-node-append");
-                    }
-                }
-                else {
-                    if (pageY - top < 5) {
-                        $(this).addClass("ui-tree-node-top");
-                    }
-                    else {
-                        $(this).addClass("ui-tree-node-append");
-                    }
-                }
+	        	if(options.onDragOver){
+	            	options.onDragOver.call(target,target,node,this);
+	            }else{
+	                var pageY = node.pageY;
+	                var top = $(this).offset().top;
+	                var top2 = top + $(this).outerHeight();
+	                $(node).draggable("proxy").removeClass("ui-tree-dnd-no").addClass("ui-tree-dnd-yes");
+	                $(this).removeClass("ui-tree-node-append ui-tree-node-top ui-tree-node-bottom");
+	                if (pageY > top + (top2 - top) / 2) {
+	                    if (top2 - pageY < 5) {
+	                        $(this).addClass("ui-tree-node-bottom");
+	                    }
+	                    else {
+	                        $(this).addClass("ui-tree-node-append");
+	                    }
+	                }
+	                else {
+	                    if (pageY - top < 5) {
+	                        $(this).addClass("ui-tree-node-top");
+	                    }
+	                    else {
+	                        $(this).addClass("ui-tree-node-append");
+	                    }
+	                }
+	            }
             },
             onDragLeave: function(target, node){
                 $(node).draggable("proxy").removeClass("ui-tree-dnd-yes").addClass("ui-tree-dnd-no");
@@ -210,6 +226,10 @@
             }
         });
         
+        if(options.initDnd){
+        	options.initDnd.call(target,target);
+        }
+        
         function append(sNode, tNode){
             if (_getNode(target, tNode).state == "closed") {
                 _expand(target, tNode, function(){
@@ -220,12 +240,12 @@
                 doAppend();
             }
             function doAppend(){
-                var data = $(target).tree("pop", sNode);
+                var sData = $(target).tree("pop", sNode);
                 $(target).tree("append", {
                     parent: tNode,
-                    data: [data]
+                    data: [sData]
                 });
-                options.onDrop.call(target, tNode, data, "append");
+                options.onDrop.call(target, tNode, sData, "append");
             };
         }
         
@@ -237,10 +257,10 @@
             else {
             	opts.after = tNode;
             }
-            var data = $(target).tree("pop", sNode);
-            opts.data = data;
+            var sData = $(target).tree("pop", sNode);
+            opts.data = sData;
             $(target).tree("insert", opts);
-            options.onDrop.call(target, tNode, data, position);
+            options.onDrop.call(target, tNode, sData, position);
         }
     }
     
@@ -578,26 +598,26 @@
     /**
      * 展开
      */
-    function _expand(top, target, callback){
-        var options = $.data(top, "tree").options;
-        var hit = $(target).children("span.ui-tree-hit");
+    function _expand(target, node, callback){
+        var options = $.data(target, "tree").options;
+        var hit = $(node).children("span.ui-tree-hit");
         if (hit.length == 0) {
             return;
         }
         if (hit.hasClass("ui-tree-expanded")) {
             return;
         }
-        var targetNode = _getNode(top, target);
-        if (options.onBeforeExpand.call(top, targetNode) == false) {
+        var nodeData = _getNode(target, node);
+        if (options.onBeforeExpand.call(target, nodeData) == false) {
             return;
         }
         hit.removeClass("ui-tree-collapsed ui-tree-collapsed-hover").addClass("ui-tree-expanded");
         hit.next().addClass("ui-tree-folder-open");
-        var ul = $(target).next();
+        var ul = $(node).next();
         if (ul.length) {
             if (options.animate) {
                 ul.slideDown("normal", function(){
-                    options.onExpand.call(top, targetNode);
+                    options.onExpand.call(target, nodeData);
                     if (callback) {
                         callback();
                     }
@@ -605,23 +625,23 @@
             }
             else {
                 ul.css("display", "block");
-                options.onExpand.call(top, targetNode);
+                options.onExpand.call(target, nodeData);
                 if (callback) {
                     callback();
                 }
             }
         }
         else {
-            var ul = $("<ul style=\"display:none\"></ul>").insertAfter(target);
-            _67(top, ul[0], {
-                id: targetNode.id
+            var ul = $("<ul style=\"display:none\"></ul>").insertAfter(node);
+            _67(target, ul[0], {
+                id: nodeData.id
             }, function(){
                 if (ul.is(":empty")) {
                     ul.remove();
                 }
                 if (options.animate) {
                     ul.slideDown("normal", function(){
-                        options.onExpand.call(top, targetNode);
+                        options.onExpand.call(target, nodeData);
                         if (callback) {
                             callback();
                         }
@@ -629,7 +649,7 @@
                 }
                 else {
                     ul.css("display", "block");
-                    options.onExpand.call(top, targetNode);
+                    options.onExpand.call(target, nodeData);
                     if (callback) {
                         callback();
                     }
@@ -641,75 +661,75 @@
     /**
      * 闭合
      */
-    function _collapse(top, target){
-        var options = $.data(top, "tree").options;
-        var hit = $(target).children("span.ui-tree-hit");
+    function _collapse(target, node){
+        var options = $.data(target, "tree").options;
+        var hit = $(node).children("span.ui-tree-hit");
         if (hit.length == 0) {
             return;
         }
         if (hit.hasClass("ui-tree-collapsed")) {
             return;
         }
-        var targetNode = _getNode(top, target);
-        if (options.onBeforeCollapse.call(top, targetNode) == false) {
+        var nodeData = _getNode(target, node);
+        if (options.onBeforeCollapse.call(target, nodeData) == false) {
             return;
         }
         hit.removeClass("ui-tree-expanded ui-tree-expanded-hover").addClass("ui-tree-collapsed");
         hit.next().removeClass("ui-tree-folder-open");
-        var ul = $(target).next();
+        var ul = $(node).next();
         if (options.animate) {
             ul.slideUp("normal", function(){
-                options.onCollapse.call(top, targetNode);
+                options.onCollapse.call(target, nodeData);
             });
         }
         else {
             ul.css("display", "none");
-            options.onCollapse.call(top, targetNode);
+            options.onCollapse.call(target, nodeData);
         }
     }
     
-    function _toggle(top, target){
-        var hit = $(target).children("span.ui-tree-hit");
+    function _toggle(target, node){
+        var hit = $(node).children("span.ui-tree-hit");
         if (hit.length == 0) {
             return;
         }
         if (hit.hasClass("ui-tree-expanded")) {
-            _collapse(top, target);
+            _collapse(target, node);
         }
         else {
-            _expand(top, target);
+            _expand(target, node);
         }
     }
     
-    function _expandAll(top, target){
-        var arr = _getChildren(top, target);
-        if (target) {
-            arr.unshift(_getNode(top, target));
+    function _expandAll(target, node){
+        var arr = _getChildren(target, node);
+        if (node) {
+            arr.unshift(_getNode(target, node));
         }
         for (var i = 0; i < arr.length; i++) {
-            _expand(top, arr[i].target);
+            _expand(target, arr[i].target);
         }
     }
     
-    function _expandTo(top, target){
+    function _expandTo(target, node){
         var arr = [];
-        var p = _getParent(top, target);
+        var p = _getParent(target, node);
         while (p) {
             arr.unshift(p);
-            p = _getParent(top, p.target);
+            p = _getParent(target, p.target);
         }
         for (var i = 0; i < arr.length; i++) {
-            _expand(top, arr[i].target);
+            _expand(target, arr[i].target);
         }
     }
     
-    function _collapseAll(top, target){
-        var arr = _getChildren(top, target);
-        if (target) {
-            arr.unshift(_getNode(top, target));
+    function _collapseAll(target, node){
+        var arr = _getChildren(target, node);
+        if (node) {
+            arr.unshift(_getNode(target, node));
         }
         for (var i = 0; i < arr.length; i++) {
-            _collapse(top, arr[i].target);
+            _collapse(target, arr[i].target);
         }
     }
     
@@ -732,13 +752,13 @@
         return arr;
     }
     
-    function _getChildren(top, target){
+    function _getChildren(target, node){
         var arr = [];
-        if (target) {
-            _children($(target));
+        if (node) {
+            _children($(node));
         }
         else {
-            var roots = _getRoots(top);
+            var roots = _getRoots(target);
             for (var i = 0; i < roots.length; i++) {
                 arr.push(roots[i]);
                 _children($(roots[i].target));
@@ -747,24 +767,24 @@
         
         function _children(parentNode){
             parentNode.next().find("div.ui-tree-node").each(function(){
-                arr.push(_getNode(top, this));
+                arr.push(_getNode(target, this));
             });
         }
         
         return arr;
     }
     
-    function _getParent(top, target){
-        var ul = $(target).parent().parent();
-        if (ul[0] == top) {
+    function _getParent(target, node){
+        var ul = $(node).parent().parent();
+        if (ul[0] == target) {
             return null;
         }
         else {
-            return _getNode(top, ul.prev()[0]);
+            return _getNode(target, ul.prev()[0]);
         }
     }
     
-    function _getChecked(top, type){
+    function _getChecked(target, type){
         type = type || "checked";
         var selector = "";
         if (type == "checked") {
@@ -781,28 +801,28 @@
             }
         }
         var result = [];
-        $(top).find(selector).each(function(){
+        $(target).find(selector).each(function(){
             var node = $(this).parent();
-            result.push(_getNode(top, node[0]));
+            result.push(_getNode(target, node[0]));
         });
         return result;
     }
     
-    function _getSelected(top){
-        var nodes = $(top).find("div.ui-state-active");
+    function _getSelected(target){
+        var nodes = $(target).find("div.ui-state-active");
         if (nodes.length) {
-            return _getNode(top, nodes[0]);
+            return _getNode(target, nodes[0]);
         }
         else {
             return null;
         }
     }
     
-    function _append(top, target){
-        var parent = $(target.parent);
+    function _append(target, cfg){
+        var parent = $(cfg.parent);
         var ul;
         if (parent.length == 0) {
-            ul = $(top);
+            ul = $(target);
         }
         else {
             ul = parent.next();
@@ -810,7 +830,7 @@
                 ul = $("<ul></ul>").insertAfter(parent);
             }
         }
-        if (target.data && target.data.length) {
+        if (cfg.data && cfg.data.length) {
             var span = parent.find("span.ui-tree-icon");
             if (span.hasClass("ui-tree-file")) {
                 span.removeClass("ui-tree-file").addClass("ui-tree-folder");
@@ -820,29 +840,29 @@
                 }
             }
         }
-        _loadData(top, ul[0], target.data, true);
-        _dealCheckbox(top, ul.prev());
+        _loadData(target, ul[0], cfg.data, true);
+        _dealCheckbox(target, ul.prev());
     }
     
-    function _insert(top, target){
-        var ref = target.before || target.after;
-        var parent = _getParent(top, ref);
+    function _insert(target, cfg){
+        var ref = cfg.before || cfg.after;
+        var parent = _getParent(target, ref);
         var li;
         if (parent) {
-            _append(top, {
+            _append(target, {
                 parent: parent.target,
-                data: [target.data]
+                data: [cfg.data]
             });
             li = $(parent.target).next().children("li:last");
         }
         else {
-            _append(top, {
+            _append(target, {
                 parent: null,
-                data: [target.data]
+                data: [cfg.data]
             });
-            li = $(top).children("li:last");
+            li = $(target).children("li:last");
         }
-        if (target.before) {
+        if (cfg.before) {
             li.insertBefore($(ref).parent());
         }
         else {
@@ -850,9 +870,9 @@
         }
     }
     
-    function _remove(top, target){
-        var parent = _getParent(top, target);
-        var jqtarget = $(target);
+    function _remove(target, node){
+        var parent = _getParent(target, node);
+        var jqtarget = $(node);
         var li = jqtarget.parent();
         var ul = li.parent();
         li.remove();
@@ -861,21 +881,21 @@
             jqtarget.find(".ui-tree-icon").removeClass("ui-tree-folder").addClass("ui-tree-file");
             jqtarget.find(".ui-tree-hit").remove();
             $("<span class=\"ui-tree-indent\"></span>").prependTo(jqtarget);
-            if (ul[0] != top) {
+            if (ul[0] != target) {
                 ul.remove();
             }
         }
         if (parent) {
-            _dealCheckbox(top, parent.target);
+            _dealCheckbox(target, parent.target);
         }
-        _setNodes(top, top);
+        _setNodes(target, target);
     }
     
-    function _getData(top, target){
+    function _getData(target, node){
         function getSubData(sub, ul){
             ul.children("li").each(function(){
                 var n = $(this).children("div.ui-tree-node");
-                var node = _getNode(top, n[0]);
+                var node = _getNode(target, n[0]);
                 var sub = $(this).children("ul");
                 if (sub.length) {
                 	node.children = [];
@@ -885,85 +905,85 @@
             });
         }
         
-        if (target) {
-            var node = _getNode(top, target);
-            node.children = [];
-            getSubData(node.children, $(target).next());
-            return node;
+        if (node) {
+            var nodeData = _getNode(target, node);
+            nodeData.children = [];
+            getSubData(nodeData.children, $(node).next());
+            return nodeData;
         }
         else {
             return null;
         }
     }
     
-    function _update(top, jsondata){
-        var jqtarget = $(jsondata.target);
-        var targetNode = _getNode(top, jsondata.target);
+    function _update(target, cfg){
+        var jqtarget = $(cfg.target);
+        var targetNode = _getNode(target, cfg.target);
         if (targetNode.iconCls) {
             jqtarget.find(".ui-tree-icon").removeClass(targetNode.iconCls);
         }
-        var _bf = $.extend({}, targetNode, jsondata);
-        $.data(jsondata.target, "ui-tree-node", _bf);
-        jqtarget.attr("node-id", _bf.id);
-        jqtarget.find(".ui-tree-title").html(_bf.text);
-        if (_bf.iconCls) {
-            jqtarget.find(".ui-tree-icon").addClass(_bf.iconCls);
+        var new_cfg = $.extend({}, targetNode, cfg);
+        $.data(cfg.target, "ui-tree-node", new_cfg);
+        jqtarget.attr("node-id", new_cfg.id);
+        jqtarget.find(".ui-tree-title").html(new_cfg.text);
+        if (new_cfg.iconCls) {
+            jqtarget.find(".ui-tree-icon").addClass(new_cfg.iconCls);
         }
-        if (targetNode.checked != _bf.checked) {
-            _check(top, jsondata.target, _bf.checked);
+        if (targetNode.checked != new_cfg.checked) {
+            _check(target, cfg.target, new_cfg.checked);
         }
     }
     
-    function _getNode(top, target){
-        var node = $.extend({}, $.data(target, "ui-tree-node"), {
-            target: target,
-            checked: $(target).find(".ui-tree-checkbox").hasClass("ui-tree-checkbox1")
+    function _getNode(target, node){
+        var nodeData = $.extend({}, $.data(node, "ui-tree-node"), {
+            target: node,
+            checked: $(node).find(".ui-tree-checkbox").hasClass("ui-tree-checkbox1")
         });
-        if (!_isLeaf(top, target)) {
-        	node.state = $(target).find(".ui-tree-hit").hasClass("ui-tree-expanded") ? "open" : "closed";
+        if (!_isLeaf(target, node)) {
+        	nodeData.state = $(node).find(".ui-tree-hit").hasClass("ui-tree-expanded") ? "open" : "closed";
         }
-        return node;
+        return nodeData;
     }
     
-    function _find(top, id){
-        var results = $(top).find("div.ui-tree-node[node-id=" + id + "]");
+    function _find(target, id){
+        var results = $(target).find("div.ui-tree-node[node-id=" + id + "]");
         if (results.length) {
-            return _getNode(top, results[0]);
+            return _getNode(target, results[0]);
         }
         else {
             return null;
         }
     }
     
-    function _select(top, target){
-        var options = $.data(top, "tree").options;
-        var targetNode = _getNode(top, target);
-        if (options.onBeforeSelect.call(top, targetNode) == false) {
+    function _select(target, node){
+        var options = $.data(target, "tree").options;
+        var nodeData = _getNode(target, node);
+        if (options.onBeforeSelect.call(target, nodeData) == false) {
             return;
         }
-        $("div.ui-state-active", top).removeClass("ui-state-active");
-        $(target).addClass("ui-state-active");
-        options.onSelect.call(top, targetNode);
+        $("div.ui-state-active", target).removeClass("ui-state-active");
+        $(node).addClass("ui-state-active");
+        options.onSelect.call(target, nodeData);
     }
     
-    function _isLeaf(top, target){
-        var jqTarget = $(target);
+    function _isLeaf(target, node){
+        var jqTarget = $(node);
         var hit = jqTarget.children("span.ui-tree-hit");
         return hit.length == 0;
     }
     
-    function _beginEdit(top, target){
-        var options = $.data(top, "tree").options;
-        var targetNode = _getNode(top, target);
-        if (options.onBeforeEdit.call(top, targetNode) == false) {
+    function _beginEdit(target, node){
+        var options = $.data(target, "tree").options;
+        var nodeData = _getNode(target, node);
+        if (options.onBeforeEdit.call(target, nodeData) == false) {
             return;
         }
-        $(target).css("position", "relative");
-        var nt = $(target).find(".ui-tree-title");
+        $(node).css("position", "relative");
+        var nt = $(node).find(".ui-tree-title");
         var nwidth = nt.outerWidth();
         nt.empty();
         var input = $("<input class=\"ui-tree-editor\">").appendTo(nt);
-        input.val(targetNode.text).focus();
+        input.val(nodeData.text).focus();
         input.width(nwidth + 20);
         input.height(document.compatMode == "CSS1Compat" ? (18 - (input.outerHeight() - input.height())) : 18);
         input.bind("click", function(e){
@@ -974,40 +994,40 @@
             e.stopPropagation();
         }).bind("keydown", function(e){
             if (e.keyCode == 13) {
-                _updataNode(top, target);
+                _updataNode(target, node);
                 return false;
             }
             else {
                 if (e.keyCode == 27) {
-                    _cancelEdit(top, target);
+                    _cancelEdit(target, node);
                     return false;
                 }
             }
         }).bind("blur", function(e){
             e.stopPropagation();
-            _updataNode(top, target);
+            _updataNode(target, node);
         });
     }
     
-    function _updataNode(top, target){
-        var options = $.data(top, "tree").options;
-        $(target).css("position", "");
-        var input = $(target).find("input.ui-tree-editor");
+    function _updataNode(target, node){
+        var options = $.data(target, "tree").options;
+        $(node).css("position", "");
+        var input = $(node).find("input.ui-tree-editor");
         var val = input.val();
         input.remove();
-        var targetNode = _getNode(top, target);
+        var targetNode = _getNode(target, node);
         targetNode.text = val;
-        _update(top, targetNode);
-        options.onAfterEdit.call(top, targetNode);
+        _update(target, targetNode);
+        options.onAfterEdit.call(target, targetNode);
     }
     
-    function _cancelEdit(top, target){
-        var options = $.data(top, "tree").options;
-        $(target).css("position", "");
-        $(target).find("input.ui-tree-editor").remove();
-        var targetNode = _getNode(top, target);
-        _update(top, targetNode);
-        options.onCancelEdit.call(top, targetNode);
+    function _cancelEdit(target, node){
+        var options = $.data(target, "tree").options;
+        $(node).css("position", "");
+        $(node).find("input.ui-tree-editor").remove();
+        var nodeData = _getNode(target, node);
+        _update(target, nodeData);
+        options.onCancelEdit.call(target, nodeData);
     }
     
     $.fn.tree = function(options, param){
@@ -1017,31 +1037,31 @@
         options = options || {};
         return this.each(function(){
             var treedata = $.data(this, "tree");
-            var temp;
+            var opts;
             if (treedata) {
-                temp = $.extend(treedata.options, options);
-                treedata.options = temp;
+            	opts = $.extend(treedata.options, options);
+                treedata.options = opts;
             }
             else {
-                temp = $.extend({}, $.fn.tree.defaults, $.fn.tree.parseOptions(this), options);
+            	opts = $.extend({}, $.fn.tree.defaults, $.fn.tree.parseOptions(this), options);
                 $.data(this, "tree", {
-                    options: temp,
+                    options: opts,
                     tree: _addRootCss(this)
                 });
                 var optionArr = _getOptionArr(this);
-                if (optionArr.length && !temp.data) {
-                    temp.data = optionArr;
+                if (optionArr.length && !opts.data) {
+                	opts.data = optionArr;
                 }
             }
             _initEvents(this);
-            if (temp.lines) {
+            if (opts.lines) {
                 $(this).addClass("ui-tree-lines");
             }
-            if (temp.data) {
-                _loadData(this, this, temp.data);
+            if (opts.data) {
+                _loadData(this, this, opts.data);
             }
             else {
-                if (temp.dnd) {
+                if (opts.dnd) {
                     _enableDnd(this);
                 }
                 else {
@@ -1061,11 +1081,11 @@
                 _loadData(this, this, data);
             });
         },
-        getNode: function(jq, _e6){
-            return _getNode(jq[0], _e6);
+        getNode: function(jq, node){
+            return _getNode(jq[0], node);
         },
-        getData: function(jq, _e7){
-            return _getData(jq[0], _e7);
+        getData: function(jq, node){
+            return _getData(jq[0], node);
         },
         reload: function(jq, _e8){
             return jq.each(function(){
@@ -1088,11 +1108,11 @@
         getRoots: function(jq){
             return _getRoots(jq[0]);
         },
-        getParent: function(jq, target){
-            return _getParent(jq[0], target);
+        getParent: function(jq, node){
+            return _getParent(jq[0], node);
         },
-        getChildren: function(jq, target){
-            return _getChildren(jq[0], target);
+        getChildren: function(jq, node){
+            return _getChildren(jq[0], node);
         },
         getChecked: function(jq, type){
             return _getChecked(jq[0], type);
@@ -1100,70 +1120,70 @@
         getSelected: function(jq){
             return _getSelected(jq[0]);
         },
-        isLeaf: function(jq, _ed){
-            return _isLeaf(jq[0], _ed);
+        isLeaf: function(jq, node){
+            return _isLeaf(jq[0], node);
         },
         find: function(jq, id){
             return _find(jq[0], id);
         },
-        select: function(jq, _ee){
+        select: function(jq, node){
             return jq.each(function(){
-                _select(this, _ee);
+                _select(this, node);
             });
         },
-        check: function(jq, _ef){
+        check: function(jq, node){
             return jq.each(function(){
-                _check(this, _ef, true);
+                _check(this, node, true);
             });
         },
-        uncheck: function(jq, _f0){
+        uncheck: function(jq, node){
             return jq.each(function(){
-                _check(this, _f0, false);
+                _check(this, node, false);
             });
         },
-        collapse: function(jq, _f1){
+        collapse: function(jq, node){
             return jq.each(function(){
-                _collapse(this, _f1);
+                _collapse(this, node);
             });
         },
-        expand: function(jq, _f2){
+        expand: function(jq, node){
             return jq.each(function(){
-                _expand(this, _f2);
+                _expand(this, node);
             });
         },
-        collapseAll: function(jq, _f3){
+        collapseAll: function(jq, node){
             return jq.each(function(){
-                _collapseAll(this, _f3);
+                _collapseAll(this, node);
             });
         },
-        expandAll: function(jq, _f4){
+        expandAll: function(jq, node){
             return jq.each(function(){
-                _expandAll(this, _f4);
+                _expandAll(this, node);
             });
         },
-        expandTo: function(jq, _f5){
+        expandTo: function(jq, node){
             return jq.each(function(){
-                _expandTo(this, _f5);
+                _expandTo(this, node);
             });
         },
-        toggle: function(jq, _f6){
+        toggle: function(jq, node){
             return jq.each(function(){
-                _toggle(this, _f6);
+                _toggle(this, node);
             });
         },
-        append: function(jq, _f7){
+        append: function(jq, node){
             return jq.each(function(){
-                _append(this, _f7);
+                _append(this, node);
             });
         },
-        insert: function(jq, _f8){
+        insert: function(jq, node){
             return jq.each(function(){
-                _insert(this, _f8);
+                _insert(this, node);
             });
         },
-        remove: function(jq, _f9){
+        remove: function(jq, node){
             return jq.each(function(){
-                _remove(this, _f9);
+                _remove(this, node);
             });
         },
         pop: function(jq, target){
@@ -1171,9 +1191,9 @@
             jq.tree("remove", target);
             return _pop;
         },
-        update: function(jq, _fc){
+        update: function(jq, data){
             return jq.each(function(){
-                _update(this, _fc);
+                _update(this, data);
             });
         },
         enableDnd: function(jq){
@@ -1186,19 +1206,19 @@
                 _disableDnd(this);
             });
         },
-        beginEdit: function(jq, _fd){
+        beginEdit: function(jq, node){
             return jq.each(function(){
-                _beginEdit(this, _fd);
+                _beginEdit(this, node);
             });
         },
-        endEdit: function(jq, _fe){
+        endEdit: function(jq, node){
             return jq.each(function(){
-                _updataNode(this, _fe);
+                _updataNode(this, node);
             });
         },
-        cancelEdit: function(jq, _ff){
+        cancelEdit: function(jq, node){
             return jq.each(function(){
-                _cancelEdit(this, _ff);
+                _cancelEdit(this, node);
             });
         }
     };
@@ -1276,6 +1296,14 @@
         },
         onDrop: function(target, node, position){
         },
+        onBeforeDrag: function(target, node){
+        },
+        onStopDrag: function(target, node){
+        },
+        onDragOver: function(target, snode, tnode){
+        },
+        initDnd: function(target){
+        },
         onBeforeEdit: function(target){
         },
         onAfterEdit: function(target){
@@ -1302,6 +1330,10 @@ Flywet.widget.EasyTree.prototype.loadData=function(data){
 };
 
 Flywet.widget.EasyTree.prototype.select=function(id){
-	var node = $("#"+this.id).tree("find",id);
-	$("#"+this.id).tree("select",node.target);
+	var node = this.jq.tree("find",id);
+	this.jq.tree("select",node.target);
+};
+
+Flywet.widget.EasyTree.prototype.getData=function(node){
+	return this.jq.tree("getData",node);
 };

@@ -401,8 +401,18 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 	this.editorWrapper
 		.bind("mousedown", function(e){
 			_self.holder = true;
+			_self.mouseDownOnSelected = false;
 			_self.initDomsProp();
 			_self.mouseDownCoords = Flywet.widget.FlowChartUtils.getMouseCoords(e);
+			_self.mouseDownDom = _self.getDomByMouseCoords(_self.mouseDownCoords);
+			if(_self.mouseDownDom){
+				for(var selectedId in _self.component.selected){
+					if(_self.mouseDownDom.id == selectedId){
+						_self.mouseDownOnSelected = true;
+						break;
+					}
+				}
+			}
 		})
 		.bind("mouseout", function(e){
 			_self.holder = false;
@@ -470,6 +480,12 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 			function onMouseMoveForComponent(_self){
 				// 只有当鼠标不是调整状态是默认状态时
 				if(_self.mouseType == ""){
+					// 判断是否在选中元素上面拖动
+					if(!_self.mouseDownOnSelected){
+						_self.mouseMovingDom = undefined;
+						return;
+					}
+					
 					// 判断拖动的元素能否放置在目标组件中
 					for(var selectedId in _self.component.selected){
 						var dim = _self.component.selected[selectedId];
@@ -478,13 +494,6 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 							if(dim.id == _self.mouseMovingDom.id){
 								_self.mouseMovingDom = undefined;
 								break;
-							}
-							// 不能拖入直接父元素
-							if(dim.parent){
-								if(dim.parent.id == _self.mouseMovingDom.id){
-									_self.mouseMovingDom = undefined;
-									break;
-								}
 							}
 							
 							// 不能拖入子元素
@@ -570,26 +579,31 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 							}
 						}
 						_self.move(sources,_self.mouseMovingDom.id);
-					} else {
-						// 鼠标抬起对象是选中对象，将鼠标抬起对象设置为选中对象的父对象
-						if(_self.component.isSelected(_self.mouseUpDom.id)){
-							// 选择父对象
-							_self.mouseUpDom = _self.mouseUpDom.parent;
-						}
-						
-						// 选择一个树节点
-						_self.domStructureTree.select(_self.mouseUpDom.id);
-						
-						// 如果按下shift，认为是多选
-						if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
-						}else{
-							// 如果选择对象已经被选中，不清除所有选中
-							if(!_self.component.isSelected(_self.mouseUpDom.id)){
-								_self.component.clearSelected();
+					} 
+					// 鼠标抬起对象不为空
+					else{
+						if(_self.mouseUpDom){
+							// 鼠标抬起对象是选中对象，将鼠标抬起对象设置为选中对象的父对象
+							if(_self.component.isSelected(_self.mouseUpDom.id)){
+								// 选择父对象
+								_self.mouseUpDom = _self.mouseUpDom.parent;
+							}
+							
+							if(_self.mouseUpDom){
+								// 选择一个树节点
+								_self.domStructureTree.select(_self.mouseUpDom.id);
+								
+								// 如果按下shift，认为是多选
+								if(window["__global_hold_key"] && window["__global_hold_key"] == 16){
+								}else{
+									// 如果选择对象已经被选中，不清除所有选中
+									if(!_self.component.isSelected(_self.mouseUpDom.id)){
+										_self.component.clearSelected();
+									}
+								}
+								_self.component.addSelected(_self.mouseUpDom.id,_self.mouseUpDom,_self);
 							}
 						}
-						_self.component.addSelected(_self.mouseUpDom.id,_self.mouseUpDom,_self);
-						
 					}
 				
 				}
@@ -912,8 +926,9 @@ Flywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
  * 移动元素
  * @param sources 来源元素（集合）
  * @param target 目标元素
+ * @param type 移动类型
  */
-Flywet.widget.DashboardEditor.prototype.move = function(sources,target) {
+Flywet.widget.DashboardEditor.prototype.move = function(sources,target,type) {
 	if(!sources || sources.length==0){
 		return;
 	}
@@ -930,7 +945,8 @@ Flywet.widget.DashboardEditor.prototype.move = function(sources,target) {
 		url: "rest/dashboard/move/"+this.reportInfo.id,
 		params: {
 			source :	sources,
-			target :	target
+			target :	target,
+			type :		type
 		},
 		onsuccess : function(data, status, xhr){
 			_self.reInitEditor(data);
@@ -1040,11 +1056,14 @@ Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 	}
 	
 	// 1.DOM结构树
-	console.log([getNodeStructure(this.domStructure, this)]);
 	if(!this.domStructureTree){
 		var config = {
 			id : 			"dashboardStructPanelContent"
 			,dnd :			true
+			,onDrop :		Flywet.editors.dashboard.action.struct_on_drop
+			,onBeforeDrag :	Flywet.editors.dashboard.action.struct_on_before_drop
+			,onStopDrag :	Flywet.editors.dashboard.action.struct_on_stop_drop
+			,onDragOver : 	Flywet.editors.dashboard.action.struct_on_drag_over
 			,onSelect : 	Flywet.editors.dashboard.action.struct_on_select
 			,data :			[getNodeStructure(this.domStructure, this)]
 		};
@@ -1224,13 +1243,16 @@ Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 		}
 		var id = node.attr("__editor_id"),
 			type = node.attr("__editor_type"),
-			typeName = "";
+			typeName = "",
+			isContainer = false;
 		if(type){
 			var plugin = _self.getPlugin(type);
 			if(plugin.size() == 0){
 				typeName = "构件";
+				isContainer = true;
 			}else{
 				typeName = plugin.data("data")["displayName"];
+				isContainer = plugin.data("data")["isContainer"];
 			}
 		}else{
 			type = typeName = node.get(0).tagName;
@@ -1239,7 +1261,8 @@ Flywet.widget.DashboardEditor.prototype.reloadData = function(data) {
 			id : id
 			,type : "node"
 			,attributes : {
-				pluginType : type
+				pluginType : type,
+				isContainer : isContainer
 			}
 			,text : "<b>"+domId+"</b>&nbsp;&nbsp;["+typeName+"]"
 		};
@@ -1637,6 +1660,121 @@ Flywet.editors.dashboard.action = {
     // @Override 必要方法：用于在Tab发生修改时，点击放弃按钮调用的方法。
     discardTab : function (clicked) {
     	console.log(clicked.data("exdata"));
+    },
+    
+    struct_on_drop : function(tNode,sData,type){
+    	var tData = dashboardEditorPanel_var.domStructureTree.getData(tNode);
+    	dashboardEditorPanel_var.move(sData.id,tData.id,type);
+    },
+    
+    struct_on_before_drop : function(target,node){
+    	var tree = $.data(target, "tree").tree;
+    	// 不能移动到子节点
+    	$(node).next("ul").find("div.ui-tree-node").droppable({
+            accept: "no-accept"
+        });
+    	
+    	// 如果是GridLayoutItem,只能够放到GridLayout和GridLayoutItem之中
+    	var nodeData = tree.tree("getNode",node);
+    	if(nodeData.attributes && nodeData.attributes.pluginType == "fly:GridLayoutItem"){
+    		tree.find("div.ui-tree-node").each(function(i){
+        		var data = tree.tree("getNode",this);
+        		if(data.attributes && (data.attributes.pluginType == "fly:GridLayout" 
+        			|| data.attributes.pluginType == "fly:GridLayoutItem")){
+        			$(this).droppable({
+                        accept: "div.ui-tree-node"
+                    });
+        		}else{
+        			$(this).droppable({
+                        accept: "no-accept"
+                    });
+        		}
+        	});
+    	}
+    },
+    
+    struct_on_stop_drop : function(target,node){
+    	var tree = $.data(target, "tree").tree;
+    	tree.find("div.ui-tree-node").droppable({
+            accept: "div.ui-tree-node"
+        });
+    },
+    
+    struct_on_drag_over : function(target,snode,tnode){
+    	var tree = $.data(target, "tree").tree;
+    	var tnodeData = tree.tree("getNode",tnode);
+    	var snodeData = tree.tree("getNode",snode);
+    	var pageY = snode.pageY;
+        var top = $(tnode).offset().top;
+        var top2 = top + $(tnode).outerHeight();
+        $(snode).draggable("proxy").removeClass("ui-tree-dnd-no").addClass("ui-tree-dnd-yes");
+        $(tnode).removeClass("ui-tree-node-append ui-tree-node-top ui-tree-node-bottom");
+        
+        // 如果元素是GridLayoutItem
+        // 对于GridLayoutItem类型插入其前面
+        // 对于GridLayout类型，插入其中
+        if(snodeData.attributes.pluginType == "fly:GridLayoutItem"){
+        	if(tnodeData.attributes.pluginType == "fly:GridLayoutItem"){
+        		if (pageY > top + (top2 - top) / 2) {
+            		$(tnode).addClass("ui-tree-node-bottom");
+                }
+                else {
+                	$(tnode).addClass("ui-tree-node-top");
+                }
+        	}else if(tnodeData.attributes.pluginType == "fly:GridLayout"){
+        		$(tnode).addClass("ui-tree-node-append");
+        	}
+        	
+        	return;
+        }
+        
+        
+        // 如果目标元素是GridLayout，只能添加到上下
+        if(tnodeData.attributes.pluginType == "fly:GridLayout"){
+        	if (pageY > top + (top2 - top) / 2) {
+        		$(tnode).addClass("ui-tree-node-bottom");
+            }
+            else {
+            	$(tnode).addClass("ui-tree-node-top");
+            }
+        	
+        	return;
+        }
+        
+        // 如果目标元素是GridLayoutItem，只能添加到内部
+        if(tnodeData.attributes.pluginType == "fly:GridLayoutItem"){
+        	$(tnode).addClass("ui-tree-node-append");
+        	
+        	return;
+        }
+        
+        // 如果目标元素是容器
+        if(tnodeData.attributes.isContainer){
+        	if (pageY > top + (top2 - top) / 2) {
+                if (top2 - pageY < 5) {
+                    $(tnode).addClass("ui-tree-node-bottom");
+                }
+                else {
+                    $(tnode).addClass("ui-tree-node-append");
+                }
+            }
+            else {
+                if (pageY - top < 5) {
+                    $(tnode).addClass("ui-tree-node-top");
+                }
+                else {
+                    $(tnode).addClass("ui-tree-node-append");
+                }
+            }
+        }else{
+        	if (pageY > top + (top2 - top) / 2) {
+        		$(tnode).addClass("ui-tree-node-bottom");
+            }
+            else {
+            	$(tnode).addClass("ui-tree-node-top");
+            }
+        }
+        
     },
     
 	struct_on_select : function(node){

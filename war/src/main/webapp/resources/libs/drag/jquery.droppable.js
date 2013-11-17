@@ -14,7 +14,7 @@
 			$.data(target, "droppable").options.onDrop.apply(target, [ e, source, data ]);
 		});
 	}
-	;
+	
 	$.fn.droppable = function(option, param) {
 		if (typeof option == "string") {
 			return $.fn.droppable.methods[option](this, param);
