@@ -1,0 +1,776 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	overflow: hidden;
+	background-color: #e4ecf7;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: black;
+}
+
+#gridBRSpacer {
+	width: 16px;
+	height: 17px;
+	float: right;
+}
+
+.ui-border-box .ui-spreadsheet-sheets,
+.ui-border-box .ui-spreadsheet-sheets *
+{
+	-moz-box-sizing: content-box; /*Firefox3.5+*/
+	-webkit-box-sizing: content-box; /*Safari3.2+*/
+	-o-box-sizing: content-box; /*Opera9.6*/
+	-ms-box-sizing: content-box; /*IE8*/
+	box-sizing: content-box; /*W3C标准*/
+}
+
+.ui-spreadsheet-workspace {
+	position: absolute;
+	background-color: #f0f0f0;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	overflow: hidden;
+	border: 1px solid #ebe7e7;
+}
+
+.ui-spreadsheet-sheets {
+	position: relative;
+	overflow: hidden;
+	z-index: 100;
+}
+
+.ui-spreadsheet-sheet {
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+.ui-spreadsheet-gridSelectAll {
+	position: relative;
+	float: left;
+	height: 19px;
+	width: 41px;
+	z-index: 200;
+	cursor: url("images/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/cursors/xlcross.cur"), default \9;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-sheetSelectorOC {
+	position: relative;
+	float: left;
+	z-index: 40;
+	height: 17px;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-sheetSelectorTB {
+	width: 65px;
+	display: inline;
+	float: left;
+	height: 17px !important;
+}
+
+
+.ui-spreadsheet-sheetSelectorIC {
+	height: 17px
+}
+
+
+
+.ui-spreadsheet-gridColHdrsOC {
+	position: absolute;
+	overflow: hidden;
+	width: inherit;
+	height: 20px;
+	z-index: 200;
+	top: 0;
+}
+
+.ui-spreadsheet-gridColHdrsIC {
+	position: absolute;
+	overflow: visible;
+	width: 30000px;
+	height: 20px;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.ui-spreadsheet-gridColHdr {
+	position: absolute;
+	height: 15px;
+	border-color: #d0d0d0;
+	border-style: solid;
+	border-width: 0 0 1px 1px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	padding: 2px;
+	text-align: center;
+	cursor: url("images/cursors/down.cur") 15 18, default;
+	cursor: url("images/cursors/down.cur"), default \9;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-gridRowHdrsOC {
+	position: absolute;
+	overflow: hidden;
+	width: 42px;
+	height: inherit;
+	z-index: 200;
+	left: 0;
+}
+
+.ui-spreadsheet-gridRowHdrsIC {
+	position: absolute;
+	overflow: visible;
+	width: 42px;
+	height: 1400000px;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.ui-spreadsheet-gridRowHdr {
+	position: absolute;
+	width: 37px;
+	border-color: #d0d0d0;
+	border-style: solid;
+	border-width: 1px 1px 0 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	padding: 2px;
+	text-align: center;
+	cursor: url("images/cursors/right.cur") 10 4, default;
+	cursor: url("images/cursors/right.cur"), default \9;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-paneOC {
+	position: absolute;
+	overflow: hidden;
+	z-index: 100;
+}
+
+.ui-spreadsheet-paneIC {
+	position: absolute;
+	overflow: visible;
+	width: 30000px;
+	height: 1400000px;
+	background-color: #fff;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	cursor: url("images/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/cursors/xlcross.cur"), default \9;
+}
+
+.ui-spreadsheet-gridColSep {
+	position: absolute;
+	background-color: #d1d8e5;
+	width: 0;
+	height: 1400000px;
+	border-left: 1px solid #d1d8e5;
+}
+
+.ui-spreadsheet-gridRow {
+	position: absolute;
+	overflow: visible;
+	width: 30000px;
+	border-top: 1px solid #d1d8e5;
+}
+
+.ui-spreadsheet-gridCell {
+	position: absolute;
+	overflow: hidden;
+	white-space: nowrap;/*默认值*/
+	text-align: right;/*默认值*/
+	height: 100%;
+	top: -1px;
+	border-left: 1px solid transparent;/*默认值*/
+	border-top: 1px solid transparent;/*默认值*/
+	font-family: Arial, Helvetica, sans-serif;/*默认值*/
+	font-size: 10pt;/*默认值*/
+	padding: 2px;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	white-space: pre;
+	z-index: 1;
+	cursor: url("images/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/cursors/xlcross.cur"), default \9;
+	line-height: 1.3em;
+}
+
+.ui-spreadsheet-defaultRangeBorder {
+	overflow: hidden;
+	white-space: nowrap;
+	position: absolute;
+	z-Index: 37;
+	display: block;
+	width: 1px;
+	height: 1px;
+}
+
+.ui-spreadsheet-activeCellElement {
+	position: absolute;
+	z-Index: 30;
+	background-color: white;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.ui-spreadsheet-cursorField {
+	position: absolute;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	display: block;
+	text-align: right;
+	top: -200px;
+	left: -200px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	z-index: 36;
+	cursor: url("images/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/cursors/xlcross.cur"), default \9;
+	padding: 2px;
+	white-space: pre;
+	background-color: #fff;
+	line-height: 1.3em;
+}
+
+.ui-spreadsheet-fillRangeBorder {
+	overflow: hidden;
+	white-space: nowrap;
+	position: absolute;
+	z-Index: 39;
+	display: none;
+	width: 1px;
+	height: 1px;
+	background-color: #fff;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-fillDelMarker {
+	position: absolute;
+	z-Index: 39;
+	display: none;
+	overflow: hidden;
+	white-space: nowrap;
+	background-image: url("images/borders/fill_del_marker.gif");
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-rangeEdge {
+	position: absolute;
+	z-Index: 39;
+	display: none;
+	width: 5px;
+	height: 5px;
+	border: 1px solid white;
+	background-color: black;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.ui-spreadsheet-rangeBackground {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	top: -100px;
+	left: -100px;
+	display: block;
+	overflow: hidden;
+	z-index: 35;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-rangeMask {
+	position: relative;
+	width: 1px;
+	height: 1px;
+	top: 0;
+	left: 0;
+	display: block;
+	background-color: #d0d0d0;
+	opacity: .4;
+	filter: alpha(opacity = 40);
+	cursor: url("images/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/cursors/xlcross.cur"), default \9;
+	z-index: 36;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-headerMarker {
+	position: absolute;
+	overflow: hidden;
+	display: none;
+	height: 1px;
+	width: 1px;
+	z-Index: 101;
+	background-color: transparent;
+	border-top: 0 dotted #000;
+	border-left: 0 dotted #000;
+}
+
+
+.ui-spreadsheet-hscroll {
+	width: inherit;
+}
+
+.ui-spreadsheet-hscroll-left {
+	position: relative;
+	float: left;
+	background-image: url("images/scrollbar/hor_scroller_left.png");
+}
+
+.ui-spreadsheet-hscroll-bg {
+	position: relative;
+	float: left;
+	height: 17px;
+}
+
+.ui-spreadsheet-hscroll-slider {
+	position: relative;
+	float: left;
+}
+
+.ui-spreadsheet-hscroll-right {
+	position: relative;
+	float: right;
+	background-image: url("images/scrollbar/hor_scroller_right.png");
+}
+
+
+.ui-spreadsheet-vscroll {
+	height: inherit;
+}
+
+.ui-spreadsheet-vscroll-up {
+	position: relative;
+	float: left;
+	background-image: url("images/scrollbar/vert_scroller_up.png");
+}
+
+.ui-spreadsheet-vscroll-bg {
+	position: relative;
+	float: left;
+	width: 17px;
+}
+
+.ui-spreadsheet-vscroll-slider {
+	position: relative;
+	float: left;
+}
+
+.ui-spreadsheet-vscroll-down {
+	position: relative;
+	float: right;
+	background-image: url("images/scrollbar/vert_scroller_down.png");
+}
+
+
+
+.ui-spreadsheet-gridScrollImg-el-top {
+	float: left;
+	background-image: url("images/scrollbar/vert_scroller_element_top.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-vfill {
+	float: left;
+	background-image: url("images/scrollbar/vert_scroller_element_fill.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-vcenter {
+	float: left;
+	background-image: url("images/scrollbar/vert_scroller_element_center.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-bottom {
+	float: left;
+	background-image: url("images/scrollbar/vert_scroller_element_bottom.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-left {
+	float: left;
+	background-image: url("images/scrollbar/hor_scroller_element_left.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-right {
+	float: left;
+	background-image: url("images/scrollbar/hor_scroller_element_right.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-hfill {
+	float: left;
+	background-image: url("images/scrollbar/hor_scroller_element_fill.png");
+}
+
+.ui-spreadsheet-gridScrollImg-el-hcenter {
+	float: left;
+	background-image: url("images/scrollbar/hor_scroller_element_center.png");
+}
+
+
+.x-resizable-handle {
+	position: absolute;
+	z-index: 100;
+	font-size: 1px;
+	line-height: 6px;
+	overflow: hidden;
+	zoom: 1;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	background-color: #fff;
+}
+
+.x-collapsed .x-resizable-handle {
+	display: none;
+}
+
+.x-resizable-handle-east {
+	width: 6px;
+	height: 100%;
+	right: 0;
+	top: 0;
+}
+
+.x-resizable-over .x-resizable-handle-east {
+	cursor: e-resize;
+}
+
+.x-resizable-handle-south {
+	width: 100%;
+	height: 6px;
+	left: 0;
+	bottom: 0;
+}
+
+.x-resizable-over .x-resizable-handle-south {
+	cursor: s-resize;
+}
+
+.x-resizable-handle-west {
+	width: 6px;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+.x-resizable-over .x-resizable-handle-west {
+	cursor: w-resize;
+}
+
+.x-resizable-handle-north {
+	width: 100%;
+	height: 6px;
+	left: 0;
+	top: 0;
+}
+
+.x-resizable-over .x-resizable-handle-north {
+	cursor: n-resize;
+}
+
+.x-resizable-handle-southeast {
+	width: 6px;
+	height: 6px;
+	right: 0;
+	bottom: 0;
+	z-index: 101;
+}
+
+.x-resizable-over .x-resizable-handle-southeast {
+	cursor: se-resize;
+}
+
+.x-resizable-handle-northwest {
+	width: 6px;
+	height: 6px;
+	left: 0;
+	top: 0;
+	z-index: 101;
+}
+
+.x-resizable-over .x-resizable-handle-northwest {
+	cursor: nw-resize;
+}
+
+.x-resizable-handle-northeast {
+	width: 6px;
+	height: 6px;
+	right: 0;
+	top: 0;
+	z-index: 101;
+}
+
+.x-resizable-over .x-resizable-handle-northeast {
+	cursor: ne-resize;
+}
+
+.x-resizable-handle-southwest {
+	width: 6px;
+	height: 6px;
+	left: 0;
+	bottom: 0;
+	z-index: 101;
+}
+
+.x-resizable-over .x-resizable-handle-southwest {
+	cursor: sw-resize;
+}
+
+.x-ie .x-resizable-handle-east {
+	margin-right: -1px;
+}
+
+.x-ie .x-resizable-handle-south {
+	margin-bottom: -1px;
+}
+
+.x-resizable-over .x-resizable-handle,.x-resizable-pinned .x-resizable-handle {
+	filter: alpha(opacity = 100);
+	opacity: 1;
+}
+
+
+.ui-spreadsheet-book {
+	position: relative;
+}
+
+.ui-spreadsheet-hsOC {
+	float: right;
+	height: 17px;
+	background-image:url("images/scrollbar/hor_scroller_bg.png");
+	background-repeat: repeat-x;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-hs1OC {
+	border-left: 1px solid #000;
+}
+
+.ui-spreadsheet-vsOC {
+	position: absolute;
+	right: 0;
+	width: 17px;
+	background-image: url("images/scrollbar/vert_scroller_bg.png");
+	background-repeat: repeat-y;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-vs1OC {
+	border-top: 1px solid #000;
+}
+
+.ui-spreadsheet-horizontal-normal-default {
+	background-image: url("images/borders/default_horizontal_normal.gif");
+}
+
+.ui-spreadsheet-vertical-normal-default {
+	background-image: url("images/borders/default_vertical_normal.gif");
+}
+
+.ui-spreadsheet-horizontal-normal-fill {
+	background-image: url("images/borders/fill_horizontal_normal.gif");
+}
+
+.ui-spreadsheet-vertical-normal-fill {
+	background-image: url("images/borders/fill_vertical_normal.gif");
+}
+
+
+
+.ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-selected {
+	background-color: #9dc1e4;
+	color: #fff;
+	border-collapse: collapse;
+	font-weight: normal;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 0 1px 1px 1px;
+	cursor: url("images/cursors/down.cur") 15 18, default;
+	cursor: url("images/cursors/down.cur"), default \9;
+	-moz-user-select: -moz-none;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-active {
+	background-color: #feecbf;
+	border-color: #f29638;
+	border-style: solid;
+	border-width: 0 1px 1px 1px;
+	cursor: url("images/cursors/down.cur") 15 18, default;
+	cursor: url("images/cursors/down.cur"), default \9;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	overflow: hidden;
+}
+
+.ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-selected {
+	background-color: #9dc1e4;
+	color: #fff;
+	border-collapse: collapse;
+	font-weight: normal;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+	cursor: url("images/cursors/right.cur") 10 4, default;
+	cursor: url("images/cursors/right.cur"), default \9;
+	padding-right: 2px;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-active {
+	background-color: #feecbf;
+	border-color: #f29638;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+	cursor: url("images/cursors/right.cur") 10 4, default;
+	cursor: url("images/cursors/right.cur"), default \9;
+	padding-right: 2px;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-resize {
+	cursor: url("images/cursors/we-resize.cur") 8 8, default;
+	cursor: url("images/cursors/we-resize.cur"), default \9;
+}
+
+.ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-resize {
+	cursor: url("images/cursors/ns-resize.cur") 9 9, default;
+	cursor: url("images/cursors/ns-resize.cur"), default \9;
+}
+
+.ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-selected-resize {
+	background-color: #9dc1e4;
+	color: #fff;
+	border-collapse: collapse;
+	font-weight: normal;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 0 1px 1px 1px;
+	cursor: url("images/cursors/we-resize.cur") 8 8, default;
+	cursor: url("images/cursors/we-resize.cur"), default \9;
+}
+
+.ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-active-resize {
+	cursor: url("images/cursors/we-resize.cur") 8 8, default;
+	cursor: url("images/cursors/we-resize.cur"), default \9;
+}
+
+.ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-selected-resize {
+	background-color: #9dc1e4;
+	color: #fff;
+	border-collapse: collapse;
+	font-weight: normal;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+	cursor: url("images/cursors/ns-resize.cur") 9 9, default;
+	cursor: url("images/cursors/ns-resize.cur"), default \9;
+	padding-right: 2px;
+}
+
+.ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-active-resize {
+	text-align: right;
+	background-color: #ffd58d;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	cursor: url("images/cursors/ns-resize.cur") 9 9, default;
+	cursor: url("images/cursors/ns-resize.cur"), default \9;
+	padding-right: 2px;
+}
+
+
+.ui-spreadsheet-cur-rngcopy-0 {
+	cursor: url("images/cursors/rng_copy.cur"), default;
+}
+
+.ui-spreadsheet-cur-rngcopy-1 {
+	cursor: url("images/cursors/rng_copy.cur") 7 4, default;
+}
+
+.ui-spreadsheet-cur-rngcopy-2 {
+	cursor: url("images/cursors/rng_copy.cur") 9 9, default;
+}
+
+.ui-spreadsheet-cur-rngmove-0 {
+	cursor: url("images/cursors/rng_move.cur"), default;
+}
+
+.ui-spreadsheet-cur-rngmove-1 {
+	cursor: url("images/cursors/rng_move.cur") 7 4, default;
+}
+
+.ui-spreadsheet-cur-rngmove-2 {
+	cursor: url("images/cursors/rng_move.cur") 9 9, default;
+}
+
+.ui-spreadsheet-cur-sndclck-0 {
+	cursor: url("images/cursors/sand_clock.cur"), default;
+}
+
+.ui-spreadsheet-cur-sndclck-1 {
+	cursor: url("images/cursors/sand_clock.cur") 10 10, default;
+}
+
+.ui-spreadsheet-cur-arrclck-0 {
+	cursor: url("images/cursors/arrow_sclock.cur"), default;
+}
+
+.ui-spreadsheet-cur-arrclck-1 {
+	cursor: url("images/cursors/arrow_sclock.cur") 10 10, default;
+}
+
+.ui-spreadsheet-cur-handdef-0 {
+	cursor: url("images/cursors/hand.cur"), default;
+}
+
+.ui-spreadsheet-cur-handdef-1 {
+	cursor: url("images/cursors/hand.cur") 5 0, default;
+}
+
+.ui-spreadsheet-cur-mdcurrd-0 {
+	cursor: url("images/cursors/md_curr.cur"), default !important;
+}
+
+.ui-spreadsheet-cur-mdcurrd-1 {
+	cursor: url("images/cursors/md_curr.cur") 8 8, default !important;
+}
+
+.ui-spreadsheet-cur-mdcurrp-0 {
+	cursor: url("images/cursors/md_curr_plus.cur"), default !important;
+}
+
+.ui-spreadsheet-cur-mdcurrp-1 {
+	cursor: url("images/cursors/md_curr_plus.cur") 8 8, default !important;
+}
+
+.ui-spreadsheet-cur-movedef-0 {
+	cursor: url("images/cursors/move.cur"), default;
+}
+
+.ui-spreadsheet-cur-movedef-1 {
+	cursor: url("images/cursors/move.cur") 9 9, default;
+}
