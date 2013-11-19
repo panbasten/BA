@@ -557,6 +557,7 @@
 }
 
 .ui-spreadsheet-hsOC {
+	position: relative;
 	float: right;
 	height: 17px;
 	background-image:url("images/scrollbar/hor_scroller_bg.png");
