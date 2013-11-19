@@ -244,7 +244,7 @@
 		
 		var bgH = (h-opts.hscrollHeight*2),
 			paneH = opts.paneHeight,
-			allRowH = (opts.rowNum * opts.rowHeadHeight);
+			allRowH = (opts.rowNum * opts.rowHeadHeight); // TODO 通过计算单行获得
 		if(paneH>allRowH){
 			ss.vs[1].height(h);
 			ss.vs[0].hide();
@@ -270,7 +270,7 @@
 		
 		var bgW = (w-opts.vscrollWidth*2),
 			paneW = opts.paneWidth,
-			allColumnW = (opts.colNum * opts.colHeadWidth);
+			allColumnW = (opts.colNum * opts.colHeadWidth);// TODO 通过计算单列获得
 		
 		if(paneW>allColumnW){
 			ss.hs[1].width(w);
