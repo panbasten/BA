@@ -47,14 +47,16 @@
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vcenter\" width=\"17\" height=\"8\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vfill\" width=\"17\" height=\"1\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-bottom\" width=\"17\" height=\"4\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
+		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(vsOC);
 		
 		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(target);
+		vs1OC.hide();
 		return [vsOC,vs1OC];
 	}
 	
 	function _initHsOC(target,opts){
 		var hs1OC = _div("ui-spreadsheet-hsOC ui-spreadsheet-hs1OC").appendTo(target);
+		hs1OC.hide();
 		
 		var hsOC = _div("ui-spreadsheet-hsOC").appendTo(target);
 		$("<img class=\"ui-spreadsheet-hscroll-left\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC);
@@ -155,19 +157,14 @@
 	}
 	
 	function _initSheets(target,opts){
-		var sheets = _div("ui-spreadsheet-sheets").appendTo(target);
-		
-		// TODO 根据数据创建多个sheet
-		_initSheet(sheets,opts);
-		
-		return sheets;
+		return _div("ui-spreadsheet-sheets").appendTo(target);
 	}
 	
 	// sheet选择器
 	function _initSelector(target,opts){
 		var selector = _div("ui-spreadsheet-sheetSelectorOC").appendTo(target);
 		var selectorTB = _div("ui-spreadsheet-sheetSelectorTB").appendTo(selector);
-		var selectorTB = _div(""ui-spreadsheet-sheetSelectorIC"").appendTo(selector);
+		var selectorTB = _div("ui-spreadsheet-sheetSelectorIC").appendTo(selector);
 		return selector;
 	}
 	
@@ -175,10 +172,6 @@
 		$(target).addClass("ui-spreadsheet-f").attr("id",null).hide();
 		
 		var opts = $.data(target, "spreadsheet").options;
-		
-		// TODO
-		opts.rowNum = 26;
-		opts.colNum = 30;
 		
 		// workspace
 		var workspace = _div("ui-spreadsheet ui-spreadsheet-workspace x-border-box").insertAfter(target);
@@ -202,7 +195,6 @@
 		// hs
 		var hs = _initHsOC(book,opts);
 		
-		
 		workspace.bind("_resize", function() {
 			var opts = $.data(target, "spreadsheet").options;
 			if (opts.fit == true) {
@@ -214,10 +206,139 @@
 		return {
 			workspace : workspace
 			,book : book
+			,vs : vs
+			,sheets : sheets
+			,br : br
+			,selector : selector
+			,hs : hs
 		};
 	}
 	
+	// 计算显示尺寸
+	function _calSize(target){
+		var opts = $.data(target, "spreadsheet").options;
+		var dim, parent=$(target).parent();
+		if(parent.get(0).tagName === "BODY"){
+			dim = Flywet.getWindowScroll();
+			dim = {width: dim.width, height: dim.height};
+		}else{
+			dim = Flywet.getElementDimensions(parent);
+			dim = {width: dim.css.width, height: dim.css.height};
+		}
+		opts.width = dim.width;
+		opts.height = dim.height;
+		
+		opts.workspaceWidth = opts.width - 2;
+		opts.workspaceHeight = opts.height - 2;
+		
+		opts.paneWidth = opts.workspaceWidth - opts.vscrollWidth - opts.rowHeadWidth;
+		opts.paneHeight = opts.workspaceHeight - opts.hscrollHeight - opts.colHeadHeight;
+		
+		opts.colNum = parseInt(opts.paneWidth / opts.colHeadWidth) + opts.offsetCellNumber;
+		opts.rowNum = parseInt(opts.paneHeight / opts.rowHeadHeight) + opts.offsetCellNumber;
+	}
+	
+	function _resizeVs(target,h){
+		var ss = $.data(target, "spreadsheet");
+		var opts = ss.options;
+		
+		var bgH = (h-opts.hscrollHeight*2),
+			paneH = opts.paneHeight,
+			allRowH = (opts.rowNum * opts.rowHeadHeight); // TODO 通过计算单行获得
+		if(paneH>allRowH){
+			ss.vs[1].height(h);
+			ss.vs[0].hide();
+			ss.vs[1].show();
+		}else{
+			ss.vs[0].height(h);
+			ss.vs[0].find(".ui-spreadsheet-vscroll-bg").height(bgH);
+			var elh = bgH * paneH / allRowH;
+			var vfillh = parseInt((elh-16)/2);
+			if(vfillh<1){
+				vfillh = 1;
+			}
+			ss.vs[0].find(".ui-spreadsheet-gridScrollImg-el-vfill").height(vfillh);
+			ss.vs[0].show();
+			ss.vs[1].hide();
+		}
+		
+	}
+	
+	function _resizeHs(target, w){
+		var ss = $.data(target, "spreadsheet");
+		var opts = ss.options;
+		
+		var bgW = (w-opts.vscrollWidth*2),
+			paneW = opts.paneWidth,
+			allColumnW = (opts.colNum * opts.colHeadWidth);// TODO 通过计算单列获得
+		
+		if(paneW>allColumnW){
+			ss.hs[1].width(w);
+			ss.hs[0].hide();
+			ss.hs[1].show();
+		}else{
+			ss.hs[0].width(w);
+			ss.hs[0].find(".ui-spreadsheet-hscroll-bg").width(bgW);
+			var elh = bgW * paneW / allColumnW;
+			var hfillh = parseInt((elh-16)/2);
+			if(hfillh<1){
+				hfillh = 1;
+			}
+			ss.hs[0].find(".ui-spreadsheet-gridScrollImg-el-hfill").width(hfillh);
+			ss.hs[0].show();
+			ss.hs[1].hide();
+		}
+		
+	}
+	
 	function _resize(target){
+		var ss = $.data(target, "spreadsheet");
+		var opts = ss.options;
+		
+		_calSize(target);
+		
+		// workspace
+		var w = opts.workspaceWidth, 
+			h = opts.workspaceHeight;
+		ss.workspace.width(w).height(h);
+		
+		// vs
+		h = h - opts.hscrollHeight;
+		_resizeVs(target, h);
+		
+		// sheets
+		w = w - opts.vscrollWidth;
+		ss.sheets.empty();
+		_initSheet(ss.sheets,opts);
+		ss.sheets.width(w).height(h);
+		ss.sheets.find(".ui-spreadsheet-sheet").width(w).height(h);
+		
+		// selector
+		var selectorWidth = parseInt( w * 0.6 );
+		ss.selector.width(selectorWidth);
+		
+		// hs
+		var hsWidth = w-selectorWidth;
+		_resizeHs(target, hsWidth);
+		
+		// pane
+		w = w - opts.rowHeadWidth;
+		h = h - opts.colHeadHeight;
+		ss.sheets.find(".ui-spreadsheet-gridColHdrsOC").css({
+			left: opts.rowHeadWidth+"px"
+			,width: w+"px"
+		});
+		ss.sheets.find(".ui-spreadsheet-gridRowHdrsOC").css({
+			top: opts.colHeadHeight+"px"
+			,height: h+"px"
+		});
+		ss.sheets.find(".ui-spreadsheet-paneOC").css({
+			left: opts.rowHeadWidth+"px"
+			,top: opts.colHeadHeight+"px"
+			,width: w+"px"
+			,height: h+"px"
+		});
+		
 	}
 	
 	function _show(target){
@@ -265,8 +386,14 @@
 				
 				t = _init(this);
 				$.data(this, "spreadsheet", {
-					workspace:	t.workspace
-					,options : 	opts
+					options : 	opts
+					,workspace : t.workspace
+					,book : t.book
+					,vs : t.vs
+					,sheets : t.sheets
+					,br : t.br
+					,selector : t.selector
+					,hs : t.hs
 				});
 				
 				$.data(this, "componentType", "spreadsheet");
@@ -307,8 +434,15 @@
 		,height :	"auto"
 		,fit :		true
 		,show :		true
-		,rowHeadHeight: 20
+		
 		,colHeadWidth: 64
+		,colHeadHeight: 19
+		,rowHeadWidth: 41
+		,rowHeadHeight: 20
+		,vscrollWidth: 17
+		,hscrollHeight: 17
+		
+		,offsetCellNumber: 3
 		
 		,onBeforeShow:	function(){}
 		,onShow:	function(){}
