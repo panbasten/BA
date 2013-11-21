@@ -214,6 +214,7 @@
 }
 
 .ui-spreadsheet-defaultRangeBorder {
+	background-position: 0px 0px;
 	overflow: hidden;
 	white-space: nowrap;
 	position: absolute;
@@ -254,6 +255,7 @@
 }
 
 .ui-spreadsheet-fillRangeBorder {
+	background-position: 0px 0px;
 	overflow: hidden;
 	white-space: nowrap;
 	position: absolute;

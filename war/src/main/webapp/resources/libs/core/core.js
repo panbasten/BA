@@ -303,20 +303,16 @@ Flywet = {
 	 * 得到鼠标的位置
 	 */
 	getMousePosition: function(e,target){
-		var win = $(window),
-	    left = e.pageX,
-	    top = e.pageY;
-	    width = $(target).outerWidth(),
-	    height = $(target).outerHeight();
+		var x = e.pageX,
+		    y = e.pageY,
+			$E = $(target),
+		    top = $E.offset().top,
+		    left = $E.offset().left;
 
-	    //collision detection for window boundaries
-	    if((left + width) > (win.width())+ win.scrollLeft()) {
-	        left = left - width;
-	    }
-	    if((top + height ) > (win.height() + win.scrollTop())) {
-	        top = top - height;
-	    }
-	    return {"left":left,"top":top};
+	    x = x - left;
+	    y = y - top;
+	    
+	    return {"x":x,"y":y};
 	},
 	
 	/**
@@ -467,6 +463,7 @@ Flywet = {
 	 * 		指定CSS的hash
 	 */
 	getElementCSS: function ($E, list) {
+		if (!$E.jquery) $E = $($E);
 		var
 			CSS	= {}
 		,	style	= $E[0].style

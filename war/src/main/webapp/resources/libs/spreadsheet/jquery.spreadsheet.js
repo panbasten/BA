@@ -36,9 +36,47 @@
 		return n;
 	}
 	
+	// 获得列宽
+	function _getColWidth(target,colIdx){
+		var opts = $.data(target, "spreadsheet").options;
+		if(opts.data.colsWidth["c_"+colIdx] != undefined){
+			return opts.data.colsWidth["c_"+colIdx];
+		}else{
+			return opts.defaultColWidth;
+		}
+	}
+	
+	// 获得列宽累计值
+	function _getColsWidth(target,sColIdx,eColIdx){
+		var w = 0;
+		for(var i=sColIdx;i<=eColIdx;i++){
+			w = w + _getColWidth(target,i);
+		}
+		return w;
+	}
+	
+	// 获得行高
+	function _getRowHeight(target,rowIdx){
+		var opts = $.data(target, "spreadsheet").options;
+		if(opts.data.rowsHeight["r_"+rowIdx] != undefined){
+			return opts.data.rowsHeight["r_"+rowIdx];
+		}else{
+			return opts.defaultRowHeight;
+		}
+	}
+	
+	// 获得行高累计值
+	function _getRowsHeight(target,sRowIdx,eRowIdx){
+		var h = 0;
+		for(var i=sRowIdx;i<=eRowIdx;i++){
+			h = h + _getRowHeight(target,i);
+		}
+		return h;
+	}
+	
 	// 纵向滚动条
-	function _initVsOC(target,opts){
-		var vsOC = _div("ui-spreadsheet-vsOC").appendTo(target);
+	function _initVsOC(target,parent,opts){
+		var vsOC = _div("ui-spreadsheet-vsOC").appendTo(parent);
 		$("<img class=\"ui-spreadsheet-vscroll-up\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(vsOC);
 		var vsOC_bg = _div("ui-spreadsheet-vscroll-bg").appendTo(vsOC);
 		var vsOC_slider = _div("ui-spreadsheet-vscroll-slider").appendTo(vsOC_bg);
@@ -49,16 +87,16 @@
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-bottom\" width=\"17\" height=\"4\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
 		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(vsOC);
 		
-		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(target);
+		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(parent);
 		vs1OC.hide();
 		return [vsOC,vs1OC];
 	}
 	
-	function _initHsOC(target,opts){
-		var hs1OC = _div("ui-spreadsheet-hsOC ui-spreadsheet-hs1OC").appendTo(target);
+	function _initHsOC(target,parent,opts){
+		var hs1OC = _div("ui-spreadsheet-hsOC ui-spreadsheet-hs1OC").appendTo(parent);
 		hs1OC.hide();
 		
-		var hsOC = _div("ui-spreadsheet-hsOC").appendTo(target);
+		var hsOC = _div("ui-spreadsheet-hsOC").appendTo(parent);
 		$("<img class=\"ui-spreadsheet-hscroll-left\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC);
 		var hsOC_bg = _div("ui-spreadsheet-hscroll-bg").appendTo(hsOC);
 		var hsOC_slider = _div("ui-spreadsheet-hscroll-slider").appendTo(hsOC_bg);
@@ -75,33 +113,36 @@
 	}
 	
 	// 列头
-	function _initColHdrs(target,opts){
-		var gridColHdrsOC = _div("ui-spreadsheet-gridColHdrsOC").appendTo(target);
+	function _initColHdrs(target,parent,opts){
+		var gridColHdrsOC = _div("ui-spreadsheet-gridColHdrsOC").appendTo(parent);
 		var gridColHdrsIC = _div("ui-spreadsheet-gridColHdrsIC").appendTo(gridColHdrsOC);
 		
-		var col;
+		var col,width,left = 0;
 		for(var i=0;i<opts.colNum;i++){
+			width = _getColWidth(target,i);
 			col = _div("ui-spreadsheet-gridColHdr",s10t26(i+1)).appendTo(gridColHdrsIC);
 			col.css({
-				left: (i*opts.colHeadWidth)+"px",
-				width: (opts.colHeadWidth-5)+"px"
+				left: left+"px",
+				width: (width-5)+"px"
 			});
+			
+			left = left + width;
 		}
 		
 		return gridColHdrsOC;
 	}
 	
 	// 行头
-	function _initRowHdrs(target,opts){
-		var gridRowHdrsOC = _div("ui-spreadsheet-gridRowHdrsOC").appendTo(target);
+	function _initRowHdrs(target,parent,opts){
+		var gridRowHdrsOC = _div("ui-spreadsheet-gridRowHdrsOC").appendTo(parent);
 		var gridRowHdrsIC = _div("ui-spreadsheet-gridRowHdrsIC").appendTo(gridRowHdrsOC);
 		
 		var row;
 		for(var i=0;i<opts.rowNum;i++){
 			row = _div("ui-spreadsheet-gridRowHdr",(i+1)).appendTo(gridRowHdrsIC);
 			row.css({
-				top: (i*opts.rowHeadHeight)+"px",
-				height: (opts.rowHeadHeight-5)+"px"
+				top: (i*opts.defaultRowHeight)+"px",
+				height: (opts.defaultRowHeight-5)+"px"
 			});
 		}
 		
@@ -109,17 +150,21 @@
 	}
 	
 	// 主表格区
-	function _initPane(target,opts){
-		var paneOC = _div("ui-spreadsheet-paneOC").appendTo(target);
+	function _initPane(target,parent,opts){
+		var opts = $.data(target, "spreadsheet").options;
+		
+		var paneOC = _div("ui-spreadsheet-paneOC").appendTo(parent);
 		var paneIC = _div("ui-spreadsheet-paneIC").appendTo(paneOC);
 		
 		// 分隔线
-		var col;
+		var col,width,left = 0;
 		for(var i=0;i<opts.colNum;i++){
+			width = _getColWidth(target,i);
 			col = _div("ui-spreadsheet-gridColSep").appendTo(paneIC);
 			col.css({
-				left: (i*opts.colHeadWidth)+"px"
+				left: left+"px"
 			});
+			left = left + width;
 		}
 		
 		// 行记录
@@ -127,51 +172,148 @@
 		for(var i=0;i<opts.rowNum;i++){
 			row = _div("ui-spreadsheet-gridRow").appendTo(paneIC);
 			row.css({
-				top: (i*opts.rowHeadHeight)+"px",
-				height: (opts.rowHeadHeight-5)+"px"
+				top: (i*opts.defaultRowHeight)+"px",
+				height: (opts.defaultRowHeight-5)+"px"
 			});
 			
+			left = 0;
 			for(var j=0;j<opts.colNum;j++){
+				width = _getColWidth(target,j);
 				cell = _div("ui-spreadsheet-gridCell").appendTo(row);
 				cell.css({
-					left: (j*opts.colHeadWidth)+"px",
-					width: (opts.colHeadWidth-5)+"px"
+					left: left+"px",
+					width: (width-5)+"px"
 				});
+				left = left + width;
 			}
+		}
+		
+		// 选中框
+		var bv1 = _div("ui-spreadsheet-defaultRangeBorder ui-spreadsheet-vertical-normal-default").appendTo(paneIC).hide();
+		var bv2 = _div("ui-spreadsheet-defaultRangeBorder ui-spreadsheet-vertical-normal-default").appendTo(paneIC).hide();
+		var bh1 = _div("ui-spreadsheet-defaultRangeBorder ui-spreadsheet-horizontal-normal-default").appendTo(paneIC).hide();
+		var bh2 = _div("ui-spreadsheet-defaultRangeBorder ui-spreadsheet-horizontal-normal-default").appendTo(paneIC).hide();
+		// 激活cell
+		var ac = _div("ui-spreadsheet-activeCellElement ui-spreadsheet-cursorField").appendTo(paneIC).hide();
+		
+		
+		// 选中的虚线拖拽框
+		var fv1 = _div("ui-spreadsheet-fillRangeBorder ui-spreadsheet-vertical-normal-fill").appendTo(paneIC).hide();
+		var fv2 = _div("ui-spreadsheet-fillRangeBorder ui-spreadsheet-vertical-normal-fill").appendTo(paneIC).hide();
+		var fh1 = _div("ui-spreadsheet-fillRangeBorder ui-spreadsheet-horizontal-normal-fill").appendTo(paneIC).hide();
+		var fh2 = _div("ui-spreadsheet-fillRangeBorder ui-spreadsheet-horizontal-normal-fill").appendTo(paneIC).hide();
+		
+		// 选择点
+		var re = _div("ui-spreadsheet-rangeEdge ui-spreadsheet-cur-mdcurrd-1").appendTo(paneIC).hide();
+		
+		// 选中框背景
+		var rbg = _div("ui-spreadsheet-rangeBackground").appendTo(paneIC).hide();
+		_div("ui-spreadsheet-rangeMask").appendTo(rbg);
+		
+		// 事件
+		paneOC.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			// 取得按下鼠标的坐标
+			var pos = Flywet.getMousePosition(e,paneOC);
+			var cpos = _getCellPositionByCoors(target,pos);
+			_showRange(cpos,cpos);
+		});
+		
+		// 通过Cell坐标获得Cell
+		function _getCellCss(pos){
+			var row = paneIC.find(".ui-spreadsheet-gridRow").get(pos.ridx);
+			var cell = $(row).find(".ui-spreadsheet-gridCell").get(pos.cidx);
+			return {
+				top : Flywet.cssNum(row,"top")
+				,left : Flywet.cssNum(cell,"left")
+			};
+		}
+		
+		// 显示选中框
+		function _showRange(startPos, endPos){
+			var scss = _getCellCss(startPos),
+				ecss = _getCellCss(endPos);
+			console.log(scss);
+			console.log(ecss);
+			bv1.css({
+				left: (scss.left-2)+"px"
+				,top: (scss.top-1)+"px"
+				,width: "5px"
+				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
+			}).show();
+			
+			bv2.css({
+				left: (ecss.left+_getColWidth(target,endPos.cidx)-2)+"px"
+				,top: (ecss.top-1)+"px"
+				,width: "5px"
+				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
+			}).show();
+			
+			bh1.css({
+				left: (scss.left-1)+"px"
+				,top: (scss.top-2)+"px"
+				,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+2)+"px"
+				,height: "5px"
+			}).show();
+			
+			bh2.css({
+				left: (ecss.left-1)+"px"
+				,top: (ecss.top+_getRowHeight(target,endPos.ridx)-2)+"px"
+				,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+1)+"px"
+				,height: "5px"
+			}).show();
+			
+			ac.css({
+				left: scss.left+"px"
+				,top: (ecss.top+1)+"px"
+				,width: (_getColWidth(target,startPos.cidx)-5)+"px"
+				,height: (_getRowHeight(target,startPos.ridx)-6)+"px"
+			}).show();
 		}
 		
 		return paneOC;
 	}
 	
-	function _initSheet(target,opts){
-		var sheet = _div("ui-spreadsheet-sheet").appendTo(target);
+	// 获得鼠标点击位置的Cell坐标
+	function _getCellPositionByCoors(target,pos){
+		var opts = $.data(target, "spreadsheet").options;
+		return {
+			ridx : parseInt(pos.y / opts.defaultRowHeight),
+			cidx : parseInt(pos.x / opts.defaultColWidth)
+		};
+	}
+	
+	// 根据Cell坐标获得Cell对象
+	function _getCellByPosition(target,pos){
+		var opts = $.data(target, "spreadsheet").options;
+		var sheet = $.data(target, "spreadsheet").sheet;
+		var cs = sheet.get(opts.currentSheetIndex)
+		var row = cs.find(".ui-spreadsheet-gridRow").get(pos.ridx);
+		return $(row).find(".ui-spreadsheet-gridCell").get(pos.cidx);
+	}
+	
+	function _initSheet(target,parent,opts){
+		var sheet = _div("ui-spreadsheet-sheet").appendTo(parent);
 		// 左上角全选区
 		_div("ui-spreadsheet-gridSelectAll").appendTo(sheet);
 		// 列头
-		var colHdrs = _initColHdrs(sheet,opts);
+		var colHdrs = _initColHdrs(target,sheet,opts);
 		// 行头
-		var rowHdrs = _initRowHdrs(sheet,opts);
+		var rowHdrs = _initRowHdrs(target,sheet,opts);
 		// 主表格区
-		var pane = _initPane(sheet,opts);
-		
-		pane.mousedown(function(e){
-			// 确保是鼠标左键
-			if (e.which != 1) {return;}
-			// 取得按下鼠标的坐标
-			var mouseCoords = Flywet.getMousePosition(e,pane);
-			console.log(mouseCoords);
-		});
+		var pane = _initPane(target,sheet,opts);
 		
 		return sheet;
 	}
 	
-	function _initSheets(target,opts){
-		return _div("ui-spreadsheet-sheets").appendTo(target);
+	function _initSheets(target,parent,opts){
+		return _div("ui-spreadsheet-sheets").appendTo(parent);
 	}
 	
 	// sheet选择器
-	function _initSelector(target,opts){
-		var selector = _div("ui-spreadsheet-sheetSelectorOC").appendTo(target);
+	function _initSelector(target,parent,opts){
+		var selector = _div("ui-spreadsheet-sheetSelectorOC").appendTo(parent);
 		var selectorTB = _div("ui-spreadsheet-sheetSelectorTB").appendTo(selector);
 		var selectorTB = _div("ui-spreadsheet-sheetSelectorIC").appendTo(selector);
 		return selector;
@@ -190,19 +332,19 @@
 		var book = _div("ui-spreadsheet-book").appendTo(workspace);
 		
 		// vs
-		var vs = _initVsOC(book,opts);
+		var vs = _initVsOC(target,book,opts);
 		
 		// sheets
-		var sheets = _initSheets(book,opts);
+		var sheets = _initSheets(target,book,opts);
 		
 		// br_spacer
 		var br = _div("ui-spreadsheet-gridBRSpacer").appendTo(book);
 		
 		// selector
-		var selector = _initSelector(book,opts);
+		var selector = _initSelector(target,book,opts);
 		
 		// hs
-		var hs = _initHsOC(book,opts);
+		var hs = _initHsOC(target,book,opts);
 		
 		workspace.bind("_resize", function() {
 			var opts = $.data(target, "spreadsheet").options;
@@ -240,11 +382,11 @@
 		opts.workspaceWidth = opts.width - 2;
 		opts.workspaceHeight = opts.height - 2;
 		
-		opts.paneWidth = opts.workspaceWidth - opts.vscrollWidth - opts.rowHeadWidth;
-		opts.paneHeight = opts.workspaceHeight - opts.hscrollHeight - opts.colHeadHeight;
+		opts.paneWidth = opts.workspaceWidth - opts.vscrollWidth - opts.headRowWidth;
+		opts.paneHeight = opts.workspaceHeight - opts.hscrollHeight - opts.headColHeight;
 		
-		opts.colNum = parseInt(opts.paneWidth / opts.colHeadWidth) + opts.offsetCellNumber;
-		opts.rowNum = parseInt(opts.paneHeight / opts.rowHeadHeight) + opts.offsetCellNumber;
+		opts.colNum = parseInt(opts.paneWidth / opts.defaultColWidth) + opts.offsetCellNumber;
+		opts.rowNum = parseInt(opts.paneHeight / opts.defaultRowHeight) + opts.offsetCellNumber;
 	}
 	
 	function _resizeVs(target,h){
@@ -253,7 +395,7 @@
 		
 		var bgH = (h-opts.hscrollHeight*2),
 			paneH = opts.paneHeight,
-			allRowH = (opts.rowNum * opts.rowHeadHeight); // TODO 通过计算单行获得
+			allRowH = (opts.rowNum * opts.defaultRowHeight); // TODO 通过计算单行获得
 		if(paneH>allRowH){
 			ss.vs[1].height(h);
 			ss.vs[0].hide();
@@ -279,7 +421,7 @@
 		
 		var bgW = (w-opts.vscrollWidth*2),
 			paneW = opts.paneWidth,
-			allColumnW = (opts.colNum * opts.colHeadWidth);// TODO 通过计算单列获得
+			allColumnW = (opts.colNum * opts.defaultColWidth);// TODO 通过计算单列获得
 		
 		if(paneW>allColumnW){
 			ss.hs[1].width(w);
@@ -321,8 +463,11 @@
 		
 		// TODO 多个Sheet页
 		var sheet = [];
-		sheet.push(_initSheet(ss.sheets,opts));
+		sheet.push(_initSheet(target,ss.sheets,opts));
 		ss.sheet = sheet;
+		
+		// 当前坐标
+		opts.currentSheetIndex = 0;
 		
 		ss.sheets.width(w).height(h);
 		ss.sheets.find(".ui-spreadsheet-sheet").width(w).height(h);
@@ -336,19 +481,19 @@
 		_resizeHs(target, hsWidth);
 		
 		// pane
-		w = w - opts.rowHeadWidth;
-		h = h - opts.colHeadHeight;
+		w = w - opts.headRowWidth;
+		h = h - opts.headColHeight;
 		ss.sheets.find(".ui-spreadsheet-gridColHdrsOC").css({
-			left: opts.rowHeadWidth+"px"
+			left: opts.headRowWidth+"px"
 			,width: w+"px"
 		});
 		ss.sheets.find(".ui-spreadsheet-gridRowHdrsOC").css({
-			top: opts.colHeadHeight+"px"
+			top: opts.headColHeight+"px"
 			,height: h+"px"
 		});
 		ss.sheets.find(".ui-spreadsheet-paneOC").css({
-			left: opts.rowHeadWidth+"px"
-			,top: opts.colHeadHeight+"px"
+			left: opts.headRowWidth+"px"
+			,top: opts.headColHeight+"px"
 			,width: w+"px"
 			,height: h+"px"
 		});
@@ -449,14 +594,32 @@
 		,fit :		true
 		,show :		true
 		
-		,colHeadWidth: 64
-		,colHeadHeight: 19
-		,rowHeadWidth: 41
-		,rowHeadHeight: 20
+		,defaultColWidth: 64
+		,defaultRowHeight: 20
+		
+		,data : {
+			colsWidth : {}
+			,rowsHeight : {}
+		}
+		
+		,headColHeight: 19
+		,headRowWidth: 41
+		
 		,vscrollWidth: 17
 		,hscrollHeight: 17
 		
 		,offsetCellNumber: 3
+		
+		,currentSheetIndex: 0
+		
+		// 滚动条起始cell位置
+		,startRowIndex : 0
+		,startColIndex : 0
+		
+		,rangeStartRowIndex : null
+		,rangeStartColIndex : null
+		,rangeEndRowIndex : null
+		,rangeEndColIndex : null
 		
 		,onBeforeShow:	function(){}
 		,onShow:	function(){}
