@@ -153,6 +153,15 @@
 		var rowHdrs = _initRowHdrs(sheet,opts);
 		// 主表格区
 		var pane = _initPane(sheet,opts);
+		
+		pane.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			// 取得按下鼠标的坐标
+			var mouseCoords = Flywet.getMousePosition(e,pane);
+			console.log(mouseCoords);
+		});
+		
 		return sheet;
 	}
 	
