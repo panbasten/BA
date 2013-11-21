@@ -309,7 +309,12 @@
 		// sheets
 		w = w - opts.vscrollWidth;
 		ss.sheets.empty();
-		_initSheet(ss.sheets,opts);
+		
+		// TODO 多个Sheet页
+		var sheet = [];
+		sheet.push(_initSheet(ss.sheets,opts));
+		ss.sheet = sheet;
+		
 		ss.sheets.width(w).height(h);
 		ss.sheets.find(".ui-spreadsheet-sheet").width(w).height(h);
 		
