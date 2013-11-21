@@ -137,13 +137,15 @@
 		var gridRowHdrsOC = _div("ui-spreadsheet-gridRowHdrsOC").appendTo(parent);
 		var gridRowHdrsIC = _div("ui-spreadsheet-gridRowHdrsIC").appendTo(gridRowHdrsOC);
 		
-		var row;
+		var row,height,top = 0;
 		for(var i=0;i<opts.rowNum;i++){
+			height = _getRowHeight(target,i);
 			row = _div("ui-spreadsheet-gridRowHdr",(i+1)).appendTo(gridRowHdrsIC);
 			row.css({
-				top: (i*opts.defaultRowHeight)+"px",
-				height: (opts.defaultRowHeight-5)+"px"
+				top: top+"px",
+				height: (height-5)+"px"
 			});
+			top = top + height;
 		}
 		
 		return gridRowHdrsOC;
@@ -168,14 +170,16 @@
 		}
 		
 		// 行记录
-		var row,cell;
+		var row,cell,height,top=0;
 		for(var i=0;i<opts.rowNum;i++){
+			height = _getRowHeight(target,i);
 			row = _div("ui-spreadsheet-gridRow").appendTo(paneIC);
 			row.css({
-				top: (i*opts.defaultRowHeight)+"px",
-				height: (opts.defaultRowHeight-5)+"px"
+				top: top+"px",
+				height: (height-5)+"px"
 			});
 			
+			top = top + height;
 			left = 0;
 			for(var j=0;j<opts.colNum;j++){
 				width = _getColWidth(target,j);
@@ -208,16 +212,53 @@
 		
 		// 选中框背景
 		var rbg = _div("ui-spreadsheet-rangeBackground").appendTo(paneIC).hide();
-		_div("ui-spreadsheet-rangeMask").appendTo(rbg);
+		
+		var win = Flywet.getWindowScroll();
+		var rm = _div("ui-spreadsheet-rangeMask").css({
+			left: (win.width*(-1))+"px"
+			,top: (win.height*(-1))+"px"
+			,width: (win.width*2)+"px"
+			,height: (win.height*2)+"px"
+		}).appendTo(rbg);
 		
 		// 事件
-		paneOC.mousedown(function(e){
+		paneIC.mousedown(function(e){
 			// 确保是鼠标左键
 			if (e.which != 1) {return;}
+			
 			// 取得按下鼠标的坐标
-			var pos = Flywet.getMousePosition(e,paneOC);
+			var pos = Flywet.getMousePosition(e,paneIC);
 			var cpos = _getCellPositionByCoors(target,pos);
+			
+			opts.rangeHold = true;
+			opts.rangeStartPosition = cpos;
+			opts.rangeEndPosition = cpos;
+			
 			_showRange(cpos,cpos);
+		})
+		.mousemove(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			if(opts.rangeHold){
+				var pos = Flywet.getMousePosition(e,paneIC);
+				var cpos = _getCellPositionByCoors(target,pos);
+				
+				opts.rangeEndPosition = cpos;
+				_showRange(opts.rangeStartPosition,cpos);
+			}
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			if(opts.rangeHold){
+				var pos = Flywet.getMousePosition(e,paneIC);
+				var cpos = _getCellPositionByCoors(target,pos);
+				
+				opts.rangeEndPosition = cpos;
+				opts.rangeHold = false;
+				
+				_showRange(opts.rangeStartPosition,cpos);
+			}
 		});
 		
 		// 通过Cell坐标获得Cell
@@ -231,11 +272,18 @@
 		}
 		
 		// 显示选中框
-		function _showRange(startPos, endPos){
+		function _showRange(spos, epos){
+			var startPos = {
+				ridx : Math.min(spos.ridx,epos.ridx)
+				,cidx : Math.min(spos.cidx,epos.cidx)
+			};
+			var endPos = {
+				ridx : Math.max(spos.ridx,epos.ridx)
+				,cidx : Math.max(spos.cidx,epos.cidx)
+			};
 			var scss = _getCellCss(startPos),
-				ecss = _getCellCss(endPos);
-			console.log(scss);
-			console.log(ecss);
+				ecss = _getCellCss(endPos),
+				scss_o = _getCellCss(spos);
 			bv1.css({
 				left: (scss.left-2)+"px"
 				,top: (scss.top-1)+"px"
@@ -245,7 +293,7 @@
 			
 			bv2.css({
 				left: (ecss.left+_getColWidth(target,endPos.cidx)-2)+"px"
-				,top: (ecss.top-1)+"px"
+				,top: (scss.top-1)+"px"
 				,width: "5px"
 				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
@@ -258,18 +306,31 @@
 			}).show();
 			
 			bh2.css({
-				left: (ecss.left-1)+"px"
+				left: (scss.left-1)+"px"
 				,top: (ecss.top+_getRowHeight(target,endPos.ridx)-2)+"px"
 				,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+1)+"px"
 				,height: "5px"
 			}).show();
 			
 			ac.css({
-				left: scss.left+"px"
-				,top: (ecss.top+1)+"px"
-				,width: (_getColWidth(target,startPos.cidx)-5)+"px"
-				,height: (_getRowHeight(target,startPos.ridx)-6)+"px"
+				left: scss_o.left+"px"
+				,top: (scss_o.top+1)+"px"
+				,width: (_getColWidth(target,spos.cidx)-5)+"px"
+				,height: (_getRowHeight(target,spos.ridx)-6)+"px"
 			}).show();
+			
+			re.css({
+				left: (ecss.left+_getColWidth(target,endPos.cidx)-3)+"px"
+				,top: (ecss.top+_getRowHeight(target,endPos.ridx)-3)+"px"
+			}).show();
+			
+			rbg.css({
+				left: (scss.left+3)+"px"
+				,top: (scss.top+3)+"px"
+				,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)-5)+"px"
+				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)-5)+"px"
+			}).show();
+			
 		}
 		
 		return paneOC;
@@ -278,9 +339,18 @@
 	// 获得鼠标点击位置的Cell坐标
 	function _getCellPositionByCoors(target,pos){
 		var opts = $.data(target, "spreadsheet").options;
+		var tx = pos.x, ty = pos.y, ridx = 0, cidx = 0;
+		while(tx>0){
+			tx = tx - _getColWidth(target, cidx);
+			cidx++;
+		}
+		while(ty>0){
+			ty = ty - _getRowHeight(target, ridx);
+			ridx++;
+		}
 		return {
-			ridx : parseInt(pos.y / opts.defaultRowHeight),
-			cidx : parseInt(pos.x / opts.defaultColWidth)
+			ridx : (ridx-1),
+			cidx : (cidx-1)
 		};
 	}
 	
@@ -385,8 +455,12 @@
 		opts.paneWidth = opts.workspaceWidth - opts.vscrollWidth - opts.headRowWidth;
 		opts.paneHeight = opts.workspaceHeight - opts.hscrollHeight - opts.headColHeight;
 		
-		opts.colNum = parseInt(opts.paneWidth / opts.defaultColWidth) + opts.offsetCellNumber;
-		opts.rowNum = parseInt(opts.paneHeight / opts.defaultRowHeight) + opts.offsetCellNumber;
+		var pos = _getCellPositionByCoors(target,{
+			x:opts.paneWidth
+			,y:opts.paneHeight
+		});
+		opts.colNum = pos.cidx + 1 + opts.offsetCellNumber;
+		opts.rowNum = pos.ridx + 1 + opts.offsetCellNumber;
 	}
 	
 	function _resizeVs(target,h){
@@ -395,7 +469,7 @@
 		
 		var bgH = (h-opts.hscrollHeight*2),
 			paneH = opts.paneHeight,
-			allRowH = (opts.rowNum * opts.defaultRowHeight); // TODO 通过计算单行获得
+			allRowH = _getRowsHeight(target,0,(opts.rowNum-1));
 		if(paneH>allRowH){
 			ss.vs[1].height(h);
 			ss.vs[0].hide();
@@ -421,7 +495,7 @@
 		
 		var bgW = (w-opts.vscrollWidth*2),
 			paneW = opts.paneWidth,
-			allColumnW = (opts.colNum * opts.defaultColWidth);// TODO 通过计算单列获得
+			allColumnW = _getColsWidth(target,0,(opts.colNum-1));
 		
 		if(paneW>allColumnW){
 			ss.hs[1].width(w);
@@ -616,10 +690,9 @@
 		,startRowIndex : 0
 		,startColIndex : 0
 		
-		,rangeStartRowIndex : null
-		,rangeStartColIndex : null
-		,rangeEndRowIndex : null
-		,rangeEndColIndex : null
+		,rangeHold : false
+		,rangeStartPosition : null
+		,rangeEndPosition : null
 		
 		,onBeforeShow:	function(){}
 		,onShow:	function(){}
