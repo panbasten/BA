@@ -117,27 +117,30 @@
 		var gridColHdrsOC = _div("ui-spreadsheet-gridColHdrsOC").appendTo(parent);
 		var gridColHdrsIC = _div("ui-spreadsheet-gridColHdrsIC").appendTo(gridColHdrsOC);
 		
-		var col,width,left = 0;
+		var col,width;
 		// 列头显示
-		for(var i=0;i<opts.colNum;i++){
-			width = _getColWidth(target,i);
-			col = _div("ui-spreadsheet-gridColHdr",s10t26(i+1)).appendTo(gridColHdrsIC);
-			col.css({
-				left: left+"px",
-				width: (width-5)+"px"
-			});
-			left = left + width;
-		}
+		createColHdrs("ui-spreadsheet-gridColHdr",true);
+		
 		// 列头选中
-		left = 0;
-		for(var i=0;i<opts.colNum;i++){
-			width = _getColWidth(target,i);
-			col = _div("ui-spreadsheet-gridColHdr ui-spreadsheet-col-selected",s10t26(i+1)).appendTo(gridColHdrsIC).hide();
-			col.css({
-				left: left+"px",
-				width: (width-5)+"px"
-			});
-			left = left + width;
+		createColHdrs("ui-spreadsheet-gridColHdr ui-spreadsheet-col-selected");
+		
+		// 列头激活
+		createColHdrs("ui-spreadsheet-gridColHdr ui-spreadsheet-col-active");
+		
+		function createColHdrs(cls,show){
+			var left = 0;
+			for(var i=0;i<opts.colNum;i++){
+				width = _getColWidth(target,i);
+				col = _div(cls,s10t26(i+1)).appendTo(gridColHdrsIC);
+				if(!show){
+					col.hide();
+				}
+				col.css({
+					left: left+"px",
+					width: (width-5)+"px"
+				});
+				left = left + width;
+			}
 		}
 		
 		return gridColHdrsOC;
@@ -150,25 +153,28 @@
 		
 		var row,height,top = 0;
 		// 行头显示
-		for(var i=0;i<opts.rowNum;i++){
-			height = _getRowHeight(target,i);
-			row = _div("ui-spreadsheet-gridRowHdr",(i+1)).appendTo(gridRowHdrsIC);
-			row.css({
-				top: top+"px",
-				height: (height-5)+"px"
-			});
-			top = top + height;
-		}
+		createRowHdrs("ui-spreadsheet-gridRowHdr",true);
+		
 		// 行头选中
-		top = 0;
-		for(var i=0;i<opts.rowNum;i++){
-			height = _getRowHeight(target,i);
-			row = _div("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-selected",(i+1)).appendTo(gridRowHdrsIC).hide();
-			row.css({
-				top: top+"px",
-				height: (height-5)+"px"
-			});
-			top = top + height;
+		createRowHdrs("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-selected");
+		
+		// 行头激活
+		createRowHdrs("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-active");
+		
+		function createRowHdrs(cls,show){
+			var top = 0;
+			for(var i=0;i<opts.rowNum;i++){
+				height = _getRowHeight(target,i);
+				row = _div(cls,(i+1)).appendTo(gridRowHdrsIC);
+				if(!show){
+					row.hide();
+				}
+				row.css({
+					top: top+"px",
+					height: (height-5)+"px"
+				});
+				top = top + height;
+			}
 		}
 		
 		return gridRowHdrsOC;
@@ -180,8 +186,6 @@
 		
 		var paneOC = _div("ui-spreadsheet-paneOC").appendTo(parent);
 		var paneIC = _div("ui-spreadsheet-paneIC").appendTo(paneOC);
-		
-		
 		
 		// 分隔线
 		var col,width,left = 0;
@@ -257,7 +261,10 @@
 			
 			opts.rangeHold = true;
 			
-			_showRange(opts,cpos,cpos);
+			_showRange(cpos,cpos);
+			
+			e.stopPropagation();
+            e.preventDefault();
 		})
 		.mousemove(function(e){
 			// 确保是鼠标左键
@@ -265,14 +272,18 @@
 			if(opts.rangeEdgeHold){
 				var pos = Flywet.getMousePosition(e,paneIC);
 				var cpos = _getCellPositionByCoors(target,pos);
-				_showFillRange(opts.rangeStartPosition,opts.rangeEndPosition,cpos);
+				var d = (Math.abs(Flywet.cssNum(re,"left")-pos.x)>Math.abs(Flywet.cssNum(re,"top")-pos.y));
+				_showFillRange(opts.rangeStartPosition,opts.rangeEndPosition,cpos,d);
 			}
 			else if(opts.rangeHold){
 				var pos = Flywet.getMousePosition(e,paneIC);
 				var cpos = _getCellPositionByCoors(target,pos);
 				
-				_showRange(opts,opts.rangeStartPosition,cpos);
+				_showRange(opts.rangeStartPosition,cpos);
 			}
+			
+			e.stopPropagation();
+            e.preventDefault();
 		})
 		.mouseup(function(e){
 			// 确保是鼠标左键
@@ -280,11 +291,12 @@
 			if(opts.rangeEdgeHold){
 				var pos = Flywet.getMousePosition(e,paneIC);
 				var cpos = _getCellPositionByCoors(target,pos);
-				var fr = _showFillRange(opts.rangeStartPosition,opts.rangeEndPosition,cpos);
+				var d = (Math.abs(Flywet.cssNum(re,"left")-pos.x)>Math.abs(Flywet.cssNum(re,"top")-pos.y));
+				var fr = _showFillRange(opts.rangeStartPosition,opts.rangeEndPosition,cpos,d);
 				
 				opts.rangeEdgeHold = false;
 				
-				_showRange(opts,fr.spos,fr.epos);
+				_showRange(fr.spos,fr.epos,opts.rangeType);
 				_hideFillRange();
 			}
 			else if(opts.rangeHold){
@@ -293,8 +305,11 @@
 				
 				opts.rangeHold = false;
 				
-				_showRange(opts,opts.rangeStartPosition,cpos);
+				_showRange(opts.rangeStartPosition,cpos);
 			}
+			
+			e.stopPropagation();
+            e.preventDefault();
 		});
 		
 		re.mousedown(function(e){
@@ -307,7 +322,126 @@
             e.preventDefault();
 		});
 		
+		// 列头事件
+		colHdrs.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var pos = Flywet.getMousePosition(e,colHdrs);
+			var cpos = _getColPositionByCoors(target,pos);
+			
+			if(cpos.neer){
+				opts.colResizeHeadHold = true;
+			}else{
+				opts.colHeadHold = true;
+				_showColsRange(cpos.cidx,cpos.cidx);
+			}
+		})
+		.mousemove(function(e){
+			var pos = Flywet.getMousePosition(e,colHdrs);
+			var cpos = _getColPositionByCoors(target,pos);
+			
+			if(opts.colHeadHold){
+				_showColsRange(opts.rangeStartColIndex,cpos.cidx);
+			}else if(opts.colResizeHeadHold){
+				console.log("colResizeHeadHold");
+			}else{
+				_showColHeadCursor(cpos);
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var pos = Flywet.getMousePosition(e,colHdrs);
+			var cpos = _getColPositionByCoors(target,pos);
+			
+			if(opts.colHeadHold){
+				_showColsRange(opts.rangeStartColIndex,cpos.cidx);
+				opts.colHeadHold = false;
+			}else if(opts.colResizeHeadHold){
+				
+				opts.colResizeHeadHold = false;
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		});
 		
+		// 行头事件
+		rowHdrs.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var pos = Flywet.getMousePosition(e,rowHdrs);
+			var rpos = _getRowPositionByCoors(target,pos);
+			
+			if(rpos.neer){
+				opts.rowResizeHeadHold = true;
+			}else{
+				opts.rowHeadHold = true;
+				_showRowsRange(rpos.ridx,rpos.ridx);
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mousemove(function(e){
+			var pos = Flywet.getMousePosition(e,rowHdrs);
+			var rpos = _getRowPositionByCoors(target,pos);
+			
+			if(opts.rowHeadHold){
+				_showRowsRange(opts.rangeStartRowIndex,rpos.ridx);
+			}else if(opts.rowResizeHeadHold){
+				console.log("rowResizeHeadHold");
+			}else{
+				_showRowHeadCursor(rpos);
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var pos = Flywet.getMousePosition(e,rowHdrs);
+			var rpos = _getRowPositionByCoors(target,pos);
+			
+			if(opts.rowHeadHold){
+				_showRowsRange(opts.rangeStartRowIndex,rpos.ridx);
+				opts.rowHeadHold = false;
+			}else if(opts.rowResizeHeadHold){
+				
+				opts.rowResizeHeadHold = false;
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		});
+		
+		// 改变列头鼠标
+		function _showColHeadCursor(cpos){
+			var col = colHdrs.find(".ui-spreadsheet-gridColHdr").get(cpos.cidx);
+			if(cpos.neer){
+				$(col).addClass("ui-spreadsheet-col-resize");
+			}else{
+				$(col).removeClass("ui-spreadsheet-col-resize");
+			}
+		}
+		
+		// 改变行头鼠标
+		function _showRowHeadCursor(rpos){
+			var row = rowHdrs.find(".ui-spreadsheet-gridRowHdr").get(rpos.ridx);
+			if(rpos.neer){
+				$(row).addClass("ui-spreadsheet-row-resize");
+			}else{
+				$(row).removeClass("ui-spreadsheet-row-resize");
+			}
+		}
 		
 		// 通过Cell坐标获得Cell
 		function _getCellCss(pos){
@@ -328,27 +462,61 @@
 		}
 		
 		// 显示虚线框
-		function _showFillRange(spos, epos, pos){
+		function _showFillRange(spos, epos, pos, d){
+			var spos_n = {
+				ridx : Math.min(spos.ridx,epos.ridx)
+				,cidx : Math.min(spos.cidx,epos.cidx)
+			};
+			var epos_n = {
+				ridx : Math.max(spos.ridx,epos.ridx)
+				,cidx : Math.max(spos.cidx,epos.cidx)
+			};
 			var startPos,endPos;
-			if(pos.ridx>=spos.ridx && pos.ridx<=epos.ridx 
-				&& pos.cidx>=spos.cidx && pos.cidx<=epos.cidx){
-				startPos = {
-					ridx : Math.min(spos.ridx,pos.ridx)
-					,cidx : Math.min(spos.cidx,pos.cidx)
-				};
-				endPos = {
-					ridx : Math.max(spos.ridx,pos.ridx)
-					,cidx : Math.max(spos.cidx,pos.cidx)
-				};
+			var inset = false;
+			// 内部
+			if(pos.ridx>=spos_n.ridx && pos.ridx<=epos_n.ridx
+				&& pos.cidx>=spos_n.cidx && pos.cidx<=epos_n.cidx){
+				if(d){
+					startPos = {
+						ridx :spos_n.ridx
+						,cidx : spos_n.cidx
+					};
+					endPos = {
+						ridx : epos_n.ridx
+						,cidx : pos.cidx
+					};
+				}else{
+					startPos = {
+						ridx : spos_n.ridx
+						,cidx : spos_n.cidx
+					};
+					endPos = {
+						ridx : pos.ridx
+						,cidx : epos_n.cidx
+					};
+				}
+				
+				inset = true;
 			}else{
-				startPos = {
-					ridx : Math.min(spos.ridx,epos.ridx,pos.ridx)
-					,cidx : Math.min(spos.cidx,epos.cidx,pos.cidx)
-				};
-				endPos = {
-					ridx : Math.max(spos.ridx,epos.ridx,pos.ridx)
-					,cidx : Math.max(spos.cidx,epos.cidx,pos.cidx)
-				};
+				if(d){
+					startPos = {
+						ridx : spos_n.ridx
+						,cidx : Math.min(spos_n.cidx,pos.cidx)
+					};
+					endPos = {
+						ridx : epos_n.ridx
+						,cidx : Math.max(epos_n.cidx,pos.cidx)
+					};
+				}else{
+					startPos = {
+						ridx : Math.min(spos_n.ridx,pos.ridx)
+						,cidx : spos_n.cidx
+					};
+					endPos = {
+						ridx : Math.max(epos_n.ridx,pos.ridx)
+						,cidx : epos_n.cidx
+					};
+				}
 			}
 			
 			var scss = _getCellCss(startPos),
@@ -361,10 +529,14 @@
 				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
 			
+			var fv2Width = 3;
+			if(inset && d){
+				fv2Width = fv2Width + _getColsWidth(target,(endPos.cidx+1),epos_n.cidx);
+			}
 			fv2.css({
 				left: (ecss.left+_getColWidth(target,endPos.cidx)-1)+"px"
 				,top: (scss.top-1)+"px"
-				,width: "3px"
+				,width: fv2Width+"px"
 				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
 			
@@ -375,20 +547,53 @@
 				,height: "3px"
 			}).show();
 			
+			var fh2Height = 3;
+			if(inset && !d){
+				fh2Height = fh2Height + _getRowsHeight(target,(endPos.ridx+1),epos_n.ridx);
+			}
 			fh2.css({
 				left: (scss.left-1)+"px"
 				,top: (ecss.top+_getRowHeight(target,endPos.ridx)-1)+"px"
 				,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+3)+"px"
-				,height: "3px"
+				,height: fh2Height+"px"
 			}).show();
 			
 			return {spos:startPos,epos:endPos};
 		}
 		
+		function _showRowsRange(srid,erid){
+			var spos = {
+				ridx : srid
+				,cidx : 0
+			};
+			var epos = {
+				ridx : erid
+				,cidx : (opts.colNum-1)
+			};
+			_showRange(spos,epos,"row");
+			opts.rangeStartRowIndex = srid;
+			opts.rangeEndRowIndex = erid;
+		}
+		
+		function _showColsRange(scid,ecid){
+			var spos = {
+				ridx : 0
+				,cidx : scid
+			};
+			var epos = {
+				ridx : (opts.rowNum-1)
+				,cidx : ecid
+			};
+			_showRange(spos,epos,"col");
+			opts.rangeStartColIndex = scid;
+			opts.rangeEndColIndex = ecid;
+		}
+		
 		// 显示选中框
-		function _showRange(opts,spos,epos){
+		function _showRange(spos,epos,type){
 			opts.rangeStartPosition = spos;
 			opts.rangeEndPosition = epos;
+			opts.rangeType = type || "cell";
 			
 			var startPos = {
 				ridx : Math.min(spos.ridx,epos.ridx)
@@ -409,12 +614,21 @@
 				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
 			
-			bv2.css({
-				left: (ecss.left+_getColWidth(target,endPos.cidx)-2)+"px"
-				,top: (scss.top-1)+"px"
-				,width: "5px"
-				,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
-			}).show();
+			if(type == "col"){
+				bv2.css({
+					left: (ecss.left+_getColWidth(target,endPos.cidx)-2)+"px"
+					,top: (scss.top-2)+"px"
+					,width: "5px"
+					,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
+				}).show();
+			}else{
+				bv2.css({
+					left: (ecss.left+_getColWidth(target,endPos.cidx)-2)+"px"
+					,top: (scss.top-1)+"px"
+					,width: "5px"
+					,height: (_getRowsHeight(target,startPos.ridx,endPos.ridx)+2)+"px"
+				}).show();
+			}
 			
 			bh1.css({
 				left: (scss.left-1)+"px"
@@ -423,12 +637,28 @@
 				,height: "5px"
 			}).show();
 			
-			bh2.css({
-				left: (scss.left-1)+"px"
-				,top: (ecss.top+_getRowHeight(target,endPos.ridx)-2)+"px"
-				,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+1)+"px"
-				,height: "5px"
-			}).show();
+			if(type == "row"){
+				bh2.css({
+					left: (scss.left-2)+"px"
+					,top: (ecss.top+_getRowHeight(target,endPos.ridx)-2)+"px"
+					,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+2)+"px"
+					,height: "5px"
+				}).show();
+			}else if(type == "col"){
+				bh2.css({
+					left: (scss.left-1)+"px"
+					,top: (ecss.top+_getRowHeight(target,endPos.ridx)-2)+"px"
+					,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+2)+"px"
+					,height: "5px"
+				}).show();
+			}else{
+				bh2.css({
+					left: (scss.left-1)+"px"
+					,top: (ecss.top+_getRowHeight(target,endPos.ridx)-2)+"px"
+					,width: (_getColsWidth(target,startPos.cidx,endPos.cidx)+1)+"px"
+					,height: "5px"
+				}).show();
+			}
 			
 			ac.css({
 				left: scss_o.left+"px"
@@ -437,10 +667,22 @@
 				,height: (_getRowHeight(target,spos.ridx)-6)+"px"
 			}).show();
 			
-			re.css({
-				left: (ecss.left+_getColWidth(target,endPos.cidx)-3)+"px"
-				,top: (ecss.top+_getRowHeight(target,endPos.ridx)-3)+"px"
-			}).show();
+			if(type=="row"){
+				re.css({
+					left: "-1px"
+					,top: (ecss.top+_getRowHeight(target,endPos.ridx)-3)+"px"
+				}).show();
+			}else if(type=="col"){
+				re.css({
+					left: (ecss.left+_getColWidth(target,endPos.cidx)-3)+"px"
+					,top: "-1px"
+				}).show();
+			}else{
+				re.css({
+					left: (ecss.left+_getColWidth(target,endPos.cidx)-3)+"px"
+					,top: (ecss.top+_getRowHeight(target,endPos.ridx)-3)+"px"
+				}).show();
+			}
 			
 			rbg.css({
 				left: (scss.left+3)+"px"
@@ -450,19 +692,66 @@
 			}).show();
 			
 			// 行头
-			var sRowHdrs = rowHdrs.find(".ui-spreadsheet-row-selected").hide();
-			for(var i=startPos.ridx;i<=endPos.ridx;i++){
-				$(sRowHdrs.get(i)).show();
+			var sRowHdrsActive = rowHdrs.find(".ui-spreadsheet-row-active").hide();
+			var sRowHdrsSelected = rowHdrs.find(".ui-spreadsheet-row-selected").hide();
+			
+			if(type=="row"){
+				for(var i=startPos.ridx;i<=endPos.ridx;i++){
+					$(sRowHdrsSelected.get(i)).show();
+				}
+			}else{
+				for(var i=startPos.ridx;i<=endPos.ridx;i++){
+					$(sRowHdrsActive.get(i)).show();
+				}
 			}
 			
 			// 列头
-			var sColHdrs = colHdrs.find(".ui-spreadsheet-col-selected").hide();
-			for(var i=startPos.cidx;i<=endPos.cidx;i++){
-				$(sColHdrs.get(i)).show();
+			var sColHdrsActive = colHdrs.find(".ui-spreadsheet-col-active").hide();
+			var sColHdrsSelected = colHdrs.find(".ui-spreadsheet-col-selected").hide();
+			if(type=="col"){
+				for(var i=startPos.cidx;i<=endPos.cidx;i++){
+					$(sColHdrsSelected.get(i)).show();
+				}
+			}else{
+				for(var i=startPos.cidx;i<=endPos.cidx;i++){
+					$(sColHdrsActive.get(i)).show();
+				}
 			}
 		}
 		
 		return paneOC;
+	}
+	
+	// 获得鼠标点击位置的行坐标
+	function _getRowPositionByCoors(target,pos){
+		var opts = $.data(target, "spreadsheet").options;
+		var ty = pos.y, ridx = 0;
+		while(ty>0){
+			ty = ty - _getRowHeight(target, ridx);
+			ridx++;
+		}
+		ridx--;
+		
+		return {
+			ridx : ridx
+			,neer : (Math.abs(ty)<=2 || (_getRowHeight(target, ridx)+ty)<=2)
+		}
+	}
+	
+	// 获得鼠标点击位置的列坐标
+	function _getColPositionByCoors(target,pos){
+		var opts = $.data(target, "spreadsheet").options;
+		var tx = pos.x, cidx = 0;
+		while(tx>0){
+			tx = tx - _getColWidth(target, cidx);
+			cidx++;
+		}
+		cidx--;
+		
+		return {
+			cidx : cidx
+			,neer : (Math.abs(tx)<=2 || (_getColWidth(target, cidx)+tx)<=2)
+		}
 	}
 	
 	// 获得鼠标点击位置的Cell坐标
@@ -478,8 +767,8 @@
 			ridx++;
 		}
 		return {
-			ridx : (ridx-1),
-			cidx : (cidx-1)
+			ridx : (ridx-1)
+			,cidx : (cidx-1)
 		};
 	}
 	
@@ -815,13 +1104,26 @@
 		
 		,currentSheetIndex: 0
 		
+		,rowNum: 0
+		,colNum: 0
+		
 		// 滚动条起始cell位置
 		,startRowIndex : 0
 		,startColIndex : 0
 		
 		,rangeHold : false
+		,rangeEdgeHold : false
 		,rangeStartPosition : null
 		,rangeEndPosition : null
+		,rangeStartRowIndex : null
+		,rangeEndRowIndex : null
+		,rangeStartColIndex : null
+		,rangeEndColIndex : null
+		
+		,rowHeadHold : false
+		,colHeadHold : false
+		,rowResizeHeadHold : false
+		,colResizeHeadHold : false
 		
 		,onBeforeShow:	function(){}
 		,onShow:	function(){}
