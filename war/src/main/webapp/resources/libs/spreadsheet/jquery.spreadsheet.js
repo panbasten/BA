@@ -119,15 +119,15 @@
 		
 		var col,width;
 		// 列头显示
-		createColHdrs("ui-spreadsheet-gridColHdr",true);
+		createColHdrs("ui-spreadsheet-gridColHdr","hc",true);
 		
 		// 列头选中
-		createColHdrs("ui-spreadsheet-gridColHdr ui-spreadsheet-col-selected");
+		createColHdrs("ui-spreadsheet-gridColHdr ui-spreadsheet-col-selected","hcs");
 		
 		// 列头激活
-		createColHdrs("ui-spreadsheet-gridColHdr ui-spreadsheet-col-active");
+		createColHdrs("ui-spreadsheet-gridColHdr ui-spreadsheet-col-active","hca");
 		
-		function createColHdrs(cls,show){
+		function createColHdrs(cls,idPrefix,show){
 			var left = 0;
 			for(var i=0;i<opts.colNum;i++){
 				width = _getColWidth(target,i);
@@ -138,7 +138,7 @@
 				col.css({
 					left: left+"px",
 					width: (width-5)+"px"
-				});
+				}).attr("id",idPrefix+"_"+i);
 				left = left + width;
 			}
 		}
@@ -153,15 +153,15 @@
 		
 		var row,height,top = 0;
 		// 行头显示
-		createRowHdrs("ui-spreadsheet-gridRowHdr",true);
+		createRowHdrs("ui-spreadsheet-gridRowHdr","hr",true);
 		
 		// 行头选中
-		createRowHdrs("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-selected");
+		createRowHdrs("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-selected","hrs");
 		
 		// 行头激活
-		createRowHdrs("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-active");
+		createRowHdrs("ui-spreadsheet-gridRowHdr ui-spreadsheet-row-active","hra");
 		
-		function createRowHdrs(cls,show){
+		function createRowHdrs(cls,idPrefix,show){
 			var top = 0;
 			for(var i=0;i<opts.rowNum;i++){
 				height = _getRowHeight(target,i);
@@ -172,7 +172,7 @@
 				row.css({
 					top: top+"px",
 					height: (height-5)+"px"
-				});
+				}).attr("id",idPrefix+"_"+i);
 				top = top + height;
 			}
 		}
@@ -206,7 +206,7 @@
 			row.css({
 				top: top+"px",
 				height: (height-5)+"px"
-			});
+			}).attr("id","r_"+i);
 			
 			top = top + height;
 			left = 0;
@@ -216,7 +216,7 @@
 				cell.css({
 					left: left+"px",
 					width: (width-5)+"px"
-				});
+				}).attr("id","r_"+i+"_c_"+j);
 				left = left + width;
 			}
 		}
@@ -425,7 +425,7 @@
 		
 		// 改变列头鼠标
 		function _showColHeadCursor(cpos){
-			var col = colHdrs.find(".ui-spreadsheet-gridColHdr").get(cpos.cidx);
+			var col = colHdrs.find("#hc_"+cpos.cidx);
 			if(cpos.neer){
 				$(col).addClass("ui-spreadsheet-col-resize");
 			}else{
@@ -435,7 +435,7 @@
 		
 		// 改变行头鼠标
 		function _showRowHeadCursor(rpos){
-			var row = rowHdrs.find(".ui-spreadsheet-gridRowHdr").get(rpos.ridx);
+			var row = rowHdrs.find("#hr_"+rpos.ridx);
 			if(rpos.neer){
 				$(row).addClass("ui-spreadsheet-row-resize");
 			}else{
@@ -445,8 +445,8 @@
 		
 		// 通过Cell坐标获得Cell
 		function _getCellCss(pos){
-			var row = paneIC.find(".ui-spreadsheet-gridRow").get(pos.ridx);
-			var cell = $(row).find(".ui-spreadsheet-gridCell").get(pos.cidx);
+			var row = paneIC.find("#r_"+pos.ridx);
+			var cell = $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
 			return {
 				top : Flywet.cssNum(row,"top")
 				,left : Flywet.cssNum(cell,"left")
@@ -692,29 +692,29 @@
 			}).show();
 			
 			// 行头
-			var sRowHdrsActive = rowHdrs.find(".ui-spreadsheet-row-active").hide();
-			var sRowHdrsSelected = rowHdrs.find(".ui-spreadsheet-row-selected").hide();
+			rowHdrs.find(".ui-spreadsheet-row-active").hide();
+			rowHdrs.find(".ui-spreadsheet-row-selected").hide();
 			
 			if(type=="row"){
 				for(var i=startPos.ridx;i<=endPos.ridx;i++){
-					$(sRowHdrsSelected.get(i)).show();
+					$(rowHdrs.find("#hrs_"+i)).show();
 				}
 			}else{
 				for(var i=startPos.ridx;i<=endPos.ridx;i++){
-					$(sRowHdrsActive.get(i)).show();
+					$(rowHdrs.find("#hra_"+i)).show();
 				}
 			}
 			
 			// 列头
-			var sColHdrsActive = colHdrs.find(".ui-spreadsheet-col-active").hide();
-			var sColHdrsSelected = colHdrs.find(".ui-spreadsheet-col-selected").hide();
+			colHdrs.find(".ui-spreadsheet-col-active").hide();
+			colHdrs.find(".ui-spreadsheet-col-selected").hide();
 			if(type=="col"){
 				for(var i=startPos.cidx;i<=endPos.cidx;i++){
-					$(sColHdrsSelected.get(i)).show();
+					$(colHdrs.find("#hcs_"+i)).show();
 				}
 			}else{
 				for(var i=startPos.cidx;i<=endPos.cidx;i++){
-					$(sColHdrsActive.get(i)).show();
+					$(colHdrs.find("#hca_"+i)).show();
 				}
 			}
 		}
@@ -777,8 +777,8 @@
 		var opts = $.data(target, "spreadsheet").options;
 		var sheet = $.data(target, "spreadsheet").sheet;
 		var cs = sheet.get(opts.currentSheetIndex)
-		var row = cs.find(".ui-spreadsheet-gridRow").get(pos.ridx);
-		return $(row).find(".ui-spreadsheet-gridCell").get(pos.cidx);
+		var row = cs.find("#r_"+pos.ridx);
+		return $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
 	}
 	
 	function _initSheet(target,parent,opts){
@@ -951,12 +951,13 @@
 		
 		// sheets
 		w = w - opts.vscrollWidth;
-		ss.sheets.empty();
 		
-		// TODO 多个Sheet页
-		var sheet = [];
-		sheet.push(_initSheet(target,ss.sheets,opts));
-		ss.sheet = sheet;
+		if(!ss.sheet){
+			ss.sheets.empty();
+			var sheet = [];// TODO 多个Sheet页
+			sheet.push(_initSheet(target,ss.sheets,opts));
+			ss.sheet = sheet;
+		}
 		
 		// 当前坐标
 		opts.currentSheetIndex = 0;
