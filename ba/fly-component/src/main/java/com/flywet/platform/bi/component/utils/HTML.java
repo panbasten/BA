@@ -92,6 +92,8 @@ public class HTML {
 			+ "Browse";
 	public static final String COMPONENT_TYPE_BROWSE_NODE = COMPONENT_TYPE_FLY_PREFIX
 			+ "BrowseNode";
+	public static final String COMPONENT_TYPE_SPREADSHEET = COMPONENT_TYPE_FLY_PREFIX
+			+ "SpreadSheet";
 	public static final String COMPONENT_TYPE_PANEL = COMPONENT_TYPE_FLY_PREFIX
 			+ "Panel";
 

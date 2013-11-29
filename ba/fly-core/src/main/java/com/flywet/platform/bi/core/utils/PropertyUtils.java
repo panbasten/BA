@@ -1,5 +1,8 @@
 package com.flywet.platform.bi.core.utils;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,12 +12,14 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.util.EnvUtil;
 import org.pentaho.di.i18n.BaseMessages;
 
+import com.flywet.platform.bi.core.exception.BIException;
+
 public class PropertyUtils {
 	private final static Logger logger = Logger.getLogger(PropertyUtils.class);
 
 	public static final String REPOSITORY_POOL_MAXIDLE = "repository.pool.maxidle";
 	public static final String REPOSITORY_POOL_MAXACTIVE = "repository.pool.maxactive";
-	
+
 	public static final String TRANS_POOL_MAX_SIZE = "trans.pool.maxsize";
 	public static final String TRANS_POOL_MAX_ACTIVE_SIZE = "trans.pool.maxactive";
 
@@ -39,7 +44,7 @@ public class PropertyUtils {
 	static {
 		try {
 			loadProperties();
-		} catch (KettleException e) {
+		} catch (BIException e) {
 			logger.error("load ba.properties exception:", e);
 		}
 	}
@@ -85,10 +90,14 @@ public class PropertyUtils {
 	/**
 	 * 加载配置文件内容至properties 优先从用户目录获取 其次从classpath下获取
 	 * 
-	 * @throws KettleException
+	 * @throws BIException
 	 */
-	private static void loadProperties() throws KettleException {
-		properties = EnvUtil.readProperties(Const.KETTLE_PROPERTIES);
+	private static void loadProperties() throws BIException {
+		try {
+			properties = EnvUtil.readProperties(Const.KETTLE_PROPERTIES);
+		} catch (KettleException e) {
+			throw new BIException(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -111,6 +120,48 @@ public class PropertyUtils {
 		} else {
 			return codedString;
 		}
+	}
+
+	/**
+	 * 通过属性的类路径相对位置，获得属性对象
+	 * 
+	 * @param fileName
+	 * @param cls
+	 * @return
+	 * @throws BIException
+	 */
+	public static Properties getProperties(String fileName, Class<?> cls)
+			throws BIException {
+		try {
+			InputStream is = FileUtils.getInputStream(fileName, cls);
+			return getProperties(is);
+		} catch (FileNotFoundException e) {
+			throw new BIException("属性文件不存在");
+		}
+	}
+
+	/**
+	 * 通过输入流获得属性对象
+	 * 
+	 * @param is
+	 * @return
+	 * @throws BIException
+	 */
+	public static Properties getProperties(InputStream is) throws BIException {
+		Properties props = new Properties();
+		try {
+			props.load(is);
+		} catch (IOException ioe) {
+			throw new BIException("无法读取属性文件", ioe);
+		} finally {
+			if (is != null)
+				try {
+					is.close();
+				} catch (IOException e) {
+					// ignore
+				}
+		}
+		return props;
 	}
 
 }

@@ -53,11 +53,6 @@ public abstract class SimpleComponentMeta extends BaseComponentMeta implements
 		this.events = null;
 	}
 
-	@Override
-	public void append(ComponentMetaInterface content) throws BIJSONException {
-
-	}
-
 	/**
 	 * 得到表单的JSON代码
 	 * 
