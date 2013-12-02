@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.core.model;
+package com.flywet.platform.bi.di.model;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import org.pentaho.di.trans.TransMeta;
 
 import com.flywet.platform.bi.core.ContextHolder;
 
-public class TransPoolWapper {
+public class TransExecuteWapper {
 
 	// 日志ID
 	private long logId;
@@ -27,13 +27,13 @@ public class TransPoolWapper {
 	// 命名参数
 	private Map<String, String> params = new HashMap<String, String>();
 
-	public TransPoolWapper(TransMeta transMeta) {
+	public TransExecuteWapper(TransMeta transMeta) {
 		this.submitTime = new Date();
 		this.submitUser = ContextHolder.getLoginName();
 		this.transMeta = transMeta;
 	}
 
-	public TransPoolWapper(String single, TransMeta transMeta) {
+	public TransExecuteWapper(String single, TransMeta transMeta) {
 		this(transMeta);
 		this.single = single;
 	}

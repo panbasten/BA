@@ -40,8 +40,6 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
-import com.flywet.platform.bi.core.model.TransPoolWapper;
-import com.flywet.platform.bi.core.pools.TransPool;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
@@ -55,6 +53,8 @@ import com.flywet.platform.bi.cust.p001.vo.MonthPredictEvaVo;
 import com.flywet.platform.bi.cust.p001.vo.MonthPredictScoreVo;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.di.model.TransExecuteWapper;
+import com.flywet.platform.bi.di.queues.TransExecuteQueue;
 import com.flywet.platform.bi.services.impl.AbstractRepositoryServices;
 import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 
@@ -245,10 +245,11 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 			InputStream is = getTransMetaString(TRANS_RUN_PROC);
 			TransMeta tm = new TransMeta(is, null, true, null, null);
-			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
+			TransExecuteWapper wapper = new TransExecuteWapper(
+					"sstMonthPredict", tm);
 			wapper.putParam("cmd", PropertyUtils
 					.getProperty(PROP_FORECAST_EVALUATION_RUN));
-			TransPool.instance().offer(wapper);
+			TransExecuteQueue.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交统计尺度分析计算执行。")
@@ -271,10 +272,11 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 			InputStream is = getTransMetaString(TRANS_RUN_PROC);
 			TransMeta tm = new TransMeta(is, null, true, null, null);
-			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
+			TransExecuteWapper wapper = new TransExecuteWapper(
+					"sstMonthPredict", tm);
 			wapper.putParam("cmd", PropertyUtils
 					.getProperty(PROP_PROCESS_FORECAST_RUN));
-			TransPool.instance().offer(wapper);
+			TransExecuteQueue.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交统计尺度分析计算执行。")
@@ -1805,10 +1807,11 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 			InputStream is = getTransMetaString(TRANS_RUN_PROC);
 			TransMeta tm = new TransMeta(is, null, true, null, null);
-			TransPoolWapper wapper = new TransPoolWapper("sstMonthPredict", tm);
+			TransExecuteWapper wapper = new TransExecuteWapper(
+					"sstMonthPredict", tm);
 			wapper.putParam("cmd", PropertyUtils
 					.getProperty(PROP_MONTH_FORECAST_RUN));
-			TransPool.instance().offer(wapper);
+			TransExecuteQueue.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交月度海温预测分析计算执行。")
@@ -1831,11 +1834,11 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 			InputStream is = getTransMetaString(TRANS_RUN_PROC);
 			TransMeta tm = new TransMeta(is, null, true, null, null);
-			TransPoolWapper wapper = new TransPoolWapper("sstQuarterPredict",
-					tm);
+			TransExecuteWapper wapper = new TransExecuteWapper(
+					"sstQuarterPredict", tm);
 			wapper.putParam("cmd", PropertyUtils
 					.getProperty(PROP_SEASON_FORECAST_RUN));
-			TransPool.instance().offer(wapper);
+			TransExecuteQueue.instance().offer(wapper);
 
 			// 设置响应
 			return ActionMessage.instance().success("已经提交季度海温预测分析计算执行。")

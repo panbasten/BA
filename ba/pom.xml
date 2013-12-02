@@ -16,7 +16,6 @@
 	<modules>
 		<module>fly-core</module>
 		<module>fly-el</module>
-		<module>fly-smart</module>
 		<module>fly-component</module>
 		<module>fly-component-ss</module>
 	</modules>

@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.core.pools;
+package com.flywet.platform.bi.di.queues;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,12 +16,12 @@ import org.pentaho.di.trans.TransStoppedListener;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIPoolException;
-import com.flywet.platform.bi.core.model.TransPoolWapper;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.di.model.TransExecuteWapper;
 
-public class TransPool implements BIPoolInterface {
+public class TransExecuteQueue {
 
-	private static TransPool delegate;
+	private static TransExecuteQueue delegate;
 
 	private AtomicBoolean init = new AtomicBoolean(false);
 
@@ -29,13 +29,13 @@ public class TransPool implements BIPoolInterface {
 
 	private int maxActiveSize = 3;
 
-	private List<TransPoolWapper> requests = Collections
-			.synchronizedList(new ArrayList<TransPoolWapper>());
+	// 请求执行转换的队列
+	private List<TransExecuteWapper> requests = Collections
+			.synchronizedList(new ArrayList<TransExecuteWapper>());
 
-	private Map<Trans, TransPoolWapper> actives = Collections
-			.synchronizedMap(new HashMap<Trans, TransPoolWapper>());
+	private Map<Trans, TransExecuteWapper> actives = Collections
+			.synchronizedMap(new HashMap<Trans, TransExecuteWapper>());
 
-	@Override
 	public void initPool() throws BIException {
 		if (!init.getAndSet(true)) {
 			// 初始化poolSize
@@ -50,15 +50,15 @@ public class TransPool implements BIPoolInterface {
 		}
 	}
 
-	public synchronized static TransPool instance() throws BIException {
+	public synchronized static TransExecuteQueue instance() throws BIException {
 		if (delegate == null) {
-			delegate = new TransPool();
+			delegate = new TransExecuteQueue();
 			delegate.initPool();
 		}
 		return delegate;
 	}
 
-	public synchronized void offer(TransPoolWapper vo) throws BIException {
+	public synchronized void offer(TransExecuteWapper vo) throws BIException {
 		if (checkDuplicateTrans(vo.getSingle())) {
 			throw new BIPoolException("重复提交转换");
 		}
@@ -77,12 +77,12 @@ public class TransPool implements BIPoolInterface {
 		if (Const.isEmpty(single)) {
 			return false;
 		}
-		for (TransPoolWapper tpw : actives.values()) {
+		for (TransExecuteWapper tpw : actives.values()) {
 			if (single.equals(tpw.getSingle())) {
 				return true;
 			}
 		}
-		for (TransPoolWapper tpw : requests) {
+		for (TransExecuteWapper tpw : requests) {
 			if (single.equals(tpw.getSingle())) {
 				return true;
 			}
@@ -96,11 +96,11 @@ public class TransPool implements BIPoolInterface {
 			return;
 		}
 
-		TransPoolWapper vo = this.requests.remove(0);
+		TransExecuteWapper vo = this.requests.remove(0);
 		run(vo);
 	}
 
-	public synchronized void run(TransPoolWapper vo) throws BIException {
+	public synchronized void run(TransExecuteWapper vo) throws BIException {
 		try {
 			Trans trans = new Trans(vo.getTransMeta());
 			// trans.setRepository(rep);
@@ -139,12 +139,12 @@ public class TransPool implements BIPoolInterface {
 
 class TransPoolStoppedListener implements TransStoppedListener {
 
-	private final Logger logger = Logger.getLogger(TransPool.class);
+	private final Logger logger = Logger.getLogger(TransExecuteQueue.class);
 
 	@Override
 	public void transStopped(Trans trans) {
 		try {
-			TransPool.instance().poll(trans);
+			TransExecuteQueue.instance().poll(trans);
 		} catch (Exception e) {
 			logger.error("执行转换运行池执行出现错误。");
 		}
@@ -162,7 +162,7 @@ class TransPoolListener implements TransListener {
 	@Override
 	public void transFinished(Trans trans) throws KettleException {
 		try {
-			TransPool.instance().poll(trans);
+			TransExecuteQueue.instance().poll(trans);
 		} catch (Exception e) {
 			throw new KettleException("执行转换运行池执行出现错误。");
 		}

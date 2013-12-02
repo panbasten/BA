@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>ba</artifactId>
+		<artifactId>report</artifactId>
 		<groupId>com.flywet.platform</groupId>
 		<version>8.0.0</version>
 	</parent>
-	<groupId>com.flywet.platform.ba</groupId>
+	<groupId>com.flywet.platform.report</groupId>
 	<artifactId>fly-smart</artifactId>
 	<name>BA的智能语义模型</name>
 	<version>8.0.0</version>
