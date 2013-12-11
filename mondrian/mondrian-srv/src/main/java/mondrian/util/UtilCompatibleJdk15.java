@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2007-2012 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.util;
 
 import mondrian.olap.Util;
@@ -21,7 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -138,10 +137,10 @@ public class UtilCompatibleJdk15 implements UtilCompatible {
         throw new AssertionError("Could not find tenured space");
     }
 
-    public void cancelAndCloseStatement(Statement stmt) {
+    public void cancelStatement(Statement stmt) {
         try {
             stmt.cancel();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // We can't call stmt.isClosed(); the method doesn't exist until
             // JDK 1.6. So, mask out the error.
             if (e.getMessage().equals(
@@ -149,17 +148,6 @@ public class UtilCompatibleJdk15 implements UtilCompatible {
             {
                 return;
             }
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(
-                    MondrianResource.instance()
-                        .ExecutionStatementCleanupException
-                            .ex(e.getMessage(), e),
-                    e);
-            }
-        }
-        try {
-            stmt.close();
-        } catch (SQLException e) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(
                     MondrianResource.instance()

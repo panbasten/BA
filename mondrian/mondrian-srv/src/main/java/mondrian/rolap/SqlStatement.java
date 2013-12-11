@@ -4,25 +4,26 @@
 // http://www.eclipse.org/legal/epl-v10.html.
 // You must accept the terms of that agreement to use this software.
 //
-// Copyright (C) 2007-2012 Pentaho and others
-// All Rights Reserved.
+// Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
 package mondrian.rolap;
 
-import mondrian.olap.Util;
+import mondrian.olap.*;
+import mondrian.olap.Util.Functor1;
 import mondrian.server.Execution;
 import mondrian.server.Locus;
 import mondrian.server.monitor.*;
-import mondrian.spi.Dialect;
+import mondrian.server.monitor.SqlStatementEvent.Purpose;
 import mondrian.util.*;
-
-import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
+
 import java.sql.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.sql.DataSource;
 
@@ -56,14 +57,13 @@ import javax.sql.DataSource;
  * @since 2.3
  */
 public class SqlStatement {
-    private static final Logger LOG = Logger.getLogger(SqlStatement.class);
     private static final String TIMING_NAME = "SqlStatement-";
 
     // used for SQL logging, allows for a SQL Statement UID
     private static final AtomicLong ID_GENERATOR = new AtomicLong();
 
-    private static final RolapUtil.Semaphore querySemaphore =
-        RolapUtil.getQuerySemaphore();
+    private static final Semaphore querySemaphore = new Semaphore(
+        MondrianProperties.instance().QueryLimit.get(), true);
 
     private final DataSource dataSource;
     private Connection jdbcConnection;
@@ -82,6 +82,7 @@ public class SqlStatement {
     private final List<Accessor> accessors = new ArrayList<Accessor>();
     private State state = State.FRESH;
     private final long id;
+    private Functor1<Void, Statement> callback;
 
     /**
      * Creates a SqlStatement.
@@ -105,8 +106,10 @@ public class SqlStatement {
         int firstRowOrdinal,
         Locus locus,
         int resultSetType,
-        int resultSetConcurrency)
+        int resultSetConcurrency,
+        Util.Functor1<Void, Statement> callback)
     {
+        this.callback = callback;
         this.id = ID_GENERATOR.getAndIncrement();
         this.dataSource = dataSource;
         this.sql = sql;
@@ -127,10 +130,13 @@ public class SqlStatement {
         Counters.SQL_STATEMENT_EXECUTE_COUNT.incrementAndGet();
         Counters.SQL_STATEMENT_EXECUTING_IDS.add(id);
         String status = "failed";
-        Statement statement;
+        Statement statement = null;
         try {
+            // Check execution state
+            locus.execution.checkCancelOrTimeout();
+
             this.jdbcConnection = dataSource.getConnection();
-            querySemaphore.enter();
+            querySemaphore.acquire();
             haveSemaphore = true;
             // Trace start of execution.
             if (RolapUtil.SQL_LOGGER.isDebugEnabled()) {
@@ -154,8 +160,13 @@ public class SqlStatement {
             if (hook != null) {
                 hook.onExecuteQuery(sql);
             }
+
+            // Check execution state
+            locus.execution.checkCancelOrTimeout();
+
             startTimeNanos = System.nanoTime();
             startTimeMillis = System.currentTimeMillis();
+
             if (resultSetType < 0 || resultSetConcurrency < 0) {
                 statement = jdbcConnection.createStatement();
             } else {
@@ -168,7 +179,13 @@ public class SqlStatement {
             }
 
             // First make sure to register with the execution instance.
-            locus.execution.registerStatement(locus, statement);
+            if (getPurpose() != Purpose.CELL_SEGMENT) {
+                locus.execution.registerStatement(locus, statement);
+            } else {
+                if (callback != null) {
+                    callback.apply(statement);
+                }
+            }
 
             locus.getServer().getMonitor().sendEvent(
                 new SqlStatementStartEvent(
@@ -226,15 +243,13 @@ public class SqlStatement {
             }
         } catch (Throwable e) {
             status = ", failed (" + e + ")";
-            if (e instanceof Error) {
-                try {
-                    close();
-                } catch (Throwable ignore) {
-                }
-                throw (Error) e;
-            } else {
-                throw handle(e);
-            }
+
+            // This statement was leaked to us. It is our responsibility
+            // to dispose of it.
+            Util.close(null, statement, null);
+
+            // Now handle this exception.
+            throw handle(e);
         } finally {
             RolapUtil.SQL_LOGGER.debug(id + ": " + status);
 
@@ -265,7 +280,7 @@ public class SqlStatement {
 
         if (haveSemaphore) {
             haveSemaphore = false;
-            querySemaphore.leave();
+            querySemaphore.release();
         }
 
         // According to the JDBC spec, closing a statement automatically closes
@@ -338,7 +353,7 @@ public class SqlStatement {
             Util.newError(e, locus.message + "; sql=[" + sql + "]");
         try {
             close();
-        } catch (RuntimeException re) {
+        } catch (Throwable t) {
             // ignore
         }
         return runtimeException;

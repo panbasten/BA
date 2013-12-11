@@ -5,7 +5,7 @@
 // You must accept the terms of that agreement to use this software.
 //
 // Copyright (C) 2004-2005 Julian Hyde
-// Copyright (C) 2005-2012 Pentaho and others
+// Copyright (C) 2005-2013 Pentaho and others
 // All Rights Reserved.
 */
 package mondrian.rolap;
@@ -44,6 +44,8 @@ public class FastBatchingCellReader implements CellReader {
     private static final Logger LOGGER =
         Logger.getLogger(FastBatchingCellReader.class);
 
+    private final int cellRequestLimit;
+
     private final RolapCube cube;
 
     /**
@@ -80,6 +82,8 @@ public class FastBatchingCellReader implements CellReader {
 
     private final List<CellRequest> cellRequests = new ArrayList<CellRequest>();
 
+    private final Execution execution;
+
     /**
      * Creates a FastBatchingCellReader.
      *
@@ -93,6 +97,7 @@ public class FastBatchingCellReader implements CellReader {
         RolapCube cube,
         AggregationManager aggMgr)
     {
+        this.execution = execution;
         assert cube != null;
         assert execution != null;
         this.cube = cube;
@@ -100,6 +105,11 @@ public class FastBatchingCellReader implements CellReader {
         cacheMgr = aggMgr.cacheMgr;
         pinnedSegments = this.aggMgr.createPinSet();
         cacheEnabled = !MondrianProperties.instance().DisableCaching.get();
+
+        cellRequestLimit =
+            MondrianProperties.instance().CellBatchSize.get() <= 0
+                ? 100000 // TODO Make this logic into a pluggable algorithm.
+                : MondrianProperties.instance().CellBatchSize.get();
     }
 
     public Object get(RolapEvaluator evaluator) {
@@ -161,12 +171,7 @@ public class FastBatchingCellReader implements CellReader {
         assert !request.isUnsatisfiable();
         ++missCount;
         cellRequests.add(request);
-        int limit =
-            MondrianProperties.instance().CellBatchSize.get();
-        if (limit <= 0) {
-            limit = 50000; // TODO Make this logic into a pluggable algorithm.
-        }
-        if (cellRequests.size() % limit == 0) {
+        if (cellRequests.size() % cellRequestLimit == 0) {
             // Signal that it's time to ask the cache manager if it has cells
             // we need in the cache. Not really an exception.
             throw CellRequestQuantumExceededException.INSTANCE;
@@ -231,6 +236,8 @@ public class FastBatchingCellReader implements CellReader {
 
         final List<CellRequest> cellRequests1 =
             new ArrayList<CellRequest>(cellRequests);
+
+        preloadColumnCardinality(cellRequests1);
 
         for (int iteration = 0;; ++iteration) {
             final BatchLoader.LoadBatchResponse response =
@@ -342,9 +349,8 @@ public class FastBatchingCellReader implements CellReader {
                                             .makeConverterKey(
                                                 segmentWithData.getHeader())));
                                 if (added) {
-                                    ((SlotFuture<SegmentBody>)index.getFuture(
-                                        segmentWithData.getHeader()))
-                                        .put(body);
+                                    index.loadSucceeded(
+                                        segmentWithData.getHeader(), body);
                                 }
                                 return null;
                             }
@@ -439,6 +445,26 @@ public class FastBatchingCellReader implements CellReader {
         dirty = false;
         cellRequests.clear();
         return true;
+    }
+
+    /**
+     * Iterates through cell requests and makes sure .getCardinality has
+     * been called on all constrained columns.  This is a  workaround
+     * to an issue in which cardinality queries can be fired on the Actor
+     * thread, potentially causing a deadlock when interleaved with
+     * other threads that depend both on db connections and Actor responses.
+     *
+     */
+    private void preloadColumnCardinality(List<CellRequest> cellRequests) {
+        List<BitKey> loaded = new ArrayList<BitKey>();
+        for (CellRequest req : cellRequests) {
+            if (!loaded.contains(req.getConstrainedColumnsBitKey())) {
+                for (RolapStar.Column col : req.getConstrainedColumns()) {
+                    col.getCardinality();
+                }
+                loaded.add(req.getConstrainedColumnsBitKey());
+            }
+        }
     }
 
     /**
@@ -643,8 +669,10 @@ class BatchLoader {
 
         if (!headersInCache.isEmpty()) {
             final SegmentHeader headerInCache = headersInCache.get(0);
+
             final Future<SegmentBody> future =
-                index.getFuture(headerInCache);
+                index.getFuture(locus.execution, headerInCache);
+
             if (future != null) {
                 // Segment header is in cache, body is being loaded. Worker will
                 // need to wait for load to complete.
@@ -985,6 +1013,7 @@ class BatchLoader {
             this.dialect = dialect;
             this.cube = cube;
             this.cellRequests = cellRequests;
+
             if (MDC.getContext() != null) {
                 this.mdc.putAll(MDC.getContext());
             }

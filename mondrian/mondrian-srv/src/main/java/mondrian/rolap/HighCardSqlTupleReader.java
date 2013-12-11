@@ -8,6 +8,7 @@
 // Copyright (C) 2005-2013 Pentaho and others
 // All Rights Reserved.
 */
+
 package mondrian.rolap;
 
 import mondrian.calc.TupleList;
@@ -84,7 +85,7 @@ public class HighCardSqlTupleReader extends SqlTupleReader {
                         "HighCardSqlTupleReader.readTuples " + partialTargets,
                         message,
                         SqlStatementEvent.Purpose.TUPLES, 0),
-                    -1, -1);
+                    -1, -1, null);
             }
 
             for (TargetBase target : targets) {

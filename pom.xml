@@ -57,6 +57,11 @@
 		<!-- Platform -->
 		<mortbay.jetty.version>6.1.21</mortbay.jetty.version>
 		<eclipse.jetty.version>8.0.0.M1</eclipse.jetty.version>
+		
+		<!-- olap4j -->
+		<dependency.olap4j-core.revision>1.1.0</dependency.olap4j-core.revision>
+		<dependency.olap4j-xmla.revision>1.1.0</dependency.olap4j-xmla.revision>
+		<dependency.olap4j-tck.revision>1.0.1.539</dependency.olap4j-tck.revision>
 
 	</properties>
 
@@ -284,11 +289,6 @@
 				<groupId>org.apache.xmlbeans</groupId>
 				<artifactId>xmlbeans</artifactId>
 				<version>2.5.0</version>
-			</dependency>
-			<dependency>
-				<groupId>xerces</groupId>
-				<artifactId>xercesImpl</artifactId>
-				<version>2.9.1</version>
 			</dependency>
 
 			<!-- commons -->
@@ -539,17 +539,17 @@
 			<dependency>
 				<groupId>org.olap4j</groupId>
 				<artifactId>olap4j</artifactId>
-				<version>1.1.0</version>
+				<version>${dependency.olap4j-core.revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.olap4j</groupId>
 				<artifactId>olap4j-tck</artifactId>
-				<version>1.0.1.539</version>
+				<version>${dependency.olap4j-tck.revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.olap4j</groupId>
 				<artifactId>olap4j-xmla</artifactId>
-				<version>1.1.0</version>
+				<version>${dependency.olap4j-xmla.revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>javacup</groupId>
@@ -730,8 +730,14 @@
 			<dependency>
 				<groupId>xalan</groupId>
 				<artifactId>xalan</artifactId>
-				<version>2.4.1</version>
+				<version>2.6.0</version>
 			</dependency>
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>2.9.1</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.apache.xmlrpc</groupId>
 				<artifactId>xmlrpc-client</artifactId>
@@ -779,6 +785,21 @@
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>5.1.18</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derby</artifactId>
+				<version>10.2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>1.8.0.10</version>
+			</dependency>
+			<dependency>
+				<groupId>monetdb</groupId>
+				<artifactId>monetdb-jdbc</artifactId>
+				<version>2.6</version>
 			</dependency>
 
 

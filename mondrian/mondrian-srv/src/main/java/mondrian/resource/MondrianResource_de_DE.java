@@ -10,8 +10,8 @@ import org.eigenbase.resgen.*;
 /**
  * This class was generated
  * by class org.eigenbase.resgen.ResourceGen
- * from C:/_D/_code/Pentaho/git/mondrian/src/main/mondrian/resource/MondrianResource.xml
- * on Fri May 03 18:51:35 CST 2013.
+ * from C:/_D/_code/Pentaho/git/_trunk/mondrian/src/main/mondrian/resource/MondrianResource.xml
+ * on Sun Dec 08 08:46:52 CST 2013.
  * It contains a list of messages, and methods to
  * retrieve and format those messages.
  */

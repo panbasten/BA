@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2006-2013 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.server;
 
 import mondrian.olap.MondrianException;
@@ -64,22 +64,26 @@ class MondrianServerImpl
      * construction, and are removed when they call close. Garbage collection
      * may cause a connection to be removed earlier.
      */
+    @SuppressWarnings("unchecked")
     private final Map<Integer, RolapConnection> connectionMap =
          // We use a reference map here because the value
          // is what needs to be week, not the key, as it
          // would be the case with a WeakHashMap.
-        new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
+        Collections.synchronizedMap(
+            new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK));
 
     /**
      * Map of open statements, by id. Statements are added just after
      * construction, and are removed when they call close. Garbage collection
      * may cause a connection to be removed earlier.
      */
+    @SuppressWarnings("unchecked")
     private final Map<Long, Statement> statementMap =
          // We use a reference map here because the value
          // is what needs to be week, not the key, as it
          // would be the case with a WeakHashMap.
-        new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
+        Collections.synchronizedMap(
+            new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK));
 
     private final MonitorImpl monitor = new MonitorImpl();
 

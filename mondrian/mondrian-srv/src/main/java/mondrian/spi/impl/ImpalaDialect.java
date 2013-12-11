@@ -4,7 +4,7 @@
 // http://www.eclipse.org/legal/epl-v10.html.
 // You must accept the terms of that agreement to use this software.
 //
-// Copyright (C) 2013-2013 Pentaho
+// Copyright (C) 2012-2013 Pentaho and others
 // All Rights Reserved.
 */
 package mondrian.spi.impl;
@@ -12,6 +12,9 @@ package mondrian.spi.impl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Dialect for Cloudera's Impala DB.
@@ -20,6 +23,11 @@ import java.util.List;
  * @since 2/11/13
  */
 public class ImpalaDialect extends HiveDialect {
+    private final String flagsRegexp = "^(\\(\\?([a-zA-Z])\\)).*$";
+    private final Pattern flagsPattern = Pattern.compile(flagsRegexp);
+    private final String escapeRegexp = "(\\\\Q([^\\\\Q]+)\\\\E)";
+    private final Pattern escapePattern = Pattern.compile(escapeRegexp);
+
     /**
      * Creates an ImpalaDialect.
      *
@@ -120,9 +128,8 @@ public class ImpalaDialect extends HiveDialect {
         List<String> columnTypes,
         List<String[]> valueList)
     {
-        // TODO: fix this, when Impala has the necessary features. See bug
-        // http://jira.pentaho.com/browse/MONDRIAN-1512.
-        return "";
+        return generateInlineGeneric(
+            columnNames, columnTypes, valueList, null, false);
     }
 
     public boolean allowsJoinOn() {
@@ -134,17 +141,14 @@ public class ImpalaDialect extends HiveDialect {
         StringBuilder buf,
         String value)
     {
-        // REVIEW: Are Impala's rules for string literals so very different
-        // from the standard? Or from Hive's?
         String quote = "\'";
         String s0 = value;
 
-        if (value.contains("'")) {
-            quote = "\"";
+        if (s0.contains("\\")) {
+            s0.replaceAll("\\\\", "\\\\");
         }
-
-        if (value.contains(quote)) {
-            s0 = value.replaceAll(quote, "\\\\" + quote);
+        if (s0.contains(quote)) {
+            s0 = s0.replaceAll(quote, "\\\\" + quote);
         }
 
         buf.append(quote);
@@ -152,6 +156,65 @@ public class ImpalaDialect extends HiveDialect {
         buf.append(s0);
 
         buf.append(quote);
+    }
+
+    public boolean allowsRegularExpressionInWhereClause() {
+        return true;
+    }
+
+    public String generateRegularExpression(
+        String source,
+        String javaRegex)
+    {
+        try {
+            Pattern.compile(javaRegex);
+        } catch (PatternSyntaxException e) {
+            // Not a valid Java regex. Too risky to continue.
+            return null;
+        }
+
+        // We might have to use case-insensitive matching
+        final Matcher flagsMatcher = flagsPattern.matcher(javaRegex);
+        boolean caseSensitive = true;
+        if (flagsMatcher.matches()) {
+            final String flags = flagsMatcher.group(2);
+            if (flags.contains("i")) {
+                caseSensitive = false;
+            }
+        }
+        if (flagsMatcher.matches()) {
+            javaRegex =
+                javaRegex.substring(0, flagsMatcher.start(1))
+                + javaRegex.substring(flagsMatcher.end(1));
+        }
+        final Matcher escapeMatcher = escapePattern.matcher(javaRegex);
+        while (escapeMatcher.find()) {
+            javaRegex =
+                javaRegex.replace(
+                    escapeMatcher.group(1),
+                    escapeMatcher.group(2));
+        }
+        final StringBuilder sb = new StringBuilder();
+
+        // Now build the string.
+        if (caseSensitive) {
+            sb.append(source);
+        } else {
+            sb.append("UPPER(");
+            sb.append(source);
+            sb.append(")");
+        }
+        sb.append(" REGEXP ");
+        if (caseSensitive) {
+            quoteStringLiteral(sb, javaRegex);
+        } else {
+            quoteStringLiteral(sb, javaRegex.toUpperCase());
+        }
+        return sb.toString();
+    }
+
+    public boolean allowsDdl() {
+        return true;
     }
 }
 // End ImpalaDialect.java

@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2010-2012 Pentaho and others
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.rolap.agg;
 
 import mondrian.rolap.CellKey;
@@ -52,11 +52,21 @@ class DenseObjectSegmentDataset extends DenseSegmentDataset {
     }
 
     public Object getObject(CellKey key) {
+        if (values.length == 0) {
+            // No values means they are all null.
+            // We can't call isNull because we risk going into a SOE. Besides,
+            // this is a tight loop and we can skip over one VFC.
+            return null;
+        }
         int offset = key.getOffset(axisMultipliers);
         return values[offset];
     }
 
     public boolean isNull(CellKey pos) {
+        if (values.length == 0) {
+            // No values means they are all null.
+            return true;
+        }
         return getObject(pos) != null;
     }
 

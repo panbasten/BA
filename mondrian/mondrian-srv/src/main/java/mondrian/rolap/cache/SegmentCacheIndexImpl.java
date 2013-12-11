@@ -1,24 +1,32 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2011-2013 Pentaho and others
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.rolap.cache;
 
+import mondrian.olap.QueryCanceledException;
+import mondrian.olap.Util;
 import mondrian.rolap.BitKey;
 import mondrian.rolap.RolapUtil;
 import mondrian.rolap.agg.*;
+import mondrian.server.Execution;
 import mondrian.spi.*;
 import mondrian.util.*;
 
+import org.apache.log4j.Logger;
+
 import java.io.PrintWriter;
+import java.sql.Statement;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
+
 
 /**
  * Data structure that identifies which segments contain cells.
@@ -28,6 +36,9 @@ import java.util.concurrent.Future;
  * @author Julian Hyde
  */
 public class SegmentCacheIndexImpl implements SegmentCacheIndex {
+
+    private static final Logger LOGGER =
+        Logger.getLogger(SegmentCacheIndexImpl.class);
 
     private final Map<List, List<SegmentHeader>> bitkeyMap =
         new HashMap<List, List<SegmentHeader>>();
@@ -194,18 +205,26 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         if (headerInfo.removeAfterLoad) {
             remove(header);
         }
+        // Cleanup the HeaderInfo
+        headerInfo.stmt = null;
+        headerInfo.clients.clear();
     }
 
     public void loadFailed(SegmentHeader header, Throwable throwable) {
         checkThread();
 
         final HeaderInfo headerInfo = headerMap.get(header);
-        assert headerInfo != null
-            : "segment header " + header.getUniqueID() + " is missing";
+        if (headerInfo == null) {
+            LOGGER.trace("loadFailed: Missing header " + header);
+            return;
+        }
         assert headerInfo.slot != null
             : "segment header " + header.getUniqueID() + " is not loading";
         headerInfo.slot.fail(throwable);
         remove(header);
+        // Cleanup the HeaderInfo
+        headerInfo.stmt = null;
+        headerInfo.clients.clear();
     }
 
     public void remove(SegmentHeader header) {
@@ -318,6 +337,10 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
             return list;
         }
         for (SegmentHeader header : factInfo.headerList) {
+            // Don't return stale segments.
+            if (headerMap.get(header).removeAfterLoad) {
+                continue;
+            }
             if (intersects(header, region)) {
                 // Be lazy. Don't allocate a list unless there is at least one
                 // entry.
@@ -402,10 +425,55 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         }
     }
 
-    public Future<SegmentBody> getFuture(SegmentHeader header) {
+    public Future<SegmentBody> getFuture(Execution exec, SegmentHeader header) {
         checkThread();
+        HeaderInfo hi = headerMap.get(header);
+        if (!hi.clients.contains(exec)) {
+            hi.clients.add(exec);
+        }
+        return hi.slot;
+    }
 
-        return headerMap.get(header).slot;
+    public void linkSqlStatement(SegmentHeader header, Statement stmt) {
+        checkThread();
+        headerMap.get(header).stmt = stmt;
+    }
+
+    public boolean contains(SegmentHeader header) {
+        return headerMap.containsKey(header);
+    }
+
+    public void cancel(Execution exec) {
+        checkThread();
+        List<SegmentHeader> toRemove = new ArrayList<SegmentHeader>();
+        for (Entry<SegmentHeader, HeaderInfo> entry : headerMap.entrySet()) {
+            if (entry.getValue().clients.remove(exec)) {
+                if (entry.getValue().slot != null
+                    && !entry.getValue().slot.isDone()
+                    && entry.getValue().clients.isEmpty())
+                {
+                    toRemove.add(entry.getKey());
+                }
+            }
+        }
+        // Make sure to cleanup the orphaned segments.
+        for (SegmentHeader header : toRemove) {
+            final Statement stmt = headerMap.get(header).stmt;
+            loadFailed(
+                header,
+                new QueryCanceledException(
+                    "Canceling due to an absence of interested parties."));
+            // We only want to cancel the statement, but we can't close it.
+            // Some drivers will not notice the interruption flag on their
+            // own thread before a considerable time has passed. If we were
+            // using a pooling layer, calling close() would make the
+            // underlying connection available again, despite the first
+            // statement still being processed. Some drivers will fail
+            // there. It is therefore important to close and release the
+            // resources on the proper thread, namely, the thread which
+            // runs the actual statement.
+            Util.cancelStatement(stmt);
+        }
     }
 
     public SegmentBuilder.SegmentConverter getConverter(
@@ -881,8 +949,31 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         }
     }
 
+    /**
+     * A private class that we use in the index to track who was interested in
+     * which headers, the SQL statement that is populating it and a future
+     * object which we pass to clients.
+     */
     private static class HeaderInfo {
+        /**
+         * The SQL statement populating this header.
+         * Will be null until the SQL thread calls us back to register it.
+         */
+        private Statement stmt;
+        /**
+         * The future object to pass on to clients.
+         */
         private SlotFuture<SegmentBody> slot;
+        /**
+         * A list of clients interested in this segment.
+         */
+        private final List<Execution> clients =
+            new CopyOnWriteArrayList<Execution>();
+        /**
+         * Whether this segment is already considered stale and must
+         * be deleted after it is done loading. This can happen
+         * when flushing.
+         */
         private boolean removeAfterLoad;
     }
 }

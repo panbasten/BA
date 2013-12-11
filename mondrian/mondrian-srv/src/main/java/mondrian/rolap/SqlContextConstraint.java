@@ -5,9 +5,10 @@
 // You must accept the terms of that agreement to use this software.
 //
 // Copyright (C) 2004-2005 TONBELLER AG
-// Copyright (C) 2006-2012 Pentaho and others
+// Copyright (C) 2006-2013 Pentaho and others
 // All Rights Reserved.
 */
+
 package mondrian.rolap;
 
 import mondrian.mdx.MemberExpr;
@@ -228,6 +229,15 @@ public class SqlContextConstraint
                     evaluator)));
         cacheKey.add(expandedMembers);
 
+        // Add restrictions imposed by Role based access filtering
+        Map<Level, List<RolapMember>> roleMembers =
+            SqlConstraintUtils.getRoleConstraintMembers(
+                this.getEvaluator().getSchemaReader(),
+                this.getEvaluator().getMembers());
+        for (List<RolapMember> list : roleMembers.values()) {
+            cacheKey.addAll(list);
+        }
+
         // For virtual cubes, context constraint should be evaluated in the
         // query's context, because the query might reference different base
         // cubes.
@@ -259,7 +269,7 @@ public class SqlContextConstraint
         try {
             evaluator.setContext(parent);
             SqlConstraintUtils.addContextConstraint(
-                sqlQuery, aggStar, evaluator, strict);
+                sqlQuery, aggStar, evaluator, baseCube, strict);
         } finally {
             evaluator.restore(savepoint);
         }
@@ -281,7 +291,7 @@ public class SqlContextConstraint
         List<RolapMember> parents)
     {
         SqlConstraintUtils.addContextConstraint(
-            sqlQuery, aggStar, evaluator, strict);
+            sqlQuery, aggStar, evaluator, baseCube, strict);
         boolean exclude = false;
         SqlConstraintUtils.addMemberConstraint(
             sqlQuery, baseCube, aggStar, parents, true, false, exclude);
@@ -297,7 +307,7 @@ public class SqlContextConstraint
         AggStar aggStar)
     {
         SqlConstraintUtils.addContextConstraint(
-            sqlQuery, aggStar, evaluator, strict);
+            sqlQuery, aggStar, evaluator, baseCube, strict);
     }
 
     /**

@@ -48,7 +48,6 @@ public class RolapUtil {
         Logger.getLogger("mondrian.profile");
 
     static final Logger LOGGER = Logger.getLogger(RolapUtil.class);
-    private static Semaphore querySemaphore;
 
     /**
      * Special cell value indicates that the value is not in cache yet.
@@ -290,7 +289,7 @@ public class RolapUtil {
         String sql,
         Locus locus)
     {
-        return executeQuery(dataSource, sql, null, 0, 0, locus, -1, -1);
+        return executeQuery(dataSource, sql, null, 0, 0, locus, -1, -1, null);
     }
 
     /**
@@ -325,12 +324,13 @@ public class RolapUtil {
         int firstRowOrdinal,
         Locus locus,
         int resultSetType,
-        int resultSetConcurrency)
+        int resultSetConcurrency,
+        Util.Functor1<Void, java.sql.Statement> callback)
     {
         SqlStatement stmt =
             new SqlStatement(
                 dataSource, sql, types, maxRowCount, firstRowOrdinal, locus,
-                resultSetType, resultSetConcurrency);
+                resultSetType, resultSetConcurrency, callback);
         stmt.execute();
         return stmt;
     }
@@ -610,18 +610,6 @@ public class RolapUtil {
     }
 
     /**
-     * Gets the semaphore which controls how many people can run queries
-     * simultaneously.
-     */
-    static synchronized Semaphore getQuerySemaphore() {
-        if (querySemaphore == null) {
-            int queryCount = MondrianProperties.instance().QueryLimit.get();
-            querySemaphore = new Semaphore(queryCount);
-        }
-        return querySemaphore;
-    }
-
-    /**
      * Creates a dummy evaluator.
      */
     public static Evaluator createEvaluator(
@@ -630,45 +618,6 @@ public class RolapUtil {
         Execution dummyExecution = new Execution(statement, 0);
         final RolapResult result = new RolapResult(dummyExecution, false);
         return result.getRootEvaluator();
-    }
-
-    /**
-     * A <code>Semaphore</code> is a primitive for process synchronization.
-     *
-     * <p>Given a semaphore initialized with <code>count</code>, no more than
-     * <code>count</code> threads can acquire the semaphore using the
-     * {@link #enter} method. Waiting threads block until enough threads have
-     * called {@link #leave}.
-     */
-    static class Semaphore {
-        private int count;
-        Semaphore(int count) {
-            if (count < 0) {
-                count = Integer.MAX_VALUE;
-            }
-            this.count = count;
-        }
-        synchronized void enter() {
-            if (count == Integer.MAX_VALUE) {
-                return;
-            }
-            if (count == 0) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    throw Util.newInternal(e, "while waiting for semaphore");
-                }
-            }
-            Util.assertTrue(count > 0);
-            count--;
-        }
-        synchronized void leave() {
-            if (count == Integer.MAX_VALUE) {
-                return;
-            }
-            count++;
-            notify();
-        }
     }
 
     static interface ExecuteQueryHook {
@@ -690,39 +639,52 @@ public class RolapUtil {
         // so that we can pick the correct agg table.
         for (Member curMember : members) {
             if (curMember instanceof LimitedRollupMember) {
-                List<Member> lowestMembers =
-                    ((RolapHierarchy)curMember.getHierarchy())
-                        .getLowestMembersForAccess(
-                            evaluator,
-                            ((LimitedRollupMember)curMember).hierarchyAccess,
-                            FunUtil.getNonEmptyMemberChildrenWithDetails(
+                final int savepoint = evaluator.savepoint();
+                try {
+                    // set NonEmpty to false to avoid the possibility of
+                    // constraining member retrieval by context, which itself
+                    // requires determination of limited members, resulting
+                    // in infinite loop.
+                    evaluator.setNonEmpty(false);
+                    List<Member> lowestMembers =
+                        ((RolapHierarchy)curMember.getHierarchy())
+                            .getLowestMembersForAccess(
                                 evaluator,
-                                curMember));
+                                ((LimitedRollupMember)curMember)
+                                    .hierarchyAccess,
+                                FunUtil.getNonEmptyMemberChildrenWithDetails(
+                                    evaluator,
+                                    curMember));
 
-                assert lowestMembers.size() > 0;
+                    assert lowestMembers.size() > 0;
 
-                Member lowMember = lowestMembers.get(0);
+                    Member lowMember = lowestMembers.get(0);
 
-                while (true) {
-                    RolapStar.Column curColumn =
-                        ((RolapCubeLevel)lowMember.getLevel())
-                            .getBaseStarKeyColumn(cube);
+                    while (true) {
+                        RolapStar.Column curColumn =
+                            ((RolapCubeLevel)lowMember.getLevel())
+                                .getBaseStarKeyColumn(cube);
 
-                    if (curColumn != null) {
-                        levelBitKey.set(curColumn.getBitPosition());
-                    }
+                        if (curColumn != null) {
+                            levelBitKey.set(curColumn.getBitPosition());
+                        }
 
-                    // If the level doesn't have unique members, we have to
-                    // add the parent levels until the keys are unique,
-                    // or all of them are added.
-                    if (!((RolapCubeLevel)lowMember.getLevel()).isUnique()) {
-                        lowMember = lowMember.getParentMember();
-                        if (lowMember.isAll()) {
+                        // If the level doesn't have unique members, we have to
+                        // add the parent levels until the keys are unique,
+                        // or all of them are added.
+                        if (!((RolapCubeLevel)lowMember
+                            .getLevel()).isUnique())
+                        {
+                            lowMember = lowMember.getParentMember();
+                            if (lowMember.isAll()) {
+                                break;
+                            }
+                        } else {
                             break;
                         }
-                    } else {
-                        break;
                     }
+                } finally {
+                    evaluator.restore(savepoint);
                 }
             }
         }

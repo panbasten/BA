@@ -6,9 +6,10 @@
 //
 // Copyright (C) 2004-2005 TONBELLER AG
 // Copyright (C) 2005-2005 Julian Hyde
-// Copyright (C) 2005-2012 Pentaho
+// Copyright (C) 2005-2013 Pentaho
 // All Rights Reserved.
 */
+
 package mondrian.rolap;
 
 import mondrian.mdx.MdxVisitorImpl;
@@ -73,10 +74,8 @@ public class RolapNativeFilter extends RolapNativeSet {
                         return super.visit(memberExpr);
                     }
                 });
-            if (mustJoin.get() || super.isJoinRequired()) {
-                return true;
-            }
-            return false;
+            return mustJoin.get()
+                || (getEvaluator().isNonEmpty() && super.isJoinRequired());
         }
 
         public void addConstraint(
@@ -89,8 +88,14 @@ public class RolapNativeFilter extends RolapNativeSet {
                 new RolapNativeSql(
                     sqlQuery, aggStar, getEvaluator(), args[0].getLevel());
             String filterSql = sql.generateFilterCondition(filterExpr);
-            sqlQuery.addHaving(filterSql);
-            super.addConstraint(sqlQuery, baseCube, aggStar);
+            if (filterSql != null) {
+                sqlQuery.addHaving(filterSql);
+            }
+            if (getEvaluator().isNonEmpty() || isJoinRequired()) {
+                // only apply context constraint if non empty, or
+                // if a join is required to fulfill the filter condition
+                super.addConstraint(sqlQuery, baseCube, aggStar);
+            }
         }
 
         public Object getCacheKey() {
@@ -105,28 +110,6 @@ public class RolapNativeFilter extends RolapNativeSet {
                 key.add(
                     ((RolapEvaluator)this.getEvaluator())
                     .getSlicerMembers());
-            }
-
-         // Add restrictions imposed by Role based access filtering
-            SchemaReader schemaReader = this.getEvaluator().getSchemaReader();
-            Member[] mm = this.getEvaluator().getMembers();
-            for (int mIndex = 0; mIndex < mm.length; mIndex++) {
-                if (mm[mIndex] instanceof RolapHierarchy.LimitedRollupMember
-                    || mm[mIndex] instanceof
-                       RestrictedMemberReader.MultiCardinalityDefaultMember)
-                {
-                    List<Level> hierarchyLevels = schemaReader
-                            .getHierarchyLevels(mm[mIndex].getHierarchy());
-                    for (Level affectedLevel : hierarchyLevels) {
-                        List<Member> availableMembers = schemaReader
-                                .getLevelMembers(affectedLevel, false);
-                        for (Member member : availableMembers) {
-                            if (!member.isAll()) {
-                                key.add(member);
-                            }
-                        }
-                    }
-                }
             }
 
             return key;

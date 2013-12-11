@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2006-2009 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.util;
 
 import java.util.*;
@@ -19,7 +19,12 @@ import java.util.*;
  */
 public class ConcatenableList<T> extends AbstractList<T> {
     private static int nextHashCode = 1000;
+
+    // The backing collection of sublists
     private final List<List<T>> lists;
+
+    // List containing all elements from backing lists, populated only after
+    // consolidate()
     private List<T> plainList;
     private final int hashCode = nextHashCode++;
     private Iterator<T> getIterator = null;
@@ -187,23 +192,25 @@ public class ConcatenableList<T> extends AbstractList<T> {
                         }
                     }
 
-                    if (currentListIt.hasNext()) {
-                        return true;
-                    } else {
+                    // If the current sub-list iterator has no next, grab the
+                    // next sub-list's iterator, and continue until either a
+                    // sub-list iterator with a next is found (at which point,
+                    // the while loop terminates) or no more sub-lists exist (in
+                    // which case, return false).
+                    while (!currentListIt.hasNext()) {
                         if (listsIt.hasNext()) {
                             currentListIt = listsIt.next().iterator();
-                            return currentListIt.hasNext();
                         } else {
                             return false;
                         }
                     }
+                    return currentListIt.hasNext();
                 }
 
                 public T next() {
-                    if (currentListIt.hasNext()) {
-                        return currentListIt.next();
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
                     } else {
-                        currentListIt = listsIt.next().iterator();
                         return currentListIt.next();
                     }
                 }

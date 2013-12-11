@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2010-2012 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.server;
 
 import mondrian.olap.MondrianServer;
@@ -15,9 +15,7 @@ import mondrian.spi.CatalogLocator;
 import mondrian.spi.impl.IdentityCatalogLocator;
 import mondrian.util.LockBox;
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
+import org.apache.log4j.Logger;
 
 /**
  * Registry of all servers within this JVM, and also serves as a factory for
@@ -29,6 +27,8 @@ import java.util.*;
  * @author jhyde
  */
 public class MondrianServerRegistry {
+    public static final Logger logger =
+        Logger.getLogger(MondrianServerRegistry.class);
     public static final MondrianServerRegistry INSTANCE =
         new MondrianServerRegistry();
 
@@ -46,8 +46,6 @@ public class MondrianServerRegistry {
      */
     final MondrianServer staticServer =
         createWithRepository(null, null);
-
-    private MondrianServer.MondrianVersion version = null;
 
     /**
      * Looks up a server with a given id. If the id is null, returns the
@@ -70,124 +68,50 @@ public class MondrianServerRegistry {
         }
     }
 
-    public synchronized MondrianServer.MondrianVersion getOrLoadVersion() {
-        if (version == null) {
-            final String[] vendorTitleVersion = loadVersionFile();
-            String vendor = vendorTitleVersion[0];
-            final String title = vendorTitleVersion[1];
-            final String versionString = vendorTitleVersion[2];
-            if (false) {
-                System.out.println(
-                    "vendor=" + vendor
-                    + ", title=" + title
-                    + ", versionString=" + versionString);
-            }
-            int dot1 = versionString.indexOf('.');
-            final int majorVersion =
-                dot1 < 0
-                ? 1
-                : Integer.valueOf(versionString.substring(0, dot1));
-            int dot2 = versionString.indexOf('.', dot1 + 1);
-            final int minorVersion =
-                dot2 < 0
-                ? 0
-                : Integer.valueOf(versionString.substring(dot1 + 1, dot2));
-            version = new MondrianServer.MondrianVersion() {
-                public String getVersionString() {
-                    return versionString;
-                }
-
-                public int getMajorVersion() {
-                    return majorVersion;
-                }
-
-                public int getMinorVersion() {
-                    return minorVersion;
-                }
-
-                public String getProductName() {
-                    return title;
-                }
-            };
+    public MondrianServer.MondrianVersion getVersion() {
+        if (logger.isDebugEnabled()){
+            logger.debug(" Vendor: " + MondrianServerVersion.VENDOR);
+            final String title = MondrianServerVersion.NAME;
+            logger.debug("  Title: " + title);
+            final String versionString = MondrianServerVersion.VERSION;
+            logger.debug("Version: " + versionString);
+            final int majorVersion = MondrianServerVersion.MAJOR_VERSION;
+            logger.debug(String.format("Major Version: %d", majorVersion));
+            final int minorVersion = MondrianServerVersion.MINOR_VERSION;
+            logger.debug(String.format("Minor Version: %d", minorVersion));
         }
-        return version;
-    }
-
-    private static String[] loadVersionFile() {
-        // First, try to read the version info from the package. If the classes
-        // came from a jar, this info will be set from manifest.mf.
-        Package pakkage = MondrianServerImpl.class.getPackage();
-        String implementationVersion = pakkage.getImplementationVersion();
-
-        // Second, try to read VERSION.txt.
-        String version = "Unknown Version";
-        String title = "Unknown Database";
-        String vendor = "Unknown Vendor";
-        URL resource =
-            MondrianServerImpl.class.getClassLoader()
-                .getResource("DefaultRules.xml");
-        if (resource != null) {
-            try {
-                String path = resource.getPath();
-                String path2 =
-                    Util.replace(
-                        path, "DefaultRules.xml", "VERSION.txt");
-                URL resource2 =
-                    new URL(
-                        resource.getProtocol(),
-                        resource.getHost(),
-                        path2);
-
-                // Parse VERSION.txt. E.g.
-                //   Title: mondrian
-                //   Version: 3.4.9
-                // becomes {("Title", "mondrian"), ("Version", "3.4.9")}
-                final Map<String, String> map = new HashMap<String, String>();
-                final LineNumberReader r =
-                    new LineNumberReader(
-                        new InputStreamReader(resource2.openStream()));
-                try {
-                    String line;
-                    while ((line = r.readLine()) != null) {
-                        int i = line.indexOf(": ");
-                        if (i >= 0) {
-                            String key = line.substring(0, i);
-                            String value = line.substring(i + ": ".length());
-                            map.put(key, value);
-                        }
-                    }
-                } finally {
-                    r.close();
-                }
-
-                title = map.get("Title");
-                version = map.get("Version");
-                try {
-                    Integer.parseInt(version);
-                } catch (NumberFormatException e) {
-                    // Version is not a number (e.g. "TRUNK-SNAPSHOT").
-                    // Fall back on VersionMajor, VersionMinor, if present.
-                    String versionMajor = map.get("VersionMajor");
-                    String versionMinor = map.get("VersionMinor");
-                    if (versionMajor != null) {
-                        version = versionMajor;
-                    }
-                    if (versionMinor != null) {
-                        version += "." + versionMinor;
-                    }
-                }
-                vendor = map.get("Vendor");
-            } catch (IOException e) {
-                // ignore exception - it's OK if file is not found
-                Util.discard(e);
+        final StringBuilder sb = new StringBuilder();
+        try {
+            Integer.parseInt(MondrianServerVersion.VERSION);
+            sb.append(MondrianServerVersion.VERSION);
+        } catch (NumberFormatException e) {
+            // Version is not a number (e.g. "TRUNK-SNAPSHOT").
+            // Fall back on VersionMajor, VersionMinor, if present.
+            final String versionMajor =
+                String.valueOf(MondrianServerVersion.MAJOR_VERSION);
+            final String versionMinor =
+                String.valueOf(MondrianServerVersion.MINOR_VERSION);
+            if (versionMajor != null) {
+                sb.append(versionMajor);
+            }
+            if (versionMinor != null) {
+                sb.append(".").append(versionMinor);
             }
         }
-
-        // Version from jar manifest overrides that from VERSION.txt.
-        if (implementationVersion != null) {
-            version = implementationVersion;
-        }
-        return new String[] {vendor, title, version};
+        return new MondrianServer.MondrianVersion() {
+            public String getVersionString() {
+                return sb.toString();
+            }
+            public String getProductName() {
+                return MondrianServerVersion.NAME;
+            }
+            public int getMinorVersion() {
+                return MondrianServerVersion.MINOR_VERSION;
+            }
+            public int getMajorVersion() {
+                return MondrianServerVersion.MAJOR_VERSION;
+            }
+        };
     }
 
     public MondrianServer createWithRepository(

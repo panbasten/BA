@@ -6,22 +6,18 @@
 //
 // Copyright (C) 2004-2005 TONBELLER AG
 // Copyright (C) 2005-2005 Julian Hyde
-// Copyright (C) 2005-2011 Pentaho and others
+// Copyright (C) 2005-2013 Pentaho and others
 // All Rights Reserved.
 */
 package mondrian.rolap;
 
 import mondrian.mdx.MemberExpr;
 import mondrian.olap.*;
-import mondrian.olap.MondrianDef.RelationOrJoin;
 import mondrian.rolap.aggmatcher.AggStar;
 import mondrian.rolap.sql.*;
-import mondrian.spi.Dialect;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -73,17 +69,19 @@ public class RolapNativeTopCount extends RolapNativeSet {
                 RolapNativeSql sql =
                     new RolapNativeSql(
                         sqlQuery, aggStar, getEvaluator(), null);
-                String orderBySql = sql.generateTopCountOrderBy(orderByExpr);
-                Dialect dialect = sqlQuery.getDialect();
-                boolean nullable = deduceNullability(orderByExpr);
-                if (dialect.requiresOrderByAlias()) {
-                    String alias = sqlQuery.nextColumnAlias();
-                    alias = dialect.quoteIdentifier(alias);
-                    sqlQuery.addSelect(orderBySql, null, alias);
-                    sqlQuery.addOrderBy(alias, ascending, true, nullable);
-                } else {
-                    sqlQuery.addOrderBy(orderBySql, ascending, true, nullable);
-                }
+                final String orderBySql =
+                    sql.generateTopCountOrderBy(orderByExpr);
+                boolean nullable =
+                    deduceNullability(orderByExpr);
+                final String orderByAlias =
+                    sqlQuery.addSelect(orderBySql, null);
+                sqlQuery.addOrderBy(
+                    orderBySql,
+                    orderByAlias,
+                    ascending,
+                    true,
+                    nullable,
+                    true);
             }
             super.addConstraint(sqlQuery, baseCube, aggStar);
         }
@@ -116,29 +114,6 @@ public class RolapNativeTopCount extends RolapNativeSet {
                     ((RolapEvaluator)this.getEvaluator())
                     .getSlicerMembers());
             }
-
-            // Add restrictions imposed by Role based access filtering
-            SchemaReader schemaReader = this.getEvaluator().getSchemaReader();
-            Member[] mm = this.getEvaluator().getMembers();
-            for (int mIndex = 0; mIndex < mm.length; mIndex++) {
-                if (mm[mIndex] instanceof RolapHierarchy.LimitedRollupMember
-                    || mm[mIndex] instanceof
-                       RestrictedMemberReader.MultiCardinalityDefaultMember)
-                {
-                    List<Level> hierarchyLevels = schemaReader
-                            .getHierarchyLevels(mm[mIndex].getHierarchy());
-                    for (Level affectedLevel : hierarchyLevels) {
-                        List<Member> availableMembers = schemaReader
-                                .getLevelMembers(affectedLevel, false);
-                        for (Member member : availableMembers) {
-                            if (!member.isAll()) {
-                                key.add(member);
-                            }
-                        }
-                    }
-                }
-            }
-
             return key;
         }
     }

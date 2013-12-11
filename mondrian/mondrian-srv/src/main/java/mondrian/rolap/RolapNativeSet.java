@@ -13,7 +13,7 @@ package mondrian.rolap;
 
 import mondrian.calc.ResultStyle;
 import mondrian.calc.TupleList;
-import mondrian.calc.impl.DelegatingTupleList;
+import mondrian.calc.impl.*;
 import mondrian.olap.*;
 import mondrian.rolap.TupleReader.MemberBuilder;
 import mondrian.rolap.aggmatcher.AggStar;
@@ -23,6 +23,7 @@ import mondrian.rolap.sql.*;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+
 import javax.sql.DataSource;
 
 /**
@@ -187,10 +188,11 @@ public abstract class RolapNativeSet extends RolapNative {
             case MUTABLE_LIST:
             case LIST:
                 return executeList(new SqlTupleReader(constraint));
+            default:
+                throw ResultStyleException.generate(
+                    ResultStyle.ITERABLE_MUTABLELIST_LIST,
+                    Collections.singletonList(desiredResultStyle));
             }
-            throw ResultStyleException.generate(
-                ResultStyle.ITERABLE_MUTABLELIST_LIST,
-                Collections.singletonList(desiredResultStyle));
         }
 
         protected TupleList executeList(final SqlTupleReader tr) {
@@ -263,7 +265,53 @@ public abstract class RolapNativeSet extends RolapNative {
                     cache.put(key, result);
                 }
             }
-            return result;
+            return filterInaccessibleTuples(result);
+        }
+
+
+        /**
+         * Checks access rights on the members in each tuple in tupleList.
+         */
+        private TupleList filterInaccessibleTuples(TupleList tupleList) {
+            if (constraint.getEvaluator() == null
+                || tupleList.size() == 0)
+            {
+                return tupleList;
+            }
+            Role role = constraint.getEvaluator().getSchemaReader().getRole();
+
+            TupleList filteredTupleList =  tupleList.getArity() == 1
+                ? new UnaryTupleList()
+                : new ArrayTupleList(tupleList.getArity());
+            for (Member member : tupleList.get(0)) {
+                // first look at the members in the first tuple to determine
+                // whether we can short-circuit this check.
+                // We only need to filter the list if hierarchy access
+                // is not ALL
+                Access hierarchyAccess = role.getAccess(member.getHierarchy());
+                if (hierarchyAccess == Access.CUSTOM) {
+                    // one of the hierarchies has CUSTOM.  Remove all tuples
+                    // with inaccessible members.
+                    for (List<Member> tuple : tupleList) {
+                        for (Member memberInner : tuple) {
+                            if (!role.canAccess(memberInner)) {
+                                filteredTupleList.add(tuple);
+                                break;
+                            }
+                        }
+                    }
+                    for (List<Member> tuple : filteredTupleList) {
+                        tupleList.remove(tuple);
+                    }
+                    return tupleList;
+                } else if (hierarchyAccess == Access.NONE) {
+                    // one or more hierarchies in the tuple list is
+                    // inaccessible. return an empty list.
+                    List<Member> emptyList = Collections.emptyList();
+                    return new ListTupleList(tupleList.getArity(), emptyList);
+                }
+            }
+            return tupleList;
         }
 
         private void addLevel(TupleReader tr, CrossJoinArg arg) {
@@ -274,6 +322,7 @@ public abstract class RolapNativeSet extends RolapNative {
                 // This is used to push down the "1 = 0" predicate
                 // into the emerging CJ so that the entire CJ can
                 // be natively evaluated.
+                tr.incrementEmptySets();
                 return;
             }
 
@@ -360,10 +409,28 @@ public abstract class RolapNativeSet extends RolapNative {
         for (CrossJoinArg carg : cargs) {
             RolapLevel level = carg.getLevel();
             if (level != null) {
-                Hierarchy hierarchy = level.getHierarchy();
-                Member defaultMember =
-                    schemaReader.getHierarchyDefaultMember(hierarchy);
-                evaluator.setContext(defaultMember);
+                RolapHierarchy hierarchy = level.getHierarchy();
+
+                final Member contextMember;
+                if (hierarchy.hasAll()
+                    || schemaReader.getRole()
+                    .getAccess(hierarchy) == Access.ALL)
+                {
+                    // The hierarchy may have access restrictions.
+                    // If it does, calling .substitute() will retrieve an
+                    // appropriate LimitedRollupMember.
+                    contextMember =
+                        schemaReader.substitute(hierarchy.getAllMember());
+                } else {
+                    // If there is no All member on a role restricted hierarchy,
+                    // use a restricted member based on the set of accessible
+                    // root members.
+                    contextMember = new RestrictedMemberReader
+                        .MultiCardinalityDefaultMember(
+                            hierarchy.getMemberReader()
+                                .getRootMembers().get(0));
+                }
+                evaluator.setContext(contextMember);
             }
         }
         if (storedMeasure != null) {

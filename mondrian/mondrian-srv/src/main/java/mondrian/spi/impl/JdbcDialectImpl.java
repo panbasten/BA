@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2008-2013 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.spi.impl;
 
 import mondrian.olap.MondrianProperties;
@@ -925,18 +925,20 @@ public class JdbcDialectImpl implements Dialect {
         throws SQLException
     {
         final int columnType = metaData.getColumnType(columnIndex + 1);
-        final int precision = metaData.getPrecision(columnIndex + 1);
-        final int scale = metaData.getScale(columnIndex + 1);
 
-        SqlStatement.Type internalType;
+        SqlStatement.Type internalType = null;
         if (columnType != Types.NUMERIC && columnType != Types.DECIMAL) {
             internalType = DEFAULT_TYPE_MAP.get(columnType);
-        } else if (scale == 0 && precision <= 9) {
-            // An int (up to 2^31 = 2.1B) can hold any NUMBER(10, 0) value
-            // (up to 10^9 = 1B).
-            internalType = SqlStatement.Type.INT;
         } else {
-            internalType = SqlStatement.Type.DOUBLE;
+            final int precision = metaData.getPrecision(columnIndex + 1);
+            final int scale = metaData.getScale(columnIndex + 1);
+            if (scale == 0 && precision <= 9) {
+                // An int (up to 2^31 = 2.1B) can hold any NUMBER(10, 0) value
+                // (up to 10^9 = 1B).
+                internalType = SqlStatement.Type.INT;
+            } else {
+                internalType = SqlStatement.Type.DOUBLE;
+            }
         }
         internalType =  internalType == null ? SqlStatement.Type.OBJECT
             : internalType;
@@ -1159,10 +1161,8 @@ public class JdbcDialectImpl implements Dialect {
             LOGGER.debug("NOT Using " + databaseProduct.name() + " dialect");
             return false;
         } catch (SQLException e) {
-            throw Util.newInternal(
-                e,
-                "Could not match the database product for dialect: "
-                + databaseProduct.name());
+            LOGGER.debug("NOT Using " + databaseProduct.name() + " dialect.", e);
+            return false;
         } finally {
             Util.close(resultSet, statement, null);
         }

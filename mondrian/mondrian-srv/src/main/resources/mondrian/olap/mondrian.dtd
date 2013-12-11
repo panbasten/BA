@@ -166,7 +166,7 @@ uniqueKeyLevelName CDATA #IMPLIED
 <!ELEMENT Level (Annotations?,KeyExpression?,NameExpression?,CaptionExpression?,OrdinalExpression?,ParentExpression?,MemberFormatter?,Closure?,(Property)*)>
 <!ATTLIST Level
 approxRowCount CDATA #IMPLIED
-name CDATA #IMPLIED
+name CDATA #REQUIRED
 visible (true|false) "true"
 table CDATA #IMPLIED
 column CDATA #IMPLIED

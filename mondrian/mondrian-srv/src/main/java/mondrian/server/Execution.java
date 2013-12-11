@@ -1,17 +1,18 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2011-2012 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.server;
 
 import mondrian.olap.*;
 import mondrian.resource.MondrianResource;
 import mondrian.rolap.RolapConnection;
+import mondrian.rolap.agg.SegmentCacheManager;
 import mondrian.server.monitor.*;
 
 import org.apache.log4j.MDC;
@@ -54,6 +55,12 @@ public class Execution {
      * need to be synchronized on this.
      */
     private final Object sqlStateLock = new Object();
+
+    /**
+     * This is a lock object to sync on when changing
+     * the {@link #state} variable.
+     */
+    private final Object stateLock = new Object();
 
     /**
      * If not <code>null</code>, this query was notified that it
@@ -176,16 +183,17 @@ public class Execution {
     }
 
     /**
-     * Cancels the execution instance. Cleanup of the
-     * resources used by this execution instance will be performed
-     * in the background later on.
+     * Cancels the execution instance.
      */
     public void cancel() {
-        this.state = State.CANCELED;
-        if (parent != null) {
-            parent.cancel();
+        synchronized (stateLock) {
+            this.state = State.CANCELED;
+            this.cancelSqlStatements();
+            if (parent != null) {
+                parent.cancel();
+            }
+            fireExecutionEndEvent();
         }
-        fireExecutionEndEvent();
     }
 
     /**
@@ -197,9 +205,11 @@ public class Execution {
      * the problem encountered with the memory space.
      */
     public final void setOutOfMemory(String msg) {
-        assert msg != null;
-        this.outOfMemoryMsg = msg;
-        this.state = State.ERROR;
+        synchronized (stateLock) {
+            assert msg != null;
+            this.outOfMemoryMsg = msg;
+            this.state = State.ERROR;
+        }
     }
 
     /**
@@ -273,15 +283,35 @@ public class Execution {
         {
             return true;
         }
-        if (state == State.CANCELED
-            || state == State.ERROR
-            || (state == State.RUNNING
+        synchronized (stateLock) {
+            if (state == State.CANCELED
+                || state == State.ERROR
+                || state == State.TIMEOUT
+                || (state == State.RUNNING
                 && timeoutTimeMillis > 0
                 && System.currentTimeMillis() > timeoutTimeMillis))
-        {
-            return true;
+            {
+                return true;
+            }
+            return false;
         }
-        return false;
+    }
+
+    /**
+     * Tells whether this execution is done executing.
+     */
+    public boolean isDone() {
+        synchronized (stateLock) {
+            switch (this.state) {
+            case CANCELED:
+            case DONE:
+            case ERROR:
+            case TIMEOUT:
+                return true;
+            default:
+                return false;
+            }
+        }
     }
 
     /**
@@ -314,8 +344,19 @@ public class Execution {
                 final Entry<Locus, java.sql.Statement> entry = iterator.next();
                 final java.sql.Statement statement1 = entry.getValue();
                 iterator.remove();
-                Util.cancelAndCloseStatement(statement1);
+                // We only want to cancel the statement, but we can't close it.
+                // Some drivers will not notice the interruption flag on their
+                // own thread before a considerable time has passed. If we were
+                // using a pooling layer, calling close() would make the
+                // underlying connection available again, despite the first
+                // statement still being processed. Some drivers will fail
+                // there. It is therefore important to close and release the
+                // resources on the proper thread, namely, the thread which
+                // runs the actual statement.
+                Util.cancelStatement(statement1);
             }
+            // Also cleanup the segment registrations from the index.
+            unregisterSegmentRequests();
         }
     }
 
@@ -325,10 +366,48 @@ public class Execution {
      * starts executing again.
      */
     public void end() {
-        queryTiming.done();
-        this.state = State.DONE;
-        statements.clear();
-        fireExecutionEndEvent();
+        synchronized (stateLock) {
+            queryTiming.done();
+            if (this.state == State.FRESH
+                || this.state == State.RUNNING)
+            {
+                this.state = State.DONE;
+            }
+            // Clear pointer to pending SQL statements
+            statements.clear();
+            // Unregister all segments
+            unregisterSegmentRequests();
+            // Fire up a monitor event.
+            fireExecutionEndEvent();
+        }
+    }
+
+    /**
+     * Calls into the SegmentCacheManager and unregisters all the
+     * registrations made for this execution on segments form
+     * the index.
+     */
+    public void unregisterSegmentRequests() {
+        // We also have to cancel all requests for the current segments.
+        final Locus locus =
+            new Locus(
+                this,
+                "Execution.unregisterSegmentRequests",
+                "cleaning up segment registrations");
+        final SegmentCacheManager mgr =
+            locus.getServer()
+                .getAggregationManager().cacheMgr;
+        mgr.execute(
+            new SegmentCacheManager.Command<Void>() {
+                public Void call() throws Exception {
+                    mgr.getIndexRegistry()
+                        .cancelExecutionSegments(Execution.this);
+                    return null;
+                }
+                public Locus getLocus() {
+                    return locus;
+                }
+            });
     }
 
     public final long getStartTime() {
@@ -359,11 +438,13 @@ public class Execution {
      */
     public void registerStatement(Locus locus, java.sql.Statement statement) {
         synchronized (sqlStateLock) {
-            if (state == State.FRESH) {
-                start();
-            }
-            if (state == State.RUNNING) {
-                this.statements.put(locus, statement);
+            synchronized (stateLock) {
+                if (state == State.FRESH) {
+                    start();
+                }
+                if (state == State.RUNNING) {
+                    this.statements.put(locus, statement);
+                }
             }
         }
     }

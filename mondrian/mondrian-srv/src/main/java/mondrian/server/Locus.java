@@ -1,18 +1,17 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2011-2011 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.server;
 
 import mondrian.olap.MondrianServer;
 import mondrian.rolap.RolapConnection;
-
-import java.util.Stack;
+import mondrian.util.ArrayStack;
 
 /**
  * Point of execution from which a service is invoked.
@@ -22,10 +21,10 @@ public class Locus {
     public final String message;
     public final String component;
 
-    private static final ThreadLocal<Stack<Locus>> THREAD_LOCAL =
-        new ThreadLocal<Stack<Locus>>() {
-            protected Stack<Locus> initialValue() {
-                return new Stack<Locus>();
+    private static final ThreadLocal<ArrayStack<Locus>> THREAD_LOCAL =
+        new ThreadLocal<ArrayStack<Locus>>() {
+            protected ArrayStack<Locus> initialValue() {
+                return new ArrayStack<Locus>();
             }
         };
 

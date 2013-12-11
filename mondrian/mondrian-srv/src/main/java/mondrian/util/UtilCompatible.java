@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2007-2011 Pentaho
-// All Rights Reserved.
+* This software is subject to the terms of the Eclipse Public License v1.0
+* Agreement, available at the following URL:
+* http://www.eclipse.org/legal/epl-v10.html.
+* You must accept the terms of that agreement to use this software.
+*
+* Copyright (c) 2002-2013 Pentaho Corporation..  All rights reserved.
 */
+
 package mondrian.util;
 
 import mondrian.olap.Util;
@@ -49,7 +49,7 @@ public interface UtilCompatible {
      * they should be logged under {@link Util}.
      * @param stmt The statement to close.
      */
-    void cancelAndCloseStatement(Statement stmt);
+    void cancelStatement(Statement stmt);
 
     /**
      * Compiles a script to yield a Java interface.
