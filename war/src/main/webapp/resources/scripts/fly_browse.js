@@ -169,20 +169,18 @@ Flywet.browse = {
 			tabName = category+"-"+data.id+"-tab",
 			displayName = data.attrs.displayName;
 		
-		// 转换、作业、表单报表打开转换设计器（TAB）
-		if(category=="trans" || category=="job" || category=="dashboard"){
+		// 如果是dialog类型的编辑界面
+		if(Flywet.editors[category].editorType == "dialog"){
+			Flywet.editors[category].openEditor(category,data,displayName);
+		}
+		// 打开tab类型编辑界面
+		else{
 			if (baEditorPageTabs.hasMatch(tabName)) {
 				baEditorPageTabs.select(tabName);
 				return;
 			}
-			Flywet.editors[category].openTab(category,data,displayName,tabName);
+			Flywet.editors[category].openEditor(category,data,displayName,tabName);
 		}
-		// 数据库文件打开数据库配置页面
-		else if(category=="db"){
-			Flywet.database.editObject(category,data.data.type,data.data.id,displayName);
-		}
-		else if(category=="local" || category=="ftp"){
-			//console.log(data);
-		}
+		
 	}
 };

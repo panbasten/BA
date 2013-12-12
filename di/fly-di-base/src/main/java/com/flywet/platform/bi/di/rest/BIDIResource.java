@@ -30,8 +30,8 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.di.function.DIFunctions;
+import com.flywet.platform.bi.di.service.intf.BIDIDelegates;
 import com.flywet.platform.bi.rest.AbastractDirectoryResource;
-import com.flywet.platform.bi.services.intf.BIPageDelegates;
 
 @Service("bi.resource.diResource")
 @Path("/di")
@@ -48,8 +48,8 @@ public class BIDIResource extends AbastractDirectoryResource {
 
 	private static final BIDirectoryCategory DIR_CATEGORY = BIDirectoryCategory.DI;
 
-	@Resource(name = "bi.service.pageServices")
-	private BIPageDelegates pageDelegates;
+	@Resource(name = "bi.service.diService")
+	private BIDIDelegates diDelegates;
 
 	@GET
 	@Path("/navi")
@@ -57,7 +57,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	public String createNaviContentDI() throws BIException {
 		// 注册方法
 		DIFunctions.register();
-		return super.buildNaviContent(pageDelegates, DIR_CATEGORY.getRootId(),
+		return super.buildNaviContent(diDelegates, DIR_CATEGORY.getRootId(),
 				DIR_CATEGORY, true);
 	}
 
@@ -66,7 +66,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String removeDirectory(@PathParam("id") String id)
 			throws BIException {
-		return super.removeDirectory(pageDelegates, id, DIR_CATEGORY);
+		return super.removeDirectory(diDelegates, id, DIR_CATEGORY);
 	}
 
 	@GET
@@ -82,7 +82,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/editsubmit")
 	public String openDirectoryEditSubmit(String body) throws BIJSONException {
-		return super.openDirectoryEditSubmit(pageDelegates, body, DIR_CATEGORY);
+		return super.openDirectoryEditSubmit(diDelegates, body, DIR_CATEGORY);
 	}
 
 	@GET
@@ -97,8 +97,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/createsubmit")
 	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
-		return super.openDirectoryCreateSubmit(pageDelegates, body,
-				DIR_CATEGORY);
+		return super.openDirectoryCreateSubmit(diDelegates, body, DIR_CATEGORY);
 	}
 
 	@GET
@@ -106,7 +105,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String flushNaviContent(@PathParam("id") String id)
 			throws BIException {
-		return super.buildNaviContent(pageDelegates, Long.parseLong(id),
+		return super.buildNaviContent(diDelegates, Long.parseLong(id),
 				DIR_CATEGORY, false);
 	}
 
@@ -122,7 +121,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 	public String createTransPage() throws BIException {
 		try {
 			// 生成插件工具栏
-			List<String> transStepBar = pageDelegates
+			List<String> transStepBar = diDelegates
 					.getPluginNavigator(Utils.CATEGORY_DI_TRANS);
 			List<BrowseMeta> transStepBrowses = new ArrayList<BrowseMeta>();
 
@@ -131,7 +130,7 @@ public class BIDIResource extends AbastractDirectoryResource {
 				// 各个导航项下的组件
 				BrowseMeta browseMeta = new BrowseMeta();
 
-				pageDelegates.getPlugins(transStepBar.get(i), browseMeta,
+				diDelegates.getPlugins(transStepBar.get(i), browseMeta,
 						"fly-trans-step-plugin");
 
 				// 增加额外属性

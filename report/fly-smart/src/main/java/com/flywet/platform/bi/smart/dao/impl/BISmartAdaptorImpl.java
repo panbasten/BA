@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.impl;
+package com.flywet.platform.bi.smart.dao.impl;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ import org.pentaho.di.core.exception.KettleException;
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.intf.BIDomainAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
+import com.flywet.platform.bi.smart.dao.intf.BISmartAdaptor;
 
 @BIDelegate(type = "db")
-public class BIDomainAdaptorImpl extends BIAbstractDbAdaptor implements
-		BIDomainAdaptor {
-	private final Logger logger = Logger.getLogger(BIDomainAdaptorImpl.class);
+public class BISmartAdaptorImpl extends BIAbstractDbAdaptor implements
+		BISmartAdaptor {
+	private final Logger logger = Logger.getLogger(BISmartAdaptorImpl.class);
 
 	@Override
 	public Object[] getDomainObject(String id) throws BIKettleException {

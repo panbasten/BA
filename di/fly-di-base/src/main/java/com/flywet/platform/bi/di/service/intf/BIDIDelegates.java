@@ -1,27 +1,12 @@
-package com.flywet.platform.bi.services.intf;
+package com.flywet.platform.bi.di.service.intf;
 
 import java.util.List;
 
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
-import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
-import com.flywet.platform.bi.delegates.vo.FunctionType;
+import com.flywet.platform.bi.services.intf.BIDirectoryDelegates;
 
-/**
- * 页面服务层接口类
- * 
- * @author Peter Pan
- * 
- */
-public interface BIPageDelegates extends BIDirectoryDelegates {
-
-	/**
-	 * 获取第一级导航项
-	 * 
-	 * @return
-	 * @throws BIException
-	 */
-	public List<FunctionType> getNavigatorsLevelOne() throws BIException;
+public interface BIDIDelegates extends BIDirectoryDelegates {
 
 	/**
 	 * 根据组件类别获取其下的所有组件
@@ -46,15 +31,5 @@ public interface BIPageDelegates extends BIDirectoryDelegates {
 	 * @return
 	 */
 	public List<String> getPluginNavigator(String category);
-
-	/**
-	 * 根据functionType的parent id查找其下的子
-	 * 
-	 * @param parentId
-	 * @return
-	 * @throws BIException
-	 */
-	public List<FunctionType> getFunctionsByParent(long parentId)
-			throws BIException;
 
 }

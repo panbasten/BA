@@ -1,12 +1,12 @@
-package com.flywet.platform.bi.delegates.intf;
+package com.flywet.platform.bi.base.dao.intf;
 
 import java.util.List;
 
 import com.flywet.platform.bi.core.exception.BIKettleException;
 
-public interface BIDomainAdaptor {
+public interface BIReportAdaptor {
 	/**
-	 * 通过目录ID获得子目录和旗下的语义模型对象
+	 * 通过目录ID获得子目录和旗下的报表对象
 	 * 
 	 * @param dirId
 	 * @return
@@ -16,11 +16,11 @@ public interface BIDomainAdaptor {
 			throws BIKettleException;
 
 	/**
-	 * 通过ID获得语义模型对象
+	 * 通过ID获得报表对象
 	 * 
 	 * @param id
 	 * @return
 	 * @throws BIKettleException
 	 */
-	public Object[] getDomainObject(String id) throws BIKettleException;
+	public Object[] getReportObject(String id) throws BIKettleException;
 }

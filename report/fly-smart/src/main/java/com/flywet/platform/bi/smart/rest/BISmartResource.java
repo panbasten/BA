@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.web.rest;
+package com.flywet.platform.bi.smart.rest;
 
 import javax.annotation.Resource;
 import javax.ws.rs.GET;
@@ -17,25 +17,25 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.rest.AbastractDirectoryResource;
-import com.flywet.platform.bi.services.intf.BIPageDelegates;
+import com.flywet.platform.bi.smart.service.intf.BISmartDelegates;
 
-@Service("bi.resource.domainResource")
-@Path("/domain")
-public class BIDomainResource extends AbastractDirectoryResource {
+@Service("bi.resource.smartResource")
+@Path("/smart")
+public class BISmartResource extends AbastractDirectoryResource {
 
-	private final Logger logger = Logger.getLogger(BIDomainResource.class);
+	private final Logger logger = Logger.getLogger(BISmartResource.class);
 
 	private static final BIDirectoryCategory DIR_CATEGORY = BIDirectoryCategory.DOMAIN;
 
-	@Resource(name = "bi.service.pageServices")
-	private BIPageDelegates pageDelegates;
+	@Resource(name = "bi.service.smartService")
+	private BISmartDelegates smartDelegates;
 
 	@GET
 	@Path("/navi")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviContentDI() throws BIException {
 		// 注册方法
-		return super.buildNaviContent(pageDelegates, DIR_CATEGORY.getRootId(),
+		return super.buildNaviContent(smartDelegates, DIR_CATEGORY.getRootId(),
 				DIR_CATEGORY, true);
 	}
 
@@ -44,7 +44,7 @@ public class BIDomainResource extends AbastractDirectoryResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String removeDirectory(@PathParam("id") String id)
 			throws BIException {
-		return super.removeDirectory(pageDelegates, id, DIR_CATEGORY);
+		return super.removeDirectory(smartDelegates, id, DIR_CATEGORY);
 	}
 
 	@GET
@@ -59,7 +59,7 @@ public class BIDomainResource extends AbastractDirectoryResource {
 	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/createsubmit")
 	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
-		return super.openDirectoryCreateSubmit(pageDelegates, body,
+		return super.openDirectoryCreateSubmit(smartDelegates, body,
 				DIR_CATEGORY);
 	}
 
@@ -68,7 +68,7 @@ public class BIDomainResource extends AbastractDirectoryResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String flushNaviContent(@PathParam("id") String id)
 			throws BIException {
-		return super.buildNaviContent(pageDelegates, Long.parseLong(id),
+		return super.buildNaviContent(smartDelegates, Long.parseLong(id),
 				DIR_CATEGORY, false);
 	}
 }

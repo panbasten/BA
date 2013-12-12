@@ -14,7 +14,7 @@ public class BIAdaptorFactory {
 	private static final Logger logger = Logger
 			.getLogger(BIAdaptorFactory.class);
 
-	private static final String DELEGATE_BASE_PACKAGE = "com.flywet.platform.bi.delegates";
+	private static final String DELEGATE_BASE_PACKAGE = "com.flywet.platform.bi";
 	private static Set<Class<?>> allClasses = null;
 
 	private BIAdaptorFactory() {
@@ -112,7 +112,7 @@ public class BIAdaptorFactory {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 }

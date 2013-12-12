@@ -16,7 +16,7 @@ import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
-import com.flywet.platform.bi.services.intf.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIDirectoryDelegates;
 
 public class AbastractDirectoryResource {
 
@@ -35,16 +35,16 @@ public class AbastractDirectoryResource {
 	/**
 	 * 删除一个目录
 	 * 
-	 * @param pageDelegates
+	 * @param dirDelegates
 	 * @param id
 	 * @return
 	 * @throws BIException
 	 */
-	protected String removeDirectory(BIPageDelegates pageDelegates, String id,
-			BIDirectoryCategory cate) throws BIException {
+	protected String removeDirectory(BIDirectoryDelegates dirDelegates,
+			String id, BIDirectoryCategory cate) throws BIException {
 		ActionMessage am = new ActionMessage();
 		try {
-			pageDelegates.removeDirectoryObject(Long.valueOf(id), cate);
+			dirDelegates.removeDirectoryObject(Long.valueOf(id), cate);
 		} catch (BIException e) {
 			logger.error(e.getMessage());
 			am.addErrorMessage(e.getMessage());
@@ -94,13 +94,13 @@ public class AbastractDirectoryResource {
 	/**
 	 * 编辑目录对话框的提交操作
 	 * 
-	 * @param pageDelegates
+	 * @param dirDelegates
 	 * @param body
 	 * @param cate
 	 * @return
 	 * @throws BIJSONException
 	 */
-	protected String openDirectoryEditSubmit(BIPageDelegates pageDelegates,
+	protected String openDirectoryEditSubmit(BIDirectoryDelegates dirDelegates,
 			String body, BIDirectoryCategory cate) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
@@ -118,7 +118,7 @@ public class AbastractDirectoryResource {
 			}
 
 			// 保存目录
-			pageDelegates.editDirectoryObject(pDirId, dirId, desc, cate);
+			dirDelegates.editDirectoryObject(pDirId, dirId, desc, cate);
 
 			am.addMessage("新增目录成功");
 		} catch (Exception e) {
@@ -162,14 +162,15 @@ public class AbastractDirectoryResource {
 	/**
 	 * 新建目录对话框的提交操作
 	 * 
-	 * @param pageDelegates
+	 * @param funcDelegates
 	 * @param body
 	 * @param rootId
 	 * @return
 	 * @throws BIJSONException
 	 */
-	protected String openDirectoryCreateSubmit(BIPageDelegates pageDelegates,
-			String body, BIDirectoryCategory cate) throws BIJSONException {
+	protected String openDirectoryCreateSubmit(
+			BIDirectoryDelegates funcDelegates, String body,
+			BIDirectoryCategory cate) throws BIJSONException {
 		ActionMessage am = new ActionMessage();
 		try {
 			ParameterContext paramContext = BIWebUtils
@@ -186,7 +187,7 @@ public class AbastractDirectoryResource {
 			}
 
 			// 保存目录
-			pageDelegates.newDirectoryObject(dirId, desc, cate);
+			funcDelegates.newDirectoryObject(dirId, desc, cate);
 
 			am.addMessage("新增目录成功");
 		} catch (Exception e) {
@@ -195,12 +196,13 @@ public class AbastractDirectoryResource {
 		return am.toJSONString();
 	}
 
-	protected String buildNaviContent(BIPageDelegates pageDelegates, Long idL,
-			BIDirectoryCategory category, boolean isNew) throws BIException {
+	protected String buildNaviContent(BIDirectoryDelegates dirDelegates,
+			Long idL, BIDirectoryCategory category, boolean isNew)
+			throws BIException {
 		try {
 
 			// 1.为转换的面包屑页面创建一个自定义操作
-			BreadCrumbMeta bce = pageDelegates.getParentDirectories(idL,
+			BreadCrumbMeta bce = dirDelegates.getParentDirectories(idL,
 					category);
 			AjaxResultEntity transBCResult = AjaxResultEntity.instance()
 					.setOperation(Utils.RESULT_OPERATION_CUSTOM).setTargetId(
@@ -211,8 +213,8 @@ public class AbastractDirectoryResource {
 
 			// 2.填充浏览面板内容
 			BrowseMeta browseMeta = new BrowseMeta();
-			pageDelegates.getSubDirectory(idL, browseMeta, category);
-			pageDelegates.getSubDirectoryObject(idL, browseMeta, category);
+			dirDelegates.getSubDirectory(idL, browseMeta, category);
+			dirDelegates.getSubDirectoryObject(idL, browseMeta, category);
 			browseMeta.addClass("fly-browsepanel");
 
 			// 添加额外属性

@@ -17,7 +17,7 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.services.intf.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIFunctionDelegates;
 
 @Service("bi.resource.baseResource")
 @Path("/base")
@@ -28,15 +28,15 @@ public class BIBaseResource {
 
 	public static final String ID_EDITOR_NAVIS = "navis";
 
-	@Resource(name = "bi.service.pageServices")
-	private BIPageDelegates pageDelegates;
+	@Resource(name = "bi.service.funcServices")
+	private BIFunctionDelegates funcDelegates;
 
 	@GET
 	@Path("/navigatorpage")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviPage() throws BIException {
 		try {
-			List<FunctionType> funcs = pageDelegates.getNavigatorsLevelOne();
+			List<FunctionType> funcs = funcDelegates.getNavigatorsLevelOne();
 
 			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
 			attrsMap.addVariable("editorId", ID_EDITOR_NAVIS);

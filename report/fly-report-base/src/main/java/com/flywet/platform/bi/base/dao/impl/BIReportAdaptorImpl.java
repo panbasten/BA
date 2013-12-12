@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.impl;
+package com.flywet.platform.bi.base.dao.impl;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.core.row.ValueMetaInterface;
 
+import com.flywet.platform.bi.base.dao.intf.BIReportAdaptor;
 import com.flywet.platform.bi.core.db.BIDatabaseRepositoryBase;
 import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
-import com.flywet.platform.bi.delegates.intf.BIReportAdaptor;
 import com.flywet.platform.bi.delegates.model.BIAbstractDbAdaptor;
 
 @BIDelegate(type = "db")

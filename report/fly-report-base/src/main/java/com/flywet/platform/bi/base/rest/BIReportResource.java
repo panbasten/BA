@@ -12,12 +12,12 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.rest.AbastractDirectoryResource;
-import com.flywet.platform.bi.services.intf.BIPageDelegates;
 
 @Service("bi.resource.reportResource")
 @Path("/report")
@@ -26,8 +26,8 @@ public class BIReportResource extends AbastractDirectoryResource {
 
 	public final static long DIRECTORY_ROOT_ID = 1L;
 
-	@Resource(name = "bi.service.pageServices")
-	private BIPageDelegates pageDelegates;
+	@Resource(name = "bi.service.reportService")
+	private BIReportDelegates reportDelegates;
 
 	private static final BIDirectoryCategory DIR_CATEGORY = BIDirectoryCategory.REPORT;
 
@@ -35,8 +35,8 @@ public class BIReportResource extends AbastractDirectoryResource {
 	@Path("/navi")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createNaviContentReport() throws BIException {
-		return super.buildNaviContent(pageDelegates, DIR_CATEGORY.getRootId(),
-				DIR_CATEGORY, true);
+		return super.buildNaviContent(reportDelegates,
+				DIR_CATEGORY.getRootId(), DIR_CATEGORY, true);
 	}
 
 	@GET
@@ -44,7 +44,7 @@ public class BIReportResource extends AbastractDirectoryResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String removeDirectory(@PathParam("id") String id)
 			throws BIException {
-		return super.removeDirectory(pageDelegates, id, DIR_CATEGORY);
+		return super.removeDirectory(reportDelegates, id, DIR_CATEGORY);
 	}
 
 	@GET
@@ -59,7 +59,7 @@ public class BIReportResource extends AbastractDirectoryResource {
 	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)
 	@Path("/dir/createsubmit")
 	public String openDirectoryCreateSubmit(String body) throws BIJSONException {
-		return super.openDirectoryCreateSubmit(pageDelegates, body,
+		return super.openDirectoryCreateSubmit(reportDelegates, body,
 				DIR_CATEGORY);
 	}
 
@@ -68,7 +68,7 @@ public class BIReportResource extends AbastractDirectoryResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String flushNaviContent(@PathParam("id") String id)
 			throws BIException {
-		return super.buildNaviContent(pageDelegates, Long.parseLong(id),
+		return super.buildNaviContent(reportDelegates, Long.parseLong(id),
 				DIR_CATEGORY, false);
 	}
 

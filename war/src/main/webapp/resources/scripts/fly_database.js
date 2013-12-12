@@ -1,4 +1,4 @@
-Flywet.database = {
+Flywet.db = {
 	ids : {
 		bpVarName : "editorContent-navi-db-bp_var"
 	},
@@ -141,7 +141,7 @@ Flywet.database = {
 				title : "浏览数据库",
 				click : {
 					func : function(){
-						Flywet.database.exploreDatabase(category, type, id, displayName);
+						Flywet.db.exploreDatabase(category, type, id, displayName);
 					}
 				}
 			}],
@@ -176,20 +176,20 @@ Flywet.database = {
 	},
 	
 	edit : function(){
-		if (!Flywet.editors.item.checkSelected(Flywet.database.ids.bpVarName)) {
+		if (!Flywet.editors.item.checkSelected(Flywet.db.ids.bpVarName)) {
 			Flywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = Flywet.editors.item.getOneSelected(Flywet.database.ids.bpVarName);
+		var selItem = Flywet.editors.item.getOneSelected(Flywet.db.ids.bpVarName);
 		this.editObject(selItem.category, selItem.type, selItem.id, selItem.displayName);
 	},
 	
 	remove : function(){
-		if (!Flywet.editors.item.checkSelected(Flywet.database.ids.bpVarName)) {
+		if (!Flywet.editors.item.checkSelected(Flywet.db.ids.bpVarName)) {
 			Flywet.dialog.warning("请先选中一个对象。");
 			return;
 		}
-		var selItem = Flywet.editors.item.getOneSelected(Flywet.database.ids.bpVarName);
+		var selItem = Flywet.editors.item.getOneSelected(Flywet.db.ids.bpVarName);
 		var _self=this;
 		Flywet.ab({
 			type : "DELETE",
@@ -208,5 +208,13 @@ Flywet.database = {
 			type : "GET",
 			url : "rest/db/flush"
 		});
+	}
+};
+
+Flywet.editors.db = {
+	type : "db",
+	editorType : "dialog",
+	openEditor : function(category,data,displayName){
+		Flywet.db.editObject(category,data.data.type,data.data.id,displayName);
 	}
 };

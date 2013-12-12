@@ -1,6 +1,7 @@
 // 表单
 Flywet.editors.dashboard = {
 	type : "dashboard",
+	editorType : "tab",
 	saveStatus : function ($tabo) {
 		$tabo.data("exdata",dashboardEditorPanel_var.getData())
 	},
@@ -16,7 +17,7 @@ Flywet.editors.dashboard = {
 		// TODO 工具箱的滚动按钮
 		
 	},
-	openTab : function(category,data,displayName,tabName){
+	openEditor : function(category,data,displayName,tabName){
 		Flywet.ab({
 			type : "get",
 			modal : true,

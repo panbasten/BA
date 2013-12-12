@@ -31,7 +31,7 @@ import com.flywet.platform.bi.core.sec.WebMarshal;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.vo.FunctionType;
-import com.flywet.platform.bi.services.intf.BIPageDelegates;
+import com.flywet.platform.bi.services.intf.BIFunctionDelegates;
 
 @Service("bi.resource.sysToolsResource")
 @Path("/systools")
@@ -48,8 +48,8 @@ public class BISysToolsResource {
 
 	private static final String DB_PLUGIN_TEMPLATE = "editor/sys/db_plugin.h";
 
-	@Resource(name = "bi.service.pageServices")
-	private BIPageDelegates pageDelegates;
+	@Resource(name = "bi.service.funcServices")
+	private BIFunctionDelegates pageDelegates;
 
 	private static Class<?> PKG = BISysToolsResource.class;
 

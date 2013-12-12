@@ -245,9 +245,11 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_browse.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_di.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_trans.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_pivot.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_dashboard.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_database.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_di.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_domain.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_report.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_filesys.js</include>
@@ -353,6 +355,11 @@
 		<dependency>
 			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-report-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-smart</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

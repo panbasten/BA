@@ -147,14 +147,20 @@
 			src="<%=path%>/resources/scripts/fly.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_browse.js"></script>
+		
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_editor.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/scripts/fly_editor_di.js"></script>
+			src="<%=path%>/resources/scripts/fly_editor_trans.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/fly_editor_pivot.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_editor_dashboard.js"></script>
+			
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_database.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/fly_di.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_domain.js"></script>
 		<script type="text/javascript"

@@ -28,7 +28,7 @@
 				<ref bean="bi.resource.sysToolsResource" />
 				<ref bean="bi.resource.diResource" />
 				<ref bean="bi.resource.dbResource" />
-				<ref bean="bi.resource.domainResource" />
+				<ref bean="bi.resource.smartResource" />
 				
 				<ref bean="bi.resource.transResource" />
 				
