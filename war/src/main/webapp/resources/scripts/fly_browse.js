@@ -170,6 +170,7 @@ Flywet.browse = {
 			displayName = data.attrs.displayName;
 		
 		// 如果是dialog类型的编辑界面
+		console.log(category);
 		if(Flywet.editors[category].editorType == "dialog"){
 			Flywet.editors[category].openEditor(category,data,displayName);
 		}
