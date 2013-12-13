@@ -13,16 +13,16 @@
 			</fly:pushbutton>
             <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="编辑" title="编辑"
-            	onclick="Flywet.domain.edit()" />
+            	onclick="Flywet.smart.edit()" />
             <fly:pushbutton iconCls="ui-icon-folder-open" 
             	label="删除" title="删除"
-            	onclick="Flywet.domain.remove()" />
+            	onclick="Flywet.smart.remove()" />
 			<fly:pushbutton iconCls="ui-icon-folder-open"
             	label="上传" title="上传"
-            	onclick="Flywet.domain.uploadFile()" />
+            	onclick="Flywet.smart.uploadFile()" />
             <fly:pushbutton iconCls="ui-icon-folder-open"
             	label="下载" title="下载"
-            	onclick="Flywet.domain.downloadFile()" />
+            	onclick="Flywet.smart.downloadFile()" />
 		</div>
 	</div>
 	<div id="editorContent-navi-${entity.code}-bp" class="fly-editor-content-height-browse-panel">

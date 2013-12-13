@@ -250,7 +250,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_editor_dashboard.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_database.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_di.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_domain.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_smart.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_report.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_filesys.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/fly_sysTools.js</include>

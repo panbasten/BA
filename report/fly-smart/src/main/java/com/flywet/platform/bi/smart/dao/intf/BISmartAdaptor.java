@@ -22,5 +22,5 @@ public interface BISmartAdaptor {
 	 * @return
 	 * @throws BIKettleException
 	 */
-	public Object[] getDomainObject(String id) throws BIKettleException;
+	public Object[] getSmartObject(String id) throws BIKettleException;
 }

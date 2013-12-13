@@ -42,7 +42,7 @@ public class Utils {
 	public static final String CATEGORY_DI_TRANS = "trans";
 	public static final String CATEGORY_DI_JOB = "job";
 	public static final String CATEGORY_REPORT = "report";
-	public static final String CATEGORY_DOMAIN = "domain";
+	public static final String CATEGORY_SMART = "smart";
 	public static final String CATEGORY_DB = "db";
 	public static final String CATEGORY_FILESYSTEM = "fs";
 	public static final String CATEGORY_SYSTOOLS = "systools";

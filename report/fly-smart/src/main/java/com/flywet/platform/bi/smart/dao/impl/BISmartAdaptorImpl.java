@@ -17,7 +17,7 @@ public class BISmartAdaptorImpl extends BIAbstractDbAdaptor implements
 	private final Logger logger = Logger.getLogger(BISmartAdaptorImpl.class);
 
 	@Override
-	public Object[] getDomainObject(String id) throws BIKettleException {
+	public Object[] getSmartObject(String id) throws BIKettleException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -27,17 +27,17 @@ public class BISmartAdaptorImpl extends BIAbstractDbAdaptor implements
 			throws BIKettleException {
 		try {
 			String sql = "SELECT "
-					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_ID_DOMAIN)
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_ID_SMART)
 					+ ","
-					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_DOMAIN_TYPE)
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_SMART_TYPE)
 					+ ","
-					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_DESCRIPTION)
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_DESCRIPTION)
 					+ ","
-					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_DOMAIN_STATUS)
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_SMART_STATUS)
 					+ " FROM "
-					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_DOMAIN)
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_SMART)
 					+ " WHERE "
-					+ quote(BIDatabaseRepositoryBase.FIELD_DOMAIN_ID_DOMAIN_DIRECTORY)
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_ID_SMART_DIRECTORY)
 					+ " = " + dirId;
 			return getRows(sql);
 		} catch (KettleException e) {

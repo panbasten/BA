@@ -126,17 +126,17 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_REPORT_MODIFIED_USER = "MODIFIED_USER";
 	public static final String FIELD_REPORT_MODIFIED_DATE = "MODIFIED_DATE";
 
-	public static final String TABLE_BI_DOMAIN = "BI_DOMAIN";
-	public static final String FIELD_DOMAIN_ID_DOMAIN = "ID_DOMAIN";
-	public static final String FIELD_DOMAIN_ID_DOMAIN_DIRECTORY = "ID_DOMAIN_DIRECTORY";
-	public static final String FIELD_DOMAIN_DOMAIN_TYPE = "DOMAIN_TYPE";
-	public static final String FIELD_DOMAIN_DESCRIPTION = "DESCRIPTION";
-	public static final String FIELD_DOMAIN_DOMAIN_VERSION = "DOMAIN_VERSION";
-	public static final String FIELD_DOMAIN_DOMAIN_STATUS = "DOMAIN_STATUS";
-	public static final String FIELD_DOMAIN_CREATE_USER = "CREATE_USER";
-	public static final String FIELD_DOMAIN_CREATE_DATE = "CREATE_DATE";
-	public static final String FIELD_DOMAIN_MODIFIED_USER = "MODIFIED_USER";
-	public static final String FIELD_DOMAIN_MODIFIED_DATE = "MODIFIED_DATE";
+	public static final String TABLE_BI_SMART = "BI_SMART";
+	public static final String FIELD_SMART_ID_SMART = "ID_SMART";
+	public static final String FIELD_SMART_ID_SMART_DIRECTORY = "ID_SMART_DIRECTORY";
+	public static final String FIELD_SMART_SMART_TYPE = "SMART_TYPE";
+	public static final String FIELD_SMART_DESCRIPTION = "DESCRIPTION";
+	public static final String FIELD_SMART_SMART_VERSION = "SMART_VERSION";
+	public static final String FIELD_SMART_SMART_STATUS = "SMART_STATUS";
+	public static final String FIELD_SMART_CREATE_USER = "CREATE_USER";
+	public static final String FIELD_SMART_CREATE_DATE = "CREATE_DATE";
+	public static final String FIELD_SMART_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_SMART_MODIFIED_DATE = "MODIFIED_DATE";
 
 	public static final String repositoryTableNames[] = new String[] {
 			TABLE_BI_AUTO_START_JOB, TABLE_BI_AUTO_START_JOB_ATTR,
@@ -144,5 +144,5 @@ public class BIDatabaseRepositoryBase {
 			TABLE_BI_MSG, TABLE_BI_FUNC_TYPE, TABLE_BI_FUNC_TYPE_ATTRIBUTE,
 			TABLE_BI_PORTAL_MENU, TABLE_BI_PORTAL_MENU_ATTRIBUTE,
 			TABLE_BI_FILESYS_TYPE, TABLE_BI_FILESYS_DIRECTORY, TABLE_BI_REPORT,
-			TABLE_BI_DOMAIN };
+			TABLE_BI_SMART };
 }

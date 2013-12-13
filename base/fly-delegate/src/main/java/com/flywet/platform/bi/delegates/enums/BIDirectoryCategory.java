@@ -3,7 +3,7 @@ package com.flywet.platform.bi.delegates.enums;
 import org.pentaho.di.i18n.BaseMessages;
 
 public enum BIDirectoryCategory {
-	DI(0L, "di"), REPORT(1L, "report"), DOMAIN(2L, "domain");
+	DI(0L, "di"), REPORT(1L, "report"), SMART(2L, "smart");
 
 	private static Class<?> PKG = BIDirectoryCategory.class;
 

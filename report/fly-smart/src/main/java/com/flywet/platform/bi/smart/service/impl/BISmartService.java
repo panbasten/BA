@@ -25,11 +25,11 @@ public class BISmartService extends AbstractDirectoryServices implements
 		BISmartAdaptor adaptor = BIAdaptorFactory
 				.createAdaptor(BISmartAdaptor.class);
 
-		Object[] domain = adaptor.getDomainObject(String.valueOf(id));
+		Object[] sm = adaptor.getSmartObject(String.valueOf(id));
 		// 如果是引用，再次查询 TODO
 
-		if (domain != null) {
-			Object[] rtn = new Object[] { domain[0], domain[2] };
+		if (sm != null) {
+			Object[] rtn = new Object[] { sm[0], sm[2] };
 			return rtn;
 		}
 
@@ -51,10 +51,10 @@ public class BISmartService extends AbstractDirectoryServices implements
 
 		for (Object[] r : rows) {
 			BrowseNodeMeta node = new BrowseNodeMeta();
-			String domainId = String.valueOf(r[0]);
+			String smId = String.valueOf(r[0]);
 			String category = BIReportCategory.getCategoryById(
 					((Long) r[1]).intValue()).getCategory();
-			node.setId(domainId);
+			node.setId(smId);
 			node.setCategory(category);
 			node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, String
 					.valueOf(r[3]));
@@ -65,7 +65,7 @@ public class BISmartService extends AbstractDirectoryServices implements
 
 			node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, style);
 			node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
-			node.addAttribute(HTML.ATTR_SRC, category + "/open/" + domainId);
+			node.addAttribute(HTML.ATTR_SRC, category + "/open/" + smId);
 			node.addEvent("mouseup", "Flywet.browse.showOperationForFile");
 			node.addEvent("dblclick", "Flywet.browse.openFile");
 			browse.addContent(node);

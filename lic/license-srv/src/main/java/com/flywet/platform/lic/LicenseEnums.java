@@ -11,11 +11,11 @@ public enum LicenseEnums {
 	},
 	DB_ADVANCE(102, "DB.Advance", LicenseEnums.LIC_CATEGORY_DB) {
 	},
-	DOMAIN_BASE(201, "DN.Base", LicenseEnums.LIC_CATEGORY_DN) {
+	SMART_BASE(201, "SM.Base", LicenseEnums.LIC_CATEGORY_SM) {
 	},
-	DOMAIN_META(202, "DN.Meta", LicenseEnums.LIC_CATEGORY_DN) {
+	SMART_META(202, "SM.Meta", LicenseEnums.LIC_CATEGORY_SM) {
 	},
-	DOMAIN_OLAP(203, "DN.Olap", LicenseEnums.LIC_CATEGORY_DN) {
+	SMART_OLAP(203, "SM.Olap", LicenseEnums.LIC_CATEGORY_SM) {
 	},
 	DI_BASE(301, "DI.Base", LicenseEnums.LIC_CATEGORY_DI) {
 	},
@@ -45,7 +45,7 @@ public enum LicenseEnums {
 
 	public static final String LIC_CATEGORY_SYS = "SYS";
 	public static final String LIC_CATEGORY_DB = "DB";
-	public static final String LIC_CATEGORY_DN = "DN";
+	public static final String LIC_CATEGORY_SM = "SM";
 	public static final String LIC_CATEGORY_DI = "DI";
 	public static final String LIC_CATEGORY_BA = "BA";
 	public static final String LIC_CATEGORY_FS = "FS";

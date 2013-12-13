@@ -25,7 +25,7 @@ public class BISmartResource extends AbastractDirectoryResource {
 
 	private final Logger logger = Logger.getLogger(BISmartResource.class);
 
-	private static final BIDirectoryCategory DIR_CATEGORY = BIDirectoryCategory.DOMAIN;
+	private static final BIDirectoryCategory DIR_CATEGORY = BIDirectoryCategory.SMART;
 
 	@Resource(name = "bi.service.smartService")
 	private BISmartDelegates smartDelegates;

@@ -336,8 +336,8 @@
 .ui-navi-icon-db{
 	background-image: url("../images/desktop/navi_db.png");
 }
-.ui-navi-icon-domain{
-	background-image: url("../images/desktop/navi_domain.png");
+.ui-navi-icon-smart{
+	background-image: url("../images/desktop/navi_smart.png");
 }
 .ui-navi-icon-report{
 	background-image: url("../images/desktop/navi_report.png");
@@ -355,8 +355,8 @@ a.ui-tab-state-active .ui-navi-icon-di{
 a.ui-tab-state-active .ui-navi-icon-db{
 	background-image: url("../images/desktop/navi_db_active.png");
 }
-a.ui-tab-state-active .ui-navi-icon-domain{
-	background-image: url("../images/desktop/navi_domain_active.png");
+a.ui-tab-state-active .ui-navi-icon-smart{
+	background-image: url("../images/desktop/navi_smart_active.png");
 }
 a.ui-tab-state-active .ui-navi-icon-fs{
 	background-image: url("../images/desktop/navi_filesys_active.png");

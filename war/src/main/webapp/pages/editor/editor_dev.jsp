@@ -162,7 +162,7 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_di.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/scripts/fly_domain.js"></script>
+			src="<%=path%>/resources/scripts/fly_smart.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/scripts/fly_report.js"></script>
 		<script type="text/javascript"
