@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.delegates.enums;
+package com.flywet.platform.bi.base.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
 
@@ -6,10 +6,12 @@ public enum BIReportCategory {
 	REPORT_TYPE_DASHBOARD(1, "dashboard",
 			"Report.Category.Dashboard.Description") {
 	},
-	REPORT_TYPE_WORD_REPORT(2, "report",
+	REPORT_TYPE_WORD_REPORT(2, "wordreport",
 			"Report.Category.WordReport.Description") {
 	},
-	REPORT_TYPE_PIVOT_REPORT(3, "pivot",
+	REPORT_TYPE_REPORT(3, "report", "Report.Category.Report.Description") {
+	},
+	REPORT_TYPE_PIVOT_REPORT(4, "pivotreport",
 			"Report.Category.PivotReport.Description") {
 	};
 

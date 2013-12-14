@@ -5,11 +5,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.flywet.platform.bi.base.model.TemplateMeta;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.component.utils.PageTemplateResolverType;
 import com.flywet.platform.bi.component.vo.ComponentPlugin;
 import com.flywet.platform.bi.core.exception.BIPageException;
-import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 
 public class PageEditTemplateInterpolator {
 	/**

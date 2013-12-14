@@ -15,11 +15,9 @@ public interface UndoInterface {
 	/**
 	 * 添加一个Undo操作到Undo列表中
 	 * 
-	 * @param from
-	 * @param to
-	 * @param type
+	 * @param ta
 	 */
-	public void addUndo(Object from[], Object to[], int type);
+	public void addUndo(UndoActionInterface ta);
 
 	/**
 	 * 获得上一步Undo操作，并且改变Undo指针

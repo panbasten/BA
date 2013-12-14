@@ -33,6 +33,7 @@
 				<ref bean="bi.resource.transResource" />
 				
 				<ref bean="bi.resource.reportResource" />
+				<ref bean="bi.resource.pivotResource" />
 				<ref bean="bi.resource.dashboardResource" />
 				
 				<ref bean="bi.resource.fileOperation" />

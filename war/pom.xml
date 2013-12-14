@@ -369,6 +369,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-pivot</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-dashboard</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -4,8 +4,8 @@ import org.pentaho.di.i18n.BaseMessages;
 
 import com.flywet.platform.bi.base.undo.UndoActionInterface;
 
-public class TemplateUndoAction implements UndoActionInterface {
-	private static Class<?> PKG = TemplateUndoAction.class;
+public class DashboardTemplateUndoAction implements UndoActionInterface {
+	private static Class<?> PKG = DashboardTemplateUndoAction.class;
 
 	public static final int TYPE_ACTION_NONE = 0;
 	public static final int TYPE_ACTION_MOVE_NODE = 1;
@@ -24,10 +24,11 @@ public class TemplateUndoAction implements UndoActionInterface {
 
 	private Object current[];
 
-	public TemplateUndoAction() {
+	public DashboardTemplateUndoAction() {
 		type = TYPE_ACTION_NONE;
 	}
 
+	@Override
 	public void set(Object prev[], Object curr[], int type) {
 		switch (type) {
 		case TYPE_ACTION_MOVE_NODE:

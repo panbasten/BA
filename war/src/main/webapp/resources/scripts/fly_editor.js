@@ -8,22 +8,22 @@ Flywet.editors = {
 		}
 	},
 	changeEditor : function ($taba,$tabo) {
-		if($tabo && $tabo.data("tabId")){
-			eval("Flywet.editors."+$tabo.data("tabId")+".saveStatus($tabo);");
+		if($tabo && $tabo.data("tabType")){
+			eval("Flywet.editors."+$tabo.data("tabType")+".saveStatus($tabo);");
 		}
-		if($taba && $taba.data("tabId")){
-			eval("Flywet.editors."+$taba.data("tabId")+".reloadStatus($taba);");
+		if($taba && $taba.data("tabType")){
+			eval("Flywet.editors."+$taba.data("tabType")+".reloadStatus($taba);");
 		}
 	},
 	saveTab : function(clicked) {
-		eval("Flywet.editors."+clicked.data("tabId")+".action.saveTab(clicked);");
+		eval("Flywet.editors."+clicked.data("tabType")+".action.saveTab(clicked);");
 	},
 	discardTab : function(clicked) {
-		eval("Flywet.editors."+clicked.data("tabId")+".action.discardTab(clicked);");
+		eval("Flywet.editors."+clicked.data("tabType")+".action.discardTab(clicked);");
 	},
 	flushTab : function($taba,params) {
-		if($taba && $taba.data("tabId")){
-			eval("Flywet.editors."+$taba.data("tabId")+".flushStatus($taba,params);");
+		if($taba && $taba.data("tabType")){
+			eval("Flywet.editors."+$taba.data("tabType")+".flushStatus($taba,params);");
 		}
 	}
 };

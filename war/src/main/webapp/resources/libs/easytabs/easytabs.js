@@ -173,25 +173,24 @@
 
     	$matchingPanel = settings.panelContext.find("#" + targetId);
 
-    	// If tab has a matching panel, add it to panels
-    	if ( $matchingPanel.length ) {
-    		// Store panel height before hiding
-    		$matchingPanel.data('easytabs', {
-    			position: $matchingPanel.css('position'),
-    			visibility: $matchingPanel.css('visibility')
-    			});
-
-    		// Don't hide panel if it's active (allows `getTabs` to be called manually to re-instantiate tab collection)
-    		$matchingPanel.not(settings.panelActiveClass).hide();
-
-    		plugin.panels = plugin.panels.add($matchingPanel);
-
-    		$tab.data('easytabs').panel = $matchingPanel;
-
-    	// Otherwise, remove tab from tabs collection
-    	} else {
-    		plugin.tabs = plugin.tabs.not($tab);
+    	// If tab has not a matching panel, new a div to panels
+    	if ( $matchingPanel.length == 0 ) {
+    		$matchingPanel = $("<div id=\""+targetId+"\"></div>").appendTo(settings.panelContext);
     	}
+    	
+		// Store panel height before hiding
+		$matchingPanel.data('easytabs', {
+			position: $matchingPanel.css('position'),
+			visibility: $matchingPanel.css('visibility')
+			});
+
+		// Don't hide panel if it's active (allows `getTabs` to be called manually to re-instantiate tab collection)
+		$matchingPanel.not(settings.panelActiveClass).hide();
+
+		plugin.panels = plugin.panels.add($matchingPanel);
+
+		$tab.data('easytabs').panel = $matchingPanel;
+
     };
     
     // Find and instantiate tabs and panels.
@@ -543,6 +542,7 @@
     	  
     	  $taba.data({
     		  tabId:newTab.tabId,
+    		  tabType:newTab.tabType,
     		  tabText:newTab.tabText,
     		  checkModify:checkModify,
     		  modify:false

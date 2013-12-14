@@ -17,6 +17,7 @@
 		<module>fly-report-base</module>
 		<module>fly-smart</module>
 		<module>fly-report</module>
+		<module>fly-pivot</module>
 		<module>fly-dashboard</module>
 		<module>fly-report-steps</module>
 	</modules>

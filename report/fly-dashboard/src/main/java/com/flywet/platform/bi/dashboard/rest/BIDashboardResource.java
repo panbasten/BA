@@ -16,14 +16,14 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.pentaho.di.core.Const;
-import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.xml.XMLUtils;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.flywet.platform.bi.base.cache.TemplateCache;
+import com.flywet.platform.bi.base.model.TemplateMeta;
+import com.flywet.platform.bi.base.rest.AbstractReportResource;
 import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
@@ -37,19 +37,14 @@ import com.flywet.platform.bi.component.web.ActionMessage;
 import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.core.exception.BIJSONException;
-import com.flywet.platform.bi.core.exception.BIPageException;
-import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.dashboard.cache.TemplateCache;
-import com.flywet.platform.bi.dashboard.model.TemplateMeta;
 import com.flywet.platform.bi.dashboard.utils.PageEditTemplateInterpolator;
 import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.rest.BIBaseResource;
 
 @Service("bi.resource.dashboardResource")
 @Path("/dashboard")
-public class BIDashboardResource {
+public class BIDashboardResource extends AbstractReportResource {
 
 	private final Logger logger = Logger.getLogger(BIDashboardResource.class);
 
@@ -85,9 +80,10 @@ public class BIDashboardResource {
 			TemplateMeta templateMeta = new TemplateMeta(id, doc);
 			TemplateCache.put(id, templateMeta);
 
-			return getDashboardJson(id, templateMeta).toJSONString();
+			return getReportPageJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("创建Dashboard编辑页面出现错误。", ex);
+			logger.error("创建仪表板[" + id + "]编辑页面出现错误。");
+			throw new BIException("创建仪表板[" + id + "]编辑页面出现错误。", ex);
 		}
 	}
 
@@ -102,8 +98,7 @@ public class BIDashboardResource {
 
 			XMLUtils.toXMLString(doc);
 
-			return ActionMessage.instance().success("保存仪表板【" + "】成功!")
-					.toJSONString();
+			return ActionMessage.instance().success("保存仪表板成功!").toJSONString();
 		} catch (Exception ex) {
 			logger.error("保存仪表板[" + id + "]出现错误。");
 			throw new BIException("保存仪表板[" + id + "]出现错误。", ex);
@@ -150,9 +145,10 @@ public class BIDashboardResource {
 
 			}
 
-			return getDashboardJson(id, templateMeta).toJSONString();
+			return getReportPageJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("调整Dashboard页面元素出现错误。", ex);
+			logger.error("调整仪表板[" + id + "]页面元素出现错误。");
+			throw new BIException("调整仪表板[" + id + "]页面元素出现错误。", ex);
 		}
 	}
 
@@ -176,9 +172,10 @@ public class BIDashboardResource {
 				moveDashboardFromTree(type, sourceNode, targetNode);
 			}
 
-			return getDashboardJson(id, templateMeta).toJSONString();
+			return getReportPageJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("移动Dashboard页面元素出现错误。", ex);
+			logger.error("移动仪表板[" + id + "]页面元素出现错误。");
+			throw new BIException("移动仪表板[" + id + "]页面元素出现错误。", ex);
 		}
 	}
 
@@ -342,29 +339,11 @@ public class BIDashboardResource {
 				XMLUtils.insertBefore(sourceNode, targetNode);
 			}
 
-			return getDashboardJson(id, templateMeta).toJSONString();
+			return getReportPageJson(id, templateMeta).toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("添加Dashboard页面元素出现错误。", ex);
+			logger.error("添加仪表板[" + id + "]页面元素出现错误。");
+			throw new BIException("添加仪表板[" + id + "]页面元素出现错误。", ex);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private JSONObject getDashboardJson(String id, TemplateMeta templateMeta)
-			throws BIJSONException, BIPageException, KettleException {
-		Document doc = templateMeta.getDoc();
-		Object[] domString = PageTemplateInterpolator.interpolate("report:"
-				+ id, doc, FLYVariableResolver.instance());
-
-		JSONObject jo = new JSONObject();
-		JSONObject reportInfo = new JSONObject();
-		reportInfo.put("id", id);
-		jo.put("reportInfo", reportInfo);
-		jo.put("dom", (String) domString[0]);
-		jo.put("script", JSONUtils
-				.convertToJSONArray((List<String>) domString[1]));
-		jo.put("domStructure", templateMeta.getXML());
-
-		return jo;
 	}
 
 	/**
@@ -446,7 +425,8 @@ public class BIDashboardResource {
 
 			return result.toJSONString();
 		} catch (Exception ex) {
-			throw new BIException("初始化加载Dashboard编辑器页面出现错误。", ex);
+			logger.error("初始化加载仪表板编辑器页面出现错误。");
+			throw new BIException("初始化加载仪表板编辑器页面出现错误。", ex);
 		}
 	}
 

@@ -127,6 +127,7 @@ Flywet.editors.trans = {
 				baEditorPageTabs.addTab({
 					exdata: data,
 					tabId: category,
+					tabType: category,
 					tabText: displayName,
 					dataTarget: tabName,
 					closable: true,

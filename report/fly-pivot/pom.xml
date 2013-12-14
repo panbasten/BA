@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.flywet.platform.report</groupId>
+	<artifactId>fly-pivot</artifactId>
+	<name>报表平台源代码-多维报表</name>
+	<version>8.0.0</version>
+	<parent>
+		<artifactId>report</artifactId>
+		<groupId>com.flywet.platform</groupId>
+		<version>8.0.0</version>
+	</parent>
+	<description>报表平台源代码-多维报表</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-report-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

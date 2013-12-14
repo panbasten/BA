@@ -1,21 +1,21 @@
-package com.flywet.platform.bi.dashboard.cache;
+package com.flywet.platform.bi.base.cache;
 
 import java.lang.ref.SoftReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.flywet.platform.bi.dashboard.model.TemplateMeta;
+import com.flywet.platform.bi.base.model.TemplateMeta;
 
 public class TemplateCache {
 
-	private static Map<String, SoftReference<TemplateMeta>> DASHBOARD_TEMPLATES = new ConcurrentHashMap<String, SoftReference<TemplateMeta>>();
+	private static Map<String, SoftReference<TemplateMeta>> TEMPLATES = new ConcurrentHashMap<String, SoftReference<TemplateMeta>>();
 
 	public static void put(String id, TemplateMeta meta) {
-		DASHBOARD_TEMPLATES.put(id, new SoftReference<TemplateMeta>(meta));
+		TEMPLATES.put(id, new SoftReference<TemplateMeta>(meta));
 	}
 
 	public static TemplateMeta get(String id) {
-		SoftReference<TemplateMeta> obj = DASHBOARD_TEMPLATES.get(id);
+		SoftReference<TemplateMeta> obj = TEMPLATES.get(id);
 		if (obj != null) {
 			if (obj.get() == null) {
 				clearCache(id);
@@ -27,6 +27,6 @@ public class TemplateCache {
 	}
 
 	public static void clearCache(String id) {
-		DASHBOARD_TEMPLATES.remove(id);
+		TEMPLATES.remove(id);
 	}
 }

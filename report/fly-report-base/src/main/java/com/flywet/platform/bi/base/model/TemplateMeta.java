@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.dashboard.model;
+package com.flywet.platform.bi.base.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.flywet.platform.bi.base.undo.UndoActionInterface;
 import com.flywet.platform.bi.base.undo.UndoInterface;
-import com.flywet.platform.bi.dashboard.action.TemplateUndoAction;
 
 public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 
@@ -29,10 +29,10 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 
 	protected String templateId;
 
-	protected int idx;
+	protected int idx = 0;
 
 	// 用于支持"undo"操作的活动列表
-	protected List<TemplateUndoAction> undo;
+	protected List<UndoActionInterface> undo;
 
 	// 最大undo次数
 	protected int max_undo = Const.MAX_UNDO;
@@ -45,7 +45,10 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 		this.doc = doc;
 		String idxString = XMLUtils.getTagOrAttribute(this.doc,
 				TEMPLATE_ATTRIBUTE_EDITOR_INDEX);
-		idx = Integer.valueOf(idxString);
+		if (idxString != null) {
+			idx = Integer.valueOf(idxString);
+		}
+
 	}
 
 	/**
@@ -53,26 +56,21 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 	 */
 	@Override
 	public void clearUndo() {
-		undo = new ArrayList<TemplateUndoAction>();
+		undo = new ArrayList<UndoActionInterface>();
 		undo_position = -1;
 	}
 
 	/**
 	 * 添加一个Undo操作到Undo列表中
 	 * 
-	 * @param from
-	 * @param to
-	 * @param type
+	 * @param ta
 	 */
 	@Override
-	public void addUndo(Object from[], Object to[], int type) {
+	public void addUndo(UndoActionInterface ta) {
 		while (undo.size() > undo_position + 1 && undo.size() > 0) {
 			int last = undo.size() - 1;
 			undo.remove(last);
 		}
-
-		TemplateUndoAction ta = new TemplateUndoAction();
-		ta.set(from, to, type);
 
 		undo.add(ta);
 		undo_position++;
@@ -89,10 +87,10 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 	 * @return
 	 */
 	@Override
-	public TemplateUndoAction previousUndo() {
+	public UndoActionInterface previousUndo() {
 		if (undo.isEmpty() || undo_position < 0)
 			return null; // No undo left!
-		TemplateUndoAction retval = undo.get(undo_position);
+		UndoActionInterface retval = undo.get(undo_position);
 		undo_position--;
 		return retval;
 	}
@@ -103,10 +101,10 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 	 * @return
 	 */
 	@Override
-	public TemplateUndoAction viewThisUndo() {
+	public UndoActionInterface viewThisUndo() {
 		if (undo.isEmpty() || undo_position < 0)
 			return null; // No undo left!
-		TemplateUndoAction retval = undo.get(undo_position);
+		UndoActionInterface retval = undo.get(undo_position);
 		return retval;
 	}
 
@@ -116,10 +114,10 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 	 * @return
 	 */
 	@Override
-	public TemplateUndoAction viewPreviousUndo() {
+	public UndoActionInterface viewPreviousUndo() {
 		if (undo.isEmpty() || undo_position - 1 < 0)
 			return null; // No undo left!
-		TemplateUndoAction retval = undo.get(undo_position - 1);
+		UndoActionInterface retval = undo.get(undo_position - 1);
 		return retval;
 	}
 
@@ -129,12 +127,12 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 	 * @return
 	 */
 	@Override
-	public TemplateUndoAction nextUndo() {
+	public UndoActionInterface nextUndo() {
 		int size = undo.size();
 		if (size == 0 || undo_position >= size - 1)
 			return null; // no redo left...
 		undo_position++;
-		TemplateUndoAction retval = undo.get(undo_position);
+		UndoActionInterface retval = undo.get(undo_position);
 		return retval;
 	}
 
@@ -144,11 +142,11 @@ public class TemplateMeta implements XMLInterface, Cloneable, UndoInterface {
 	 * @return
 	 */
 	@Override
-	public TemplateUndoAction viewNextUndo() {
+	public UndoActionInterface viewNextUndo() {
 		int size = undo.size();
 		if (size == 0 || undo_position >= size - 1)
 			return null; // no redo left...
-		TemplateUndoAction retval = undo.get(undo_position + 1);
+		UndoActionInterface retval = undo.get(undo_position + 1);
 		return retval;
 	}
 
