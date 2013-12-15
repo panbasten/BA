@@ -63,7 +63,7 @@ public class BIDashboardResource extends AbstractReportResource {
 	 * @throws BIException
 	 */
 	@GET
-	@Path("/open/{id}")
+	@Path("/{id}/open")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openDashboardEditor(@PathParam("id") String id)
 			throws BIException {
@@ -88,7 +88,7 @@ public class BIDashboardResource extends AbstractReportResource {
 	}
 
 	@GET
-	@Path("/save/{id}")
+	@Path("/{id}/save")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String saveDashboardEditor(@PathParam("id") String id)
 			throws BIException {
@@ -106,7 +106,7 @@ public class BIDashboardResource extends AbstractReportResource {
 	}
 
 	@GET
-	@Path("/resized/{id}")
+	@Path("/{id}/resized")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String resizedDashboard(@PathParam("id") String id,
 			@QueryParam("target") String target, @QueryParam("x") String x,
@@ -153,7 +153,7 @@ public class BIDashboardResource extends AbstractReportResource {
 	}
 
 	@GET
-	@Path("/move/{id}")
+	@Path("/{id}/move")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String moveDashboard(@PathParam("id") String id,
 			@QueryParam("source") String source,
@@ -295,7 +295,7 @@ public class BIDashboardResource extends AbstractReportResource {
 	}
 
 	@GET
-	@Path("/append/{id}")
+	@Path("/{id}/append")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String appendDashboard(@PathParam("id") String id,
 			@QueryParam("source") String sourceType,

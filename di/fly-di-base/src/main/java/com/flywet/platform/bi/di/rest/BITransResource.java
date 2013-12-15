@@ -716,7 +716,7 @@ public class BITransResource {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/{id}/open")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openTransEditor(@PathParam("id") String id)
 			throws BIException {

@@ -135,7 +135,8 @@ Flywet.desktop = {
 		// 创建编辑器总体Tab页面
 		Flywet.cw("EasyTabs","baEditorPageTabs",{
 			id : "editorContent",
-//			animate:false,
+			animate:false,
+			panelsClass: "fly-editorContent-panels",
 			createTab: "<li><a class='ui-tab-a' href='##tabId'><div class='ui-tab-left'></div><div class='ui-tab-middle'>#modifyTag<span class='ui-tab-text'>#tabText</span>#closeButton</div><div class='ui-tab-right'></div></a></li>",
 			onBeforeSelect : "Flywet.editors.changeEditor",
 			onSave : "Flywet.editors.saveTab",

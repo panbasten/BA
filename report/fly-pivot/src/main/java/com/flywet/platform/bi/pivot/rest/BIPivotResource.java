@@ -35,7 +35,7 @@ public class BIPivotResource extends AbstractReportResource {
 	 * @throws BIException
 	 */
 	@GET
-	@Path("/open/{id}")
+	@Path("/{id}/open")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String openPivotEditor(@PathParam("id") String id)
 			throws BIException {

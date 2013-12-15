@@ -909,7 +909,7 @@ Flywet.widget.DashboardEditor.prototype.resized = function(target,newSize) {
 	var _self = this;
 	Flywet.ab({
 		type : "get",
-		url: "rest/dashboard/resized/"+this.reportInfo.id,
+		url: "rest/dashboard/"+this.reportInfo.id+"/resized",
 		params: {
 			target : target,
 			x : newSize.x,
@@ -944,7 +944,7 @@ Flywet.widget.DashboardEditor.prototype.move = function(sources,target,type) {
 	var _self = this;
 	Flywet.ab({
 		type : "get",
-		url: "rest/dashboard/move/"+this.reportInfo.id,
+		url: "rest/dashboard/"+this.reportInfo.id+"/move",
 		params: {
 			source :	sources,
 			target :	target,
@@ -967,7 +967,7 @@ Flywet.widget.DashboardEditor.prototype.append = function(source,target) {
 	var _self = this;
 	Flywet.ab({
 		type : "get",
-		url: "rest/dashboard/append/"+this.reportInfo.id,
+		url: "rest/dashboard/"+this.reportInfo.id+"/append",
 		params: {
 			source :	source,
 			target :	target

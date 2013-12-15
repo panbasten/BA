@@ -43,6 +43,7 @@
           containerClass: "",
           tabsClass: "",
           tabClass: "",
+          panelsClass: "",
           panelClass: "",
           onBeforeSelect: "",
           onAfterSelect: "",
@@ -175,7 +176,12 @@
 
     	// If tab has not a matching panel, new a div to panels
     	if ( $matchingPanel.length == 0 ) {
-    		$matchingPanel = $("<div id=\""+targetId+"\"></div>").appendTo(settings.panelContext);
+    		var panelContent = settings.panelClass;
+    		if(settings.panelsClass && settings.panelsClass!=""){
+    			panelContent = settings.panelContext.find("."+settings.panelsClass);
+    		}
+    		
+    		$matchingPanel = $("<div id=\""+targetId+"\"></div>").appendTo(panelContent);
     	}
     	
 		// Store panel height before hiding
@@ -190,7 +196,7 @@
 		plugin.panels = plugin.panels.add($matchingPanel);
 
 		$tab.data('easytabs').panel = $matchingPanel;
-
+		
     };
     
     // Find and instantiate tabs and panels.
@@ -490,6 +496,15 @@
     	  return (plugin.matchTab(hash).length>0);
       },
       
+      getTab: function(tabSelector) {
+    	  return plugin.getTab(tabSelector);
+      },
+      
+      getTabPanel: function(tabSelector) {
+    	  var $tab = plugin.getTab(tabSelector);
+    	  return $tab.data('easytabs').panel;
+      },
+      
       setTabModify: function(cfg) {
     	  var $taba = plugin.getTab(cfg.tabSelector);
     	  if(cfg.modify){
@@ -540,13 +555,16 @@
     		  $taba.attr("dataTarget",newTab.dataTarget);
     	  }
     	  
-    	  $taba.data({
+    	  var newData = $taba.data();
+    	  newData = $.extend(newData,{
     		  tabId:newTab.tabId,
     		  tabType:newTab.tabType,
     		  tabText:newTab.tabText,
     		  checkModify:checkModify,
     		  modify:false
     	  });
+    	  $taba.data(newData);
+
     	  var closePanel = (newTab.closePanel!=undefined)?newTab.closePanel:settings.closePanel;
     	  $taba.data("closePanel",closePanel);
     	  

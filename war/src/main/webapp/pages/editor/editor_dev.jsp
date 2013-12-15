@@ -206,7 +206,7 @@
 				<ul class="fly-tabs">
 					<li id="navisTab"><a href="#navis" class="ui-tab-homepage" style="margin:0;padding:0;"></a><div class="ui-tab-homepage-text"></div></li>
 				</ul>
-				<div id="editorContentPanels" class="fly-panels">
+				<div id="editorContentPanels" class="fly-panels fly-editorContent-panels">
 					
 				</div>
 			</div>

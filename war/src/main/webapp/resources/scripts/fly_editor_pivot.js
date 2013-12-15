@@ -7,18 +7,26 @@ Flywet.editors.pivot = {
 	},
 	
 	reloadStatus : function ($taba) {
-		console.log($taba);
+		var $tab = $taba.parent();
+		
+		if(!$tab.data('easytabs').cached){
+			var $panel = $tab.data('easytabs').panel,
+				exdata = $taba.data("exdata");
+			
+			Flywet.ajax.AjaxUtils.appendElement($panel, exdata.dom, exdata.script);
+			
+			$tab.data('easytabs').cached = true;
+
+		}
 	},
 	
 	openEditor : function(category,data,displayName,tabName){
 		Flywet.ab({
-			type : "get",
+			type : "get", 
 			modal : true,
 			modalMessage : "正在加载【"+displayName+"】...",
 			url : "rest/"+data.attrs.src,
 			onsuccess : function(data, status, xhr){
-				console.log("------ddd-----");
-				console.log(data.reportInfo.id);
 				baEditorPageTabs.addTab({
 					exdata: data,
 					tabId: category+"_"+data.reportInfo.id,

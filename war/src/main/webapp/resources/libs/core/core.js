@@ -975,15 +975,17 @@ Flywet.ajax.AjaxUtils = {
      * 更新页面元素到指定位置
      * 
      */
-    updateElement: function(target, dom) {        
+    updateElement: function(target, dom, script) {        
     	target.replaceWith(dom);
+    	Flywet.ajax.AjaxUtils.executeScripts(script);
     },
     
     /**
      * 添加页面元素到指定位置
      */
-    appendElement: function(target, dom) {
+    appendElement: function(target, dom, script) {
     	target.append(dom);
+    	Flywet.ajax.AjaxUtils.executeScripts(script);
     },
     
     /**
@@ -1005,16 +1007,34 @@ Flywet.ajax.AjaxUtils = {
      * 在指定位置页面元素之前插入内容
      * 
      */
-    beforeElement: function(target, dom) {        
+    beforeElement: function(target, dom, script) {        
     	target.before(dom);
+    	Flywet.ajax.AjaxUtils.executeScripts(script);
     },
     
     /**
      * 在指定位置页面元素之后插入内容
      * 
      */
-    afterElement: function(target, dom) {        
+    afterElement: function(target, dom, script) {        
     	target.after(dom);
+    	Flywet.ajax.AjaxUtils.executeScripts(script);
+    },
+    
+    /**
+     * 执行javascript脚本
+     * 
+     */
+    executeScripts: function(script){
+    	if(script){
+			for(var i=0;i<script.length;i++){
+				try{
+					eval(script[i]);
+				}catch(e){
+					Flywet.Logger.error(script[i]);
+				}
+			}
+		}
     }
 };
 

@@ -107,7 +107,7 @@ public abstract class AbstractDirectoryServices {
 		node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, displayName);
 		node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, style);
 		node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
-		node.addAttribute(HTML.ATTR_SRC, cate + "/open/" + id);
+		node.addAttribute(HTML.ATTR_SRC, cate + "/" + id + "/open");
 		node.addEvent("mouseup", "Flywet.browse.showOperationForFile");
 		node.addEvent("dblclick", "Flywet.browse.openFile");
 		return node;
