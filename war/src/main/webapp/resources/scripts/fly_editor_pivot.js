@@ -9,20 +9,16 @@ Flywet.editors.pivot = {
 	reloadStatus : function ($taba) {
 		var $tab = $taba.parent();
 		
-		if(!$tab.data('easytabs').cached){
-			var $panel = $tab.data('easytabs').panel,
-				exdata = $taba.data("exdata");
-			
-			var editorContainer = diEditorLayout.getPane("center"),
-				editorContentWidth = editorContainer.outerWidth(),
-				editorContentHeight = editorContainer.outerHeight()-40;
-			$panel.width(editorContentWidth).height(editorContentHeight);
-			
-			Flywet.ajax.AjaxUtils.appendElement($panel, exdata.dom, exdata.script);
-			
-			$tab.data('easytabs').cached = true;
-
-		}
+		
+//		if(!$tab.data('easytabs').cached){
+//			var $panel = $tab.data('easytabs').panel,
+//				exdata = $taba.data("exdata");
+//			
+//			Flywet.ajax.AjaxUtils.appendElement($panel, exdata.dom, exdata.script);
+//		}
+		var pivotBody = $("#pivotBody");
+		pivotBody.empty();
+		pivotBody.spreadsheet();
 	},
 	
 	openEditor : function(category,data,displayName,tabName){
@@ -34,7 +30,7 @@ Flywet.editors.pivot = {
 			onsuccess : function(data, status, xhr){
 				baEditorPageTabs.addTab({
 					exdata: data,
-					tabId: category+"_"+data.reportInfo.id,
+					tabId: category,
 					tabType: category,
 					tabText: displayName,
 					dataTarget: tabName,
@@ -100,6 +96,10 @@ Flywet.editors.pivot = {
 						, 	minSize : 200
 					}
 				});
+				
+				// toolbar
+				$("#pivotDimensionContent").height(150);
+				$("#pivotMeasureContent").height(150);
 				
 				$pivot.hide();
 				Flywet.editors.register[Flywet.editors.pivot.type] = "Y";

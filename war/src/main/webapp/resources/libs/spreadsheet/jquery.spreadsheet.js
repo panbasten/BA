@@ -856,13 +856,19 @@
 	// 计算显示尺寸
 	function _calSize(target){
 		var opts = $.data(target, "spreadsheet").options;
-		var dim, parent=$(target).parent();
-		if(parent.get(0).tagName === "BODY"){
-			dim = Flywet.getWindowScroll();
-			dim = {width: dim.width, height: dim.height};
-		}else{
-			dim = Flywet.getElementDimensions(parent);
+		
+		var dim=Flywet.getElementDimensions(target);
+		if(dim.css.width>0 && dim.css.height>0){
 			dim = {width: dim.css.width, height: dim.css.height};
+		}else{
+			var parent=$(target).parent();
+			if(parent.get(0).tagName === "BODY"){
+				dim = Flywet.getWindowScroll();
+				dim = {width: dim.width, height: dim.height};
+			}else{
+				dim = Flywet.getElementDimensions(parent);
+				dim = {width: dim.css.width, height: dim.css.height};
+			}
 		}
 		opts.width = dim.width;
 		opts.height = dim.height;

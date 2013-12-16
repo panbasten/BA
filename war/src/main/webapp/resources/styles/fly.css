@@ -73,20 +73,6 @@
 	background: none repeat scroll 0 0 transparent;
 }
 
-.fly-flow-prop-bar { width: 200px; overflow: hidden; float: left; background: #535353;}
-.fly-flow-prop-bar * { color:#fff; }
-.fly-flow-prop-bar div.ui-widget-panel {overflow: hidden;}
-.fly-flow-prop-bar div.ui-widget-header {
-	font-weight:normal;
-	border: 1px solid #A8A8A8;
-	border-bottom: 0px none;
-	padding: 3px 5px 0; 
-}
-.fly-flow-prop-bar div.ui-widget-content { 
-	background: transparent;
-	border: 1px solid #A8A8A8;
-	border-top: 0px none;
-}
 
 .fly-flow-signal-bar { overflow: hidden; }
 .fly-flow-signal-bar * { color:#fff; }
@@ -754,4 +740,24 @@ div.ui-fs-local-sftp-icon {
 
 .ui-show-text{
 	margin-top: 3px;
+}
+
+/* 编辑器的边工具箱 */
+.fly-editor-side-bar { 
+	overflow: hidden; 
+	float: left; 
+	background: #535353;
+}
+.fly-editor-side-bar * { color:#fff; }
+.fly-editor-side-bar div.ui-widget-panel {overflow: hidden;}
+.fly-editor-side-bar div.ui-widget-header {
+	font-weight:normal;
+	border: 1px solid #A8A8A8;
+	border-bottom: 0px none;
+	padding: 3px 5px 0; 
+}
+.fly-editor-side-bar div.ui-widget-content { 
+	background: transparent;
+	border: 1px solid #A8A8A8;
+	border-top: 0px none;
 }
