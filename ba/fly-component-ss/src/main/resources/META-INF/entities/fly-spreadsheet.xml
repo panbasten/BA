@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:SpreadSheet">
+	<description>i18n:com.flywet.platform.bi.component.ss.resolver:Component.TypeLongDesc.SpreadSheet</description>
+	<classname>com.flywet.platform.bi.component.ss.resolver.FLYSpreadSheetResolver</classname>
+	<category>Report</category>
+	<tooltip>i18n:com.flywet.platform.bi.component.ss.resolver:Component.TypeTooltipDesc.SpreadSheet</tooltip>
+	<iconfile>spreadsheet.png</iconfile>
+</component>

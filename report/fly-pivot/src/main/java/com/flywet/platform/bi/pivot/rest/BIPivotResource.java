@@ -12,11 +12,17 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 import com.flywet.platform.bi.base.cache.TemplateCache;
+import com.flywet.platform.bi.base.enums.BIReportCategory;
 import com.flywet.platform.bi.base.model.TemplateMeta;
 import com.flywet.platform.bi.base.rest.AbstractReportResource;
 import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
+import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
+import com.flywet.platform.bi.component.web.AjaxResult;
+import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.rest.BIBaseResource;
 
 @Service("bi.resource.pivotResource")
 @Path("/pivot")
@@ -53,6 +59,43 @@ public class BIPivotResource extends AbstractReportResource {
 		} catch (Exception ex) {
 			logger.error("创建多维报表编辑页面出现错误。");
 			throw new BIException("创建多维报表编辑页面出现错误。", ex);
+		}
+	}
+
+	/**
+	 * 初始化加载多维报表编辑器页面
+	 * 
+	 * @return
+	 * @throws BIException
+	 */
+	@Override
+	@GET
+	@Path("/editor")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String loadEditor() throws BIException {
+		try {
+			String cate = BIReportCategory.REPORT_TYPE_PIVOT_REPORT
+					.getCategory();
+
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+			attrsMap.addVariable("editorId", cate);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					getTemplateString(cate), attrsMap);
+
+			// 创建一个更新操作
+			AjaxResultEntity entity = AjaxResultEntity.instance().setOperation(
+					Utils.RESULT_OPERATION_APPEND).setTargetId(
+					BIBaseResource.ID_EDITOR_CONTENT_PANELS).setDomAndScript(
+					domString);
+
+			AjaxResult result = AjaxResult.instance();
+			result.addEntity(entity);
+
+			return result.toJSONString();
+		} catch (Exception ex) {
+			logger.error("初始化加载多维报表编辑器页面出现错误。");
+			throw new BIException("初始化加载多维报表编辑器页面出现错误。", ex);
 		}
 	}
 

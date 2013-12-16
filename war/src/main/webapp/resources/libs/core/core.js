@@ -1029,6 +1029,7 @@ Flywet.ajax.AjaxUtils = {
     	if(script){
 			for(var i=0;i<script.length;i++){
 				try{
+					console.log(script[i]);
 					eval(script[i]);
 				}catch(e){
 					Flywet.Logger.error(script[i]);

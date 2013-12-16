@@ -64,6 +64,8 @@
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/grid/datagrid.css" rel="stylesheet"
 			type="text/css" />
+		<link href="<%=path%>/resources/libs/spreadsheet/spreadsheet.css" rel="stylesheet"
+			type="text/css" />
 		<!-- replace end -->
 		
 		<!-- replace href="<%=path%>/resources/styles/fly.compressed.css" type="style" -->
@@ -139,6 +141,8 @@
 			src="<%=path%>/resources/libs/grid/jquery.datagrid.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/spreadsheet/jquery.spreadsheet.js"></script>
 		<!-- replace end -->
 		
 		

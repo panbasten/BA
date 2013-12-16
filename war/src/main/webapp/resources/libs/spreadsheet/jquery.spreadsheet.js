@@ -77,15 +77,15 @@
 	// 纵向滚动条
 	function _initVsOC(target,parent,opts){
 		var vsOC = _div("ui-spreadsheet-vsOC").appendTo(parent);
-		$("<img class=\"ui-spreadsheet-vscroll-up\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(vsOC);
+		$("<img class=\"ui-spreadsheet-vscroll-up\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
 		var vsOC_bg = _div("ui-spreadsheet-vscroll-bg").appendTo(vsOC);
 		var vsOC_slider = _div("ui-spreadsheet-vscroll-slider").appendTo(vsOC_bg);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-top\" width=\"17\" height=\"4\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vfill\" width=\"17\" height=\"1\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vcenter\" width=\"17\" height=\"8\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vfill\" width=\"17\" height=\"1\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-bottom\" width=\"17\" height=\"4\" src=\"images/default/s.gif\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(vsOC);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-top\" width=\"17\" height=\"4\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vfill\" width=\"17\" height=\"1\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vcenter\" width=\"17\" height=\"8\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vfill\" width=\"17\" height=\"1\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-bottom\" width=\"17\" height=\"4\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
+		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
 		
 		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(parent);
 		vs1OC.hide();
@@ -97,15 +97,15 @@
 		hs1OC.hide();
 		
 		var hsOC = _div("ui-spreadsheet-hsOC").appendTo(parent);
-		$("<img class=\"ui-spreadsheet-hscroll-left\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC);
+		$("<img class=\"ui-spreadsheet-hscroll-left\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
 		var hsOC_bg = _div("ui-spreadsheet-hscroll-bg").appendTo(hsOC);
 		var hsOC_slider = _div("ui-spreadsheet-hscroll-slider").appendTo(hsOC_bg);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-left\" width=\"4\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hfill\" width=\"1\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hcenter\" width=\"8\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hfill\" width=\"1\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC_slider);
-		$("<img class=\"ui-spreadsheet-gridScrollImg-el-right\" width=\"4\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC_slider);
-		$("<img class=\"ui-spreadsheet-hscroll-right\" width=\"17\" height=\"17\" src=\"images/default/s.gif\">").appendTo(hsOC);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-left\" width=\"4\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hfill\" width=\"1\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hcenter\" width=\"8\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hfill\" width=\"1\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
+		$("<img class=\"ui-spreadsheet-gridScrollImg-el-right\" width=\"4\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
+		$("<img class=\"ui-spreadsheet-hscroll-right\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
 		
 		$("<div class=\"x-resizable-handle x-resizable-handle-west x-unselectable\" style=\"-moz-user-select: none; opacity: 0;\"></div>").appendTo(hsOC);
 		
@@ -1087,6 +1087,8 @@
 		,fit :		true
 		,show :		true
 		
+		,s_src : "resources/images/default/s.gif"
+		
 		,defaultColWidth: 64
 		,defaultRowHeight: 20
 		
@@ -1132,3 +1134,21 @@
 		,onHide:	function(){}
 	};
 })(jQuery);
+
+
+Flywet.widget.SpreadSheet = function(cfg){
+	console.log(cfg);
+	this.cfg = cfg;
+	this.id = this.cfg.id;
+	
+	this.init();
+};
+
+Flywet.extend(Flywet.widget.SpreadSheet, Flywet.widget.BaseWidget);
+
+Flywet.widget.SpreadSheet.prototype={
+	init:function(){
+		var cfg = {};
+		$(Flywet.escapeClientId(this.id)).spreadsheet(cfg);
+	}
+};

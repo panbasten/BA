@@ -6,13 +6,13 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.flywet.platform.bi.base.dao.intf.BIReportAdaptor;
+import com.flywet.platform.bi.base.enums.BIReportCategory;
 import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.services.impl.AbstractDirectoryServices;
 

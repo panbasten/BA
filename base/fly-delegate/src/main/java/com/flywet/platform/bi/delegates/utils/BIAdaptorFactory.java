@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.flywet.platform.bi.core.ContextHolder;
+import com.flywet.platform.bi.core.utils.ClassUtils;
 import com.flywet.platform.bi.delegates.anno.BIDelegate;
 
 public class BIAdaptorFactory {
@@ -89,7 +90,7 @@ public class BIAdaptorFactory {
 
 	public static void init() {
 		allClasses = new HashSet<Class<?>>();
-		Set<Class<?>> classes = BIDelegateUtils
+		Set<Class<?>> classes = ClassUtils
 				.getClasses(DELEGATE_BASE_PACKAGE);
 		if (classes == null || classes.isEmpty()) {
 			return;

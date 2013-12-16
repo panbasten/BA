@@ -145,7 +145,7 @@ Flywet.editors.trans = {
 		// 加载转换页
 		Flywet.ab({
 			type : "get",
-			url : "rest/di/trans/editor",
+			url : "rest/trans/editor",
 			modalMessage: "正在注册转换设计器页面...",
 			oncomplete : function(xhr, status){
 				// 初始化尺寸
@@ -155,7 +155,7 @@ Flywet.editors.trans = {
 				var $trans = $("#trans");
 				$trans.width(editorContentWidth).height(editorContentHeight);
 				
-				// 结构
+				// 构建布局
 				$transLayout = $trans.layout({
 					defaults: {
 						size:					"auto"

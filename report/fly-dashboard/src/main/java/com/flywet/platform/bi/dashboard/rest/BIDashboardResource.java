@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.base.cache.TemplateCache;
+import com.flywet.platform.bi.base.enums.BIReportCategory;
 import com.flywet.platform.bi.base.model.TemplateMeta;
 import com.flywet.platform.bi.base.rest.AbstractReportResource;
 import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
@@ -39,18 +40,17 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.dashboard.utils.PageEditTemplateInterpolator;
-import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.rest.BIBaseResource;
+import com.flywet.platform.bi.rest.EditorResourceInterface;
 
 @Service("bi.resource.dashboardResource")
 @Path("/dashboard")
-public class BIDashboardResource extends AbstractReportResource {
+public class BIDashboardResource extends AbstractReportResource implements
+		EditorResourceInterface {
 
 	private final Logger logger = Logger.getLogger(BIDashboardResource.class);
 
 	private static final String ICON_PATH = "resources/images/plugins/";
-
-	private static final String DASHBOARD_TEMPLATE_PREFIX = "editor/editor_";
 
 	@Resource(name = "bi.service.reportService")
 	private BIReportDelegates reportService;
@@ -353,10 +353,11 @@ public class BIDashboardResource extends AbstractReportResource {
 	 * @throws BIException
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	@GET
 	@Path("/editor")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String loadDashboardEditor() throws BIException {
+	public String loadEditor() throws BIException {
 		try {
 			String cate = BIReportCategory.REPORT_TYPE_DASHBOARD.getCategory();
 
@@ -430,7 +431,4 @@ public class BIDashboardResource extends AbstractReportResource {
 		}
 	}
 
-	private String getTemplateString(String cate) {
-		return DASHBOARD_TEMPLATE_PREFIX + cate + ".h";
-	}
 }

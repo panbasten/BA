@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.pentaho.di.core.Const;
@@ -52,18 +53,32 @@ public class PageTemplateResolverType {
 				categoryNames = new ArrayList<String>();
 				categoryCodes = new ArrayList<String>();
 
-				Document document = getXMLDocument(XML_FILE_FLY_COMPONENTS);
-				Node componentsNode = XMLHandler.getSubNode(document,
-						"components");
-				List<Node> componentNodes = XMLHandler.getNodes(componentsNode,
-						"component");
-				for (Node componentNode : componentNodes) {
-					initComponent(componentNode.getTextContent());
+				// 初始化本包中的组件
+				initComponents();
+
+				// 初始化其他包的组件
+				List<String> allFileNames = FLYComponentFactory
+						.getAllFileNames();
+				if (allFileNames != null) {
+					for (String fn : allFileNames) {
+						initComponent(fn);
+					}
 				}
+
 			}
 		} catch (Exception e) {
 			throw new BIPageException("无法读取组件集成XML配置文件: "
 					+ XML_FILE_FLY_COMPONENTS, e);
+		}
+	}
+
+	private static void initComponents() throws Exception {
+		Document document = getXMLDocument(XML_FILE_FLY_COMPONENTS);
+		Node componentsNode = XMLHandler.getSubNode(document, "components");
+		List<Node> componentNodes = XMLHandler.getNodes(componentsNode,
+				"component");
+		for (Node componentNode : componentNodes) {
+			initComponent(componentNode.getTextContent());
 		}
 	}
 

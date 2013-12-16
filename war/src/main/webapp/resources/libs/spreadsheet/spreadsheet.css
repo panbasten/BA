@@ -1,9 +1,3 @@
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
 .ui-spreadsheet {
 	overflow: hidden;
 	background-color: #e4ecf7;
@@ -59,8 +53,8 @@
 	height: 19px;
 	width: 41px;
 	z-index: 200;
-	cursor: url("images/cursors/xlcross.cur") 5 5, default;
-	cursor: url("images/cursors/xlcross.cur"), default \9;
+	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 	overflow: hidden;
 }
 
@@ -115,8 +109,8 @@
 	font-size: 9pt;
 	padding: 2px;
 	text-align: center;
-	cursor: url("images/cursors/down.cur") 15 18, default;
-	cursor: url("images/cursors/down.cur"), default \9;
+	cursor: url("images/ss/cursors/down.cur") 15 18, default;
+	cursor: url("images/ss/cursors/down.cur"), default \9;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 	overflow: hidden;
@@ -151,8 +145,8 @@
 	font-size: 9pt;
 	padding: 2px;
 	text-align: center;
-	cursor: url("images/cursors/right.cur") 10 4, default;
-	cursor: url("images/cursors/right.cur"), default \9;
+	cursor: url("images/ss/cursors/right.cur") 10 4, default;
+	cursor: url("images/ss/cursors/right.cur"), default \9;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 	overflow: hidden;
@@ -173,8 +167,8 @@
 	z-index: 1;
 	top: 0;
 	left: 0;
-	cursor: url("images/cursors/xlcross.cur") 5 5, default;
-	cursor: url("images/cursors/xlcross.cur"), default \9;
+	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 }
 
 .ui-spreadsheet-gridColSep {
@@ -208,8 +202,8 @@
 	-webkit-user-select: none;
 	white-space: pre;
 	z-index: 1;
-	cursor: url("images/cursors/xlcross.cur") 5 5, default;
-	cursor: url("images/cursors/xlcross.cur"), default \9;
+	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 	line-height: 1.3em;
 }
 
@@ -246,8 +240,8 @@
 	height: 1px;
 	overflow: hidden;
 	z-index: 36;
-	cursor: url("images/cursors/xlcross.cur") 5 5, default;
-	cursor: url("images/cursors/xlcross.cur"), default \9;
+	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 	padding: 2px;
 	white-space: pre;
 	background-color: #fff;
@@ -274,7 +268,7 @@
 	display: none;
 	overflow: hidden;
 	white-space: nowrap;
-	background-image: url("images/borders/fill_del_marker.gif");
+	background-image: url("images/ss/borders/fill_del_marker.gif");
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 }
@@ -314,8 +308,8 @@
 	background-color: #d0d0d0;
 	opacity: .4;
 	filter: alpha(opacity = 40);
-	cursor: url("images/cursors/xlcross.cur") 5 5, default;
-	cursor: url("images/cursors/xlcross.cur"), default \9;
+	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
+	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 	z-index: 36;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
@@ -341,7 +335,7 @@
 .ui-spreadsheet-hscroll-left {
 	position: relative;
 	float: left;
-	background-image: url("images/scrollbar/hor_scroller_left.png");
+	background-image: url("images/ss/scrollbar/hor_scroller_left.png");
 }
 
 .ui-spreadsheet-hscroll-bg {
@@ -358,7 +352,7 @@
 .ui-spreadsheet-hscroll-right {
 	position: relative;
 	float: right;
-	background-image: url("images/scrollbar/hor_scroller_right.png");
+	background-image: url("images/ss/scrollbar/hor_scroller_right.png");
 }
 
 
@@ -369,7 +363,7 @@
 .ui-spreadsheet-vscroll-up {
 	position: relative;
 	float: left;
-	background-image: url("images/scrollbar/vert_scroller_up.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_up.png");
 }
 
 .ui-spreadsheet-vscroll-bg {
@@ -386,49 +380,49 @@
 .ui-spreadsheet-vscroll-down {
 	position: relative;
 	float: right;
-	background-image: url("images/scrollbar/vert_scroller_down.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_down.png");
 }
 
 
 
 .ui-spreadsheet-gridScrollImg-el-top {
 	float: left;
-	background-image: url("images/scrollbar/vert_scroller_element_top.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_element_top.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-vfill {
 	float: left;
-	background-image: url("images/scrollbar/vert_scroller_element_fill.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_element_fill.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-vcenter {
 	float: left;
-	background-image: url("images/scrollbar/vert_scroller_element_center.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_element_center.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-bottom {
 	float: left;
-	background-image: url("images/scrollbar/vert_scroller_element_bottom.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_element_bottom.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-left {
 	float: left;
-	background-image: url("images/scrollbar/hor_scroller_element_left.png");
+	background-image: url("images/ss/scrollbar/hor_scroller_element_left.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-right {
 	float: left;
-	background-image: url("images/scrollbar/hor_scroller_element_right.png");
+	background-image: url("images/ss/scrollbar/hor_scroller_element_right.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-hfill {
 	float: left;
-	background-image: url("images/scrollbar/hor_scroller_element_fill.png");
+	background-image: url("images/ss/scrollbar/hor_scroller_element_fill.png");
 }
 
 .ui-spreadsheet-gridScrollImg-el-hcenter {
 	float: left;
-	background-image: url("images/scrollbar/hor_scroller_element_center.png");
+	background-image: url("images/ss/scrollbar/hor_scroller_element_center.png");
 }
 
 
@@ -562,7 +556,7 @@
 	position: relative;
 	float: right;
 	height: 17px;
-	background-image:url("images/scrollbar/hor_scroller_bg.png");
+	background-image:url("images/ss/scrollbar/hor_scroller_bg.png");
 	background-repeat: repeat-x;
 	overflow: hidden;
 }
@@ -575,7 +569,7 @@
 	position: absolute;
 	right: 0;
 	width: 17px;
-	background-image: url("images/scrollbar/vert_scroller_bg.png");
+	background-image: url("images/ss/scrollbar/vert_scroller_bg.png");
 	background-repeat: repeat-y;
 	overflow: hidden;
 }
@@ -585,19 +579,19 @@
 }
 
 .ui-spreadsheet-horizontal-normal-default {
-	background-image: url("images/borders/default_horizontal_normal.gif");
+	background-image: url("images/ss/borders/default_horizontal_normal.gif");
 }
 
 .ui-spreadsheet-vertical-normal-default {
-	background-image: url("images/borders/default_vertical_normal.gif");
+	background-image: url("images/ss/borders/default_vertical_normal.gif");
 }
 
 .ui-spreadsheet-horizontal-normal-fill {
-	background-image: url("images/borders/fill_horizontal_normal.gif");
+	background-image: url("images/ss/borders/fill_horizontal_normal.gif");
 }
 
 .ui-spreadsheet-vertical-normal-fill {
-	background-image: url("images/borders/fill_vertical_normal.gif");
+	background-image: url("images/ss/borders/fill_vertical_normal.gif");
 }
 
 
@@ -610,8 +604,8 @@
 	border-color: #fff;
 	border-style: solid;
 	border-width: 0 1px 1px 1px;
-	cursor: url("images/cursors/down.cur") 15 18, default;
-	cursor: url("images/cursors/down.cur"), default \9;
+	cursor: url("images/ss/cursors/down.cur") 15 18, default;
+	cursor: url("images/ss/cursors/down.cur"), default \9;
 	-moz-user-select: -moz-none;
 	overflow: hidden;
 }
@@ -621,8 +615,8 @@
 	border-color: #f29638;
 	border-style: solid;
 	border-width: 0 1px 1px 1px;
-	cursor: url("images/cursors/down.cur") 15 18, default;
-	cursor: url("images/cursors/down.cur"), default \9;
+	cursor: url("images/ss/cursors/down.cur") 15 18, default;
+	cursor: url("images/ss/cursors/down.cur"), default \9;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 	overflow: hidden;
@@ -636,8 +630,8 @@
 	border-color: #fff;
 	border-style: solid;
 	border-width: 1px 1px 1px 0;
-	cursor: url("images/cursors/right.cur") 10 4, default;
-	cursor: url("images/cursors/right.cur"), default \9;
+	cursor: url("images/ss/cursors/right.cur") 10 4, default;
+	cursor: url("images/ss/cursors/right.cur"), default \9;
 	padding-right: 2px;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
@@ -648,21 +642,21 @@
 	border-color: #f29638;
 	border-style: solid;
 	border-width: 1px 1px 1px 0;
-	cursor: url("images/cursors/right.cur") 10 4, default;
-	cursor: url("images/cursors/right.cur"), default \9;
+	cursor: url("images/ss/cursors/right.cur") 10 4, default;
+	cursor: url("images/ss/cursors/right.cur"), default \9;
 	padding-right: 2px;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 }
 
 .ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-resize {
-	cursor: url("images/cursors/we-resize.cur") 8 8, default;
-	cursor: url("images/cursors/we-resize.cur"), default \9;
+	cursor: url("images/ss/cursors/we-resize.cur") 8 8, default;
+	cursor: url("images/ss/cursors/we-resize.cur"), default \9;
 }
 
 .ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-resize {
-	cursor: url("images/cursors/ns-resize.cur") 9 9, default;
-	cursor: url("images/cursors/ns-resize.cur"), default \9;
+	cursor: url("images/ss/cursors/ns-resize.cur") 9 9, default;
+	cursor: url("images/ss/cursors/ns-resize.cur"), default \9;
 }
 
 .ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-selected-resize {
@@ -673,13 +667,13 @@
 	border-color: #fff;
 	border-style: solid;
 	border-width: 0 1px 1px 1px;
-	cursor: url("images/cursors/we-resize.cur") 8 8, default;
-	cursor: url("images/cursors/we-resize.cur"), default \9;
+	cursor: url("images/ss/cursors/we-resize.cur") 8 8, default;
+	cursor: url("images/ss/cursors/we-resize.cur"), default \9;
 }
 
 .ui-spreadsheet-gridColHdrsIC .ui-spreadsheet-col-active-resize {
-	cursor: url("images/cursors/we-resize.cur") 8 8, default;
-	cursor: url("images/cursors/we-resize.cur"), default \9;
+	cursor: url("images/ss/cursors/we-resize.cur") 8 8, default;
+	cursor: url("images/ss/cursors/we-resize.cur"), default \9;
 }
 
 .ui-spreadsheet-gridRowHdrsIC .ui-spreadsheet-row-selected-resize {
@@ -690,8 +684,8 @@
 	border-color: #fff;
 	border-style: solid;
 	border-width: 1px 1px 1px 0;
-	cursor: url("images/cursors/ns-resize.cur") 9 9, default;
-	cursor: url("images/cursors/ns-resize.cur"), default \9;
+	cursor: url("images/ss/cursors/ns-resize.cur") 9 9, default;
+	cursor: url("images/ss/cursors/ns-resize.cur"), default \9;
 	padding-right: 2px;
 }
 
@@ -700,80 +694,80 @@
 	background-color: #ffd58d;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
-	cursor: url("images/cursors/ns-resize.cur") 9 9, default;
-	cursor: url("images/cursors/ns-resize.cur"), default \9;
+	cursor: url("images/ss/cursors/ns-resize.cur") 9 9, default;
+	cursor: url("images/ss/cursors/ns-resize.cur"), default \9;
 	padding-right: 2px;
 }
 
 
 .ui-spreadsheet-cur-rngcopy-0 {
-	cursor: url("images/cursors/rng_copy.cur"), default;
+	cursor: url("images/ss/cursors/rng_copy.cur"), default;
 }
 
 .ui-spreadsheet-cur-rngcopy-1 {
-	cursor: url("images/cursors/rng_copy.cur") 7 4, default;
+	cursor: url("images/ss/cursors/rng_copy.cur") 7 4, default;
 }
 
 .ui-spreadsheet-cur-rngcopy-2 {
-	cursor: url("images/cursors/rng_copy.cur") 9 9, default;
+	cursor: url("images/ss/cursors/rng_copy.cur") 9 9, default;
 }
 
 .ui-spreadsheet-cur-rngmove-0 {
-	cursor: url("images/cursors/rng_move.cur"), default;
+	cursor: url("images/ss/cursors/rng_move.cur"), default;
 }
 
 .ui-spreadsheet-cur-rngmove-1 {
-	cursor: url("images/cursors/rng_move.cur") 7 4, default;
+	cursor: url("images/ss/cursors/rng_move.cur") 7 4, default;
 }
 
 .ui-spreadsheet-cur-rngmove-2 {
-	cursor: url("images/cursors/rng_move.cur") 9 9, default;
+	cursor: url("images/ss/cursors/rng_move.cur") 9 9, default;
 }
 
 .ui-spreadsheet-cur-sndclck-0 {
-	cursor: url("images/cursors/sand_clock.cur"), default;
+	cursor: url("images/ss/cursors/sand_clock.cur"), default;
 }
 
 .ui-spreadsheet-cur-sndclck-1 {
-	cursor: url("images/cursors/sand_clock.cur") 10 10, default;
+	cursor: url("images/ss/cursors/sand_clock.cur") 10 10, default;
 }
 
 .ui-spreadsheet-cur-arrclck-0 {
-	cursor: url("images/cursors/arrow_sclock.cur"), default;
+	cursor: url("images/ss/cursors/arrow_sclock.cur"), default;
 }
 
 .ui-spreadsheet-cur-arrclck-1 {
-	cursor: url("images/cursors/arrow_sclock.cur") 10 10, default;
+	cursor: url("images/ss/cursors/arrow_sclock.cur") 10 10, default;
 }
 
 .ui-spreadsheet-cur-handdef-0 {
-	cursor: url("images/cursors/hand.cur"), default;
+	cursor: url("images/ss/cursors/hand.cur"), default;
 }
 
 .ui-spreadsheet-cur-handdef-1 {
-	cursor: url("images/cursors/hand.cur") 5 0, default;
+	cursor: url("images/ss/cursors/hand.cur") 5 0, default;
 }
 
 .ui-spreadsheet-cur-mdcurrd-0 {
-	cursor: url("images/cursors/md_curr.cur"), default !important;
+	cursor: url("images/ss/cursors/md_curr.cur"), default !important;
 }
 
 .ui-spreadsheet-cur-mdcurrd-1 {
-	cursor: url("images/cursors/md_curr.cur") 8 8, default !important;
+	cursor: url("images/ss/cursors/md_curr.cur") 8 8, default !important;
 }
 
 .ui-spreadsheet-cur-mdcurrp-0 {
-	cursor: url("images/cursors/md_curr_plus.cur"), default !important;
+	cursor: url("images/ss/cursors/md_curr_plus.cur"), default !important;
 }
 
 .ui-spreadsheet-cur-mdcurrp-1 {
-	cursor: url("images/cursors/md_curr_plus.cur") 8 8, default !important;
+	cursor: url("images/ss/cursors/md_curr_plus.cur") 8 8, default !important;
 }
 
 .ui-spreadsheet-cur-movedef-0 {
-	cursor: url("images/cursors/move.cur"), default;
+	cursor: url("images/ss/cursors/move.cur"), default;
 }
 
 .ui-spreadsheet-cur-movedef-1 {
-	cursor: url("images/cursors/move.cur") 9 9, default;
+	cursor: url("images/ss/cursors/move.cur") 9 9, default;
 }

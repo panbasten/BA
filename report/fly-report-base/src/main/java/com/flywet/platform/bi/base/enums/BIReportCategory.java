@@ -6,12 +6,10 @@ public enum BIReportCategory {
 	REPORT_TYPE_DASHBOARD(1, "dashboard",
 			"Report.Category.Dashboard.Description") {
 	},
-	REPORT_TYPE_WORD_REPORT(2, "wordreport",
+	REPORT_TYPE_WORD_REPORT(2, "report",
 			"Report.Category.WordReport.Description") {
 	},
-	REPORT_TYPE_REPORT(3, "report", "Report.Category.Report.Description") {
-	},
-	REPORT_TYPE_PIVOT_REPORT(4, "pivotreport",
+	REPORT_TYPE_PIVOT_REPORT(3, "pivot",
 			"Report.Category.PivotReport.Description") {
 	};
 

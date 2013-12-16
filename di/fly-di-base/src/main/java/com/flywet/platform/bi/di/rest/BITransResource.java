@@ -34,6 +34,8 @@ import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.component.components.browse.BrowseMeta;
+import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.components.flow.FlowChartData;
 import com.flywet.platform.bi.component.components.flow.FlowChartMeta;
 import com.flywet.platform.bi.component.components.flow.FlowElementSet;
@@ -41,11 +43,14 @@ import com.flywet.platform.bi.component.components.flow.FlowHop;
 import com.flywet.platform.bi.component.components.flow.FlowStep;
 import com.flywet.platform.bi.component.components.flow.step.PictureStep;
 import com.flywet.platform.bi.component.components.grid.GridDataObject;
+import com.flywet.platform.bi.component.components.tree.FLYTreeMeta;
+import com.flywet.platform.bi.component.components.tree.TreeNodeMeta;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.component.web.ActionMessage;
 import com.flywet.platform.bi.component.web.AjaxResult;
+import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.ContextHolder;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
@@ -53,20 +58,25 @@ import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.model.ParameterContext;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.di.model.CheckResultObject;
 import com.flywet.platform.bi.di.model.NamedParameterObject;
+import com.flywet.platform.bi.di.service.intf.BIDIDelegates;
 import com.flywet.platform.bi.di.service.intf.BITransDelegates;
+import com.flywet.platform.bi.rest.EditorResourceInterface;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
 
 @Service("bi.resource.transResource")
 @Path("/trans")
-public class BITransResource {
+public class BITransResource implements EditorResourceInterface {
 
 	private final Logger log = Logger.getLogger(BITransResource.class);
 
 	private static Class<?> PKG = BITransResource.class;
+
+	public static final String ID_EDITOR_CONTENT_PANELS = "editorContentPanels";
 
 	private static final String TRANS_SETTING_TEMPLATE = "editor/trans/setting.h";
 
@@ -81,6 +91,9 @@ public class BITransResource {
 	private static final String TRANS_CREATE_TEMPLATE = "editor/trans/create.h";
 
 	private static final String TRANS_SAVEAS_TEMPLATE = "editor/trans/saveas.h";
+
+	@Resource(name = "bi.service.diService")
+	private BIDIDelegates diDelegates;
 
 	@Resource(name = "bi.service.transServices")
 	private BITransDelegates transDelegates;
@@ -845,6 +858,97 @@ public class BITransResource {
 		}
 		return am.toJSONString();
 
+	}
+
+	/**
+	 * 创建转换编辑器页面
+	 * 
+	 * @throws BIException
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	@GET
+	@Path("/editor")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String loadEditor() throws BIException {
+		try {
+			// 生成插件工具栏
+			List<String> transStepBar = diDelegates
+					.getPluginNavigator(Utils.CATEGORY_DI_TRANS);
+			List<BrowseMeta> transStepBrowses = new ArrayList<BrowseMeta>();
+
+			for (int i = 0; i < transStepBar.size(); i++) {
+
+				// 各个导航项下的组件
+				BrowseMeta browseMeta = new BrowseMeta();
+
+				diDelegates.getPlugins(transStepBar.get(i), browseMeta,
+						"fly-trans-step-plugin");
+
+				// 增加额外属性
+				List<BrowseNodeMeta> contents = (List<BrowseNodeMeta>) browseMeta
+						.getContents();
+				if (contents != null) {
+					for (BrowseNodeMeta con : contents) {
+						String id = con.getId();
+						String pos = PropertyUtils
+								.getProperty(PropertyUtils.UI_DIALOG_PREFIX
+										+ id
+										+ PropertyUtils.UI_DIALOG_POSTION_SUFFIX);
+						if (pos != null) {
+							con.addExtendAttribute("dialogPosition", pos);
+						}
+					}
+				}
+
+				transStepBrowses.add(browseMeta);
+			}
+
+			FLYVariableResolver attrsMap = FLYVariableResolver.instance();
+			attrsMap.addVariable("editorId", Utils.CATEGORY_DI_TRANS);
+			attrsMap.addVariable("transStepBar", transStepBar);
+			attrsMap.addVariable("transStepBrowses", transStepBrowses);
+
+			FLYTreeMeta transObjectTree = new FLYTreeMeta();
+			TreeNodeMeta node1 = new TreeNodeMeta();
+			node1.setId("id1");
+			node1.setText("数据库");
+			transObjectTree.addContent(node1);
+
+			TreeNodeMeta node11 = new TreeNodeMeta();
+			node11.setId("id1-1");
+			node11.setText("连接名称1");
+			node1.addContent(node11);
+
+			TreeNodeMeta node2 = new TreeNodeMeta();
+			node2.setId("id2");
+			node2.setText("转换");
+			transObjectTree.addContent(node2);
+
+			TreeNodeMeta node21 = new TreeNodeMeta();
+			node21.setId("id2-1");
+			node21.setText("转换名称1");
+			node2.addContent(node21);
+
+			attrsMap.addVariable("transObjectTree", transObjectTree);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					EDITOR_TEMPLATE_PREFIX + Utils.CATEGORY_DI_TRANS + ".h",
+					attrsMap);
+
+			// 创建一个更新操作
+			AjaxResultEntity entity = AjaxResultEntity.instance().setOperation(
+					Utils.RESULT_OPERATION_APPEND).setTargetId(
+					ID_EDITOR_CONTENT_PANELS).setDomAndScript(domString);
+
+			AjaxResult result = AjaxResult.instance();
+			result.addEntity(entity);
+
+			return result.toJSONString();
+		} catch (Exception ex) {
+			log.error("创建转换编辑器页面出现错误。");
+			throw new BIException("创建转换编辑器页面出现错误。", ex);
+		}
 	}
 
 }

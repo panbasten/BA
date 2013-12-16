@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.flywet.platform.bi.base.enums.BIReportCategory;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseNodeMeta;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
-import com.flywet.platform.bi.delegates.enums.BIReportCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.services.impl.AbstractDirectoryServices;
 import com.flywet.platform.bi.smart.dao.intf.BISmartAdaptor;

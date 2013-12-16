@@ -12,8 +12,9 @@ import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
+import com.flywet.platform.bi.rest.EditorResourceInterface;
 
-public abstract class AbstractReportResource {
+public abstract class AbstractReportResource implements EditorResourceInterface {
 
 	@SuppressWarnings("unchecked")
 	protected JSONObject getReportPageJson(String id, TemplateMeta templateMeta)
@@ -32,6 +33,10 @@ public abstract class AbstractReportResource {
 		jo.put("domStructure", templateMeta.getXML());
 
 		return jo;
+	}
+
+	protected String getTemplateString(String cate) {
+		return EDITOR_TEMPLATE_PREFIX + cate + ".h";
 	}
 
 }

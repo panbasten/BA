@@ -474,7 +474,7 @@ public class HTML {
 	public static String getId(Node node, FLYVariableResolver attrs) {
 		String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
 		if (Const.isEmpty(id)) {
-			id = "id-" + UUIDUtil.getUUIDAsString();
+			id = "id_" + UUIDUtil.getUUIDAsString();
 		}
 		return id;
 	}

@@ -10,5 +10,13 @@
 	<artifactId>fly-smart</artifactId>
 	<name>BA的智能语义模型</name>
 	<version>8.0.0</version>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-report-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>

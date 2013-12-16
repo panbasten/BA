@@ -95,6 +95,8 @@ Flywet.desktop = {
 		
 		Flywet.editors.dashboard.register();
 		
+		Flywet.editors.pivot.register();
+		
 		// 3.加载用户信息弹出页
 		Flywet.ab({
 			type : "get",

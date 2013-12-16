@@ -78,6 +78,9 @@
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/search/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/spreadsheet/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/tree/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
@@ -196,6 +199,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/validate/validatebox.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/pagination.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/datagrid.css</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/spreadsheet/spreadsheet.css</include>
 									</includes>
 								</aggregation>
 								<aggregation>
@@ -235,6 +239,7 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.pagination.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.datagrid.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/treegrid/jquery.treegrid.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/spreadsheet/jquery.spreadsheet.js</include>
 									</includes>
 								</aggregation>
 								<aggregation>
@@ -391,6 +396,11 @@
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-component</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.ba</groupId>
+			<artifactId>fly-component-ss</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
