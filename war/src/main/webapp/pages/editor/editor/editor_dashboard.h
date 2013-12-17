@@ -71,6 +71,7 @@
 	</div>
 	
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar fly-editor-side-bar">
+	
 		<div id="${editorId}StructPanel" class="ui-widget-panel">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">结构</div>
@@ -82,10 +83,12 @@
 				
 			</div>
 		</div>
+		
 		<div id="${editorId}PropPanel" class="ui-widget-panel" style="padding:0;">
 			<div id="${editorId}PropPanelContent" class="ui-widget-content">
 				
 			</div>
 		</div>
+		
 	</div>
 </div>

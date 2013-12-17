@@ -761,3 +761,46 @@ div.ui-fs-local-sftp-icon {
 	border: 1px solid #A8A8A8;
 	border-top: 0px none;
 }
+
+/* 多维报表相关 */
+.fly-input-group,
+.fly-input-group * {
+	-moz-box-sizing: content-box; /*Firefox3.5+*/
+	-webkit-box-sizing: content-box; /*Safari3.2+*/
+	-o-box-sizing: content-box; /*Opera9.6*/
+	-ms-box-sizing: content-box; /*IE8*/
+	box-sizing: content-box; /*W3C标准*/
+}
+
+.fly-input-group {
+    border-collapse: separate;
+    display: table;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.fly-input-group-addon {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 0 0 4px;
+    line-height: 1;
+    padding: 3px 6px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.fly-input-group-body {
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #CCCCCC;
+    border-left: 0 none;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    display: table-cell;
+    height: 22px;
+    line-height: 1;
+    padding: 3px 6px;
+    vertical-align: middle;
+    width: 100%;
+}
