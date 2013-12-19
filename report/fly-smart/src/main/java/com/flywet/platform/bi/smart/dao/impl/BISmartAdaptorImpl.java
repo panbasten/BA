@@ -18,8 +18,33 @@ public class BISmartAdaptorImpl extends BIAbstractDbAdaptor implements
 
 	@Override
 	public Object[] getSmartObject(String id) throws BIKettleException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String sql = "SELECT "
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_ID_SMART)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_ID_SMART_DIRECTORY)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_ID_DATABASE)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_SMART_OBJECT)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_SMART_TYPE)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_DESCRIPTION)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_SMART_VERSION)
+					+ ","
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_SMART_STATUS)
+					+ " FROM "
+					+ quoteTable(BIDatabaseRepositoryBase.TABLE_BI_SMART)
+					+ " WHERE "
+					+ quote(BIDatabaseRepositoryBase.FIELD_SMART_ID_SMART)
+					+ " = " + id;
+			return getOneRow(sql);
+		} catch (KettleException e) {
+			logger.error("获得模型对象内容出现错误。");
+			throw new BIKettleException(e);
+		}
 	}
 
 	@Override

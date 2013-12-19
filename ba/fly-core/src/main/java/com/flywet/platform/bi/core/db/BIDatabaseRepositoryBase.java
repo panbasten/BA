@@ -36,8 +36,6 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_TIMED_EXE_ATTR_CODE = "CODE";
 	public static final String FIELD_TIMED_EXE_ATTR_VALUE_NUM = "VALUE_NUM";
 	public static final String FIELD_TIMED_EXE_ATTR_VALUE_STR = "VALUE_STR";
-	
-	
 
 	public static final String TABLE_BI_MSG_CHANNEL = "BI_MSG_CHANNEL";
 	public static final String FIELD_MSG_CHANNEL_ID_MSG_CHANNEL = "ID_MSG_CHANNEL";
@@ -92,7 +90,7 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_ID_PORTAL_MENU = "ID_PORTAL_MENU";
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_CODE = "CODE";
 	public static final String FIELD_PORTAL_MENU_ATTRIBUTE_VALUE_STR = "VALUE_STR";
-	
+
 	public static final String TABLE_BI_PORTAL_ACTION = "BI_PORTAL_ACTION";
 	public static final String FIELD_PORTAL_ACTION_ID_PORTAL_ACTION = "ID_PORTAL_ACTION";
 	public static final String FIELD_PORTAL_ACTION_DESCRIPTION = "DESCRIPTION";
@@ -129,6 +127,7 @@ public class BIDatabaseRepositoryBase {
 	public static final String TABLE_BI_SMART = "BI_SMART";
 	public static final String FIELD_SMART_ID_SMART = "ID_SMART";
 	public static final String FIELD_SMART_ID_SMART_DIRECTORY = "ID_SMART_DIRECTORY";
+	public static final String FIELD_SMART_ID_DATABASE = "ID_DATABASE";
 	public static final String FIELD_SMART_SMART_OBJECT = "SMART_OBJECT";
 	public static final String FIELD_SMART_SMART_TYPE = "SMART_TYPE";
 	public static final String FIELD_SMART_DESCRIPTION = "DESCRIPTION";

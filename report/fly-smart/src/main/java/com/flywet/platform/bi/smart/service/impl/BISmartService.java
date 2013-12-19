@@ -26,10 +26,9 @@ public class BISmartService extends AbstractDirectoryServices implements
 				.createAdaptor(BISmartAdaptor.class);
 
 		Object[] sm = adaptor.getSmartObject(String.valueOf(id));
-		// 如果是引用，再次查询 TODO
 
 		if (sm != null) {
-			Object[] rtn = new Object[] { sm[0], sm[2] };
+			Object[] rtn = new Object[] { sm[0], sm[2], sm[3] };
 			return rtn;
 		}
 

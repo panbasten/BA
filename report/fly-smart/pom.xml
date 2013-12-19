@@ -17,6 +17,13 @@
 			<artifactId>fly-report-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.flywet.platform.base</groupId>
+			<artifactId>fly-test</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 </project>

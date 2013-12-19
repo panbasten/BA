@@ -110,7 +110,7 @@ public class BIWebUtils {
 	 * @param beanName
 	 * @return
 	 */
-	public <T> T getBean(String beanName) {
+	public static <T> T getBean(String beanName) {
 		return (T) ctx.getBean(beanName);
 	}
 
