@@ -12,4 +12,15 @@
 		<version>8.0.0</version>
 	</parent>
 	<description>报表平台源代码-服务端</description>
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>com.flywet.platform.base</groupId>
+			<artifactId>fly-test</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
 </project>

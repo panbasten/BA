@@ -129,6 +129,7 @@ public class BIDatabaseRepositoryBase {
 	public static final String TABLE_BI_SMART = "BI_SMART";
 	public static final String FIELD_SMART_ID_SMART = "ID_SMART";
 	public static final String FIELD_SMART_ID_SMART_DIRECTORY = "ID_SMART_DIRECTORY";
+	public static final String FIELD_SMART_SMART_OBJECT = "SMART_OBJECT";
 	public static final String FIELD_SMART_SMART_TYPE = "SMART_TYPE";
 	public static final String FIELD_SMART_DESCRIPTION = "DESCRIPTION";
 	public static final String FIELD_SMART_SMART_VERSION = "SMART_VERSION";

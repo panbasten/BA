@@ -57,11 +57,8 @@ public class BISmartService extends AbstractDirectoryServices implements
 			node.setId(smId);
 			node.setCategory(category);
 			node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, String
-					.valueOf(r[3]));
+					.valueOf(r[2]));
 			String style = "ui-" + category + "-icon";
-			if (Utils.toBoolean(String.valueOf(r[2]), false)) {
-				style += "-ref";
-			}
 
 			node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, style);
 			node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);

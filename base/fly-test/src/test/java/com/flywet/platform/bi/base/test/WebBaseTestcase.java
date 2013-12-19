@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.services.test;
+package com.flywet.platform.bi.base.test;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,7 @@ public class WebBaseTestcase {
 		BIEnvironmentDelegate ed = BIEnvironmentDelegate.instance();
 		ed.init();
 
-		ContextHolder.setRepositoryName("test");
+		ContextHolder.setRepositoryName("dbreptest");
 		ContextHolder.setRepositoryType("db");
 
 		ctx = new ClassPathXmlApplicationContext("applicationContext-ui.xml");

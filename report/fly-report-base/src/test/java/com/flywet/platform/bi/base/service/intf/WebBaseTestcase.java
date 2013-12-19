@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.services.test;
+package com.flywet.platform.bi.base.service.intf;
 
 import org.junit.After;
 import org.junit.Before;

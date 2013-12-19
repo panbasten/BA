@@ -1,25 +1,18 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.flywet.platform</groupId>
-	<artifactId>base</artifactId>
-	<packaging>pom</packaging>
-	<name>BA War的服务包源代码</name>
-	<version>8.0.0</version>
-	<description>BA War的服务包源代码</description>
 	<parent>
-		<artifactId>platform</artifactId>
-		<groupId>com.flywet</groupId>
+		<artifactId>base</artifactId>
+		<groupId>com.flywet.platform</groupId>
 		<version>8.0.0</version>
 	</parent>
-	<modules>
-		<module>fly-delegate</module>
-		<module>fly-service</module>
-		<module>fly-test</module>
-	</modules>
+	<groupId>com.flywet.platform.base</groupId>
+	<artifactId>fly-test</artifactId>
+	<name>BA的web测试包</name>
+	<version>8.0.0</version>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
 			<artifactId>fly-core</artifactId>
@@ -27,12 +20,29 @@
 		</dependency>
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
-			<artifactId>fly-el</artifactId>
+			<artifactId>fly-component</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.flywet.platform.ba</groupId>
-			<artifactId>fly-component</artifactId>
+			<artifactId>fly-component-ss</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.flywet.platform.di</groupId>
+			<artifactId>fly-di-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>com.flywet.platform.base</groupId>
+			<artifactId>fly-delegate</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.base</groupId>
+			<artifactId>fly-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
@@ -66,6 +76,31 @@
 			<version>1.2.2</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		
+		<!-- db -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
