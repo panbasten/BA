@@ -24,7 +24,7 @@ public class BIPivotService implements BIPivotDelegates {
 		BIDatabaseDelegates dbDelegates = BIWebUtils
 				.getBean("bi.service.databaseServices");
 		DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(5L);
-		MondrianOlapHelper helper = MondrianOlapHelper.instance(dbMeta, null,
+		MondrianOlapHelper helper = MondrianOlapHelper.instance(dbMeta, "foodmart.xml",
 				mdx);
 		
 		helper.openConnection();
