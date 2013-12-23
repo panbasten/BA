@@ -12,12 +12,22 @@
 		<version>8.0.0</version>
 	</parent>
 	<description>报表平台源代码-多维报表</description>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-report-base</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.report</groupId>
+			<artifactId>fly-smart</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>groovy</groupId>
+			<artifactId>groovy-1.0-jsr</artifactId>
 		</dependency>
 	</dependencies>
 </project>

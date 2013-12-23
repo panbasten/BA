@@ -26,13 +26,26 @@ public class MondrianResource extends org.eigenbase.resgen.ShadowResourceBundle 
      * resource for the thread's locale.
      */
     public static synchronized MondrianResource instance() {
-        return (MondrianResource) instance(baseName, getThreadOrDefaultLocale(), ResourceBundle.getBundle(baseName, getThreadOrDefaultLocale()));
+        return (MondrianResource) instance(baseName, getThreadOrDefaultLocale(), getResourceBundle(getThreadOrDefaultLocale()));
     }
     /**
      * Retrieves the instance of {@link MondrianResource} for the given locale.
      */
     public static synchronized MondrianResource instance(Locale locale) {
-        return (MondrianResource) instance(baseName, locale, ResourceBundle.getBundle(baseName, locale));
+        return (MondrianResource) instance(baseName, locale, getResourceBundle(locale));
+    }
+    
+    private static ResourceBundle getResourceBundle(Locale locale){
+    	ResourceBundle rb = null;
+    	try {
+    		rb = ResourceBundle.getBundle(baseName, locale);
+    	} catch (Exception e) {
+    		rb = null;
+    	}
+    	if (rb == null) {
+    		rb = ResourceBundle.getBundle(baseName, Locale.US);
+    	}
+    	return rb;
     }
 
     /**

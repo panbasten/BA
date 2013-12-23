@@ -2,6 +2,7 @@ package com.flywet.platform.bi.smart.service.intf;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.services.intf.BIDirectoryDelegates;
+import com.flywet.platform.bi.smart.model.BISmartMeta;
 
 public interface BISmartDelegates extends BIDirectoryDelegates {
 	/**
@@ -11,5 +12,5 @@ public interface BISmartDelegates extends BIDirectoryDelegates {
 	 * @return
 	 * @throws BIException
 	 */
-	public Object[] getSmartObject(Long id) throws BIException;
+	public BISmartMeta getSmartObject(Long id) throws BIException;
 }

@@ -13,12 +13,12 @@
 		<module>mondrian</module>
 		<!-- 核心模块 -->
 		<module>ba</module>
-		
+
 		<!-- 基础模块 -->
 		<module>base</module>
 		<module>di</module>
 		<module>report</module>
-		
+
 		<!-- 自定义模块 -->
 		<module>customization</module>
 		<module>war</module>
@@ -57,7 +57,7 @@
 		<!-- Platform -->
 		<mortbay.jetty.version>6.1.21</mortbay.jetty.version>
 		<eclipse.jetty.version>8.0.0.M1</eclipse.jetty.version>
-		
+
 		<!-- olap4j -->
 		<dependency.olap4j-core.revision>1.1.0</dependency.olap4j-core.revision>
 		<dependency.olap4j-xmla.revision>1.1.0</dependency.olap4j-xmla.revision>
@@ -567,6 +567,12 @@
 				<version>1.0</version>
 			</dependency>
 
+			<dependency>
+				<groupId>groovy</groupId>
+				<artifactId>groovy-1.0-jsr</artifactId>
+				<version>06</version>
+			</dependency>
+
 			<!-- pentaho -->
 			<dependency>
 				<groupId>net.java.dev.jets3t</groupId>
@@ -737,7 +743,7 @@
 				<artifactId>xercesImpl</artifactId>
 				<version>2.9.1</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.apache.xmlrpc</groupId>
 				<artifactId>xmlrpc-client</artifactId>
@@ -988,7 +994,7 @@
 		</plugins>
 	</build>
 
-	<!-- 
+	<!-- -->
 	<repositories>
 		<repository>
 			<id>fly-public</id>
@@ -1124,7 +1130,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	 -->
 
 	<pluginRepositories>
 		<pluginRepository>
@@ -1146,7 +1151,7 @@
 			<url>http://10.11.46.192:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 
 	<scm>
 		<connection>scm:svn:https://10.10.68.12/svn/BQ7D/branches/BQ7.D24/DI</connection>

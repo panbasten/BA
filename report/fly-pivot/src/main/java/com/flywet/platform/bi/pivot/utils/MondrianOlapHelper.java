@@ -12,15 +12,18 @@ import org.pentaho.di.core.database.DataSourceProviderFactory;
 import org.pentaho.di.core.database.DatabaseMeta;
 
 import com.flywet.platform.bi.core.exception.BIDBException;
-import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.smart.utils.BIOlapSchemaProcessor;
 
 public class MondrianOlapHelper {
+
+	public static final String SCHEMA_PROCESSOR_CLASS_STRING = BIOlapSchemaProcessor.class
+			.getName();
 
 	// 分析数据库的元数据
 	private DatabaseMeta databaseMeta;
 
-	// 分析数据库类型
-	private String catalog;
+	// 分析模型ID
+	private long catalogId;
 
 	// MDX
 	private String mdx;
@@ -30,10 +33,10 @@ public class MondrianOlapHelper {
 	private Result result;
 	private Query query;
 
-	private MondrianOlapHelper(DatabaseMeta databaseMeta, String catalog,
+	private MondrianOlapHelper(DatabaseMeta databaseMeta, long catalogId,
 			String mdx) {
 		this.databaseMeta = databaseMeta;
-		this.catalog = catalog;
+		this.catalogId = catalogId;
 		this.mdx = mdx;
 	}
 
@@ -46,8 +49,8 @@ public class MondrianOlapHelper {
 	 * @return
 	 */
 	public static MondrianOlapHelper instance(DatabaseMeta databaseMeta,
-			String catalog, String mdx) {
-		return new MondrianOlapHelper(databaseMeta, catalog, mdx);
+			long catalogId, String mdx) {
+		return new MondrianOlapHelper(databaseMeta, catalogId, mdx);
 	}
 
 	public void openConnection() throws BIDBException {
@@ -60,16 +63,20 @@ public class MondrianOlapHelper {
 								databaseMeta.getDatabaseName());
 				mondrian.olap.Util.PropertyList propList = new mondrian.olap.Util.PropertyList();
 				propList.put("Provider", "mondrian");
-				propList.put("Catalog", catalog);
+				propList.put("Catalog", Long.toString(catalogId));
+				propList.put("DynamicSchemaProcessor",
+						SCHEMA_PROCESSOR_CLASS_STRING);
 
 				connection = DriverManager.getConnection(propList, null,
 						dataSource);
 			} else {
 
 				String connectString = "Provider=mondrian;" + "Jdbc='"
-						+ databaseMeta.getURL() + "';" + "Catalog='" + catalog
-						+ "';" + "JdbcDrivers=" + databaseMeta.getDriverClass()
-						+ ";";
+						+ databaseMeta.getURL() + "';" + "Catalog='"
+						+ Long.toString(catalogId) + "';" + "JdbcDrivers="
+						+ databaseMeta.getDriverClass() + ";"
+						+ "DynamicSchemaProcessor="
+						+ SCHEMA_PROCESSOR_CLASS_STRING + ";";
 
 				if (!Const.isEmpty(databaseMeta.getUsername())) {
 					connectString += "JdbcUser=" + databaseMeta.getUsername()
@@ -118,8 +125,8 @@ public class MondrianOlapHelper {
 		return databaseMeta;
 	}
 
-	public String getCatalog() {
-		return catalog;
+	public long getCatalogId() {
+		return catalogId;
 	}
 
 	public String getMdx() {

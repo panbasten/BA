@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<model class="com.flywet.platform.bi.pivot.model.mondrian.MondrianModel">
+  <extension id="drillExpandMember" class="com.flywet.platform.bi.pivot.model.olap.query.DrillExpandMemberExt"/>
+  <extension id="drillExpandPosition" class="com.flywet.platform.bi.pivot.model.olap.query.DrillExpandPositionExt"/>
+  <extension id="drillReplace" class="com.flywet.platform.bi.pivot.model.olap.query.DrillReplaceExt"/>
+  <extension id="swapAxes" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianSwapAxes"/>
+  <extension id="memberTree" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianMemberTree"/>
+  <extension id="sortRank" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianSortRank"/>
+  <extension id="nonEmpty" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianNonEmpty"/>
+  <extension id="mdxQuery" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianMdxQuery"/>
+  <extension id="changeSlicer" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianChangeSlicer"/>
+  <extension id="hierarchiesOnAxes" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianPlaceHierarchies"/>
+  <extension id="membersOnAxes" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianPlaceMembers"/>
+  <extension id="cache1" class="com.flywet.platform.bi.pivot.model.olap.model.CachingOlapModel"/>
+  <extension id="drillThrough" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianDrillThrough"/>
+  <extension id="memberProperies" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianMemberProperties"/>
+  <extension id="setParameter" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianSetParameter"/>
+  <extension id="expressionParser" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianExpressionParser"/>
+  <extension id="sqlAccess" class="com.flywet.platform.bi.pivot.model.mondrian.MondrianSqlAccess"/>
+</model>

@@ -13,7 +13,9 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.BIDirectoryCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
 import com.flywet.platform.bi.services.impl.AbstractDirectoryServices;
+import com.flywet.platform.bi.smart.cache.SmartCache;
 import com.flywet.platform.bi.smart.dao.intf.BISmartAdaptor;
+import com.flywet.platform.bi.smart.model.BISmartMeta;
 import com.flywet.platform.bi.smart.service.intf.BISmartDelegates;
 
 @Service("bi.service.smartService")
@@ -21,18 +23,24 @@ public class BISmartService extends AbstractDirectoryServices implements
 		BISmartDelegates {
 
 	@Override
-	public Object[] getSmartObject(Long id) throws BIException {
-		BISmartAdaptor adaptor = BIAdaptorFactory
-				.createAdaptor(BISmartAdaptor.class);
+	public BISmartMeta getSmartObject(Long id) throws BIException {
 
-		Object[] sm = adaptor.getSmartObject(String.valueOf(id));
+		BISmartMeta sm = SmartCache.get(id);
 
-		if (sm != null) {
-			Object[] rtn = new Object[] { sm[0], sm[2], sm[3] };
-			return rtn;
+		if (sm == null) {
+			BISmartAdaptor adaptor = BIAdaptorFactory
+					.createAdaptor(BISmartAdaptor.class);
+
+			Object[] smart = adaptor.getSmartObject(String.valueOf(id));
+
+			if (smart != null) {
+				sm = new BISmartMeta(smart);
+				SmartCache.put(id, sm);
+			}
+
 		}
 
-		return null;
+		return sm;
 	}
 
 	@Override
