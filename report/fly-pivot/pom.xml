@@ -24,10 +24,5 @@
 			<artifactId>fly-smart</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>groovy</groupId>
-			<artifactId>groovy-1.0-jsr</artifactId>
-		</dependency>
 	</dependencies>
 </project>

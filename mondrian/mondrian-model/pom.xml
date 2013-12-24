@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.flywet.platform.mondrian</groupId>
+	<artifactId>mondrian-model</artifactId>
+	<name>Mondrian源代码-模型层</name>
+	<version>8.0.0</version>
+	<parent>
+		<artifactId>mondrian</artifactId>
+		<groupId>com.flywet.platform</groupId>
+		<version>8.0.0</version>
+	</parent>
+	<description>Mondrian源代码-模型层</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.flywet.platform.mondrian</groupId>
+			<artifactId>mondrian-srv</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+	</dependencies>
+</project>

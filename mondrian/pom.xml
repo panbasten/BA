@@ -15,6 +15,7 @@
 	</parent>
 	<modules>
 		<module>mondrian-srv</module>
+		<module>mondrian-model</module>
 		<module>mondrian-steps</module>
 	</modules>
 
@@ -181,11 +182,47 @@
 			<version>1.8.0</version>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
+		
+		<!-- dependency>
 			<groupId>com.tonbeller</groupId>
 			<artifactId>jpivot</artifactId>
 			<version>1.8.0-100420</version>
 			<optional>true</optional>
+		</dependency-->
+		
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>fop</groupId>
+			<artifactId>fop</artifactId>
+		</dependency>
+		
+		<!-- servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<scope>provided</scope>
+			<version>1.1_02</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
 		</dependency>
 		
 		<dependency>

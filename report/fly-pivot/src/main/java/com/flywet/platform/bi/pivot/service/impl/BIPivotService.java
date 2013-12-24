@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
-import com.flywet.platform.bi.pivot.model.core.MondrianModelFactory;
 import com.flywet.platform.bi.pivot.service.intf.BIPivotDelegates;
 import com.flywet.platform.bi.pivot.utils.MondrianOlapHelper;
 import com.flywet.platform.bi.services.intf.BIDatabaseDelegates;
@@ -30,10 +29,10 @@ public class BIPivotService implements BIPivotDelegates {
 		DatabaseMeta dbMeta = dbDelegates.getDatabaseMeta(databaseMetaId);
 		
 		
-		MondrianModelFactory.Config cfg = new MondrianModelFactory.Config();
-		cfg.setCatalogId(catalogId);
-		cfg.setDatabaseMeta(dbMeta);
-		cfg.setMdxQuery(mdx);
+//		MondrianModelFactory.Config cfg = new MondrianModelFactory.Config();
+//		cfg.setCatalogId(catalogId);
+//		cfg.setDatabaseMeta(dbMeta);
+//		cfg.setMdxQuery(mdx);
 		
 		MondrianOlapHelper helper = MondrianOlapHelper.instance(dbMeta,
 				catalogId, mdx);
