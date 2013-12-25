@@ -1,4 +1,4 @@
-package com.flywet.platform.bi.cache;
+package com.flywet.platform.bi.di.cache;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +8,12 @@ import org.pentaho.di.trans.TransMeta;
 
 import com.flywet.platform.bi.core.ContextHolder;
 
+/**
+ * 用于编辑转换或者作业的缓存
+ * 
+ * @author PeterPan
+ * 
+ */
 public class TransOrJobMetaCache {
 	static Map<String, Map<Long, TransMeta>> TRANS_META_CACHE = Collections
 			.synchronizedMap(new HashMap<String, Map<Long, TransMeta>>());

@@ -28,6 +28,11 @@ import com.tonbeller.wcf.utils.ObjectFactory;
 public class TableComponentFactory {
 
   private TableComponentFactory() { }
+  
+  public static TableComponent instance(String id, OlapModel olapModel) throws IOException, SAXException {
+	  URL configXml = TableComponent.class.getResource("config.xml");
+	  return instance(id, configXml, olapModel);
+  }
 
   public static TableComponent instance(String id, URL configXml, OlapModel olapModel) throws IOException, SAXException {
     URL rulesXml = TableComponent.class.getResource("rules.xml");

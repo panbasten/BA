@@ -174,9 +174,9 @@ public class ResourcesFactory {
         logger.error("could not instantiate " + clazz, e);
       }
     }
-    if ("false".equals(m.getString(USE_JNDI_PROVIDER)))
-      return new SimpleInitialProvider();
-    return new JNDIInitialProvider();
+    if ("true".equals(m.getString(USE_JNDI_PROVIDER)))
+    	return new JNDIInitialProvider();
+    return new SimpleInitialProvider();
   }
 
   void initialize(ResourceProvider resp) {

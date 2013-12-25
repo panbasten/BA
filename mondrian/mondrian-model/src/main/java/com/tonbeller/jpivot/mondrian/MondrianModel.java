@@ -478,7 +478,7 @@ public class MondrianModel extends MdxOlapModel implements OlapModel,
       // ignore;
     }
 
-    if (uri != null && uri.getScheme().equalsIgnoreCase("http") && sessionId != null) {
+    if (uri != null && uri.getScheme() != null && uri.getScheme().equalsIgnoreCase("http") && sessionId != null) {
       // an http schema url will be dynamically resolved
       //  in that case, a session id has to be appended
       if (uri.getQuery() != null) {
