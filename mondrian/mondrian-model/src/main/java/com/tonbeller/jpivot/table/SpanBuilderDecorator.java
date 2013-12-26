@@ -14,7 +14,6 @@ package com.tonbeller.jpivot.table;
 
 import org.w3c.dom.Element;
 
-import com.tonbeller.jpivot.table.SpanBuilder.SBContext;
 import com.tonbeller.jpivot.table.span.Span;
 
 /**
@@ -22,16 +21,21 @@ import com.tonbeller.jpivot.table.span.Span;
  * 
  * @author av
  */
-public abstract class SpanBuilderDecorator extends PartBuilderDecorator implements SpanBuilder {
-  /**
-   * Constructor for RowHeadingRendererDecorator.
-   */
-  public SpanBuilderDecorator(SpanBuilder delegate) {
-    super(delegate);
-  }
+public abstract class SpanBuilderDecorator extends PartBuilderDecorator
+		implements SpanBuilder {
+	/**
+	 * Constructor for RowHeadingRendererDecorator.
+	 */
+	public SpanBuilderDecorator(SpanBuilder delegate) {
+		super(delegate);
+	}
 
-  public Element build(SBContext sbctx, Span span, boolean even) {
-    return ((SpanBuilder)delegate).build(sbctx, span, even);
-  }
+	public Element build(SBContext sbctx, Span span, boolean even) {
+		return ((SpanBuilder) delegate).build(sbctx, span, even);
+	}
+
+	public Object[] buildJo(SBContext sbctx, Span span, boolean even) {
+		return ((SpanBuilder) delegate).buildJo(sbctx, span, even);
+	}
 
 }

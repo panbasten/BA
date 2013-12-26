@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONArray;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.table.span.SpanCalc;
@@ -22,18 +23,21 @@ import com.tonbeller.jpivot.table.span.SpanCalc;
  * @author av
  */
 public interface RowAxisBuilder extends AxisBuilder {
-  /**
-   * return the number of rows needed for the header (corner element)
-   */
-  
-  int getHeaderRowCount();
-  /**
-   * builds a row for the corner element
-   */
-  void buildHeaderRow(Element parent, int rowIndex);
-  
-  /**
-   * returns the SpanCalc for header if present. return null otherwise
-   */
-  SpanCalc getHeaderSpanCalc();
+	/**
+	 * return the number of rows needed for the header (corner element)
+	 */
+
+	int getHeaderRowCount();
+
+	/**
+	 * builds a row for the corner element
+	 */
+	void buildHeaderRow(Element parent, int rowIndex);
+
+	void buildHeaderRowJo(JSONArray ja, int rowIndex);
+
+	/**
+	 * returns the SpanCalc for header if present. return null otherwise
+	 */
+	SpanCalc getHeaderSpanCalc();
 }

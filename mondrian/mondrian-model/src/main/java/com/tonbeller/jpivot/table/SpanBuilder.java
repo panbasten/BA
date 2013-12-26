@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.table.span.Span;
@@ -22,9 +23,15 @@ import com.tonbeller.jpivot.table.span.Span;
  * @author av
  */
 public interface SpanBuilder extends PartBuilder {
-  interface SBContext {
-    void setCaption(Element elem, String label);
-    void addClickable(String href, String label);
-  }
-  Element build(SBContext sbctx, Span span, boolean even);
+	interface SBContext {
+		void setCaption(Element elem, String label);
+
+		void setCaptionJo(JSONObject elem, String label);
+
+		void addClickable(String href, String label);
+	}
+
+	Element build(SBContext sbctx, Span span, boolean even);
+
+	Object[] buildJo(SBContext sbctx, Span span, boolean even);
 }

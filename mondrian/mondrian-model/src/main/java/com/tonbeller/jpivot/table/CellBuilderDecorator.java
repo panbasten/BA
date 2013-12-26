@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.olap.model.Cell;
@@ -21,14 +22,21 @@ import com.tonbeller.jpivot.olap.model.Cell;
  * 
  * @author av
  */
-public class CellBuilderDecorator extends PartBuilderDecorator implements CellBuilder {
-  
-  public CellBuilderDecorator(CellBuilder delegate) {
-    super(delegate);
-  }
-  
-  public Element build(Cell cell, boolean even) {
-    return ((CellBuilder)delegate).build(cell, even);
-  }
+public class CellBuilderDecorator extends PartBuilderDecorator implements
+		CellBuilder {
+
+	public CellBuilderDecorator(CellBuilder delegate) {
+		super(delegate);
+	}
+
+	@Override
+	public Element build(Cell cell, boolean even) {
+		return ((CellBuilder) delegate).build(cell, even);
+	}
+
+	@Override
+	public JSONObject buildJo(Cell cell, boolean even) {
+		return ((CellBuilder) delegate).buildJo(cell, even);
+	}
 
 }

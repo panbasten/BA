@@ -1,5 +1,7 @@
 package com.flywet.platform.bi.pivot.service.intf;
 
+import org.json.simple.JSONObject;
+
 import com.flywet.platform.bi.core.exception.BIException;
 
 /**
@@ -10,6 +12,6 @@ import com.flywet.platform.bi.core.exception.BIException;
  */
 public interface BIPivotDelegates {
 
-	public void queryMdx() throws BIException;
+	public JSONObject queryMdx() throws BIException;
 
 }

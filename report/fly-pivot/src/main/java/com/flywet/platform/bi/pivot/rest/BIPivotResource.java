@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
@@ -22,6 +23,7 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.pivot.service.intf.BIPivotDelegates;
 import com.flywet.platform.bi.rest.BIBaseResource;
 
 @Service("bi.resource.pivotResource")
@@ -32,6 +34,9 @@ public class BIPivotResource extends AbstractReportResource {
 
 	@Resource(name = "bi.service.reportService")
 	private BIReportDelegates reportService;
+
+	@Resource(name = "bi.service.pivotService")
+	private BIPivotDelegates pivotService;
 
 	/**
 	 * 打开一个多维报表编辑页面
@@ -55,7 +60,10 @@ public class BIPivotResource extends AbstractReportResource {
 			TemplateMeta templateMeta = new TemplateMeta(id, doc);
 			TemplateCache.put(id, templateMeta);
 
-			return getReportPageJson(id, templateMeta).toJSONString();
+			JSONObject rtn = getReportPageJson(id, templateMeta);
+			rtn.put("table", pivotService.queryMdx());
+
+			return rtn.toJSONString();
 		} catch (Exception ex) {
 			logger.error("创建多维报表编辑页面出现错误。");
 			throw new BIException("创建多维报表编辑页面出现错误。", ex);

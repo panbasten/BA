@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.olap.model.Cell;
@@ -22,5 +23,7 @@ import com.tonbeller.jpivot.olap.model.Cell;
  * @author av
  */
 public interface CellBuilder extends PartBuilder {
-  Element build(Cell cell, boolean even);
+	Element build(Cell cell, boolean even);
+
+	JSONObject buildJo(Cell cell, boolean even);
 }

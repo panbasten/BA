@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -22,4 +23,5 @@ import org.w3c.dom.Element;
 
 public interface CornerBuilder extends PartBuilder {
   Element build(int colSpan, int rowSpan);
+  JSONObject buildJo(int colSpan, int rowSpan);
 }

@@ -4,13 +4,12 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.database.DataSourceProviderFactory;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleDatabaseException;
-import org.pentaho.di.core.xml.XMLUtils;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.flywet.platform.bi.core.exception.BIException;
@@ -36,7 +35,7 @@ public class BIPivotService implements BIPivotDelegates {
 	 * 执行一个Mdx语句
 	 */
 	@Override
-	public void queryMdx() throws BIException {
+	public JSONObject queryMdx() throws BIException {
 
 		String mdx = "select "
 				+ "{[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} on columns, "
@@ -66,10 +65,9 @@ public class BIPivotService implements BIPivotDelegates {
 					+ catalogId, om);
 			tc.initialize(context);
 
-			Document doc = tc.render(context);
+			JSONObject jo = tc.renderJo(context);
 
-			System.out.println(XMLUtils.toXMLString(doc));
-
+			return jo;
 		} catch (Exception e) {
 			throw new BIException("执行MDX查询出现错误。", e);
 		}

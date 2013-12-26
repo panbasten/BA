@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.olap.model.Member;
@@ -23,4 +24,5 @@ import com.tonbeller.jpivot.olap.model.Member;
  */
 public interface SlicerBuilder extends PartBuilder {
   Element build(Member m);
+  JSONObject buildJo(Member m);
 }

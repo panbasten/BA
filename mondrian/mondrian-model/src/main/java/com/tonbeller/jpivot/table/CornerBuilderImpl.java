@@ -10,6 +10,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -17,16 +18,25 @@ import org.w3c.dom.Element;
  * 
  * @author av
  */
-public class CornerBuilderImpl extends PartBuilderSupport implements CornerBuilder {
+public class CornerBuilderImpl extends PartBuilderSupport implements
+		CornerBuilder {
 
-  /**
-   * @see com.tonbeller.jpivot.ui.table.CornerBuilder#render(TableRenderer)
-   */
-  public Element build(int colSpan, int rowSpan) {
-    Element corner = table.elem("corner");
-    corner.setAttribute("rowspan", Integer.toString(rowSpan));
-    corner.setAttribute("colspan", Integer.toString(colSpan));
-    return corner;
-  }
+	/**
+	 * @see com.tonbeller.jpivot.ui.table.CornerBuilder#render(TableRenderer)
+	 */
+	public Element build(int colSpan, int rowSpan) {
+		Element corner = table.elem("corner");
+		corner.setAttribute("rowspan", Integer.toString(rowSpan));
+		corner.setAttribute("colspan", Integer.toString(colSpan));
+		return corner;
+	}
+
+	public JSONObject buildJo(int colSpan, int rowSpan) {
+		JSONObject corner = new JSONObject();
+		corner.put("rowspan", Integer.toString(rowSpan));
+		corner.put("colspan", Integer.toString(colSpan));
+		corner.put("_TAG", "corner");
+		return corner;
+	}
 
 }

@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONArray;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.table.span.SpanCalc;
@@ -42,6 +43,7 @@ public interface AxisBuilder extends PartBuilder {
    * @param rowIndex - index of the row to build
    */
   void buildRow(Element parent, int rowIndex);
+  void buildRowJo(JSONArray jo, int rowIndex);
 
   /**
    * @see SpanBuilder

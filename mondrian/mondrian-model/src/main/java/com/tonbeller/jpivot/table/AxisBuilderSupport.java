@@ -18,6 +18,8 @@ import java.beans.PropertyChangeListener;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.olap.model.Axis;
@@ -35,252 +37,283 @@ import com.tonbeller.wcf.controller.RequestContext;
 
 /**
  * Created on 24.10.2002
- *
+ * 
  * @author av
  */
-public abstract class AxisBuilderSupport extends PartBuilderSupport implements AxisBuilder,
-    AxisConfig, PropertyChangeListener {
+public abstract class AxisBuilderSupport extends PartBuilderSupport implements
+		AxisBuilder, AxisConfig, PropertyChangeListener {
 
-  private static final Logger logger = Logger.getLogger(AxisBuilderSupport.class);
-  
-  protected SpanCalc spanCalc;
-  protected SpanBuilder spanBuilder;
-  protected PropertySpanBuilder propertySpanBuilder;
-  protected AxisHeaderBuilder axisHeaderBuilder;
+	private static final Logger logger = Logger
+			.getLogger(AxisBuilderSupport.class);
 
-  // from AxisConfig
-  protected boolean showParentMembers = false;
-  protected boolean memberIndent = false;
-  protected int hierarchyHeader = NO_HEADER;
-  protected int memberSpan = HIERARCHY_THEN_POSITION_SPAN;
-  protected int headerSpan = HIERARCHY_THEN_POSITION_SPAN;
+	protected SpanCalc spanCalc;
+	protected SpanBuilder spanBuilder;
+	protected PropertySpanBuilder propertySpanBuilder;
+	protected AxisHeaderBuilder axisHeaderBuilder;
 
-  protected AxisBuilderSupport(SpanBuilder spanBuilder) {
-    this.spanBuilder = spanBuilder;
-  }
+	// from AxisConfig
+	protected boolean showParentMembers = false;
+	protected boolean memberIndent = false;
+	protected int hierarchyHeader = NO_HEADER;
+	protected int memberSpan = HIERARCHY_THEN_POSITION_SPAN;
+	protected int headerSpan = HIERARCHY_THEN_POSITION_SPAN;
 
-  public void initialize(RequestContext context, TableComponent table) throws Exception {
-    logger.info("initialize");
-    super.initialize(context, table);
-    spanBuilder.initialize(context, table);
-    propertySpanBuilder = new PropertySpanBuilder(table.getOlapModel());
-    propertySpanBuilder.addPropertyChangeListener(this);
-    propertySpanBuilder.initialize(context);
-    axisHeaderBuilder = new AxisHeaderBuilderSupport(spanBuilder);
-  }
+	protected AxisBuilderSupport(SpanBuilder spanBuilder) {
+		this.spanBuilder = spanBuilder;
+	}
 
-  public void destroy(HttpSession session) throws Exception {
-    logger.info("destroy");
-    propertySpanBuilder.destroy(session);
-    propertySpanBuilder = null;
-    super.destroy(session);
-  }
+	public void initialize(RequestContext context, TableComponent table)
+			throws Exception {
+		logger.info("initialize");
+		super.initialize(context, table);
+		spanBuilder.initialize(context, table);
+		propertySpanBuilder = new PropertySpanBuilder(table.getOlapModel());
+		propertySpanBuilder.addPropertyChangeListener(this);
+		propertySpanBuilder.initialize(context);
+		axisHeaderBuilder = new AxisHeaderBuilderSupport(spanBuilder);
+	}
 
-  /**
-   * called from startBuild()
-   */
-  protected void initialize(Axis axis) {
-    logger.info("initialize(Axis)");
-    if (showParentMembers) {
-      MemberTree tree = (MemberTree) table.getOlapModel().getExtension(MemberTree.ID);
-      if (tree != null) {
-        logger.info("adding LevelAxisDecorator");
-        axis = new LevelAxisDecorator(axis, tree);
-      }
-    }
-    logger.info("creating SpanCalc");
-    spanCalc = new SpanCalc(axis);
+	public void destroy(HttpSession session) throws Exception {
+		logger.info("destroy");
+		propertySpanBuilder.destroy(session);
+		propertySpanBuilder = null;
+		super.destroy(session);
+	}
 
-    SpanConfigSupport scs = new SpanConfigSupport();
-    scs.setDirection(Member.class, memberSpan);
-    scs.setDirection(Displayable.class, headerSpan);
-    spanCalc.setConfig(scs);
+	/**
+	 * called from startBuild()
+	 */
+	protected void initialize(Axis axis) {
+		logger.info("initialize(Axis)");
+		if (showParentMembers) {
+			MemberTree tree = (MemberTree) table.getOlapModel().getExtension(
+					MemberTree.ID);
+			if (tree != null) {
+				logger.info("adding LevelAxisDecorator");
+				axis = new LevelAxisDecorator(axis, tree);
+			}
+		}
+		logger.info("creating SpanCalc");
+		spanCalc = new SpanCalc(axis);
 
-    propertySpanBuilder.addPropertySpans(spanCalc);
+		SpanConfigSupport scs = new SpanConfigSupport();
+		scs.setDirection(Member.class, memberSpan);
+		scs.setDirection(Displayable.class, headerSpan);
+		spanCalc.setConfig(scs);
 
-    switch (hierarchyHeader) {
-    case HIERARCHY_HEADER:
-      spanCalc.addHierarchyHeader(new HierarchyHeaderFactory(), true);
-      break;
-    case LEVEL_HEADER:
-      spanCalc.addHierarchyHeader(new LevelHeaderFactory(), true);
-      break;
-    }
-  }
+		propertySpanBuilder.addPropertySpans(spanCalc);
 
-  /**
-   * Returns the showParentMembers.
-   * @return boolean
-   */
-  public boolean isShowParentMembers() {
-    return showParentMembers;
-  }
+		switch (hierarchyHeader) {
+		case HIERARCHY_HEADER:
+			spanCalc.addHierarchyHeader(new HierarchyHeaderFactory(), true);
+			break;
+		case LEVEL_HEADER:
+			spanCalc.addHierarchyHeader(new LevelHeaderFactory(), true);
+			break;
+		}
+	}
 
-  /**
-   * Sets the showParentMembers.
-   * @param showParentMembers The showParentMembers to set
-   */
-  public void setShowParentMembers(boolean showParentMembers) {
-    this.showParentMembers = showParentMembers;
-    setDirty(true);
-  }
+	/**
+	 * Returns the showParentMembers.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isShowParentMembers() {
+		return showParentMembers;
+	}
 
-  /**
-   * Returns the spanBuilder.
-   * @return SpanBuilder
-   */
-  public SpanBuilder getSpanBuilder() {
-    return spanBuilder;
-  }
+	/**
+	 * Sets the showParentMembers.
+	 * 
+	 * @param showParentMembers
+	 *            The showParentMembers to set
+	 */
+	public void setShowParentMembers(boolean showParentMembers) {
+		this.showParentMembers = showParentMembers;
+		setDirty(true);
+	}
 
-  /**
-   * Sets the spanBuilder.
-   * @param spanBuilder The spanBuilder to set
-   */
-  public void setSpanBuilder(SpanBuilder spanBuilder) {
-    this.spanBuilder = spanBuilder;
-    setDirty(true);
-  }
+	/**
+	 * Returns the spanBuilder.
+	 * 
+	 * @return SpanBuilder
+	 */
+	public SpanBuilder getSpanBuilder() {
+		return spanBuilder;
+	}
 
-  /**
-   * Returns the memberIndent.
-   * @return boolean
-   */
-  public boolean isMemberIndent() {
-    return memberIndent;
-  }
+	/**
+	 * Sets the spanBuilder.
+	 * 
+	 * @param spanBuilder
+	 *            The spanBuilder to set
+	 */
+	public void setSpanBuilder(SpanBuilder spanBuilder) {
+		this.spanBuilder = spanBuilder;
+		setDirty(true);
+	}
 
-  /**
-   * Sets the memberIndent.
-   * @param memberIndent The memberIndent to set
-   */
-  public void setMemberIndent(boolean memberIndent) {
-    this.memberIndent = memberIndent;
-    setDirty(true);
-  }
+	/**
+	 * Returns the memberIndent.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isMemberIndent() {
+		return memberIndent;
+	}
 
-  /**
-   * @see com.tonbeller.jpivot.ui.table.AxisBuilder#getAxisConfig()
-   */
-  public AxisConfig getAxisConfig() {
-    return this;
-  }
+	/**
+	 * Sets the memberIndent.
+	 * 
+	 * @param memberIndent
+	 *            The memberIndent to set
+	 */
+	public void setMemberIndent(boolean memberIndent) {
+		this.memberIndent = memberIndent;
+		setDirty(true);
+	}
 
-  /**
-   * Returns the headerSpan.
-   * @return int
-   */
-  public int getHeaderSpan() {
-    return headerSpan;
-  }
+	/**
+	 * @see com.tonbeller.jpivot.ui.table.AxisBuilder#getAxisConfig()
+	 */
+	public AxisConfig getAxisConfig() {
+		return this;
+	}
 
-  /**
-   * Returns the hierarchyHeader.
-   * @return int
-   */
-  public int getHierarchyHeader() {
-    return hierarchyHeader;
-  }
+	/**
+	 * Returns the headerSpan.
+	 * 
+	 * @return int
+	 */
+	public int getHeaderSpan() {
+		return headerSpan;
+	}
 
-  /**
-   * Returns the memberSpan.
-   * @return int
-   */
-  public int getMemberSpan() {
-    return memberSpan;
-  }
+	/**
+	 * Returns the hierarchyHeader.
+	 * 
+	 * @return int
+	 */
+	public int getHierarchyHeader() {
+		return hierarchyHeader;
+	}
 
-  /**
-   * Sets the headerSpan.
-   * @param headerSpan The headerSpan to set
-   */
-  public void setHeaderSpan(int headerSpan) {
-    this.headerSpan = headerSpan;
-    setDirty(true);
-  }
+	/**
+	 * Returns the memberSpan.
+	 * 
+	 * @return int
+	 */
+	public int getMemberSpan() {
+		return memberSpan;
+	}
 
-  /**
-   * Sets the hierarchyHeader.
-   * @param hierarchyHeader The hierarchyHeader to set
-   */
-  public void setHierarchyHeader(int hierarchyHeader) {
-    this.hierarchyHeader = hierarchyHeader;
-    setDirty(true);
-  }
+	/**
+	 * Sets the headerSpan.
+	 * 
+	 * @param headerSpan
+	 *            The headerSpan to set
+	 */
+	public void setHeaderSpan(int headerSpan) {
+		this.headerSpan = headerSpan;
+		setDirty(true);
+	}
 
-  /**
-   * Sets the memberSpan.
-   * @param memberSpan The memberSpan to set
-   */
-  public void setMemberSpan(int memberSpan) {
-    this.memberSpan = memberSpan;
-    setDirty(true);
-  }
+	/**
+	 * Sets the hierarchyHeader.
+	 * 
+	 * @param hierarchyHeader
+	 *            The hierarchyHeader to set
+	 */
+	public void setHierarchyHeader(int hierarchyHeader) {
+		this.hierarchyHeader = hierarchyHeader;
+		setDirty(true);
+	}
 
-  /** 
-   * returns the row/column axis or null if result is 
-   * 1- or 0-dimensional 
-   */
-  protected abstract Axis getAxis();
+	/**
+	 * Sets the memberSpan.
+	 * 
+	 * @param memberSpan
+	 *            The memberSpan to set
+	 */
+	public void setMemberSpan(int memberSpan) {
+		this.memberSpan = memberSpan;
+		setDirty(true);
+	}
 
-  public void startBuild(RequestContext context) {
-    Axis axis = getAxis();
-    if (axis != null)
-      initialize(axis);
-    super.startBuild(context);
-    spanBuilder.startBuild(context);
-  }
+	/**
+	 * returns the row/column axis or null if result is 1- or 0-dimensional
+	 */
+	protected abstract Axis getAxis();
 
-  public void stopBuild() {
-    spanBuilder.stopBuild();
-    super.stopBuild();
-    // avoid memory leak
-    spanCalc = null;
-  }
+	public void startBuild(RequestContext context) {
+		Axis axis = getAxis();
+		if (axis != null)
+			initialize(axis);
+		super.startBuild(context);
+		spanBuilder.startBuild(context);
+	}
 
-  /**
-   * only valid between startBuild() and stopBuild()
-   */
-  public SpanCalc getSpanCalc() {
-    return spanCalc;
-  }
+	public void stopBuild() {
+		spanBuilder.stopBuild();
+		super.stopBuild();
+		// avoid memory leak
+		spanCalc = null;
+	}
 
-  /**
-   * builds a single cell of the axis.
-   * @param row
-   */
-  protected void buildHeading(Element row, Span span, int rowspan, int colspan, boolean even) {
-    axisHeaderBuilder.build(row, span, rowspan, colspan, even, isMemberIndent());
-  }
+	/**
+	 * only valid between startBuild() and stopBuild()
+	 */
+	public SpanCalc getSpanCalc() {
+		return spanCalc;
+	}
 
-  public PropertyConfig getPropertyConfig() {
-    return propertySpanBuilder;
-  }
+	/**
+	 * builds a single cell of the axis.
+	 * 
+	 * @param row
+	 */
+	protected void buildHeading(Element row, Span span, int rowspan,
+			int colspan, boolean even) {
+		axisHeaderBuilder.build(row, span, rowspan, colspan, even,
+				isMemberIndent());
+	}
 
-  public void propertyChange(PropertyChangeEvent evt) {
-    setDirty(true);
-  }
+	protected Object[] buildHeadingJo(Span span, int rowspan, int colspan,
+			boolean even) {
+		return axisHeaderBuilder.buildJo(span, rowspan, colspan, even,
+				isMemberIndent());
+	}
 
-  /**
-   * stores settings for Member Properties. The axis style is stored in the AxisStyleUI table extension 
-   */
-  public Object retrieveBookmarkState(int levelOfDetail) {
-    return getPropertyConfig().retrieveBookmarkState(levelOfDetail);
-  }
+	public PropertyConfig getPropertyConfig() {
+		return propertySpanBuilder;
+	}
 
-  /**
-   * restores settings for Member Properties. The axis style is stored in the AxisStyleUI table extension 
-   */
-  public void setBookmarkState(Object state) {
-    getPropertyConfig().setBookmarkState(state);
-  }
+	public void propertyChange(PropertyChangeEvent evt) {
+		setDirty(true);
+	}
 
-  public AxisHeaderBuilder getAxisHeaderBuilder() {
-    return axisHeaderBuilder;
-  }
+	/**
+	 * stores settings for Member Properties. The axis style is stored in the
+	 * AxisStyleUI table extension
+	 */
+	public Object retrieveBookmarkState(int levelOfDetail) {
+		return getPropertyConfig().retrieveBookmarkState(levelOfDetail);
+	}
 
-  public void setAxisHeaderBuilder(AxisHeaderBuilder axisHeaderBuilder) {
-    this.axisHeaderBuilder = axisHeaderBuilder;
-  }
+	/**
+	 * restores settings for Member Properties. The axis style is stored in the
+	 * AxisStyleUI table extension
+	 */
+	public void setBookmarkState(Object state) {
+		getPropertyConfig().setBookmarkState(state);
+	}
+
+	public AxisHeaderBuilder getAxisHeaderBuilder() {
+		return axisHeaderBuilder;
+	}
+
+	public void setAxisHeaderBuilder(AxisHeaderBuilder axisHeaderBuilder) {
+		this.axisHeaderBuilder = axisHeaderBuilder;
+	}
 
 }

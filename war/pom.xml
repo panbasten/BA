@@ -353,6 +353,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.flywet.platform.mondrian</groupId>
+			<artifactId>mondrian-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flywet.platform.mondrian</groupId>
 			<artifactId>mondrian-steps</artifactId>
 			<version>${project.version}</version>
 		</dependency>

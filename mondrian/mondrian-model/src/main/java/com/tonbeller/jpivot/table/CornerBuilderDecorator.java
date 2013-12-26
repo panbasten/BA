@@ -12,6 +12,7 @@
  */
 package com.tonbeller.jpivot.table;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -19,20 +20,25 @@ import org.w3c.dom.Element;
  * 
  * @author av
  */
-public abstract class CornerBuilderDecorator extends PartBuilderDecorator implements CornerBuilder {
-  
-  /**
-   * Constructor for CornderElementRendererDecorator.
-   */
-  public CornerBuilderDecorator(CornerBuilder delegate) {
-    super(delegate);
-  }
+public abstract class CornerBuilderDecorator extends PartBuilderDecorator
+		implements CornerBuilder {
 
-  /**
-   * @see com.tonbeller.jpivot.ui.table.CornerBuilder#render(TableRenderer)
-   */
-  public Element build(int colSpan, int rowSpan) {
-    return ((CornerBuilder)delegate).build(colSpan, rowSpan);
-  }
+	/**
+	 * Constructor for CornderElementRendererDecorator.
+	 */
+	public CornerBuilderDecorator(CornerBuilder delegate) {
+		super(delegate);
+	}
+
+	/**
+	 * @see com.tonbeller.jpivot.ui.table.CornerBuilder#render(TableRenderer)
+	 */
+	public Element build(int colSpan, int rowSpan) {
+		return ((CornerBuilder) delegate).build(colSpan, rowSpan);
+	}
+
+	public JSONObject buildJo(int colSpan, int rowSpan) {
+		return ((CornerBuilder) delegate).buildJo(colSpan, rowSpan);
+	}
 
 }

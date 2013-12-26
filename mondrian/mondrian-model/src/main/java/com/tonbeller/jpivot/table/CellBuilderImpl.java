@@ -13,6 +13,7 @@
 package com.tonbeller.jpivot.table;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.w3c.dom.Element;
 
 import com.tonbeller.jpivot.olap.model.Cell;
@@ -26,35 +27,66 @@ import com.tonbeller.jpivot.table.span.PropertyUtils;
  */
 public class CellBuilderImpl extends PartBuilderSupport implements CellBuilder {
 
-  private static final Logger logger = Logger.getLogger(CellBuilderImpl.class);
-  private static final String STYLE = "style";
-  private static final String NBSP = "\u00a0";
-  /**
-   * renders DOM element of cell
-   */
-  public Element build(Cell cell, boolean even) {
-    Element cellElem = table.elem("cell");
-    String s = cell.isNull() ? NBSP : cell.getFormattedValue();
-    s = s.trim();
-    if (s.length() == 0)
-      s = NBSP;
-    cellElem.setAttribute("value", s);
-    if (logger.isDebugEnabled())
-      logger.debug("building cell " + s);
+	private static final Logger logger = Logger
+			.getLogger(CellBuilderImpl.class);
+	private static final String STYLE = "style";
+	private static final String NBSP = "\u00a0";
 
-    PropertyUtils.addProperties(cellElem, cell.getProperties());
-    Property style = cell.getProperty(STYLE);
-    if (style != null) {
-      String value = style.getValue();
-      if (value != null && value.length() > 0)
-        cellElem.setAttribute(STYLE, value);
-      else
-        cellElem.setAttribute(STYLE, even ? "even" : "odd");
-    }
-    else 
-      cellElem.setAttribute(STYLE, even ? "even" : "odd");
+	/**
+	 * renders DOM element of cell
+	 */
+	@Override
+	public Element build(Cell cell, boolean even) {
+		Element cellElem = table.elem("cell");
+		String s = cell.isNull() ? NBSP : cell.getFormattedValue();
+		s = s.trim();
+		if (s.length() == 0)
+			s = NBSP;
+		cellElem.setAttribute("value", s);
+		if (logger.isDebugEnabled())
+			logger.debug("building cell " + s);
 
-    return cellElem;
-  }
+		PropertyUtils.addProperties(cellElem, cell.getProperties());
+		Property style = cell.getProperty(STYLE);
+		if (style != null) {
+			String value = style.getValue();
+			if (value != null && value.length() > 0)
+				cellElem.setAttribute(STYLE, value);
+			else
+				cellElem.setAttribute(STYLE, even ? "even" : "odd");
+		} else
+			cellElem.setAttribute(STYLE, even ? "even" : "odd");
 
+		return cellElem;
+	}
+
+	/**
+	 * renders JSONObject of cell
+	 */
+	@Override
+	public JSONObject buildJo(Cell cell, boolean even) {
+		// Element cellElem = table.elem("cell");
+		JSONObject cellJo = new JSONObject();
+		cellJo.put("__TAG", "cell");
+		String s = cell.isNull() ? NBSP : cell.getFormattedValue();
+		s = s.trim();
+		if (s.length() == 0)
+			s = NBSP;
+		cellJo.put("value", s);
+		if (logger.isDebugEnabled())
+			logger.debug("building cell " + s);
+
+		PropertyUtils.addProperties(cellJo, cell.getProperties());
+		Property style = cell.getProperty(STYLE);
+		if (style != null) {
+			String value = style.getValue();
+			if (value != null && value.length() > 0)
+				cellJo.put(STYLE, value);
+			else
+				cellJo.put(STYLE, even ? "even" : "odd");
+		} else
+			cellJo.put(STYLE, even ? "even" : "odd");
+
+		return cellJo;
+	}
 }
