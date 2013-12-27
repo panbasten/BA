@@ -60,6 +60,9 @@
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/browsePanel/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
+		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/colorpicker/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
+		                                </copy>
+		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">
 		                                    <fileset dir="${basedir}/src/main/webapp/resources/libs/dialog/images" includes="**/*" excludes="**/.svn, **/.svn/**, **/*.psd" />
 		                                </copy>
 		                                <copy todir="${project.build.directory}/${project.build.finalName}/resources/images" overwrite="true">

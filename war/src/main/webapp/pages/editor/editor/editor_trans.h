@@ -49,7 +49,7 @@
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix">
 		</div>
 	</div>
-	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top">
+	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top fly-editor-side-bar-only">
 		<div id="${editorId}ThumbPanel" class="ui-widget-panel">
 			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
 				<div class="ui-toolbar-group-left">缩略图</div>
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div id="${editorId}DSPanel" class="ui-widget-panel">
-			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+			<div class="ui-widget-header ui-helper-clearfix ui-corner-top fly-editor-side-bar-only">
 				<div class="ui-toolbar-group-left">数据源</div>
 				<div class="ui-toolbar-group-right">
 					<span id="${editorId}DSClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('dsPane');"></span>
