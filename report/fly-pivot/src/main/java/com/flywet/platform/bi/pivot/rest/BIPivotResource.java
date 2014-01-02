@@ -9,12 +9,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.xml.XMLHandler;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
-import com.flywet.platform.bi.base.cache.TemplateCache;
 import com.flywet.platform.bi.base.enums.BIReportCategory;
-import com.flywet.platform.bi.base.model.TemplateMeta;
 import com.flywet.platform.bi.base.rest.AbstractReportResource;
 import com.flywet.platform.bi.base.service.intf.BIReportDelegates;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
@@ -23,6 +23,9 @@ import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.pivot.cache.BIPivotReportCache;
+import com.flywet.platform.bi.pivot.model.PivotReport;
+import com.flywet.platform.bi.pivot.model.factory.PivotReportFactory;
 import com.flywet.platform.bi.pivot.service.intf.BIPivotDelegates;
 import com.flywet.platform.bi.rest.BIBaseResource;
 
@@ -51,17 +54,22 @@ public class BIPivotResource extends AbstractReportResource {
 	public String openPivotEditor(@PathParam("id") String id)
 			throws BIException {
 		try {
-			// 获得报表对象
-			Object[] report = reportService.getReportObject(Long.valueOf(id));
-			Document doc = PageTemplateInterpolator
-					.getDomWithContent((String) report[1]);
 
-			// 保留编辑状态，对于集群应用需要使用共享缓存
-			TemplateMeta templateMeta = new TemplateMeta(id, doc);
-			TemplateCache.put(id, templateMeta);
+			PivotReport pr = BIPivotReportCache.getPivotReportEditor(Long
+					.valueOf(id));
 
-			JSONObject rtn = getReportPageJson(id, templateMeta);
-			rtn.put("table", pivotService.queryMdx());
+			if (pr == null) {
+				// 获得报表对象
+				Object[] report = reportService.getReportObject(Long
+						.valueOf(id));
+				Document doc = PageTemplateInterpolator
+						.getDomWithContent((String) report[1]);
+				Node prNode = XMLHandler.getSubNode(doc, "PivotReport");
+
+				pr = PivotReportFactory.resolver(prNode);
+			}
+
+			JSONObject rtn = pivotService.query(pr);
 
 			return rtn.toJSONString();
 		} catch (Exception ex) {

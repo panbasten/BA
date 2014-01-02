@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by sayjsp.com (wonsan) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="PivotReport">
+		<xs:annotation>
+			<xs:documentation>透视报表模型</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="StartPosition" type="PositionType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>报表开始位置</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Region" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StartPosition" type="PositionType" minOccurs="0"/>
+							<xs:group ref="RegionObject"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="required"/>
+						<xs:attribute name="annotation" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="infiniteTable" type="xs:boolean" default="true">
+				<xs:annotation>
+					<xs:documentation>是否是无限扩展表</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="annotation" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="RegionData">
+		<xs:annotation>
+			<xs:documentation>报表区域的数据</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="PivotData" minOccurs="0"/>
+			<xs:element ref="NormalData" minOccurs="0"/>
+			<xs:element ref="DynaRelationData" minOccurs="0"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="RegionObject">
+		<xs:annotation>
+			<xs:documentation>报表区域对象</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="TableRegion"/>
+			<xs:element ref="BarRegion"/>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="Row" mixed="true">
+		<xs:annotation>
+			<xs:documentation>行结果集</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="index" type="xs:long"/>
+	</xs:complexType>
+	<xs:complexType name="PositionType">
+		<xs:annotation>
+			<xs:documentation>位置类型</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="x" type="xs:int" default="0"/>
+		<xs:attribute name="y" type="xs:int" default="0"/>
+	</xs:complexType>
+	<xs:element name="PivotData">
+		<xs:annotation>
+			<xs:documentation>多维数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="mdx" type="xs:string" minOccurs="0"/>
+				<xs:element name="catalog" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="databaseMetaId" type="xs:long"/>
+			<xs:attribute name="catalogId" type="xs:long"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NormalData">
+		<xs:annotation>
+			<xs:documentation>通用数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="row" type="Row"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TableRegion">
+		<xs:annotation>
+			<xs:documentation>表区域</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="RegionData"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BarRegion">
+		<xs:annotation>
+			<xs:documentation>柱状图区域</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="RegionData"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DynaRelationData">
+		<xs:annotation>
+			<xs:documentation>动态依赖数据</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>
