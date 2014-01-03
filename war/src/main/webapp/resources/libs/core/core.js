@@ -554,6 +554,13 @@ Flywet = {
 		return str.replace(new RegExp("\r\n","gm"),"<br>");
 	},
 	
+	trimEmpty : function (str){
+		if(typeof(str)=='undefined'||typeof(str)!='string'||str==null){
+			return "";
+		}
+		return str;
+	},
+	
 	/**
 	 * 字符串是否为空
 	 * 
@@ -569,13 +576,6 @@ Flywet = {
 		}
 		return false;		
 		
-	},
-	
-	trimEmpty : function (str){
-		if(typeof(str)=='undefined'||typeof(str)!='string'||str==null){
-			return "";
-		}
-		return str;
 	},
 	
 	/**
@@ -603,6 +603,46 @@ Flywet = {
 			return false;
 		}
 		return true;
+	},
+	
+	/**
+	 * 检查字符串
+	 * 
+	 * @param {Object}
+	 *            s
+	 */
+	isString : function (s) {
+		return typeof s === 'string';
+	},
+
+	/**
+	 * 检查对象
+	 * 
+	 * @param {Object}
+	 *            obj
+	 */
+	isObject : function (obj) {
+		return typeof obj === 'object';
+	},
+
+	/**
+	 * 检查数组
+	 * 
+	 * @param {Object}
+	 *            obj
+	 */
+	isArray : function (obj) {
+		return Object.prototype.toString.call(obj) === '[object Array]';
+	},
+
+	/**
+	 * 检查数字
+	 * 
+	 * @param {Object}
+	 *            n
+	 */
+	isNumber : function (n) {
+		return typeof n === 'number';
 	},
 	
 	/**

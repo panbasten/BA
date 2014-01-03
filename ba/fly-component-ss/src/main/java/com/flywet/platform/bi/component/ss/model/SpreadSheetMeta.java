@@ -13,14 +13,15 @@ import com.flywet.platform.bi.core.exception.BIJSONException;
 public class SpreadSheetMeta extends ComplexComponentMeta implements
 		ComponentMetaInterface {
 
-	// 当前表格页面宽度
-	public static final String GLOBLE_PROP_PAGE_WIDTH = "g_pageWidth";
+	// 自定义表格页面尺寸
+	private Integer width;
+	private Integer height;
 
-	// 当前表格页面高度
-	public static final String GLOBLE_PROP_PAGE_HEIGHT = "g_pageHeight";
+	// 是否显示
+	private Boolean show;
 
-	private Integer pageWidth;
-	private Integer pageHeight;
+	// 是否自适应大小
+	private Boolean fit;
 
 	// 工作薄
 	private Workbook workbook;
@@ -39,30 +40,50 @@ public class SpreadSheetMeta extends ComplexComponentMeta implements
 		this.addExtendAttributes(custGlobleAttributes);
 
 		JSONObject jo = super.getFormJo();
-		if (pageWidth != null)
-			jo.put("pageWidth", pageWidth);
-		if (pageHeight != null)
-			jo.put("pageHeight", pageHeight);
+		if (width != null)
+			jo.put("width", width);
+		if (height != null)
+			jo.put("height", height);
+		if (show != null)
+			jo.put("show", show);
+		if (fit != null)
+			jo.put("fit", fit);
 		if (workbook != null)
 			jo.put("workbook", workbook.toJSONObject());
-		
+
 		return jo;
 	}
 
-	public int getPageWidth() {
-		return pageWidth;
+	public Integer getWidth() {
+		return width;
 	}
 
-	public void setPageWidth(int pageWidth) {
-		this.pageWidth = pageWidth;
+	public void setWidth(int width) {
+		this.width = width;
 	}
 
-	public int getPageHeight() {
-		return pageHeight;
+	public Integer getHeight() {
+		return height;
 	}
 
-	public void setPageHeight(int pageHeight) {
-		this.pageHeight = pageHeight;
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public Boolean getShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
+	}
+
+	public Boolean getFit() {
+		return fit;
+	}
+
+	public void setFit(boolean fit) {
+		this.fit = fit;
 	}
 
 	public void putGlobleAttr(String key, Object val) {

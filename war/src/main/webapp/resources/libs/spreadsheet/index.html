@@ -30,7 +30,23 @@
         
         <script>
         $(document).ready( function() {
-        	var cfg = {};
+        	var cfg = {
+                width: 800
+                ,height: 600
+
+                ,offsetCellNumber: 0
+
+                ,sheet: [
+                 	{
+                 		colNum: 100
+                        ,rowNum: 150
+                        ,showColHead: false
+                		,showRowHead: false
+                    },
+                    {}
+                 ]
+                
+            };
         	$("#workspace").spreadsheet(cfg);
         });
         </script>
