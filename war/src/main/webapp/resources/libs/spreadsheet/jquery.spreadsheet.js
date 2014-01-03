@@ -746,10 +746,12 @@
 		}
 		ridx--;
 		
+		ridx = Math.max(0,ridx);
+		
 		return {
 			ridx : ridx
-			,neer : (Math.abs(ty)<=2 || (_getRowHeight(sheetOpts, ridx)+ty)<=2)
-		}
+			,neer : (ridx!=0) && (Math.abs(ty)<=2 || (_getRowHeight(sheetOpts, ridx)+ty)<=2)
+		};
 	}
 	
 	// 获得鼠标点击位置的列坐标
@@ -763,10 +765,12 @@
 		}
 		cidx--;
 		
+		cidx = Math.max(0,cidx);
+		
 		return {
 			cidx : cidx
-			,neer : (Math.abs(tx)<=2 || (_getColWidth(sheetOpts, cidx)+tx)<=2)
-		}
+			,neer : (cidx!=0) && (Math.abs(tx)<=2 || (_getColWidth(sheetOpts, cidx)+tx)<=2)
+		};
 	}
 	
 	// 获得鼠标点击位置的Cell坐标
@@ -782,9 +786,10 @@
 			ty = ty - _getRowHeight(sheetOpts, ridx);
 			ridx++;
 		}
+		
 		return {
-			ridx : (ridx-1)
-			,cidx : (cidx-1)
+			ridx : Math.max(0,(ridx-1))
+			,cidx : Math.max(0,(cidx-1))
 		};
 	}
 	
@@ -1334,7 +1339,6 @@
 
 
 Flywet.widget.SpreadSheet = function(cfg){
-	console.log(cfg);
 	this.cfg = cfg;
 	this.id = this.cfg.id;
 	
