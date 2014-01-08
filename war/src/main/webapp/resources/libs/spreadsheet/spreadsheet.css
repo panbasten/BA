@@ -12,6 +12,140 @@
 	float: right;
 }
 
+.ui-spreadsheet-toolbar .ui-button {
+	width: 1em;
+	border-radius: 0;
+}
+
+.ui-spreadsheet-toolbar {
+	background-color: #fff;
+    background-image: none;
+    border-color: #e5ebf3;
+    float: left;
+}	
+
+.ui-spreadsheet-toolbar .ui-button .ui-icon {
+	margin-top: -10px;
+}
+
+.ui-spreadsheet-toolbar-innerCt {
+	width: 65px;
+	height: 16px;
+}
+
+.ui-spreadsheet-tabpanel {
+	float: left;
+}
+
+.ui-spreadsheet-tabpanel-item {
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	-o-border-top-left-radius: 0;
+	-ms-border-top-left-radius: 0;
+	-khtml-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	-o-border-top-right-radius: 0;
+	-ms-border-top-right-radius: 0;
+	-khtml-border-top-right-radius: 0;
+	border-top-right-radius: 0;
+	-moz-border-radius-bottomright: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-o-border-bottom-right-radius: 4px;
+	-ms-border-bottom-right-radius: 4px;
+	-khtml-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-o-border-bottom-left-radius: 4px;
+	-ms-border-bottom-left-radius: 4px;
+	-khtml-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	
+	
+	border-top: 1px solid #bbb !important;
+	-moz-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+	-webkit-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+	-o-box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+	box-shadow: white 0 -1px 0 0 inset, white -1px 0 0 0 inset, white 1px 0 0 0 inset;
+	
+	height: 18px;
+	margin: 0 0 0 2px;
+	padding: 0 3px 3px 3px;
+	border-width: 0 1px 1px 1px;
+	border-style: solid;
+	border-color: #b3b3b3;
+	
+	background-color: #e8e8e8;
+	
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.ui-spreadsheet-tab-active {
+	background-image: none;
+	background-color: white;
+	border-top-color: white !important;
+}
+
+.ui-spreadsheet-tab-active em button {
+	color: #7e939b;
+    font-weight: bold;
+    height: 12px;
+    cursor: default !important;
+}
+
+.ui-spreadsheet-tabpanel-innerCt {
+	
+}
+
+.ui-spreadsheet-tabpanel-item em {
+	padding: 0 6px;
+	line-height: 1px;
+	padding: 1px 0 0 0;
+	text-align: center;
+}
+
+.ui-spreadsheet-tabpanel button {
+	height: 13px;
+    line-height: 13px;
+    
+    background: 0;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	-webkit-appearance: none;
+	font-size: 12px;
+	font-weight: normal;
+	color: #6d6d6d;
+	outline: 0 none;
+	
+	cursor: pointer;
+}
+
+.ui-spreadsheet-tabpanel button .ui-spreadsheet-tab-inner {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0 -2px;
+	display: block;
+	text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	position: relative;
+	top: -2px;
+}
+
+.x-border-box,
+.x-border-box * {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+}
+
 .x-border-box .ui-spreadsheet-sheets,
 .x-border-box .ui-spreadsheet-sheets *
 {

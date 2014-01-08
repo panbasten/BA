@@ -4,10 +4,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>spreadsheet</title>
         <link rel="stylesheet" type="text/css" href="../../styles/themes/aristo/theme.css">
+        <link rel="stylesheet" type="text/css" href="../core/core.css">
         <link rel="stylesheet" type="text/css" href="spreadsheet.css">
         <script type="text/javascript" src="../jquery/jquery.js">
         </script>
         <script type="text/javascript" src="../core/core.js">
+        </script>
+        <script type="text/javascript" src="../button/button.js">
         </script>
         <script type="text/javascript" src="jquery.spreadsheet.js">
         </script>
@@ -36,14 +39,22 @@
 
                 ,offsetCellNumber: 0
 
+                ,s_src : "../../images/default/s.gif"
+
                 ,sheet: [
                  	{
-                 		colNum: 100
-                        ,rowNum: 150
-                        ,showColHead: true
+                     	sheetName: "测试Sheet1"
+                 		,colNum: 20
+                        ,rowNum: 30
+                        ,showColHead: false
                 		,showRowHead: false
-                    },
-                    {}
+                    }
+                    ,{
+                    	sheetName: "测试Sheet2"
+                    }
+                    ,{
+                    	sheetName: "测试Sheet3"
+                    }
                  ]
                 
             };

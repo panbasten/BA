@@ -86,11 +86,60 @@
 		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
 		
 		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(parent);
+		
+		vsOC_slider.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var pos = Flywet.getMousePosition(e);
+			
+			opts.vscrollHold = true;
+			opts.scrollStartPosition = pos;
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mousemove(function(e){
+			
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts.scrollStartPosition,pos);
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts.scrollStartPosition,pos);
+				opts.vscrollHold = false;
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		});
+		
+		
 		vsOC.hide();
 		vs1OC.hide();
 		return [vsOC,vs1OC];
 	}
 	
+	// 移动横向滚动条
+	function _moveHs(target,startPos,endPos){
+		console.log("_moveHs");
+	}
+	
+	// 移动纵向滚动条
+	function _moveVs(target,startPos,endPos){
+		console.log("_moveVs");
+	}
+	
+	// 横向滚动条
 	function _initHsOC(target,parent,opts){
 		var hs1OC = _div("ui-spreadsheet-hsOC ui-spreadsheet-hs1OC").appendTo(parent);
 		
@@ -106,6 +155,42 @@
 		$("<img class=\"ui-spreadsheet-hscroll-right\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
 		
 		$("<div class=\"x-resizable-handle x-resizable-handle-west x-unselectable\" style=\"-moz-user-select: none; opacity: 0;\"></div>").appendTo(hsOC);
+		
+		hsOC_slider.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var pos = Flywet.getMousePosition(e);
+			
+			opts.hscrollHold = true;
+			opts.scrollStartPosition = pos;
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mousemove(function(e){
+			
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts.scrollStartPosition,pos);
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts.scrollStartPosition,pos);
+				opts.hscrollHold = false;
+			}
+			
+			e.stopPropagation();
+            e.preventDefault();
+		});
 		
 		hsOC.hide();
 		hs1OC.hide();
@@ -283,6 +368,18 @@
 				_showRange(opts.rangeStartPosition,cpos);
 			}
 			
+			// 如果横向滚动条hold
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts.scrollStartPosition,pos);
+			}
+			
+			// 如果纵向滚动条hold
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts.scrollStartPosition,pos);
+			}
+			
 			e.stopPropagation();
             e.preventDefault();
 		})
@@ -307,6 +404,20 @@
 				opts.rangeHold = false;
 				
 				_showRange(opts.rangeStartPosition,cpos);
+			}
+			
+			// 如果横向滚动条hold
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts.scrollStartPosition,pos);
+				opts.hscrollHold = false;
+			}
+			
+			// 如果纵向滚动条hold
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts.scrollStartPosition,pos);
+				opts.vscrollHold = false;
 			}
 			
 			e.stopPropagation();
@@ -853,10 +964,59 @@
 	function _initSelector(target,parent,opts){
 		var selector = _div("ui-spreadsheet-sheetSelectorOC").appendTo(parent);
 		var selectorTB = _div("ui-spreadsheet-sheetSelectorTB").appendTo(selector);
-		var selectorTB = _div("ui-spreadsheet-sheetSelectorIC").appendTo(selector);
+		_initToolbar(target,selectorTB,opts);
+		
+		var selectorIC = _div("ui-spreadsheet-sheetSelectorIC").appendTo(selector);
+		_initSelectorPane(target,selectorIC,opts);
 		
 		selector.hide();
+		
 		return selector;
+	}
+	
+	// selectorPane
+	function _initSelectorPane(target,parent,opts){
+		var tabpanel = _div("ui-spreadsheet-tabpanel").appendTo(parent);
+		var tabpanelCt = _div("ui-spreadsheet-tabpanel-innerCt").appendTo(tabpanel);
+		
+		for(var i=0;i<opts.sheet.length;i++){
+			_initSelectorItem(target,tabpanelCt,opts.sheet[i],(i==opts.currentSheetIndex));
+		}
+		
+	}
+	
+	// selector item
+	function _initSelectorItem(target,parent,sheetOpts,selected){
+		var sheet = $("<div class='ui-spreadsheet-tabpanel-item'><em><button type='button'><span class='ui-spreadsheet-tab-inner'>"+sheetOpts.sheetName+"</span></button></em></div>");
+		if(selected){
+			sheet.addClass("ui-spreadsheet-tab-active");
+		}
+		sheet.appendTo(parent);
+	}
+	
+	// toolbar
+	function _initToolbar(target,parent,opts){
+		var toolbar = _div("ui-spreadsheet-toolbar").appendTo(parent);
+		var toolbarInnerCt = _div("ui-spreadsheet-toolbar-innerCt x-box-inner").appendTo(toolbar);
+		
+		var btns = [{
+    		componentType : "fly:PushButton",
+    		type : "button",
+    		iconCls : "ui-icon-triangle-2-w-w"
+    	},{
+    		componentType : "fly:PushButton",
+    		type : "button",
+    		iconCls : "ui-icon-triangle-1-w"
+    	},{
+    		componentType : "fly:PushButton",
+    		type : "button",
+    		iconCls : "ui-icon-triangle-1-e"
+    	},{
+    		componentType : "fly:PushButton",
+    		type : "button",
+    		iconCls : "ui-icon-triangle-2-e-e"
+    	}];
+		Flywet.autocw(btns,toolbarInnerCt);
 	}
 	
 	function _init(target){
@@ -900,9 +1060,9 @@
 			,book : book
 			,vs : vs
 			,sheets : sheets
-			,br : br
 			,selector : selector
 			,hs : hs
+			,br : br
 		};
 	}
 	
@@ -973,13 +1133,17 @@
 		// 对于只有一个sheet的情况，可以判断滚动条是否显示，如果多于1个sheet，则必须显示滚动条
 		if(_getSheetNum(opts)==1){
 			var sheetOpts = opts.sheet[0];
-			// 判断是否显示滚动条 TODO 方法不对，应该根据高度判断
-//			if(sheetOpts.colNum > pos.cidx){
-//				opts.showHScroll = true;
-//			}
-//			if(sheetOpts.rowNum > pos.ridx){
-//				opts.showVScroll = true;
-//			}
+			// 判断是否显示滚动条 ,根据高度判断
+			var allColsWidth = _getColsWidth(sheetOpts,0,(sheetOpts.colNum-1)),
+				paneWidth = _getPaneWidth(opts,sheetOpts),
+				allRowsHeight = _getRowsHeight(sheetOpts,0,(sheetOpts.rowNum-1)),
+				paneHeight = _getPaneHeight(opts,sheetOpts);
+			if(allColsWidth > paneWidth){
+				opts.showHScroll = true;
+			}
+			if(allRowsHeight > paneHeight){
+				opts.showVScroll = true;
+			}
 		}	
 	}
 	
@@ -1070,7 +1234,7 @@
 		var ss = $.data(target, "spreadsheet"),
 			opts = ss.options,
 			sheetOpts = _getCurrentSheetOpts(opts),
-			w = opts.hscrollWidth;
+			w = opts.hscrollWidth - 2;
 		
 		var bgW = (w-opts.vscrollWidth*2),
 			paneW = _getPaneWidth(opts,sheetOpts),
@@ -1186,7 +1350,7 @@
 	
 	$.fn.spreadsheet = function(options, param) {
 		if(typeof options == "string"){
-			return $.fn.pushbutton.methods[options](this, param);
+			return $.fn.spreadsheet.methods[options](this, param);
 		}
 		options = options || {};
 		return this.each(function() {
@@ -1306,12 +1470,15 @@
 		
 		,vscrollWidth: 17	// 纵向滚动条宽
 		,vscrollHeight: 0	// 纵向滚动条高
-		,hscrollHeight: 17	// 横向滚动条高
+		,hscrollHeight: 19	// 横向滚动条高
 		,hscrollWidth: 0	// 横向滚动条宽
 		
 		// 是否显示滚动条，不能设置，由程序自己控制
 //		,showHScroll: false 
 //		,showVScroll: false
+		
+		,hscrollHold : false // 横向滚动条是否hold住
+		,vscrollHold : false // 纵向滚动条是否hold住
 		
 		,offsetCellNumber: 3
 		,currentSheetIndex: 0

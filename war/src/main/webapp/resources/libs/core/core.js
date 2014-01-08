@@ -305,9 +305,13 @@ Flywet = {
 	getMousePosition: function(e,target){
 		var x = e.pageX,
 		    y = e.pageY,
-			$E = $(target),
-		    top = $E.offset().top,
+		    top = 0,
+		    left = 0;
+		if(target){
+			var $E = $(target);
+		    top = $E.offset().top;
 		    left = $E.offset().left;
+		}
 
 	    x = x - left;
 	    y = y - top;
