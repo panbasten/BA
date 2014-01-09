@@ -87,6 +87,33 @@
 		
 		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(parent);
 		
+		vsOC_bg.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			opts.vscrollHold = false;
+			
+			// TODO 单击
+			
+		})
+		.mousemove(function(e){
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts,opts.scrollStartPosition,pos);
+			}
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts,opts.scrollStartPosition,pos);
+			}
+			
+			opts.vscrollHold = false;
+		});
+		
 		vsOC_slider.mousedown(function(e){
 			// 确保是鼠标左键
 			if (e.which != 1) {return;}
@@ -167,6 +194,33 @@
 		$("<img class=\"ui-spreadsheet-hscroll-right\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
 		
 		$("<div class=\"x-resizable-handle x-resizable-handle-west x-unselectable\" style=\"-moz-user-select: none; opacity: 0;\"></div>").appendTo(hsOC);
+		
+		hsOC_bg.mousedown(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			opts.hscrollHold = false;
+			
+			// TODO 单击
+			
+		})
+		.mousemove(function(e){
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts,opts.scrollStartPosition,pos);
+			}
+		})
+		.mouseup(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts,opts.scrollStartPosition,pos);
+			}
+			
+			opts.hscrollHold = false;
+		});
 		
 		hsOC_slider.mousedown(function(e){
 			// 确保是鼠标左键
@@ -443,11 +497,13 @@
 		
 		// 列头事件
 		if(sheetOpts.showColHead){
-			colHdrs.mousedown(function(e){
+			var colHdrsIC = colHdrs.find(".ui-spreadsheet-gridColHdrsIC");
+			
+			colHdrsIC.mousedown(function(e){
 				// 确保是鼠标左键
 				if (e.which != 1) {return;}
 				
-				var pos = Flywet.getMousePosition(e,colHdrs);
+				var pos = Flywet.getMousePosition(e,colHdrsIC);
 				var cpos = _getColPositionByCoors(target,pos);
 				
 				if(cpos.neer){
@@ -458,7 +514,7 @@
 				}
 			})
 			.mousemove(function(e){
-				var pos = Flywet.getMousePosition(e,colHdrs);
+				var pos = Flywet.getMousePosition(e,colHdrsIC);
 				var cpos = _getColPositionByCoors(target,pos);
 				
 				if(opts.colHeadHold){
@@ -476,7 +532,7 @@
 				// 确保是鼠标左键
 				if (e.which != 1) {return;}
 				
-				var pos = Flywet.getMousePosition(e,colHdrs);
+				var pos = Flywet.getMousePosition(e,colHdrsIC);
 				var cpos = _getColPositionByCoors(target,pos);
 				
 				if(opts.colHeadHold){
@@ -494,11 +550,13 @@
 		
 		// 行头事件
 		if(sheetOpts.showRowHead){
-			rowHdrs.mousedown(function(e){
+			var rowHdrsIC = rowHdrs.find(".ui-spreadsheet-gridRowHdrsIC");
+			
+			rowHdrsIC.mousedown(function(e){
 				// 确保是鼠标左键
 				if (e.which != 1) {return;}
 				
-				var pos = Flywet.getMousePosition(e,rowHdrs);
+				var pos = Flywet.getMousePosition(e,rowHdrsIC);
 				var rpos = _getRowPositionByCoors(target,pos);
 				
 				if(rpos.neer){
@@ -512,7 +570,7 @@
 	            e.preventDefault();
 			})
 			.mousemove(function(e){
-				var pos = Flywet.getMousePosition(e,rowHdrs);
+				var pos = Flywet.getMousePosition(e,rowHdrsIC);
 				var rpos = _getRowPositionByCoors(target,pos);
 				
 				if(opts.rowHeadHold){
@@ -530,7 +588,7 @@
 				// 确保是鼠标左键
 				if (e.which != 1) {return;}
 				
-				var pos = Flywet.getMousePosition(e,rowHdrs);
+				var pos = Flywet.getMousePosition(e,rowHdrsIC);
 				var rpos = _getRowPositionByCoors(target,pos);
 				
 				if(opts.rowHeadHold){
