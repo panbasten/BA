@@ -1032,11 +1032,11 @@
 		_initToolbar(target,selectorTB,opts);
 		
 		var selectorIC = _div("ui-spreadsheet-sheetSelectorIC").appendTo(selector);
-		_initSelectorPane(target,selectorIC,opts);
+		var sheetTab = _initSelectorPane(target,selectorIC,opts);
 		
 		selector.hide();
 		
-		return selector;
+		return [selector,sheetTab];
 	}
 	
 	// selectorPane
@@ -1044,19 +1044,35 @@
 		var tabpanel = _div("ui-spreadsheet-tabpanel").appendTo(parent);
 		var tabpanelCt = _div("ui-spreadsheet-tabpanel-innerCt").appendTo(tabpanel);
 		
-		for(var i=0;i<opts.sheet.length;i++){
-			_initSelectorItem(target,tabpanelCt,opts.sheet[i],(i==opts.currentSheetIndex));
-		}
+		var sheetTab = [];
 		
+		for(var i=0;i<opts.sheet.length;i++){
+			var tab = _initSelectorItem(target,tabpanelCt,opts.sheet[i],opts,i);
+			sheetTab.push(tab);
+		}
+		return sheetTab;
 	}
 	
 	// selector item
-	function _initSelectorItem(target,parent,sheetOpts,selected){
+	function _initSelectorItem(target,parent,sheetOpts,opts,idx){
 		var sheet = $("<div class='ui-spreadsheet-tabpanel-item'><em><button type='button'><span class='ui-spreadsheet-tab-inner'>"+sheetOpts.sheetName+"</span></button></em></div>");
-		if(selected){
+		if(idx==opts.currentSheetIndex){
 			sheet.addClass("ui-spreadsheet-tab-active");
 		}
+		sheet.data("tabIndex", idx);
 		sheet.appendTo(parent);
+		
+		sheet.click(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			var idx = $(e.currentTarget).data("tabIndex");
+			_shiftSheet(target, idx);
+			
+			e.preventDefault();
+		});
+		
+		return sheet;
 	}
 	
 	// toolbar
@@ -1125,7 +1141,8 @@
 			,book : book
 			,vs : vs
 			,sheets : sheets
-			,selector : selector
+			,selector : selector[0]
+			,sheetTab : selector[1]
 			,hs : hs
 			,br : br
 		};
@@ -1229,16 +1246,25 @@
 	}
 	
 	// 切换Sheet页
-	function _shiftSheet(target, sheetIdx){
+	function _shiftSheet(target, sheetIdx, force){
 		var ss = $.data(target, "spreadsheet"),
 			opts = ss.options;
-		// 切换选项卡 TODO
-		// 切换sheet页
+		
+		if(opts.currentSheetIndex == sheetIdx && !force){
+			return;
+		}
+		
+		// 切换sheet页,切换选项卡
 		if(opts.currentSheetIndex == sheetIdx){
 			ss.sheet[sheetIdx].show();
+			ss.sheetTab[sheetIdx].addClass("ui-spreadsheet-tab-active");
 		}else{
 			ss.sheet[opts.currentSheetIndex].hide();
 			ss.sheet[sheetIdx].show();
+			
+			ss.sheetTab[opts.currentSheetIndex].removeClass("ui-spreadsheet-tab-active");
+			ss.sheetTab[sheetIdx].addClass("ui-spreadsheet-tab-active");
+			
 			opts.currentSheetIndex = sheetIdx;
 		}
 		
@@ -1459,7 +1485,7 @@
 		ss.sheet = sheet;
 		
 		// 当前sheet页显示
-		_shiftSheet(target,opts.currentSheetIndex);
+		_shiftSheet(target,opts.currentSheetIndex,true);
 		
 	}
 	
@@ -1533,6 +1559,7 @@
 					,sheets : t.sheets
 					,br : t.br
 					,selector : t.selector
+					,sheetTab : t.sheetTab
 					,hs : t.hs
 				});
 				
