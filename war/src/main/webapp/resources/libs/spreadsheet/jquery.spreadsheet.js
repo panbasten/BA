@@ -96,6 +96,9 @@
 			opts.vscrollHold = true;
 			opts.scrollStartPosition = pos;
 			
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			sheetOpts.tempTop = sheetOpts.top;
+			
 			e.stopPropagation();
             e.preventDefault();
 		})
@@ -103,7 +106,7 @@
 			
 			if(opts.vscrollHold){
 				var pos = Flywet.getMousePosition(e);
-				_moveVs(target,opts.scrollStartPosition,pos);
+				_moveVs(target,opts,opts.scrollStartPosition,pos);
 			}
 			
 			e.stopPropagation();
@@ -115,9 +118,10 @@
 			
 			if(opts.vscrollHold){
 				var pos = Flywet.getMousePosition(e);
-				_moveVs(target,opts.scrollStartPosition,pos);
-				opts.vscrollHold = false;
+				_moveVs(target,opts,opts.scrollStartPosition,pos);
 			}
+			
+			opts.vscrollHold = false;
 			
 			e.stopPropagation();
             e.preventDefault();
@@ -130,13 +134,21 @@
 	}
 	
 	// 移动横向滚动条
-	function _moveHs(target,startPos,endPos){
-		console.log("_moveHs");
+	function _moveHs(target,opts,startPos,endPos){
+		var sheetOpts = _getCurrentSheetOpts(opts),
+			hscrollMaxLeft = opts.hscrollW - sheetOpts.hscrollFillW,
+			paneMaxLeft = sheetOpts.allColumnW - opts.paneW;
+		sheetOpts.left = sheetOpts.tempLeft + parseInt((endPos.x - startPos.x)*paneMaxLeft/hscrollMaxLeft);
+		_resetHsOffset(target, sheetOpts.left);
 	}
 	
 	// 移动纵向滚动条
-	function _moveVs(target,startPos,endPos){
-		console.log("_moveVs");
+	function _moveVs(target,opts,startPos,endPos){
+		var sheetOpts = _getCurrentSheetOpts(opts),
+			vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
+			paneMaxTop = sheetOpts.allRowH - opts.paneH;
+		sheetOpts.top = sheetOpts.tempTop + parseInt((endPos.y - startPos.y)*paneMaxTop/vscrollMaxTop);
+		_resetVsOffset(target, sheetOpts.top);
 	}
 	
 	// 横向滚动条
@@ -165,6 +177,9 @@
 			opts.hscrollHold = true;
 			opts.scrollStartPosition = pos;
 			
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			sheetOpts.tempLeft = sheetOpts.left;
+			
 			e.stopPropagation();
             e.preventDefault();
 		})
@@ -172,7 +187,7 @@
 			
 			if(opts.hscrollHold){
 				var pos = Flywet.getMousePosition(e);
-				_moveHs(target,opts.scrollStartPosition,pos);
+				_moveHs(target,opts,opts.scrollStartPosition,pos);
 			}
 			
 			e.stopPropagation();
@@ -184,9 +199,10 @@
 			
 			if(opts.hscrollHold){
 				var pos = Flywet.getMousePosition(e);
-				_moveHs(target,opts.scrollStartPosition,pos);
-				opts.hscrollHold = false;
+				_moveHs(target,opts,opts.scrollStartPosition,pos);
 			}
+			
+			opts.hscrollHold = false;
 			
 			e.stopPropagation();
             e.preventDefault();
@@ -346,6 +362,8 @@
 			var cpos = _getCellPositionByCoors(target,pos);
 			
 			opts.rangeHold = true;
+			opts.vscrollHold = false;
+			opts.hscrollHold = false;
 			
 			_showRange(cpos,cpos);
 			
@@ -371,13 +389,13 @@
 			// 如果横向滚动条hold
 			if(opts.hscrollHold){
 				var pos = Flywet.getMousePosition(e);
-				_moveHs(target,opts.scrollStartPosition,pos);
+				_moveHs(target,opts,opts.scrollStartPosition,pos);
 			}
 			
 			// 如果纵向滚动条hold
 			if(opts.vscrollHold){
 				var pos = Flywet.getMousePosition(e);
-				_moveVs(target,opts.scrollStartPosition,pos);
+				_moveVs(target,opts,opts.scrollStartPosition,pos);
 			}
 			
 			e.stopPropagation();
@@ -406,19 +424,8 @@
 				_showRange(opts.rangeStartPosition,cpos);
 			}
 			
-			// 如果横向滚动条hold
-			if(opts.hscrollHold){
-				var pos = Flywet.getMousePosition(e);
-				_moveHs(target,opts.scrollStartPosition,pos);
-				opts.hscrollHold = false;
-			}
-			
-			// 如果纵向滚动条hold
-			if(opts.vscrollHold){
-				var pos = Flywet.getMousePosition(e);
-				_moveVs(target,opts.scrollStartPosition,pos);
-				opts.vscrollHold = false;
-			}
+			opts.vscrollHold = false;
+			opts.hscrollHold = false;
 			
 			e.stopPropagation();
             e.preventDefault();
@@ -1176,6 +1183,16 @@
 			ss.sheet[sheetIdx].show();
 			opts.currentSheetIndex = sheetIdx;
 		}
+		
+		// vs
+		if(opts.showVScroll){
+			_resizeVs(target);
+		}
+		
+		// hs
+		if(opts.showHScroll){
+			_resizeHs(target);
+		}
 	}
 	
 	// 获得表格有效区域的宽度
@@ -1202,43 +1219,82 @@
 		return paneHeight;
 	}
 	
+	// 调整纵向滚动条大小
 	function _resizeVs(target){
 		var ss = $.data(target, "spreadsheet"),
 			opts = ss.options,
 			sheetOpts = _getCurrentSheetOpts(opts),
 			h = opts.vscrollHeight;
 		
-		var bgH = (h-opts.hscrollHeight*2),
+		var vscrollH = (h-opts.hscrollHeight*2),
 			paneH = _getPaneHeight(opts,sheetOpts),
 			allRowH = _getRowsHeight(sheetOpts,0,(sheetOpts.rowNum-1));
+		
+		opts.vscrollH = vscrollH;// 滚动条去头尾有效高度
+		opts.paneH = paneH;// 显示主区域有效高度
+		sheetOpts.allRowH = allRowH; // 当前所有行高度
+		
 		if(paneH>allRowH){
 			ss.vs[1].height(h);
 			ss.vs[0].hide();
 			ss.vs[1].hide();
 		}else{
 			ss.vs[0].height(h);
-			ss.vs[0].find(".ui-spreadsheet-vscroll-bg").height(bgH);
-			var elh = bgH * paneH / allRowH;
+			ss.vs[0].find(".ui-spreadsheet-vscroll-bg").height(vscrollH);
+			var elh = vscrollH * paneH / allRowH;
 			var vfillh = parseInt((elh-16)/2);
-			if(vfillh<1){
-				vfillh = 1;
-			}
+			vfillh = Math.max(vfillh,1);
 			ss.vs[0].find(".ui-spreadsheet-gridScrollImg-el-vfill").height(vfillh);
 			ss.vs[0].show();
 			ss.vs[1].hide();
+			
+			sheetOpts.vscrollFillH = 16 + vfillh*2;
+			
+			_resetVsOffset(target, sheetOpts.top);
 		}
 		
 	}
 	
+	// 重置纵向滚动条浮动位置
+	function _resetVsOffset(target,top){
+		var ss = $.data(target, "spreadsheet"),
+			opts = ss.options,
+			sheetOpts = _getCurrentSheetOpts(opts);
+		
+		var vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
+			paneMaxTop = sheetOpts.allRowH - opts.paneH;
+		
+		top = Math.max(0,top);
+		top = Math.min(paneMaxTop,top);
+		
+		var sTop = parseInt(top * vscrollMaxTop / paneMaxTop);
+		
+		ss.vs[0].find(".ui-spreadsheet-vscroll-slider").css("top", sTop+"px");
+		
+		//pane
+		sheetOpts.pane.find(".ui-spreadsheet-paneIC").css("top",(top*(-1))+"px");
+		
+		//rowHdrs
+		if(sheetOpts.showRowHead){
+			sheetOpts.rowHdrs.find(".ui-spreadsheet-gridRowHdrsIC").css("top",(top*(-1))+"px");
+		}
+		
+	}
+	
+	// 调整横向滚动条大小
 	function _resizeHs(target){
 		var ss = $.data(target, "spreadsheet"),
 			opts = ss.options,
 			sheetOpts = _getCurrentSheetOpts(opts),
 			w = opts.hscrollWidth - 2;
 		
-		var bgW = (w-opts.vscrollWidth*2),
+		var hscrollW = (w-opts.vscrollWidth*2),
 			paneW = _getPaneWidth(opts,sheetOpts),
 			allColumnW = _getColsWidth(sheetOpts,0,(sheetOpts.colNum-1));
+		
+		opts.hscrollW = hscrollW;// 滚动条去头尾有效宽度
+		opts.paneW = paneW;// 显示主区域有效宽度
+		sheetOpts.allColumnW = allColumnW; // 当前所有行宽度
 		
 		if(paneW>allColumnW){
 			ss.hs[1].width(w);
@@ -1246,17 +1302,43 @@
 			ss.hs[1].show();
 		}else{
 			ss.hs[0].width(w);
-			ss.hs[0].find(".ui-spreadsheet-hscroll-bg").width(bgW);
-			var elh = bgW * paneW / allColumnW;
-			var hfillh = parseInt((elh-16)/2);
-			if(hfillh<1){
-				hfillh = 1;
-			}
-			ss.hs[0].find(".ui-spreadsheet-gridScrollImg-el-hfill").width(hfillh);
+			ss.hs[0].find(".ui-spreadsheet-hscroll-bg").width(hscrollW);
+			var elh = hscrollW * paneW / allColumnW;
+			var hfillw = parseInt((elh-16)/2);
+			hfillw = Math.max(hfillw,1);
+			ss.hs[0].find(".ui-spreadsheet-gridScrollImg-el-hfill").width(hfillw);
 			ss.hs[0].show();
 			ss.hs[1].hide();
+			
+			sheetOpts.hscrollFillW = 16 + hfillw*2;
+			
+			_resetHsOffset(target, sheetOpts.left);
 		}
+	}
+	
+	// 重置横向滚动条浮动位置
+	function _resetHsOffset(target,left){
+		var ss = $.data(target, "spreadsheet"),
+			opts = ss.options,
+			sheetOpts = _getCurrentSheetOpts(opts);
+	
+		var hscrollMaxLeft = opts.hscrollW - sheetOpts.hscrollFillW,
+			paneMaxLeft = sheetOpts.allColumnW - opts.paneW;
 		
+		left = Math.max(0,left);
+		left = Math.min(paneMaxLeft,left);
+		
+		var sLeft = parseInt(left * hscrollMaxLeft / paneMaxLeft);
+		
+		ss.hs[0].find(".ui-spreadsheet-hscroll-slider").css("left", sLeft+"px");
+		
+		//pane
+		sheetOpts.pane.find(".ui-spreadsheet-paneIC").css("left",(left*(-1))+"px");
+		
+		//rowHdrs
+		if(sheetOpts.showColHead){
+			sheetOpts.colHdrs.find(".ui-spreadsheet-gridColHdrsIC").css("left",(left*(-1))+"px");
+		}
 	}
 	
 	function _rerender(target){
@@ -1281,7 +1363,6 @@
 		// vs
 		if(opts.showVScroll){
 			opts.vscrollHeight = h;
-			_resizeVs(target);
 		}
 		
 		// hs
@@ -1295,12 +1376,10 @@
 				
 				// hs
 				opts.hscrollWidth = w-selectorWidth;
-				_resizeHs(target);
 			}else{
 				ss.selector.hide();
 				// hs
 				opts.hscrollWidth = w;
-				_resizeHs(target);
 			}
 		}
 		
@@ -1446,8 +1525,8 @@
 		,colNum: 0
 		
 		// 滚动条起始cell位置
-		,startRowIndex : 0
-		,startColIndex : 0
+		,top : 0
+		,left : 0
 		
 		,data : {
 			colsWidth : {}

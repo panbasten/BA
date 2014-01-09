@@ -190,6 +190,9 @@
 	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
 	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 	overflow: hidden;
+	border-color: #d0d0d0;
+	border-style: solid;
+	border-width: 0 1px 1px 0;
 }
 
 .ui-spreadsheet-sheetSelectorOC {
