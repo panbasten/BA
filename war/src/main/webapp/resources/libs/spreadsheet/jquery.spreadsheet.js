@@ -93,8 +93,11 @@
 			
 			opts.vscrollHold = false;
 			
-			// TODO 单击
+			var pos = Flywet.getMousePosition(e,vsOC_bg);
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			var sTop = pos.y - parseInt(sheetOpts.vscrollFillH/2);
 			
+			_moveVsWithClick(target,opts,sTop);
 		})
 		.mousemove(function(e){
 			if(opts.vscrollHold){
@@ -169,12 +172,30 @@
 		_resetHsOffset(target, sheetOpts.left);
 	}
 	
+	// 移动横向滚动条
+	function _moveHsWithClick(target,opts,sLeft){
+		var sheetOpts = _getCurrentSheetOpts(opts),
+			hscrollMaxLeft = opts.hscrollW - sheetOpts.hscrollFillW,
+			paneMaxLeft = sheetOpts.allColumnW - opts.paneW;
+		sheetOpts.left = parseInt(sLeft*paneMaxLeft/hscrollMaxLeft);
+		_resetHsOffset(target, sheetOpts.left);
+	}
+	
 	// 移动纵向滚动条
 	function _moveVs(target,opts,startPos,endPos){
 		var sheetOpts = _getCurrentSheetOpts(opts),
 			vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
 			paneMaxTop = sheetOpts.allRowH - opts.paneH;
 		sheetOpts.top = sheetOpts.tempTop + parseInt((endPos.y - startPos.y)*paneMaxTop/vscrollMaxTop);
+		_resetVsOffset(target, sheetOpts.top);
+	}
+	
+	// 点击移动纵向滚动条
+	function _moveVsWithClick(target,opts,sTop){
+		var sheetOpts = _getCurrentSheetOpts(opts),
+			vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
+			paneMaxTop = sheetOpts.allRowH - opts.paneH;
+		sheetOpts.top = parseInt(sTop*paneMaxTop/vscrollMaxTop);
 		_resetVsOffset(target, sheetOpts.top);
 	}
 	
@@ -201,7 +222,11 @@
 			
 			opts.hscrollHold = false;
 			
-			// TODO 单击
+			var pos = Flywet.getMousePosition(e,hsOC_bg);
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			var sLeft = pos.x - parseInt(sheetOpts.hscrollFillW/2);
+			
+			_moveHsWithClick(target,opts,sLeft);
 			
 		})
 		.mousemove(function(e){
@@ -1332,6 +1357,7 @@
 			ss.vs[0].show();
 			ss.vs[1].hide();
 			
+			// 滚动条填充高度
 			sheetOpts.vscrollFillH = 16 + vfillh*2;
 			
 			_resetVsOffset(target, sheetOpts.top);
@@ -1394,6 +1420,7 @@
 			ss.hs[0].show();
 			ss.hs[1].hide();
 			
+			// 滚动条填充宽度
 			sheetOpts.hscrollFillW = 16 + hfillw*2;
 			
 			_resetHsOffset(target, sheetOpts.left);
