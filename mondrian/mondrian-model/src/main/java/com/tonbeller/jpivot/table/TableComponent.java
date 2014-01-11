@@ -696,6 +696,7 @@ public class TableComponent extends ComponentSupport implements
 		logger.info("leave buildRows2Dim");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildRows2DimJo(JSONObject jo) {
 		logger.info("enter buildRows2DimJo");
 		final int cellCountLimit = Integer.getInteger(
@@ -747,7 +748,7 @@ public class TableComponent extends ComponentSupport implements
 			} catch (MissingResourceException ex) {
 				v = "Too many cells (cell limit:" + cellCountLimit + ")";
 			}
-			cellJo.put("__TAG", "cellspan");
+			cellJo.put("_TAG", "cellspan");
 			cellJo.put("value", v);
 			cellJo.put("colspan", Integer.toString(nosColumns));
 			rowsJa.add(cellJo);

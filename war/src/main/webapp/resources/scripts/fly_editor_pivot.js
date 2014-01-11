@@ -16,7 +16,7 @@ Flywet.editors.pivot = {
 //			
 //			Flywet.ajax.AjaxUtils.appendElement($panel, exdata.dom, exdata.script);
 //		}
-//		console.log($taba.data("exdata"));
+		console.log($taba.data("exdata"));
 //		
 		var pivotBody = $("#pivotBody");
 		pivotBody.empty();

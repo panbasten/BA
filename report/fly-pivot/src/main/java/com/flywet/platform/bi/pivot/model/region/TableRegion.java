@@ -13,8 +13,6 @@ public class TableRegion implements IRegionObject {
 
 	public static final String REGION_OBJECT_NAME = "TableRegion";
 
-	public static final String PROP_NAME_REGION_DATA = "RegionData";
-
 	private IRegionData regionData;
 
 	public IRegionData getRegionData() {
@@ -42,7 +40,7 @@ public class TableRegion implements IRegionObject {
 	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
-		jo.put(REGION_OBJECT_TYPE, getTypeName());
+		jo.put(PROP_NAME_REGION_OBJECT_TYPE, getTypeName());
 		if (regionData != null) {
 			jo.put(PROP_NAME_REGION_DATA, regionData.renderJo(context));
 		}

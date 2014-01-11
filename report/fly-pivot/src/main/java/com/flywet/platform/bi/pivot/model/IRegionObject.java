@@ -13,7 +13,8 @@ import com.tonbeller.wcf.controller.RequestContext;
  */
 public interface IRegionObject {
 
-	public static final String REGION_OBJECT_TYPE = "type";
+	public static final String PROP_NAME_REGION_OBJECT_TYPE = "type";
+	public static final String PROP_NAME_REGION_DATA = "regionData";
 
 	/**
 	 * 初始化区域模型

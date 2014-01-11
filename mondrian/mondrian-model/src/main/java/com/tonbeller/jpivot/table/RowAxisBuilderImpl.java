@@ -58,6 +58,7 @@ public class RowAxisBuilderImpl extends AxisBuilderSupport implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void buildRowJo(JSONArray parent, int rowIndex) {
 		boolean even = (rowIndex % 2 == 0);
 		for (int i = 0; i < spanCalc.getHierarchyCount(); i++) {
@@ -67,7 +68,7 @@ public class RowAxisBuilderImpl extends AxisBuilderSupport implements
 				int colspan = span.getHierarchySpan();
 				Object[] b = buildHeadingJo(span, rowspan, colspan, even);
 				JSONObject cell = (JSONObject) b[1];
-				cell.put("__TAG", (String) b[0]);
+				cell.put("_TAG", (String) b[0]);
 				parent.add(cell);
 			}
 		}
@@ -121,6 +122,7 @@ public class RowAxisBuilderImpl extends AxisBuilderSupport implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void buildHeaderRowJo(JSONArray parent, int rowIndex) {
 		boolean even = (rowIndex % 2 == 0);
 		for (int i = 0; i < headerSpans.getHierarchyCount(); i++) {
@@ -132,7 +134,7 @@ public class RowAxisBuilderImpl extends AxisBuilderSupport implements
 				int colspan = span.getHierarchySpan();
 				Object[] b = buildHeadingJo(span, rowspan, colspan, even);
 				JSONObject cell = (JSONObject) b[1];
-				cell.put("__TAG", (String) b[0]);
+				cell.put("_TAG", (String) b[0]);
 				parent.add(cell);
 			}
 		}

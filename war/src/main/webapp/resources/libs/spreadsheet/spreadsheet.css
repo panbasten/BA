@@ -97,7 +97,8 @@
 }
 
 .ui-spreadsheet-tabpanel-innerCt {
-	
+	position: absolute;
+    width: 30000px;
 }
 
 .ui-spreadsheet-tabpanel-item em {

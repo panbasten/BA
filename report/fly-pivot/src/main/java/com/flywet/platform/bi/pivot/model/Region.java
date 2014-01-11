@@ -12,8 +12,7 @@ public class Region {
 
 	public static final String PROP_NAME_NAME = "name";
 	public static final String PROP_NAME_ANNOTATION = "annotation";
-	public static final String PROP_NAME_START_POSITION = "StartPosition";
-	public static final String PROP_NAME_REGION_OBJECT = "RegionObject";
+	public static final String PROP_NAME_REGION_OBJECT = "regionObject";
 
 	// 名称
 	private String name;
@@ -37,7 +36,7 @@ public class Region {
 		r.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
 
 		Node startPosition = XMLHandler.getSubNode(node,
-				PROP_NAME_START_POSITION);
+				PositionType.PROP_NAME_START_POSITION);
 		if (startPosition != null) {
 			r.startPosition = new PositionType(startPosition);
 		}
@@ -62,7 +61,8 @@ public class Region {
 		}
 
 		if (startPosition != null) {
-			jo.put(PROP_NAME_START_POSITION, startPosition.renderJo());
+			jo.put(PositionType.PROP_NAME_START_POSITION, startPosition
+					.renderJo());
 		}
 
 		if (regionObject != null) {

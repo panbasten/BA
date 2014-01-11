@@ -75,7 +75,7 @@
 	// 纵向滚动条
 	function _initVsOC(target,parent,opts){
 		var vsOC = _div("ui-spreadsheet-vsOC").appendTo(parent);
-		$("<img class=\"ui-spreadsheet-vscroll-up\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
+		var vsUp = $("<img class=\"ui-spreadsheet-vscroll-up\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
 		var vsOC_bg = _div("ui-spreadsheet-vscroll-bg").appendTo(vsOC);
 		var vsOC_slider = _div("ui-spreadsheet-vscroll-slider").appendTo(vsOC_bg);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-top\" width=\"17\" height=\"4\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
@@ -83,9 +83,29 @@
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vcenter\" width=\"17\" height=\"8\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-vfill\" width=\"17\" height=\"1\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-bottom\" width=\"17\" height=\"4\" src=\""+opts.s_src+"\">").appendTo(vsOC_slider);
-		$("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
+		var vsDown = $("<img class=\"ui-spreadsheet-vscroll-down\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(vsOC);
 		
 		var vs1OC = _div("ui-spreadsheet-vsOC ui-spreadsheet-vs1OC").appendTo(parent);
+		
+		vsUp.click(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			opts.vscrollHold = false;
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			
+			sheetOpts.top = sheetOpts.top - sheetOpts.defaultRowHeight;
+			_resetVsOffset(target);
+		});
+		
+		vsDown.click(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			opts.vscrollHold = false;
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			
+			sheetOpts.top = sheetOpts.top + sheetOpts.defaultRowHeight;
+			_resetVsOffset(target);
+		});
 		
 		vsOC_bg.mousedown(function(e){
 			// 确保是鼠标左键
@@ -169,7 +189,7 @@
 			hscrollMaxLeft = opts.hscrollW - sheetOpts.hscrollFillW,
 			paneMaxLeft = sheetOpts.allColumnW - opts.paneW;
 		sheetOpts.left = sheetOpts.tempLeft + parseInt((endPos.x - startPos.x)*paneMaxLeft/hscrollMaxLeft);
-		_resetHsOffset(target, sheetOpts.left);
+		_resetHsOffset(target);
 	}
 	
 	// 移动横向滚动条
@@ -178,7 +198,7 @@
 			hscrollMaxLeft = opts.hscrollW - sheetOpts.hscrollFillW,
 			paneMaxLeft = sheetOpts.allColumnW - opts.paneW;
 		sheetOpts.left = parseInt(sLeft*paneMaxLeft/hscrollMaxLeft);
-		_resetHsOffset(target, sheetOpts.left);
+		_resetHsOffset(target);
 	}
 	
 	// 移动纵向滚动条
@@ -187,7 +207,7 @@
 			vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
 			paneMaxTop = sheetOpts.allRowH - opts.paneH;
 		sheetOpts.top = sheetOpts.tempTop + parseInt((endPos.y - startPos.y)*paneMaxTop/vscrollMaxTop);
-		_resetVsOffset(target, sheetOpts.top);
+		_resetVsOffset(target);
 	}
 	
 	// 点击移动纵向滚动条
@@ -196,7 +216,7 @@
 			vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
 			paneMaxTop = sheetOpts.allRowH - opts.paneH;
 		sheetOpts.top = parseInt(sTop*paneMaxTop/vscrollMaxTop);
-		_resetVsOffset(target, sheetOpts.top);
+		_resetVsOffset(target);
 	}
 	
 	// 横向滚动条
@@ -204,7 +224,7 @@
 		var hs1OC = _div("ui-spreadsheet-hsOC ui-spreadsheet-hs1OC").appendTo(parent);
 		
 		var hsOC = _div("ui-spreadsheet-hsOC").appendTo(parent);
-		$("<img class=\"ui-spreadsheet-hscroll-left\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
+		var hsLeft = $("<img class=\"ui-spreadsheet-hscroll-left\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
 		var hsOC_bg = _div("ui-spreadsheet-hscroll-bg").appendTo(hsOC);
 		var hsOC_slider = _div("ui-spreadsheet-hscroll-slider").appendTo(hsOC_bg);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-left\" width=\"4\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
@@ -212,9 +232,32 @@
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hcenter\" width=\"8\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-hfill\" width=\"1\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
 		$("<img class=\"ui-spreadsheet-gridScrollImg-el-right\" width=\"4\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC_slider);
-		$("<img class=\"ui-spreadsheet-hscroll-right\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
+		var hsRight = $("<img class=\"ui-spreadsheet-hscroll-right\" width=\"17\" height=\"17\" src=\""+opts.s_src+"\">").appendTo(hsOC);
 		
 		$("<div class=\"x-resizable-handle x-resizable-handle-west x-unselectable\" style=\"-moz-user-select: none; opacity: 0;\"></div>").appendTo(hsOC);
+		
+		hsLeft.click(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			opts.hscrollHold = false;
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			
+			sheetOpts.left = sheetOpts.left - sheetOpts.defaultColWidth;
+			_resetHsOffset(target);
+		});
+		
+		hsRight.click(function(e){
+			// 确保是鼠标左键
+			if (e.which != 1) {return;}
+			
+			opts.hscrollHold = false;
+			var sheetOpts = _getCurrentSheetOpts(opts);
+			
+			sheetOpts.left = sheetOpts.left + sheetOpts.defaultColWidth;
+			_resetHsOffset(target);
+		});
+		
 		
 		hsOC_bg.mousedown(function(e){
 			// 确保是鼠标左键
@@ -1001,7 +1044,7 @@
 		return $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
 	}
 	
-	function _initSheet(target,parent,opts,sheetOpts,w,h){
+	function _rerenderSheet(target,parent,opts,sheetOpts,w,h){
 		var sheet = _div("ui-spreadsheet-sheet").appendTo(parent);
 		sheetOpts.sheet = sheet;
 		
@@ -1041,10 +1084,146 @@
 			,height: ((sheetOpts.showColHead)?(h-opts.headColHeight):h)+"px"
 		});
 		
+		if(sheetOpts.region){
+			sheetOpts.region = _setData(target,sheet,opts,sheetOpts);
+		}
+		
 		sheet.hide();
 		
 		return sheet;
 	}
+	
+	// 设置数据
+	function _setData(target,sheet,opts,sheetOpts){
+		var region = [];
+		for(var i=0;i<sheetOpts.region.length;i++){
+			var _r = _setRegionData(target,sheet,opts,sheetOpts,sheetOpts.region[i]);
+			region.push(_r);
+		}
+		return region;
+	}
+	
+	// 设置区域数据
+	function _setRegionData(target,sheet,opts,sheetOpts,regionData){
+		var region = regionData;
+		if(region.regionObject && region.regionObject.type){
+			// 表格区域
+			if(region.regionObject.type == "TableRegion"){
+				_setRegionTableRegion(target,sheet,opts,sheetOpts,region);
+			}
+		}
+		
+		return region;
+	}
+	
+	
+	/****************
+	 * 表格区域
+	 ****************/
+	function _setRegionTableRegion(target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData;
+		
+		if(regionData && regionData.type){
+			if(regionData.type == "PivotData"){
+				_setRegionDataPivotData(target,sheet,opts,sheetOpts,region);
+			}
+		}
+	}
+	
+	// 透视表类型数据解析
+	function _setRegionDataPivotData(target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData.data,
+			head = regionData.head,
+			body = regionData.body,
+			sp = region.startPosition,
+			x = 0, y = 0;
+		
+		if(sp){
+			x = sp.x;
+			y = sp.y;
+		}
+		
+		var r,c,cn;
+		if(head && head.row){
+			// 头部行记录
+			for(var i=0;i<head.row.length;i++,y++){
+				r = head.row[i];
+				cn = 0;
+				for(var j=0;j<r.length;j++){
+					c = r[j];
+					if(c["_TAG"] == "corner"){
+						corner(c,{x:x+cn,y:y});
+					}else if(c["_TAG"] == "heading-heading"){
+						headingHeading(c,{x:x+cn,y:y});
+					}else if(c["_TAG"] == "column-heading"){
+						columnHeading(c,{x:x+cn,y:y});
+					}
+					cn = cn + parseInt(c.colspan||1);
+				}
+			}
+		}
+		
+		if(body && body.row){
+			// 头部行记录
+			for(var i=0;i<body.row.length;i++,y++){
+				r = body.row[i];
+				cn = 0;
+				for(var j=0;j<r.length;j++){
+					c = r[j];
+					if(c["_TAG"] == "row-heading"){
+						rowHeading(c,{x:x+cn,y:y});
+					}else if(c["_TAG"] == "cell"){
+						cell(c,{x:x+cn,y:y});
+					}
+					
+					cn = cn + parseInt(c.colspan||1);
+				}
+			}
+		}
+		
+		// corner
+		function corner(c,sp){
+			c.startPosition = sp;
+			_setRegionCellData(sp,"");
+		}
+		// heading-heading
+		function headingHeading(c,sp){
+			c.startPosition = sp;
+			_setRegionCellData(sp,c.caption.caption);
+		}
+		// column-heading
+		function columnHeading(c,sp){
+			c.startPosition = sp;
+			_setRegionCellData(sp,c.caption.caption);
+		}
+		// row-heading
+		function rowHeading(c,sp){
+			c.startPosition = sp;
+			_setRegionCellData(sp,c.caption.caption);
+		}
+		// cell
+		function cell(r,sp){
+			c.startPosition = sp;
+			_setRegionCellData(sp,c.value);
+		}
+		
+		// 设置单元格数据
+		function _setRegionCellData(sp,val,style){
+			var row = sheet.find("#r_"+sp.y),
+				cell = $(row).find("#r_"+sp.y+"_c_"+sp.x);
+			cell.html(val);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	function _initSheets(target,parent,opts){
 		return _div("ui-spreadsheet-sheets").appendTo(parent);
@@ -1126,6 +1305,8 @@
 	}
 	
 	function _init(target){
+		var ss_style = $(target).attr("style");
+		
 		$(target).addClass("ui-spreadsheet-f").attr("id",null).hide();
 		
 		var opts = $.data(target, "spreadsheet").options;
@@ -1133,6 +1314,9 @@
 		// workspace
 		var workspace = _div("ui-spreadsheet ui-spreadsheet-workspace x-border-box").insertAfter(target);
 		workspace.attr("id", (opts.id)?(opts.id):"");
+		if(ss_style){
+			workspace.attr("style", ss_style);
+		}
 		
 		// book
 		var book = _div("ui-spreadsheet-book").appendTo(workspace);
@@ -1159,6 +1343,29 @@
 				_rerender(target);
 			}
 			return false;
+		});
+		
+		// 滚动条
+		$(document).bind("mousedown.spreadsheet", function(e,d){
+			opts.vscrollHold = false;
+			opts.hscrollHold = false;
+		});
+		$(document).bind("mousemove.spreadsheet", function(e,d){
+			// 如果横向滚动条hold
+			if(opts.hscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveHs(target,opts,opts.scrollStartPosition,pos);
+			}
+			
+			// 如果纵向滚动条hold
+			if(opts.vscrollHold){
+				var pos = Flywet.getMousePosition(e);
+				_moveVs(target,opts,opts.scrollStartPosition,pos);
+			}
+		});
+		$(document).bind("mouseup.spreadsheet", function(e,d){
+			opts.vscrollHold = false;
+			opts.hscrollHold = false;
 		});
 		
 		return {
@@ -1360,22 +1567,24 @@
 			// 滚动条填充高度
 			sheetOpts.vscrollFillH = 16 + vfillh*2;
 			
-			_resetVsOffset(target, sheetOpts.top);
+			_resetVsOffset(target);
 		}
 		
 	}
 	
 	// 重置纵向滚动条浮动位置
-	function _resetVsOffset(target,top){
+	function _resetVsOffset(target){
 		var ss = $.data(target, "spreadsheet"),
 			opts = ss.options,
-			sheetOpts = _getCurrentSheetOpts(opts);
+			sheetOpts = _getCurrentSheetOpts(opts),
+			top = sheetOpts.top;
 		
 		var vscrollMaxTop = opts.vscrollH - sheetOpts.vscrollFillH,
 			paneMaxTop = sheetOpts.allRowH - opts.paneH;
 		
 		top = Math.max(0,top);
 		top = Math.min(paneMaxTop,top);
+		sheetOpts.top = top;
 		
 		var sTop = parseInt(top * vscrollMaxTop / paneMaxTop);
 		
@@ -1423,21 +1632,23 @@
 			// 滚动条填充宽度
 			sheetOpts.hscrollFillW = 16 + hfillw*2;
 			
-			_resetHsOffset(target, sheetOpts.left);
+			_resetHsOffset(target);
 		}
 	}
 	
 	// 重置横向滚动条浮动位置
-	function _resetHsOffset(target,left){
+	function _resetHsOffset(target){
 		var ss = $.data(target, "spreadsheet"),
 			opts = ss.options,
-			sheetOpts = _getCurrentSheetOpts(opts);
+			sheetOpts = _getCurrentSheetOpts(opts),
+			left = sheetOpts.left;
 	
 		var hscrollMaxLeft = opts.hscrollW - sheetOpts.hscrollFillW,
 			paneMaxLeft = sheetOpts.allColumnW - opts.paneW;
 		
 		left = Math.max(0,left);
 		left = Math.min(paneMaxLeft,left);
+		sheetOpts.left = left;
 		
 		var sLeft = parseInt(left * hscrollMaxLeft / paneMaxLeft);
 		
@@ -1505,9 +1716,11 @@
 		
 		// 多个Sheet页
 		ss.sheets.empty();
-		var sheet = [];
-		for(var i=0;i<_getSheetNum(opts);i++){
-			sheet.push(_initSheet(target,ss.sheets,opts,opts.sheet[i],w,h));
+		var sheet = [],
+			sheetNum = _getSheetNum(opts);
+		for(var sn=0;sn<sheetNum;sn++){
+			var _sheet =  _rerenderSheet(target,ss.sheets,opts,opts.sheet[sn],w,h);
+			sheet.push(_sheet);
 		}
 		ss.sheet = sheet;
 		

@@ -107,6 +107,7 @@ public abstract class DrillExpandUI extends TableComponentExtensionSupport
 			return parent;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Object[] buildJo(SBContext sbctx, Span span, boolean even) {
 			Object[] jos = super.buildJo(sbctx, span, even);
@@ -118,19 +119,19 @@ public abstract class DrillExpandUI extends TableComponentExtensionSupport
 
 			String id = DomUtils.randomId();
 			if (canExpand(span)) {
-				JSONObject elem = table.insert("drill-expand", parent);
+				JSONObject elem = table.insert("drillExpand", parent);
 				elem.put("id", id);
 				elem.put("img", getExpandImage());
 				dispatcher
 						.addRequestListener(id, null, new ExpandHandler(span));
 			} else if (canCollapse(span)) {
-				JSONObject elem = table.insert("drill-collapse", parent);
+				JSONObject elem = table.insert("drillCollapse", parent);
 				elem.put("id", id);
 				elem.put("img", getCollapseImage());
 				dispatcher.addRequestListener(id, null, new CollapseHandler(
 						span));
 			} else {
-				JSONObject elem = table.insert("drill-other", parent);
+				JSONObject elem = table.insert("drillOther", parent);
 				elem.put("img", getOtherImage());
 			}
 			return new Object[] { jos[0], parent };

@@ -1,20 +1,17 @@
 var aa = {
-	"Region" : [ {
-		"StartPosition" : {
-			"y" : 0,
-			"x" : 0
-		},
+	"region" : [ {
 		"name" : "region1",
-		"RegionObject" : {
-			"RegionData" : {
+		"regionObject" : {
+			"type" : "TableRegion",
+			"regionData" : {
 				"data" : {
 					"body" : {
 						"row" : [ [ {
 							"colspan" : "1",
 							"indent" : "0",
 							"style" : "even",
-							"drill-expand" : {
-								"id" : "wcfa356f371",
+							"drillExpand" : {
+								"id" : "wcfdc4f3cba",
 								"img" : "drill-position-expand"
 							},
 							"caption" : {
@@ -26,8 +23,8 @@ var aa = {
 							"colspan" : "1",
 							"indent" : "0",
 							"style" : "even",
-							"drill-expand" : {
-								"id" : "wcfd1d460c3",
+							"drillExpand" : {
+								"id" : "wcfd546beb6",
 								"img" : "drill-position-expand"
 							},
 							"caption" : {
@@ -62,66 +59,66 @@ var aa = {
 							"_TAG" : "corner",
 							"rowspan" : "1"
 						}, {
-							"drill-other" : {
-								"img" : "drill-position-other"
-							},
 							"colspan" : "3",
 							"style" : "span",
+							"drillOther" : {
+								"img" : "drill-position-other"
+							},
 							"caption" : {
-								"caption" : "指标"
+								"caption" : "ָ��"
 							},
 							"rowspan" : "1",
 							"__TAG" : "heading-heading"
 						} ], [ {
-							"drill-other" : {
-								"img" : "drill-position-other"
-							},
 							"colspan" : "1",
 							"style" : "even",
+							"drillOther" : {
+								"img" : "drill-position-other"
+							},
 							"caption" : {
 								"caption" : "Promotion Media"
 							},
 							"rowspan" : "1",
 							"__TAG" : "heading-heading"
 						}, {
-							"drill-other" : {
-								"img" : "drill-position-other"
-							},
 							"colspan" : "1",
 							"style" : "even",
+							"drillOther" : {
+								"img" : "drill-position-other"
+							},
 							"caption" : {
 								"caption" : "Product"
 							},
 							"rowspan" : "1",
 							"__TAG" : "heading-heading"
 						}, {
-							"drill-other" : {
-								"img" : "drill-position-other"
-							},
 							"colspan" : "1",
 							"style" : "even",
+							"drillOther" : {
+								"img" : "drill-position-other"
+							},
 							"caption" : {
 								"caption" : "Unit Sales"
 							},
 							"rowspan" : "1",
 							"__TAG" : "column-heading"
 						}, {
-							"drill-other" : {
-								"img" : "drill-position-other"
-							},
 							"colspan" : "1",
 							"style" : "odd",
+							"drillOther" : {
+								"img" : "drill-position-other"
+							},
 							"caption" : {
 								"caption" : "Store Cost"
 							},
 							"rowspan" : "1",
 							"__TAG" : "column-heading"
 						}, {
-							"drill-other" : {
-								"img" : "drill-position-other"
-							},
 							"colspan" : "1",
 							"style" : "even",
+							"drillOther" : {
+								"img" : "drill-position-other"
+							},
 							"caption" : {
 								"caption" : "Store Sales"
 							},
@@ -131,13 +128,16 @@ var aa = {
 					}
 				},
 				"type" : "PivotData"
-			},
-			"type" : "TableRegion"
+			}
+		},
+		"startPosition" : {
+			"y" : 0,
+			"x" : 0
 		}
 	} ],
-	"StartPosition" : {
+	"infiniteTable" : true,
+	"startPosition" : {
 		"y" : 3,
 		"x" : 5
-	},
-	"infiniteTable" : true
+	}
 };

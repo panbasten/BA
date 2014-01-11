@@ -7,6 +7,9 @@ import org.w3c.dom.Node;
 import com.flywet.platform.bi.core.utils.Utils;
 
 public class PositionType {
+	
+	public static final String PROP_NAME_START_POSITION = "startPosition";
+	
 	private long x;
 	private long y;
 

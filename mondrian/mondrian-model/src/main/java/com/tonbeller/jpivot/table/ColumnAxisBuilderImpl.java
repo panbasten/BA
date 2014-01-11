@@ -47,6 +47,7 @@ public class ColumnAxisBuilderImpl extends AxisBuilderSupport implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void buildRowJo(JSONArray parent, int rowIndex) {
 		final int N = spanCalc.getPositionCount();
 		for (int i = 0; i < N; i++) {
@@ -57,7 +58,7 @@ public class ColumnAxisBuilderImpl extends AxisBuilderSupport implements
 				int rowspan = span.getHierarchySpan();
 				Object[] b = buildHeadingJo(span, rowspan, colspan, even);
 				JSONObject cell = (JSONObject) b[1];
-				cell.put("__TAG", (String) b[0]);
+				cell.put("_TAG", (String) b[0]);
 				parent.add(cell);
 			}
 		}

@@ -22,8 +22,7 @@ public class PivotReport {
 
 	public static final String PROP_NAME_INFINITE_TABLE = "infiniteTable";
 	public static final String PROP_NAME_ANNOTATION = "annotation";
-	public static final String PROP_NAME_START_POSITION = "StartPosition";
-	public static final String PROP_NAME_REGION = "Region";
+	public static final String PROP_NAME_REGION = "region";
 
 	// 是否是无限扩展表
 	private boolean infiniteTable;
@@ -48,7 +47,7 @@ public class PivotReport {
 		pr.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
 
 		Node startPosition = XMLHandler.getSubNode(node,
-				PROP_NAME_START_POSITION);
+				PositionType.PROP_NAME_START_POSITION);
 		if (startPosition != null) {
 			pr.startPosition = new PositionType(startPosition);
 		}
@@ -81,7 +80,8 @@ public class PivotReport {
 		}
 
 		if (startPosition != null) {
-			jo.put(PROP_NAME_START_POSITION, startPosition.renderJo());
+			jo.put(PositionType.PROP_NAME_START_POSITION, startPosition
+					.renderJo());
 		}
 
 		if (regions != null && regions.size() > 0) {

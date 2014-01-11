@@ -27,7 +27,11 @@
         </style>
     </head>
     <body>
-        <div id="workspace">
+        <div id="workspace" style="position: relative;">
+        	
+        </div>
+        
+        <div id="workspace2" style="position: relative;margin-top:30px;">
         	
         </div>
         
@@ -37,7 +41,7 @@
                 width: 800
                 ,height: 600
 
-                ,offsetCellNumber: 0
+                ,offsetCellNumber: 3
 
                 ,s_src : "../../images/default/s.gif"
 
@@ -48,19 +52,176 @@
                         ,rowNum: 50
                         ,top : 100
                         ,left : 30
+                        ,defaultColWidth : 120
                         ,showColHead: true
                 		,showRowHead: true
-                    }
-                    ,{
-                    	sheetName: "测试Sheet2"
-                    }
-                    ,{
-                    	sheetName: "测试Sheet3"
-                    }
-                 ]
-                
+                		,"region" : [ {
+                			"name" : "region1",
+                			"regionObject" : {
+                				"type" : "TableRegion",
+                				"regionData" : {
+                					"data" : {
+                						"body" : {
+                							"row" : [ [ {
+                								"colspan" : "1",
+                								"indent" : "0",
+                								"style" : "even",
+                								"drillExpand" : {
+                									"id" : "wcfdc4f3cba",
+                									"img" : "drill-position-expand"
+                								},
+                								"caption" : {
+                									"caption" : "All Media"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "row-heading"
+                							}, {
+                								"colspan" : "1",
+                								"indent" : "0",
+                								"style" : "even",
+                								"drillExpand" : {
+                									"id" : "wcfd546beb6",
+                									"img" : "drill-position-expand"
+                								},
+                								"caption" : {
+                									"caption" : "All Products"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "row-heading"
+                							}, {
+                								"style" : "even",
+                								"value" : "266,773",
+                								"_TAG" : "cell"
+                							}, {
+                								"style" : "even",
+                								"value" : "225,627.23",
+                								"_TAG" : "cell"
+                							}, {
+                								"style" : "even",
+                								"value" : "565,238.13",
+                								"_TAG" : "cell"
+                							} ] ]
+                						},
+                						"slicer" : {
+                							"members" : [ {
+                								"level" : "Year",
+                								"caption" : "1997",
+                								"depth" : "0"
+                							} ]
+                						},
+                						"head" : {
+                							"row" : [ [ {
+                								"colspan" : "2",
+                								"_TAG" : "corner",
+                								"rowspan" : "1"
+                							}, {
+                								"colspan" : "3",
+                								"style" : "span",
+                								"drillOther" : {
+                									"img" : "drill-position-other"
+                								},
+                								"caption" : {
+                									"caption" : "全部"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "heading-heading"
+                							} ], [ {
+                								"colspan" : "1",
+                								"style" : "even",
+                								"drillOther" : {
+                									"img" : "drill-position-other"
+                								},
+                								"caption" : {
+                									"caption" : "Promotion Media"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "heading-heading"
+                							}, {
+                								"colspan" : "1",
+                								"style" : "even",
+                								"drillOther" : {
+                									"img" : "drill-position-other"
+                								},
+                								"caption" : {
+                									"caption" : "Product"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "heading-heading"
+                							}, {
+                								"colspan" : "1",
+                								"style" : "even",
+                								"drillOther" : {
+                									"img" : "drill-position-other"
+                								},
+                								"caption" : {
+                									"caption" : "Unit Sales"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "column-heading"
+                							}, {
+                								"colspan" : "1",
+                								"style" : "odd",
+                								"drillOther" : {
+                									"img" : "drill-position-other"
+                								},
+                								"caption" : {
+                									"caption" : "Store Cost"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "column-heading"
+                							}, {
+                								"colspan" : "1",
+                								"style" : "even",
+                								"drillOther" : {
+                									"img" : "drill-position-other"
+                								},
+                								"caption" : {
+                									"caption" : "Store Sales"
+                								},
+                								"rowspan" : "1",
+                								"_TAG" : "column-heading"
+                							} ] ]
+                						}
+                					},
+                					"type" : "PivotData"
+                				}
+                			},
+                			"startPosition" : {
+                				"y" : 0,
+                				"x" : 0
+                			}
+                		} ]
+                	}
+            	]
             };
+
+        	var cfg2 = {
+                    width: 400
+                    ,height: 300
+
+                    ,offsetCellNumber: 0
+
+                    ,s_src : "../../images/default/s.gif"
+
+                    ,sheet: [
+                     	{
+                         	sheetName: "测试Sheet1"
+                     		,colNum: 20
+                            ,rowNum: 50
+                            ,top : 100
+                            ,left : 30
+                            ,showColHead: true
+                    		,showRowHead: true
+                        }
+                        ,{
+                        	sheetName: "测试Sheet2"
+                        }
+                     ]
+                    
+                };
         	$("#workspace").spreadsheet(cfg);
+
+        	//$("#workspace2").spreadsheet(cfg2);
         });
         </script>
     </body>

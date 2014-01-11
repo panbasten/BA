@@ -63,11 +63,12 @@ public class CellBuilderImpl extends PartBuilderSupport implements CellBuilder {
 	/**
 	 * renders JSONObject of cell
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject buildJo(Cell cell, boolean even) {
 		// Element cellElem = table.elem("cell");
 		JSONObject cellJo = new JSONObject();
-		cellJo.put("__TAG", "cell");
+		cellJo.put("_TAG", "cell");
 		String s = cell.isNull() ? NBSP : cell.getFormattedValue();
 		s = s.trim();
 		if (s.length() == 0)
