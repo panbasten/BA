@@ -38,8 +38,8 @@
 	
 	// 获得列宽
 	function _getColWidth(sheetOpts,colIdx){
-		if(sheetOpts.data.colsWidth["c_"+colIdx] != undefined){
-			return sheetOpts.data.colsWidth["c_"+colIdx];
+		if(sheetOpts.colsWidth["c_"+colIdx] != undefined){
+			return sheetOpts.colsWidth["c_"+colIdx];
 		}else{
 			return sheetOpts.defaultColWidth;
 		}
@@ -56,8 +56,8 @@
 	
 	// 获得行高
 	function _getRowHeight(sheetOpts,rowIdx){
-		if(sheetOpts.data.rowsHeight["r_"+rowIdx] != undefined){
-			return sheetOpts.data.rowsHeight["r_"+rowIdx];
+		if(sheetOpts.rowsHeight["r_"+rowIdx] != undefined){
+			return sheetOpts.rowsHeight["r_"+rowIdx];
 		}else{
 			return sheetOpts.defaultRowHeight;
 		}
@@ -395,7 +395,8 @@
 				}
 				row.css({
 					top: top+"px",
-					height: (height-5)+"px"
+					height: (height-5)+"px",
+					"line-height": (height-5)+"px"
 				}).attr("id",idPrefix+"_"+i);
 				top = top + height;
 			}
@@ -438,8 +439,10 @@
 				width = _getColWidth(sheetOpts,j);
 				cell = _div("ui-spreadsheet-gridCell").appendTo(row);
 				cell.css({
-					left: left+"px",
-					width: (width-5)+"px"
+					left: (left+1)+"px",
+					width: (width-6)+"px",
+					top: "1px",
+					height: (height-7)+"px"
 				}).attr("id","r_"+i+"_c_"+j);
 				left = left + width;
 			}
@@ -857,6 +860,24 @@
 				,cidx : Math.max(spos.cidx,epos.cidx)
 			};
 			
+			//判断是否有合并单元格，扩展显示范围 TODO
+			var m;
+			for(var mergeName in sheetOpts.merge){
+				m = sheetOpts.merge[mergeName];
+				if(m){
+					// 判断开始节点是否是合并节点
+					
+					// 判断内部节点是否是合并节点
+					if(m.ridx>=startPos.ridx&&m.ridx<=endPos.ridx
+						&&m.cidx>=startPos.cidx&&m.cidx<=endPos.cidx){
+						endPos = {
+							ridx : Math.max(epos.ridx,(m.ridx+m.rowspan-1))
+							,cidx : Math.max(epos.cidx,(m.cidx+m.colspan-1))
+						};
+					}
+				}
+			}
+			
 			var scss = _getCellCss(startPos),
 				ecss = _getCellCss(endPos),
 				scss_o = _getCellCss(spos);
@@ -1038,9 +1059,8 @@
 	}
 	
 	// 根据Cell坐标获得Cell对象
-	function _getCellByPosition(target,pos){
-		var cs = _getCurrentSheet(target);
-		var row = cs.find("#r_"+pos.ridx);
+	function _getCellByPosition(sheet,pos){
+		var row = sheet.find("#r_"+pos.ridx);
 		return $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
 	}
 	
@@ -1084,6 +1104,7 @@
 			,height: ((sheetOpts.showColHead)?(h-opts.headColHeight):h)+"px"
 		});
 		
+		// 设置区域数据
 		if(sheetOpts.region){
 			sheetOpts.region = _setData(target,sheet,opts,sheetOpts);
 		}
@@ -1186,40 +1207,85 @@
 		// corner
 		function corner(c,sp){
 			c.startPosition = sp;
-			_setRegionCellData(sp,"");
+			_setRegionCellData(sp,"",c);
 		}
 		// heading-heading
 		function headingHeading(c,sp){
 			c.startPosition = sp;
-			_setRegionCellData(sp,c.caption.caption);
+			_setRegionCellData(sp,c.caption.caption,c);
 		}
 		// column-heading
 		function columnHeading(c,sp){
 			c.startPosition = sp;
-			_setRegionCellData(sp,c.caption.caption);
+			_setRegionCellData(sp,c.caption.caption,c);
 		}
 		// row-heading
 		function rowHeading(c,sp){
 			c.startPosition = sp;
-			_setRegionCellData(sp,c.caption.caption);
+			_setRegionCellData(sp,c.caption.caption,c);
 		}
 		// cell
 		function cell(r,sp){
 			c.startPosition = sp;
-			_setRegionCellData(sp,c.value);
+			_setRegionCellData(sp,c.value,c);
 		}
 		
 		// 设置单元格数据
 		function _setRegionCellData(sp,val,style){
-			var row = sheet.find("#r_"+sp.y),
-				cell = $(row).find("#r_"+sp.y+"_c_"+sp.x);
-			cell.html(val);
+			var cell = _getCellByPosition(sheet,{
+				ridx: sp.y,
+				cidx: sp.x
+			});
+			
+			// 设置单元格的内容
+			_setCellValue(cell, val);
+			
+			// 合并单元格
+			_mergeCell(sheetOpts,{
+				colspan: parseInt(c.colspan||1),
+				rowspan: parseInt(c.rowspan||1),
+				cidx: sp.x,
+				ridx: sp.y
+			},cell);
 		}
 	}
 	
+	// 设置单元格的内容
+	function _setCellValue(cell, val){
+		cell.html(val);
+	}
 	
-	
-	
+	// 合并单元格
+	function _mergeCell(sheetOpts,cellOpts,cell){
+		var id = "r_"+cellOpts.ridx+"_c_"+cellOpts.cidx;
+		if(cellOpts.rowspan==1 && cellOpts.colspan==1 && !sheetOpts.merge[id]){
+			return;
+		}
+		
+		var rowH = _getRowsHeight(sheetOpts,cellOpts.ridx,(cellOpts.ridx+cellOpts.rowspan-1));
+		var colW = _getColsWidth(sheetOpts,cellOpts.cidx,(cellOpts.cidx+cellOpts.colspan-1));
+		
+		// 如果rowspan和colspan都为1，从merge中删除
+		if(cellOpts.rowspan==1 && cellOpts.colspan==1){
+			sheetOpts.merge[id] = undefined;
+		
+			cell.css({
+				top : "1px",
+				width: (colW-6)+"px",
+				height: (rowH-7)+"px"
+			}).removeClass("ui-spreadsheet-mergedCell");
+		}
+		// 否则添加到merge中
+		else{
+			sheetOpts.merge[id] = cellOpts;
+		
+			cell.css({
+				top : 0,
+				width: (colW-6)+"px",
+				height: (rowH-6)+"px"
+			}).addClass("ui-spreadsheet-mergedCell");
+		}
+	}
 	
 	
 	
@@ -1853,10 +1919,10 @@
 		,top : 0
 		,left : 0
 		
-		,data : {
-			colsWidth : {}
-			,rowsHeight : {}
-		}
+		// 样式
+		,colsWidth : {}
+		,rowsHeight : {}
+		,merge : {}
 	
 	};
 	

@@ -50,11 +50,20 @@
                      	sheetName: "测试Sheet1"
                  		,colNum: 20
                         ,rowNum: 50
-                        ,top : 100
-                        ,left : 30
+                        ,top : 0
+                        ,left : 0
                         ,defaultColWidth : 120
+                        ,defaultRowHeight : 25
                         ,showColHead: true
                 		,showRowHead: true
+
+                		,rowsHeight: {
+                			"r_0" : 40
+                 		}
+	                 	,colsWidth: {
+	            			"c_3" : 70
+	             		}
+                		
                 		,"region" : [ {
                 			"name" : "region1",
                 			"regionObject" : {
@@ -121,7 +130,7 @@
                 									"img" : "drill-position-other"
                 								},
                 								"caption" : {
-                									"caption" : "全部"
+                									"caption" : "指标"
                 								},
                 								"rowspan" : "1",
                 								"_TAG" : "heading-heading"

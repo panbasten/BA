@@ -329,6 +329,7 @@
 	overflow: hidden;
 	white-space: nowrap;/*默认值*/
 	text-align: right;/*默认值*/
+	background-color: #fff;
 	height: 100%;
 	top: -1px;
 	border-left: 1px solid transparent;/*默认值*/
@@ -364,6 +365,10 @@
 	white-space: nowrap;
 	margin-left: 1px;
 	margin-right: 1px;
+}
+
+.ui-spreadsheet-mergedCell {
+	z-Index: 20;
 }
 
 .ui-spreadsheet-cursorField {
