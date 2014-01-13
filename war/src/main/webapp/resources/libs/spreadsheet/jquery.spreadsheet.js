@@ -36,6 +36,38 @@
 		return n;
 	}
 	
+	// 获得单元格的尺寸
+	function _getCellSize(sheetOpts,cidx,ridx){
+		var m,mc;
+		// 判断开始节点是否是合并节点
+		for(var mergeName in sheetOpts.merge){
+			m = sheetOpts.merge[mergeName];
+			if(m){
+				if(ridx>=m.ridx && ridx<=(m.ridx+m.rowspan-1)
+					&& cidx>=m.cidx && cidx<=(m.cidx+m.colspan-1)){
+					mc = m;
+					break;
+				}
+			}
+		}
+		if(mc){
+			return {
+				w: _getColsWidth(sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1)),
+				h: _getRowsHeight(sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1)),
+				cidx: mc.cidx,
+				ridx: mc.ridx
+			};
+		}else{
+			return {
+				w: _getColWidth(sheetOpts,cidx),
+				h: _getRowHeight(sheetOpts,ridx),
+				cidx: cidx,
+				ridx: ridx
+			};
+		}
+		
+	}
+	
 	// 获得列宽
 	function _getColWidth(sheetOpts,colIdx){
 		if(sheetOpts.colsWidth["c_"+colIdx] != undefined){
@@ -860,27 +892,40 @@
 				,cidx : Math.max(spos.cidx,epos.cidx)
 			};
 			
-			//判断是否有合并单元格，扩展显示范围 TODO
 			var m;
+			// 判断开始节点是否是合并节点
 			for(var mergeName in sheetOpts.merge){
 				m = sheetOpts.merge[mergeName];
 				if(m){
-					// 判断开始节点是否是合并节点
-					
+					if(startPos.ridx>=m.ridx && startPos.ridx<=(m.ridx+m.rowspan-1)
+						&& startPos.cidx>=m.cidx && startPos.cidx<=(m.cidx+m.colspan-1)){
+						startPos = {
+							ridx : Math.min(startPos.ridx,m.ridx),
+							cidx : Math.min(startPos.cidx,m.cidx)
+						};
+						break;
+					}
+				}
+			}
+			
+			// 判断是否有合并单元格，扩展显示范围
+			for(var mergeName in sheetOpts.merge){
+				m = sheetOpts.merge[mergeName];
+				if(m){
 					// 判断内部节点是否是合并节点
-					if(m.ridx>=startPos.ridx&&m.ridx<=endPos.ridx
-						&&m.cidx>=startPos.cidx&&m.cidx<=endPos.cidx){
+					if(m.ridx>=startPos.ridx && m.ridx<=endPos.ridx
+						&& m.cidx>=startPos.cidx && m.cidx<=endPos.cidx){
 						endPos = {
-							ridx : Math.max(epos.ridx,(m.ridx+m.rowspan-1))
-							,cidx : Math.max(epos.cidx,(m.cidx+m.colspan-1))
+							ridx : Math.max(endPos.ridx,(m.ridx+m.rowspan-1))
+							,cidx : Math.max(endPos.cidx,(m.cidx+m.colspan-1))
 						};
 					}
 				}
 			}
 			
 			var scss = _getCellCss(startPos),
-				ecss = _getCellCss(endPos),
-				scss_o = _getCellCss(spos);
+				ecss = _getCellCss(endPos);
+				
 			bv1.css({
 				left: (scss.left-2)+"px"
 				,top: (scss.top-1)+"px"
@@ -934,11 +979,17 @@
 				}).show();
 			}
 			
+			// 起始点标记
+			var acSize = _getCellSize(sheetOpts,spos.cidx,spos.ridx),
+				scss_o = _getCellCss({
+					ridx: acSize.ridx,
+					cidx: acSize.cidx
+				});
 			ac.css({
 				left: scss_o.left+"px"
 				,top: (scss_o.top+1)+"px"
-				,width: (_getColWidth(sheetOpts,spos.cidx)-5)+"px"
-				,height: (_getRowHeight(sheetOpts,spos.ridx)-6)+"px"
+				,width: (acSize.w-5)+"px"
+				,height: (acSize.h-6)+"px"
 			}).show();
 			
 			if(type=="row"){
