@@ -466,18 +466,6 @@
 			}).attr("id","r_"+i);
 			
 			top = top + height;
-			left = 0;
-			for(var j=0;j<sheetOpts.colNum;j++){
-				width = _getColWidth(sheetOpts,j);
-				cell = _div("ui-spreadsheet-gridCell").appendTo(row);
-				cell.css({
-					left: (left+1)+"px",
-					width: (width-6)+"px",
-					top: "1px",
-					height: (height-7)+"px"
-				}).attr("id","r_"+i+"_c_"+j);
-				left = left + width;
-			}
 		}
 		
 		// 选中框
@@ -727,16 +715,6 @@
 			}
 		}
 		
-		// 通过Cell坐标获得Cell
-		function _getCellCss(pos){
-			var row = paneIC.find("#r_"+pos.ridx);
-			var cell = $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
-			return {
-				top : Flywet.cssNum(row,"top")
-				,left : Flywet.cssNum(cell,"left")
-			};
-		}
-		
 		// 隐藏虚线框
 		function _hideFillRange(){
 			fv1.hide();
@@ -804,8 +782,8 @@
 				}
 			}
 			
-			var scss = _getCellCss(startPos),
-			ecss = _getCellCss(endPos);
+			var scss = _getCellCss(sheetOpts,startPos),
+			ecss = _getCellCss(sheetOpts,endPos);
 			
 			fv1.css({
 				left: (scss.left-1)+"px"
@@ -923,8 +901,8 @@
 				}
 			}
 			
-			var scss = _getCellCss(startPos),
-				ecss = _getCellCss(endPos);
+			var scss = _getCellCss(sheetOpts,startPos),
+				ecss = _getCellCss(sheetOpts,endPos);
 				
 			bv1.css({
 				left: (scss.left-2)+"px"
@@ -981,7 +959,7 @@
 			
 			// 起始点标记
 			var acSize = _getCellSize(sheetOpts,spos.cidx,spos.ridx),
-				scss_o = _getCellCss({
+				scss_o = _getCellCss(sheetOpts,{
 					ridx: acSize.ridx,
 					cidx: acSize.cidx
 				});
@@ -1109,10 +1087,37 @@
 		};
 	}
 	
-	// 根据Cell坐标获得Cell对象
-	function _getCellByPosition(sheet,pos){
+	// 根据Cell坐标获得或者创建Cell对象
+	function _getOrCreateCellByPosition(sheetOpts,sheet,pos){
 		var row = sheet.find("#r_"+pos.ridx);
-		return $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
+		var cell = $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
+		if(cell && cell.length>0){
+			return cell;
+		}else{
+			cell = _div("ui-spreadsheet-gridCell");
+			cell.attr("id","r_"+pos.ridx+"_c_"+pos.cidx);
+			cell.data("position",{
+				ridx: pos.ridx,
+				cidx: pos.cidx
+			});
+			cell.data("merge",{
+				ridx: pos.ridx,
+				cidx: pos.cidx,
+				colspan: 1,
+				rowspan: 1
+			});
+			cell.appendTo(row);
+			return cell;
+		}
+	}
+	
+	
+	// 通过Cell坐标获得Cell
+	function _getCellCss(sheetOpts,pos){
+		return {
+			top : _getRowsHeight(sheetOpts,0,(pos.ridx-1))
+			,left : _getColsWidth(sheetOpts,0,(pos.cidx-1))
+		};
 	}
 	
 	function _rerenderSheet(target,parent,opts,sheetOpts,w,h){
@@ -1210,94 +1215,291 @@
 			head = regionData.head,
 			body = regionData.body,
 			sp = region.startPosition,
-			x = 0, y = 0;
+			cidx = 0, ridx = 0;
 		
 		if(sp){
-			x = sp.x;
-			y = sp.y;
+			cidx = sp.cidx;
+			ridx = sp.ridx;
 		}
 		
-		var r,c,cn;
+		var r,cellOpts,cellObj,cn;
 		if(head && head.row){
 			// 头部行记录
-			for(var i=0;i<head.row.length;i++,y++){
+			for(var i=0;i<head.row.length;i++,ridx++){
 				r = head.row[i];
 				cn = 0;
 				for(var j=0;j<r.length;j++){
-					c = r[j];
-					if(c["_TAG"] == "corner"){
-						corner(c,{x:x+cn,y:y});
-					}else if(c["_TAG"] == "heading-heading"){
-						headingHeading(c,{x:x+cn,y:y});
-					}else if(c["_TAG"] == "column-heading"){
-						columnHeading(c,{x:x+cn,y:y});
+					cellOpts = r[j];
+					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+					if(cellOpts["_TAG"] == "corner"){
+						corner(cellOpts,cellObj);
+					}else if(cellOpts["_TAG"] == "heading-heading"){
+						headingHeading(cellOpts,cellObj);
+					}else if(cellOpts["_TAG"] == "column-heading"){
+						columnHeading(cellOpts,cellObj);
 					}
-					cn = cn + parseInt(c.colspan||1);
+					cn = cn + parseInt(cellOpts.colspan||1);
 				}
 			}
 		}
 		
 		if(body && body.row){
 			// 头部行记录
-			for(var i=0;i<body.row.length;i++,y++){
+			for(var i=0;i<body.row.length;i++,ridx++){
 				r = body.row[i];
 				cn = 0;
 				for(var j=0;j<r.length;j++){
-					c = r[j];
-					if(c["_TAG"] == "row-heading"){
-						rowHeading(c,{x:x+cn,y:y});
-					}else if(c["_TAG"] == "cell"){
-						cell(c,{x:x+cn,y:y});
+					cellOpts = r[j];
+					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+					if(cellOpts["_TAG"] == "row-heading"){
+						rowHeading(cellOpts,cellObj);
+					}else if(cellOpts["_TAG"] == "cell"){
+						cell(cellOpts,cellObj);
 					}
 					
-					cn = cn + parseInt(c.colspan||1);
+					cn = cn + parseInt(cellOpts.colspan||1);
 				}
 			}
 		}
 		
 		// corner
-		function corner(c,sp){
-			c.startPosition = sp;
-			_setRegionCellData(sp,"",c);
+		function corner(cellOpts,cell){
+			cellOpts.border = {
+				"top-style" : "thin"
+				,"left-style" : "thin"
+				,"bottom-style" : "thin"
+				,"right-style" : "thin"
+			};
+			_setRegionCellData(cellOpts,cell,"");
 		}
 		// heading-heading
-		function headingHeading(c,sp){
-			c.startPosition = sp;
-			_setRegionCellData(sp,c.caption.caption,c);
+		function headingHeading(cellOpts,cell){
+			cellOpts.border = {
+				"top-style" : "thin"
+				,"left-style" : "thin"
+				,"bottom-style" : "thin"
+				,"right-style" : "thin"
+			};
+			var val = cellOpts.caption.caption;
+			_setRegionCellData(cellOpts,cell,val);
 		}
 		// column-heading
-		function columnHeading(c,sp){
-			c.startPosition = sp;
-			_setRegionCellData(sp,c.caption.caption,c);
+		function columnHeading(cellOpts,cell){
+			cellOpts.border = {
+				"top-style" : "thin"
+				,"left-style" : "thin"
+				,"bottom-style" : "thin"
+				,"right-style" : "thin"
+			};
+			var val = cellOpts.caption.caption;
+			_setRegionCellData(cellOpts,cell,val);
 		}
 		// row-heading
-		function rowHeading(c,sp){
-			c.startPosition = sp;
-			_setRegionCellData(sp,c.caption.caption,c);
+		function rowHeading(cellOpts,cell){
+			cellOpts.border = {
+				"top-style" : "thin"
+				,"left-style" : "thin"
+				,"bottom-style" : "thin"
+				,"right-style" : "thin"
+			};
+			var val = cellOpts.caption.caption;
+			_setRegionCellData(cellOpts,cell,val);
 		}
 		// cell
-		function cell(r,sp){
-			c.startPosition = sp;
-			_setRegionCellData(sp,c.value,c);
+		function cell(cellOpts,cell){
+			cellOpts.border = {
+				"top-style" : "thin"
+				,"left-style" : "thin"
+				,"bottom-style" : "thin"
+				,"right-style" : "thin"
+			};
+			var val = cellOpts.value;
+			_setRegionCellData(cellOpts,cell,val);
 		}
 		
-		// 设置单元格数据
-		function _setRegionCellData(sp,val,style){
-			var cell = _getCellByPosition(sheet,{
-				ridx: sp.y,
-				cidx: sp.x
-			});
+		// 设置单元格数据和样式
+		function _setRegionCellData(style,cell,val){
+			cell.data("style",style);
 			
 			// 设置单元格的内容
 			_setCellValue(cell, val);
 			
 			// 合并单元格
-			_mergeCell(sheetOpts,{
-				colspan: parseInt(c.colspan||1),
-				rowspan: parseInt(c.rowspan||1),
-				cidx: sp.x,
-				ridx: sp.y
-			},cell);
+			_mergeCell(sheetOpts,sheet,cell,style);
+			
+		}
+	}
+	
+	// 设置单元格的边框
+	function _setCellBorder(sheetOpts,sheet,cell,style){
+			
+		var sp = cell.data("position"),
+			merge = cell.data("merge");
+		
+		// 合并单元格的边框
+		// 对于左上边框拥有下列属性
+		// border.left-style 左边框样式
+		// border.left-color 左边框颜色
+		// border.left-owner 左边框是否表示当前单元格
+		// border.left-proxy-owner 左边框代理所有者
+		// 对于右下边框拥有下列属性
+		// border.right-style 右边框样式
+		// border.right-color 右边框颜色
+		// border.right-proxy 右边框是否使用代理
+		var border = $.extend({},cell.data("border"),style.border);
+		cell.data("border",border);
+		
+		var borderStyle,lineStyle,
+			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + 1,
+			top = 0;
+		
+		// 处理左边框
+		if(border["left-style"] && border["left-style"] != "none"){
+			lineStyle = $.fn.spreadsheet.borderLineStyle[border["left-style"]];
+			borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
+				+ (border["left-color"]||lineStyle.color);
+			left = left - lineStyle.width;
+			cell.css("border-left",borderStyle);
+			
+			if(style["left-proxy-owner"]){
+				border["left-proxy-owner"] = style["left-proxy-owner"];
+			}else{
+				border["left-owner"] = true;
+			}
+		}
+		
+		// 处理上边框
+		if(border["top-style"] && border["top-style"] != "none"){
+			lineStyle = $.fn.spreadsheet.borderLineStyle[border["top-style"]];
+			borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
+				+ (border["top-color"]||lineStyle.color);
+			top = top - lineStyle.width;
+			cell.css("border-top",borderStyle);
+			
+			if(style["top-proxy-owner"]){
+				border["top-proxy-owner"] = style["top-proxy-owner"];
+			}else{
+				border["top-owner"] = true;
+			}
+		}
+		
+		
+		// 处理右边框，可能需要右侧的单元格代理边框
+		if(style.border && style.border["right-style"]){
+			// 判断是否可以代理
+			if(checkProxyRight()){
+				var rstyle = {
+					"left-style" : style.border["right-style"]
+				};
+				if(style.border["right-color"]){
+					rstyle["left-color"] = style.border["right-color"];
+				}
+				border["left-proxy"] = true;
+				proxyRight({
+					"left-proxy-owner" : merge
+					,border : rstyle
+				});
+			}else{
+				lineStyle = $.fn.spreadsheet.borderLineStyle[border["right-style"]];
+				borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
+					+ (border["right-color"]||lineStyle.color);
+				cell.css("border-right",borderStyle);
+				border["left-proxy"] = false;
+			}
+		}
+		
+		// 处理下边框，可能需要下侧的单元格代理边框
+		if(style.border && style.border["bottom-style"]){
+			// 判断是否可以代理
+			if(checkProxyTop()){
+				var tstyle = {
+					"top-style" : style.border["bottom-style"]
+				};
+				if(style.border["bottom-color"]){
+					tstyle["top-color"] = style.border["bottom-color"];
+				}
+				border["top-proxy"] = true;
+				proxyTop({
+					"top-proxy-owner" : merge
+					,border : tstyle
+				});
+			}else{
+				lineStyle = $.fn.spreadsheet.borderLineStyle[border["bottom-style"]];
+				borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
+					+ (border["bottom-color"]||lineStyle.color);
+				cell.css("border-bottom",borderStyle);
+				border["top-proxy"] = false;
+			}
+		}
+		
+		var cSize = _getCellSize(sheetOpts,sp.cidx,sp.ridx);
+		cell.css({
+			left: left+"px"
+			,top: top+"px"
+			,width: (cSize.w-5) +"px"
+			,height: (cSize.h-5)+"px"
+		});
+		
+		function checkProxyRight(){
+			var temp_rowspan = merge.rowspan,
+				temp_cell,
+				temp_idx = merge.ridx;
+			while(temp_rowspan>0){
+				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+					cidx: (merge.cidx + merge.colspan)
+					,ridx : temp_idx
+				});
+				temp_idx = temp_idx + temp_cell.data("merge").rowspan;
+				temp_rowspan = temp_rowspan - temp_cell.data("merge").rowspan;
+			}
+			return (temp_rowspan == 0);
+		}
+		
+		function proxyRight(style){
+			var temp_rowspan = merge.rowspan,
+				temp_cell,
+				temp_idx = merge.ridx;
+			while(temp_rowspan>0){
+				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+					cidx: (merge.cidx + merge.colspan)
+					,ridx : temp_idx
+				});
+				_setCellBorder(sheetOpts,sheet,temp_cell,style);
+				
+				temp_idx = temp_idx + temp_cell.data("merge").rowspan;
+				temp_rowspan = temp_rowspan - temp_cell.data("merge").rowspan;
+			}
+		}
+		
+		function checkProxyTop(){
+			var temp_colspan = merge.colspan,
+				temp_cell,
+				temp_idx = merge.cidx;
+			while(temp_colspan>0){
+				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+					cidx: temp_idx
+					,ridx : (merge.ridx + merge.rowspan)
+				});
+				temp_idx = temp_idx + temp_cell.data("merge").colspan;
+				temp_colspan = temp_colspan - temp_cell.data("merge").colspan;
+			}
+			return (temp_colspan == 0);
+		}
+		
+		function proxyTop(style){
+			var temp_colspan = merge.colspan,
+				temp_cell,
+				temp_idx = merge.cidx;
+			while(temp_colspan>0){
+				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+					cidx: temp_idx
+					,ridx : (merge.ridx + merge.rowspan)
+				});
+				_setCellBorder(sheetOpts,sheet,temp_cell,style);
+				
+				temp_idx = temp_idx + temp_cell.data("merge").colspan;
+				temp_colspan = temp_colspan - temp_cell.data("merge").colspan;
+			}
 		}
 	}
 	
@@ -1307,40 +1509,47 @@
 	}
 	
 	// 合并单元格
-	function _mergeCell(sheetOpts,cellOpts,cell){
-		var id = "r_"+cellOpts.ridx+"_c_"+cellOpts.cidx;
-		if(cellOpts.rowspan==1 && cellOpts.colspan==1 && !sheetOpts.merge[id]){
-			return;
+	function _mergeCell(sheetOpts,sheet,cell,style){
+		var sp = cell.data("position"),
+			id = "r_"+sp.ridx+"_c_"+sp.cidx,
+			mergeOpts = {
+				ridx: sp.ridx
+				,cidx: sp.cidx
+				,rowspan : parseInt(style.rowspan||1)
+				,colspan : parseInt(style.colspan||1)
+			};
+		
+		cell.data("merge",mergeOpts);
+		
+		if(mergeOpts.rowspan==1 && mergeOpts.colspan==1 && !sheetOpts.merge[id]){
+		}else{
+			var rowH = _getRowsHeight(sheetOpts,sp.ridx,(sp.ridx+mergeOpts.rowspan-1));
+			var colW = _getColsWidth(sheetOpts,sp.cidx,(sp.cidx+mergeOpts.colspan-1));
+			
+			// 如果rowspan和colspan都为1，从merge中删除
+			if(mergeOpts.rowspan==1 && mergeOpts.colspan==1){
+				// TODO 分散代理的边框，将代理的左上边框分散到每个单元格上
+				
+				
+				sheetOpts.merge[id] = undefined;
+				cell.removeClass("ui-spreadsheet-mergedCell");
+			}
+			// 否则添加到merge中
+			else{
+				// TODO 合并代理的边框
+				// 如果合并的单元格都有相同的代理的边框，继续合并代理边框
+				// 如果不等大，取消代理，将边框渲染交给原单元格
+				
+				
+				sheetOpts.merge[id] = mergeOpts;
+				cell.addClass("ui-spreadsheet-mergedCell");
+			}
 		}
 		
-		var rowH = _getRowsHeight(sheetOpts,cellOpts.ridx,(cellOpts.ridx+cellOpts.rowspan-1));
-		var colW = _getColsWidth(sheetOpts,cellOpts.cidx,(cellOpts.cidx+cellOpts.colspan-1));
+		// 设置边框
+		_setCellBorder(sheetOpts,sheet,cell,style);
 		
-		// 如果rowspan和colspan都为1，从merge中删除
-		if(cellOpts.rowspan==1 && cellOpts.colspan==1){
-			sheetOpts.merge[id] = undefined;
-		
-			cell.css({
-				top : "1px",
-				width: (colW-6)+"px",
-				height: (rowH-7)+"px"
-			}).removeClass("ui-spreadsheet-mergedCell");
-		}
-		// 否则添加到merge中
-		else{
-			sheetOpts.merge[id] = cellOpts;
-		
-			cell.css({
-				top : 0,
-				width: (colW-6)+"px",
-				height: (rowH-6)+"px"
-			}).addClass("ui-spreadsheet-mergedCell");
-		}
 	}
-	
-	
-	
-	
 	
 	function _initSheets(target,parent,opts){
 		return _div("ui-spreadsheet-sheets").appendTo(parent);
@@ -1550,8 +1759,8 @@
 			
 			// 对于没有设置行列数，采用默认的行列数
 			var pos = _getCellPositionByCoors(target,{
-				x:_getPaneWidth(opts,sheetOpts)
-				,y:_getPaneHeight(opts,sheetOpts)
+				cidx:_getPaneWidth(opts,sheetOpts)
+				,ridx:_getPaneHeight(opts,sheetOpts)
 			});
 			if(sheetOpts.colNum<1){
 				sheetOpts.colNum = pos.cidx + opts.offsetCellNumber;
@@ -1975,6 +2184,35 @@
 		,rowsHeight : {}
 		,merge : {}
 	
+	};
+	
+	$.fn.spreadsheet.borderLineStyle = {
+		// 无表格线
+		none : {
+			index : 0
+			,width : 0
+		}
+		// 细线(1px)
+		,thin : {
+			index : 1
+			,width : 1
+			,style : "solid"
+			,color : "#000"
+		}
+		// 中等粗线(2px)
+		,medium : {
+			index : 2
+			,width : 2
+			,style : "solid"
+			,color : "#000"
+		}
+		// 虚线
+		,dashed : {
+			index : 3
+			,width : 1
+			,style : "dashed"
+			,color : "#000"
+		}
 	};
 	
 	$.fn.spreadsheet.defaults = {
