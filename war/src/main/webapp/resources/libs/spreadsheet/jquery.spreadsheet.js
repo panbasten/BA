@@ -1229,7 +1229,7 @@
 				r = head.row[i];
 				cn = 0;
 				for(var j=0;j<r.length;j++){
-					cellOpts = r[j];
+					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
 					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
 					if(cellOpts["_TAG"] == "corner"){
 						corner(cellOpts,cellObj);
@@ -1249,7 +1249,7 @@
 				r = body.row[i];
 				cn = 0;
 				for(var j=0;j<r.length;j++){
-					cellOpts = r[j];
+					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
 					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
 					if(cellOpts["_TAG"] == "row-heading"){
 						rowHeading(cellOpts,cellObj);
@@ -1270,6 +1270,7 @@
 				,"bottom-style" : "thin"
 				,"right-style" : "thin"
 			};
+			cellOpts.style = "ss-corner";
 			_setRegionCellData(cellOpts,cell,"");
 		}
 		// heading-heading
@@ -1280,6 +1281,8 @@
 				,"bottom-style" : "thin"
 				,"right-style" : "thin"
 			};
+			cellOpts.style = "ss-heading-heading-"+cellOpts.style;
+			cellOpts.indent = 0.5;
 			var val = cellOpts.caption.caption;
 			_setRegionCellData(cellOpts,cell,val);
 		}
@@ -1291,6 +1294,7 @@
 				,"bottom-style" : "thin"
 				,"right-style" : "thin"
 			};
+			cellOpts.style = "ss-column-heading-"+cellOpts.style;
 			var val = cellOpts.caption.caption;
 			_setRegionCellData(cellOpts,cell,val);
 		}
@@ -1302,8 +1306,24 @@
 				,"bottom-style" : "thin"
 				,"right-style" : "thin"
 			};
+			cellOpts.style = "ss-row-heading-"+cellOpts.style;
 			var val = cellOpts.caption.caption;
+			if(cellOpts.drillExpand){
+				val = "<input id='" + cellOpts.drillExpand.id 
+					+ "' class='ss-cell-btn' type='image' title='展开' src='"
+					+ opts.btn_src + cellOpts.drillExpand.img
+					+ ".png'/>"+val;
+			}
 			_setRegionCellData(cellOpts,cell,val);
+			
+			// 事件
+			if(cellOpts.drillExpand){
+				cell.find("#"+cellOpts.drillExpand.id).mousedown(function(e){
+					// TODO
+					e.stopPropagation();
+		            e.preventDefault();
+				});
+			}
 		}
 		// cell
 		function cell(cellOpts,cell){
@@ -1313,6 +1333,8 @@
 				,"bottom-style" : "thin"
 				,"right-style" : "thin"
 			};
+			cellOpts.style = "ss-cell-"+cellOpts.style;
+			cellOpts.align = "right";
 			var val = cellOpts.value;
 			_setRegionCellData(cellOpts,cell,val);
 		}
@@ -1321,12 +1343,84 @@
 		function _setRegionCellData(style,cell,val){
 			cell.data("style",style);
 			
-			// 设置单元格的内容
-			_setCellValue(cell, val);
+			if(style.style){
+				cell.addClass(style.style);
+			}
 			
-			// 合并单元格
+			// 合并单元格，包括边框
 			_mergeCell(sheetOpts,sheet,cell,style);
 			
+			// 设置单元格的内容
+			_setCellValue(sheetOpts,sheet,cell,val);
+			
+			// 设置字体
+			_setCellFont(sheetOpts,sheet,cell,style);
+			
+			// 设置对齐方式
+			_setCellAlign(sheetOpts,sheet,cell,style);
+		}
+	}
+	
+	// 设置单元格的内容
+	function _setCellValue(sheetOpts,sheet,cell,val){
+		var v = cell.find(".ui-spreadsheet-gridCell-val");
+		if(v && v.length > 0){
+			v.html(val);
+		}else{
+			v = _div("ui-spreadsheet-gridCell-val").appendTo(cell);
+			v.css({
+				width : (cell.width()-2) + "px"
+				,"max-height" : cell.height() + "px"
+			});
+			v.html(val);
+		}
+		
+	}
+	
+	// 设置字体
+	function _setCellFont(sheetOpts,sheet,cell,style){
+		// TODO
+	}
+	
+	// 设置对齐方式
+	function _setCellAlign(sheetOpts,sheet,cell,style){
+		var v = cell.find(".ui-spreadsheet-gridCell-val"),
+			valign = cell.find(".ui-spreadsheet-gridCell-valign");
+		// 水平
+		v.css("text-align",style.align);
+		
+		// 垂直
+		if(style.valign == "top"){
+			v.css("top","0");
+			v.css("bottom",null);
+			v.css("position","absolute");
+			cell.append(v);
+			valign.remove();
+		}else if(style.valign == "bottom"){
+			v.css("top",null);
+			v.css("bottom","0");
+			v.css("position","absolute");
+			cell.append(v);
+			valign.remove();
+		}else {
+			if(valign && valign.length > 0){
+			}else{
+				valign = _div("ui-spreadsheet-gridCell-valign");
+			}
+			v.css("top",null);
+			v.css("bottom",null);
+			v.css("position","relative");
+			cell.append(valign);
+			valign.append(v);
+		}
+		
+		// 设置缩进
+		if(style.align == "right"){
+			v.css("margin-left",null);
+			v.css("margin-right",style.indent+"em");
+		}else{
+			v.css("margin-left",style.indent+"em");
+			v.css("margin-right",null);
 		}
 	}
 	
@@ -1438,8 +1532,8 @@
 		cell.css({
 			left: left+"px"
 			,top: top+"px"
-			,width: (cSize.w-5) +"px"
-			,height: (cSize.h-5)+"px"
+			,width: (cSize.w-1) +"px"
+			,height: (cSize.h-1)+"px"
 		});
 		
 		function checkProxyRight(){
@@ -1505,11 +1599,6 @@
 		}
 	}
 	
-	// 设置单元格的内容
-	function _setCellValue(cell, val){
-		cell.html(val);
-	}
-	
 	// 合并单元格
 	function _mergeCell(sheetOpts,sheet,cell,style){
 		var sp = cell.data("position"),
@@ -1530,8 +1619,7 @@
 			
 			// 如果rowspan和colspan都为1，从merge中删除
 			if(mergeOpts.rowspan==1 && mergeOpts.colspan==1){
-				// TODO 分散代理的边框，将代理的左上边框分散到每个单元格上
-				
+				// TODO 将边框按位置分散到每个单元格上
 				
 				sheetOpts.merge[id] = undefined;
 				cell.removeClass("ui-spreadsheet-mergedCell");
@@ -1542,8 +1630,10 @@
 				cell.addClass("ui-spreadsheet-mergedCell");
 				
 				// TODO 合并代理的边框
-				// 如果合并的单元格都有相同的代理的边框，继续合并代理边框
-				// 如果不等大，取消代理，将边框渲染交给原单元格
+				// 对于边样式颜色相同的
+				// 		如果都是owner的，采纳为合并单元格的样式
+				// 		如果都是相同proxy，采纳为合并单元格的代理样式
+				// 取消未采纳的代理
 
 			}
 		}
@@ -2188,6 +2278,21 @@
 	
 	};
 	
+	$.fn.spreadsheet.cellStyleDefaults = {
+		fontFamily : ""
+		,fontStyle : "general" // general, italic, bold
+		,fontSize : "10pt"
+		,fontColor : "#000"
+			
+		,align : "left" // left, center, right, justify
+		,valign : "middle" // top, middle, bottom
+		,indent : 0 // 缩进值
+		
+		,colspan : 1
+		,rowspan : 1
+		
+	};
+	
 	$.fn.spreadsheet.borderLineStyle = {
 		// 无表格线
 		none : {
@@ -2225,6 +2330,8 @@
 		,show :		true
 		
 		,s_src : "resources/images/default/s.gif"
+			
+		,btn_src : "resources/images/default/report/"
 		
 		,headColHeight: 19 	// 列头高
 		,headRowWidth: 41	// 行头宽

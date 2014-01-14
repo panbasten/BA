@@ -331,16 +331,29 @@
 	text-align: right;/*默认值*/
 	background-color: #fff;
 	height: 100%;
-	font-family: Arial, Helvetica, sans-serif;/*默认值*/
+	font-family: 'Microsoft Yahei UI','Microsoft Yahei','微软雅黑','宋体',SimSun,sans-serif;/*默认值*/
 	font-size: 10pt;/*默认值*/
-	padding: 2px;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 	white-space: pre;
 	z-index: 1;
 	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
 	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
-	line-height: 1.3em;
+	line-height: normal;
+}
+
+.ui-spreadsheet-gridCell-valign {
+	display: table-cell;
+    height: inherit;
+    position: relative;
+    vertical-align: middle;
+}
+
+.ui-spreadsheet-gridCell-val {
+	position: absolute;
+	overflow: hidden;
+	padding-left: 2px;
+    white-space: nowrap;
 }
 
 .ui-spreadsheet-defaultRangeBorder {
@@ -911,4 +924,42 @@
 
 .ui-spreadsheet-cur-movedef-1 {
 	cursor: url("images/ss/cursors/move.cur") 9 9, default;
+}
+
+
+
+.ss-corner {
+	background-color: #dee3ef;
+}
+
+.ss-heading-heading-even,
+.ss-heading-heading-odd,
+.ss-heading-heading-span {
+	background-color: #eef3ff;
+}
+
+.ss-column-heading-even,
+.ss-column-heading-odd {
+	background-color: #dee3ef;
+}
+
+.ss-row-heading-even {
+	background-color: #dee3ef;
+}
+.ss-row-heading-odd {
+	background-color: #eef3ff;
+}
+
+.ss-cell-even {
+	background-color: #f0f0f0;
+}
+
+.ss-cell-odd {
+	background-color: #ffffff;
+}
+
+.ss-cell-btn {
+	margin-right: 2px;
+	widht: 9px;
+	height: 9px;
 }
