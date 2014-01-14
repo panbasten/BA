@@ -1361,6 +1361,7 @@
 			left = left - lineStyle.width;
 			cell.css("border-left",borderStyle);
 			
+			// 有此标志代表是代理
 			if(style["left-proxy-owner"]){
 				border["left-proxy-owner"] = style["left-proxy-owner"];
 			}else{
@@ -1376,6 +1377,7 @@
 			top = top - lineStyle.width;
 			cell.css("border-top",borderStyle);
 			
+			// 有此标志代表是代理
 			if(style["top-proxy-owner"]){
 				border["top-proxy-owner"] = style["top-proxy-owner"];
 			}else{
@@ -1536,13 +1538,13 @@
 			}
 			// 否则添加到merge中
 			else{
+				sheetOpts.merge[id] = mergeOpts;
+				cell.addClass("ui-spreadsheet-mergedCell");
+				
 				// TODO 合并代理的边框
 				// 如果合并的单元格都有相同的代理的边框，继续合并代理边框
 				// 如果不等大，取消代理，将边框渲染交给原单元格
-				
-				
-				sheetOpts.merge[id] = mergeOpts;
-				cell.addClass("ui-spreadsheet-mergedCell");
+
 			}
 		}
 		
