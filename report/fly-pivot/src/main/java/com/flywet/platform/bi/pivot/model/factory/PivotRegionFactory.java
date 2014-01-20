@@ -13,6 +13,7 @@ import com.flywet.platform.bi.pivot.model.region.TableRegion;
  * 
  */
 public class PivotRegionFactory {
+
 	public static IRegionObject resolver(Node node) {
 		NodeList children = node.getChildNodes();
 
@@ -20,7 +21,8 @@ public class PivotRegionFactory {
 
 		for (int i = 0; i < children.getLength(); i++) {
 			childnode = children.item(i);
-			if (childnode.getNodeName().equalsIgnoreCase("TableRegion")) {
+			if (childnode.getNodeName().equalsIgnoreCase(
+					TableRegion.REGION_OBJECT_NAME)) {
 				return TableRegion.instance(childnode);
 			}
 

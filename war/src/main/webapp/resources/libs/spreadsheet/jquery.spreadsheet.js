@@ -1283,6 +1283,7 @@
 			};
 			cellOpts.style = "ss-heading-heading-"+cellOpts.style;
 			cellOpts.indent = 0.5;
+			cellOpts.fontWeight = "bolder"
 			var val = cellOpts.caption.caption;
 			_setRegionCellData(cellOpts,cell,val);
 		}
@@ -1295,6 +1296,7 @@
 				,"right-style" : "thin"
 			};
 			cellOpts.style = "ss-column-heading-"+cellOpts.style;
+			cellOpts.fontWeight = "bolder"
 			var val = cellOpts.caption.caption;
 			_setRegionCellData(cellOpts,cell,val);
 		}
@@ -1307,6 +1309,7 @@
 				,"right-style" : "thin"
 			};
 			cellOpts.style = "ss-row-heading-"+cellOpts.style;
+			cellOpts.fontWeight = "bolder"
 			var val = cellOpts.caption.caption;
 			if(cellOpts.drillExpand){
 				val = "<input id='" + cellOpts.drillExpand.id 
@@ -1320,6 +1323,7 @@
 			if(cellOpts.drillExpand){
 				cell.find("#"+cellOpts.drillExpand.id).mousedown(function(e){
 					// TODO
+					alert(cellOpts.drillExpand.id);
 					e.stopPropagation();
 		            e.preventDefault();
 				});
@@ -1379,7 +1383,22 @@
 	
 	// 设置字体
 	function _setCellFont(sheetOpts,sheet,cell,style){
-		// TODO
+		var v = cell.find(".ui-spreadsheet-gridCell-val");
+		if(style.fontFamily){
+			v.css("font-family",style.fontFamily);
+		}
+		if(style.fontSize){
+			v.css("font-size",style.fontSize);
+		}
+		if(style.fontColor){
+			v.css("font-color",style.fontColor);
+		}
+		if(style.fontStyle){
+			v.css("font-style",style.fontStyle);
+		}
+		if(style.fontWeight){
+			v.css("font-weight",style.fontWeight);
+		}
 	}
 	
 	// 设置对齐方式
@@ -1850,15 +1869,15 @@
 			sheetOpts.rowNum = parseInt(sheetOpts.rowNum);
 			
 			// 对于没有设置行列数，采用默认的行列数
-			var pos = _getCellPositionByCoors(target,{
-				cidx:_getPaneWidth(opts,sheetOpts)
-				,ridx:_getPaneHeight(opts,sheetOpts)
+			var cpos = _getCellPositionByCoors(target, {
+				x : _getPaneWidth(opts,sheetOpts),
+				y : _getPaneHeight(opts,sheetOpts)
 			});
 			if(sheetOpts.colNum<1){
-				sheetOpts.colNum = pos.cidx + opts.offsetCellNumber;
+				sheetOpts.colNum = cpos.cidx + opts.offsetCellNumber;
 			}
 			if(sheetOpts.rowNum<1){
-				sheetOpts.rowNum = pos.ridx + opts.offsetCellNumber;
+				sheetOpts.rowNum = cpos.ridx + opts.offsetCellNumber;
 			}
 		}
 		
@@ -2279,10 +2298,11 @@
 	};
 	
 	$.fn.spreadsheet.cellStyleDefaults = {
-		fontFamily : ""
-		,fontStyle : "general" // general, italic, bold
-		,fontSize : "10pt"
-		,fontColor : "#000"
+		fontFamily : null
+		,fontStyle : "normal" // normal, italic
+		,fontWeight : "normal" // normal, lighter, bolder, bold
+		,fontSize : null
+		,fontColor : null
 			
 		,align : "left" // left, center, right, justify
 		,valign : "middle" // top, middle, bottom
@@ -2331,7 +2351,7 @@
 		
 		,s_src : "resources/images/default/s.gif"
 			
-		,btn_src : "resources/images/default/report/"
+		,btn_src : "resources/images/report/"
 		
 		,headColHeight: 19 	// 列头高
 		,headRowWidth: 41	// 行头宽

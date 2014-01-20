@@ -7,12 +7,69 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="Sheet" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>电子表格对象集</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="width" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>报表区域宽度</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="height" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>报表区域高度</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="offsetCellNumber" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>溢出单元格数量</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="currentSheetIndex" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>当前单元格索引</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Sheet">
+		<xs:annotation>
+			<xs:documentation>电子表格对象</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
 				<xs:element name="StartPosition" type="PositionType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>报表开始位置</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="ColsWidth" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>列宽度集</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="AttrPair" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RowsHeight" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>行高度集</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="AttrPair" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="Region" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>区域集</xs:documentation>
+					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="StartPosition" type="PositionType" minOccurs="0"/>
@@ -23,12 +80,36 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-			<xs:attribute name="infiniteTable" type="xs:boolean" default="true">
+			<xs:attribute name="sheetName" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>是否是无限扩展表</xs:documentation>
+					<xs:documentation>电子表格名称</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="annotation" type="xs:string"/>
+			<xs:attribute name="annotation" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>注释</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="defaultColWidth">
+				<xs:annotation>
+					<xs:documentation>默认列宽</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="defaultRowHeight">
+				<xs:annotation>
+					<xs:documentation>默认行高</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="showColHead">
+				<xs:annotation>
+					<xs:documentation>是否显示列头</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="showRowHead">
+				<xs:annotation>
+					<xs:documentation>是否显示行头</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:group name="RegionData">
@@ -60,8 +141,16 @@
 		<xs:annotation>
 			<xs:documentation>位置类型</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="x" type="xs:int" default="0"/>
-		<xs:attribute name="y" type="xs:int" default="0"/>
+		<xs:attribute name="cidx" type="xs:int" default="0">
+			<xs:annotation>
+				<xs:documentation>列坐标</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ridx" type="xs:int" default="0">
+			<xs:annotation>
+				<xs:documentation>行坐标</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="PivotData">
 		<xs:annotation>
@@ -110,5 +199,22 @@
 		<xs:annotation>
 			<xs:documentation>动态依赖数据</xs:documentation>
 		</xs:annotation>
+	</xs:element>
+	<xs:element name="AttrPair">
+		<xs:annotation>
+			<xs:documentation>属性对</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>名称</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>值</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
 	</xs:element>
 </xs:schema>

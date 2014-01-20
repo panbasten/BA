@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PivotReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PivotReport.xsd">
+	<Sheet sheetName="测试Sheet1" defaultColWidth="140" defaultRowHeight="25">
+		<StartPosition cidx="5" ridx="3" />
+		<Region name="region1" annotation="测试用的区域1">
+			<StartPosition cidx="0" ridx="0" />
+			<TableRegion>
+				<PivotData catalogId="0" databaseMetaId="5">
+					<mdx>
+					select
+					{[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} on columns,
+					{([Promotion Media].[All Media], [Product].[All Products])} ON rows
+					from Sales
+					where ([Time].[1997])
+					</mdx>
+				</PivotData>
+			</TableRegion>
+		</Region>
+	</Sheet>
+</PivotReport>

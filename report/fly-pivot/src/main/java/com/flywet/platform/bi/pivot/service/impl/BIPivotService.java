@@ -1,5 +1,6 @@
 package com.flywet.platform.bi.pivot.service.impl;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,7 @@ public class BIPivotService implements BIPivotDelegates {
 			pr.init();
 			// 获得执行模型
 			BIContext context = new BIContext("test");
-
 			JSONObject jo = pr.renderJo(context);
-
 			return jo;
 		} catch (BIException e) {
 			throw new BIException(e.getMessage(), e);

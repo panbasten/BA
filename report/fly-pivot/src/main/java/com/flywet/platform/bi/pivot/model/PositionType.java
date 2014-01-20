@@ -7,44 +7,45 @@ import org.w3c.dom.Node;
 import com.flywet.platform.bi.core.utils.Utils;
 
 public class PositionType {
-	
-	public static final String PROP_NAME_START_POSITION = "startPosition";
-	
-	private long x;
-	private long y;
 
-	public PositionType(long x, long y) {
-		this.x = x;
-		this.y = y;
+	public static final String PROP_NAME_START_POSITION = "startPosition";
+	public static final String NODE_NAME_START_POSITION = "StartPosition";
+
+	private long cidx;
+	private long ridx;
+
+	public PositionType(long cidx, long y) {
+		this.cidx = cidx;
+		this.ridx = y;
 	}
 
 	public PositionType(Node node) {
-		this.x = Utils.toLong(XMLHandler.getTagAttribute(node, "x"), 0);
-		this.y = Utils.toLong(XMLHandler.getTagAttribute(node, "y"), 0);
+		this.cidx = Utils.toLong(XMLHandler.getTagAttribute(node, "cidx"), 0L);
+		this.ridx = Utils.toLong(XMLHandler.getTagAttribute(node, "ridx"), 0L);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public JSONObject renderJo(){
+	public JSONObject renderJo() {
 		JSONObject jo = new JSONObject();
-		jo.put("x", x);
-		jo.put("y", y);
+		jo.put("cidx", cidx);
+		jo.put("ridx", ridx);
 		return jo;
 	}
 
-	public long getX() {
-		return x;
+	public long getCidx() {
+		return cidx;
 	}
 
-	public void setX(long x) {
-		this.x = x;
+	public void setCidx(long cidx) {
+		this.cidx = cidx;
 	}
 
-	public long getY() {
-		return y;
+	public long getRidx() {
+		return ridx;
 	}
 
-	public void setY(long y) {
-		this.y = y;
+	public void setRidx(long ridx) {
+		this.ridx = ridx;
 	}
 
 }

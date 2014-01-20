@@ -22,6 +22,25 @@ Flywet = {
     },
     
     /**
+     * 解析布尔类型
+     */
+    parseBoolean : function(str,def){
+    	if(str==undefined || str==null){
+    		return def;
+    	}
+    	if(str instanceof String){
+	    	switch(str.toLowerCase()){
+				case "true": case "yes": case "1": return true;
+				case "false": case "no": case "0": case null: return false;
+				default: return def;
+	    	}
+    	}else if(str instanceof Boolean){
+    		return str;
+    	}
+    	return def;
+    },
+    
+    /**
      * 解析json串为javascript对象
      */
     parseJSON : function(str) {

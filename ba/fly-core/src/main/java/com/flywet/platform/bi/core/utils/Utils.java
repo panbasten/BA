@@ -610,14 +610,15 @@ public class Utils {
 	 * @param def
 	 * @return
 	 */
-	public static final int toInt(String str, int def) {
-		int retval;
-		try {
-			retval = Integer.parseInt(str);
-		} catch (Exception e) {
-			retval = def;
+	public static final Integer toInt(String str, Integer def) {
+		if (str == null) {
+			return null;
 		}
-		return retval;
+		try {
+			return Integer.parseInt(str);
+		} catch (Exception e) {
+			return def;
+		}
 	}
 
 	/**
@@ -627,7 +628,7 @@ public class Utils {
 	 * @param def
 	 * @return
 	 */
-	public static final boolean toBoolean(String str, boolean def) {
+	public static final Boolean toBoolean(String str, Boolean def) {
 		if (str != null && !"".equals(str)) {
 			if ("true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str)
 					|| "y".equalsIgnoreCase(str) || "1".equals(str)) {
@@ -654,14 +655,15 @@ public class Utils {
 	 * @param def
 	 * @return
 	 */
-	public static final long toLong(String str, long def) {
-		long retval;
-		try {
-			retval = Long.parseLong(str);
-		} catch (Exception e) {
-			retval = def;
+	public static final Long toLong(String str, Long def) {
+		if (def == null) {
+			return null;
 		}
-		return retval;
+		try {
+			return Long.parseLong(str);
+		} catch (Exception e) {
+			return def;
+		}
 	}
 
 	/**
@@ -671,14 +673,15 @@ public class Utils {
 	 * @param def
 	 * @return
 	 */
-	public static final double toDouble(String str, double def) {
-		double retval;
-		try {
-			retval = Double.parseDouble(str);
-		} catch (Exception e) {
-			retval = def;
+	public static final Double toDouble(String str, Double def) {
+		if (def == null) {
+			return null;
 		}
-		return retval;
+		try {
+			return Double.parseDouble(str);
+		} catch (Exception e) {
+			return def;
+		}
 	}
 
 	/**

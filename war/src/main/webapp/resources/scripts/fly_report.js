@@ -1,3 +1,1 @@
-Flywet.report = {
-
-};
+Flywet.report = {};

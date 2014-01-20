@@ -20,7 +20,8 @@ public class PivotRegionDataFactory {
 
 		for (int i = 0; i < children.getLength(); i++) {
 			childnode = children.item(i);
-			if (childnode.getNodeName().equalsIgnoreCase("PivotData")) {
+			if (childnode.getNodeName().equalsIgnoreCase(
+					PivotData.REGION_DATA_NAME)) {
 				return PivotData.instance(childnode);
 			}
 		}

@@ -36,7 +36,7 @@ public class Region {
 		r.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
 
 		Node startPosition = XMLHandler.getSubNode(node,
-				PositionType.PROP_NAME_START_POSITION);
+				PositionType.NODE_NAME_START_POSITION);
 		if (startPosition != null) {
 			r.startPosition = new PositionType(startPosition);
 		}

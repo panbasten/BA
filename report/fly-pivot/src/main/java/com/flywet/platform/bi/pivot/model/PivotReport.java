@@ -20,21 +20,27 @@ import com.tonbeller.wcf.controller.RequestContext;
  */
 public class PivotReport {
 
-	public static final String PROP_NAME_INFINITE_TABLE = "infiniteTable";
-	public static final String PROP_NAME_ANNOTATION = "annotation";
-	public static final String PROP_NAME_REGION = "region";
+	public static final String PROP_NAME_WIDTH = "width";
+	public static final String PROP_NAME_HEIGHT = "height";
+	public static final String PROP_NAME_OFFSET_CELL_NUMBER = "offsetCellNumber";
+	public static final String PROP_NAME_CURRENT_SHEET_INDEX = "currentSheetIndex";
+	public static final String PROP_NAME_SHEET = "sheet";
+	public static final String NODE_NAME_SHEET = "Sheet";
 
-	// 是否是无限扩展表
-	private boolean infiniteTable;
+	// 报表区域宽度
+	private Integer width;
 
-	// 注释
-	private String annotation;
+	// 报表区域高度
+	private Integer height;
 
-	// 开始位置
-	private PositionType startPosition;
+	// 溢出单元格数量
+	private Integer offsetCellNumber;
 
-	// 区域集
-	private List<Region> regions;
+	// 当前单元格索引
+	private Integer currentSheetIndex;
+
+	// 电子表格对象集
+	private List<Sheet> sheets;
 
 	private PivotReport() {
 
@@ -42,20 +48,20 @@ public class PivotReport {
 
 	public static PivotReport instance(Node node) {
 		PivotReport pr = new PivotReport();
-		pr.infiniteTable = Utils.toBoolean(XMLHandler.getTagAttribute(node,
-				PROP_NAME_INFINITE_TABLE), true);
-		pr.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
+		pr.width = Utils.toInt(XMLHandler
+				.getTagAttribute(node, PROP_NAME_WIDTH), null);
+		pr.height = Utils.toInt(XMLHandler.getTagAttribute(node,
+				PROP_NAME_HEIGHT), null);
 
-		Node startPosition = XMLHandler.getSubNode(node,
-				PositionType.PROP_NAME_START_POSITION);
-		if (startPosition != null) {
-			pr.startPosition = new PositionType(startPosition);
-		}
+		pr.offsetCellNumber = Utils.toInt(XMLHandler.getTagAttribute(node,
+				PROP_NAME_OFFSET_CELL_NUMBER), null);
+		pr.currentSheetIndex = Utils.toInt(XMLHandler.getTagAttribute(node,
+				PROP_NAME_CURRENT_SHEET_INDEX), null);
 
-		List<Node> regionNodes = XMLHandler.getNodes(node, PROP_NAME_REGION);
-		if (regionNodes != null && regionNodes.size() > 0) {
-			for (Node n : regionNodes) {
-				pr.addRegion(Region.instance(n));
+		List<Node> sheetNodes = XMLHandler.getNodes(node, NODE_NAME_SHEET);
+		if (sheetNodes != null && sheetNodes.size() > 0) {
+			for (Node n : sheetNodes) {
+				pr.addSheet(Sheet.instance(n));
 			}
 		}
 
@@ -63,9 +69,9 @@ public class PivotReport {
 	}
 
 	public void init() throws BIException {
-		if (regions != null && regions.size() > 0) {
-			for (Region r : regions) {
-				r.init();
+		if (sheets != null && sheets.size() > 0) {
+			for (Sheet s : sheets) {
+				s.init();
 			}
 		}
 	}
@@ -73,65 +79,39 @@ public class PivotReport {
 	@SuppressWarnings("unchecked")
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
-		jo.put(PROP_NAME_INFINITE_TABLE, infiniteTable);
 
-		if (annotation != null) {
-			jo.put(PROP_NAME_ANNOTATION, annotation);
+		if (width != null) {
+			jo.put(PROP_NAME_WIDTH, width);
 		}
 
-		if (startPosition != null) {
-			jo.put(PositionType.PROP_NAME_START_POSITION, startPosition
-					.renderJo());
+		if (height != null) {
+			jo.put(PROP_NAME_HEIGHT, height);
 		}
 
-		if (regions != null && regions.size() > 0) {
+		if (offsetCellNumber != null) {
+			jo.put(PROP_NAME_OFFSET_CELL_NUMBER, offsetCellNumber);
+		}
+
+		if (currentSheetIndex != null) {
+			jo.put(PROP_NAME_CURRENT_SHEET_INDEX, currentSheetIndex);
+		}
+
+		if (sheets != null && sheets.size() > 0) {
 			JSONArray regionJa = new JSONArray();
-			for (Region r : regions) {
+			for (Sheet r : sheets) {
 				regionJa.add(r.renderJo(context));
 			}
-			jo.put(PROP_NAME_REGION, regionJa);
+			jo.put(PROP_NAME_SHEET, regionJa);
 		}
 
 		return jo;
 	}
 
-	public void addRegion(Region r) {
-		if (regions == null) {
-			regions = new ArrayList<Region>();
+	public void addSheet(Sheet s) {
+		if (sheets == null) {
+			sheets = new ArrayList<Sheet>();
 		}
-		regions.add(r);
-	}
-
-	public boolean isInfiniteTable() {
-		return infiniteTable;
-	}
-
-	public void setInfiniteTable(boolean infiniteTable) {
-		this.infiniteTable = infiniteTable;
-	}
-
-	public String getAnnotation() {
-		return annotation;
-	}
-
-	public void setAnnotation(String annotation) {
-		this.annotation = annotation;
-	}
-
-	public PositionType getStartPosition() {
-		return startPosition;
-	}
-
-	public void setStartPosition(PositionType startPosition) {
-		this.startPosition = startPosition;
-	}
-
-	public List<Region> getRegions() {
-		return regions;
-	}
-
-	public void setRegions(List<Region> regions) {
-		this.regions = regions;
+		sheets.add(s);
 	}
 
 }
