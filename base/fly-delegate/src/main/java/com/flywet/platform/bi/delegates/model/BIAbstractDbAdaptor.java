@@ -182,7 +182,7 @@ public abstract class BIAbstractDbAdaptor extends BIAbstractDelegate implements
 			RowMetaAndData values) throws KettleException {
 		try {
 			getRepository().connectionDelegate.updateTableRow(
-					quoteTable(tablename), quote(idfield), values);
+					quoteTable(tablename), idfield, values);
 		} catch (KettleException e) {
 			logger.error("insert table row exception:", e);
 			throw e;
