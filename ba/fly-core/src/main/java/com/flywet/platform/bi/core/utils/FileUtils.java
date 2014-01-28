@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -130,6 +131,43 @@ public class FileUtils {
 	}
 
 	/**
+	 * 按行读取文件
+	 * 
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 */
+	public static String[] getStringsAsLine(InputStream is) throws IOException {
+		return getStringsAsLine(is, Const.XML_ENCODING);
+	}
+
+	public static String[] getStringsAsLine(InputStream is, String codeSet)
+			throws IOException {
+		String sLine = null;
+		List<String> strs = new ArrayList<String>();
+		InputStreamReader bis = null;
+
+		try {
+			bis = new InputStreamReader(new BufferedInputStream(is, 500),
+					codeSet);
+			BufferedReader buff = new BufferedReader(bis);
+			while ((sLine = buff.readLine()) != null) {
+				strs.add(sLine);
+			}
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+				if (bis != null)
+					bis.close();
+			} catch (Exception e) {
+			}
+		}
+
+		return ArrayUtils.trans(strs);
+	}
+
+	/**
 	 * 通过类和相对类的路径，获得包中的文件
 	 * 
 	 * @param clazz
@@ -169,6 +207,15 @@ public class FileUtils {
 			}
 		}
 		return null;
+	}
+
+	public static String getString(FileItem item) throws IOException {
+		return getString(item.getInputStream());
+	}
+
+	public static String getString(FileItem item, String codeSet)
+			throws IOException {
+		return getString(item.getInputStream(), codeSet);
 	}
 
 	public static String getString(InputStream is) throws IOException {

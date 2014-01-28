@@ -1,5 +1,6 @@
 package com.flywet.platform.bi.core.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -102,5 +103,31 @@ public class ArrayUtils {
 			}
 		}
 		return t;
+	}
+
+	/**
+	 * List<String> 转 String[]
+	 * 
+	 * @param als
+	 * @return
+	 */
+	public static String[] trans(List<String> als) {
+		String[] sa = new String[als.size()];
+		als.toArray(sa);
+		return sa;
+	}
+
+	/**
+	 * String[] 转 List<String>
+	 * 
+	 * @param sa
+	 * @return
+	 */
+	public static List<String> trans(String[] sa) {
+		List<String> als = new ArrayList<String>(0);
+		for (int i = 0; i < sa.length; i++) {
+			als.add(sa[i]);
+		}
+		return als;
 	}
 }

@@ -343,6 +343,17 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
+	 * 方法评估-上月预测评估填报-上传文件更新页面
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String monthPredictEvaluateSettingUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	/**
 	 * 方法评估-上月预测评估填报-提交
 	 * 
 	 * @param targetId

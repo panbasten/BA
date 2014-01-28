@@ -336,8 +336,6 @@
 	<script type="text/javascript">
 	$(document).ready( function() {
 		Flywet.Portal.initPage();
-		// 加载背景图，互联网环境取消此设置
-		preload_background_images(Flywet.Portal.PIC_TOTILE_NUM);
 		$(window).bind('resize', function() {
 			Flywet.Portal.resize();
 		});

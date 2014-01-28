@@ -98,5 +98,7 @@
 	
 	<fly:inputText id="year" name="year" type="hidden" value="${year}" />
 	<fly:inputText id="month" name="month" type="hidden" value="${month}" />
+	
+	<fly:includeJs src="page.js"/>
 
 </form>

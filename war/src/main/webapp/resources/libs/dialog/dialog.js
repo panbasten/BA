@@ -667,8 +667,36 @@ Flywet.widget.Dialog.prototype.loadContents = function() {
     Flywet.ajax.AjaxRequest(options);
 };
 
+Flywet.widget.ShowDialog = function(cfg) {
+	var _self = this;
+	cfg = $.extend({
+		footerButtons:[{
+    		componentType : "fly:PushButton",
+    		type : "button",
+    		label : "关闭",
+    		title : "关闭",
+    		events : {
+        		click:'hide'
+        	}
+    	}],
+		footerSettingButtons:null,
+		showHeader:true,
+		width:400,
+		height:300,
+		draggable:true,
+		resizable:false,
+		modal:false,
+		realRemove:true,
+		autoOpen:true
+	},cfg);
+	
+    Flywet.widget.Dialog.call(this, cfg);
+};
+
+Flywet.widget.ShowDialog.prototype = Flywet.widget.Dialog.prototype;
+
 /**
- * PrimeFaces ConfirmDialog Widget
+ * 提示对话框组件
  */
 Flywet.widget.ConfirmDialog = function(cfg) {
 	var _self = this;

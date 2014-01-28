@@ -40,6 +40,7 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
+import com.flywet.platform.bi.core.utils.ArrayUtils;
 import com.flywet.platform.bi.core.utils.DateUtils;
 import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.PropertyUtils;
@@ -1053,6 +1054,82 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		}
 
 		return ActionMessage.instance().failure("打开预测方法评估-延伸期降水过程预测界面出现问题。")
+				.toJSONString();
+	}
+
+	private String[] getOneFileItemContent(List<FileItem> items)
+			throws IOException {
+		for (FileItem item : items) {
+			if (item.isFormField() || Const.isEmpty(item.getName())) {
+				continue;
+			}
+			return FileUtils.getStringsAsLine(item.getInputStream());
+		}
+		return null;
+	}
+
+	@SuppressWarnings( { "deprecation", "unchecked" })
+	@Override
+	public String monthPredictEvaluateSettingUpdate(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			String currentText = year + "年" + month + "月";
+
+			String[] vals = getOneFileItemContent((List<FileItem>) context
+					.get("fileItems"));
+
+			OptionsData tempOpts = OptionsData.instance();
+			tempOpts.addOption("-1", "偏低");
+			tempOpts.addOption("0", "正常");
+			tempOpts.addOption("1", "偏高");
+
+			OptionsData preOpts = OptionsData.instance();
+			preOpts.addOption("-1", "偏少");
+			preOpts.addOption("0", "正常");
+			preOpts.addOption("1", "偏多");
+
+			attrsMap.addVariable("tempOpts", tempOpts.getOptions());
+			attrsMap.addVariable("preOpts", preOpts.getOptions());
+
+			Map<String, Object[]> detailMap = new HashMap<String, Object[]>();
+
+			int cityIdx = 0;
+			for (String code : CITY_CODES) {
+				detailMap.put(code, ArrayUtils.concat(new String[] { code },
+						vals[cityIdx].split(" ")));
+				cityIdx++;
+			}
+
+			attrsMap.addVariable("detailMap", detailMap);
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+
+			attrsMap.addVariable("cityCodes", CITY_CODES);
+			attrsMap.addVariable("cityNames", CITY_NAMES);
+
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_MONTH_PREDICT_EVALUATE_SETTING, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("更新上月预测评估填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("更新上月预测评估填报界面出现问题。")
 				.toJSONString();
 	}
 

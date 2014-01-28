@@ -224,19 +224,27 @@ public class BIPortaletResource {
 	@Path("/uploadone/open")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openUploadOneFileDialog(
+			@QueryParam("pDialogId") String pDialogId,
 			@QueryParam("targetId") String targetId,
 			@QueryParam("rootDir") String rootDir,
+			@QueryParam("workDir") String workDir,
 			@QueryParam("fileName") String fileName,
 			@QueryParam("category") String category,
+			@QueryParam("actionId") String actionId,
+			@QueryParam("actionParams") String actionParams,
 			@QueryParam("text") String text) throws BIJSONException {
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
+			attrsMap.addVariable("pDialogId", pDialogId);
 			attrsMap.addVariable("text", text);
 			attrsMap.addVariable("rootDir", rootDir);
+			attrsMap.addVariable("workDir", workDir);
 			attrsMap.addVariable("fileName", fileName);
 			attrsMap.addVariable("category", category);
+			attrsMap.addVariable("actionId", actionId);
+			attrsMap.addVariable("actionParams", actionParams);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TEMPLATE_UPLOAD_ONE_FILE, attrsMap);
@@ -256,11 +264,15 @@ public class BIPortaletResource {
 	@Path("/upload/open")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openUploadFilesDialog(
+			@QueryParam("pDialogId") String pDialogId,
 			@QueryParam("targetId") String targetId,
 			@QueryParam("filesNum") String filesNum,
 			@QueryParam("rootDir") String rootDir,
 			@QueryParam("workDir") String workDir,
-			@QueryParam("category") String category) throws BIJSONException {
+			@QueryParam("category") String category,
+			@QueryParam("actionId") String actionId,
+			@QueryParam("actionParams") String actionParams)
+			throws BIJSONException {
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
@@ -271,11 +283,15 @@ public class BIPortaletResource {
 			for (int i = 0; i < num; i++) {
 				files[i] = "上传文件" + (i + 1);
 			}
+
+			attrsMap.addVariable("pDialogId", pDialogId);
 			attrsMap.addVariable("files", files);
 			attrsMap.addVariable("filesNum", num);
 			attrsMap.addVariable("rootDir", rootDir);
 			attrsMap.addVariable("workDir", workDir);
 			attrsMap.addVariable("category", category);
+			attrsMap.addVariable("actionId", actionId);
+			attrsMap.addVariable("actionParams", actionParams);
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TEMPLATE_UPLOAD_FILES, attrsMap);
@@ -312,20 +328,40 @@ public class BIPortaletResource {
 		Map<String, String> dataObj = extractParams(items);
 
 		String rootDir = PropertyUtils.getProperty(dataObj.get("rootDir"));
-		String fileName = PropertyUtils.getProperty(dataObj.get("fileName"));
+		String fileName = dataObj.get("fileName");
 		String category = PropertyUtils.getProperty(dataObj.get("category"));
 		String workDir = dataObj.get("workDir");
+		String pDialogId = dataObj.get("pDialogId");
+		String actionId = dataObj.get("actionId");
+		String actionParams = dataObj.get("actionParams");
 
 		try {
-			// 遍历文件并逐次上传
-			for (FileItem item : items) {
-				if (item.isFormField() || Const.isEmpty(item.getName())) {
-					continue;
+			// 遍历文件并逐次上传文件系统
+			if (!Const.isEmpty(rootDir) && !Const.isEmpty(workDir)) {
+				for (FileItem item : items) {
+					if (item.isFormField() || Const.isEmpty(item.getName())) {
+						continue;
+					}
+
+					uploadFile(item, rootDir, workDir, category, (!Const
+							.isEmpty(fileName)) ? fileName : item.getName());
 				}
-				uploadFile(item, rootDir, workDir, category, fileName);
 			}
-			resultMsg.addMessage("上传操作成功");
-			return resultMsg.toJSONString();
+			// 执行操作
+			if (!Const.isEmpty(actionId)) {
+				// 通过ID获得注册的菜单
+				PortalAction pa = portalDelegates.getPortalActionById(Long
+						.valueOf(actionId));
+				Map<String, Object> context = getDefaultContext(actionId,
+						actionParams);
+				context.put("fileItems", items);
+				return invokeMethod(pa.getBeanName(), pa.getMethod(), context,
+						pDialogId + ":content");
+
+			} else {
+				resultMsg.addMessage("上传操作成功");
+				return resultMsg.toJSONString();
+			}
 		} catch (Exception e) {
 			resultMsg.addErrorMessage("上传文件" + fileName + "失败");
 			return resultMsg.toJSONString();
@@ -345,7 +381,6 @@ public class BIPortaletResource {
 
 	private void uploadFile(FileItem item, String rootDir, String workDir,
 			String category, String fileName) throws IOException, BIException {
-
 		File fullFile = new File(fileName);
 		String destFileStr = FileUtils.dirAppend(workDir, fullFile.getName());
 		FileObject destFileObj = filesysService.composeVfsObject(category,
@@ -378,18 +413,36 @@ public class BIPortaletResource {
 		String rootDir = PropertyUtils.getProperty(dataObj.get("rootDir"));
 		String category = PropertyUtils.getProperty(dataObj.get("category"));
 		String workDir = dataObj.get("workDir");
+		String pDialogId = dataObj.get("pDialogId");
+		String actionId = dataObj.get("actionId");
+		String actionParams = dataObj.get("actionParams");
 
 		try {
-			// 遍历文件并逐次上传
-			for (FileItem item : items) {
-				if (item.isFormField() || Const.isEmpty(item.getName())) {
-					continue;
-				}
+			// 遍历文件并逐次上传文件系统
+			if (!Const.isEmpty(rootDir) && !Const.isEmpty(workDir)) {
+				for (FileItem item : items) {
+					if (item.isFormField() || Const.isEmpty(item.getName())) {
+						continue;
+					}
 
-				uploadFile(item, rootDir, workDir, category, item.getName());
+					uploadFile(item, rootDir, workDir, category, item.getName());
+				}
 			}
-			resultMsg.addMessage("上传操作成功");
-			return resultMsg.toJSONString();
+			// 执行操作
+			if (!Const.isEmpty(actionId)) {
+				// 通过ID获得注册的菜单
+				PortalAction pa = portalDelegates.getPortalActionById(Long
+						.valueOf(actionId));
+				Map<String, Object> context = getDefaultContext(actionId,
+						actionParams);
+				context.put("fileItems", items);
+				return invokeMethod(pa.getBeanName(), pa.getMethod(), context,
+						pDialogId + ":content");
+
+			} else {
+				resultMsg.addMessage("上传操作成功");
+				return resultMsg.toJSONString();
+			}
 
 		} catch (Exception e) {
 			resultMsg.addErrorMessage("上传文件失败");
@@ -567,8 +620,8 @@ public class BIPortaletResource {
 			Map<String, Object> context = getDefaultContext(id, pm
 					.getExtAttr(PORTAL_ONLY_PARAM));
 
-			return invokeMethod(pm.getExtAttr("beanName"), pm.getExtAttr("method"),
-					context, targetId);
+			return invokeMethod(pm.getExtAttr("beanName"), pm
+					.getExtAttr("method"), context, targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
 		}

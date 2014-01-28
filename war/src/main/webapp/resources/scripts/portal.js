@@ -400,6 +400,8 @@ Flywet.Portal = {
 		// 将背景置底
 		$("#fly_portal_bg").removeClass("fly_portal_cover");
 		
+		// 加载背景图
+		preload_background_images(Flywet.Portal.PIC_TOTILE_NUM);
 	},
 	
 	initPage: function(){
@@ -484,6 +486,7 @@ Flywet.Portal = {
 					});
 				}
 				
+				// TODO
 				Flywet.cw("Metro", "portal_content_var", {
 					id : "fly_portal_content",
 					rowNum : 4,
@@ -893,30 +896,72 @@ Flywet.PortalAction = {
 		});
 	},
 	
-	openUploadOneDialog : function(rootDir,category,fileName,text,callback){
+	/**
+	 * 打开上传一个文件的对话框
+	 * @param pDialogId 父窗口ID
+	 * @param cfg.rootDir 上传文件的根目录
+	 * @param cfg.workDir 上传文件的二级目录
+	 * @param cfg.category 上传文件目录类型
+	 * @param cfg.fileName 上传文件的名称
+	 * @param cfg.text 上传文件对话框的提示文字
+	 * @param cfg.actionId 上传文件的处理action id
+	 * @param cfg.actionParams 上传文件的处理action参数
+	 */
+	openUploadOneDialog : function(pDialogId,cfg,callback){
+		if(!cfg){
+			cfg = {};
+		}
+		cfg.pDialogId = pDialogId;
 		var btn = [{
 				"label":"确定",
 				"title":"确定",
 				"click":{
-					"func":"Flywet.PortalAction.uploadFiles(dialogId,params);",
+					"func":"Flywet.PortalAction.uploadOneFile(dialogId,params);",
 					"funcCallback":callback
 				}
 			},
 			{"type":"cancel"}];
 		this.openPortalDialog("upload","添加文件",{
-			width:400,
-			height:100,
-			btn:btn,
-			params:{
-				rootDir:rootDir
-				,category:category
-				,fileName:fileName
-				,text:text
-			}},
+				width:400,
+				height:100,
+				btn:btn,
+				params:cfg
+			},
 			"rest/portalet/uploadone/open");
 	},
 	
-	openUploadDialog : function(filesNum,rootDir,workDir,category,callback){
+	uploadOneFile : function(dialogId,params,cfg){
+		var _self = this;
+		cfg = $.extend({
+			type : "post",
+			formId : "portal_upload_form",
+			formAction : "rest/portalet/uploadone",
+			modal : true,
+			onsuccess: function(data, status, xhr){
+				if(params && params.click && params.click.funcCallback){
+					eval(params.click.funcCallback);
+				}
+				window[dialogId + "_var"].hide();
+			}
+		}, cfg);
+		Flywet.ab(cfg);
+	},
+	
+	/**
+	 * 打开上传多个文件的对话框
+	 * @param pDialogId 父窗口ID
+	 * @param cfg.filesNum 上传文件的数量
+	 * @param cfg.rootDir 上传文件的根目录
+	 * @param cfg.workDir 上传文件的二级目录
+	 * @param cfg.category 上传文件目录类型
+	 * @param cfg.actionId 上传文件的处理action id
+	 * @param cfg.actionParams 上传文件的处理action参数
+	 */
+	openUploadDialog : function(pDialogId,cfg,callback){
+		if(!cfg){
+			cfg = {};
+		}
+		cfg.pDialogId = pDialogId;
 		var btn = [{
 				"label":"确定",
 				"title":"确定",
@@ -927,15 +972,11 @@ Flywet.PortalAction = {
 			},
 			{"type":"cancel"}];
 		this.openPortalDialog("upload","添加文件",{
-			width:400,
-			height:200,
-			btn:btn,
-			params:{
-				filesNum:filesNum
-				,rootDir:rootDir
-				,workDir:workDir
-				,category:category
-			}},
+				width:400,
+				height:200,
+				btn:btn,
+				params:cfg
+			},
 			"rest/portalet/upload/open");
 	},
 	

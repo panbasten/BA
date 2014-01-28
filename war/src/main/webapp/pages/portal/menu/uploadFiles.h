@@ -16,9 +16,12 @@
 
 	</fly:gridLayout>
 	
+	<fly:inputText id="pDialogId" name="pDialogId" type="hidden" value="${pDialogId}" />
 	<fly:inputText id="filesNum" name="filesNum" type="hidden" value="${filesNum}" />
 	<fly:inputText id="rootDir" name="rootDir" type="hidden" value="${rootDir}" />
 	<fly:inputText id="workDir" name="workDir" type="hidden" value="${workDir}" />
 	<fly:inputText id="category" name="category" type="hidden" value="${category}" />
+	<fly:inputText id="actionId" name="actionId" type="hidden" value="${actionId}" />
+	<fly:inputText id="actionParams" name="actionParams" type="hidden" value="${actionParams}" />
 
 </form>
