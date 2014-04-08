@@ -74,10 +74,10 @@ public class Sheet {
 		return s;
 	}
 
-	public void init() throws BIException {
+	public void init(RequestContext context) throws BIException {
 		if (regions != null && regions.size() > 0) {
 			for (Region r : regions) {
-				r.init();
+				r.init(context);
 			}
 		}
 	}

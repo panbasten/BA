@@ -982,10 +982,15 @@ Flywet.PortalAction = {
 	
 	uploadFiles : function(dialogId,params,cfg){
 		var _self = this;
+		var formAction = "rest/portalet/upload";
+		if(params && params.actionId){
+			formAction = "rest/portalet/actionFileForm/"+params.actionId;
+		}
+		
 		cfg = $.extend({
 			type : "post",
 			formId : "portal_upload_form",
-			formAction : "rest/portalet/upload",
+			formAction : formAction,
 			modal : true,
 			onsuccess: function(data, status, xhr){
 				if(params && params.click && params.click.funcCallback){

@@ -1,0 +1,2701 @@
+2014-02-22 13:11:40,157 DEBUG [mondrian.mdx] 179: select {[Measures].[Unit Sales]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:11:40,916 DEBUG [mondrian.mdx] 179: exec: 758 ms
+2014-02-22 13:11:41,002 DEBUG [mondrian.mdx] 192: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Order(Except([Promotion Media].[Media Type].Members, {[Promotion Media].[No Media]}), [Measures].[Unit Sales], DESC) ON ROWS
+from [Sales]
+
+2014-02-22 13:11:41,299 DEBUG [mondrian.mdx] 192: exec: 296 ms
+2014-02-22 13:11:41,304 DEBUG [mondrian.mdx] 203: select {[Measures].[Units Shipped], [Measures].[Units Ordered]} ON COLUMNS,
+  NON EMPTY [Store].[Store Name].Members ON ROWS
+from [Warehouse]
+
+2014-02-22 13:11:41,407 DEBUG [mondrian.mdx] 203: exec: 103 ms
+2014-02-22 13:11:41,428 DEBUG [mondrian.mdx] 221: with member [Measures].[Store Sales Last Period] as '([Measures].[Store Sales], [Time].PrevMember)', format = "#,###.00"
+select {[Measures].[Store Sales Last Period]} ON COLUMNS,
+  {TopCount([Product].[Product Department].Members, 5, [Measures].[Store Sales Last Period])} ON ROWS
+from [Sales]
+where [Time].[1998]
+
+2014-02-22 13:11:43,686 DEBUG [mondrian.mdx] 221: exec: 2257 ms
+2014-02-22 13:11:43,714 DEBUG [mondrian.mdx] 237: with member [Measures].[Total Store Sales] as 'Sum(Ytd(), [Measures].[Store Sales])', format_string = "#.00"
+select {[Measures].[Total Store Sales]} ON COLUMNS,
+  {TopCount([Product].[Product Department].Members, 5, [Measures].[Total Store Sales])} ON ROWS
+from [Sales]
+where [Time].[1997].[Q2].[4]
+
+2014-02-22 13:11:45,795 DEBUG [mondrian.mdx] 237: exec: 2081 ms
+2014-02-22 13:11:45,804 DEBUG [mondrian.mdx] 261: with member [Measures].[Store Profit Rate] as '(([Measures].[Store Sales] - [Measures].[Store Cost]) / [Measures].[Store Cost])', format = "#.00%"
+select {[Measures].[Store Cost], [Measures].[Store Sales], [Measures].[Store Profit Rate]} ON COLUMNS,
+  Order([Product].[Product Department].Members, [Measures].[Store Profit Rate], BDESC) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:11:47,895 DEBUG [mondrian.mdx] 261: exec: 2091 ms
+2014-02-22 13:11:48,354 DEBUG [mondrian.mdx] 456: with member [Measures].[Store Profit Rate] as '(([Measures].[Store Sales] - [Measures].[Store Cost]) / [Measures].[Store Cost])', format = "#.00%"
+select {[Measures].[Store Cost], [Measures].[Store Sales], [Measures].[Store Profit Rate]} ON COLUMNS,
+  Order([Product].[Product Department].Members, [Measures].[Store Profit Rate], BDESC) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:11:50,621 DEBUG [mondrian.mdx] 456: exec: 2267 ms
+2014-02-22 13:11:50,660 DEBUG [mondrian.mdx] 475: with member [Product].[Drink].[Percent of Alcoholic Drinks] as '([Product].[Drink].[Alcoholic Beverages] / [Product].[Drink])', format_string = "#.00%"
+select {[Product].[Drink].[Percent of Alcoholic Drinks]} ON COLUMNS,
+  Order([Customers].[USA].[WA].Children, [Product].[Drink].[Percent of Alcoholic Drinks], BDESC) ON ROWS
+from [Sales]
+where [Measures].[Unit Sales]
+
+2014-02-22 13:11:51,004 DEBUG [mondrian.mdx] 475: exec: 344 ms
+2014-02-22 13:11:51,014 DEBUG [mondrian.mdx] 491: with member [Measures].[Accumulated Sales] as 'Sum(Ytd(), [Measures].[Store Sales])'
+select {[Measures].[Store Sales], [Measures].[Accumulated Sales]} ON COLUMNS,
+  {Descendants([Time].[1997], [Time].[Month])} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:51,566 DEBUG [mondrian.mdx] 491: exec: 552 ms
+2014-02-22 13:11:51,572 DEBUG [mondrian.mdx] 497: select {[Measures].[Promotion Sales]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:11:51,990 DEBUG [mondrian.mdx] 497: exec: 417 ms
+2014-02-22 13:11:51,996 DEBUG [mondrian.mdx] 501: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:51,997 DEBUG [mondrian.mdx] 501: exec: 1 ms
+2014-02-22 13:11:52,001 DEBUG [mondrian.mdx] 505: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,003 DEBUG [mondrian.mdx] 505: exec: 2 ms
+2014-02-22 13:11:52,006 DEBUG [mondrian.mdx] 509: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,008 DEBUG [mondrian.mdx] 509: exec: 2 ms
+2014-02-22 13:11:52,010 DEBUG [mondrian.mdx] 513: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,011 DEBUG [mondrian.mdx] 513: exec: 1 ms
+2014-02-22 13:11:52,013 DEBUG [mondrian.mdx] 517: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,014 DEBUG [mondrian.mdx] 517: exec: 1 ms
+2014-02-22 13:11:52,016 DEBUG [mondrian.mdx] 521: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,018 DEBUG [mondrian.mdx] 521: exec: 2 ms
+2014-02-22 13:11:52,020 DEBUG [mondrian.mdx] 525: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,022 DEBUG [mondrian.mdx] 525: exec: 1 ms
+2014-02-22 13:11:52,024 DEBUG [mondrian.mdx] 529: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,026 DEBUG [mondrian.mdx] 529: exec: 1 ms
+2014-02-22 13:11:52,029 DEBUG [mondrian.mdx] 533: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,032 DEBUG [mondrian.mdx] 533: exec: 3 ms
+2014-02-22 13:11:52,035 DEBUG [mondrian.mdx] 537: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,037 DEBUG [mondrian.mdx] 537: exec: 2 ms
+2014-02-22 13:11:52,040 DEBUG [mondrian.mdx] 541: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,042 DEBUG [mondrian.mdx] 541: exec: 2 ms
+2014-02-22 13:11:52,044 DEBUG [mondrian.mdx] 545: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,045 DEBUG [mondrian.mdx] 545: exec: 1 ms
+2014-02-22 13:11:52,047 DEBUG [mondrian.mdx] 549: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,048 DEBUG [mondrian.mdx] 549: exec: 1 ms
+2014-02-22 13:11:52,050 DEBUG [mondrian.mdx] 553: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,052 DEBUG [mondrian.mdx] 553: exec: 2 ms
+2014-02-22 13:11:52,054 DEBUG [mondrian.mdx] 557: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,055 DEBUG [mondrian.mdx] 557: exec: 1 ms
+2014-02-22 13:11:52,057 DEBUG [mondrian.mdx] 561: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,058 DEBUG [mondrian.mdx] 561: exec: 1 ms
+2014-02-22 13:11:52,061 DEBUG [mondrian.mdx] 565: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,062 DEBUG [mondrian.mdx] 565: exec: 1 ms
+2014-02-22 13:11:52,064 DEBUG [mondrian.mdx] 569: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,066 DEBUG [mondrian.mdx] 569: exec: 2 ms
+2014-02-22 13:11:52,067 DEBUG [mondrian.mdx] 573: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,069 DEBUG [mondrian.mdx] 573: exec: 1 ms
+2014-02-22 13:11:52,071 DEBUG [mondrian.mdx] 577: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,073 DEBUG [mondrian.mdx] 577: exec: 2 ms
+2014-02-22 13:11:52,075 DEBUG [mondrian.mdx] 581: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,076 DEBUG [mondrian.mdx] 581: exec: 1 ms
+2014-02-22 13:11:52,078 DEBUG [mondrian.mdx] 585: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,079 DEBUG [mondrian.mdx] 585: exec: 1 ms
+2014-02-22 13:11:52,081 DEBUG [mondrian.mdx] 589: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,082 DEBUG [mondrian.mdx] 589: exec: 1 ms
+2014-02-22 13:11:52,084 DEBUG [mondrian.mdx] 593: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,086 DEBUG [mondrian.mdx] 593: exec: 2 ms
+2014-02-22 13:11:52,088 DEBUG [mondrian.mdx] 597: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,089 DEBUG [mondrian.mdx] 597: exec: 1 ms
+2014-02-22 13:11:52,091 DEBUG [mondrian.mdx] 601: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,094 DEBUG [mondrian.mdx] 601: exec: 3 ms
+2014-02-22 13:11:52,096 DEBUG [mondrian.mdx] 605: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,098 DEBUG [mondrian.mdx] 605: exec: 2 ms
+2014-02-22 13:11:52,100 DEBUG [mondrian.mdx] 609: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,102 DEBUG [mondrian.mdx] 609: exec: 2 ms
+2014-02-22 13:11:52,104 DEBUG [mondrian.mdx] 613: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,106 DEBUG [mondrian.mdx] 613: exec: 2 ms
+2014-02-22 13:11:52,107 DEBUG [mondrian.mdx] 617: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,109 DEBUG [mondrian.mdx] 617: exec: 2 ms
+2014-02-22 13:11:52,111 DEBUG [mondrian.mdx] 621: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,112 DEBUG [mondrian.mdx] 621: exec: 1 ms
+2014-02-22 13:11:52,114 DEBUG [mondrian.mdx] 625: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,115 DEBUG [mondrian.mdx] 625: exec: 1 ms
+2014-02-22 13:11:52,117 DEBUG [mondrian.mdx] 629: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,119 DEBUG [mondrian.mdx] 629: exec: 2 ms
+2014-02-22 13:11:52,120 DEBUG [mondrian.mdx] 633: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,122 DEBUG [mondrian.mdx] 633: exec: 1 ms
+2014-02-22 13:11:52,124 DEBUG [mondrian.mdx] 637: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,126 DEBUG [mondrian.mdx] 637: exec: 2 ms
+2014-02-22 13:11:52,128 DEBUG [mondrian.mdx] 641: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,129 DEBUG [mondrian.mdx] 641: exec: 1 ms
+2014-02-22 13:11:52,131 DEBUG [mondrian.mdx] 645: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,133 DEBUG [mondrian.mdx] 645: exec: 2 ms
+2014-02-22 13:11:52,136 DEBUG [mondrian.mdx] 649: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,137 DEBUG [mondrian.mdx] 649: exec: 1 ms
+2014-02-22 13:11:52,140 DEBUG [mondrian.mdx] 653: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,141 DEBUG [mondrian.mdx] 653: exec: 1 ms
+2014-02-22 13:11:52,143 DEBUG [mondrian.mdx] 657: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,145 DEBUG [mondrian.mdx] 657: exec: 1 ms
+2014-02-22 13:11:52,147 DEBUG [mondrian.mdx] 661: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,148 DEBUG [mondrian.mdx] 661: exec: 1 ms
+2014-02-22 13:11:52,151 DEBUG [mondrian.mdx] 665: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,152 DEBUG [mondrian.mdx] 665: exec: 1 ms
+2014-02-22 13:11:52,154 DEBUG [mondrian.mdx] 669: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,156 DEBUG [mondrian.mdx] 669: exec: 2 ms
+2014-02-22 13:11:52,158 DEBUG [mondrian.mdx] 673: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,160 DEBUG [mondrian.mdx] 673: exec: 1 ms
+2014-02-22 13:11:52,162 DEBUG [mondrian.mdx] 677: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,164 DEBUG [mondrian.mdx] 677: exec: 2 ms
+2014-02-22 13:11:52,166 DEBUG [mondrian.mdx] 681: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,168 DEBUG [mondrian.mdx] 681: exec: 2 ms
+2014-02-22 13:11:52,170 DEBUG [mondrian.mdx] 685: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,171 DEBUG [mondrian.mdx] 685: exec: 1 ms
+2014-02-22 13:11:52,174 DEBUG [mondrian.mdx] 689: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,176 DEBUG [mondrian.mdx] 689: exec: 1 ms
+2014-02-22 13:11:52,180 DEBUG [mondrian.mdx] 693: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,181 DEBUG [mondrian.mdx] 693: exec: 1 ms
+2014-02-22 13:11:52,183 DEBUG [mondrian.mdx] 697: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,184 DEBUG [mondrian.mdx] 697: exec: 1 ms
+2014-02-22 13:11:52,186 DEBUG [mondrian.mdx] 701: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,187 DEBUG [mondrian.mdx] 701: exec: 1 ms
+2014-02-22 13:11:52,189 DEBUG [mondrian.mdx] 705: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,190 DEBUG [mondrian.mdx] 705: exec: 1 ms
+2014-02-22 13:11:52,191 DEBUG [mondrian.mdx] 709: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,198 DEBUG [mondrian.mdx] 709: exec: 6 ms
+2014-02-22 13:11:52,218 DEBUG [mondrian.mdx] 713: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,220 DEBUG [mondrian.mdx] 713: exec: 2 ms
+2014-02-22 13:11:52,222 DEBUG [mondrian.mdx] 717: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,223 DEBUG [mondrian.mdx] 717: exec: 1 ms
+2014-02-22 13:11:52,227 DEBUG [mondrian.mdx] 721: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,228 DEBUG [mondrian.mdx] 721: exec: 1 ms
+2014-02-22 13:11:52,230 DEBUG [mondrian.mdx] 725: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,231 DEBUG [mondrian.mdx] 725: exec: 1 ms
+2014-02-22 13:11:52,233 DEBUG [mondrian.mdx] 729: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,234 DEBUG [mondrian.mdx] 729: exec: 1 ms
+2014-02-22 13:11:52,237 DEBUG [mondrian.mdx] 733: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,239 DEBUG [mondrian.mdx] 733: exec: 1 ms
+2014-02-22 13:11:52,242 DEBUG [mondrian.mdx] 737: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,243 DEBUG [mondrian.mdx] 737: exec: 1 ms
+2014-02-22 13:11:52,246 DEBUG [mondrian.mdx] 741: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,248 DEBUG [mondrian.mdx] 741: exec: 2 ms
+2014-02-22 13:11:52,251 DEBUG [mondrian.mdx] 745: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,253 DEBUG [mondrian.mdx] 745: exec: 2 ms
+2014-02-22 13:11:52,255 DEBUG [mondrian.mdx] 749: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,256 DEBUG [mondrian.mdx] 749: exec: 1 ms
+2014-02-22 13:11:52,258 DEBUG [mondrian.mdx] 753: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,260 DEBUG [mondrian.mdx] 753: exec: 2 ms
+2014-02-22 13:11:52,262 DEBUG [mondrian.mdx] 757: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,264 DEBUG [mondrian.mdx] 757: exec: 2 ms
+2014-02-22 13:11:52,266 DEBUG [mondrian.mdx] 761: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,268 DEBUG [mondrian.mdx] 761: exec: 2 ms
+2014-02-22 13:11:52,270 DEBUG [mondrian.mdx] 765: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,272 DEBUG [mondrian.mdx] 765: exec: 1 ms
+2014-02-22 13:11:52,274 DEBUG [mondrian.mdx] 769: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,276 DEBUG [mondrian.mdx] 769: exec: 1 ms
+2014-02-22 13:11:52,278 DEBUG [mondrian.mdx] 773: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,279 DEBUG [mondrian.mdx] 773: exec: 1 ms
+2014-02-22 13:11:52,281 DEBUG [mondrian.mdx] 777: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,282 DEBUG [mondrian.mdx] 777: exec: 1 ms
+2014-02-22 13:11:52,284 DEBUG [mondrian.mdx] 781: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,286 DEBUG [mondrian.mdx] 781: exec: 2 ms
+2014-02-22 13:11:52,287 DEBUG [mondrian.mdx] 785: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,289 DEBUG [mondrian.mdx] 785: exec: 2 ms
+2014-02-22 13:11:52,290 DEBUG [mondrian.mdx] 789: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,291 DEBUG [mondrian.mdx] 789: exec: 1 ms
+2014-02-22 13:11:52,306 DEBUG [mondrian.mdx] 793: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,308 DEBUG [mondrian.mdx] 793: exec: 1 ms
+2014-02-22 13:11:52,311 DEBUG [mondrian.mdx] 797: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,312 DEBUG [mondrian.mdx] 797: exec: 1 ms
+2014-02-22 13:11:52,314 DEBUG [mondrian.mdx] 801: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,316 DEBUG [mondrian.mdx] 801: exec: 1 ms
+2014-02-22 13:11:52,318 DEBUG [mondrian.mdx] 805: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,319 DEBUG [mondrian.mdx] 805: exec: 1 ms
+2014-02-22 13:11:52,321 DEBUG [mondrian.mdx] 809: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,322 DEBUG [mondrian.mdx] 809: exec: 1 ms
+2014-02-22 13:11:52,324 DEBUG [mondrian.mdx] 813: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,325 DEBUG [mondrian.mdx] 813: exec: 1 ms
+2014-02-22 13:11:52,326 DEBUG [mondrian.mdx] 817: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,328 DEBUG [mondrian.mdx] 817: exec: 2 ms
+2014-02-22 13:11:52,330 DEBUG [mondrian.mdx] 821: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,332 DEBUG [mondrian.mdx] 821: exec: 2 ms
+2014-02-22 13:11:52,334 DEBUG [mondrian.mdx] 825: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,335 DEBUG [mondrian.mdx] 825: exec: 1 ms
+2014-02-22 13:11:52,337 DEBUG [mondrian.mdx] 829: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,338 DEBUG [mondrian.mdx] 829: exec: 1 ms
+2014-02-22 13:11:52,340 DEBUG [mondrian.mdx] 833: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,341 DEBUG [mondrian.mdx] 833: exec: 1 ms
+2014-02-22 13:11:52,343 DEBUG [mondrian.mdx] 837: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,345 DEBUG [mondrian.mdx] 837: exec: 1 ms
+2014-02-22 13:11:52,347 DEBUG [mondrian.mdx] 841: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,348 DEBUG [mondrian.mdx] 841: exec: 1 ms
+2014-02-22 13:11:52,350 DEBUG [mondrian.mdx] 845: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,352 DEBUG [mondrian.mdx] 845: exec: 1 ms
+2014-02-22 13:11:52,354 DEBUG [mondrian.mdx] 849: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,356 DEBUG [mondrian.mdx] 849: exec: 1 ms
+2014-02-22 13:11:52,358 DEBUG [mondrian.mdx] 853: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,360 DEBUG [mondrian.mdx] 853: exec: 2 ms
+2014-02-22 13:11:52,363 DEBUG [mondrian.mdx] 857: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,369 DEBUG [mondrian.mdx] 857: exec: 6 ms
+2014-02-22 13:11:52,371 DEBUG [mondrian.mdx] 861: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,373 DEBUG [mondrian.mdx] 861: exec: 1 ms
+2014-02-22 13:11:52,375 DEBUG [mondrian.mdx] 865: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,376 DEBUG [mondrian.mdx] 865: exec: 1 ms
+2014-02-22 13:11:52,378 DEBUG [mondrian.mdx] 869: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,380 DEBUG [mondrian.mdx] 869: exec: 2 ms
+2014-02-22 13:11:52,381 DEBUG [mondrian.mdx] 873: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,383 DEBUG [mondrian.mdx] 873: exec: 2 ms
+2014-02-22 13:11:52,385 DEBUG [mondrian.mdx] 877: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,386 DEBUG [mondrian.mdx] 877: exec: 1 ms
+2014-02-22 13:11:52,387 DEBUG [mondrian.mdx] 881: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,389 DEBUG [mondrian.mdx] 881: exec: 2 ms
+2014-02-22 13:11:52,391 DEBUG [mondrian.mdx] 885: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,393 DEBUG [mondrian.mdx] 885: exec: 2 ms
+2014-02-22 13:11:52,396 DEBUG [mondrian.mdx] 889: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,399 DEBUG [mondrian.mdx] 889: exec: 2 ms
+2014-02-22 13:11:52,401 DEBUG [mondrian.mdx] 893: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,403 DEBUG [mondrian.mdx] 893: exec: 1 ms
+2014-02-22 13:11:52,405 DEBUG [mondrian.mdx] 897: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,407 DEBUG [mondrian.mdx] 897: exec: 1 ms
+2014-02-22 13:11:52,410 DEBUG [mondrian.mdx] 901: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,411 DEBUG [mondrian.mdx] 901: exec: 1 ms
+2014-02-22 13:11:52,413 DEBUG [mondrian.mdx] 905: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,415 DEBUG [mondrian.mdx] 905: exec: 2 ms
+2014-02-22 13:11:52,417 DEBUG [mondrian.mdx] 909: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,419 DEBUG [mondrian.mdx] 909: exec: 2 ms
+2014-02-22 13:11:52,421 DEBUG [mondrian.mdx] 913: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,423 DEBUG [mondrian.mdx] 913: exec: 2 ms
+2014-02-22 13:11:52,426 DEBUG [mondrian.mdx] 917: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,432 DEBUG [mondrian.mdx] 917: exec: 6 ms
+2014-02-22 13:11:52,435 DEBUG [mondrian.mdx] 921: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,437 DEBUG [mondrian.mdx] 921: exec: 2 ms
+2014-02-22 13:11:52,439 DEBUG [mondrian.mdx] 925: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,443 DEBUG [mondrian.mdx] 925: exec: 4 ms
+2014-02-22 13:11:52,445 DEBUG [mondrian.mdx] 929: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,447 DEBUG [mondrian.mdx] 929: exec: 2 ms
+2014-02-22 13:11:52,449 DEBUG [mondrian.mdx] 933: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,451 DEBUG [mondrian.mdx] 933: exec: 2 ms
+2014-02-22 13:11:52,453 DEBUG [mondrian.mdx] 937: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,455 DEBUG [mondrian.mdx] 937: exec: 2 ms
+2014-02-22 13:11:52,457 DEBUG [mondrian.mdx] 941: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,458 DEBUG [mondrian.mdx] 941: exec: 1 ms
+2014-02-22 13:11:52,462 DEBUG [mondrian.mdx] 945: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,464 DEBUG [mondrian.mdx] 945: exec: 2 ms
+2014-02-22 13:11:52,466 DEBUG [mondrian.mdx] 949: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,469 DEBUG [mondrian.mdx] 949: exec: 3 ms
+2014-02-22 13:11:52,471 DEBUG [mondrian.mdx] 953: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,473 DEBUG [mondrian.mdx] 953: exec: 2 ms
+2014-02-22 13:11:52,475 DEBUG [mondrian.mdx] 957: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,476 DEBUG [mondrian.mdx] 957: exec: 1 ms
+2014-02-22 13:11:52,477 DEBUG [mondrian.mdx] 961: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,479 DEBUG [mondrian.mdx] 961: exec: 2 ms
+2014-02-22 13:11:52,480 DEBUG [mondrian.mdx] 965: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,481 DEBUG [mondrian.mdx] 965: exec: 1 ms
+2014-02-22 13:11:52,482 DEBUG [mondrian.mdx] 969: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,484 DEBUG [mondrian.mdx] 969: exec: 1 ms
+2014-02-22 13:11:52,486 DEBUG [mondrian.mdx] 973: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,487 DEBUG [mondrian.mdx] 973: exec: 1 ms
+2014-02-22 13:11:52,490 DEBUG [mondrian.mdx] 977: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,492 DEBUG [mondrian.mdx] 977: exec: 2 ms
+2014-02-22 13:11:52,494 DEBUG [mondrian.mdx] 981: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,496 DEBUG [mondrian.mdx] 981: exec: 2 ms
+2014-02-22 13:11:52,499 DEBUG [mondrian.mdx] 985: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,504 DEBUG [mondrian.mdx] 985: exec: 4 ms
+2014-02-22 13:11:52,506 DEBUG [mondrian.mdx] 989: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,508 DEBUG [mondrian.mdx] 989: exec: 2 ms
+2014-02-22 13:11:52,509 DEBUG [mondrian.mdx] 993: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,511 DEBUG [mondrian.mdx] 993: exec: 1 ms
+2014-02-22 13:11:52,512 DEBUG [mondrian.mdx] 997: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,513 DEBUG [mondrian.mdx] 997: exec: 1 ms
+2014-02-22 13:11:52,517 DEBUG [mondrian.mdx] 1001: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,519 DEBUG [mondrian.mdx] 1001: exec: 2 ms
+2014-02-22 13:11:52,521 DEBUG [mondrian.mdx] 1005: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,523 DEBUG [mondrian.mdx] 1005: exec: 1 ms
+2014-02-22 13:11:52,524 DEBUG [mondrian.mdx] 1009: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,525 DEBUG [mondrian.mdx] 1009: exec: 1 ms
+2014-02-22 13:11:52,527 DEBUG [mondrian.mdx] 1013: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,529 DEBUG [mondrian.mdx] 1013: exec: 1 ms
+2014-02-22 13:11:52,531 DEBUG [mondrian.mdx] 1017: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,533 DEBUG [mondrian.mdx] 1017: exec: 2 ms
+2014-02-22 13:11:52,535 DEBUG [mondrian.mdx] 1021: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,536 DEBUG [mondrian.mdx] 1021: exec: 1 ms
+2014-02-22 13:11:52,537 DEBUG [mondrian.mdx] 1025: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,539 DEBUG [mondrian.mdx] 1025: exec: 1 ms
+2014-02-22 13:11:52,540 DEBUG [mondrian.mdx] 1029: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,541 DEBUG [mondrian.mdx] 1029: exec: 1 ms
+2014-02-22 13:11:52,543 DEBUG [mondrian.mdx] 1033: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,544 DEBUG [mondrian.mdx] 1033: exec: 1 ms
+2014-02-22 13:11:52,546 DEBUG [mondrian.mdx] 1037: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,547 DEBUG [mondrian.mdx] 1037: exec: 1 ms
+2014-02-22 13:11:52,551 DEBUG [mondrian.mdx] 1041: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,552 DEBUG [mondrian.mdx] 1041: exec: 1 ms
+2014-02-22 13:11:52,554 DEBUG [mondrian.mdx] 1045: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,555 DEBUG [mondrian.mdx] 1045: exec: 1 ms
+2014-02-22 13:11:52,557 DEBUG [mondrian.mdx] 1049: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,558 DEBUG [mondrian.mdx] 1049: exec: 1 ms
+2014-02-22 13:11:52,560 DEBUG [mondrian.mdx] 1053: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,562 DEBUG [mondrian.mdx] 1053: exec: 2 ms
+2014-02-22 13:11:52,566 DEBUG [mondrian.mdx] 1057: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,570 DEBUG [mondrian.mdx] 1057: exec: 4 ms
+2014-02-22 13:11:52,573 DEBUG [mondrian.mdx] 1061: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,574 DEBUG [mondrian.mdx] 1061: exec: 1 ms
+2014-02-22 13:11:52,576 DEBUG [mondrian.mdx] 1065: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,578 DEBUG [mondrian.mdx] 1065: exec: 2 ms
+2014-02-22 13:11:52,580 DEBUG [mondrian.mdx] 1069: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,581 DEBUG [mondrian.mdx] 1069: exec: 1 ms
+2014-02-22 13:11:52,584 DEBUG [mondrian.mdx] 1073: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,585 DEBUG [mondrian.mdx] 1073: exec: 1 ms
+2014-02-22 13:11:52,587 DEBUG [mondrian.mdx] 1077: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,588 DEBUG [mondrian.mdx] 1077: exec: 1 ms
+2014-02-22 13:11:52,590 DEBUG [mondrian.mdx] 1081: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,591 DEBUG [mondrian.mdx] 1081: exec: 1 ms
+2014-02-22 13:11:52,592 DEBUG [mondrian.mdx] 1085: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,598 DEBUG [mondrian.mdx] 1085: exec: 5 ms
+2014-02-22 13:11:52,600 DEBUG [mondrian.mdx] 1089: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,602 DEBUG [mondrian.mdx] 1089: exec: 2 ms
+2014-02-22 13:11:52,603 DEBUG [mondrian.mdx] 1093: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,605 DEBUG [mondrian.mdx] 1093: exec: 2 ms
+2014-02-22 13:11:52,606 DEBUG [mondrian.mdx] 1097: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,607 DEBUG [mondrian.mdx] 1097: exec: 1 ms
+2014-02-22 13:11:52,609 DEBUG [mondrian.mdx] 1101: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,611 DEBUG [mondrian.mdx] 1101: exec: 1 ms
+2014-02-22 13:11:52,613 DEBUG [mondrian.mdx] 1105: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,615 DEBUG [mondrian.mdx] 1105: exec: 2 ms
+2014-02-22 13:11:52,617 DEBUG [mondrian.mdx] 1109: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,619 DEBUG [mondrian.mdx] 1109: exec: 2 ms
+2014-02-22 13:11:52,621 DEBUG [mondrian.mdx] 1113: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,622 DEBUG [mondrian.mdx] 1113: exec: 1 ms
+2014-02-22 13:11:52,624 DEBUG [mondrian.mdx] 1117: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,625 DEBUG [mondrian.mdx] 1117: exec: 1 ms
+2014-02-22 13:11:52,628 DEBUG [mondrian.mdx] 1121: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,630 DEBUG [mondrian.mdx] 1121: exec: 2 ms
+2014-02-22 13:11:52,634 DEBUG [mondrian.mdx] 1125: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,635 DEBUG [mondrian.mdx] 1125: exec: 1 ms
+2014-02-22 13:11:52,637 DEBUG [mondrian.mdx] 1129: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,639 DEBUG [mondrian.mdx] 1129: exec: 2 ms
+2014-02-22 13:11:52,640 DEBUG [mondrian.mdx] 1133: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,642 DEBUG [mondrian.mdx] 1133: exec: 2 ms
+2014-02-22 13:11:52,643 DEBUG [mondrian.mdx] 1137: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,645 DEBUG [mondrian.mdx] 1137: exec: 2 ms
+2014-02-22 13:11:52,647 DEBUG [mondrian.mdx] 1141: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,648 DEBUG [mondrian.mdx] 1141: exec: 1 ms
+2014-02-22 13:11:52,650 DEBUG [mondrian.mdx] 1145: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,651 DEBUG [mondrian.mdx] 1145: exec: 1 ms
+2014-02-22 13:11:52,653 DEBUG [mondrian.mdx] 1149: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,654 DEBUG [mondrian.mdx] 1149: exec: 1 ms
+2014-02-22 13:11:52,656 DEBUG [mondrian.mdx] 1153: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,657 DEBUG [mondrian.mdx] 1153: exec: 1 ms
+2014-02-22 13:11:52,658 DEBUG [mondrian.mdx] 1157: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,659 DEBUG [mondrian.mdx] 1157: exec: 1 ms
+2014-02-22 13:11:52,660 DEBUG [mondrian.mdx] 1161: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,662 DEBUG [mondrian.mdx] 1161: exec: 1 ms
+2014-02-22 13:11:52,664 DEBUG [mondrian.mdx] 1165: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,665 DEBUG [mondrian.mdx] 1165: exec: 1 ms
+2014-02-22 13:11:52,666 DEBUG [mondrian.mdx] 1169: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,667 DEBUG [mondrian.mdx] 1169: exec: 0 ms
+2014-02-22 13:11:52,668 DEBUG [mondrian.mdx] 1173: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,669 DEBUG [mondrian.mdx] 1173: exec: 0 ms
+2014-02-22 13:11:52,670 DEBUG [mondrian.mdx] 1177: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,671 DEBUG [mondrian.mdx] 1177: exec: 1 ms
+2014-02-22 13:11:52,672 DEBUG [mondrian.mdx] 1181: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,673 DEBUG [mondrian.mdx] 1181: exec: 1 ms
+2014-02-22 13:11:52,674 DEBUG [mondrian.mdx] 1185: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,675 DEBUG [mondrian.mdx] 1185: exec: 1 ms
+2014-02-22 13:11:52,676 DEBUG [mondrian.mdx] 1189: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,677 DEBUG [mondrian.mdx] 1189: exec: 1 ms
+2014-02-22 13:11:52,678 DEBUG [mondrian.mdx] 1193: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,680 DEBUG [mondrian.mdx] 1193: exec: 2 ms
+2014-02-22 13:11:52,681 DEBUG [mondrian.mdx] 1197: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,683 DEBUG [mondrian.mdx] 1197: exec: 1 ms
+2014-02-22 13:11:52,685 DEBUG [mondrian.mdx] 1201: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,686 DEBUG [mondrian.mdx] 1201: exec: 1 ms
+2014-02-22 13:11:52,687 DEBUG [mondrian.mdx] 1205: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,689 DEBUG [mondrian.mdx] 1205: exec: 1 ms
+2014-02-22 13:11:52,690 DEBUG [mondrian.mdx] 1209: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,691 DEBUG [mondrian.mdx] 1209: exec: 1 ms
+2014-02-22 13:11:52,693 DEBUG [mondrian.mdx] 1213: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,695 DEBUG [mondrian.mdx] 1213: exec: 2 ms
+2014-02-22 13:11:52,699 DEBUG [mondrian.mdx] 1217: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,700 DEBUG [mondrian.mdx] 1217: exec: 1 ms
+2014-02-22 13:11:52,701 DEBUG [mondrian.mdx] 1221: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,702 DEBUG [mondrian.mdx] 1221: exec: 1 ms
+2014-02-22 13:11:52,703 DEBUG [mondrian.mdx] 1225: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,704 DEBUG [mondrian.mdx] 1225: exec: 1 ms
+2014-02-22 13:11:52,705 DEBUG [mondrian.mdx] 1229: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,706 DEBUG [mondrian.mdx] 1229: exec: 1 ms
+2014-02-22 13:11:52,707 DEBUG [mondrian.mdx] 1233: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,707 DEBUG [mondrian.mdx] 1233: exec: 0 ms
+2014-02-22 13:11:52,708 DEBUG [mondrian.mdx] 1237: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,709 DEBUG [mondrian.mdx] 1237: exec: 1 ms
+2014-02-22 13:11:52,710 DEBUG [mondrian.mdx] 1241: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,711 DEBUG [mondrian.mdx] 1241: exec: 1 ms
+2014-02-22 13:11:52,712 DEBUG [mondrian.mdx] 1245: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,713 DEBUG [mondrian.mdx] 1245: exec: 1 ms
+2014-02-22 13:11:52,714 DEBUG [mondrian.mdx] 1249: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,715 DEBUG [mondrian.mdx] 1249: exec: 1 ms
+2014-02-22 13:11:52,717 DEBUG [mondrian.mdx] 1253: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,718 DEBUG [mondrian.mdx] 1253: exec: 1 ms
+2014-02-22 13:11:52,719 DEBUG [mondrian.mdx] 1257: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,720 DEBUG [mondrian.mdx] 1257: exec: 1 ms
+2014-02-22 13:11:52,722 DEBUG [mondrian.mdx] 1261: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,723 DEBUG [mondrian.mdx] 1261: exec: 1 ms
+2014-02-22 13:11:52,724 DEBUG [mondrian.mdx] 1265: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,725 DEBUG [mondrian.mdx] 1265: exec: 0 ms
+2014-02-22 13:11:52,729 DEBUG [mondrian.mdx] 1269: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,730 DEBUG [mondrian.mdx] 1269: exec: 1 ms
+2014-02-22 13:11:52,756 DEBUG [mondrian.mdx] 1275: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,757 DEBUG [mondrian.mdx] 1275: exec: 1 ms
+2014-02-22 13:11:52,760 DEBUG [mondrian.mdx] 1281: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,762 DEBUG [mondrian.mdx] 1281: exec: 2 ms
+2014-02-22 13:11:52,765 DEBUG [mondrian.mdx] 1287: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,766 DEBUG [mondrian.mdx] 1287: exec: 1 ms
+2014-02-22 13:11:52,768 DEBUG [mondrian.mdx] 1293: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,769 DEBUG [mondrian.mdx] 1293: exec: 0 ms
+2014-02-22 13:11:52,772 DEBUG [mondrian.mdx] 1299: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,773 DEBUG [mondrian.mdx] 1299: exec: 1 ms
+2014-02-22 13:11:52,775 DEBUG [mondrian.mdx] 1305: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,776 DEBUG [mondrian.mdx] 1305: exec: 1 ms
+2014-02-22 13:11:52,779 DEBUG [mondrian.mdx] 1311: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,781 DEBUG [mondrian.mdx] 1311: exec: 2 ms
+2014-02-22 13:11:52,784 DEBUG [mondrian.mdx] 1317: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,785 DEBUG [mondrian.mdx] 1317: exec: 1 ms
+2014-02-22 13:11:52,788 DEBUG [mondrian.mdx] 1323: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,789 DEBUG [mondrian.mdx] 1323: exec: 1 ms
+2014-02-22 13:11:52,792 DEBUG [mondrian.mdx] 1329: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,809 DEBUG [mondrian.mdx] 1329: exec: 17 ms
+2014-02-22 13:11:52,812 DEBUG [mondrian.mdx] 1335: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,813 DEBUG [mondrian.mdx] 1335: exec: 1 ms
+2014-02-22 13:11:52,816 DEBUG [mondrian.mdx] 1341: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,818 DEBUG [mondrian.mdx] 1341: exec: 1 ms
+2014-02-22 13:11:52,821 DEBUG [mondrian.mdx] 1347: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,822 DEBUG [mondrian.mdx] 1347: exec: 1 ms
+2014-02-22 13:11:52,824 DEBUG [mondrian.mdx] 1353: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,826 DEBUG [mondrian.mdx] 1353: exec: 2 ms
+2014-02-22 13:11:52,831 DEBUG [mondrian.mdx] 1359: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,832 DEBUG [mondrian.mdx] 1359: exec: 1 ms
+2014-02-22 13:11:52,835 DEBUG [mondrian.mdx] 1365: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,836 DEBUG [mondrian.mdx] 1365: exec: 1 ms
+2014-02-22 13:11:52,839 DEBUG [mondrian.mdx] 1371: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,840 DEBUG [mondrian.mdx] 1371: exec: 1 ms
+2014-02-22 13:11:52,842 DEBUG [mondrian.mdx] 1377: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,843 DEBUG [mondrian.mdx] 1377: exec: 1 ms
+2014-02-22 13:11:52,845 DEBUG [mondrian.mdx] 1383: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,847 DEBUG [mondrian.mdx] 1383: exec: 2 ms
+2014-02-22 13:11:52,850 DEBUG [mondrian.mdx] 1389: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,852 DEBUG [mondrian.mdx] 1389: exec: 1 ms
+2014-02-22 13:11:52,855 DEBUG [mondrian.mdx] 1395: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,856 DEBUG [mondrian.mdx] 1395: exec: 1 ms
+2014-02-22 13:11:52,858 DEBUG [mondrian.mdx] 1401: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,859 DEBUG [mondrian.mdx] 1401: exec: 1 ms
+2014-02-22 13:11:52,862 DEBUG [mondrian.mdx] 1407: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,864 DEBUG [mondrian.mdx] 1407: exec: 1 ms
+2014-02-22 13:11:52,867 DEBUG [mondrian.mdx] 1413: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,868 DEBUG [mondrian.mdx] 1413: exec: 1 ms
+2014-02-22 13:11:52,870 DEBUG [mondrian.mdx] 1419: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,871 DEBUG [mondrian.mdx] 1419: exec: 1 ms
+2014-02-22 13:11:52,874 DEBUG [mondrian.mdx] 1425: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,875 DEBUG [mondrian.mdx] 1425: exec: 1 ms
+2014-02-22 13:11:52,877 DEBUG [mondrian.mdx] 1431: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,878 DEBUG [mondrian.mdx] 1431: exec: 1 ms
+2014-02-22 13:11:52,880 DEBUG [mondrian.mdx] 1437: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,882 DEBUG [mondrian.mdx] 1437: exec: 1 ms
+2014-02-22 13:11:52,884 DEBUG [mondrian.mdx] 1443: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,885 DEBUG [mondrian.mdx] 1443: exec: 1 ms
+2014-02-22 13:11:52,888 DEBUG [mondrian.mdx] 1449: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,889 DEBUG [mondrian.mdx] 1449: exec: 1 ms
+2014-02-22 13:11:52,891 DEBUG [mondrian.mdx] 1455: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,892 DEBUG [mondrian.mdx] 1455: exec: 1 ms
+2014-02-22 13:11:52,895 DEBUG [mondrian.mdx] 1461: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,897 DEBUG [mondrian.mdx] 1461: exec: 2 ms
+2014-02-22 13:11:52,899 DEBUG [mondrian.mdx] 1467: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,900 DEBUG [mondrian.mdx] 1467: exec: 1 ms
+2014-02-22 13:11:52,902 DEBUG [mondrian.mdx] 1473: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,903 DEBUG [mondrian.mdx] 1473: exec: 1 ms
+2014-02-22 13:11:52,905 DEBUG [mondrian.mdx] 1479: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,906 DEBUG [mondrian.mdx] 1479: exec: 1 ms
+2014-02-22 13:11:52,909 DEBUG [mondrian.mdx] 1485: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,910 DEBUG [mondrian.mdx] 1485: exec: 1 ms
+2014-02-22 13:11:52,912 DEBUG [mondrian.mdx] 1491: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,913 DEBUG [mondrian.mdx] 1491: exec: 1 ms
+2014-02-22 13:11:52,916 DEBUG [mondrian.mdx] 1497: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,917 DEBUG [mondrian.mdx] 1497: exec: 1 ms
+2014-02-22 13:11:52,919 DEBUG [mondrian.mdx] 1503: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,921 DEBUG [mondrian.mdx] 1503: exec: 1 ms
+2014-02-22 13:11:52,924 DEBUG [mondrian.mdx] 1509: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,925 DEBUG [mondrian.mdx] 1509: exec: 1 ms
+2014-02-22 13:11:52,930 DEBUG [mondrian.mdx] 1515: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,932 DEBUG [mondrian.mdx] 1515: exec: 2 ms
+2014-02-22 13:11:52,934 DEBUG [mondrian.mdx] 1521: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,935 DEBUG [mondrian.mdx] 1521: exec: 1 ms
+2014-02-22 13:11:52,937 DEBUG [mondrian.mdx] 1527: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,938 DEBUG [mondrian.mdx] 1527: exec: 1 ms
+2014-02-22 13:11:52,940 DEBUG [mondrian.mdx] 1533: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,941 DEBUG [mondrian.mdx] 1533: exec: 1 ms
+2014-02-22 13:11:52,943 DEBUG [mondrian.mdx] 1539: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,944 DEBUG [mondrian.mdx] 1539: exec: 1 ms
+2014-02-22 13:11:52,946 DEBUG [mondrian.mdx] 1545: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,947 DEBUG [mondrian.mdx] 1545: exec: 0 ms
+2014-02-22 13:11:52,949 DEBUG [mondrian.mdx] 1551: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,951 DEBUG [mondrian.mdx] 1551: exec: 2 ms
+2014-02-22 13:11:52,953 DEBUG [mondrian.mdx] 1557: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:52,954 DEBUG [mondrian.mdx] 1557: exec: 1 ms
+2014-02-22 13:11:52,955 DEBUG [mondrian.mdx] 1561: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,956 DEBUG [mondrian.mdx] 1561: exec: 1 ms
+2014-02-22 13:11:52,957 DEBUG [mondrian.mdx] 1565: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,958 DEBUG [mondrian.mdx] 1565: exec: 1 ms
+2014-02-22 13:11:52,959 DEBUG [mondrian.mdx] 1569: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,961 DEBUG [mondrian.mdx] 1569: exec: 1 ms
+2014-02-22 13:11:52,963 DEBUG [mondrian.mdx] 1573: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,965 DEBUG [mondrian.mdx] 1573: exec: 2 ms
+2014-02-22 13:11:52,966 DEBUG [mondrian.mdx] 1577: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,967 DEBUG [mondrian.mdx] 1577: exec: 1 ms
+2014-02-22 13:11:52,968 DEBUG [mondrian.mdx] 1581: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,969 DEBUG [mondrian.mdx] 1581: exec: 0 ms
+2014-02-22 13:11:52,971 DEBUG [mondrian.mdx] 1585: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,972 DEBUG [mondrian.mdx] 1585: exec: 1 ms
+2014-02-22 13:11:52,973 DEBUG [mondrian.mdx] 1589: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,974 DEBUG [mondrian.mdx] 1589: exec: 1 ms
+2014-02-22 13:11:52,974 DEBUG [mondrian.mdx] 1593: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,976 DEBUG [mondrian.mdx] 1593: exec: 1 ms
+2014-02-22 13:11:52,977 DEBUG [mondrian.mdx] 1597: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,978 DEBUG [mondrian.mdx] 1597: exec: 1 ms
+2014-02-22 13:11:52,979 DEBUG [mondrian.mdx] 1601: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,981 DEBUG [mondrian.mdx] 1601: exec: 1 ms
+2014-02-22 13:11:52,982 DEBUG [mondrian.mdx] 1605: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,983 DEBUG [mondrian.mdx] 1605: exec: 1 ms
+2014-02-22 13:11:52,984 DEBUG [mondrian.mdx] 1609: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,985 DEBUG [mondrian.mdx] 1609: exec: 1 ms
+2014-02-22 13:11:52,986 DEBUG [mondrian.mdx] 1613: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,987 DEBUG [mondrian.mdx] 1613: exec: 1 ms
+2014-02-22 13:11:52,988 DEBUG [mondrian.mdx] 1617: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,988 DEBUG [mondrian.mdx] 1617: exec: 0 ms
+2014-02-22 13:11:52,989 DEBUG [mondrian.mdx] 1621: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,990 DEBUG [mondrian.mdx] 1621: exec: 0 ms
+2014-02-22 13:11:52,992 DEBUG [mondrian.mdx] 1625: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,993 DEBUG [mondrian.mdx] 1625: exec: 1 ms
+2014-02-22 13:11:52,995 DEBUG [mondrian.mdx] 1629: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,996 DEBUG [mondrian.mdx] 1629: exec: 1 ms
+2014-02-22 13:11:52,998 DEBUG [mondrian.mdx] 1633: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:52,999 DEBUG [mondrian.mdx] 1633: exec: 1 ms
+2014-02-22 13:11:53,000 DEBUG [mondrian.mdx] 1637: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,001 DEBUG [mondrian.mdx] 1637: exec: 1 ms
+2014-02-22 13:11:53,002 DEBUG [mondrian.mdx] 1641: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,003 DEBUG [mondrian.mdx] 1641: exec: 1 ms
+2014-02-22 13:11:53,004 DEBUG [mondrian.mdx] 1645: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,005 DEBUG [mondrian.mdx] 1645: exec: 1 ms
+2014-02-22 13:11:53,006 DEBUG [mondrian.mdx] 1649: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,007 DEBUG [mondrian.mdx] 1649: exec: 1 ms
+2014-02-22 13:11:53,008 DEBUG [mondrian.mdx] 1653: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,008 DEBUG [mondrian.mdx] 1653: exec: 0 ms
+2014-02-22 13:11:53,010 DEBUG [mondrian.mdx] 1657: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,011 DEBUG [mondrian.mdx] 1657: exec: 1 ms
+2014-02-22 13:11:53,012 DEBUG [mondrian.mdx] 1661: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,013 DEBUG [mondrian.mdx] 1661: exec: 1 ms
+2014-02-22 13:11:53,014 DEBUG [mondrian.mdx] 1665: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,015 DEBUG [mondrian.mdx] 1665: exec: 1 ms
+2014-02-22 13:11:53,016 DEBUG [mondrian.mdx] 1669: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,017 DEBUG [mondrian.mdx] 1669: exec: 0 ms
+2014-02-22 13:11:53,018 DEBUG [mondrian.mdx] 1673: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,019 DEBUG [mondrian.mdx] 1673: exec: 1 ms
+2014-02-22 13:11:53,020 DEBUG [mondrian.mdx] 1677: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,021 DEBUG [mondrian.mdx] 1677: exec: 1 ms
+2014-02-22 13:11:53,022 DEBUG [mondrian.mdx] 1681: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,023 DEBUG [mondrian.mdx] 1681: exec: 1 ms
+2014-02-22 13:11:53,024 DEBUG [mondrian.mdx] 1685: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,025 DEBUG [mondrian.mdx] 1685: exec: 1 ms
+2014-02-22 13:11:53,026 DEBUG [mondrian.mdx] 1689: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,027 DEBUG [mondrian.mdx] 1689: exec: 1 ms
+2014-02-22 13:11:53,029 DEBUG [mondrian.mdx] 1693: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,030 DEBUG [mondrian.mdx] 1693: exec: 1 ms
+2014-02-22 13:11:53,032 DEBUG [mondrian.mdx] 1697: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,033 DEBUG [mondrian.mdx] 1697: exec: 1 ms
+2014-02-22 13:11:53,034 DEBUG [mondrian.mdx] 1701: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,035 DEBUG [mondrian.mdx] 1701: exec: 1 ms
+2014-02-22 13:11:53,036 DEBUG [mondrian.mdx] 1705: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,037 DEBUG [mondrian.mdx] 1705: exec: 1 ms
+2014-02-22 13:11:53,038 DEBUG [mondrian.mdx] 1709: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,039 DEBUG [mondrian.mdx] 1709: exec: 0 ms
+2014-02-22 13:11:53,041 DEBUG [mondrian.mdx] 1713: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,043 DEBUG [mondrian.mdx] 1713: exec: 1 ms
+2014-02-22 13:11:53,044 DEBUG [mondrian.mdx] 1717: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,045 DEBUG [mondrian.mdx] 1717: exec: 1 ms
+2014-02-22 13:11:53,046 DEBUG [mondrian.mdx] 1721: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,047 DEBUG [mondrian.mdx] 1721: exec: 1 ms
+2014-02-22 13:11:53,048 DEBUG [mondrian.mdx] 1725: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,049 DEBUG [mondrian.mdx] 1725: exec: 1 ms
+2014-02-22 13:11:53,050 DEBUG [mondrian.mdx] 1729: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,051 DEBUG [mondrian.mdx] 1729: exec: 1 ms
+2014-02-22 13:11:53,052 DEBUG [mondrian.mdx] 1733: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,053 DEBUG [mondrian.mdx] 1733: exec: 1 ms
+2014-02-22 13:11:53,054 DEBUG [mondrian.mdx] 1737: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,055 DEBUG [mondrian.mdx] 1737: exec: 1 ms
+2014-02-22 13:11:53,056 DEBUG [mondrian.mdx] 1741: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,057 DEBUG [mondrian.mdx] 1741: exec: 1 ms
+2014-02-22 13:11:53,058 DEBUG [mondrian.mdx] 1745: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,059 DEBUG [mondrian.mdx] 1745: exec: 1 ms
+2014-02-22 13:11:53,060 DEBUG [mondrian.mdx] 1749: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,061 DEBUG [mondrian.mdx] 1749: exec: 1 ms
+2014-02-22 13:11:53,064 DEBUG [mondrian.mdx] 1753: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,066 DEBUG [mondrian.mdx] 1753: exec: 2 ms
+2014-02-22 13:11:53,069 DEBUG [mondrian.mdx] 1757: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,069 DEBUG [mondrian.mdx] 1757: exec: 0 ms
+2014-02-22 13:11:53,074 DEBUG [mondrian.mdx] 1773: with member [Product].[Drink].[Percent of Alcoholic Drinks] as '([Product].[Drink].[Alcoholic Beverages] / [Product].[Drink])', format_string = "#.00%"
+select {[Product].[Drink].[Percent of Alcoholic Drinks]} ON COLUMNS,
+  Order([Customers].[USA].[WA].Children, [Product].[Drink].[Percent of Alcoholic Drinks], BDESC) ON ROWS
+from [Sales]
+where [Measures].[Unit Sales]
+
+2014-02-22 13:11:53,103 DEBUG [mondrian.mdx] 1773: exec: 29 ms
+2014-02-22 13:11:53,291 DEBUG [mondrian.mdx] 1786: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,292 DEBUG [mondrian.mdx] 1786: exec: 1 ms
+2014-02-22 13:11:53,295 DEBUG [mondrian.mdx] 1790: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,296 DEBUG [mondrian.mdx] 1790: exec: 1 ms
+2014-02-22 13:11:53,309 DEBUG [mondrian.mdx] 1796: select Filter({[Gender].Members}, (1 = 0)) ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+
+2014-02-22 13:11:53,346 DEBUG [mondrian.mdx] 1796: exec: 37 ms
+2014-02-22 13:11:53,348 DEBUG [mondrian.mdx] 1802: select {} ON COLUMNS,
+  {} ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:11:53,349 DEBUG [mondrian.mdx] 1802: exec: 1 ms
+2014-02-22 13:11:53,391 DEBUG [mondrian.mdx] 1814: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where {[Marital Status].[S], [Marital Status].[M]}
+
+2014-02-22 13:11:53,957 DEBUG [mondrian.mdx] 1814: exec: 566 ms
+2014-02-22 13:11:53,964 DEBUG [mondrian.mdx] 1835: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where Filter({[Marital Status].Members}, (1 = 0))
+
+2014-02-22 13:11:53,971 DEBUG [mondrian.mdx] 1835: exec: 6 ms
+2014-02-22 13:11:53,981 DEBUG [mondrian.mdx] 1847: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where {Filter({[Marital Status].Members}, ([Measures].[Unit Sales] = 266773))}.Item(0)
+
+2014-02-22 13:11:54,481 DEBUG [mondrian.mdx] 1847: exec: 500 ms
+2014-02-22 13:11:54,487 DEBUG [mondrian.mdx] 1857: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where [Marital Status].Parent
+
+2014-02-22 13:11:54,490 DEBUG [mondrian.mdx] 1857: exec: 2 ms
+2014-02-22 13:11:54,493 DEBUG [mondrian.mdx] 1869: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where Filter({[Marital Status].Members}, ([Measures].[Unit Sales] = 266773))
+
+2014-02-22 13:11:54,501 DEBUG [mondrian.mdx] 1869: exec: 6 ms
+2014-02-22 13:11:54,508 DEBUG [mondrian.mdx] 1881: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where Filter({[Marital Status].Members}, ([Measures].[Unit Sales] <= 266773))
+
+2014-02-22 13:11:54,513 DEBUG [mondrian.mdx] 1881: exec: 5 ms
+2014-02-22 13:11:54,571 DEBUG [mondrian.mdx] 1921: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Time].[1997].Children} ON ROWS
+from [Sales]
+where ([Marital Status].[S], [Time.Weekly].[1997].[20])
+
+2014-02-22 13:11:54,957 DEBUG [mondrian.mdx] 1921: exec: 386 ms
+2014-02-22 13:11:54,975 DEBUG [mondrian.mdx] 1944: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+where ([Time].[1997].[Q1], [Time.Weekly].[1997].[4])
+
+2014-02-22 13:11:55,004 DEBUG [mondrian.mdx] 1944: exec: 29 ms
+2014-02-22 13:11:55,010 DEBUG [mondrian.mdx] 1966: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {([Product].[All Products], [Time.Weekly].[1997])} ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:11:55,011 DEBUG [mondrian.mdx] 1966: exec: 1 ms
+2014-02-22 13:11:55,043 DEBUG [mondrian.mdx] 1988: select NON EMPTY {[Measures].[Sales Count]} ON COLUMNS,
+  NON EMPTY Hierarchize(Crossjoin(Union({[Gender].CurrentMember}, [Gender].Children), Union({[Product].CurrentMember}, [Product].[Brand Name].Members))) ON ROWS
+from [Sales]
+where {[Time.Weekly].[1997].[20], [Time.Weekly].[1997].[21], [Time.Weekly].[1997].[22], [Time.Weekly].[1997].[23]}
+
+2014-02-22 13:12:03,818 DEBUG [mondrian.mdx] 1988: exec: 8775 ms
+2014-02-22 13:12:03,827 DEBUG [mondrian.mdx] 2000: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Product].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:11,529 DEBUG [mondrian.mdx] 2000: exec: 7702 ms
+2014-02-22 13:12:11,601 DEBUG [mondrian.mdx] 2023: select Crossjoin({[Measures].[Unit Sales], [Measures].[Store Sales]}, {[Promotion Media].[Radio], [Promotion Media].[TV], [Promotion Media].[Sunday Paper], [Promotion Media].[Street Handout]}) ON COLUMNS,
+  NON EMPTY Crossjoin({[Product].[Drink].Children}, {[Customers].[USA].[WA].[Bellingham]}) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:11,854 DEBUG [mondrian.mdx] 2023: exec: 253 ms
+2014-02-22 13:12:11,864 DEBUG [mondrian.mdx] 2041: select NON EMPTY Crossjoin({[Measures].[Unit Sales]}, {[Promotion Media].[Cash Register Handout], [Promotion Media].[Sunday Paper], [Promotion Media].[Street Handout]}) ON COLUMNS,
+  NON EMPTY Crossjoin({[Product].[All Products].Children}, {[Customers].[USA].[WA].[Bellingham]}) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:14,974 DEBUG [mondrian.mdx] 2041: exec: 3110 ms
+2014-02-22 13:12:14,978 DEBUG [mondrian.mdx] 2053: select [Product].[Drink].Children ON COLUMNS
+from [Sales]
+where ([Measures].[Unit Sales], [Promotion Media].[Street Handout], [Time].[1997])
+
+2014-02-22 13:12:15,132 DEBUG [mondrian.mdx] 2053: exec: 154 ms
+2014-02-22 13:12:15,138 DEBUG [mondrian.mdx] 2065: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Filter({[Product].Members}, ([Measures].[Unit Sales] > 20000)) ON ROWS
+from [Sales]
+where [Time].[1997].[Q1]
+
+2014-02-22 13:12:20,779 DEBUG [mondrian.mdx] 2065: exec: 5641 ms
+2014-02-22 13:12:20,785 DEBUG [mondrian.mdx] 2087: with member [Time].[1997].[H1] as 'Aggregate({[Time].[1997].[Q1], [Time].[1997].[Q2]})'
+  member [Measures].[Store Margin] as '([Measures].[Store Sales] - [Measures].[Store Cost])'
+select {[Gender].Members} ON COLUMNS,
+  Filter({[Product].Members}, ([Gender].[F] > 10000)) ON ROWS
+from [Sales]
+where ([Time].[1997].[H1], [Measures].[Store Margin])
+
+2014-02-22 13:12:33,810 DEBUG [mondrian.mdx] 2087: exec: 13025 ms
+2014-02-22 13:12:33,817 DEBUG [mondrian.mdx] 2111: with member [Measures].[StoreType] as '[Store].CurrentMember.Properties("Store Type")', SOLVE_ORDER = 2
+  member [Measures].[ProfitPct] as '(([Measures].[Store Sales] - [Measures].[Store Cost]) / [Measures].[Store Sales])', SOLVE_ORDER = 1, FORMAT_STRING = "##.00%"
+select {Descendants([Store].[USA], [Store].[Store Name])} ON COLUMNS,
+  {[Measures].[Store Sales], [Measures].[Store Cost], [Measures].[StoreType], [Measures].[ProfitPct]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:34,050 DEBUG [mondrian.mdx] 2111: exec: 233 ms
+2014-02-22 13:12:34,056 DEBUG [mondrian.mdx] 2122: with member [Product].[ProdCalc] as '1', SOLVE_ORDER = 1
+  member [Measures].[MeasuresCalc] as '2', SOLVE_ORDER = 2
+  member [Time].[1997].[TimeCalc] as '3', SOLVE_ORDER = 3
+select {[Product].[ProdCalc]} ON COLUMNS,
+  {([Time].[1997].[TimeCalc], [Measures].[MeasuresCalc])} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:34,058 DEBUG [mondrian.mdx] 2122: exec: 2 ms
+2014-02-22 13:12:34,061 DEBUG [mondrian.mdx] 2130: with member [Store].[StoreCalc] as '0', SOLVE_ORDER = 0
+  member [Product].[ProdCalc] as '1', SOLVE_ORDER = 1
+select {[Product].[ProdCalc]} ON COLUMNS,
+  {[Store].[StoreCalc]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:34,063 DEBUG [mondrian.mdx] 2130: exec: 2 ms
+2014-02-22 13:12:34,070 DEBUG [mondrian.mdx] 2138: with member [Promotions].[Calc] as '1'
+  member [Customers].[Calc] as '2'
+select {[Promotions].[Calc]} ON COLUMNS,
+  {[Customers].[Calc]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:34,072 DEBUG [mondrian.mdx] 2138: exec: 2 ms
+2014-02-22 13:12:34,076 DEBUG [mondrian.mdx] 2146: with member [Promotions].[Calc] as '1'
+  member [Product].[Calc] as '2'
+select {[Promotions].[Calc]} ON COLUMNS,
+  {[Product].[Calc]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:34,077 DEBUG [mondrian.mdx] 2146: exec: 1 ms
+2014-02-22 13:12:34,086 DEBUG [mondrian.mdx] 2158: with member [Product].[BigSeller] as 'IIf(([Product].[Drink].[Alcoholic Beverages].[Beer and Wine] > 100), "Yes", "No")'
+select {[Product].[BigSeller], [Product].Children} ON COLUMNS,
+  {[Store].[USA].[CA].Children} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:35,393 DEBUG [mondrian.mdx] 2158: exec: 1307 ms
+2014-02-22 13:12:35,396 DEBUG [mondrian.mdx] 2166: with member [Store].[x] as '1'
+  member [Product].[x] as '1'
+select {[Store].[x]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:35,397 DEBUG [mondrian.mdx] 2166: exec: 1 ms
+2014-02-22 13:12:35,400 DEBUG [mondrian.mdx] 2172: with member [Product].[x] as '1'
+  member [Store].[x] as '1'
+select {[Store].[x]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:35,401 DEBUG [mondrian.mdx] 2172: exec: 1 ms
+2014-02-22 13:12:35,405 DEBUG [mondrian.mdx] 2178: with member [Product].[x] as '1'
+  member [Store].[x] as '1'
+select {[Store].[x]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:35,406 DEBUG [mondrian.mdx] 2178: exec: 1 ms
+2014-02-22 13:12:35,408 DEBUG [mondrian.mdx] 2184: with member [Measures].[Foo] as '"a string"'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:35,409 DEBUG [mondrian.mdx] 2184: exec: 1 ms
+2014-02-22 13:12:35,412 DEBUG [mondrian.mdx] 2190: with member [Measures].[Foo] as '1234'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:35,413 DEBUG [mondrian.mdx] 2190: exec: 1 ms
+2014-02-22 13:12:35,415 DEBUG [mondrian.mdx] 2202: with member [Product].[X] as '[Product].[Y]'
+  member [Product].[Y] as '[Product].[X]'
+select {[Product].[X]} ON COLUMNS,
+  {[Store].[Store Name].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:35,529 DEBUG [mondrian.mdx] 2202: exec: 113 ms
+2014-02-22 13:12:35,693 DEBUG [mondrian.mdx] 2210: with member [Measures].[Foo] as '[Time].[1997].[Q4]'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:35,863 DEBUG [mondrian.mdx] 2210: exec: 170 ms
+2014-02-22 13:12:35,886 DEBUG [mondrian.mdx] 2238: with member [Measures].[ProfitPercent] as '(([Measures].[Store Sales] - [Measures].[Store Cost]) / [Measures].[Store Cost])', FORMAT_STRING = "#.00%", SOLVE_ORDER = 1
+  member [Time].[1997].[First Half] as '([Time].[1997].[Q1] + [Time].[1997].[Q2])'
+  member [Time].[1997].[Second Half] as '([Time].[1997].[Q3] + [Time].[1997].[Q4])'
+select {[Time].[1997].[First Half], [Time].[1997].[Second Half], [Time].[1997].Children} ON COLUMNS,
+  {[Store].[USA].Children} ON ROWS
+from [Sales]
+where [Measures].[ProfitPercent]
+
+2014-02-22 13:12:36,203 DEBUG [mondrian.mdx] 2238: exec: 317 ms
+2014-02-22 13:12:36,208 DEBUG [mondrian.mdx] 2252: with member [Measures].[Accumulated Sales] as 'Sum(Ytd(), [Measures].[Store Sales])'
+select {[Measures].[Store Sales], [Measures].[Accumulated Sales]} ON COLUMNS,
+  {Descendants([Time].[1997], [Time].[Month])} ON ROWS
+from [Warehouse and Sales]
+
+2014-02-22 13:12:36,241 DEBUG [mondrian.mdx] 2252: exec: 33 ms
+2014-02-22 13:12:36,254 DEBUG [mondrian.mdx] 2268: select Crossjoin({[Warehouse].DefaultMember, [Warehouse].[USA].Children}, {[Measures].[Unit Sales], [Measures].[Store Sales], [Measures].[Units Shipped]}) ON COLUMNS,
+  [Time].Children ON ROWS
+from [Warehouse and Sales]
+
+2014-02-22 13:12:36,944 DEBUG [mondrian.mdx] 2268: exec: 690 ms
+2014-02-22 13:12:36,950 DEBUG [mondrian.mdx] 2280: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Store], [Store].Children} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:37,128 DEBUG [mondrian.mdx] 2280: exec: 178 ms
+2014-02-22 13:12:37,132 DEBUG [mondrian.mdx] 2303: select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  Crossjoin({[Promotion Media].[Radio], [Promotion Media].[TV], [Promotion Media].[Sunday Paper], [Promotion Media].[Street Handout]}, [Product].[Drink].Children) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:37,260 DEBUG [mondrian.mdx] 2303: exec: 128 ms
+2014-02-22 13:12:37,266 DEBUG [mondrian.mdx] 2323: select Crossjoin({[Measures].[Unit Sales], [Measures].[Store Sales]}, {[Promotion Media].[Radio], [Promotion Media].[TV], [Promotion Media].[Sunday Paper], [Promotion Media].[Street Handout]}) ON COLUMNS,
+  [Product].[Drink].Children ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:37,270 DEBUG [mondrian.mdx] 2323: exec: 4 ms
+2014-02-22 13:12:37,278 DEBUG [mondrian.mdx] 2335: select {[Measures].[Unit Sales], [Measures].[Store Sales]} ON COLUMNS,
+  Order([Product].[Product Department].Members, [Measures].[Store Sales], DESC) ON ROWS
+from [Sales]
+
+2014-02-22 13:12:37,294 DEBUG [mondrian.mdx] 2335: exec: 16 ms
+2014-02-22 13:12:37,299 DEBUG [mondrian.mdx] 2347: select [Product].[Drink].Children ON COLUMNS
+from [Sales]
+where ([Measures].[Unit Sales], [Promotion Media].[Street Handout], [Time].[1997])
+
+2014-02-22 13:12:37,301 DEBUG [mondrian.mdx] 2347: exec: 1 ms
+2014-02-22 13:12:37,308 DEBUG [mondrian.mdx] 2369: select Crossjoin({[Measures].[Unit Sales], [Measures].[Store Sales]}, {[Promotion Media].[Radio], [Promotion Media].[TV], [Promotion Media].[Sunday Paper], [Promotion Media].[Street Handout]}) ON COLUMNS,
+  NON EMPTY Crossjoin([Product].[Drink].Children, [Customers].[USA].[WA].Children) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:37,769 DEBUG [mondrian.mdx] 2369: exec: 461 ms
+2014-02-22 13:12:37,792 DEBUG [mondrian.mdx] 2379: select from [Sales]
+where ([Measures].[Store Sales], [Time].[1997], [Promotion Media].[TV])
+
+2014-02-22 13:12:37,845 DEBUG [mondrian.mdx] 2379: exec: 53 ms
+2014-02-22 13:12:37,850 DEBUG [mondrian.mdx] 2389: select {[Measures].[Unit Sales], [Measures].[Store Sales]} ON COLUMNS,
+  {[Gender].[M]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:38,398 DEBUG [mondrian.mdx] 2389: exec: 548 ms
+2014-02-22 13:12:38,403 DEBUG [mondrian.mdx] 2401: with member [Measures].[USales] as '[Measures].[Unit Sales]', format_string = IIf(([Measures].[Unit Sales] > 50000), "\<b\>#.00\<\/b\>", "\<i\>#.00\<\/i\>")
+select {[Measures].[USales]} ON COLUMNS,
+  {[Store Type].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:38,826 DEBUG [mondrian.mdx] 2401: exec: 423 ms
+2014-02-22 13:12:38,831 DEBUG [mondrian.mdx] 2412: with member [Measures].[_Foo] as '[Measures].[Store Sales]', format_string = "$#,##0.00;($#,##0.00);ZERO;NULL;Nil"
+select {[Measures].[_Foo]} ON COLUMNS,
+  {[Customers].[Country].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:39,428 DEBUG [mondrian.mdx] 2412: exec: 597 ms
+2014-02-22 13:12:39,431 DEBUG [mondrian.mdx] 2419: with member [Measures].[Foo] as 'NULL', format_string = "a;b;c;d"
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:39,432 DEBUG [mondrian.mdx] 2419: exec: 1 ms
+2014-02-22 13:12:39,436 DEBUG [mondrian.mdx] 2425: with member [Measures].[formatTest] as '0.000001', FORMAT_STRING = "#.##;(#.##)"
+select {[Measures].[formatTest]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:39,437 DEBUG [mondrian.mdx] 2425: exec: 1 ms
+2014-02-22 13:12:39,448 DEBUG [mondrian.mdx] 2451: with member [Measures].[USales] as '[Measures].[Unit Sales]', format_string = IIf(([Measures].[Sales Count] > 30), "#.00 good", "#.00 bad")
+select {[Measures].[USales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  Crossjoin({[Promotion Media].[Radio], [Promotion Media].[TV], [Promotion Media].[Sunday Paper], [Promotion Media].[Street Handout]}, [Product].[Drink].Children) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:39,577 DEBUG [mondrian.mdx] 2451: exec: 129 ms
+2014-02-22 13:12:39,583 DEBUG [mondrian.mdx] 2465: with member [Measures].[xxx] as '[Measures].[Store Sales]', format_string = IIf(([Measures].[Unit Sales] > 100000), "AAA######.00", "BBB###.00")
+select {[Measures].[xxx]} ON COLUMNS,
+  {[Product].Children} ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:39,586 DEBUG [mondrian.mdx] 2465: exec: 3 ms
+2014-02-22 13:12:39,591 DEBUG [mondrian.mdx] 2477: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].Children} ON ROWS
+from [Sales]
+where ([Time].[1997], [Customers])
+
+2014-02-22 13:12:39,594 DEBUG [mondrian.mdx] 2477: exec: 3 ms
+2014-02-22 13:12:39,611 DEBUG [mondrian.mdx] 2489: select {[Measures].[Customer Count]} ON COLUMNS,
+  {([Promotion Media].[All Media], [Product].[All Products])} ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:40,029 DEBUG [mondrian.mdx] 2489: exec: 418 ms
+2014-02-22 13:12:40,033 DEBUG [mondrian.mdx] 2502: select {[Measures].Members} ON COLUMNS,
+  {[Store Type].Members} ON ROWS
+from [Store]
+where [Store].[USA].[CA]
+
+2014-02-22 13:12:40,050 DEBUG [mondrian.mdx] 2502: exec: 17 ms
+2014-02-22 13:12:40,065 DEBUG [mondrian.mdx] 2512: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Product].[Drink].[Beverages].[Drinks].[Flavored Drinks].Children} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:40,070 DEBUG [mondrian.mdx] 2512: exec: 5 ms
+2014-02-22 13:12:40,076 DEBUG [mondrian.mdx] 2530: select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  ToggleDrillState({([Promotion Media].[Radio], [Product].[Drink].[Beverages].[Drinks].[Flavored Drinks])}, {[Product].[Drink].[Beverages].[Drinks].[Flavored Drinks]}) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:40,101 DEBUG [mondrian.mdx] 2530: exec: 24 ms
+2014-02-22 13:12:40,123 DEBUG [mondrian.mdx] 2584: select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  Order({([Store].[USA].[CA], [Product].[Drink].[Alcoholic Beverages]), ([Store].[USA].[CA], [Product].[Drink].[Beverages]), Crossjoin({[Store].[USA].[CA].Children}, {[Product].[Drink].[Beverages]}), ([Store].[USA].[CA], [Product].[Drink].[Dairy]), ([Store].[USA].[OR], [Product].[Drink].[Alcoholic Beverages]), ([Store].[USA].[OR], [Product].[Drink].[Beverages]), ([Store].[USA].[OR], [Product].[Drink].[Dairy]), ([Store].[USA].[WA], [Product].[Drink].[Alcoholic Beverages]), ([Store].[USA].[WA], [Product].[Drink].[Beverages]), ([Store].[USA].[WA], [Product].[Drink].[Dairy])}, [Measures].[Store Cost], BDESC) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:40,629 DEBUG [mondrian.mdx] 2584: exec: 505 ms
+2014-02-22 13:12:40,653 DEBUG [mondrian.mdx] 2654: select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  Order({([Store].[USA].[WA], [Product].[Drink].[Beverages]), ([Store].[USA].[CA], [Product].[Drink].[Beverages]), ([Store].[USA].[OR], [Product].[Drink].[Beverages]), ([Store].[USA].[WA], [Product].[Drink].[Alcoholic Beverages]), ([Store].[USA].[CA], [Product].[Drink].[Alcoholic Beverages]), ([Store].[USA].[OR], [Product].[Drink].[Alcoholic Beverages]), ([Store].[USA].[WA], [Product].[Drink].[Dairy]), ([Store].[USA].[CA].[San Diego], [Product].[Drink].[Beverages]), ([Store].[USA].[CA].[Los Angeles], [Product].[Drink].[Beverages]), Crossjoin({[Store].[USA].[CA].[Los Angeles]}, {[Product].[Drink].[Beverages].Children}), ([Store].[USA].[CA].[Beverly Hills], [Product].[Drink].[Beverages]), ([Store].[USA].[CA], [Product].[Drink].[Dairy]), ([Store].[USA].[OR], [Product].[Drink].[Dairy]), ([Store].[USA].[CA].[San Francisco], [Product].[Drink].[Beverages])}, [Measures].[Store Cost], BDESC) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:40,768 DEBUG [mondrian.mdx] 2654: exec: 115 ms
+2014-02-22 13:12:40,773 DEBUG [mondrian.mdx] 2672: select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  Order(TopCount({[Product].[Product Category].Members}, 10.0, [Measures].[Unit Sales]), [Measures].[Store Sales], ASC) ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:12:45,223 DEBUG [mondrian.mdx] 2672: exec: 4450 ms
+2014-02-22 13:12:45,809 DEBUG [mondrian.mdx] 3025: select {[Gender2].Members} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:47,374 DEBUG [mondrian.mdx] 3025: exec: 1565 ms
+2014-02-22 13:12:47,714 DEBUG [mondrian.mdx] 3207: with member [ProdAmbiguousLevelName].[Drink].[Drink].[calc] as '1'
+select {[ProdAmbiguousLevelName].[Drink].[Drink].[calc]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:47,717 DEBUG [mondrian.mdx] 3207: exec: 3 ms
+2014-02-22 13:12:47,720 DEBUG [mondrian.mdx] 3213: with member [ProdAmbiguousLevelName].[Drink].[Drink].[calc] as '1'
+select {[ProdAmbiguousLevelName].[Drink].[Drink].[calc]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:47,723 DEBUG [mondrian.mdx] 3213: exec: 3 ms
+2014-02-22 13:12:47,727 DEBUG [mondrian.mdx] 3219: with member [ProdAmbiguousLevelName].[Drink].[Drink].[calc] as '1'
+select {[ProdAmbiguousLevelName].[Drink].[Drink].[calc]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:47,729 DEBUG [mondrian.mdx] 3219: exec: 2 ms
+2014-02-22 13:12:47,731 DEBUG [mondrian.mdx] 3225: with member [ProdAmbiguousLevelName].[Drink].[Drink].[calc] as '1'
+select {[ProdAmbiguousLevelName].[Drink].[Drink].[calc]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:47,734 DEBUG [mondrian.mdx] 3225: exec: 3 ms
+2014-02-22 13:12:47,738 DEBUG [mondrian.mdx] 3235: select {[Measures].[Unit Sales], [Measures].[Customer Count]} ON COLUMNS,
+  {[Gender].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:48,359 DEBUG [mondrian.mdx] 3235: exec: 621 ms
+2014-02-22 13:12:48,368 DEBUG [mondrian.mdx] 3245: select NON EMPTY {[Time].[1997].[Q1].[1]} ON COLUMNS,
+  {[Measures].[Unit Sales], [Measures].[Customer Count]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:48,423 DEBUG [mondrian.mdx] 3245: exec: 54 ms
+2014-02-22 13:12:48,426 DEBUG [mondrian.mdx] 3255: select NON EMPTY {[Time].[1997].[Q1].[1]} ON COLUMNS,
+  {[Measures].[Unit Sales], [Measures].[Customer Count]} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:48,435 DEBUG [mondrian.mdx] 3255: exec: 9 ms
+2014-02-22 13:12:48,438 DEBUG [mondrian.mdx] 3263: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Store Size in SQFT].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:48,570 DEBUG [mondrian.mdx] 3263: exec: 132 ms
+2014-02-22 13:12:48,578 DEBUG [mondrian.mdx] 3278: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY Crossjoin(Descendants([Product].[All Products], [Product].[Product Family]), Descendants([Store].[#null], [Store].[Store State])) ON ROWS
+from [Sales]
+
+2014-02-22 13:12:48,582 DEBUG [mondrian.mdx] 3278: exec: 4 ms
+2014-02-22 13:12:48,593 DEBUG [mondrian.mdx] 3298: with member [Measures].[Radio Unit Sales] as '([Measures].[Unit Sales], [Promotion Media].[Radio])'
+select {[Measures].[Unit Sales], [Measures].[Radio Unit Sales]} ON COLUMNS,
+  Filter([Product].[Product Department].Members, ([Promotion Media].[Radio] > 50)) ON ROWS
+from [Sales]
+where ([Promotion Media].[Daily Paper], [Time].[1997].[Q1])
+
+2014-02-22 13:12:49,929 DEBUG [mondrian.mdx] 3298: exec: 1336 ms
+2014-02-22 13:12:49,932 DEBUG [mondrian.mdx] 3306: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Customers].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:12:54,603 DEBUG [mondrian.mdx] 3306: exec: 4671 ms
+2014-02-22 13:12:54,638 DEBUG [mondrian.mdx] 3366: with member [Measures].[Qualified Count] as 'Count(Filter(Descendants([Customers].CurrentMember, [Customers].[Name]), (([Measures].[Store Sales] > 10000) OR ([Measures].[Unit Sales] > 10))))'
+  member [Measures].[Qualified Sales] as 'Sum(Filter(Descendants([Customers].CurrentMember, [Customers].[Name]), (([Measures].[Store Sales] > 10000) OR ([Measures].[Unit Sales] > 10))), [Measures].[Store Sales])'
+select {[Measures].[Qualified Count], [Measures].[Qualified Sales]} ON COLUMNS,
+  Descendants([Customers].[All Customers], [Customers].[State Province], SELF_AND_BEFORE) ON ROWS
+from [Sales]
+
+2014-02-22 13:12:57,122 DEBUG [mondrian.mdx] 3366: exec: 2483 ms
+2014-02-22 13:12:57,132 DEBUG [mondrian.mdx] 3396: with member [Measures].[Qualified Count] as 'Count(Filter(Descendants([Customers].CurrentMember, [Customers].[Name]), (([Measures].[Store Sales] > 10000) OR ([Measures].[Unit Sales] > 10))))'
+  member [Measures].[Qualified Sales] as 'Sum(Filter(Descendants([Customers].CurrentMember, [Customers].[Name]), (([Measures].[Store Sales] > 10000) OR ([Measures].[Unit Sales] > 10))), [Measures].[Store Sales])'
+select {[Measures].[Qualified Count], [Measures].[Qualified Sales]} ON COLUMNS,
+  Descendants([Customers].[All Customers], [Customers].[State Province], SELF_AND_BEFORE) ON ROWS
+from [Sales]
+
+2014-02-22 13:12:57,480 DEBUG [mondrian.mdx] 3396: exec: 348 ms
+2014-02-22 13:12:57,488 DEBUG [mondrian.mdx] 3406: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Filter([Product].[Product Name].Members, (InStr(LCase([Product].CurrentMember.Name), "fruit") <> 0)) ON ROWS
+from [Sales]
+
+2014-02-22 13:12:57,526 DEBUG [mondrian.mdx] 3406: exec: 38 ms
+2014-02-22 13:12:57,531 DEBUG [mondrian.mdx] 3412: with member [Measures].[x] as 'Mid("yahoo", 5, 1)'
+select {[Measures].[x]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:12:57,533 DEBUG [mondrian.mdx] 3412: exec: 2 ms
+2014-02-22 13:12:57,540 DEBUG [mondrian.mdx] 3434: with member [Measures].[Unit Sales Percent] as '(([Store].CurrentMember, [Measures].[Unit Sales]) / ([Store].CurrentMember.Parent, [Measures].[Unit Sales]))', FORMAT_STRING = "Percent"
+select {[Measures].[Unit Sales], [Measures].[Unit Sales Percent]} ON COLUMNS,
+  Order(Descendants([Store].[USA].[CA], [Store].[Store City], SELF), [Measures].[Unit Sales], ASC) ON ROWS
+from [Sales]
+
+2014-02-22 13:12:57,623 DEBUG [mondrian.mdx] 3434: exec: 82 ms
+2014-02-22 13:12:57,639 DEBUG [mondrian.mdx] 3454: with member [Product].[Food OR Drink] as '(([Product].[Food], [Measures].[Unit Sales]) + ([Product].[Drink], [Measures].[Unit Sales]))'
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  Descendants([Time].[1997], [Time].[Quarter], SELF_AND_BEFORE) ON ROWS
+from [Sales]
+where [Product].[Food OR Drink]
+
+2014-02-22 13:12:59,378 DEBUG [mondrian.mdx] 3454: exec: 1739 ms
+2014-02-22 13:12:59,383 DEBUG [mondrian.mdx] 3468: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Descendants([Time].[1997], [Time].[Quarter], SELF_AND_BEFORE) ON ROWS
+from [Sales]
+where ([Product].[Drink], [Store].[USA])
+
+2014-02-22 13:12:59,637 DEBUG [mondrian.mdx] 3468: exec: 254 ms
+2014-02-22 13:12:59,640 DEBUG [mondrian.mdx] 3478: select {[Measures].[Units Shipped], [Measures].[Units Ordered]} ON COLUMNS,
+  NON EMPTY [Store].[Store Name].Members DIMENSION PROPERTIES [Store].[Store Name].[Store Sqft] ON ROWS
+from [Warehouse]
+
+2014-02-22 13:12:59,642 DEBUG [mondrian.mdx] 3478: exec: 2 ms
+2014-02-22 13:12:59,646 DEBUG [mondrian.mdx] 3492: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Crossjoin([Customers].Children, TopCount(Descendants([Store].CurrentMember, [Store].[Store Name]), 1, [Measures].[Unit Sales])) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:00,220 DEBUG [mondrian.mdx] 3492: exec: 574 ms
+2014-02-22 13:13:00,226 DEBUG [mondrian.mdx] 3504: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Order([Store].[Store Name].Members, [Measures].[Unit Sales], BDESC) ON ROWS
+from [Sales]
+where [Product].[Non-Consumable]
+
+2014-02-22 13:13:00,648 DEBUG [mondrian.mdx] 3504: exec: 421 ms
+2014-02-22 13:13:00,653 DEBUG [mondrian.mdx] 3520: with member [Measures].[Average Units Ordered] as 'Avg(Descendants([Store].CurrentMember, [Store].[Store Name]), [Measures].[Units Ordered])', FORMAT_STRING = "#.00"
+select {[Measures].[Units Ordered], [Measures].[Average Units Ordered]} ON COLUMNS,
+  [Store].[Store State].Members ON ROWS
+from [Warehouse]
+
+2014-02-22 13:13:00,704 DEBUG [mondrian.mdx] 3520: exec: 51 ms
+2014-02-22 13:13:00,715 DEBUG [mondrian.mdx] 3539: with member [Measures].[Average Units Ordered] as 'Avg(Descendants([Store].CurrentMember, [Store].[Store Name]), [Measures].[Units Ordered])'
+select {[Measures].[Units Ordered], [Measures].[Average Units Ordered]} ON COLUMNS,
+  [Product].[Drink].[Alcoholic Beverages].[Beer and Wine].[Beer].Children ON ROWS
+from [Warehouse]
+where [Store].[USA].[CA]
+
+2014-02-22 13:13:00,744 DEBUG [mondrian.mdx] 3539: exec: 29 ms
+2014-02-22 13:13:00,755 DEBUG [mondrian.mdx] 3586: with member [Product].[Drink Forecast - Standard] as '([Product].[Drink] * 2)'
+  member [Product].[Drink Forecast - Dynamic] as '([Product].[Drink] * IIf(([Time].CurrentMember.Name = "1"), 1.2, IIf(([Time].CurrentMember.Name = "2"), 1.3, IIf(([Time].CurrentMember.Name = "3"), 1.4, IIf(([Time].CurrentMember.Name = "4"), 1.6, IIf(([Time].CurrentMember.Name = "5"), 2.1, IIf(([Time].CurrentMember.Name = "6"), 2.4, IIf(([Time].CurrentMember.Name = "7"), 2.6, IIf(([Time].CurrentMember.Name = "8"), 2.3, IIf(([Time].CurrentMember.Name = "9"), 1.9, IIf(([Time].CurrentMember.Name = "10"), 1.5, IIf(([Time].CurrentMember.Name = "11"), 1.4, IIf(([Time].CurrentMember.Name = "12"), 1.2, 1.0)))))))))))))'
+select Descendants([Time].[1997], [Time].[Month], SELF) ON COLUMNS,
+  {[Product].Children, [Product].[Drink Forecast - Standard], [Product].[Drink Forecast - Dynamic]} ON ROWS
+from [Warehouse]
+
+2014-02-22 13:13:00,905 DEBUG [mondrian.mdx] 3586: exec: 150 ms
+2014-02-22 13:13:00,919 DEBUG [mondrian.mdx] 3609: with member [Customers].[my] as 'Aggregate(Filter([Customers].[City].Members, (([Measures].[Unit Sales] / ([Measures].[Unit Sales], [Product].[All Products])) > 0.1)))'
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Product].[Food].[Deli], [Product].[Food].[Frozen Foods]} ON ROWS
+from [Sales]
+where ([Customers].[my], [Time].[1997])
+
+2014-02-22 13:13:01,458 DEBUG [mondrian.mdx] 3609: exec: 539 ms
+2014-02-22 13:13:01,468 DEBUG [mondrian.mdx] 3633: with set [#DataSet#] as 'Filter(Crossjoin({[Store].[All Stores]}, {[Customers].[All Customers]}), ([Measures].[Unit Sales] > 5))'
+  member [Customers].[#GT#] as 'Aggregate({[#DataSet#]})'
+  member [Store].[#GT#] as 'Aggregate({[#DataSet#]})'
+  set [#GrandTotalSet#] as 'Crossjoin({[Store].[#GT#]}, {[Customers].[#GT#]})'
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  Union([#GrandTotalSet#], Hierarchize({[#DataSet#]})) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:01,483 DEBUG [mondrian.mdx] 3633: exec: 15 ms
+2014-02-22 13:13:01,486 DEBUG [mondrian.mdx] 3651: with set [#DataSet#] as 'Crossjoin({[Store].[All Stores]}, {[Customers].[All Customers]})'
+  set [#GrandTotalSet#] as 'Crossjoin({[Store].[All Stores]}, {[Customers].[All Customers]})'
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  Union([#GrandTotalSet#], Hierarchize({[#DataSet#]})) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:01,489 DEBUG [mondrian.mdx] 3651: exec: 3 ms
+2014-02-22 13:13:01,493 DEBUG [mondrian.mdx] 3675: with set [#DataSet#] as 'Filter(Crossjoin({[Store].[All Stores]}, {[Customers].[All Customers]}), ([Measures].[Unit Sales] > 5))'
+  member [Customers].[#GT#] as 'Aggregate({[#DataSet#]})'
+  member [Store].[#GT#] as 'Aggregate({[#DataSet#]})'
+  set [#GrandTotalSet#] as 'Crossjoin({[Store].[#GT#]}, {[Customers].[#GT#]})'
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  Union([#GrandTotalSet#], Hierarchize({[#DataSet#]})) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:01,501 DEBUG [mondrian.mdx] 3675: exec: 7 ms
+2014-02-22 13:13:01,511 DEBUG [mondrian.mdx] 3701: select {[Measures].[Store Sales]} ON COLUMNS,
+  NON EMPTY Crossjoin(Filter([Customers].[Name].Members, (([Measures].[Store Sales], [Store].[USA].[CA].[San Francisco].[Store 14], [Time].[1997].[Q1].[1]) > 5.0)), Filter([Product].[Product Name].Members, (([Measures].[Store Sales], [Store].[USA].[CA].[San Francisco].[Store 14], [Time].[1997].[Q1].[1]) > 5.0))) ON ROWS
+from [Sales]
+where ([Store].[USA].[CA].[San Francisco].[Store 14], [Time].[1997].[Q1].[1])
+
+2014-02-22 13:13:03,297 DEBUG [mondrian.mdx] 3701: exec: 1786 ms
+2014-02-22 13:13:03,303 DEBUG [mondrian.mdx] 3715: select {[Measures].[Store Sales]} ON COLUMNS,
+  NON EMPTY Crossjoin([Customers].[Name].Members, [Product].[Product Name].Members) ON ROWS
+from [Sales]
+where ([Store].[USA].[CA].[San Francisco].[Store 14], [Time].[1997].[Q1].[1])
+
+2014-02-22 13:13:05,113 DEBUG [mondrian.mdx] 3715: exec: 1810 ms
+2014-02-22 13:13:05,150 DEBUG [mondrian.mdx] 3727: select {[Education Level].[Graduate Degree]} ON COLUMNS,
+  Crossjoin({[Store Type].[Store Type].Members}, {[Promotions].[Promotion Name].Members}) ON ROWS
+from [Sales]
+where [Customers].[USA].[WA].[Anacortes]
+
+2014-02-22 13:13:05,587 DEBUG [mondrian.mdx] 3727: exec: 437 ms
+2014-02-22 13:13:05,593 DEBUG [mondrian.mdx] 3741: select {[Education Level].[Graduate Degree]} ON COLUMNS,
+  NonEmptyCrossJoin({[Store Type].[Store Type].Members}, {[Promotions].[Promotion Name].Members}) ON ROWS
+from [Sales]
+where [Customers].[USA].[WA].[Anacortes]
+
+2014-02-22 13:13:05,989 DEBUG [mondrian.mdx] 3741: exec: 396 ms
+2014-02-22 13:13:05,992 DEBUG [mondrian.mdx] 3753: select {[Education Level].[Graduate Degree]} ON COLUMNS,
+  NON EMPTY Crossjoin({[Store Type].[Store Type].Members}, {[Promotions].[Promotion Name].Members}) ON ROWS
+from [Sales]
+where [Customers].[USA].[WA].[Anacortes]
+
+2014-02-22 13:13:06,343 DEBUG [mondrian.mdx] 3753: exec: 351 ms
+2014-02-22 13:13:06,349 DEBUG [mondrian.mdx] 3765: select {[Education Level].[Graduate Degree]} ON COLUMNS,
+  NON EMPTY NonEmptyCrossJoin({[Store Type].[Store Type].Members}, {[Promotions].[Promotion Name].Members}) ON ROWS
+from [Sales]
+where [Customers].[USA].[WA].[Anacortes]
+
+2014-02-22 13:13:06,351 DEBUG [mondrian.mdx] 3765: exec: 2 ms
+2014-02-22 13:13:06,360 DEBUG [mondrian.mdx] 3789: with member [Time].[1997].[Q1].[xxx] as 'Aggregate({[Time].[1997].[Q1].[1], [Time].[1997].[Q1].[2]})'
+select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} ON COLUMNS,
+  Hierarchize(Union(Union({[Time].[1997], [Time].[1998], [Time].[1997].[Q1].[xxx]}, [Time].[1997].Children), [Time].[1997].[Q1].Children)) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:06,763 DEBUG [mondrian.mdx] 3789: exec: 403 ms
+2014-02-22 13:13:06,768 DEBUG [mondrian.mdx] 3809: with member [Store].[Total] as 'Sum([Store].[Store Country].Members)'
+  member [Store Type].[Total] as 'Sum([Store Type].[Store Type].Members)'
+  member [Gender].[Total] as 'Sum([Gender].[Gender].Members)'
+  member [Measures].[x] as '[Measures].[Store Sales]'
+select {[Measures].[x]} ON COLUMNS,
+  {([Store].[Total], [Store Type].[Total], [Gender].[Total])} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:07,470 DEBUG [mondrian.mdx] 3809: exec: 702 ms
+2014-02-22 13:13:07,473 DEBUG [mondrian.mdx] 3819: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Filter([Store].[Store Name].Members, ([Store].CurrentMember.Properties("Store Manager") = "Smith")) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:07,477 DEBUG [mondrian.mdx] 3819: exec: 4 ms
+2014-02-22 13:13:07,909 DEBUG [mondrian.mdx] 4182: select {[Gender3].[All Gender]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:07,920 DEBUG [mondrian.mdx] 4182: exec: 11 ms
+2014-02-22 13:13:08,202 DEBUG [mondrian.mdx] 4363: select {[Gender4].[All Gender]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:08,210 DEBUG [mondrian.mdx] 4363: exec: 8 ms
+2014-02-22 13:13:08,467 DEBUG [mondrian.mdx] 4548: with member [Measures].[Foo] as '[Gender].CurrentMember.Name'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:08,473 DEBUG [mondrian.mdx] 4548: exec: 6 ms
+2014-02-22 13:13:08,475 DEBUG [mondrian.mdx] 4556: with member [Measures].[Foo] as '[Product].CurrentMember.Name'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:08,485 DEBUG [mondrian.mdx] 4556: exec: 1 ms
+2014-02-22 13:13:08,491 DEBUG [mondrian.mdx] 4572: with member [Measures].[Foo] as '[Measures].[Unit Sales]'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:08,757 DEBUG [mondrian.mdx] 4572: exec: 265 ms
+2014-02-22 13:13:08,759 DEBUG [mondrian.mdx] 4584: with member [Measures].[Foo] as '([Gender].[F], [Measures].[Unit Sales])'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:08,761 DEBUG [mondrian.mdx] 4584: exec: 2 ms
+2014-02-22 13:13:08,763 DEBUG [mondrian.mdx] 4594: with member [Measures].[Foo] as '([Gender].[M], [Measures].[Unit Sales])'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:09,006 DEBUG [mondrian.mdx] 4594: exec: 242 ms
+2014-02-22 13:13:09,014 DEBUG [mondrian.mdx] 4604: with member [Measures].[Foo] as '([Product].[Food].[Canned Foods], [Measures].[Unit Sales])'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:09,207 DEBUG [mondrian.mdx] 4604: exec: 193 ms
+2014-02-22 13:13:09,213 DEBUG [mondrian.mdx] 4615: with member [Measures].[Foo] as '([Product].[Food].[Dairy], [Measures].[Unit Sales])'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:09,319 DEBUG [mondrian.mdx] 4615: exec: 105 ms
+2014-02-22 13:13:09,324 DEBUG [mondrian.mdx] 4625: with member [Measures].[Foo] as '([Product].[Drink].[Dairy], [Measures].[Unit Sales])'
+select {[Measures].[Foo]} ON COLUMNS
+from [Sales_DimWithoutAll]
+
+2014-02-22 13:13:09,359 DEBUG [mondrian.mdx] 4625: exec: 35 ms
+2014-02-22 13:13:09,361 DEBUG [mondrian.mdx] 4633: select {[Measures].[Sales Count]} ON COLUMNS,
+  NON EMPTY [Store].[Store State].Members ON ROWS
+from [Sales]
+
+2014-02-22 13:13:09,641 DEBUG [mondrian.mdx] 4633: exec: 279 ms
+2014-02-22 13:13:09,655 DEBUG [mondrian.mdx] 4689: with member [Measures].[West Coast Total] as 'Aggregate({[Store].[USA].[CA], [Store].[USA].[OR], [Store].[USA].[WA]})'
+select {[Measures].[Store Sales], [Measures].[Unit Sales]} ON COLUMNS,
+  Crossjoin({[Product].Children}, {[Store].Children}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:11,899 DEBUG [mondrian.mdx] 4689: exec: 2244 ms
+2014-02-22 13:13:11,910 DEBUG [mondrian.mdx] 4699: select {[Measures].[Store Cost]} ON COLUMNS,
+  {[Store Size in SQFT].[#null]} ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:13:11,967 DEBUG [mondrian.mdx] 4699: exec: 57 ms
+2014-02-22 13:13:11,974 DEBUG [mondrian.mdx] 4711: select {[Measures].[Store Cost]} ON COLUMNS,
+  {[Store Size in SQFT].[#null], [Store Size in SQFT].[39696]} ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:13:12,024 DEBUG [mondrian.mdx] 4711: exec: 50 ms
+2014-02-22 13:13:12,374 DEBUG [mondrian.mdx] 4908: select {[Customers].[USA], [Customers].[USA].[OR], [Customers].[USA].[CA], [Customers].[USA].[CA].[Altadena], [Customers].[USA].[CA].[Burbank], [Customers].[USA].[CA].[Burbank].[Alma Son]} ON COLUMNS
+from [Sales_withCities]
+where ([Cities].[Burbank], [Measures].[Store Sales])
+
+2014-02-22 13:13:13,296 DEBUG [mondrian.mdx] 4908: exec: 921 ms
+2014-02-22 13:13:13,300 DEBUG [mondrian.mdx] 4931: with member [Gender].[test] as 'Aggregate(Filter(Crossjoin([Gender].[Gender].Members, [Time].Members), (([Time].CurrentMember = [Time].[1997].[Q1]) AND ([Measures].[Unit Sales] > 50))))'
+select {[Time].[Year].Members} ON COLUMNS,
+  {[Gender].[test]} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:14,358 DEBUG [mondrian.mdx] 4931: exec: 1057 ms
+2014-02-22 13:13:14,539 DEBUG [mondrian.mdx] 4957: select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Time].[1997].[Q1], [Time].[#null]} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:14,541 DEBUG [mondrian.mdx] 4957: exec: 1 ms
+2014-02-22 13:13:14,546 DEBUG [mondrian.mdx] 4965: select {[Measures].[Unit Sales]} ON COLUMNS
+from [Sales]
+where [Time].[#null]
+
+2014-02-22 13:13:14,547 DEBUG [mondrian.mdx] 4965: exec: 1 ms
+2014-02-22 13:13:14,550 DEBUG [mondrian.mdx] 4977: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NonEmptyCrossJoin({[Time].[1997].[Q1], [Time].[#null]}, [Customers].[USA].Children) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:15,116 DEBUG [mondrian.mdx] 4977: exec: 566 ms
+2014-02-22 13:13:15,301 DEBUG [mondrian.mdx] 5162: with member [Measures].[o] as '0'
+  set necj as 'NonEmptyCrossJoin([Store].[Store State].Members, [Customers].[Name].Members)'
+select {[Measures].[o]} ON COLUMNS,
+  Tail([necj], 5) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:17,088 DEBUG [mondrian.mdx] 5162: exec: 1787 ms
+2014-02-22 13:13:17,090 DEBUG [mondrian.mdx] 5170: with member [Measures].[o] as '0'
+select {[Measures].[o]} ON COLUMNS,
+  Tail([Customers].[Name].Members, 5) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:17,508 DEBUG [mondrian.mdx] 5170: exec: 418 ms
+2014-02-22 13:13:17,748 DEBUG [mondrian.mdx] 5353: with member [Measures].[Sleepy] as 'SleepUdf([Measures].[Unit Sales])'
+select {[Measures].[Sleepy]} ON COLUMNS,
+  {[Product].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:19,748 DEBUG [mondrian.mdx] 5353: exec: 2000 ms
+2014-02-22 13:13:19,755 DEBUG [mondrian.mdx] 5364: with member [Measures].[Sleepy] as 'SleepUdf([Measures].[Unit Sales])'
+select {[Measures].[Sleepy]} ON COLUMNS,
+  {[Product].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:21,758 DEBUG [mondrian.mdx] 5364: exec: 2002 ms
+2014-02-22 13:13:21,762 DEBUG [mondrian.mdx] 5376: with member [Measures].[foo] as '[Measures].[bar]'
+  member [Measures].[bar] as '[Measures].[Profit]'
+select {[Measures].[foo]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:21,764 DEBUG [mondrian.mdx] 5376: exec: 2 ms
+2014-02-22 13:13:21,769 DEBUG [mondrian.mdx] 5388: with member [Measures].[foo] as '[Measures].[bar]'
+  member [Measures].[bar] as 'IIf((NOT IsEmpty([Measures].[Profit])), [Measures].[Profit], NULL)'
+select from [Sales]
+where [Measures].[foo]
+
+2014-02-22 13:13:21,775 DEBUG [mondrian.mdx] 5388: exec: 6 ms
+2014-02-22 13:13:21,779 DEBUG [mondrian.mdx] 5404: with member [Measures].[foo] as '[Measures].[bar]'
+  member [Measures].[bar] as 'IIf(([Measures].[Profit] > 3000), [Measures].[Unit Sales], [Measures].[Customer Count])'
+select {[Store].[USA].[WA].Children} ON COLUMNS
+from [Sales]
+where [Measures].[foo]
+
+2014-02-22 13:13:22,110 DEBUG [mondrian.mdx] 5404: exec: 331 ms
+2014-02-22 13:13:22,112 DEBUG [mondrian.mdx] 5410: with member [Measures].[Test] as '23', FORMAT_STRING = "|<|arrow=""up"""
+select {[Measures].[Test]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:22,114 DEBUG [mondrian.mdx] 5410: exec: 1 ms
+2014-02-22 13:13:22,123 DEBUG [mondrian.mdx] 5416: with member [Measures].[Test] as '"23"', FORMAT_STRING = "|<|arrow=""up"""
+select {[Measures].[Test]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:22,124 DEBUG [mondrian.mdx] 5416: exec: 1 ms
+2014-02-22 13:13:22,126 DEBUG [mondrian.mdx] 5422: with member [Measures].[Test] as '("Foo " || "Bar")', FORMAT_STRING = "|<|arrow=""up"""
+select {[Measures].[Test]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:22,128 DEBUG [mondrian.mdx] 5422: exec: 2 ms
+2014-02-22 13:13:22,132 DEBUG [mondrian.mdx] 5436: with member [Measures].[bar] as 'IIf(([Measures].[Profit] > 3000), Min([Education Level].[Education Level].Members), Min([Education Level].[Education Level].Members))'
+select {[Store].[USA].[WA].Children} ON COLUMNS
+from [Sales]
+where [Measures].[bar]
+
+2014-02-22 13:13:22,714 DEBUG [mondrian.mdx] 5436: exec: 582 ms
+2014-02-22 13:13:22,720 DEBUG [mondrian.mdx] 5446: with member [Measures].[foo] as '([Measures].[bar] + [Measures].[blah])'
+  member [Measures].[bar] as '10'
+  member [Measures].[blah] as '20', format_string = "$##.###.00"
+select from [Sales]
+where [Measures].[foo]
+
+2014-02-22 13:13:22,722 DEBUG [mondrian.mdx] 5446: exec: 2 ms
+2014-02-22 13:13:22,727 DEBUG [mondrian.mdx] 5462: with member [Measures].[foo] as '(13 + ((31 * [Measures].[Unit Sales]) / IIf(([Measures].[Profit] > 0), [Measures].[Profit], [Measures].[Customer Count])))'
+select {[Store].[USA].[CA].Children} ON COLUMNS
+from [Sales]
+where [Measures].[foo]
+
+2014-02-22 13:13:22,900 DEBUG [mondrian.mdx] 5462: exec: 173 ms
+2014-02-22 13:13:22,910 DEBUG [mondrian.mdx] 5510: with set [*NATIVE_CJ_SET] as 'NonEmptyCrossJoin([*BASE_MEMBERS_Dates], [*BASE_MEMBERS_Stores])'
+  set [*BASE_MEMBERS_Dates] as '{[Time].[1997].[Q1], [Time].[1997].[Q2], [Time].[1997].[Q3], [Time].[1997].[Q4]}'
+  set [*GENERATED_MEMBERS_Dates] as 'Generate([*NATIVE_CJ_SET], {[Time].CurrentMember})'
+  set [*GENERATED_MEMBERS_Measures] as '{[Measures].[*SUMMARY_METRIC_0]}'
+  set [*BASE_MEMBERS_Stores] as '{[Store].[USA].[CA], [Store].[USA].[WA], [Store].[USA].[OR]}'
+  set [*GENERATED_MEMBERS_Stores] as 'Generate([*NATIVE_CJ_SET], {[Store].CurrentMember})'
+  member [Time].[*SM_CTX_SEL] as 'Aggregate([*GENERATED_MEMBERS_Dates])'
+  member [Measures].[*SUMMARY_METRIC_0] as '([Measures].[Unit Sales] / ([Measures].[Unit Sales], [Time].[*SM_CTX_SEL]))'
+  member [Time].[*SUBTOTAL_MEMBER_SEL~SUM] as 'Sum([*GENERATED_MEMBERS_Dates])'
+  member [Store].[*SUBTOTAL_MEMBER_SEL~SUM] as 'Sum([*GENERATED_MEMBERS_Stores])'
+select Crossjoin({[Time].[*SUBTOTAL_MEMBER_SEL~SUM]}, {[Store].[*SUBTOTAL_MEMBER_SEL~SUM]}) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:23,169 DEBUG [mondrian.mdx] 5510: exec: 259 ms
+2014-02-22 13:13:23,177 DEBUG [mondrian.mdx] 5558: with set [*NATIVE_CJ_SET] as 'NonEmptyCrossJoin([*BASE_MEMBERS_Dates], [*BASE_MEMBERS_Stores])'
+  set [*BASE_MEMBERS_Dates] as '{[Time].[1997].[Q1], [Time].[1997].[Q2], [Time].[1997].[Q3], [Time].[1997].[Q4]}'
+  set [*GENERATED_MEMBERS_Dates] as 'Generate([*NATIVE_CJ_SET], {[Time].CurrentMember})'
+  set [*GENERATED_MEMBERS_Measures] as '{[Measures].[*SUMMARY_METRIC_0]}'
+  set [*BASE_MEMBERS_Stores] as '{[Store].[USA].[CA], [Store].[USA].[WA], [Store].[USA].[OR]}'
+  set [*GENERATED_MEMBERS_Stores] as 'Generate([*NATIVE_CJ_SET], {[Store].CurrentMember})'
+  member [Time].[*SM_CTX_SEL] as 'Aggregate([*GENERATED_MEMBERS_Dates])'
+  member [Measures].[*SUMMARY_METRIC_0] as '([Measures].[Unit Sales] / ([Measures].[Unit Sales], [Time].[*SM_CTX_SEL]))'
+  member [Time].[*SUBTOTAL_MEMBER_SEL~SUM] as 'Sum([*GENERATED_MEMBERS_Dates])'
+  member [Store].[*SUBTOTAL_MEMBER_SEL~SUM] as 'Sum([*GENERATED_MEMBERS_Stores])'
+select Crossjoin({[Time].[*SUBTOTAL_MEMBER_SEL~SUM]}, {[Store].[*SUBTOTAL_MEMBER_SEL~SUM]}) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:23,386 DEBUG [mondrian.mdx] 5558: exec: 209 ms
+2014-02-22 13:13:23,394 DEBUG [mondrian.mdx] 5566: select Filter([Store].AllMembers, ([Store].CurrentMember.Caption = "USA")) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:23,432 DEBUG [mondrian.mdx] 5566: exec: 38 ms
+2014-02-22 13:13:23,434 DEBUG [mondrian.mdx] 5574: select Filter([Store].AllMembers, ([Store].CurrentMember.Properties("caption") = "USA")) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:23,437 DEBUG [mondrian.mdx] 5574: exec: 2 ms
+2014-02-22 13:13:23,630 DEBUG [mondrian.mdx] 5753: select [Store].Members ON COLUMNS
+from [DefaultMeasureTesting]
+
+2014-02-22 13:13:23,695 DEBUG [mondrian.mdx] 5753: exec: 65 ms
+2014-02-22 13:13:23,700 DEBUG [mondrian.mdx] 5765: select [Store].Members ON COLUMNS
+from [DefaultMeasureTesting]
+where [Measures].[Supply Time]
+
+2014-02-22 13:13:23,704 DEBUG [mondrian.mdx] 5765: exec: 4 ms
+2014-02-22 13:13:23,873 DEBUG [mondrian.mdx] 5945: select [Store].Members ON COLUMNS
+from [DefaultMeasureTesting]
+
+2014-02-22 13:13:23,958 DEBUG [mondrian.mdx] 5945: exec: 85 ms
+2014-02-22 13:13:23,963 DEBUG [mondrian.mdx] 5957: select [Store].Members ON COLUMNS
+from [DefaultMeasureTesting]
+where [Measures].[Store Invoice]
+
+2014-02-22 13:13:23,972 DEBUG [mondrian.mdx] 5957: exec: 9 ms
+2014-02-22 13:13:24,112 DEBUG [mondrian.mdx] 6136: select [Store].Members ON COLUMNS
+from [DefaultMeasureTesting]
+
+2014-02-22 13:13:24,144 DEBUG [mondrian.mdx] 6136: exec: 32 ms
+2014-02-22 13:13:24,147 DEBUG [mondrian.mdx] 6148: select [Store].Members ON COLUMNS
+from [DefaultMeasureTesting]
+where [Measures].[Supply Time]
+
+2014-02-22 13:13:24,150 DEBUG [mondrian.mdx] 6148: exec: 3 ms
+2014-02-22 13:13:24,164 DEBUG [mondrian.mdx] 6158: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Filter(Descendants([Product].[Food].[Baked Goods].[Bread]), Count([Product].CurrentMember.Children)) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:24,170 DEBUG [mondrian.mdx] 6158: exec: 6 ms
+2014-02-22 13:13:24,176 DEBUG [mondrian.mdx] 6170: select {[Product].[Product Department].Members} ON COLUMNS,
+  {{[Gender].[Gender].Members}, {[Gender].[All Gender]}} ON ROWS
+from [Sales 2]
+where {[Measures].[Unit Sales]}
+
+2014-02-22 13:13:27,579 DEBUG [mondrian.mdx] 6170: exec: 3403 ms
+2014-02-22 13:13:27,685 DEBUG [mondrian.mdx] 6358: with set [#DataSet#] as 'NonEmptyCrossJoin({Descendants([Customer_2].[All Customers], 2)}, {[Product].[All Products]})'
+select {[Measures].[Unit Sales], [Measures].[Store Sales]} ON COLUMNS,
+  Hierarchize({[#DataSet#]}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:28,715 DEBUG [mondrian.mdx] 6358: exec: 1030 ms
+2014-02-22 13:13:28,718 DEBUG [mondrian.mdx] 6374: select NON EMPTY {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY Crossjoin({[Product].[All Products]}, Filter(Descendants([Time], [Time].[Month]), ([Time].CurrentMember.Name = "5"))) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:28,940 DEBUG [mondrian.mdx] 6374: exec: 222 ms
+2014-02-22 13:13:28,942 DEBUG [mondrian.mdx] 6388: select NON EMPTY {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY Filter(Crossjoin({[Product].[All Products]}, Descendants([Time], [Time].[Month])), ([Time].CurrentMember.Name = "5")) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:28,946 DEBUG [mondrian.mdx] 6388: exec: 4 ms
+2014-02-22 13:13:28,961 DEBUG [mondrian.mdx] 6419: with member [Measures].[Sum Sqft] as 'Sum(Descendants([Store].CurrentMember, [Store].Levels(5)), [Store].CurrentMember.Properties("Store Sqft"))'
+select {[Store].[USA], [Store].[USA].[CA]} ON COLUMNS,
+  [Gender].Children ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,652 DEBUG [mondrian.mdx] 6419: exec: 690 ms
+2014-02-22 13:13:29,655 DEBUG [mondrian.mdx] 6435: with member [Measures].[Sum Sqft] as 'Sum(Descendants([Store].CurrentMember, [Store].Levels("Store Name")), [Store].CurrentMember.Properties("Store Sqft"))'
+select {[Store].[USA], [Store].[USA].[CA]} ON COLUMNS,
+  [Gender].Children ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,656 DEBUG [mondrian.mdx] 6435: exec: 1 ms
+2014-02-22 13:13:29,661 DEBUG [mondrian.mdx] 6451: with member [Measures].[Sum Sqft] as 'Sum(Descendants([Store].CurrentMember, [Store].[Store Name]), [Store].CurrentMember.Properties("Store Sqft"))'
+select {[Store].[USA], [Store].[USA].[CA]} ON COLUMNS,
+  [Gender].Children ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,662 DEBUG [mondrian.mdx] 6451: exec: 1 ms
+2014-02-22 13:13:29,666 DEBUG [mondrian.mdx] 6465: with member [Measures].[Sum Sqft] as 'Sum(Descendants([Store].CurrentMember, , LEAVES), [Store].CurrentMember.Properties("Store Sqft"))'
+select {[Store].[USA], [Store].[USA].[CA]} ON COLUMNS,
+  [Gender].Children ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,667 DEBUG [mondrian.mdx] 6465: exec: 1 ms
+2014-02-22 13:13:29,670 DEBUG [mondrian.mdx] 6481: with member [Gender].[agg] as 'IIf((1 = 1), ([Gender].[All Gender], [Measures].[Unit Sales]), [Gender].[All Gender])', SOLVE_ORDER = 4
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {{[Gender].[Gender].Members}, {[Gender].[agg]}} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,675 DEBUG [mondrian.mdx] 6481: exec: 5 ms
+2014-02-22 13:13:29,679 DEBUG [mondrian.mdx] 6497: with member [Gender].[agg] as 'IIf((1 = 1), [Gender].[All Gender], ([Gender].[All Gender], [Measures].[Unit Sales]))', SOLVE_ORDER = 4
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {{[Gender].[Gender].Members}, {[Gender].[agg]}} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,680 DEBUG [mondrian.mdx] 6497: exec: 1 ms
+2014-02-22 13:13:29,684 DEBUG [mondrian.mdx] 6513: with member [Gender].[agg] as 'IIf((1 = 1), [Gender].[All Gender], ([Gender].[All Gender], [Time].[1997]))', SOLVE_ORDER = 4
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {{[Gender].[Gender].Members}, {[Gender].[agg]}} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,686 DEBUG [mondrian.mdx] 6513: exec: 1 ms
+2014-02-22 13:13:29,690 DEBUG [mondrian.mdx] 6527: with member [Gender].[agg] as 'IIf((1 = 1), ([Store].[USA], [Gender].[All Gender]), [Gender].[All Gender])', SOLVE_ORDER = 4
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {[Gender].[agg]} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,693 DEBUG [mondrian.mdx] 6527: exec: 2 ms
+2014-02-22 13:13:29,699 DEBUG [mondrian.mdx] 6551: with member [Gender].[agg] as 'IIf(([Measures].CurrentMember IS [Measures].[Unit Sales]), ([Store].[All Stores], [Gender].[All Gender], [Measures].[Unit Sales]), ([Store].[All Stores], [Gender].[All Gender]))', SOLVE_ORDER = 4
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {{[Gender].[Gender].Members}, {[Gender].[agg]}} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,702 DEBUG [mondrian.mdx] 6551: exec: 3 ms
+2014-02-22 13:13:29,706 DEBUG [mondrian.mdx] 6575: with member [Gender].[agg] as 'IIf(([Measures].CurrentMember IS [Measures].[Unit Sales]), ([Store].[All Stores], [Gender].[M], [Measures].[Unit Sales]), ([Gender].[M], [Store].[All Stores]))', SOLVE_ORDER = 4
+select {[Measures].[Unit Sales]} ON COLUMNS,
+  {{[Gender].[Gender].Members}, {[Gender].[agg]}} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:29,708 DEBUG [mondrian.mdx] 6575: exec: 1 ms
+2014-02-22 13:13:29,715 DEBUG [mondrian.mdx] 6591: with member [Gender].[AGG] as 'Aggregate(Filter([S1], (NOT IsEmpty([Measures].[Store Sales]))))'
+  set [S1] as 'Crossjoin({[Gender].[Gender].Members}, {[Store].[Canada].Children})'
+select {[Measures].[Store Sales]} ON COLUMNS,
+  {[Gender].[AGG]} ON ROWS
+from [Warehouse and Sales]
+
+2014-02-22 13:13:30,091 DEBUG [mondrian.mdx] 6591: exec: 376 ms
+2014-02-22 13:13:30,095 DEBUG [mondrian.mdx] 6603: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY Crossjoin({[Store].[All Stores]}, Crossjoin({[Product].[All Products]}, {[Customers].[All Customers]})) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,097 DEBUG [mondrian.mdx] 6603: exec: 2 ms
+2014-02-22 13:13:30,099 DEBUG [mondrian.mdx] 6615: select {[Measures].[Unit Sales]} ON COLUMNS,
+  Crossjoin({[Store].[All Stores]}, Crossjoin({[Product].[All Products]}, {[Customers].[All Customers]})) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,101 DEBUG [mondrian.mdx] 6615: exec: 1 ms
+2014-02-22 13:13:30,103 DEBUG [mondrian.mdx] 6627: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY (({[Store].[All Stores]} * {[Product].[All Products]}) * {[Customers].[All Customers]}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,105 DEBUG [mondrian.mdx] 6627: exec: 1 ms
+2014-02-22 13:13:30,107 DEBUG [mondrian.mdx] 6639: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY ({[Store].[All Stores]} * {([Product].[All Products], [Customers].[All Customers])}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,109 DEBUG [mondrian.mdx] 6639: exec: 1 ms
+2014-02-22 13:13:30,111 DEBUG [mondrian.mdx] 6653: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY (({[Store].[All Stores]} * {[Product].[All Products]}) * {([Customers].[All Customers], [Gender].[All Gender])}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,113 DEBUG [mondrian.mdx] 6653: exec: 2 ms
+2014-02-22 13:13:30,115 DEBUG [mondrian.mdx] 6667: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY (({[Store].[All Stores]} * {([Product].[All Products], [Customers].[All Customers])}) * {[Gender].[All Gender]}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,117 DEBUG [mondrian.mdx] 6667: exec: 2 ms
+2014-02-22 13:13:30,119 DEBUG [mondrian.mdx] 6681: select {[Measures].[Unit Sales]} ON COLUMNS,
+  NON EMPTY (({([Store].[All Stores], [Product].[All Products])} * {[Customers].[All Customers]}) * {[Gender].[All Gender]}) ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,121 DEBUG [mondrian.mdx] 6681: exec: 2 ms
+2014-02-22 13:13:30,257 DEBUG [mondrian.mdx] 6874: select Crossjoin([Gender].[Gender].Members, {[Measures].[zero]}) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:30,807 DEBUG [mondrian.mdx] 6874: exec: 550 ms
+2014-02-22 13:13:30,808 DEBUG [mondrian.mdx] 6884: select {[Measures].[zero]} ON COLUMNS,
+  {[Gender].[All Gender]} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:30,810 DEBUG [mondrian.mdx] 6884: exec: 1 ms
+2014-02-22 13:13:30,922 DEBUG [mondrian.mdx] 7067: select Crossjoin([Gender].[Gender].Members, {[Measures].[zero]}) ON COLUMNS
+from [FooBarZerOneAnything]
+
+2014-02-22 13:13:31,150 DEBUG [mondrian.mdx] 7067: exec: 228 ms
+2014-02-22 13:13:31,152 DEBUG [mondrian.mdx] 7076: select {[Measures].[zero]} ON COLUMNS,
+  {[Gender].[All Gender]} ON ROWS
+from [FooBarZerOneAnything]
+
+2014-02-22 13:13:31,153 DEBUG [mondrian.mdx] 7076: exec: 1 ms
+2014-02-22 13:13:31,159 DEBUG [mondrian.mdx] 7100: with member [Measures].[NegativeSales] as '(- [Measures].[Store Sales])'
+  member [Product].[SameName] as 'Aggregate(Filter([Product].[Product Name].Members, ([Measures].[Store Sales] > 0)))'
+  member [Measures].[SameName] as '([Measures].[Store Sales], [Product].[SameName])'
+select {[Measures].[Store Sales], [Measures].[NegativeSales], [Measures].[SameName]} ON COLUMNS,
+  [Store].[Store Country].Members ON ROWS
+from [Sales]
+where [Time].[1997]
+
+2014-02-22 13:13:37,183 DEBUG [mondrian.mdx] 7100: exec: 6024 ms
+2014-02-22 13:13:37,231 DEBUG [mondrian.mdx] 7114: select {([Product].[Food].[Produce].[Vegetables].[Fresh Vegetables].[Tell Tale].[Tell Tale Tomatos], [Warehouse].[USA].[WA].[Seattle].[Quality Warehousing and Trucking], [Store].[USA].[WA].[Seattle].[Store 15], [Time.Weekly].[1997].[24].[3])} ON COLUMNS,
+  {[Measures].[Units Shipped]} ON ROWS
+from [Warehouse]
+
+2014-02-22 13:13:37,246 DEBUG [mondrian.mdx] 7114: exec: 15 ms
+2014-02-22 13:13:37,394 DEBUG [mondrian.mdx] 7300: select {[Gender].[M]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:37,750 DEBUG [mondrian.mdx] 7300: exec: 356 ms
+2014-02-22 13:13:37,939 DEBUG [mondrian.mdx] 7540: with member [Time].[1997].[H1] as 'Aggregate({[Time].[1997].[Q1], [Time].[1997].[Q2]})'
+  member [Measures].[Store Margin] as '([Measures].[Store Sales] - [Measures].[Store Cost])', format_string = IIf(([Measures].[Unit Sales] > 50000), "\<b\>#.00\<\/b\>", "\<i\>#.00\<\/i\>")
+  set [Hi Val Products] as 'Filter(Descendants([Product].[Drink], , LEAVES), ([Measures].[Unit Sales] > 100))'
+select {[Measures].[Unit Sales], [Measures].[Store Margin]} ON COLUMNS,
+  ([Hi Val Products] * [Marital Status].Members) ON ROWS
+from [Sales]
+where [Gender].[F]
+
+2014-02-22 13:13:38,443 DEBUG [mondrian.mdx] 7540: exec: 504 ms
+2014-02-22 13:13:38,600 DEBUG [mondrian.mdx] 7999: select {TopCount([Customers].Members, 10, [Measures].[Unit Sales])} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:38,703 DEBUG [mondrian.mdx] 8007: select {TopCount([Customers].Members, 10, [Measures].[Unit Sales])} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:39,926 DEBUG [mondrian.mdx] 7999: exec: 1325 ms
+2014-02-22 13:13:39,939 DEBUG [mondrian.mdx] 8007: exec: 1236 ms
+2014-02-22 13:13:39,942 DEBUG [mondrian.mdx] 8024: select (({[Gender].[M]} * {[Store].[USA]}) * [Product].Children) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:42,712 DEBUG [mondrian.mdx] 8024: exec: 2770 ms
+2014-02-22 13:13:42,714 DEBUG [mondrian.mdx] 8034: select (({[Gender].[F]} * {[Store].[USA]}) * [Product].Children) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:45,514 DEBUG [mondrian.mdx] 8034: exec: 2800 ms
+2014-02-22 13:13:45,518 DEBUG [mondrian.mdx] 8044: select (({[Gender].[M]} * {[Store].[Canada]}) * [Product].Children) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:46,268 DEBUG [mondrian.mdx] 8044: exec: 750 ms
+2014-02-22 13:13:46,269 DEBUG [mondrian.mdx] 8054: select (({[Gender].[F]} * {[Store].[Canada]}) * [Product].Children) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:47,072 DEBUG [mondrian.mdx] 8054: exec: 803 ms
+2014-02-22 13:13:47,077 DEBUG [mondrian.mdx] 8064: select (({[Gender].[M]} * {[Store].[Mexico]}) * [Product].Children) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:47,889 DEBUG [mondrian.mdx] 8064: exec: 812 ms
+2014-02-22 13:13:47,891 DEBUG [mondrian.mdx] 8074: select (({[Gender].[F]} * {[Store].[Mexico]}) * [Product].Children) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:48,681 DEBUG [mondrian.mdx] 8074: exec: 790 ms
+2014-02-22 13:13:48,682 DEBUG [mondrian.mdx] 8080: select [Product].Children ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:48,683 DEBUG [mondrian.mdx] 8080: exec: 1 ms
+2014-02-22 13:13:48,817 DEBUG [mondrian.mdx] 8257: select from [Sales]
+
+2014-02-22 13:13:48,829 DEBUG [mondrian.mdx] 8257: exec: 12 ms
+2014-02-22 13:13:48,857 DEBUG [mondrian.mdx] 8270: select {Crossjoin([Product].[Brand Name].Members, [Gender].[Gender].Members)} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:52,465 DEBUG [mondrian.mdx] 8270: exec: 3608 ms
+2014-02-22 13:13:52,467 DEBUG [mondrian.mdx] 8278: select Crossjoin([Product].[Brand Name].Members, [Gender].[Gender].Members) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:52,523 DEBUG [mondrian.mdx] 8278: exec: 56 ms
+2014-02-22 13:13:52,632 DEBUG [mondrian.mdx] 8467: with member [Measures].[CountyThigny] as 'CountConcurrentUdf()'
+select {[Measures].[CountyThigny]} ON COLUMNS,
+  {[Product].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:52,632 DEBUG [mondrian.mdx] 8466: with member [Measures].[CountyThigny] as 'CountConcurrentUdf()'
+select {[Measures].[CountyThigny]} ON COLUMNS,
+  {[Product].Members} ON ROWS
+from [Sales]
+
+2014-02-22 13:13:57,543 DEBUG [mondrian.mdx] 8473: select {[Gender].[F]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:57,545 DEBUG [mondrian.mdx] 8473: exec: 2 ms
+2014-02-22 13:13:57,546 DEBUG [mondrian.mdx] 8479: select {[Gender].[F]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:57,547 DEBUG [mondrian.mdx] 8479: exec: 1 ms
+2014-02-22 13:13:57,548 DEBUG [mondrian.mdx] 8485: select {[Gender].[F]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:57,549 DEBUG [mondrian.mdx] 8485: exec: 1 ms
+2014-02-22 13:13:57,578 DEBUG [mondrian.mdx] 8491: select {[Gender].[F]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:13:57,580 DEBUG [mondrian.mdx] 8491: exec: 2 ms
+2014-02-22 13:13:57,608 DEBUG [mondrian.mdx] 8507: select {[Measures].[Measure]} ON COLUMNS
+from [Bar]
+
+2014-02-22 13:13:58,109 DEBUG [mondrian.mdx] 8508: select {[Measures].[Measure]} ON COLUMNS
+from [Bar]
+
+2014-02-22 13:14:00,013 DEBUG [mondrian.mdx] 8507: exec: 2405 ms
+2014-02-22 13:14:00,014 DEBUG [mondrian.mdx] 8508: exec: 1905 ms
+2014-02-22 13:14:02,629 DEBUG [mondrian.mdx] 8522: select {[Measures].[Measure]} ON COLUMNS
+from [Bar]
+
+2014-02-22 13:14:02,689 DEBUG [mondrian.mdx] 8466: exec: 10057 ms
+2014-02-22 13:14:02,697 DEBUG [mondrian.mdx] 8467: exec: 10065 ms
+2014-02-22 13:14:03,152 DEBUG [mondrian.mdx] 8522: exec: 523 ms
+2014-02-22 13:14:03,152 DEBUG [mondrian.mdx] 8523: select {[Measures].[Measure]} ON COLUMNS
+from [Bar]
+
+2014-02-22 13:14:05,558 DEBUG [mondrian.mdx] 8523: exec: 2406 ms
+2014-02-22 13:14:06,271 DEBUG [mondrian.mdx] 8704: select Crossjoin([Gender].[Gender].Members, {[Measures].[zero]}) ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:06,708 DEBUG [mondrian.mdx] 8704: exec: 437 ms
+2014-02-22 13:14:06,709 DEBUG [mondrian.mdx] 8714: select {[Measures].[zero]} ON COLUMNS,
+  {[Gender].[All Gender]} ON ROWS
+from [Sales]
+
+2014-02-22 13:14:06,714 DEBUG [mondrian.mdx] 8714: exec: 4 ms
+2014-02-22 13:14:07,567 DEBUG [mondrian.mdx] 8905: select {[Time].[1998].[Q1].[2], [Time].[1998].[Q1].[3], [Time].[1998].[Q2].[4], [Time].[1998].[Q2].[5], [Time].[1998].[Q2].[5], [Time].[1998].[Q2].[6], [Time].[1998].[Q3].[7]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:07,584 DEBUG [mondrian.mdx] 8905: exec: 17 ms
+2014-02-22 13:14:07,650 DEBUG [mondrian.mdx] 8936: select {[Time].[1997].[Q1].[1], [Time].[1997].[Q3].[8], [Time].[1997].[Q3].[9], [Time].[1997].[Q4].[10], [Time].[1997].[Q4].[11], [Time].[1997].[Q4].[12], [Time].[1998].[Q1].[1], [Time].[1998].[Q3].[8], [Time].[1998].[Q3].[9], [Time].[1998].[Q4].[10], [Time].[1998].[Q4].[11], [Time].[1998].[Q4].[12]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:07,769 DEBUG [mondrian.mdx] 8936: exec: 119 ms
+2014-02-22 13:14:07,770 DEBUG [mondrian.mdx] 8942: select {[Time].[1998].[Q1]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:07,773 DEBUG [mondrian.mdx] 8942: exec: 2 ms
+2014-02-22 13:14:07,941 DEBUG [mondrian.mdx] 9133: select {[Time].[1998].[Q1].[2], [Time].[1998].[Q1].[3], [Time].[1998].[Q2].[4], [Time].[1998].[Q2].[5], [Time].[1998].[Q2].[5], [Time].[1998].[Q2].[6], [Time].[1998].[Q3].[7]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:07,966 DEBUG [mondrian.mdx] 9133: exec: 25 ms
+2014-02-22 13:14:08,019 DEBUG [mondrian.mdx] 9164: select {[Time].[1997].[Q1].[1], [Time].[1997].[Q3].[8], [Time].[1997].[Q3].[9], [Time].[1997].[Q4].[10], [Time].[1997].[Q4].[11], [Time].[1997].[Q4].[12], [Time].[1998].[Q1].[1], [Time].[1998].[Q3].[8], [Time].[1998].[Q3].[9], [Time].[1998].[Q4].[10], [Time].[1998].[Q4].[11], [Time].[1998].[Q4].[12]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:08,203 DEBUG [mondrian.mdx] 9164: exec: 184 ms
+2014-02-22 13:14:08,405 DEBUG [mondrian.mdx] 9349: select {{[Product].[Drink].[Alcoholic Beverages]}, {[Product].[Drink].[Beverages]}, {[Product].[Food].[Baked Goods]}, {[Product].[Non-Consumable].[Periodicals]}} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:08,744 DEBUG [mondrian.mdx] 9349: exec: 339 ms
+2014-02-22 13:14:08,747 DEBUG [mondrian.mdx] 9358: select {[Product].[Drink].[Dairy]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:08,791 DEBUG [mondrian.mdx] 9358: exec: 44 ms
+2014-02-22 13:14:09,024 DEBUG [mondrian.mdx] 9541: select {{[Product].[Drink].[Alcoholic Beverages]}, {[Product].[Drink].[Beverages]}, {[Product].[Non-Consumable].[Periodicals]}} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:09,363 DEBUG [mondrian.mdx] 9541: exec: 339 ms
+2014-02-22 13:14:09,369 DEBUG [mondrian.mdx] 9550: select {[Product].[Drink].[Dairy]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:09,377 DEBUG [mondrian.mdx] 9550: exec: 7 ms
+2014-02-22 13:14:09,563 DEBUG [mondrian.mdx] 9731: select {{[Product].[Drink].[Alcoholic Beverages]}, {[Product].[Non-Consumable].[Periodicals]}} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:09,715 DEBUG [mondrian.mdx] 9731: exec: 152 ms
+2014-02-22 13:14:09,718 DEBUG [mondrian.mdx] 9740: select {[Product].[Drink].[Dairy]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:09,724 DEBUG [mondrian.mdx] 9740: exec: 6 ms
+2014-02-22 13:14:09,728 DEBUG [mondrian.mdx] 9746: select {[Product].[Drink].[Beverages]} ON COLUMNS
+from [Sales]
+
+2014-02-22 13:14:09,845 DEBUG [mondrian.mdx] 9746: exec: 117 ms

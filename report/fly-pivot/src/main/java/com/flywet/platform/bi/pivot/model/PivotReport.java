@@ -68,10 +68,10 @@ public class PivotReport {
 		return pr;
 	}
 
-	public void init() throws BIException {
+	public void init(RequestContext context) throws BIException {
 		if (sheets != null && sheets.size() > 0) {
 			for (Sheet s : sheets) {
-				s.init();
+				s.init(context);
 			}
 		}
 	}

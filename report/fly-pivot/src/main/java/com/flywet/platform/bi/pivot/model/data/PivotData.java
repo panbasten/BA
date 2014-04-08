@@ -20,10 +20,7 @@ import com.flywet.platform.bi.pivot.model.IRegionData;
 import com.flywet.platform.bi.services.intf.BIDatabaseDelegates;
 import com.flywet.platform.bi.smart.utils.BIOlapSchemaProcessor;
 import com.tonbeller.jpivot.mondrian.MondrianModel;
-import com.tonbeller.jpivot.olap.model.Dimension;
 import com.tonbeller.jpivot.olap.model.OlapModel;
-import com.tonbeller.jpivot.table.TableComponent;
-import com.tonbeller.jpivot.table.TableComponentFactory;
 import com.tonbeller.jpivot.tags.MondrianModelFactory;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -197,17 +194,10 @@ public class PivotData implements IRegionData {
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		try {
 			JSONObject jo = new JSONObject();
-
 			jo.put(REGION_DATA_TYPE, getTypeName());
-
-			TableComponent tc = TableComponentFactory.instance("olap_"
-					+ catalogId, om);
-			tc.initialize(context);
-
-			Dimension[] dims = tc.getOlapModel().getDimensions();
-
-			jo.put(PROP_NAME_DATA, tc.renderJo(context));
-
+			// TODO 维度等
+			
+			
 			return jo;
 		} catch (Exception e) {
 			throw new BIPivotException("渲染透视报表区域数据出现错误.", e);

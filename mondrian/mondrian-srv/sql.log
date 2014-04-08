@@ -1,0 +1,242 @@
+2014-02-22 13:14:08,000 DEBUG [mondrian.sql] 831: , exec 0 ms
+2014-02-22 13:14:08,001 DEBUG [mondrian.sql] 831: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:08,002 DEBUG [mondrian.sql] 832: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`month_of_year` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`quarter` = 'Q1' and `time_by_day`.`the_year` = 1998) and `time_by_day`.`month_of_year` = 1 group by `time_by_day`.`month_of_year` order by ISNULL(`time_by_day`.`month_of_year`) ASC, `time_by_day`.`month_of_year` ASC]
+2014-02-22 13:14:08,003 DEBUG [mondrian.sql] 832: , exec 0 ms
+2014-02-22 13:14:08,004 DEBUG [mondrian.sql] 832: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,005 DEBUG [mondrian.sql] 833: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`month_of_year` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`quarter` = 'Q3' and `time_by_day`.`the_year` = 1998) and `time_by_day`.`month_of_year` = 8 group by `time_by_day`.`month_of_year` order by ISNULL(`time_by_day`.`month_of_year`) ASC, `time_by_day`.`month_of_year` ASC]
+2014-02-22 13:14:08,006 DEBUG [mondrian.sql] 833: , exec 0 ms
+2014-02-22 13:14:08,007 DEBUG [mondrian.sql] 833: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,009 DEBUG [mondrian.sql] 834: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`month_of_year` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`quarter` = 'Q3' and `time_by_day`.`the_year` = 1998) and `time_by_day`.`month_of_year` = 9 group by `time_by_day`.`month_of_year` order by ISNULL(`time_by_day`.`month_of_year`) ASC, `time_by_day`.`month_of_year` ASC]
+2014-02-22 13:14:08,009 DEBUG [mondrian.sql] 834: , exec 0 ms
+2014-02-22 13:14:08,010 DEBUG [mondrian.sql] 834: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,011 DEBUG [mondrian.sql] 835: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`quarter` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`the_year` = 1998) and UPPER(`time_by_day`.`quarter`) = UPPER('Q4') group by `time_by_day`.`quarter` order by ISNULL(`time_by_day`.`quarter`) ASC, `time_by_day`.`quarter` ASC]
+2014-02-22 13:14:08,012 DEBUG [mondrian.sql] 835: , exec 0 ms
+2014-02-22 13:14:08,012 DEBUG [mondrian.sql] 835: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,013 DEBUG [mondrian.sql] 836: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`month_of_year` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`quarter` = 'Q4' and `time_by_day`.`the_year` = 1998) and `time_by_day`.`month_of_year` = 10 group by `time_by_day`.`month_of_year` order by ISNULL(`time_by_day`.`month_of_year`) ASC, `time_by_day`.`month_of_year` ASC]
+2014-02-22 13:14:08,014 DEBUG [mondrian.sql] 836: , exec 0 ms
+2014-02-22 13:14:08,014 DEBUG [mondrian.sql] 836: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,015 DEBUG [mondrian.sql] 837: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`month_of_year` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`quarter` = 'Q4' and `time_by_day`.`the_year` = 1998) and `time_by_day`.`month_of_year` = 11 group by `time_by_day`.`month_of_year` order by ISNULL(`time_by_day`.`month_of_year`) ASC, `time_by_day`.`month_of_year` ASC]
+2014-02-22 13:14:08,016 DEBUG [mondrian.sql] 837: , exec 0 ms
+2014-02-22 13:14:08,016 DEBUG [mondrian.sql] 837: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,017 DEBUG [mondrian.sql] 838: SqlMemberSource.getMemberChildren: executing sql [select `time_by_day`.`month_of_year` as `c0` from `time_by_day` as `time_by_day` where (`time_by_day`.`quarter` = 'Q4' and `time_by_day`.`the_year` = 1998) and `time_by_day`.`month_of_year` = 12 group by `time_by_day`.`month_of_year` order by ISNULL(`time_by_day`.`month_of_year`) ASC, `time_by_day`.`month_of_year` ASC]
+2014-02-22 13:14:08,018 DEBUG [mondrian.sql] 838: , exec 0 ms
+2014-02-22 13:14:08,018 DEBUG [mondrian.sql] 838: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,022 DEBUG [mondrian.sql] 839: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `time_by_day`.`quarter` as `c1`, `time_by_day`.`month_of_year` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`quarter` in ('Q1', 'Q3', 'Q4') and `time_by_day`.`month_of_year` in (1, 8, 9, 10, 11, 12) group by `time_by_day`.`the_year`, `time_by_day`.`quarter`, `time_by_day`.`month_of_year`]
+2014-02-22 13:14:08,201 DEBUG [mondrian.sql] 839: , exec 178 ms
+2014-02-22 13:14:08,202 DEBUG [mondrian.sql] 839: , exec+fetch 180 ms, 6 rows
+2014-02-22 13:14:08,282 DEBUG [mondrian.sql] 840: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,283 DEBUG [mondrian.sql] 840: , exec 0 ms
+2014-02-22 13:14:08,283 DEBUG [mondrian.sql] 840: , exec+fetch 1 ms, 2 rows
+2014-02-22 13:14:08,285 DEBUG [mondrian.sql] 841: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,286 DEBUG [mondrian.sql] 841: , exec 0 ms
+2014-02-22 13:14:08,286 DEBUG [mondrian.sql] 841: , exec+fetch 1 ms, 2 rows
+2014-02-22 13:14:08,302 DEBUG [mondrian.sql] 842: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,303 DEBUG [mondrian.sql] 842: , exec 1 ms
+2014-02-22 13:14:08,304 DEBUG [mondrian.sql] 842: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,305 DEBUG [mondrian.sql] 843: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,306 DEBUG [mondrian.sql] 843: , exec 0 ms
+2014-02-22 13:14:08,307 DEBUG [mondrian.sql] 843: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,331 DEBUG [mondrian.sql] 844: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,332 DEBUG [mondrian.sql] 844: , exec 1 ms
+2014-02-22 13:14:08,333 DEBUG [mondrian.sql] 844: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,334 DEBUG [mondrian.sql] 845: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,335 DEBUG [mondrian.sql] 845: , exec 0 ms
+2014-02-22 13:14:08,336 DEBUG [mondrian.sql] 845: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,349 DEBUG [mondrian.sql] 846: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_country` as `c0` from `store` as `store` where UPPER(`store`.`store_country`) = UPPER('USA') group by `store`.`store_country` order by ISNULL(`store`.`store_country`) ASC, `store`.`store_country` ASC]
+2014-02-22 13:14:08,350 DEBUG [mondrian.sql] 846: , exec 0 ms
+2014-02-22 13:14:08,351 DEBUG [mondrian.sql] 846: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:08,352 DEBUG [mondrian.sql] 847: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_state` as `c0` from `store` as `store` where (`store`.`store_country` = 'USA') and UPPER(`store`.`store_state`) = UPPER('CA') group by `store`.`store_state` order by ISNULL(`store`.`store_state`) ASC, `store`.`store_state` ASC]
+2014-02-22 13:14:08,353 DEBUG [mondrian.sql] 847: , exec 0 ms
+2014-02-22 13:14:08,353 DEBUG [mondrian.sql] 847: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,355 DEBUG [mondrian.sql] 848: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_city` as `c0` from `store` as `store` where (`store`.`store_state` = 'CA') and UPPER(`store`.`store_city`) = UPPER('Los Angeles') group by `store`.`store_city` order by ISNULL(`store`.`store_city`) ASC, `store`.`store_city` ASC]
+2014-02-22 13:14:08,355 DEBUG [mondrian.sql] 848: , exec 0 ms
+2014-02-22 13:14:08,356 DEBUG [mondrian.sql] 848: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,357 DEBUG [mondrian.sql] 849: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`country` as `c0` from `customer` as `customer` where UPPER(`customer`.`country`) = UPPER('USA') group by `customer`.`country` order by ISNULL(`customer`.`country`) ASC, `customer`.`country` ASC]
+2014-02-22 13:14:08,358 DEBUG [mondrian.sql] 849: , exec 0 ms
+2014-02-22 13:14:08,358 DEBUG [mondrian.sql] 849: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,359 DEBUG [mondrian.sql] 850: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`state_province` as `c0` from `customer` as `customer` where (`customer`.`country` = 'USA') and UPPER(`customer`.`state_province`) = UPPER('CA') group by `customer`.`state_province` order by ISNULL(`customer`.`state_province`) ASC, `customer`.`state_province` ASC]
+2014-02-22 13:14:08,360 DEBUG [mondrian.sql] 850: , exec 0 ms
+2014-02-22 13:14:08,361 DEBUG [mondrian.sql] 850: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:08,364 DEBUG [mondrian.sql] 851: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`city` as `c0` from `customer` as `customer` where (`customer`.`state_province` = 'CA') and UPPER(`customer`.`city`) = UPPER('Los Angeles') group by `customer`.`city` order by ISNULL(`customer`.`city`) ASC, `customer`.`city` ASC]
+2014-02-22 13:14:08,366 DEBUG [mondrian.sql] 851: , exec 1 ms
+2014-02-22 13:14:08,367 DEBUG [mondrian.sql] 851: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:08,369 DEBUG [mondrian.sql] 852: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Drink') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:08,381 DEBUG [mondrian.sql] 852: , exec 11 ms
+2014-02-22 13:14:08,381 DEBUG [mondrian.sql] 852: , exec+fetch 12 ms, 1 rows
+2014-02-22 13:14:08,383 DEBUG [mondrian.sql] 853: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Alcoholic Beverages') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:08,384 DEBUG [mondrian.sql] 853: , exec 0 ms
+2014-02-22 13:14:08,385 DEBUG [mondrian.sql] 853: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:08,387 DEBUG [mondrian.sql] 854: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Beverages') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:08,387 DEBUG [mondrian.sql] 854: , exec 0 ms
+2014-02-22 13:14:08,388 DEBUG [mondrian.sql] 854: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,389 DEBUG [mondrian.sql] 855: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Food') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:08,390 DEBUG [mondrian.sql] 855: , exec 0 ms
+2014-02-22 13:14:08,390 DEBUG [mondrian.sql] 855: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,392 DEBUG [mondrian.sql] 856: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Food') and UPPER(`product_class`.`product_department`) = UPPER('Baked Goods') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:08,393 DEBUG [mondrian.sql] 856: , exec 0 ms
+2014-02-22 13:14:08,393 DEBUG [mondrian.sql] 856: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,395 DEBUG [mondrian.sql] 857: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Non-Consumable') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:08,397 DEBUG [mondrian.sql] 857: , exec 1 ms
+2014-02-22 13:14:08,398 DEBUG [mondrian.sql] 857: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:08,401 DEBUG [mondrian.sql] 858: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Non-Consumable') and UPPER(`product_class`.`product_department`) = UPPER('Periodicals') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:08,403 DEBUG [mondrian.sql] 858: , exec 1 ms
+2014-02-22 13:14:08,404 DEBUG [mondrian.sql] 858: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:08,408 DEBUG [mondrian.sql] 859: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `the_year`) from `time_by_day`]
+2014-02-22 13:14:08,409 DEBUG [mondrian.sql] 859: , exec 0 ms
+2014-02-22 13:14:08,409 DEBUG [mondrian.sql] 859: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,410 DEBUG [mondrian.sql] 860: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `product_family`) from `product_class`]
+2014-02-22 13:14:08,411 DEBUG [mondrian.sql] 860: , exec 0 ms
+2014-02-22 13:14:08,412 DEBUG [mondrian.sql] 860: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,413 DEBUG [mondrian.sql] 861: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `product_department`) from `product_class`]
+2014-02-22 13:14:08,414 DEBUG [mondrian.sql] 861: , exec 0 ms
+2014-02-22 13:14:08,414 DEBUG [mondrian.sql] 861: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,415 DEBUG [mondrian.sql] 862: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_department` in ('Alcoholic Beverages', 'Baked Goods', 'Beverages', 'Periodicals') group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:08,742 DEBUG [mondrian.sql] 862: , exec 326 ms
+2014-02-22 13:14:08,743 DEBUG [mondrian.sql] 862: , exec+fetch 328 ms, 4 rows
+2014-02-22 13:14:08,745 DEBUG [mondrian.sql] 863: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Dairy') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:08,746 DEBUG [mondrian.sql] 863: , exec 0 ms
+2014-02-22 13:14:08,746 DEBUG [mondrian.sql] 863: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:08,750 DEBUG [mondrian.sql] 864: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_family` = 'Drink' and `product_class`.`product_department` = 'Dairy' group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:08,789 DEBUG [mondrian.sql] 864: , exec 38 ms
+2014-02-22 13:14:08,790 DEBUG [mondrian.sql] 864: , exec+fetch 40 ms, 1 rows
+2014-02-22 13:14:08,888 DEBUG [mondrian.sql] 865: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,889 DEBUG [mondrian.sql] 865: , exec 0 ms
+2014-02-22 13:14:08,890 DEBUG [mondrian.sql] 865: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,893 DEBUG [mondrian.sql] 866: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,894 DEBUG [mondrian.sql] 866: , exec 0 ms
+2014-02-22 13:14:08,895 DEBUG [mondrian.sql] 866: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,921 DEBUG [mondrian.sql] 867: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,922 DEBUG [mondrian.sql] 867: , exec 1 ms
+2014-02-22 13:14:08,924 DEBUG [mondrian.sql] 867: , exec+fetch 3 ms, 2 rows
+2014-02-22 13:14:08,925 DEBUG [mondrian.sql] 868: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,926 DEBUG [mondrian.sql] 868: , exec 0 ms
+2014-02-22 13:14:08,926 DEBUG [mondrian.sql] 868: , exec+fetch 1 ms, 2 rows
+2014-02-22 13:14:08,956 DEBUG [mondrian.sql] 869: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,958 DEBUG [mondrian.sql] 869: , exec 2 ms
+2014-02-22 13:14:08,961 DEBUG [mondrian.sql] 869: , exec+fetch 5 ms, 2 rows
+2014-02-22 13:14:08,962 DEBUG [mondrian.sql] 870: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:08,964 DEBUG [mondrian.sql] 870: , exec 0 ms
+2014-02-22 13:14:08,965 DEBUG [mondrian.sql] 870: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:08,982 DEBUG [mondrian.sql] 871: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_country` as `c0` from `store` as `store` where UPPER(`store`.`store_country`) = UPPER('USA') group by `store`.`store_country` order by ISNULL(`store`.`store_country`) ASC, `store`.`store_country` ASC]
+2014-02-22 13:14:08,983 DEBUG [mondrian.sql] 871: , exec 0 ms
+2014-02-22 13:14:08,984 DEBUG [mondrian.sql] 871: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:08,986 DEBUG [mondrian.sql] 872: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_state` as `c0` from `store` as `store` where (`store`.`store_country` = 'USA') and UPPER(`store`.`store_state`) = UPPER('CA') group by `store`.`store_state` order by ISNULL(`store`.`store_state`) ASC, `store`.`store_state` ASC]
+2014-02-22 13:14:08,988 DEBUG [mondrian.sql] 872: , exec 1 ms
+2014-02-22 13:14:08,989 DEBUG [mondrian.sql] 872: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:08,992 DEBUG [mondrian.sql] 873: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_city` as `c0` from `store` as `store` where (`store`.`store_state` = 'CA') and UPPER(`store`.`store_city`) = UPPER('Los Angeles') group by `store`.`store_city` order by ISNULL(`store`.`store_city`) ASC, `store`.`store_city` ASC]
+2014-02-22 13:14:08,993 DEBUG [mondrian.sql] 873: , exec 0 ms
+2014-02-22 13:14:08,994 DEBUG [mondrian.sql] 873: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:08,996 DEBUG [mondrian.sql] 874: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`country` as `c0` from `customer` as `customer` where UPPER(`customer`.`country`) = UPPER('USA') group by `customer`.`country` order by ISNULL(`customer`.`country`) ASC, `customer`.`country` ASC]
+2014-02-22 13:14:08,998 DEBUG [mondrian.sql] 874: , exec 1 ms
+2014-02-22 13:14:09,000 DEBUG [mondrian.sql] 874: , exec+fetch 4 ms, 1 rows
+2014-02-22 13:14:09,001 DEBUG [mondrian.sql] 875: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`state_province` as `c0` from `customer` as `customer` where (`customer`.`country` = 'USA') and UPPER(`customer`.`state_province`) = UPPER('CA') group by `customer`.`state_province` order by ISNULL(`customer`.`state_province`) ASC, `customer`.`state_province` ASC]
+2014-02-22 13:14:09,002 DEBUG [mondrian.sql] 875: , exec 0 ms
+2014-02-22 13:14:09,003 DEBUG [mondrian.sql] 875: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,004 DEBUG [mondrian.sql] 876: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`city` as `c0` from `customer` as `customer` where (`customer`.`state_province` = 'CA') and UPPER(`customer`.`city`) = UPPER('Los Angeles') group by `customer`.`city` order by ISNULL(`customer`.`city`) ASC, `customer`.`city` ASC]
+2014-02-22 13:14:09,005 DEBUG [mondrian.sql] 876: , exec 0 ms
+2014-02-22 13:14:09,006 DEBUG [mondrian.sql] 876: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,008 DEBUG [mondrian.sql] 877: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Drink') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:09,009 DEBUG [mondrian.sql] 877: , exec 0 ms
+2014-02-22 13:14:09,009 DEBUG [mondrian.sql] 877: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,011 DEBUG [mondrian.sql] 878: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Alcoholic Beverages') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,011 DEBUG [mondrian.sql] 878: , exec 0 ms
+2014-02-22 13:14:09,013 DEBUG [mondrian.sql] 878: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,014 DEBUG [mondrian.sql] 879: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Beverages') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,015 DEBUG [mondrian.sql] 879: , exec 0 ms
+2014-02-22 13:14:09,016 DEBUG [mondrian.sql] 879: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,017 DEBUG [mondrian.sql] 880: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Non-Consumable') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:09,019 DEBUG [mondrian.sql] 880: , exec 1 ms
+2014-02-22 13:14:09,020 DEBUG [mondrian.sql] 880: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:09,021 DEBUG [mondrian.sql] 881: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Non-Consumable') and UPPER(`product_class`.`product_department`) = UPPER('Periodicals') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,022 DEBUG [mondrian.sql] 881: , exec 0 ms
+2014-02-22 13:14:09,023 DEBUG [mondrian.sql] 881: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,029 DEBUG [mondrian.sql] 882: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `the_year`) from `time_by_day`]
+2014-02-22 13:14:09,031 DEBUG [mondrian.sql] 882: , exec 0 ms
+2014-02-22 13:14:09,033 DEBUG [mondrian.sql] 882: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:09,037 DEBUG [mondrian.sql] 883: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `product_family`) from `product_class`]
+2014-02-22 13:14:09,038 DEBUG [mondrian.sql] 883: , exec 0 ms
+2014-02-22 13:14:09,038 DEBUG [mondrian.sql] 883: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,039 DEBUG [mondrian.sql] 884: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `product_department`) from `product_class`]
+2014-02-22 13:14:09,040 DEBUG [mondrian.sql] 884: , exec 0 ms
+2014-02-22 13:14:09,040 DEBUG [mondrian.sql] 884: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,043 DEBUG [mondrian.sql] 885: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_family` in ('Drink', 'Non-Consumable') and `product_class`.`product_department` in ('Alcoholic Beverages', 'Beverages', 'Periodicals') group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:09,360 DEBUG [mondrian.sql] 885: , exec 317 ms
+2014-02-22 13:14:09,361 DEBUG [mondrian.sql] 885: , exec+fetch 318 ms, 3 rows
+2014-02-22 13:14:09,366 DEBUG [mondrian.sql] 886: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Dairy') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,367 DEBUG [mondrian.sql] 886: , exec 1 ms
+2014-02-22 13:14:09,369 DEBUG [mondrian.sql] 886: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:09,372 DEBUG [mondrian.sql] 887: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_family` = 'Drink' and `product_class`.`product_department` = 'Dairy' group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:09,374 DEBUG [mondrian.sql] 887: , exec 1 ms
+2014-02-22 13:14:09,376 DEBUG [mondrian.sql] 887: , exec+fetch 4 ms, 1 rows
+2014-02-22 13:14:09,439 DEBUG [mondrian.sql] 888: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:09,440 DEBUG [mondrian.sql] 888: , exec 0 ms
+2014-02-22 13:14:09,441 DEBUG [mondrian.sql] 888: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:09,444 DEBUG [mondrian.sql] 889: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:09,445 DEBUG [mondrian.sql] 889: , exec 0 ms
+2014-02-22 13:14:09,446 DEBUG [mondrian.sql] 889: , exec+fetch 1 ms, 2 rows
+2014-02-22 13:14:09,462 DEBUG [mondrian.sql] 890: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:09,464 DEBUG [mondrian.sql] 890: , exec 1 ms
+2014-02-22 13:14:09,465 DEBUG [mondrian.sql] 890: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:09,469 DEBUG [mondrian.sql] 891: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:09,472 DEBUG [mondrian.sql] 891: , exec 2 ms
+2014-02-22 13:14:09,473 DEBUG [mondrian.sql] 891: , exec+fetch 4 ms, 2 rows
+2014-02-22 13:14:09,505 DEBUG [mondrian.sql] 892: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:09,506 DEBUG [mondrian.sql] 892: , exec 0 ms
+2014-02-22 13:14:09,507 DEBUG [mondrian.sql] 892: , exec+fetch 2 ms, 2 rows
+2014-02-22 13:14:09,509 DEBUG [mondrian.sql] 893: SqlTupleReader.readTuples [[Time].[Year]]: executing sql [select `time_by_day`.`the_year` as `c0` from `time_by_day` as `time_by_day` group by `time_by_day`.`the_year` order by ISNULL(`time_by_day`.`the_year`) ASC, `time_by_day`.`the_year` ASC]
+2014-02-22 13:14:09,511 DEBUG [mondrian.sql] 893: , exec 1 ms
+2014-02-22 13:14:09,512 DEBUG [mondrian.sql] 893: , exec+fetch 3 ms, 2 rows
+2014-02-22 13:14:09,524 DEBUG [mondrian.sql] 894: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_country` as `c0` from `store` as `store` where UPPER(`store`.`store_country`) = UPPER('USA') group by `store`.`store_country` order by ISNULL(`store`.`store_country`) ASC, `store`.`store_country` ASC]
+2014-02-22 13:14:09,525 DEBUG [mondrian.sql] 894: , exec 0 ms
+2014-02-22 13:14:09,526 DEBUG [mondrian.sql] 894: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,527 DEBUG [mondrian.sql] 895: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_state` as `c0` from `store` as `store` where (`store`.`store_country` = 'USA') and UPPER(`store`.`store_state`) = UPPER('CA') group by `store`.`store_state` order by ISNULL(`store`.`store_state`) ASC, `store`.`store_state` ASC]
+2014-02-22 13:14:09,528 DEBUG [mondrian.sql] 895: , exec 0 ms
+2014-02-22 13:14:09,530 DEBUG [mondrian.sql] 895: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:09,533 DEBUG [mondrian.sql] 896: SqlMemberSource.getMemberChildren: executing sql [select `store`.`store_city` as `c0` from `store` as `store` where (`store`.`store_state` = 'CA') and UPPER(`store`.`store_city`) = UPPER('Los Angeles') group by `store`.`store_city` order by ISNULL(`store`.`store_city`) ASC, `store`.`store_city` ASC]
+2014-02-22 13:14:09,534 DEBUG [mondrian.sql] 896: , exec 0 ms
+2014-02-22 13:14:09,535 DEBUG [mondrian.sql] 896: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,537 DEBUG [mondrian.sql] 897: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`country` as `c0` from `customer` as `customer` where UPPER(`customer`.`country`) = UPPER('USA') group by `customer`.`country` order by ISNULL(`customer`.`country`) ASC, `customer`.`country` ASC]
+2014-02-22 13:14:09,538 DEBUG [mondrian.sql] 897: , exec 0 ms
+2014-02-22 13:14:09,539 DEBUG [mondrian.sql] 897: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,540 DEBUG [mondrian.sql] 898: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`state_province` as `c0` from `customer` as `customer` where (`customer`.`country` = 'USA') and UPPER(`customer`.`state_province`) = UPPER('CA') group by `customer`.`state_province` order by ISNULL(`customer`.`state_province`) ASC, `customer`.`state_province` ASC]
+2014-02-22 13:14:09,542 DEBUG [mondrian.sql] 898: , exec 1 ms
+2014-02-22 13:14:09,543 DEBUG [mondrian.sql] 898: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,544 DEBUG [mondrian.sql] 899: SqlMemberSource.getMemberChildren: executing sql [select `customer`.`city` as `c0` from `customer` as `customer` where (`customer`.`state_province` = 'CA') and UPPER(`customer`.`city`) = UPPER('Los Angeles') group by `customer`.`city` order by ISNULL(`customer`.`city`) ASC, `customer`.`city` ASC]
+2014-02-22 13:14:09,546 DEBUG [mondrian.sql] 899: , exec 1 ms
+2014-02-22 13:14:09,547 DEBUG [mondrian.sql] 899: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:09,551 DEBUG [mondrian.sql] 900: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Drink') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:09,552 DEBUG [mondrian.sql] 900: , exec 0 ms
+2014-02-22 13:14:09,553 DEBUG [mondrian.sql] 900: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,554 DEBUG [mondrian.sql] 901: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Alcoholic Beverages') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,554 DEBUG [mondrian.sql] 901: , exec 0 ms
+2014-02-22 13:14:09,555 DEBUG [mondrian.sql] 901: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,557 DEBUG [mondrian.sql] 902: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_family` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and UPPER(`product_class`.`product_family`) = UPPER('Non-Consumable') group by `product_class`.`product_family` order by ISNULL(`product_class`.`product_family`) ASC, `product_class`.`product_family` ASC]
+2014-02-22 13:14:09,558 DEBUG [mondrian.sql] 902: , exec 0 ms
+2014-02-22 13:14:09,558 DEBUG [mondrian.sql] 902: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,559 DEBUG [mondrian.sql] 903: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Non-Consumable') and UPPER(`product_class`.`product_department`) = UPPER('Periodicals') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,560 DEBUG [mondrian.sql] 903: , exec 0 ms
+2014-02-22 13:14:09,561 DEBUG [mondrian.sql] 903: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,585 DEBUG [mondrian.sql] 904: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `the_year`) from `time_by_day`]
+2014-02-22 13:14:09,586 DEBUG [mondrian.sql] 904: , exec 0 ms
+2014-02-22 13:14:09,586 DEBUG [mondrian.sql] 904: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,589 DEBUG [mondrian.sql] 905: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `product_family`) from `product_class`]
+2014-02-22 13:14:09,590 DEBUG [mondrian.sql] 905: , exec 1 ms
+2014-02-22 13:14:09,591 DEBUG [mondrian.sql] 905: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,592 DEBUG [mondrian.sql] 906: SqlStatisticsProvider.getColumnCardinality: executing sql [select count(distinct `product_department`) from `product_class`]
+2014-02-22 13:14:09,593 DEBUG [mondrian.sql] 906: , exec 0 ms
+2014-02-22 13:14:09,594 DEBUG [mondrian.sql] 906: , exec+fetch 2 ms, 1 rows
+2014-02-22 13:14:09,602 DEBUG [mondrian.sql] 907: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_family` in ('Drink', 'Non-Consumable') and `product_class`.`product_department` in ('Alcoholic Beverages', 'Periodicals') group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:09,713 DEBUG [mondrian.sql] 907: , exec 110 ms
+2014-02-22 13:14:09,714 DEBUG [mondrian.sql] 907: , exec+fetch 111 ms, 2 rows
+2014-02-22 13:14:09,716 DEBUG [mondrian.sql] 908: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Dairy') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,717 DEBUG [mondrian.sql] 908: , exec 0 ms
+2014-02-22 13:14:09,717 DEBUG [mondrian.sql] 908: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,720 DEBUG [mondrian.sql] 909: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_family` = 'Drink' and `product_class`.`product_department` = 'Dairy' group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:09,721 DEBUG [mondrian.sql] 909: , exec 0 ms
+2014-02-22 13:14:09,723 DEBUG [mondrian.sql] 909: , exec+fetch 3 ms, 1 rows
+2014-02-22 13:14:09,725 DEBUG [mondrian.sql] 910: SqlMemberSource.getMemberChildren: executing sql [select `product_class`.`product_department` as `c0` from `product` as `product`, `product_class` as `product_class` where `product`.`product_class_id` = `product_class`.`product_class_id` and (`product_class`.`product_family` = 'Drink') and UPPER(`product_class`.`product_department`) = UPPER('Beverages') group by `product_class`.`product_department` order by ISNULL(`product_class`.`product_department`) ASC, `product_class`.`product_department` ASC]
+2014-02-22 13:14:09,726 DEBUG [mondrian.sql] 910: , exec 0 ms
+2014-02-22 13:14:09,727 DEBUG [mondrian.sql] 910: , exec+fetch 1 ms, 1 rows
+2014-02-22 13:14:09,731 DEBUG [mondrian.sql] 911: Segment.load: executing sql [select `time_by_day`.`the_year` as `c0`, `product_class`.`product_family` as `c1`, `product_class`.`product_department` as `c2`, sum(`sales_fact_1997`.`unit_sales`) as `m0` from `time_by_day` as `time_by_day`, `sales_fact_1997` as `sales_fact_1997`, `product_class` as `product_class`, `product` as `product` where `sales_fact_1997`.`time_id` = `time_by_day`.`time_id` and `time_by_day`.`the_year` = 1997 and `sales_fact_1997`.`product_id` = `product`.`product_id` and `product`.`product_class_id` = `product_class`.`product_class_id` and `product_class`.`product_family` = 'Drink' and `product_class`.`product_department` = 'Beverages' group by `time_by_day`.`the_year`, `product_class`.`product_family`, `product_class`.`product_department`]
+2014-02-22 13:14:09,842 DEBUG [mondrian.sql] 911: , exec 110 ms
+2014-02-22 13:14:09,843 DEBUG [mondrian.sql] 911: , exec+fetch 112 ms, 1 rows

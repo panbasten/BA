@@ -21,7 +21,7 @@ public interface IRegionObject {
 	 * 
 	 * @throws BIException
 	 */
-	public void init() throws BIException;
+	public void init(RequestContext context) throws BIException;
 
 	/**
 	 * 获得渲染的JSONObject对象

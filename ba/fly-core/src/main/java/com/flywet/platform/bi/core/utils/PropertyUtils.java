@@ -60,7 +60,7 @@ public class PropertyUtils {
 	 * @return 属性值
 	 */
 	public static String getProperty(String key) {
-		if (properties == null) {
+		if (properties == null || key == null) {
 			return null;
 		}
 
@@ -75,7 +75,7 @@ public class PropertyUtils {
 	 * @return
 	 */
 	public static int getIntProperty(String key) {
-		if (properties == null) {
+		if (properties == null || key == null) {
 			return 0;
 		}
 

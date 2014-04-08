@@ -9,7 +9,7 @@
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
 			<fly:pushbutton style="float:right;" iconCls="ui-icon-closethick" onclick="Flywet.PortalAction.deleteFile('month_predict_browse_var','predictSettingUpdate()')" label="删除" title="删除" />
-			<fly:pushbutton style="float:right;" iconCls="ui-icon-plusthick" onclick="Flywet.PortalAction.openUploadDialog(5,'custom.portal.monthPredict.file.rootPath','${currentMonth}','custom.portal.monthPredict.file.category','predictSettingUpdate()')" label="添加" title="添加" />
+			<fly:pushbutton style="float:right;" iconCls="ui-icon-plusthick" onclick="Flywet.PortalAction.openUploadDialog(null,{'filesNum':5,'rootDir':'custom.portal.monthPredict.file.rootPath','workDir':'${currentMonth}','category':'custom.portal.monthPredict.file.category'},'predictSettingUpdate()')" label="添加" title="添加" />
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem cols="3">
 			<fly:horizontalLayout id="month_predict_files">

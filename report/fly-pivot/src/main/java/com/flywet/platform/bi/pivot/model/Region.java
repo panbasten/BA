@@ -46,9 +46,9 @@ public class Region {
 		return r;
 	}
 
-	public void init() throws BIException {
+	public void init(RequestContext context) throws BIException {
 		if (regionObject != null) {
-			regionObject.init();
+			regionObject.init(context);
 		}
 	}
 

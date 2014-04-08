@@ -418,8 +418,9 @@ public class BIPortaletResource {
 		String actionParams = dataObj.get("actionParams");
 
 		try {
+			workDir = Const.NVL(workDir, "");
 			// 遍历文件并逐次上传文件系统
-			if (!Const.isEmpty(rootDir) && !Const.isEmpty(workDir)) {
+			if (!Const.isEmpty(rootDir)) {
 				for (FileItem item : items) {
 					if (item.isFormField() || Const.isEmpty(item.getName())) {
 						continue;
