@@ -46,8 +46,19 @@ custom.portal.sst.file.rootPath=C:/_D/_flywet/sst_data
 custom.portal.sst.file.category=local
 custom.portal.sst.file.fileName=sst.mnmean.nc
 
-custom.portal.upload.file.rootPath=ftp://x28:x28x28@10.48.36.15/sevp
+custom.portal.dataShow.file.rootPath=C:/_D/_flywet/dataShow
+custom.portal.dataShow.file.category=local
+
+custom.portal.upload.file.rootPath=ftp://flywet:flywet@192.168.229.140
 custom.portal.upload.file.category=ftp
+
+custom.portal.upload.month.predict.data.file.rootPath=C:/_D/_flywet/upload
+custom.portal.upload.month.predict.data.file.category=local
+custom.portal.upload.month.predict.data.file.fileName=aa.txt
+
+custom.portal.upload.extend.predict.data.file.rootPath=C:/_D/_flywet/upload
+custom.portal.upload.extend.predict.data.file.category=local
+custom.portal.upload.extend.predict.data.file.fileName=bb.txt
 
 custom.portal.seasonForecast.file.rootPath=C:/_D/_flywet/SeasonForecast
 custom.portal.seasonForecast.file.category=local
@@ -64,7 +75,7 @@ custom.portal.processForecast.file.fileName=namelist
 custom.portal.buzNorm.file.rootPath=C:/_D/_flywet/buzNorm
 custom.portal.buzNorm.file.category=local
 
-custom.portal.month.forecast.run=/root/forecast/monthforecast/run
+custom.portal.month.forecast.run=["cmd","-c","cd C:/_D/_bak","ls"]
 custom.portal.season.forecast.run=/root/forecast/SeasonForecast/run
 custom.portal.forecast.evaluation.run=/root/forecast/evaluation/run
 custom.portal.process.forecast.run=/root/forecast/processforecast/run

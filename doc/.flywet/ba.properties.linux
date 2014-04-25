@@ -46,6 +46,9 @@ custom.portal.sst.file.rootPath=/root/forecast/data/sst_data
 custom.portal.sst.file.category=local
 custom.portal.sst.file.fileName=sst.mnmean.nc
 
+custom.portal.dataShow.file.rootPath=/root/forecast/data/sst_data
+custom.portal.dataShow.file.category=local
+
 custom.portal.upload.file.rootPath=ftp://x28:x28x28@10.48.36.15/sevp
 custom.portal.upload.file.category=ftp
 

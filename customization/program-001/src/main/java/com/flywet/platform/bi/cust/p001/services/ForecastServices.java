@@ -85,6 +85,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 	private static final String TEMPLATE_BUZ_NORMS = "buzNorms.h";
 	// private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
+    private static final String TEMPLATE_DATA_SHOW = "dataShow.h";
 	private static final String TEMPLATE_DATA_UPDATE = "dataUpdate.h";
 	private static final String TEMPLATE_DATA_UPLOAD = "dataUpload.h";
 	private static final String TEMPLATE_EXTEND_PREDICT_DATA = "extendPredictData.h";
@@ -124,6 +125,10 @@ public class ForecastServices extends AbstractRepositoryServices implements
 	private static final String PROP_SST_FILE_ROOT_PATH = "custom.portal.sst.file.rootPath";
 	private static final String PROP_SST_FILE_CATEGORY = "custom.portal.sst.file.category";
 	private static final String PROP_SST_FILE_FILENAME = "custom.portal.sst.file.fileName";
+
+    // 数据展示
+    private static final String PROP_DATA_SHOW_FILE_ROOT_PATH = "custom.portal.dataShow.file.rootPath";
+    private static final String PROP_DATA_SHOW_FILE_CATEGORY = "custom.portal.dataShow.file.category";
 
 	// 数据上传
 	private static final String PROP_UPLOAD_FILE_ROOT_PATH = "custom.portal.upload.file.rootPath";
@@ -968,6 +973,30 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			throw new BIException("读取文件系统" + workDir + "失败");
 		}
 	}
+
+    @Override
+    public String dataShow(String targetId, HashMap<String, Object> context)
+            throws BIJSONException {
+        try {
+            // 获得页面
+            FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+            attrsMap.addVariable("files", getBrowse(
+                    PROP_DATA_SHOW_FILE_ROOT_PATH, PROP_DATA_SHOW_FILE_CATEGORY,
+                    ""));
+
+            Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+                    TEMPLATE_DATA_SHOW, attrsMap);
+
+            // 设置响应
+            return AjaxResult.instanceDialogContent(targetId, domString)
+                    .toJSONString();
+        } catch (Exception e) {
+            log.error("打开数据展现界面出现问题。");
+        }
+
+        return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
+    }
 
 	@Override
 	public String dataUpload(String targetId, HashMap<String, Object> context)

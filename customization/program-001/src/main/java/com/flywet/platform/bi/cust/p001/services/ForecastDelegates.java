@@ -276,6 +276,16 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	public String dataUpdateFiles(ArrayList<FileItem> items,
 			HashMap<String, String> dataObj) throws BIJSONException;
 
+    /**
+     * 设置-数据展现（上传数据）
+     * @param targetId
+     * @param context
+     * @return
+     * @throws BIJSONException
+     */
+    public String dataShow(String targetId, HashMap<String, Object> context)
+            throws BIJSONException;
+
 	/**
 	 * 设置-上传数据
 	 * 
