@@ -1131,6 +1131,7 @@
 		</repository>
 	</repositories>
 
+    <!--
 	<pluginRepositories>
 		<pluginRepository>
 			<id>hb-plugin</id>
@@ -1151,6 +1152,7 @@
 			<url>http://10.11.46.192:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+    -->
 
 
 	<scm>

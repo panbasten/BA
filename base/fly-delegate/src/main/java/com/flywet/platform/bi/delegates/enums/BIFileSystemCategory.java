@@ -45,12 +45,12 @@ public enum BIFileSystemCategory {
 			// vfsPath = "ftp://" + host.getUsername() + ":"
 			// + host.getPassword() + "@" + host.getIp() + ":"
 			// + host.getPort() + workDir;
-			return workDir;
+			return getVfsPath(workDir, fd.getPath());
 		}
 
 		@Override
 		public String getVfsPath(String workDir, String rootDir) {
-			return workDir;
+			return FileUtils.dirAppend(rootDir, workDir);
 		}
 	},
 	FILESYS_TYPE_SFTP(3, "sftp", "FileSystem.Category.SFTP.Description") {
@@ -66,12 +66,12 @@ public enum BIFileSystemCategory {
 			// vfsPath = "sftp://" + host.getUsername() + ":" +
 			// host.getPassword()
 			// + "@" + host.getIp() + ":" + host.getPort() + workDir;
-			return workDir;
+			return getVfsPath(workDir, fd.getPath());
 		}
 
 		@Override
 		public String getVfsPath(String workDir, String rootDir) {
-			return workDir;
+			return FileUtils.dirAppend(rootDir, workDir);
 		}
 	},
 	FILESYS_TYPE_SVN(4, "svn", "FileSystem.Category.SVN.Description") {

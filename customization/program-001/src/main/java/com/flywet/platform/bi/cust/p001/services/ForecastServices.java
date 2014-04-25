@@ -131,9 +131,11 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH = "custom.portal.upload.month.predict.data.file.rootPath";
 	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY = "custom.portal.upload.month.predict.data.file.category";
+	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_FILENAME = "custom.portal.upload.month.predict.data.file.fileName";
 
 	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_ROOT_PATH = "custom.portal.upload.extend.predict.data.file.rootPath";
 	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_CATEGORY = "custom.portal.upload.extend.predict.data.file.category";
+	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_FILENAME = "custom.portal.upload.extend.predict.data.file.fileName";
 
 	// 业务规范
 	private static final String PROP_BUZ_NORM_FILE_ROOT_PATH = "custom.portal.buzNorm.file.rootPath";
@@ -1580,24 +1582,18 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			BIFileSystemDelegate filesysService = ReflectionUtils
 					.getBean("bi.service.filesystemService");
 
-			// 获得文件夹
-			FileObject dir = filesysService.composeVfsObject(
-					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY, "",
-					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH);
-
 			// 文件名称
-			// TODO
-			String fileName = "";
+			String fileName = PropertyUtils
+					.getProperty(PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_FILENAME);
 
-			FileObject fileObj = filesysService.composeVfsObject(
+			FileObject fileObj = composeVfsObject(
 					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY, fileName,
 					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH);
 
 			// 上传文件
-			FileObject destFileObj = filesysService.composeVfsObject(
-					PropertyUtils.getProperty(PROP_UPLOAD_FILE_CATEGORY),
-					fileName, PropertyUtils
-							.getProperty(PROP_UPLOAD_FILE_ROOT_PATH));
+			FileObject destFileObj = composeVfsObject(
+					PROP_UPLOAD_FILE_CATEGORY, fileName,
+					PROP_UPLOAD_FILE_ROOT_PATH);
 			FileUtils.write(fileObj.getContent().getInputStream(), destFileObj
 					.getContent().getOutputStream());
 			return ActionMessage.instance().success("月预测评分数据上传成功。")
