@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.row.ValueMetaInterface;
@@ -83,6 +84,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
     private static final String TEMPLATE_MONTH_PREDICT_EVALUATE_SETTING = "monthPredictEvaluateSetting.h";
     private static final String TEMPLATE_MONTH_PREDICT_PRECIPTATION_SETTING = "extendPredictPrecipitationSetting.h";
+
+    // Note1
+    private static final String PROP_NOTE1_FILE_ROOT_PATH = "custom.portal.note1.file.rootPath";
+    private static final String PROP_NOTE1_FILE_CATEGORY = "custom.portal.note1.file.category";
+    private static final String PROP_NOTE1_FILE_FILENAME = "custom.portal.note1.file.fileName";
+
+    // Note2
+    private static final String PROP_NOTE2_FILE_ROOT_PATH = "custom.portal.note2.file.rootPath";
+    private static final String PROP_NOTE2_FILE_CATEGORY = "custom.portal.note2.file.category";
+    private static final String PROP_NOTE2_FILE_FILENAME = "custom.portal.note2.file.fileName";
 
     // 月预测数据存储位置
     private static final String PROP_MONTH_PREDICT_FILE_ROOT_PATH = "custom.portal.monthPredict.file.rootPath";
@@ -1784,6 +1795,44 @@ public class ForecastServices extends AbstractRepositoryServices implements
         // TODO
         return ActionMessage.instance().success("延伸期预测评分数据上传成功。")
                 .toJSONString();
+    }
+
+    @Override
+    public String metroPortal(String targetId,
+                              HashMap<String, Object> context) throws BIJSONException {
+        // TODO
+        try {
+            // TODO 读取两个固定文件
+            JSONObject jo = new JSONObject();
+
+            BIFileSystemDelegate filesysService = ReflectionUtils
+                    .getBean("bi.service.filesystemService");
+
+            FileObject fileObj1 = filesysService.composeVfsObject(PropertyUtils
+                            .getProperty(PROP_NOTE1_FILE_CATEGORY),
+                    PropertyUtils.getProperty(PROP_NOTE1_FILE_FILENAME), PropertyUtils
+                            .getProperty(PROP_NOTE1_FILE_ROOT_PATH)
+            );
+            String fileText1 = Const.NVL(FileUtils.getString(fileObj1.getContent()
+                    .getInputStream()),"");
+
+            FileObject fileObj2 = filesysService.composeVfsObject(PropertyUtils
+                            .getProperty(PROP_NOTE2_FILE_CATEGORY),
+                    PropertyUtils.getProperty(PROP_NOTE2_FILE_FILENAME), PropertyUtils
+                            .getProperty(PROP_NOTE2_FILE_ROOT_PATH)
+            );
+            String fileText2 = Const.NVL(FileUtils.getString(fileObj2.getContent()
+                    .getInputStream()),"");
+
+            jo.put("note1", Const.replace(fileText1, Const.CR, "<br/>"));
+            jo.put("note2", Const.replace(fileText2, Const.CR, "<br/>"));
+
+            return jo.toJSONString();
+
+        } catch (Exception ex) {
+            return ActionMessage.instance().failure("获得Portal的Metro页面出现错误。")
+                    .toJSONString();
+        }
     }
 
     @Override

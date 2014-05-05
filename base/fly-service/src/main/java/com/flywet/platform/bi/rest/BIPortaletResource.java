@@ -95,6 +95,9 @@ public class BIPortaletResource {
 			PortalAction pa = portalDelegates.getPortalActionById(Long
 					.valueOf(id));
 
+            targetId = Const.NVL(targetId,"");
+            param = Const.NVL(param, "");
+
 			Map<String, Object> context = getDefaultContext(id, param);
 
 			return invokeMethod(pa.getBeanName(), pa.getMethod(), context,
@@ -513,10 +516,12 @@ public class BIPortaletResource {
 	/**
 	 * 获得文件
 	 * 
-	 * @param dataStr
-	 *            文件标识信息
-	 * @param request
-	 * @param response
+	 * @param workPath
+	 * @param rootPathProp
+	 * @param categoryProp
+     * @param request
+     * @param response
+     * @param body
 	 * @throws IOException
 	 */
 	@GET
@@ -669,7 +674,8 @@ public class BIPortaletResource {
 	 * 
 	 * @param beanName
 	 * @param method
-	 * @param param
+	 * @param context
+     * @param targetId
 	 * @return
 	 * @throws BIException
 	 */
@@ -715,6 +721,23 @@ public class BIPortaletResource {
 		return ActionMessage.instance().failure("打开Portal的文件上传出现错误。")
 				.toJSONString();
 	}
+
+    @GET
+    @Path("/metro")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPortalMetro() throws BIException {
+        try {
+            // TODO 读取两个固定文件
+            JSONObject jo = new JSONObject();
+            jo.put("note1", "每月10号做什么事情<br/>每月20号做什么事情");
+            jo.put("note2", "每月1号做什么事情<br/>每月2号做什么事情");
+
+            return jo.toJSONString();
+
+        } catch (Exception ex) {
+            throw new BIException("获得Portal的Metro页面出现错误。", ex);
+        }
+    }
 
 	@GET
 	@Path("/menus")

@@ -69,7 +69,9 @@
 			_setSizeForMetro(item, itemSize, itemOpt, options);
 		}else if(itemType == "cycle"){
 			_setSizeForCycle(item, itemSize, itemOpt, options);
-		}else{
+		}else if(itemType == "note"){
+            _setSizeForNote(item, itemSize, itemOpt, options);
+        }else{
 			_setSizeForCustom(item, itemSize, itemOpt, options);
 		}
 	}
@@ -87,13 +89,18 @@
 	function _setSizeForCycle(item, itemSize, itemOpt, options){
 		// TODO
 	}
+
+	function _setSizeForNote(item, itemSize, itemOpt, options){
+        // TODO
+        _setSizeForMetro(item, itemSize, itemOpt, options);
+    }
 	
 	function _setSizeForCustom(item, itemSize, itemOpt, options){
 		// TODO
 	}
 	
 	function _addMetroTypeMetro(options, itemOpt) {
-		var metro = $("<div class='ui-metro ui-metro-type-metro'></div>");
+		var metro = $("<div class='ui-metro ui-metro-type-"+itemOpt.itemType+"'></div>");
 		if (itemOpt.id && itemOpt.id != "") {
 			metro.attr("id", itemOpt.id);
         }
@@ -116,6 +123,11 @@
 			var metroImg = $("<div class='ui-metro-img'><img src='" + itemOpt.iconImg + "' /></div>");
 			metroImg.appendTo(metro);
 		}
+
+		if(itemOpt.itemData) {
+            var metroContent = $("<div class='ui-metro-content'>" + itemOpt.itemData + "</div>");
+            metroContent.appendTo(metro);
+        }
 		
 		if(itemOpt.text && itemOpt.text != ""){
 			var metroTextWrip = $("<div class='ui-metro-destaque-rodape'></div>");
@@ -132,15 +144,24 @@
 		
 		return metro;
 	}
-	
+
 	function _addMetroTypeCycle(options, itemOpt){
 		// TODO
 	}
+
+	function _addMetroTypeNote(options, itemOpt){
+	    // TODO
+	    var metro = _addMetroTypeMetro(options, itemOpt);
+
+        console.log(metro);
+
+        return metro;
+    }
 	
 	function _addMetroTypeCustom(options, itemOpt){
 		// TODO
 	}
-	
+
 	function _addMetro(target, itemOpt) {
 		var options = $.data(target, "metro").options;
 		
@@ -151,7 +172,9 @@
 			metro = _addMetroTypeMetro(options, itemOpt);
 		}else if(itemType == "cycle"){
 			metro = _addMetroTypeCycle(options, itemOpt);
-		}else{
+		}else if(itemType == "note"){
+            metro = _addMetroTypeNote(options, itemOpt);
+        }else{
 			metro = _addMetroTypeCustom(options, itemOpt);
 		}
 		
@@ -219,6 +242,8 @@
 		// cycle图片风格-cycle, 
 		// 自定义页面风格(如果多于一个页面自动循环)-custom
 		itemType : "metro",
+
+		itemData : null,
 		
 		rowspan : 1,
 		colspan : 1,

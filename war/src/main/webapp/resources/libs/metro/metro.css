@@ -78,6 +78,12 @@
 	position: absolute;
 }
 
+.ui-metro .ui-metro-content {
+    float: left;
+    text-align: left;
+    margin: 20px 30px 20px 30px;
+}
+
 .ui-metro span {
 	position: relative;
 	height: 20px;
