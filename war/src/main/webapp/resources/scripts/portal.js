@@ -496,7 +496,6 @@ Flywet.Portal = {
 				if(data){
                     // TODO
 
-                    console.log(data);
                     Flywet.cw("Metro", "portal_content_var", {
                         id : "fly_portal_content",
                         rowNum : 4,
