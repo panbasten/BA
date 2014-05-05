@@ -26,6 +26,14 @@ portal.anonymous.repository=
 
 
 #custom properties
+custom.portal.note1.file.rootPath=C:/_D/_flywet
+custom.portal.note1.file.category=local
+custom.portal.note1.file.fileName=note1.txt
+
+custom.portal.note2.file.rootPath=C:/_D/_flywet
+custom.portal.note2.file.category=local
+custom.portal.note2.file.fileName=note2.txt
+
 custom.portal.monthPredict.file.rootPath=C:/_D/_flywet/monthPredict
 custom.portal.monthPredict.file.category=local
 
