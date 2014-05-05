@@ -85,7 +85,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 	private static final String TEMPLATE_BUZ_NORMS = "buzNorms.h";
 	// private static final String TEMPLATE_BUZ_TIMED = "buzTimed.h";
-    private static final String TEMPLATE_DATA_SHOW = "dataShow.h";
+	private static final String TEMPLATE_DATA_SHOW = "dataShow.h";
 	private static final String TEMPLATE_DATA_UPDATE = "dataUpdate.h";
 	private static final String TEMPLATE_DATA_UPLOAD = "dataUpload.h";
 	private static final String TEMPLATE_EXTEND_PREDICT_DATA = "extendPredictData.h";
@@ -126,9 +126,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 	private static final String PROP_SST_FILE_CATEGORY = "custom.portal.sst.file.category";
 	private static final String PROP_SST_FILE_FILENAME = "custom.portal.sst.file.fileName";
 
-    // 数据展示
-    private static final String PROP_DATA_SHOW_FILE_ROOT_PATH = "custom.portal.dataShow.file.rootPath";
-    private static final String PROP_DATA_SHOW_FILE_CATEGORY = "custom.portal.dataShow.file.category";
+	// 数据展示
+	private static final String PROP_DATA_SHOW_FILE_ROOT_PATH = "custom.portal.dataShow.file.rootPath";
+	private static final String PROP_DATA_SHOW_FILE_CATEGORY = "custom.portal.dataShow.file.category";
 
 	// 数据上传
 	private static final String PROP_UPLOAD_FILE_ROOT_PATH = "custom.portal.upload.file.rootPath";
@@ -197,23 +197,41 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				.toJSONString();
 	}
 
+	/**
+	 * 获得月预测的目录列表
+	 * 
+	 * @return
+	 * @throws BIException
+	 * @throws FileSystemException
+	 */
+	private FileObject[] getMonthPredictDirs() throws BIException,
+			FileSystemException {
+		// 获得目录列表
+		FileObject root = getFileObject(PROP_MONTH_PREDICT_FILE_CATEGORY,
+				PropertyUtils.getProperty(PROP_MONTH_PREDICT_FILE_ROOT_PATH));
+		FileObject[] children = root.getChildren();
+
+		if (children == null || children.length < 1) {
+			return null;
+		}
+
+		// 目录倒序排序
+		Arrays.sort(children, new FileObjectDescComparator());
+
+		return children;
+	}
+
 	@Override
 	public String monthPredict(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
 		try {
-			// 获得目录列表
-			FileObject root = getFileObject(PROP_MONTH_PREDICT_FILE_CATEGORY,
-					PropertyUtils
-							.getProperty(PROP_MONTH_PREDICT_FILE_ROOT_PATH));
-			FileObject[] children = root.getChildren();
 
-			if (children == null || children.length < 1) {
+			FileObject[] children = getMonthPredictDirs();
+
+			if (children == null) {
 				return ActionMessage.instance().failure("预测产品-月预测无记录。")
 						.toJSONString();
 			}
-
-			// 目录倒序排序
-			Arrays.sort(children, new FileObjectDescComparator());
 
 			List<String[]> monthes = new ArrayList<String[]>();
 			for (FileObject fo : children) {
@@ -354,6 +372,8 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				node.addExtendAttribute("rootPath", rootPathProp);
 				node.addExtendAttribute("category", categoryProp);
 
+				node.addExtendAttribute("lastTime", getLastModifiedTime(child));
+
 				node.addEvent("dblclick", "Flywet.PortalAction.downloadFile");
 			}
 			browse.addContent(node);
@@ -362,6 +382,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		browse.addClass("fly-browsepanel");
 
 		return browse;
+	}
+
+	private String getLastModifiedTime(FileObject file)
+			throws FileSystemException {
+		if (file == null || file.getContent() == null) {
+			return "";
+		}
+		return DateUtils
+				.formatDate(new Date(file.getContent().getLastModifiedTime()),
+						DateUtils.GENERALIZED_DATE_TIME_FORMAT);
 	}
 
 	private FileObject getFileObject(String categoryProp, String workDir,
@@ -512,8 +542,24 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			HashMap<String, Object> context) throws BIJSONException {
 
 		try {
+
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			FileObject[] children = getMonthPredictDirs();
+
+			if (children == null) {
+				return ActionMessage.instance().failure("预测产品-月预测无记录。")
+						.toJSONString();
+			}
+
+			List<String[]> monthes = new ArrayList<String[]>();
+			for (FileObject fo : children) {
+				monthes.add(new String[] { fo.getName().getBaseName(),
+						getMonthName(fo.getName().getBaseName()) });
+			}
+
+			attrsMap.addVariable("monthes", monthes);
 
 			String currentMonth = DateUtils.formatDate(new Date(), "yyyyMM");
 
@@ -974,29 +1020,29 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		}
 	}
 
-    @Override
-    public String dataShow(String targetId, HashMap<String, Object> context)
-            throws BIJSONException {
-        try {
-            // 获得页面
-            FLYVariableResolver attrsMap = new FLYVariableResolver();
+	@Override
+	public String dataShow(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-            attrsMap.addVariable("files", getBrowse(
-                    PROP_DATA_SHOW_FILE_ROOT_PATH, PROP_DATA_SHOW_FILE_CATEGORY,
-                    ""));
+			attrsMap.addVariable("files", getBrowse(
+					PROP_DATA_SHOW_FILE_ROOT_PATH,
+					PROP_DATA_SHOW_FILE_CATEGORY, ""));
 
-            Object[] domString = PageTemplateInterpolator.interpolate(PKG,
-                    TEMPLATE_DATA_SHOW, attrsMap);
+			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+					TEMPLATE_DATA_SHOW, attrsMap);
 
-            // 设置响应
-            return AjaxResult.instanceDialogContent(targetId, domString)
-                    .toJSONString();
-        } catch (Exception e) {
-            log.error("打开数据展现界面出现问题。");
-        }
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开数据展现界面出现问题。");
+		}
 
-        return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
-    }
+		return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
+	}
 
 	@Override
 	public String dataUpload(String targetId, HashMap<String, Object> context)

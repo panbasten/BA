@@ -899,6 +899,11 @@ div.section {
 	color : #eee !important;
 }
 
+.fly_portal_menu_content .ui-browsepanel-item-lasttime {
+	color : #ccc !important;
+	font-size: 75%;
+}
+
 .fly_portal_menu_content a {
 	line-height: 27px;
 }

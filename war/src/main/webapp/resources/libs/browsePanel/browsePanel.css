@@ -28,6 +28,9 @@
 	background-repeat:no-repeat;
 	margin: 0 auto;
 }
+.ui-browsepanel-item-lasttime{
+    color: #666666;
+}
 .ui-browsepanel-node{
 	background-image: url("images/folder.png");
 }

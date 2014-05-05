@@ -73,7 +73,11 @@ Flywet.widget.BrowsePanel.prototype={
 			icon.addClass('ui-browsepanel_itemicon ui-browsepanel-'+(item.attrs.type?item.attrs.type:'leaf'));				
 			var span=$('<span></span>');
 			var p=$('<p></p>');
-			p.html(item.attrs.displayName);
+			var pHtml = item.attrs.displayName;
+			if(item.attrs.lastTime){
+				pHtml = pHtml + "<br/><font class='ui-browsepanel-item-lasttime'>" + item.attrs.lastTime + "</font>";
+			}
+			p.html(pHtml);
 			span.append(p);
 			itemDom.append(icon);
 			itemDom.append(span);
