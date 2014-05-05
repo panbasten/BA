@@ -56,6 +56,9 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	public String extendPredictUpdate(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
+    public String extendSettingUpdateSelect(String targetId,
+                                            HashMap<String, Object> context) throws BIJSONException;
+
 	/**
 	 * 预测产品-当月预测填报
 	 * 

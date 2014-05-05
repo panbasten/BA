@@ -1,5 +1,9 @@
 function predictSettingUpdate(){
-	Flywet.PortalAction.updateMenuDialog(105,21,'month_predict_files');
+	Flywet.PortalAction.updateMenuDialog(105,21,'month_predict_files',$('#mouth_predict_setting_select').val());
+}
+
+function extendSettingUpdata(){
+    Flywet.PortalAction.updateMenuDialog(101,38,'content,esu_title',$('#extend_setting_select').val());
 }
 
 function buzNormsUpdate(){
