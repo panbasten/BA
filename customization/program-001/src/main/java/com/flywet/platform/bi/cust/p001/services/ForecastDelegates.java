@@ -62,6 +62,15 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
     public String metroPortal(String targetId,
                               HashMap<String, Object> context) throws BIJSONException;
 
+    public String editNotes(String targetId,
+                            HashMap<String, Object> context) throws BIException;
+
+    public String editNotesSave(String targetId,
+                                ParameterContext context) throws BIException;
+
+    public String editNotesChange(String targetId,
+                                  HashMap<String, Object> context) throws BIException;
+
 	/**
 	 * 预测产品-当月预测填报
 	 * 

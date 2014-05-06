@@ -74,6 +74,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
     private static final String TEMPLATE_DATA_UPLOAD = "dataUpload.h";
     private static final String TEMPLATE_EXTEND_PREDICT_DATA = "extendPredictData.h";
     private static final String TEMPLATE_EXTEND_PREDICT_PRECIPITATION = "extendPredictPrecipitation.h";
+    private static final String TEMPLATE_EDIT_NOTES = "editNotes.h";
     private static final String TEMPLATE_LINKS = "links.h";
 
     private static final String TEMPLATE_MONTH_PREDICT_DATA = "monthPredictData.h";
@@ -811,6 +812,11 @@ public class ForecastServices extends AbstractRepositoryServices implements
         try {
             String content = context.getStringParameter("content", "");
             String title = context.getParameter("esu_title");
+            String otherTitle = context.getParameter("esu_other_title");
+
+            if (!Utils.isJSEmpty(otherTitle)) {
+                title = otherTitle;
+            }
 
             ForecastDBAdaptor prog = BIAdaptorFactory
                     .createCustomAdaptor(ForecastDBAdaptorImpl.class);
@@ -1759,6 +1765,139 @@ public class ForecastServices extends AbstractRepositoryServices implements
     }
 
     @Override
+    public String editNotes(String targetId,
+                            HashMap<String, Object> context) throws BIException {
+        try {
+            BIFileSystemDelegate filesysService = ReflectionUtils
+                    .getBean("bi.service.filesystemService");
+
+            // 获得页面
+            FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+            String category = PROP_NOTE1_FILE_CATEGORY;
+            String rootDir = PROP_NOTE1_FILE_ROOT_PATH;
+            String fileName = PROP_NOTE1_FILE_FILENAME;
+
+            FileObject fileObj = filesysService.composeVfsObject(PropertyUtils
+                            .getProperty(category),
+                    PropertyUtils.getProperty(fileName), PropertyUtils
+                            .getProperty(rootDir)
+            );
+            String fileText = FileUtils.getString(fileObj.getContent()
+                    .getInputStream());
+
+            attrsMap.addVariable("rootDir", rootDir);
+            attrsMap.addVariable("fileText", fileText);
+            attrsMap.addVariable("fileName", fileName);
+            attrsMap.addVariable("category", category);
+
+            Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+                    TEMPLATE_EDIT_NOTES, attrsMap);
+
+            // 设置响应
+            return AjaxResult.instanceDialogContent(targetId, domString)
+                    .toJSONString();
+        } catch (Exception e) {
+            log.error("打开记事板编辑页面出现问题。");
+        }
+
+        return ActionMessage.instance().failure("打开记事板编辑页面出现问题。")
+                .toJSONString();
+    }
+
+    @Override
+    public String editNotesChange(String targetId,
+                                  HashMap<String, Object> context) throws BIException {
+        try {
+            BIFileSystemDelegate filesysService = ReflectionUtils
+                    .getBean("bi.service.filesystemService");
+
+            String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
+
+            // 获得页面
+            FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+            String category, rootDir, fileName;
+
+            if ("note1".equals(currentMonth)) {
+                category = PROP_NOTE1_FILE_CATEGORY;
+                rootDir = PROP_NOTE1_FILE_ROOT_PATH;
+                fileName = PROP_NOTE1_FILE_FILENAME;
+            } else {
+                category = PROP_NOTE2_FILE_CATEGORY;
+                rootDir = PROP_NOTE2_FILE_ROOT_PATH;
+                fileName = PROP_NOTE2_FILE_FILENAME;
+            }
+
+            FileObject fileObj = filesysService.composeVfsObject(PropertyUtils
+                            .getProperty(category),
+                    PropertyUtils.getProperty(fileName), PropertyUtils
+                            .getProperty(rootDir)
+            );
+            String fileText = FileUtils.getString(fileObj.getContent()
+                    .getInputStream());
+
+            attrsMap.addVariable("rootDir", rootDir);
+            attrsMap.addVariable("fileText", fileText);
+            attrsMap.addVariable("fileName", fileName);
+            attrsMap.addVariable("category", category);
+
+            AjaxResult ar = AjaxResult.instance();
+
+            String[] targetIds = targetId.split(",");
+            for (String id : targetIds) {
+                Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+                        TEMPLATE_EDIT_NOTES, attrsMap, id);
+                AjaxResultEntity acc = AjaxResultEntity.instance()
+                        .setOperation(Utils.RESULT_OPERATION_UPDATE)
+                        .setTargetId(id).setDomAndScript(domString);
+                ar.addEntity(acc);
+            }
+
+            return ar.toJSONString();
+        } catch (Exception e) {
+            log.error("打开记事板编辑页面出现问题。");
+        }
+
+        return ActionMessage.instance().failure("打开记事板编辑页面出现问题。")
+                .toJSONString();
+    }
+
+    @Override
+    public String editNotesSave(String targetId,
+                                ParameterContext context) throws BIException {
+        ActionMessage am = new ActionMessage();
+        try {
+            BIFileSystemDelegate filesysService = ReflectionUtils
+                    .getBean("bi.service.filesystemService");
+
+            // 页面设置
+            String fs = context.getParameter("fs");
+
+            String rootDir = PropertyUtils.getProperty(context
+                    .getParameter("rootDir"));
+            String fileName = PropertyUtils.getProperty(context
+                    .getParameter("fileName"));
+            String category = PropertyUtils.getProperty(context
+                    .getParameter("category"));
+
+            // 保存
+            File fullFile = new File(fileName);
+            String destFileStr = FileUtils.dirAppend(null, fullFile.getName());
+            FileObject destFileObj = filesysService.composeVfsObject(category,
+                    destFileStr, rootDir);
+
+            FileUtils.write(FileUtils.getInputStream(fs), destFileObj.getContent().getOutputStream());
+
+            am.addMessage("保存文件成功。");
+        } catch (Exception e) {
+            log.error("保存文件出现错误。");
+            am.addErrorMessage("保存文件出现错误。");
+        }
+        return am.toJSONString();
+    }
+
+    @Override
     public String monthPredictDataUpload(String targetId,
                                          HashMap<String, Object> context) throws BIException {
         try {
@@ -1792,8 +1931,32 @@ public class ForecastServices extends AbstractRepositoryServices implements
     @Override
     public String extendPredictDataUpload(String targetId,
                                           HashMap<String, Object> context) throws BIJSONException {
-        // TODO
-        return ActionMessage.instance().success("延伸期预测评分数据上传成功。")
+
+        try {
+            BIFileSystemDelegate filesysService = ReflectionUtils
+                    .getBean("bi.service.filesystemService");
+
+            // 文件名称
+            String fileName = PropertyUtils
+                    .getProperty(PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_FILENAME);
+
+            FileObject fileObj = composeVfsObject(
+                    PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_CATEGORY, fileName,
+                    PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_ROOT_PATH);
+
+            // 上传文件
+            FileObject destFileObj = composeVfsObject(
+                    PROP_UPLOAD_FILE_CATEGORY, fileName,
+                    PROP_UPLOAD_FILE_ROOT_PATH);
+            FileUtils.write(fileObj.getContent().getInputStream(), destFileObj
+                    .getContent().getOutputStream());
+            return ActionMessage.instance().success("延伸期预测评分数据上传成功。")
+                    .toJSONString();
+        } catch (Exception e) {
+            log.error("延伸期预测评分数据上传出现问题。");
+        }
+
+        return ActionMessage.instance().failure("延伸期预测评分数据上传出现问题。")
                 .toJSONString();
     }
 
@@ -1814,7 +1977,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
                             .getProperty(PROP_NOTE1_FILE_ROOT_PATH)
             );
             String fileText1 = Const.NVL(FileUtils.getString(fileObj1.getContent()
-                    .getInputStream()),"");
+                    .getInputStream()), "");
 
             FileObject fileObj2 = filesysService.composeVfsObject(PropertyUtils
                             .getProperty(PROP_NOTE2_FILE_CATEGORY),
@@ -1822,7 +1985,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
                             .getProperty(PROP_NOTE2_FILE_ROOT_PATH)
             );
             String fileText2 = Const.NVL(FileUtils.getString(fileObj2.getContent()
-                    .getInputStream()),"");
+                    .getInputStream()), "");
 
             jo.put("note1", Const.replace(fileText1, Const.CR, "<br/>"));
             jo.put("note2", Const.replace(fileText2, Const.CR, "<br/>"));

@@ -3,7 +3,11 @@ function predictSettingUpdate(){
 }
 
 function extendSettingUpdata(){
-    Flywet.PortalAction.updateMenuDialog(101,38,'content,esu_title',$('#extend_setting_select').val());
+    Flywet.PortalAction.updateMenuDialog(101,38,'content',$('#esu_title').val());
+}
+
+function changeNote(val){
+    Flywet.PortalAction.updateMenuDialog(18,41,'fs,rootDir,fileName,category',val);
 }
 
 function buzNormsUpdate(){
