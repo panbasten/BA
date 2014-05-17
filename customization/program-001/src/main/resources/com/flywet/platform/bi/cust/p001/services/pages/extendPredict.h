@@ -2,7 +2,7 @@
 	<fly:gridLayout column="2" itemWidth="30%,65%" itemMargin="10" class="fly_portal_menu_content">
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0">
-				<h1 style="font-size:18px;">月份：</h1>
+				<h1 style="font-size:18px;">产品名称：</h1>
 				<fly:foreach items="${menus}" var="menu">
 					<a href="#" onclick="Flywet.PortalAction.updateMenuDialog('${menuId}',20,'extend_predict_context','${menu[0]}');">${menu[1]}</a><br/>
 				</fly:foreach>

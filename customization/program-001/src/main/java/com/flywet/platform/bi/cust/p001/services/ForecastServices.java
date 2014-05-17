@@ -1901,8 +1901,6 @@ public class ForecastServices extends AbstractRepositoryServices implements
     public String monthPredictDataUpload(String targetId,
                                          HashMap<String, Object> context) throws BIException {
         try {
-            BIFileSystemDelegate filesysService = ReflectionUtils
-                    .getBean("bi.service.filesystemService");
 
             // 文件名称
             String fileName = PropertyUtils
@@ -1921,6 +1919,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
             return ActionMessage.instance().success("月预测评分数据上传成功。")
                     .toJSONString();
         } catch (Exception e) {
+        	e.printStackTrace();
             log.error("月预测评分数据上传出现问题。");
         }
 
@@ -1933,8 +1932,6 @@ public class ForecastServices extends AbstractRepositoryServices implements
                                           HashMap<String, Object> context) throws BIJSONException {
 
         try {
-            BIFileSystemDelegate filesysService = ReflectionUtils
-                    .getBean("bi.service.filesystemService");
 
             // 文件名称
             String fileName = PropertyUtils
