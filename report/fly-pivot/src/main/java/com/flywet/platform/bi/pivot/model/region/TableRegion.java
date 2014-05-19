@@ -42,6 +42,14 @@ public class TableRegion implements IRegionObject {
 		return tr;
 	}
 
+	public static String persistent(TableRegion tr) {
+		// TODO
+		StringBuffer sb = new StringBuffer();
+		
+		
+		return sb.toString();
+	}
+
 	@Override
 	public void init(RequestContext context) throws BIException {
 		try {
@@ -69,8 +77,8 @@ public class TableRegion implements IRegionObject {
 			if (regionData != null) {
 				if (PivotData.REGION_DATA_NAME.equals(regionData.getTypeName())) {
 					JSONObject regionDataJo = regionData.renderJo(context);
-					regionDataJo.put(IRegionData.PROP_NAME_DATA, tc
-							.renderJo(context));
+					regionDataJo.put(IRegionData.PROP_NAME_DATA,
+							tc.renderJo(context));
 					jo.put(PROP_NAME_REGION_DATA, regionDataJo);
 				}
 				// TODO 其他类型渲染

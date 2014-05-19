@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -343,12 +343,11 @@ public class FileUtils {
 	 * @param hint
 	 *            渲染算法选择提示 {@code RenderingHints.KEY_INTERPOLATION} (e.g.
 	 *            {@code RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR},
-	 *            {@code RenderingHints.VALUE_INTERPOLATION_BILINEAR}, {@code
-	 *            RenderingHints.VALUE_INTERPOLATION_BICUBIC})
+	 *            {@code RenderingHints.VALUE_INTERPOLATION_BILINEAR},
+	 *            {@code RenderingHints.VALUE_INTERPOLATION_BICUBIC})
 	 * @param higherQuality
-	 *            如果为true，该方法将使用多步缩放机制，进而提供高质量的图片 (仅用于缩小的情况下，及{@code
-	 *            targetWidth} 或者{@code targetHeight}小于原始尺寸，并且通常用于{@code
-	 *            BILINEAR}提示)
+	 *            如果为true，该方法将使用多步缩放机制，进而提供高质量的图片 (仅用于缩小的情况下，及{@code targetWidth}
+	 *            或者{@code targetHeight}小于原始尺寸，并且通常用于{@code BILINEAR}提示)
 	 * @return 原始图的缩放版本 {@code BufferedImage}
 	 */
 	public static BufferedImage getScaledInstance(BufferedImage img,
@@ -512,6 +511,16 @@ public class FileUtils {
 			fileName = "/" + fileName;
 		}
 		return "/" + packageClass.replace('.', '/') + fileName;
+	}
+
+	public static void close(Closeable c) {
+		if (c != null) {
+			try {
+				c.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

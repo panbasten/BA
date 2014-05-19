@@ -31,4 +31,15 @@ public class PivotRegionFactory {
 
 		return null;
 	}
+
+	public static String persistent(IRegionObject ro) {
+		if (ro instanceof TableRegion) {
+			return TableRegion.persistent((TableRegion) ro);
+		}
+
+		// TODO
+
+		return null;
+	}
+
 }

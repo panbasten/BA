@@ -136,6 +136,9 @@ public class PivotData implements IRegionData {
 		pd.mdx = pd.oraMdx;
 
 		pd.catalog = Const.trim(XMLHandler.getTagValue(node, "catalog"));
+		
+		// 缓存在xml中的数据 data TODO
+		
 
 		return pd;
 	}
