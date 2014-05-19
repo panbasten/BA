@@ -242,7 +242,9 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.pagination.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.datagrid.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/treegrid/jquery.treegrid.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/spreadsheet/jquery.spreadsheet.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/fusioncharts/FusionCharts.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/fusioncharts/jquery.fusioncharts.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/spreadsheet/fly.spreadsheet.js</include>
 									</includes>
 								</aggregation>
 								<aggregation>

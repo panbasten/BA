@@ -182,6 +182,15 @@
 	z-index: 100;
 }
 
+.ui-spreadsheet-state-hideGrid .ui-spreadsheet-gridColSep{
+	background-color: #fff;
+    border-left: 1px solid #fff;
+}
+
+.ui-spreadsheet-state-hideGrid .ui-spreadsheet-gridRow {
+	border-top: 1px solid #fff;
+}
+
 .ui-spreadsheet-gridSelectAll {
 	position: relative;
 	float: left;
@@ -329,7 +338,7 @@
 	overflow: hidden;
 	white-space: nowrap;/*默认值*/
 	text-align: right;/*默认值*/
-	background-color: #fff;
+	background-color: transparent;
 	height: 100%;
 	font-family: 'Microsoft Yahei UI','Microsoft Yahei','微软雅黑','宋体',SimSun,sans-serif;/*默认值*/
 	font-size: 10pt;/*默认值*/
@@ -439,7 +448,8 @@
 	white-space: nowrap;
 }
 
-.ui-spreadsheet-rangeBackground {
+.ui-spreadsheet-rangeBackground,
+.ui-spreadsheet-flowRegion {
 	position: absolute;
 	width: 1px;
 	height: 1px;

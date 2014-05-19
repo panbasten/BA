@@ -29,7 +29,7 @@ public class PivotData implements IRegionData {
 	public static final String SCHEMA_PROCESSOR_CLASS_STRING = BIOlapSchemaProcessor.class
 			.getName();
 
-	public static final String REGION_DATA_NAME = "PivotData";
+	public static final String REGION_DATA_NAME = "Pivot";
 
 	// 初始的mdx
 	private String oraMdx;

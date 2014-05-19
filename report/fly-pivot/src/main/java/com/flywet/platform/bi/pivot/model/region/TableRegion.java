@@ -21,7 +21,7 @@ import com.tonbeller.wcf.controller.RequestContext;
  */
 public class TableRegion implements IRegionObject {
 
-	public static final String REGION_OBJECT_NAME = "TableRegion";
+	public static final String REGION_OBJECT_NAME = "Table";
 
 	private IRegionData regionData;
 

@@ -142,6 +142,10 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
 		<script type="text/javascript"
+			src="<%=path%>/resources/libs/fusioncharts/FusionCharts.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/fusioncharts/fly.fusioncharts.js"></script>
+		<script type="text/javascript"
 			src="<%=path%>/resources/libs/spreadsheet/jquery.spreadsheet.js"></script>
 		<!-- replace end -->
 		

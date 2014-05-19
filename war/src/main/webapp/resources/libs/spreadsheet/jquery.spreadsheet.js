@@ -52,14 +52,14 @@
 		}
 		if(mc){
 			return {
-				w: _getColsWidth(sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1)),
-				h: _getRowsHeight(sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1)),
+				w: _getColsWidth(sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1))-1,
+				h: _getRowsHeight(sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1))-1,
 				cidx: mc.cidx,
 				ridx: mc.ridx
 			};
 		}else{
 			return {
-				w: _getColWidth(sheetOpts,cidx),
+				w: _getColWidth(sheetOpts,cidx)-1,
 				h: _getRowHeight(sheetOpts,ridx),
 				cidx: cidx,
 				ridx: ridx
@@ -443,6 +443,11 @@
 		
 		var paneOC = _div("ui-spreadsheet-paneOC").appendTo(parent);
 		var paneIC = _div("ui-spreadsheet-paneIC").appendTo(paneOC);
+		
+		// show grid
+		if(!sheetOpts.showGrid){
+			paneOC.addClass("ui-spreadsheet-state-hideGrid");
+		}
 		
 		// 分隔线
 		var col,width,left = 0;
@@ -966,7 +971,7 @@
 			ac.css({
 				left: scss_o.left+"px"
 				,top: (scss_o.top+1)+"px"
-				,width: (acSize.w-5)+"px"
+				,width: (acSize.w-4)+"px"
 				,height: (acSize.h-6)+"px"
 			}).show();
 			
@@ -1184,13 +1189,41 @@
 	function _setRegionData(target,sheet,opts,sheetOpts,regionData){
 		var region = regionData;
 		if(region.regionObject && region.regionObject.type){
-			// 表格区域
-			if(region.regionObject.type == "TableRegion"){
-				_setRegionTableRegion(target,sheet,opts,sheetOpts,region);
-			}
+			eval("_setRegion"+region.regionObject.type+"Region(target,sheet,opts,sheetOpts,region);");
 		}
 		
 		return region;
+	}
+	
+	/****************
+	 * 统计图区域
+	 ****************/
+	function _setRegionChartRegion(target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData,
+			sp = region.startPosition,
+			ep = region.endPosition;
+		
+		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx),
+			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx),
+			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)),
+			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1));
+		
+		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
+		var chartDiv = $("<div class='ui-spreadsheet-flowRegion'></div>").appendTo(paneIC);
+		chartDiv.attr("id",region.name+"_chartdiv");
+		chartDiv.css({
+			top : top+"px",
+			left: left+"px"
+		});
+		
+		Flywet.cw("FusionCharts",null,{
+        	id : region.name+"_chartdiv",
+        	width : colW,
+        	height : rowH,
+        	type : regionData.type,
+        	data : regionData.data
+        });
 	}
 	
 	
@@ -1202,13 +1235,47 @@
 			regionData = regionObject.regionData;
 		
 		if(regionData && regionData.type){
-			if(regionData.type == "PivotData"){
-				_setRegionDataPivotData(target,sheet,opts,sheetOpts,region);
-			}
+			eval("_setRegionData"+regionData.type+"Data(target,sheet,opts,sheetOpts,region);");
 		}
 	}
 	
-	// 透视表类型数据解析
+	/*************
+	 *	表格区域--通用类型数据解析
+	 *************/
+	function _setRegionDataNormalData(target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData.data,
+			sp = region.startPosition,
+			cidx = 0, ridx = 0;
+		
+		if(sp){
+			cidx = sp.cidx;
+			ridx = sp.ridx;
+		}
+		
+		var r,cellOpts,cellObj,cn;
+		if(regionData && regionData.row){
+			// 行记录
+			for(var i=0;i<regionData.row.length;i++,ridx++){
+				r = regionData.row[i];
+				cn = 0;
+				for(var j=0;j<r.length;j++){
+					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
+					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+					
+					var val = cellOpts.caption.caption;
+					_setRegionCellData(sheetOpts,sheet,cellObj,cellOpts,val);
+					
+					cn = cn + parseInt(cellOpts.colspan||1);
+				}
+			}
+		}
+		
+	}
+	
+	/*************
+	 *	表格区域--透视表类型数据解析
+	 *************/
 	function _setRegionDataPivotData(target,sheet,opts,sheetOpts,region){
 		var regionObject = region.regionObject,
 			regionData = regionObject.regionData.data,
@@ -1271,7 +1338,7 @@
 				,"right-style" : "thin"
 			};
 			cellOpts.style = "ss-corner";
-			_setRegionCellData(cellOpts,cell,"");
+			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,"");
 		}
 		// heading-heading
 		function headingHeading(cellOpts,cell){
@@ -1285,7 +1352,7 @@
 			cellOpts.indent = 0.5;
 			cellOpts.fontWeight = "bolder"
 			var val = cellOpts.caption.caption;
-			_setRegionCellData(cellOpts,cell,val);
+			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 		}
 		// column-heading
 		function columnHeading(cellOpts,cell){
@@ -1298,7 +1365,7 @@
 			cellOpts.style = "ss-column-heading-"+cellOpts.style;
 			cellOpts.fontWeight = "bolder"
 			var val = cellOpts.caption.caption;
-			_setRegionCellData(cellOpts,cell,val);
+			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 		}
 		// row-heading
 		function rowHeading(cellOpts,cell){
@@ -1317,7 +1384,7 @@
 					+ opts.btn_src + cellOpts.drillExpand.img
 					+ ".png'/>"+val;
 			}
-			_setRegionCellData(cellOpts,cell,val);
+			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 			
 			// 事件
 			if(cellOpts.drillExpand){
@@ -1340,32 +1407,33 @@
 			cellOpts.style = "ss-cell-"+cellOpts.style;
 			cellOpts.align = "right";
 			var val = cellOpts.value;
-			_setRegionCellData(cellOpts,cell,val);
+			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 		}
 		
-		// 设置单元格数据和样式
-		function _setRegionCellData(style,cell,val){
-			cell.data("style",style);
-			
-			if(style.style){
-				cell.addClass(style.style);
-			}
-			
-			// 合并单元格，包括边框
-			_mergeCell(sheetOpts,sheet,cell,style);
-			
-			// 设置单元格的内容
-			_setCellValue(sheetOpts,sheet,cell,val);
-			
-			// 设置字体
-			_setCellFont(sheetOpts,sheet,cell,style);
-			
-			// 设置对齐方式
-			_setCellAlign(sheetOpts,sheet,cell,style);
-		}
 	}
 	
-	// 设置单元格的内容
+	// 单元格格式操作：设置单元格数据和样式
+	function _setRegionCellData(sheetOpts,sheet,cell,style,val){
+		cell.data("style",style);
+		
+		if(style.style){
+			cell.addClass(style.style);
+		}
+		
+		// 合并单元格，包括边框
+		_mergeCell(sheetOpts,sheet,cell,style);
+		
+		// 设置单元格的内容
+		_setCellValue(sheetOpts,sheet,cell,val);
+		
+		// 设置字体
+		_setCellFont(sheetOpts,sheet,cell,style);
+		
+		// 设置对齐方式
+		_setCellAlign(sheetOpts,sheet,cell,style);
+	}
+	
+	// 单元格格式操作：设置单元格的内容
 	function _setCellValue(sheetOpts,sheet,cell,val){
 		var v = cell.find(".ui-spreadsheet-gridCell-val");
 		if(v && v.length > 0){
@@ -1381,7 +1449,7 @@
 		
 	}
 	
-	// 设置字体
+	// 单元格格式操作：设置字体
 	function _setCellFont(sheetOpts,sheet,cell,style){
 		var v = cell.find(".ui-spreadsheet-gridCell-val");
 		if(style.fontFamily){
@@ -1401,7 +1469,7 @@
 		}
 	}
 	
-	// 设置对齐方式
+	// 单元格格式操作：设置对齐方式
 	function _setCellAlign(sheetOpts,sheet,cell,style){
 		var v = cell.find(".ui-spreadsheet-gridCell-val"),
 			valign = cell.find(".ui-spreadsheet-gridCell-valign");
@@ -1443,7 +1511,7 @@
 		}
 	}
 	
-	// 设置单元格的边框
+	// 单元格格式操作：设置单元格的边框
 	function _setCellBorder(sheetOpts,sheet,cell,style){
 			
 		var sp = cell.data("position"),
@@ -1548,11 +1616,12 @@
 		}
 		
 		var cSize = _getCellSize(sheetOpts,sp.cidx,sp.ridx);
+		
 		cell.css({
 			left: left+"px"
 			,top: top+"px"
-			,width: (cSize.w-1) +"px"
-			,height: (cSize.h-1)+"px"
+			,width: cSize.w+"px"
+			,height: cSize.h+"px"
 		});
 		
 		function checkProxyRight(){
@@ -2281,6 +2350,9 @@
 		// 是否显示表头
 		,showColHead: true
 		,showRowHead: true
+		
+		// 显示网格线
+		,showGrid : true
 		
 		// 实际显示单元格数
 		,rowNum: 0
