@@ -136,8 +136,9 @@ public class PivotData implements IRegionData {
 		pd.mdx = pd.oraMdx;
 
 		pd.catalog = Const.trim(XMLHandler.getTagValue(node, "catalog"));
-		
+
 		// 缓存在xml中的数据 data TODO
+		Node dataNode = XMLHandler.getSubNode(node, "data");
 		
 
 		return pd;
@@ -199,8 +200,7 @@ public class PivotData implements IRegionData {
 			JSONObject jo = new JSONObject();
 			jo.put(REGION_DATA_TYPE, getTypeName());
 			// TODO 维度等
-			
-			
+
 			return jo;
 		} catch (Exception e) {
 			throw new BIPivotException("渲染透视报表区域数据出现错误.", e);
