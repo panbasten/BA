@@ -211,7 +211,7 @@
 		
 		<div class="fly-container" >
 			<div id="editorContent" class="ui-editorContent" style="top:12px;">
-				<ul class="fly-tabs">
+				<ul class="fly-tabs navbar navbar-inverse">
 					<li id="navisTab"><a href="#navis" class="ui-tab-homepage" style="margin:0;padding:0;"></a><div class="ui-tab-homepage-text"></div></li>
 				</ul>
 				<div id="editorContentPanels" class="fly-panels fly-editorContent-panels">

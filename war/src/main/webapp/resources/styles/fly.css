@@ -1,7 +1,9 @@
 /* Styles for tabs */
-.fly-container { background: #535353; padding: 10px; height: 75px; margin-bottom: 15px; }
-.fly-container .fly-panels { margin:0;background: #535353; }
-.fly-container .fly-tabs{margin:0 0 ;padding:0;list-style:none;zoom:1;height:40px;background: url("../images/default/banner-bg.png") repeat-x scroll 0 0 transparent;}
+.fly-container { padding: 10px; height: 75px; margin-bottom: 15px; }
+.fly-container .fly-panels { margin:0; }
+.fly-container .fly-tabs{margin:0 0 ;padding:0;list-style:none;zoom:1;height:40px;min-height:40px;}
+.fly-container .navbar {min-height:40px;border-radius:0;}
+.fly-container .navbar-inverse {border: medium none;}
 .fly-container .fly-tabs:before,.fly-container .fly-tabs:after{display:table;content:"";zoom:1;}
 .fly-container .fly-tabs:after{clear:both;}
 .fly-container .fly-tabs li{margin-left:-20px;float:left;position:relative;margin-bottom:-1px;}
@@ -11,7 +13,7 @@
 .fly-container .fly-tabs li a.ui-tab-state-active:hover{}
 
 /* Styles for steps bar tabs */
-.fly-flow-step-bar { float:left;position:relative;overflow:hidden;background: #535353;}
+.fly-flow-step-bar { float:left;position:relative;overflow:hidden;}
 .fly-flow-step-bar ul.ui-tabs { height: 2700px; position: relative; }
 .fly-flow-step-bar ul.ui-tabs li { width:40px; height: 40px; background:url("../images/default/tabbg.normal.png") no-repeat;background-position: center;border-bottom: 1px solid #8E8E8E; }
 .fly-flow-step-bar ul.ui-tabs li:HOVER{background:url("../images/default/tabbg.hover.png") no-repeat; }
@@ -41,10 +43,9 @@
 }
 
 .fly-flow-log {
-	background: #535353;
 }
 
-.fly-flow-content { width: 400px; float: left; background: #535353; }
+.fly-flow-content { width: 400px; float: left; }
 .fly-flow-content div.ui-widget-header { 
 	padding: 2px 5px 3px 5px; 
 	color: #808080; 
@@ -85,10 +86,16 @@
 .fly-flow-signal-bar div.ui-widget-content { 
 	border: 1px solid #A8A8A8;
 	border-top: 0px none;
-	background: #535353;
 }
 
 #datasource .ui-easytree-con { width: 100%; }
+
+
+
+#idBody {
+	background: none repeat scroll 0 0 #fff;
+}
+
 
 /* 启动加载 */
 #startingCover {
@@ -114,7 +121,7 @@
     color: #fff;
     cursor: default;
     font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
-    font-size: 12px;
+    font-size: 1em;
     height: 50px;
     left: 50%;
     margin: 10px 0 0 -77px;
@@ -127,7 +134,7 @@
     background: none repeat scroll 0 0 #666666;
     border: 1px solid #999999;
     font-size: 0;
-    height: 2px;
+    height: 3px;
     left: 50%;
     margin: 50px 0 0 -50px;
     overflow: hidden;
@@ -167,7 +174,6 @@
 /*banner bg*/
 .ui-layout-north{
 	height:40px;
-	background-image: url("../images/default/banner-bg.png");
 }
 .ui-tab-homepage{
 	width:48px;
@@ -246,8 +252,7 @@
 
 /*首页纵向选项卡*/
 .ui-tab-side-container ul.ui-tabs li.ui-tab-state-active{
-	border-top: medium none;
-	background: #535353;
+	border: medium none;
 }
 
 #navisTab {
@@ -258,13 +263,12 @@
 	position: relative;
 	height: 2700px;
 	width: 70px;
-	background: url("../images/default/home.left.bg.png") 0 0 repeat-y;
+	background: #535353 url("../images/default/home.left.bg.png") 0 0 repeat-y;
 }
 #navigator-ul li{
 	width:70px;
 	height:70px;
 	background: #E4E4E4 url("../images/default/tabbg.normal.png") 0 0 no-repeat;
-	border-bottom:1px solid #A8A8A8;
 }
 #navigator-ul li:hover {
 	background: #E4E4E4 url("../images/default/tabbg.hover.png") 0 0 no-repeat;
@@ -273,7 +277,7 @@
 	background-color: transparent;
 }
 #navigator-ul li.ui-tab-state-active{
-	background:url("../images/default/tabbg.active.png") no-repeat scroll 0 0 #535353;
+	background: #535353 url("../images/default/tabbg.active.png") no-repeat scroll 0 0;
 }
 
 #navigator-ul li a{
@@ -282,10 +286,6 @@
  	color:#fff;
 }
 
-.ui-editorContent{
-	/*background-image: url("../images/default/content-bg.png");*/
-	background: #535353;
-}
 .fly-content-panels{
 	position: relative;
 	background: transparent;
@@ -294,8 +294,7 @@
 
 /*底部状态栏*/
 .fly-south{
-	background:url("../images/default/tabmiddle.png") repeat-x;	
-	border:0 1px 1px 1px solid #A8A8A8;
+	background: #535353 url("../images/default/tabmiddle.png") repeat-x;	
 	line-height: 30px;
 	color:#ffffff;
 }
@@ -745,8 +744,7 @@ div.ui-fs-local-sftp-icon {
 /* 编辑器的边工具箱 */
 .fly-editor-side-bar { 
 	overflow: hidden; 
-	float: left; 
-	background: #535353;
+	float: left;
 }
 .fly-editor-side-bar * { color:#fff; }
 .fly-editor-side-bar div.ui-widget-panel {overflow: hidden;}

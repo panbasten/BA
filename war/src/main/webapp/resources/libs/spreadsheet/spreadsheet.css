@@ -457,9 +457,16 @@
 	left: -100px;
 	display: block;
 	overflow: hidden;
-	z-index: 35;
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
+}
+
+.ui-spreadsheet-rangeBackground {
+	z-index: 35;
+}
+
+.ui-spreadsheet-flowRegion {
+	z-index: 40;
 }
 
 .ui-spreadsheet-rangeMask {
