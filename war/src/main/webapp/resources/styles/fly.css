@@ -8,7 +8,14 @@
 .fly-container .fly-tabs:after{clear:both;}
 .fly-container .fly-tabs li{margin-left:-20px;float:left;position:relative;margin-bottom:-1px;}
 .fly-container .fly-tabs li a{text-decoration:none;display:block;margin-right:2px;line-height:22px;-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;color: #FFFFFF;}
-.fly-container .fly-tabs li a:hover { }
+.fly-container .fly-tabs li a:hover {
+  outline: 0;
+  -webkit-box-shadow: inset -10px -5px 5px rgba(0,0,0,.075), -5px 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset -10px -5px 5px rgba(0,0,0,.075), -5px 0 8px rgba(102, 175, 233, .6);
+}
+.fly-container .fly-tabs li a:focus {
+	outline: 0;
+}
 .fly-container .fly-tabs li a.ui-tab-state-active{font-weight: bold;}
 .fly-container .fly-tabs li a.ui-tab-state-active:hover{}
 
@@ -93,7 +100,7 @@
 
 
 #idBody {
-	background: none repeat scroll 0 0 #fff;
+	background: none repeat scroll 0 0 #e8e8e8;
 }
 
 
@@ -268,22 +275,26 @@
 #navigator-ul li{
 	width:70px;
 	height:70px;
-	background: #E4E4E4 url("../images/default/tabbg.normal.png") 0 0 no-repeat;
+	background: #e8e8e8 url("../images/default/tabbg.normal.png") 0 0 no-repeat;
 }
 #navigator-ul li:hover {
-	background: #E4E4E4 url("../images/default/tabbg.hover.png") 0 0 no-repeat;
+	background: #e8e8e8 url("../images/default/tabbg.hover.png") 0 0 no-repeat;
 }
 #navigator-ul li a:hover {
 	background-color: transparent;
 }
 #navigator-ul li.ui-tab-state-active{
-	background: #535353 url("../images/default/tabbg.active.png") no-repeat scroll 0 0;
+	background: #e8e8e8 url("../images/default/tabbg.active.png") no-repeat scroll 0 0;
 }
 
 #navigator-ul li a{
  	padding:0;
  	margin:0;
  	color:#fff;
+}
+
+#navigator-ul li.ui-tab-state-active a {
+	color:#428bca;
 }
 
 .fly-content-panels{
@@ -296,7 +307,7 @@
 .fly-south{
 	background: #535353 url("../images/default/tabmiddle.png") repeat-x;	
 	line-height: 30px;
-	color:#ffffff;
+	color:#fff;
 }
 .fly-exit{
 	width:19px;
@@ -343,6 +354,9 @@ a.ui-tab-state-active .ui-navi-icon-db{
 a.ui-tab-state-active .ui-navi-icon-smart{
 	background-image: url("../images/desktop/navi_smart_active.png");
 }
+a.ui-tab-state-active .ui-navi-icon-report{
+	background-image: url("../images/desktop/navi_report_active.png");
+}
 a.ui-tab-state-active .ui-navi-icon-fs{
 	background-image: url("../images/desktop/navi_filesys_active.png");
 }
@@ -367,7 +381,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	color:#2e83ff;
 }
 .ui-browsepanel-con div span p{
-	color:#fff;
+	color:#333;
 }
 .ui-browsepanel-con div.ui-state-hover span p,
 .ui-browsepanel-con div.ui-state-active span p{
@@ -376,6 +390,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 
 .fly-flow-step-bar .ui-browsepanel-itemcon span p {
 	font-size: 90%;
+	font-size: 1em;
 }
 
 .fly-container .fly-tabs li a span{
@@ -421,12 +436,12 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 .fly-editor-systools .func-line-odd{
 	height:auto;
 	min-height: 100px;
-	background: #3F3F3F;
+	background: #f9f9f9;
 }
 .fly-editor-systools .func-line-even{
 	height:auto;
 	min-height: 100px;
-	background: #343434;
+	background: #e8e8e8;
 }
 .fly-editor-systools .split-line-odd{
 	width: 100%;
@@ -481,7 +496,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 }
 .fly-editor-systools .func-title-con .func-item-text,
 .fly-editor-systools .func-item-con .func-item-text{
-	color: #ffffff;
+	color: #333;
 }
 .fly-editor-tab .ui-breadcrumb .ui-toolbar-group-left *{
 	font-weight: bold;
@@ -525,15 +540,16 @@ div.ui-fs-local-sftp-icon {
 }
 .fly-browsepanel .ui-browsepanel-itemcon {
 	border: medium none;
-	height: 76px;
+	height: 100px;
 }
 
 #navis .ui-browsepanel-con .ui-state-hover {
-	background: url("../images/desktop/ui.panel.hover.png") no-repeat;
+	background: #eee;
 }
 
 #navis .ui-browsepanel-con .ui-state-active {
-	background: url("../images/desktop/ui.panel.active.png") no-repeat;
+	background: #eee;
+	border: 1px solid #999;
 }
 
 .fly-browsepanel .ui-browsepanel-itemcon span p {
