@@ -180,7 +180,7 @@
 	overflow:hidden;
 }
 .ui-datagrid-header-check input,.ui-datagrid-cell-check input{
-	margin:0;
+	margin: 5px 0 0;;
 	padding:0;
 	width:15px;
 }

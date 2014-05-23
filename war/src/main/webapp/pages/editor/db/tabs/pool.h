@@ -14,7 +14,7 @@
 	
 	<fly:verticalLayout margin="10">
 		<fly:fieldSet title="连接池大小" id="${formId}:poolSize" disabled="${!dbMeta.usingConnectionPool}">
-			<fly:gridLayout column="4" itemWidth="15%,35%,15%,35%" itemMargin="10">
+			<fly:gridLayout column="4" itemWidth="20%,29%,20%,29%" itemMargin="10">
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:initialPoolSize" text="初始化大小" disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>

@@ -1,7 +1,7 @@
 <fly:composition freeLayout="N">
 	<fly:verticalLayout margin="10">
 		<fly:fieldSet title="标识符">
-			<fly:gridLayout column="4" itemWidth="35%,15%,35%,15%" itemMargin="10">
+			<fly:gridLayout column="4" itemWidth="34%,15%,34%,15%" itemMargin="10">
 				<fly:gridLayoutItem>
 					<fly:labelObject buddy="${formId}:SUPPORTS_BOOLEAN_DATA_TYPE" text="支持布尔数据类型" />
 				</fly:gridLayoutItem>

@@ -19,9 +19,6 @@
 			type="text/css" />
 		<!-- replace end -->
 		
-		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
-			type="text/css" />
-		
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
 			type="text/css" />
@@ -67,6 +64,9 @@
 		<link href="<%=path%>/resources/libs/spreadsheet/spreadsheet.css" rel="stylesheet"
 			type="text/css" />
 		<!-- replace end -->
+		
+		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
+			type="text/css" />
 		
 		<!-- replace href="<%=path%>/resources/styles/fly.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/fly.css" rel="stylesheet"

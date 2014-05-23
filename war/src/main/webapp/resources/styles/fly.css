@@ -23,9 +23,10 @@
 .fly-flow-step-bar { float:left;position:relative;overflow:hidden;}
 .fly-flow-step-bar ul.ui-tabs { height: 2700px; position: relative; }
 .fly-flow-step-bar ul.ui-tabs li { width:40px; height: 40px; background:url("../images/default/tabbg.normal.png") no-repeat;background-position: center;border-bottom: 1px solid #8E8E8E; }
-.fly-flow-step-bar ul.ui-tabs li:HOVER{background:url("../images/default/tabbg.hover.png") no-repeat; }
-.fly-flow-step-bar ul.ui-tabs li a { padding: 10px 0; color:#ffffff;}
-.fly-flow-step-bar ul.ui-tabs li a.ui-tab-state-active{ }
+.fly-flow-step-bar ul.ui-tabs li:hover {background:url("../images/default/tabbg.hover.png") no-repeat; }
+.fly-flow-step-bar ul.ui-tabs li.ui-tab-state-active:hover { background: #fff; }
+.fly-flow-step-bar ul.ui-tabs li a { padding: 10px 0; color:#fff;}
+.fly-flow-step-bar ul.ui-tabs li a.ui-tab-state-active{ color:#428bca; }
 .fly-flow-step-bar div.ui-tab-panel-container { margin: 0;padding: 0;background: transparent;}
 
 
@@ -35,14 +36,14 @@
 	margin: 0;
 	padding: 5px 5px 15px;
 	border: medium none;
-	width: 60px;
-	height: 50px;
+	width: 70px;
+	height: 75px;
 }
 
 .fly-flow-step-bar div.ui-browsepanel_itemicon {
-	height: 37px;
-    width: 40px;
-    margin-left: 14px;
+	height: 32px;
+    width: 32px;
+    margin: 10px 14px 0;
 }
 
 .fly-flow-step-bar div.ui-browsepanel-con {
@@ -52,52 +53,8 @@
 .fly-flow-log {
 }
 
-.fly-flow-content { width: 400px; float: left; }
-.fly-flow-content div.ui-widget-header { 
-	padding: 2px 5px 3px 5px; 
-	color: #808080; 
-	border: 1px solid #A8A8A8;
-	border-bottom: 0px none;
-}
-.fly-flow-content div.ui-state-highlight { 
-	border: none; 
-	text-shadow: 0 0 0;
-}
-
-.fly-flow-log-bar {
-	background-color: #696969;
-}
-
-.fly-flow-log-bar * {
-	color:#fff;
-}
-
-.fly-flow-log-bar .ui-tab-container ul.ui-tabs li.ui-tab-state-active {
-	background-color: #696969;
-}
-
-.fly-flow-log-bar .ui-tab-container ul.ui-tabs li a:hover,
-.fly-flow-log-bar .ui-tab-container .ui-tab-panel-container {
-	background: none repeat scroll 0 0 transparent;
-}
-
-
-.fly-flow-signal-bar { overflow: hidden; }
-.fly-flow-signal-bar * { color:#fff; }
-.fly-flow-signal-bar div.ui-widget-header { 
-	margin: 0;
-	font-weight:normal;
-	border: 1px solid #A8A8A8;
-	border-bottom: 0px none;
-}
-.fly-flow-signal-bar div.ui-widget-content { 
-	border: 1px solid #A8A8A8;
-	border-top: 0px none;
-}
 
 #datasource .ui-easytree-con { width: 100%; }
-
-
 
 #idBody {
 	background: none repeat scroll 0 0 #e8e8e8;
@@ -389,8 +346,8 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 }
 
 .fly-flow-step-bar .ui-browsepanel-itemcon span p {
-	font-size: 90%;
-	font-size: 1em;
+	font-size: 80%;
+	font-size: 0.8em;
 }
 
 .fly-container .fly-tabs li a span{
@@ -402,8 +359,8 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	text-shadow: 0 0 0;
 }
 .ui-tab-side-container ul.ui-tabs{
-	background: url("../images/default/funbarbg.png") repeat-y;
-	border-right: 1px solid #8E8E8E;
+	background: #e8e8e8 url("../images/default/funbarbg.png") repeat-y;
+	border-right: medium none;
 }
 .ui-tab-side-container ul.ui-tabs li a:hover,
 .ui-tab-side-container ul.ui-tabs li a.ui-tab-state-active:hover {
@@ -672,8 +629,7 @@ div.ui-fs-local-sftp-icon {
 
 
 .fly-editor-content-browse-panel-no-toolbar .ui-state-hover{
-	background: url("../images/desktop/ui.func.hover.png") no-repeat;
-	background-position: center;
+	background: #eee;
 	-moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -762,18 +718,17 @@ div.ui-fs-local-sftp-icon {
 	overflow: hidden; 
 	float: left;
 }
-.fly-editor-side-bar * { color:#fff; }
 .fly-editor-side-bar div.ui-widget-panel {overflow: hidden;}
 .fly-editor-side-bar div.ui-widget-header {
 	font-weight:normal;
-	border: 1px solid #A8A8A8;
+	border: 1px solid #333;
 	border-bottom: 0px none;
 	padding: 3px 5px 0; 
 }
 .fly-editor-side-bar div.ui-widget-content,
 .fly-editor-side-bar-only div.ui-widget-content { 
 	background: transparent;
-	border: 1px solid #A8A8A8;
+	border: 1px solid #333;
 	border-top: 0px none;
 }
 
@@ -795,20 +750,24 @@ div.ui-fs-local-sftp-icon {
 }
 
 .fly-input-group-addon {
-    background-color: #EEEEEE;
-    border: 1px solid #CCCCCC;
+    background-image: -webkit-linear-gradient(top, #428bca 0%, #3071a9 100%);
+  	background-image:         linear-gradient(to bottom, #428bca 0%, #3071a9 100%);
+  	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff3071a9', GradientType=0);
+  	background-repeat: repeat-x;
+    border: 1px solid #333;
     border-radius: 4px 0 0 4px;
     line-height: 1;
     padding: 3px 6px;
     text-align: center;
     vertical-align: middle;
     display: table-cell;
+    color: #fff;
 }
 
 .fly-input-group-body {
     background-color: transparent;
     background-image: none;
-    border: 1px solid #CCCCCC;
+    border: 1px solid #333;
     border-left: 0 none;
     border-radius: 0 4px 4px 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;

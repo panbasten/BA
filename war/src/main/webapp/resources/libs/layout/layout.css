@@ -30,7 +30,7 @@
 .ui-layout-resizer-south-open:hover ,
 .ui-layout-resizer-west-open:hover ,
 .ui-layout-resizer-east-open:hover {
-	background-color: #3c3c3c;
+	background-color: #999;
 	opacity: 1;
 	filter: alpha(opacity=100);
 }

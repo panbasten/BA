@@ -5,22 +5,22 @@
 			</ul>
 		</div>
 		<div class="ui-toolbar-group-right">
-            <fly:pushbutton iconCls="ui-icon-folder-open" 
+            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
             	label="新增" title="新增">
 				<fly:menuItem text="新增语义模型" iconCls="ui-icon-folder-open" onclick="Flywet.domain.create('smart')"></fly:menuItem>
 				<fly:menuItem text="新增多维模型" iconCls="ui-icon-folder-open" onclick="Flywet.domain.create('cube')"></fly:menuItem>
 				<fly:menuItem text="新增目录" iconCls="ui-icon-folder-open" onclick="Flywet.domain.createDir()"></fly:menuItem>
 			</fly:pushbutton>
-            <fly:pushbutton iconCls="ui-icon-folder-open" 
+            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
             	label="编辑" title="编辑"
             	onclick="Flywet.smart.edit()" />
-            <fly:pushbutton iconCls="ui-icon-folder-open" 
+            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
             	label="删除" title="删除"
             	onclick="Flywet.smart.remove()" />
-			<fly:pushbutton iconCls="ui-icon-folder-open"
+			<fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
             	label="上传" title="上传"
             	onclick="Flywet.smart.uploadFile()" />
-            <fly:pushbutton iconCls="ui-icon-folder-open"
+            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
             	label="下载" title="下载"
             	onclick="Flywet.smart.downloadFile()" />
 		</div>

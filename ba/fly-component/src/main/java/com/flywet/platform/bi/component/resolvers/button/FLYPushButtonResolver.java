@@ -23,8 +23,9 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 
 	public static final String BUTTON_TYPE_BUTTON = "button";
 	public static final String BUTTON_TYPE_SEPARATOR = "separator";
-	
+
 	public static final String ATTR_MENU_ID = "menuId";
+	public static final String ATTR_BTN_STYLE = "btnStyle";
 
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
@@ -49,8 +50,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		HTML.writeStyleAttribute(node, html, attrs);
 
 		if (HTML.containsTagName(node, HTML.ATTR_ID))
-			html.writeAttribute(HTML.ATTR_ID, HTML.getTagAttribute(node,
-					HTML.ATTR_ID, attrs));
+			html.writeAttribute(HTML.ATTR_ID,
+					HTML.getTagAttribute(node, HTML.ATTR_ID, attrs));
 
 		html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 		html.writeAttribute(HTML.ATTR_CLASS, HTML.SEPARATOR_ICON_CLASS);
@@ -64,6 +65,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON_CLASS, attrs);
 		String label = HTML.getTagAttribute(node, HTML.ATTR_LABEL, attrs);
 		String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);
+		String btnStyle = Const.NVL(
+				HTML.getTagAttribute(node, ATTR_BTN_STYLE, attrs), "default");
 		String userClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
 		String styleClass = "";
 
@@ -95,6 +98,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			styleClass = styleClass + " " + "ui-state-active";
 		}
 
+		styleClass = styleClass + " btn-" + btnStyle;
+
 		if (userClass != null) {
 			styleClass = styleClass + " " + userClass;
 		}
@@ -114,13 +119,14 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			if (HTML.COMPONENT_TYPE_MENU_ITEM.equalsIgnoreCase(subNode
 					.getNodeName())) {
 				MenuItemMeta item = new MenuItemMeta();
-				item.setText(HTML.getTagAttribute(subNode, HTML.ATTR_TEXT, attrs))
+				item.setText(
+						HTML.getTagAttribute(subNode, HTML.ATTR_TEXT, attrs))
 						.setIconCls(
 								HTML.getTagAttribute(subNode,
 										HTML.ATTR_ICON_CLASS, attrs))
 						.setOnClick(
-								HTML.getTagAttribute(subNode, HTML.ATTR_ON_CLICK,
-										attrs));
+								HTML.getTagAttribute(subNode,
+										HTML.ATTR_ON_CLICK, attrs));
 				menuItems.addContent(item);
 			}
 		}
@@ -140,10 +146,10 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			html.writeAttribute(HTML.ATTR_DISABLED, HTML.ATTR_DISABLED);
 		}
 
-		html.writeAttribute(HTML.ATTR_CLASS, resolveStyleClass(node, attrs,
-				isMenu));
+		html.writeAttribute(HTML.ATTR_CLASS,
+				resolveStyleClass(node, attrs, isMenu));
 		html.writeAttribute(HTML.ATTR_STYLE, HTML.getStyle(node, attrs));
-		
+
 		if (isMenu) {
 			html.writeAttribute(ATTR_MENU_ID, menuId);
 		}

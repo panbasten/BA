@@ -13,7 +13,7 @@ Flywet.editors.trans = {
 					onDblClick: "Flywet.editors.trans.action.stepDblclick(canvasObj,flowObj,this)",
 					sWidth: 32,
 					sHeight: 32,
-					bTextStyle: "#ffffff",
+					bTextStyle: "#333333",
 					acceptAll: true,
 					onEndHop: "Flywet.editors.trans.action.checkEndHop(setting,this)",
 					onRope: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
@@ -23,7 +23,7 @@ Flywet.editors.trans = {
 					onDblClick: "Flywet.editors.trans.action.hopDblclick(canvasObj,flowObj,this)",
 					onContextMenu: "Flywet.editors.trans.action.hopContext(coords,canvasObj,flowObj,this)",
 					style: "#2e83ff",
-					textStyle: "#ffffff",
+					textStyle: "#333333",
 					arrowEndType: "default",
 					onRope: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)",
 					onClick: "Flywet.editors.trans.action.stepSelect(canvasObj,flowObj,this)"
@@ -175,7 +175,7 @@ Flywet.editors.trans = {
 						,	onresize_end:			function(){
 							$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 30)
 								.width($transLayout.getPaneSize("center", false, "vert"));
-							$("#transThumbContent").width($transLayout.getPaneSize("east")-2);
+							$("#transThumbContent").width($transLayout.getPaneSize("east"));
 							// 改变canvas属性
 							transEditorPanel_var.autoChangeSize();
 						}
@@ -238,7 +238,7 @@ Flywet.editors.trans = {
 				
 				$("#transEditorPanel").height($transLayout.getPaneSize("center", false, "horz") - 30)
 					.width($transLayout.getPaneSize("center", false, "vert"));
-				$("#transThumbContent").width($transLayout.getPaneSize("east")-2);
+				$("#transThumbContent").width($transLayout.getPaneSize("east"));
 				
 				Flywet.cw("EasyTabs","diEditorTransStepBar",{
 					id : "transStepBar"

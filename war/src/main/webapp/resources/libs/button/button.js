@@ -66,6 +66,10 @@
 			clazz = clazz + " ui-state-active";
 		}
 		
+		if(opts.btnStyle) {
+			clazz = clazz + " btn-" + opts.btnStyle;
+		}
+		
 		btn.addClass(clazz);
 		
 		// 设置图片
@@ -183,7 +187,7 @@
 		var t = $(target);
 		return $.extend(
 				{},
-				Flywet.parseOptions(target, ["id", "type", "state", "title", "label", "iconCls", "iconAlign"])
+				Flywet.parseOptions(target, ["id", "type", "state", "title", "label", "btnStyle", "iconCls", "iconAlign"])
 			);
 	};
 	
@@ -191,6 +195,7 @@
 		id : null,
 		type : "button",
 		label : null,
+		btnStyle : "default",//default,primary,success,info,warning,danger
 		iconCls : null,
 		iconAlign : "left"
 	};
