@@ -54,6 +54,10 @@ a {
     font-weight: bold;
 }
 
+.ui-datagrid-header td {
+	font-size: 14px;
+}
+
 .ui-datagrid-toolbar {
 	background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #ec971f 100%);
   	background-image:         linear-gradient(to bottom, #f0ad4e 0%, #ec971f 100%);

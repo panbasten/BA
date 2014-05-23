@@ -195,7 +195,7 @@
 		id : null,
 		type : "button",
 		label : null,
-		btnStyle : "default",//default,primary,success,info,warning,danger
+		btnStyle : "default",//default,primary,success,info,warning,danger,link
 		iconCls : null,
 		iconAlign : "left"
 	};

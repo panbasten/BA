@@ -3,6 +3,9 @@ Flywet.smart = {
 	ids : {
 		bpVarName : "editorContent-navi-smart-bp_var"
 	},
+	create : function(type){
+		
+	},
 	createDir : function(){
 		var _self = this;
 		var currentCase = window[Flywet.smart.ids.bpVarName].getCurrentData();
@@ -49,5 +52,17 @@ Flywet.smart = {
 			maximizable : false,
 			resizable : false
 		});
+	},
+	edit : function(){
+		
+	},
+	remove : function(){
+		
+	},
+	uploadFile : function(){
+		
+	},
+	downloadFile : function(){
+		
 	}
 };

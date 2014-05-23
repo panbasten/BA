@@ -728,6 +728,7 @@ Flywet.widget.ConfirmDialog = function(cfg) {
 	    		type : "button",
 	    		label : "确定",
 	    		title : "确定",
+	    		btnStyle : "success",
 	    		events : {
 	        		click:'hide'
 	        	}
@@ -739,6 +740,7 @@ Flywet.widget.ConfirmDialog = function(cfg) {
 	    		type : "button",
 	    		label : "确定",
 	    		title : "确定",
+	    		btnStyle : "success",
 	    		events : {
 	        		click:function(event){
 	    				Flywet.invokeFunction(cfg.confirmFunc,event,true);
@@ -750,6 +752,7 @@ Flywet.widget.ConfirmDialog = function(cfg) {
 	    		type : "button",
 	    		label : "取消",
 	    		title : "取消",
+	    		btnStyle : "link",
 	    		events : {
 		    		click:function(event){
 						Flywet.invokeFunction(cfg.confirmFunc,event,false);
@@ -764,6 +767,7 @@ Flywet.widget.ConfirmDialog = function(cfg) {
 	    		type : "button",
 	    		label : "关闭",
 	    		title : "关闭",
+	    		btnStyle : "info",
 	    		events : {
 	        		click:'hide'
 	        	}

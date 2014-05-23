@@ -34,6 +34,7 @@ Flywet.db = {
 				type : "button",
 				label : "确定",
 				title : "确定",
+				btnStyle : "success",
 				click : {
 					formId : "db_create",
 					formAction : "rest/db/object/create/save",
@@ -50,6 +51,7 @@ Flywet.db = {
 				type : "button",
 				label : "取消",
 				title : "取消",
+				btnStyle : "link",
 				events : {
 					"click" : "hide"
 				}
@@ -80,6 +82,7 @@ Flywet.db = {
 				type : "button",
 				label : "预览前100行",
 				title : "预览前100行",
+				btnStyle : "primary",
 				click : {
 					// TODO
 					formId : "db_"+id,
@@ -90,6 +93,7 @@ Flywet.db = {
 				type : "button",
 				label : "预览前N行",
 				title : "预览前N行",
+				btnStyle : "primary",
 				click : {
 					// TODO
 					formId : "db_"+id,
@@ -99,8 +103,9 @@ Flywet.db = {
 			footerButtons : [{
 				componentType : "fly:PushButton",
 				type : "button",
-				label : "取消",
-				title : "取消",
+				label : "关闭",
+				title : "关闭",
+				btnStyle : "info",
 				events : {
 					"click" : "hide"
 				}
@@ -127,6 +132,7 @@ Flywet.db = {
 				type : "button",
 				label : "测试",
 				title : "测试",
+				btnStyle : "primary",
 				click : {
 					formId : "db_"+id,
 					formAction : "rest/db/object/"+id+"/test",
@@ -139,6 +145,7 @@ Flywet.db = {
 				type : "button",
 				label : "浏览数据库",
 				title : "浏览数据库",
+				btnStyle : "primary",
 				click : {
 					func : function(){
 						Flywet.db.exploreDatabase(category, type, id, displayName);
@@ -150,6 +157,7 @@ Flywet.db = {
 				type : "button",
 				label : "确定",
 				title : "确定",
+				btnStyle : "success",
 				click : {
 					formId : "db_"+id,
 					formAction : "rest/db/object/"+id+"/save",
@@ -166,6 +174,7 @@ Flywet.db = {
 				type : "button",
 				label : "取消",
 				title : "取消",
+				btnStyle : "link",
 				events : {
 					"click" : "hide"
 				}
