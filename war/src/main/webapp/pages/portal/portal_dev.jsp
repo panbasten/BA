@@ -16,8 +16,12 @@
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
-		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
+		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
+		<link href="<%=path%>/resources/styles/reset.css" rel="stylesheet"
 			type="text/css" />
+		<link href="<%=path%>/resources/styles/default.css" rel="stylesheet"
+			type="text/css" />
+		<!-- replace end -->
 		
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
@@ -66,6 +70,9 @@
 		<link href="<%=path%>/resources/libs/spreadsheet/spreadsheet.css" rel="stylesheet"
 			type="text/css" />
 		<!-- replace end -->
+		
+		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
+			type="text/css" />
 		
 		<!-- replace href="<%=path%>/resources/styles/portal.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/portal.css" rel="stylesheet"
@@ -295,7 +302,7 @@
 							<fieldset style="width:215px;">
 								<div id="repositoryDiv" style="display:none;">
 									<h1 class="ui-login-label"><label for="repository">资源库</label></h1>
-									<select id="repository" name="repository" style="width:135px;" class="ui-login-widget">
+									<select id="repository" name="repository" class="ui-login-widget">
 									</select>
 								</div>
 								<div>
@@ -308,7 +315,7 @@
 								</div>
 								
 								<div class="ui-toeditor-div"> 
-									<input id="toeditor" name="toeditor" type="checkbox" checked="checked" style="float:left;" />
+									<input id="toeditor" name="toeditor" type="checkbox" checked="checked" style="float:left;height:16px;" />
 									<label for="toeditor">管理控制台</label>
 								</div>
 								<div class="buttonBox">

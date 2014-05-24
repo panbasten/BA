@@ -133,14 +133,14 @@ input,textarea,select {
 	width: 100%;
 	font-size: 12px;
 	line-height: 18px;
-	border: 1px solid #ccc;
+	border: 1px solid #333;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
-input,textarea,label {
-	height: 18px;
+input,select,textarea,label {
+	height: 20px;
 }
 
 select {
@@ -185,7 +185,7 @@ textarea {
 	height: auto;
 }
 
-input,textarea {
+input,select,textarea {
 	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
 	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
 	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
@@ -225,6 +225,7 @@ input[type=file]:focus,input[type=checkbox]:focus,select:focus {
 	width: 125px;
 	padding: 4px;
 	border-radius: 5px;
+	color: #333;
 }
 
 .ui-login-button {
@@ -401,6 +402,13 @@ div.overlay-widget {
 	color: white;
 	line-height: 22px;
 	/**text-shadow: #c89f40 2px 2px 2px;*/
+}
+
+#fly_login_sidebar input, 
+#fly_login_sidebar select, 
+#fly_login_sidebar textarea, 
+#fly_login_sidebar label {
+	height: 26px;
 }
 
 #fly_login_content {
@@ -736,9 +744,9 @@ div.section {
 
 #fly_portal_oper a div {
 	height: auto;
-	top: 0;
-	margin-top: 5px;
+	top: -2px;
 	margin-right: 20px;
+	position: relative;
 }
 
 #fly_portal_oper a div .oper-text {
@@ -878,6 +886,12 @@ div.section {
     text-align: center;
 }
 
+
+#fly_portal_sub_menu_setting dt {
+	font-size: 1.2em;
+	margin-bottom: 5px;
+}
+
 .fly_portal_cover {
 	z-index: 9999;
 }
@@ -885,7 +899,7 @@ div.section {
 #btn_setting {
 	background-image: url("../images/portal/portal.png");
 	background-position: -119px -22px;
-	margin: 5px 20px 0 0;
+	margin: 7px 20px 0 0;
 	width: 22px;
 	height: 22px;
 	cursor: pointer;
@@ -893,10 +907,6 @@ div.section {
 
 .setting-highlight {
 	background-position: -119px 0 !important;
-}
-
-.fly_portal_menu_content * {
-	color : #eee !important;
 }
 
 .fly_portal_menu_content .ui-browsepanel-item-lasttime {

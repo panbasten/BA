@@ -180,7 +180,7 @@ Flywet.Portal = {
 		
 		// cover
 		$("#fly_portal_cover").width(win.width+20).height(win.height+20);
-		$("#fly_portal_cover_img").css({"top":(win.height-Flywet.Portal.FIXED_SIZE.loading)/2+"px","left":(win.width-Flywet.Portal.FIXED_SIZE.loading)/2+"px",});
+		$("#fly_portal_cover_img").css({"top":(win.height-Flywet.Portal.FIXED_SIZE.loading)/2+"px","left":(win.width-Flywet.Portal.FIXED_SIZE.loading)/2+"px"});
 		
 		// size
 		$("#fly_portal_header").width(win.width);
@@ -616,7 +616,7 @@ Flywet.Portal.menu.prototype.init=function(){
 				
 					var liMidWidth = liPos.offsetLeft+(liPos.innerWidth/2);
 					
-					var secondWidth = 110, thirdWidth = 230, subDivWidth = secondWidth;
+					var secondWidth = 230, thirdWidth = 230, subDivWidth = secondWidth;
 					
 					// 如果没有第三级
 					if(subDiv.find("dd").size() > 0){
@@ -627,7 +627,7 @@ Flywet.Portal.menu.prototype.init=function(){
 						b.css("left", (liMidWidth-6) +"px");
 						subDiv.css("left", "0");
 					}else{
-						var bLeft = subDivWidth/2 + 12;
+						var bLeft = subDivWidth/2-6;
 						b.css("left", bLeft +"px");
 						subDiv.css("left", (liMidWidth-bLeft-6) +"px");
 					}
@@ -796,8 +796,9 @@ Flywet.PortalAction = {
 					btns.push({
 						componentType : "fly:PushButton",
 						type : "button",
-						label : "取消",
-						title : "取消",
+						label : "关闭",
+						title : "关闭",
+						btnStyle : "link",
 						events : {
 							"click" : "hide"
 						}
@@ -815,7 +816,7 @@ Flywet.PortalAction = {
 						type : "button",
 						label : null,
 						title : null,
-						
+						btnStyle : "info",
 						events: {
 							click:function(event,params){
 								if(params.click){
@@ -889,6 +890,7 @@ Flywet.PortalAction = {
 		var btn = [{
 				"label":"确定",
 				"title":"确定",
+				"btnStyle":"success",
 				"click":{
 					"func":"Flywet.PortalAction.saveEditFile(dialogId,params);",
 					"funcCallback":callback
@@ -943,6 +945,7 @@ Flywet.PortalAction = {
 		var btn = [{
 				"label":"确定",
 				"title":"确定",
+				"btnStyle":"success",
 				"click":{
 					"func":"Flywet.PortalAction.uploadOneFile(dialogId,params);",
 					"funcCallback":callback
@@ -993,6 +996,7 @@ Flywet.PortalAction = {
 		var btn = [{
 				"label":"确定",
 				"title":"确定",
+				"btnStyle":"success",
 				"click":{
 					"func":"Flywet.PortalAction.uploadFiles(dialogId,params);",
 					"funcCallback":callback

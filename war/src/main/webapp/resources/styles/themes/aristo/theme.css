@@ -254,16 +254,32 @@ fieldset.ui-state-disabled legend,
 	background-image: url("images/ui-icons_ffffff_256x384.png");
 }
 
-.ui-dialog-content .ui-state-default .ui-icon,
+.ui-dialog-content .ui-state-hover .ui-icon,
 .ui-dialog-content .hover .ui-icon
 {
     background-image: url("images/ui-icons_ffffff_256x384.png");
 }
-.ui-dialog-content .ui-icon, 
+
 .ui-dialog-content .ui-icon
 {
     background-image: url("images/ui-icons_616161_256x384.png");
 }
+
+.btn-primary .ui-icon,
+.btn-success .ui-icon,
+.btn-info .ui-icon,
+.btn-warning .ui-icon,
+.btn-danger .ui-icon
+{
+    background-image: url("images/ui-icons_ffffff_256x384.png");
+}
+
+.btn-default .ui-icon,
+.btn-link .ui-icon
+{
+    background-image: url("images/ui-icons_616161_256x384.png");
+}
+
 .ui-state-highlight .ui-icon,
 .ui-datagrid .ui-state-hover .ui-icon,
 .ui-datagrid .ui-state-active .ui-icon

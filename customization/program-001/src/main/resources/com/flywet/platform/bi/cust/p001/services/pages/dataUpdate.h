@@ -1,8 +1,8 @@
 <form id="portal_upload_form" enctype="multipart/form-data">
 
-	<fly:gridLayout column="2" itemWidth="60%,38%">
+	<fly:gridLayout column="2" itemWidth="60%,38%" itemMargin="5">
 		<fly:gridLayoutItem>
-			<fly:labelObject text="11城市月数据(city_mon_197101-thismonth.txt)：" buddy="fs1" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text="11城市月数据(city_mon_197101-thismonth.txt)：" buddy="fs1" style="width:auto;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -10,7 +10,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:labelObject text="11城市季数据(data_11cityAndHebei_season_1982-thisYear.txt) ：" buddy="fs2" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text="11城市季数据(data_11cityAndHebei_season_1982-thisYear.txt) ：" buddy="fs2" style="width:auto;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -18,7 +18,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:labelObject text=" 142县站数据(上月)(142staMondep_lastmonth.txt)：" buddy="fs3" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text=" 142县站数据(上月)(142staMondep_lastmonth.txt)：" buddy="fs3" style="width:auto;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -26,7 +26,7 @@
 		</fly:gridLayoutItem>
 		
 		<fly:gridLayoutItem>
-			<fly:labelObject text=" 142县站数据(历史)(142staMon_history.txt)：" buddy="fs4" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text=" 142县站数据(历史)(142staMon_history.txt)：" buddy="fs4" style="width:auto;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
@@ -34,7 +34,7 @@
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
-			<fly:labelObject text="格点海温数据(sst.mnmean.nc)：" buddy="fs5" style="margin:5px 30px 5px 5px;float:right;" />
+			<fly:labelObject text="格点海温数据(sst.mnmean.nc)：" buddy="fs5" style="width:auto;float:right;" />
 		</fly:gridLayoutItem>
 
 		<fly:gridLayoutItem>
