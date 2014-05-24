@@ -60,7 +60,6 @@ Flywet.editors.trans = {
 			}
 			$tabo.data("exdata").canvasConfig = canvasObj.getShowConfig();
 			$tabo.data("exdata").btnsConfig = Flywet.editors.trans.action.getButtonsStatus();
-			console.log($tabo.data("exdata").btnsConfig);
 		}
 	},
 	reloadStatus : function ($taba) {
@@ -100,11 +99,9 @@ Flywet.editors.trans = {
 			}
 			transEditorPanel_var.flush(canvasData,canvasConfig);
 			
-			console.log(btnsConfig);
 			if(!btnsConfig){
 				btnsConfig = Flywet.deepClone(Flywet.editors.trans.action.defalutBtnStatus);
 			}
-			console.log(btnsConfig);
 			Flywet.editors.trans.action.setButtonsStatus(btnsConfig);
 		}
 	},

@@ -2,7 +2,10 @@
 Flywet.editors.pivot = {
 	type : "pivot",
 	editorType : "tab",
-	
+	resize : function(){
+		// TODO 
+		
+	},
 	saveStatus : function ($tabo) {
 	},
 	

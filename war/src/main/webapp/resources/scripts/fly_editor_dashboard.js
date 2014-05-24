@@ -2,6 +2,10 @@
 Flywet.editors.dashboard = {
 	type : "dashboard",
 	editorType : "tab",
+	resize : function(){
+		// TODO 工具箱的滚动按钮
+		
+	},
 	saveStatus : function ($tabo) {
 		$tabo.data("exdata",dashboardEditorPanel_var.getData())
 	},
@@ -12,10 +16,6 @@ Flywet.editors.dashboard = {
 		// 使其显示，再进行操作
 		$("#dashboard").show();
 		dashboardEditorPanel_var.reInitEditor(tabData);
-	},
-	resize : function(){
-		// TODO 工具箱的滚动按钮
-		
 	},
 	openEditor : function(category,data,displayName,tabName){
 		Flywet.ab({
