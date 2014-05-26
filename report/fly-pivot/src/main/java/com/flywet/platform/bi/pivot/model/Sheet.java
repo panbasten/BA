@@ -18,7 +18,7 @@ import com.tonbeller.wcf.controller.RequestContext;
  * @author PeterPan
  * 
  */
-public class Sheet {
+public class Sheet implements IJSONObjectable {
 	public static final String PROP_NAME_SHEET_NAME = "sheetName";
 	public static final String PROP_NAME_ANNOTATION = "annotation";
 	public static final String PROP_NAME_DEFAULT_COL_WIDTH = "defaultColWidth";
@@ -53,10 +53,12 @@ public class Sheet {
 		s.sheetName = XMLHandler.getTagAttribute(node, PROP_NAME_SHEET_NAME);
 		s.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
 
-		s.defaultColWidth = Utils.toInt(XMLHandler.getTagAttribute(node,
-				PROP_NAME_DEFAULT_COL_WIDTH), null);
-		s.defaultRowHeight = Utils.toInt(XMLHandler.getTagAttribute(node,
-				PROP_NAME_DEFAULT_ROW_HEIGHT), null);
+		s.defaultColWidth = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_DEFAULT_COL_WIDTH),
+				null);
+		s.defaultRowHeight = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_DEFAULT_ROW_HEIGHT),
+				null);
 
 		Node startPosition = XMLHandler.getSubNode(node,
 				PositionType.NODE_NAME_START_POSITION);
@@ -83,6 +85,7 @@ public class Sheet {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
 
@@ -103,8 +106,8 @@ public class Sheet {
 		}
 
 		if (startPosition != null) {
-			jo.put(PositionType.PROP_NAME_START_POSITION, startPosition
-					.renderJo());
+			jo.put(PositionType.PROP_NAME_START_POSITION,
+					startPosition.renderJo(context));
 		}
 
 		if (regions != null && regions.size() > 0) {

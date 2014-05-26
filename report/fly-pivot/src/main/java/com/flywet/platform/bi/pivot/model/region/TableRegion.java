@@ -7,10 +7,7 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.exception.BIPivotException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
 import com.flywet.platform.bi.pivot.model.IRegionObject;
-import com.flywet.platform.bi.pivot.model.data.PivotData;
 import com.flywet.platform.bi.pivot.model.factory.PivotRegionDataFactory;
-import com.tonbeller.jpivot.table.TableComponent;
-import com.tonbeller.jpivot.table.TableComponentFactory;
 import com.tonbeller.wcf.controller.RequestContext;
 
 /**
@@ -24,9 +21,6 @@ public class TableRegion implements IRegionObject {
 	public static final String REGION_OBJECT_NAME = "Table";
 
 	private IRegionData regionData;
-
-	// 透视报表表格组件
-	private TableComponent tc;
 
 	public IRegionData getRegionData() {
 		return regionData;
@@ -45,8 +39,7 @@ public class TableRegion implements IRegionObject {
 	public static String persistent(TableRegion tr) {
 		// TODO
 		StringBuffer sb = new StringBuffer();
-		
-		
+
 		return sb.toString();
 	}
 
@@ -54,15 +47,8 @@ public class TableRegion implements IRegionObject {
 	public void init(RequestContext context) throws BIException {
 		try {
 			if (regionData != null) {
-				regionData.init();
+				regionData.init(context);
 			}
-			if (PivotData.REGION_DATA_NAME.equals(regionData.getTypeName())) {
-				PivotData pd = (PivotData) regionData;
-				tc = TableComponentFactory.instance(
-						"olap_" + pd.getCatalogId(), pd.getOm());
-				tc.initialize(context);
-			}
-			// TODO 其他类型数据
 		} catch (Exception e) {
 			throw new BIPivotException("初始化透视报表区域数据出现错误.", e);
 		}
@@ -75,13 +61,7 @@ public class TableRegion implements IRegionObject {
 			JSONObject jo = new JSONObject();
 			jo.put(PROP_NAME_REGION_OBJECT_TYPE, getTypeName());
 			if (regionData != null) {
-				if (PivotData.REGION_DATA_NAME.equals(regionData.getTypeName())) {
-					JSONObject regionDataJo = regionData.renderJo(context);
-					regionDataJo.put(IRegionData.PROP_NAME_DATA,
-							tc.renderJo(context));
-					jo.put(PROP_NAME_REGION_DATA, regionDataJo);
-				}
-				// TODO 其他类型渲染
+				jo.put(PROP_NAME_REGION_DATA, regionData.renderJo(context));
 			}
 			return jo;
 		} catch (Exception e) {

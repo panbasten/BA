@@ -1,7 +1,5 @@
 package com.flywet.platform.bi.pivot.model;
 
-import org.json.simple.JSONObject;
-
 import com.flywet.platform.bi.core.exception.BIException;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -11,10 +9,10 @@ import com.tonbeller.wcf.controller.RequestContext;
  * @author PeterPan
  * 
  */
-public interface IRegionData {
+public interface IRegionData extends IJSONObjectable {
 
 	public static final String REGION_DATA_TYPE = "type";
-	
+
 	public static final String PROP_NAME_DATA = "data";
 
 	/**
@@ -22,16 +20,15 @@ public interface IRegionData {
 	 * 
 	 * @throws BIException
 	 */
-	public void init() throws BIException;
+	public void init(RequestContext context) throws BIException;
 
 	/**
-	 * 获得渲染的JSONObject对象
+	 * 刷新数据
 	 * 
 	 * @param context
-	 * @return
 	 * @throws BIException
 	 */
-	public JSONObject renderJo(RequestContext context) throws BIException;
+	public void flush(RequestContext context) throws BIException;
 
 	/**
 	 * 获得区域对象的类型名称

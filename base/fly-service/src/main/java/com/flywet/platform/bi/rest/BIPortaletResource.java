@@ -95,8 +95,8 @@ public class BIPortaletResource {
 			PortalAction pa = portalDelegates.getPortalActionById(Long
 					.valueOf(id));
 
-            targetId = Const.NVL(targetId,"");
-            param = Const.NVL(param, "");
+			targetId = Const.NVL(targetId, "");
+			param = Const.NVL(param, "");
 
 			Map<String, Object> context = getDefaultContext(id, param);
 
@@ -164,15 +164,16 @@ public class BIPortaletResource {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			FileObject fileObj = filesysService.composeVfsObject(PropertyUtils
-					.getProperty(category),
-					PropertyUtils.getProperty(fileName), PropertyUtils
-							.getProperty(rootDir));
+			FileObject fileObj = filesysService.composeVfsObject(
+					PropertyUtils.getProperty(category),
+					PropertyUtils.getProperty(fileName),
+					PropertyUtils.getProperty(rootDir));
 			String fileText = FileUtils.getString(fileObj.getContent()
 					.getInputStream());
 
-			attrsMap.addVariable("text", (Const.isEmpty(text)) ? PropertyUtils
-					.getProperty(fileName) : text);
+			attrsMap.addVariable("text",
+					(Const.isEmpty(text)) ? PropertyUtils.getProperty(fileName)
+							: text);
 			attrsMap.addVariable("rootDir", rootDir);
 			attrsMap.addVariable("fileText", fileText);
 			attrsMap.addVariable("fileName", fileName);
@@ -346,8 +347,13 @@ public class BIPortaletResource {
 						continue;
 					}
 
-					uploadFile(item, rootDir, workDir, category, (!Const
-							.isEmpty(fileName)) ? fileName : item.getName());
+					uploadFile(
+							item,
+							rootDir,
+							workDir,
+							category,
+							(!Const.isEmpty(fileName)) ? fileName : item
+									.getName());
 				}
 			}
 			// 执行操作
@@ -505,8 +511,8 @@ public class BIPortaletResource {
 						.getWebAppFile(DEFAULT_SHOW_IMAGE);
 				FileUtils.write(def, response.getOutputStream());
 			} else {
-				FileUtils.write(fileObj.getContent().getInputStream(), response
-						.getOutputStream());
+				FileUtils.write(fileObj.getContent().getInputStream(),
+						response.getOutputStream());
 			}
 		} catch (Exception e) {
 			log.error("download file exception:", e);
@@ -519,9 +525,9 @@ public class BIPortaletResource {
 	 * @param workPath
 	 * @param rootPathProp
 	 * @param categoryProp
-     * @param request
-     * @param response
-     * @param body
+	 * @param request
+	 * @param response
+	 * @param body
 	 * @throws IOException
 	 */
 	@GET
@@ -550,8 +556,8 @@ public class BIPortaletResource {
 			response.setHeader("Content-Disposition", "attachment;filename="
 					+ new String(fileName.getBytes(), "ISO8859_1"));
 
-			FileUtils.write(fileObj.getContent().getInputStream(), response
-					.getOutputStream());
+			FileUtils.write(fileObj.getContent().getInputStream(),
+					response.getOutputStream());
 		} catch (Exception e) {
 			log.error("download file exception:", e);
 		}
@@ -617,17 +623,17 @@ public class BIPortaletResource {
 			if (pm.isAuthenticate()
 					&& !userService
 							.authenticate(
-									AuthorizationObjectCategory.PORTAL_MENU, pm
-											.getId())) {
+									AuthorizationObjectCategory.PORTAL_MENU,
+									pm.getId())) {
 				return ActionMessage.instance().failure("未登录或者当前用户不具有权限。")
 						.toJSONString();
 			}
 
-			Map<String, Object> context = getDefaultContext(id, pm
-					.getExtAttr(PORTAL_ONLY_PARAM));
+			Map<String, Object> context = getDefaultContext(id,
+					pm.getExtAttr(PORTAL_ONLY_PARAM));
 
-			return invokeMethod(pm.getExtAttr("beanName"), pm
-					.getExtAttr("method"), context, targetId);
+			return invokeMethod(pm.getExtAttr("beanName"),
+					pm.getExtAttr("method"), context, targetId);
 		} catch (Exception ex) {
 			throw new BIException("打开Portal的菜单出现错误。", ex);
 		}
@@ -675,7 +681,7 @@ public class BIPortaletResource {
 	 * @param beanName
 	 * @param method
 	 * @param context
-     * @param targetId
+	 * @param targetId
 	 * @return
 	 * @throws BIException
 	 */
@@ -722,36 +728,45 @@ public class BIPortaletResource {
 				.toJSONString();
 	}
 
-    @GET
-    @Path("/metro")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getPortalMetro() throws BIException {
-        try {
-            // TODO 读取两个固定文件
-            JSONObject jo = new JSONObject();
-            jo.put("note1", "每月10号做什么事情<br/>每月20号做什么事情");
-            jo.put("note2", "每月1号做什么事情<br/>每月2号做什么事情");
+	@GET
+	@Path("/metro")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getPortalMetro() throws BIException {
+		try {
+			// TODO 读取两个固定文件
+			JSONObject jo = new JSONObject();
+			jo.put("note1", "每月10号做什么事情<br/>每月20号做什么事情");
+			jo.put("note2", "每月1号做什么事情<br/>每月2号做什么事情");
 
-            return jo.toJSONString();
+			return jo.toJSONString();
 
-        } catch (Exception ex) {
-            throw new BIException("获得Portal的Metro页面出现错误。", ex);
-        }
-    }
+		} catch (Exception ex) {
+			throw new BIException("获得Portal的Metro页面出现错误。", ex);
+		}
+	}
 
 	@GET
 	@Path("/menus")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getPortalMenus() throws BIException {
+		return getPortalMenus(Long.toString(PORTAL_MENU_ROOT_ID));
+	}
+
+	@GET
+	@Path("/menus/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getPortalMenus(@PathParam("id") String id) throws BIException {
 		try {
 			String repository = ContextHolder.getRepositoryName();
+
+			long rootMenuId = Const.toLong(id, PORTAL_MENU_ROOT_ID);
 
 			// 如果repository仍为空，返回空值
 			if (Const.isEmpty(repository)) {
 				return "[]";
 			} else {
 				List<PortalMenu> menus = portalDelegates
-						.getPortalMenusByParent(PORTAL_MENU_ROOT_ID);
+						.getPortalMenusByParent(rootMenuId);
 				User currentUser = userService.getCurrentUser();
 				JSONArray ja = null;
 
@@ -797,8 +812,8 @@ public class BIPortaletResource {
 			// 校验权限
 			if (!pm.isAuthenticate()) {
 				jo = pm.getSimpleJSON();
-				jo.put("children", getNotAuthenticatePortalMenus(pm
-						.getChildren()));
+				jo.put("children",
+						getNotAuthenticatePortalMenus(pm.getChildren()));
 			}
 		}
 		return jo;
@@ -854,8 +869,8 @@ public class BIPortaletResource {
 			}
 
 			if (jo != null) {
-				jo.put("children", getAuthenticatePortalMenus(uid, pm
-						.getChildren()));
+				jo.put("children",
+						getAuthenticatePortalMenus(uid, pm.getChildren()));
 			}
 		}
 		return jo;

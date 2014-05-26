@@ -18,7 +18,7 @@ import com.tonbeller.wcf.controller.RequestContext;
  * @author PeterPan
  * 
  */
-public class PivotReport {
+public class PivotReport implements IJSONObjectable {
 
 	public static final String PROP_NAME_WIDTH = "width";
 	public static final String PROP_NAME_HEIGHT = "height";
@@ -48,15 +48,17 @@ public class PivotReport {
 
 	public static PivotReport instance(Node node) {
 		PivotReport pr = new PivotReport();
-		pr.width = Utils.toInt(XMLHandler
-				.getTagAttribute(node, PROP_NAME_WIDTH), null);
-		pr.height = Utils.toInt(XMLHandler.getTagAttribute(node,
-				PROP_NAME_HEIGHT), null);
+		pr.width = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_WIDTH), null);
+		pr.height = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_HEIGHT), null);
 
-		pr.offsetCellNumber = Utils.toInt(XMLHandler.getTagAttribute(node,
-				PROP_NAME_OFFSET_CELL_NUMBER), null);
-		pr.currentSheetIndex = Utils.toInt(XMLHandler.getTagAttribute(node,
-				PROP_NAME_CURRENT_SHEET_INDEX), null);
+		pr.offsetCellNumber = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_OFFSET_CELL_NUMBER),
+				null);
+		pr.currentSheetIndex = Utils
+				.toInt(XMLHandler.getTagAttribute(node,
+						PROP_NAME_CURRENT_SHEET_INDEX), null);
 
 		List<Node> sheetNodes = XMLHandler.getNodes(node, NODE_NAME_SHEET);
 		if (sheetNodes != null && sheetNodes.size() > 0) {
@@ -77,6 +79,7 @@ public class PivotReport {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
 

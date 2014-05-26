@@ -408,7 +408,7 @@ Flywet.Portal = {
 		
 		Flywet.env();
 		
-		// 注册方法
+		// 注册遮盖层方法
 		Flywet.triggerMark = Flywet.Portal.pageCover;
 		
 		// 1.替换标识文字

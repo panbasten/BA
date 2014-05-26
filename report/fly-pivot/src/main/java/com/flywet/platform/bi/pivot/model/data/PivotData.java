@@ -21,6 +21,8 @@ import com.flywet.platform.bi.services.intf.BIDatabaseDelegates;
 import com.flywet.platform.bi.smart.utils.BIOlapSchemaProcessor;
 import com.tonbeller.jpivot.mondrian.MondrianModel;
 import com.tonbeller.jpivot.olap.model.OlapModel;
+import com.tonbeller.jpivot.table.TableComponent;
+import com.tonbeller.jpivot.table.TableComponentFactory;
 import com.tonbeller.jpivot.tags.MondrianModelFactory;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -33,6 +35,9 @@ public class PivotData implements IRegionData {
 
 	// 初始的mdx
 	private String oraMdx;
+
+	// 用于缓存数据的对象
+	private PivotDataData data;
 
 	// mdx
 	private String mdx;
@@ -49,36 +54,55 @@ public class PivotData implements IRegionData {
 	// 数据源元数据
 	private DatabaseMeta databaseMeta;
 
-	// 多维模型
+	// OLAP:多维模型
 	private OlapModel om;
+
+	// OLAP:透视报表表格组件
+	private TableComponent tc;
 
 	private PivotData() {
 
 	}
 
 	@Override
-	public void init() throws BIException {
+	public void init(RequestContext context) throws BIException {
+		// 如果data缓存值不为空，延迟计算TC
+		if (data != null) {
+			return;
+		}
+
+		// 如果data缓存值为空，尝试进行计算TC
+		flush(context);
+
+	}
+
+	@Override
+	public void flush(RequestContext context) throws BIException {
 		if (Const.isEmpty(catalog)) {
 			if (catalogId == null) {
 				throw new BIPivotException("分析主题ID为空.");
 			}
 		}
 
-		BIDatabaseDelegates dbDelegates = BIWebUtils
-				.getBean("bi.service.databaseServices");
-		if (databaseMetaId == null) {
-			throw new BIPivotException("数据源元数据ID未设置.");
+		if (databaseMeta == null) {
+			BIDatabaseDelegates dbDelegates = BIWebUtils
+					.getBean("bi.service.databaseServices");
+			if (databaseMetaId == null) {
+				throw new BIPivotException("数据源元数据ID未设置.");
+			}
+			databaseMeta = dbDelegates.getDatabaseMeta(databaseMetaId);
 		}
-		databaseMeta = dbDelegates.getDatabaseMeta(databaseMetaId);
 
 		try {
 			MondrianModel mm = createOlapModel(mdx);
 			mm.initialize();
 			om = (OlapModel) mm.getTopDecorator();
+
+			tc = TableComponentFactory.instance("olap_" + catalogId, om);
+			tc.initialize(context);
 		} catch (Exception e) {
 			throw new BIPivotException("获得分析模型出现错误.", e);
 		}
-
 	}
 
 	/**
@@ -137,9 +161,11 @@ public class PivotData implements IRegionData {
 
 		pd.catalog = Const.trim(XMLHandler.getTagValue(node, "catalog"));
 
-		// 缓存在xml中的数据 data TODO
+		// 缓存在xml中的数据 data
 		Node dataNode = XMLHandler.getSubNode(node, "data");
-		
+		if (dataNode != null) {
+			pd.data = PivotDataData.instance(dataNode);
+		}
 
 		return pd;
 	}
@@ -188,6 +214,14 @@ public class PivotData implements IRegionData {
 		return om;
 	}
 
+	public PivotDataData getData() {
+		return data;
+	}
+
+	public void setData(PivotDataData data) {
+		this.data = data;
+	}
+
 	@Override
 	public String getTypeName() {
 		return REGION_DATA_NAME;
@@ -199,7 +233,12 @@ public class PivotData implements IRegionData {
 		try {
 			JSONObject jo = new JSONObject();
 			jo.put(REGION_DATA_TYPE, getTypeName());
-			// TODO 维度等
+
+			if (data != null) {
+				jo.put(PROP_NAME_DATA, data.renderJo(context));
+			} else {
+				jo.put(PROP_NAME_DATA, tc.renderJo(context));
+			}
 
 			return jo;
 		} catch (Exception e) {

@@ -365,3 +365,57 @@
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
 }
 /*# sourceMappingURL=bootstrap-theme.css.map */
+
+
+
+
+
+
+#idBody {
+    padding-top: 70px;
+}
+
+#idBody .navbar-nav.navbar-right:last-child {
+  margin-right: 0;
+}
+
+#idBody footer {
+  height: 60px;
+  width: 100%;
+}
+
+#idBody footer .container {
+  width: auto;
+  max-width: 700px;
+  padding: 0 15px;
+}
+
+#idBody footer .container .text-muted {
+  margin: 0 10px 0 0;
+  padding: 0;
+}
+
+#idBody footer .container .text-muted p {
+  margin: 0;
+  padding: 0;
+}
+
+#idBody .ui-spreadsheet-workspace {
+  border: medium none;
+}
+
+#fly_portal_cover {
+	position:absolute;
+	background-color: #333;
+	width: 100%;
+	height: 100%;
+	opacity: .70;
+    filter: alpha(opacity=70);
+    z-index: 9999;
+}
+
+#fly_portal_cover_img {
+	position:absolute;
+	width:48px;
+	height:48px;
+}

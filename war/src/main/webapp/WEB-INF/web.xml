@@ -84,12 +84,12 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>dashboard</servlet-name>
-		<jsp-file>/pages/dashboard/dashboard_dev.jsp</jsp-file>
+		<servlet-name>portal4int</servlet-name>
+		<jsp-file>/pages/portal4int/portal_dev.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>dashboard</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
+		<servlet-name>portal4int</servlet-name>
+		<url-pattern>/portal4int</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -108,7 +108,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>pages/dashboard/dashboard_dev.jsp</welcome-file>
+		<welcome-file>pages/portal4int/portal_dev.jsp</welcome-file>
 	</welcome-file-list>
 
 	<error-page>

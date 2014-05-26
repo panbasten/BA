@@ -8,7 +8,7 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.model.factory.PivotRegionFactory;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class Region {
+public class Region implements IJSONObjectable {
 
 	public static final String PROP_NAME_NAME = "name";
 	public static final String PROP_NAME_ANNOTATION = "annotation";
@@ -53,6 +53,7 @@ public class Region {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
 
@@ -61,8 +62,8 @@ public class Region {
 		}
 
 		if (startPosition != null) {
-			jo.put(PositionType.PROP_NAME_START_POSITION, startPosition
-					.renderJo());
+			jo.put(PositionType.PROP_NAME_START_POSITION,
+					startPosition.renderJo(context));
 		}
 
 		if (regionObject != null) {

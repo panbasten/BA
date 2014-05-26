@@ -4,9 +4,11 @@ import org.json.simple.JSONObject;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
+import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.tonbeller.wcf.controller.RequestContext;
 
-public class PositionType {
+public class PositionType implements IJSONObjectable {
 
 	public static final String PROP_NAME_START_POSITION = "startPosition";
 	public static final String NODE_NAME_START_POSITION = "StartPosition";
@@ -25,7 +27,8 @@ public class PositionType {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject renderJo() {
+	@Override
+	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
 		jo.put("cidx", cidx);
 		jo.put("ridx", ridx);

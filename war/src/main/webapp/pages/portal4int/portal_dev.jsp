@@ -15,43 +15,147 @@
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
-		<link href="<%=path%>/resources/styles/bootstrap.css" rel="stylesheet"
+		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
+		<link href="<%=path%>/resources/styles/reset.css" rel="stylesheet"
 			type="text/css" />
+		<link href="<%=path%>/resources/styles/default.css" rel="stylesheet"
+			type="text/css" />
+		<!-- replace end -->
 			
+		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
+		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/core/core.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/menu/menu.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/metro/metro.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/easytabs/easytabs.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/breadcrumb/breadcrumb.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/layout/layout.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/toolbar/toolbar.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/scrollbar/scrollbar.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/search/search.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/popup/popup.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/browsePanel/browsePanel.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/tree/tree.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/dialog/dialog.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/gridlayout/gridlayout.css" rel="stylesheet"
+			type="text/css" />
+		
+		<link href="<%=path%>/resources/libs/panel/panel.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/combo/combo.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/combo/combobox.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/validate/validatebox.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/grid/pagination.css" rel="stylesheet"
+			type="text/css" />
+		<link href="<%=path%>/resources/libs/grid/datagrid.css" rel="stylesheet"
+			type="text/css" />
 		<link href="<%=path%>/resources/libs/spreadsheet/spreadsheet.css" rel="stylesheet"
 			type="text/css" />
-			
-			
-		<link href="<%=path%>/resources/styles/bootstrap-theme.css" rel="stylesheet"
+		<!-- replace end -->
+		
+		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
 			type="text/css" />
 			
-		<link href="<%=path%>/resources/styles/dashboard.css" rel="stylesheet"
+		<link href="<%=path%>/resources/styles/portal4int.css" rel="stylesheet"
 			type="text/css" />
 		
 			
 			
 			
-			
-			
-		<script type="text/javascript" src="<%=path%>/resources/libs/jquery/jquery.js">
-        </script>
-        <script type="text/javascript" src="<%=path%>/resources/libs/core/core.js">
-        </script>
-        
-        <script type="text/javascript" src="<%=path%>/resources/libs/fusioncharts/FusionCharts.js">
-        </script>
-        <script type="text/javascript" src="<%=path%>/resources/libs/fusioncharts/fly.fusioncharts.js">
-        </script>
-        
-        <script type="text/javascript" src="<%=path%>/resources/libs/spreadsheet/jquery.spreadsheet.js">
-        </script>	
-			
-			
-		<!-- replace src="<%=path%>/resources/dashboard.pack.js" type="script" -->
+		<!-- replace src="<%=path%>/resources/libs.pack.js" type="script" -->
 		<script type="text/javascript"
-			src="<%=path%>/resources/scripts/dashboard.js"></script>
+			src="<%=path%>/resources/libs/jquery/jquery.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/scripts/preload_for_dashboard.js"></script>
+			src="<%=path%>/resources/libs/core/core.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/form/form.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/menu/menu.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/metro/metro.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/layout/layout.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/breadcrumb/breadcrumb.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/easytabs/easytabs.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/scrollbar/scrollbar.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/search/search.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/popup/popup.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/flowchart/excanvas.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/flowchart/flowchart.utils.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/flowchart/flowchart.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/dialog/dialog.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/button/button.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/browsePanel/browsePanel.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/gridlayout/gridlayout.js"></script>
+		
+
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/drag/jquery.draggable.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/drag/jquery.droppable.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/resizable/jquery.resizable.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/tree/jquery.tree.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/panel/jquery.panel.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/validate/jquery.validatebox.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/combo/jquery.combo.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/combo/jquery.combobox.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/number/jquery.numberbox.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/grid/jquery.pagination.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/grid/jquery.datagrid.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/fusioncharts/FusionCharts.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/fusioncharts/fly.fusioncharts.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/libs/spreadsheet/jquery.spreadsheet.js"></script>
+		<!-- replace end -->
+			
+			
+		<!-- replace src="<%=path%>/resources/portal4int.pack.js" type="script" -->
+		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/portal4int.js"></script>
+		<script type="text/javascript"
+			src="<%=path%>/resources/scripts/preload_for_portal4int.js"></script>
 		<!-- replace end -->
 		
 		<script type="text/javascript">
@@ -60,6 +164,12 @@
 			
 	</head>
 	<body id="idBody">
+	
+		<div id="fly_portal_cover" class="fly_portal_cover" style="display:none;">
+			<div id="fly_portal_cover_img">
+				<img src="resources/images/portal/loading.gif" />
+			</div>
+		</div>
 
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	      <div class="container">
@@ -68,9 +178,8 @@
 	        </div>
 	        
 	        <div class="navbar-collapse collapse">
-	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="#">数据简报</a></li>
-	            <li class="active"><a href="#">经营分析周报</a></li>
+	          <ul id="fly_portal_menu_1st_level" class="nav navbar-nav navbar-right">
+	          	<!-- 1st level menu -->
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
@@ -81,31 +190,13 @@
 	
 	      <div class="row">
 	      
-	        <div class="col-xs-6 col-md-3" id="idSidebar" role="navigation">
-	          <div class="list-group">
-	            <a href="#" class="list-group-item active">首页</a>
-	            <a href="#" class="list-group-item">整体健康度</a>
-	            <a href="#" class="list-group-item">14年重点产品分析</a>
-	            <a href="#" class="list-group-item">端游运营分析</a>
-	            <a href="#" class="list-group-item">端游研发状态</a>
-	            <a href="#" class="list-group-item">页游运营分析</a>
-	            <a href="#" class="list-group-item">页游研发与海外代理</a>
-	            <a href="#" class="list-group-item">7Road上线产品及代理运营收入</a>
-	            <a href="#" class="list-group-item">7Road研发项目状态</a>
-	            <a href="#" class="list-group-item">Mobogenie</a>
-	            <a href="#" class="list-group-item">17173总体经营分析</a>
-	            <a href="#" class="list-group-item">17173媒体和视频</a>
-	            <a href="#" class="list-group-item">17173PC客户端</a>
-	            <a href="#" class="list-group-item">17173移动APP</a>
-	            <a href="#" class="list-group-item">17173研发中项目</a>
-	            <a href="#" class="list-group-item">网络应用研发部</a>
-	          </div>
+	        <div class="col-xs-6 col-md-3" id="fly_portal_menu_2ed_level" role="navigation">
+	          <!-- 2ed & 3th level menu -->
 	        </div><!--/span-->
 
 	        <div class="col-xs-12 col-md-9" style="height:840px;" id="idMainView" role="view">
 	          
 	          <div id="idMainView2"></div>
-	          
 	          
 	        </div><!--/span-->
 	
@@ -135,6 +226,11 @@
 	</body>
 	<script type="text/javascript">
 		$(document).ready( function() {
+        
+        	Flywet.Portal4int.initPage();
+        	$(window).bind('resize', function() {
+				Flywet.Portal4int.resize();
+			});
         
         
         

@@ -1,5 +1,7 @@
 package com.flywet.platform.bi.pivot.rest;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,6 +24,7 @@ import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.cache.BIPivotReportCache;
 import com.flywet.platform.bi.pivot.model.PivotReport;
@@ -42,6 +45,35 @@ public class BIPivotResource extends AbstractReportResource {
 	private BIPivotDelegates pivotService;
 
 	/**
+	 * 打开一个多维报表，用于Portal
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIException
+	 */
+	@SuppressWarnings("unchecked")
+	public String openPivotForPortal(String targetId,
+			HashMap<String, Object> context) throws BIException {
+		try {
+
+			JSONObject pvt = getPivotById((String) context.get("param"));
+
+			JSONObject rtn = JSONUtils.convertToJSONObject(context);
+			rtn.put("targetId", targetId);
+			rtn.put("data", pvt);
+
+			return rtn.toJSONString();
+		} catch (BIException ex) {
+			logger.error(ex.getMessage());
+			throw ex;
+		} catch (Exception ex) {
+			logger.error("创建多维报表编辑页面出现错误。");
+			throw new BIException("创建多维报表编辑页面出现错误。", ex);
+		}
+	}
+
+	/**
 	 * 打开一个多维报表编辑页面
 	 * 
 	 * @param id
@@ -55,27 +87,34 @@ public class BIPivotResource extends AbstractReportResource {
 			throws BIException {
 		try {
 
-			PivotReport pr = BIPivotReportCache.getPivotReportEditor(Long
-					.valueOf(id));
-
-			if (pr == null) {
-				// 获得报表对象
-				Object[] report = reportService.getReportObject(Long
-						.valueOf(id));
-				Document doc = PageTemplateInterpolator
-						.getDomWithContent((String) report[1]);
-				Node prNode = XMLHandler.getSubNode(doc, "PivotReport");
-
-				pr = PivotReportFactory.resolver(prNode);
-			}
-
-			JSONObject rtn = pivotService.query(pr);
+			JSONObject rtn = getPivotById(id);
 
 			return rtn.toJSONString();
+		} catch (BIException ex) {
+			logger.error(ex.getMessage());
+			throw ex;
 		} catch (Exception ex) {
 			logger.error("创建多维报表编辑页面出现错误。");
 			throw new BIException("创建多维报表编辑页面出现错误。", ex);
 		}
+	}
+
+	private JSONObject getPivotById(String id) throws NumberFormatException,
+			BIException {
+		PivotReport pr = BIPivotReportCache.getPivotReportEditor(Long
+				.valueOf(id));
+
+		if (pr == null) {
+			// 获得报表对象
+			Object[] report = reportService.getReportObject(Long.valueOf(id));
+			Document doc = PageTemplateInterpolator
+					.getDomWithContent((String) report[1]);
+			Node prNode = XMLHandler.getSubNode(doc, "PivotReport");
+
+			pr = PivotReportFactory.resolver(prNode);
+		}
+
+		return pivotService.query(pr);
 	}
 
 	/**
@@ -100,10 +139,10 @@ public class BIPivotResource extends AbstractReportResource {
 					getTemplateString(cate), attrsMap);
 
 			// 创建一个更新操作
-			AjaxResultEntity entity = AjaxResultEntity.instance().setOperation(
-					Utils.RESULT_OPERATION_APPEND).setTargetId(
-					BIBaseResource.ID_EDITOR_CONTENT_PANELS).setDomAndScript(
-					domString);
+			AjaxResultEntity entity = AjaxResultEntity.instance()
+					.setOperation(Utils.RESULT_OPERATION_APPEND)
+					.setTargetId(BIBaseResource.ID_EDITOR_CONTENT_PANELS)
+					.setDomAndScript(domString);
 
 			AjaxResult result = AjaxResult.instance();
 			result.addEntity(entity);
