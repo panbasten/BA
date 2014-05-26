@@ -1509,6 +1509,11 @@
 			v.css("margin-left",style.indent+"em");
 			v.css("margin-right",null);
 		}
+		
+		// 自动折行
+		if(style.wrap){
+			v.addClass("ui-spreadsheet-gridCell-wrap");
+		}
 	}
 	
 	// 单元格格式操作：设置单元格的边框
@@ -2379,6 +2384,7 @@
 		,align : "left" // left, center, right, justify
 		,valign : "middle" // top, middle, bottom
 		,indent : 0 // 缩进值
+		,wrap : true // 自动折行
 		
 		,colspan : 1
 		,rowspan : 1

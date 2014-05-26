@@ -365,6 +365,12 @@
     white-space: nowrap;
 }
 
+.ui-spreadsheet-gridCell-wrap {
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;
+}
+
 .ui-spreadsheet-defaultRangeBorder {
 	background-position: 0px 0px;
 	overflow: hidden;
