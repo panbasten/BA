@@ -1263,7 +1263,7 @@
 					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
 					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
 					
-					var val = cellOpts.caption.caption;
+					var val = cellOpts.value;
 					_setRegionCellData(sheetOpts,sheet,cellObj,cellOpts,val);
 					
 					cn = cn + parseInt(cellOpts.colspan||1);

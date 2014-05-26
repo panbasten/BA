@@ -4,6 +4,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.pivot.model.IRegionData;
+import com.flywet.platform.bi.pivot.model.data.NormalData;
 import com.flywet.platform.bi.pivot.model.data.PivotData;
 
 /**
@@ -20,9 +21,15 @@ public class PivotRegionDataFactory {
 
 		for (int i = 0; i < children.getLength(); i++) {
 			childnode = children.item(i);
+			// Pivot Data
 			if (childnode.getNodeName().equalsIgnoreCase(
 					PivotData.REGION_DATA_NAME)) {
 				return PivotData.instance(childnode);
+			}
+			// Normal Data
+			else if (childnode.getNodeName().equalsIgnoreCase(
+					NormalData.REGION_DATA_NAME)) {
+				return NormalData.instance(childnode);
 			}
 		}
 
