@@ -59,16 +59,25 @@ public class CellBordersStyle implements ICacheable, IJSONObjectable {
 		LineEnum style = null;
 		Color color = null;
 		for (int i = 0; i < 8; i++) {
-			styleInt = Utils.toInt(XMLHandler.getTagAttribute(node,
-					DefaultConst.BORDER_TYPE_NAMES[i] + "-style"), null);
+
+			styleInt = Utils
+					.toInt(XMLHandler.getTagAttribute(
+							node,
+							"border"
+									+ Utils.toUpperCaseFirstCharacter(DefaultConst.BORDER_TYPE_NAMES[i])
+									+ "Style"), null);
 			if (styleInt != null) {
 				style = LineEnum.get(styleInt.shortValue());
 			} else {
 				style = null;
 			}
 
-			colorStr = Const.NVL(XMLHandler.getTagAttribute(node,
-					DefaultConst.BORDER_TYPE_NAMES[i] + "-color"), null);
+			colorStr = Const
+					.NVL(XMLHandler.getTagAttribute(
+							node,
+							"border"
+									+ Utils.toUpperCaseFirstCharacter(DefaultConst.BORDER_TYPE_NAMES[i])
+									+ "Color"), null);
 			if (colorStr != null) {
 				color = Color.getInstance(colorStr);
 			} else {

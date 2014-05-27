@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.simple.JSONObject;
-import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
@@ -31,6 +30,9 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 	// 线条样式
 	private final CellBordersStyle borders;
 
+	// 背景样式
+//	private final CellBackgroundStyle bg;
+
 	// 数据格式化对象
 	// private CellStyle dataFormat;
 
@@ -49,11 +51,7 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 		CellFontStyle font = CellFontStyle.instance(node);
 		CellAlignStyle align = CellAlignStyle.instance(node);
 
-		CellBordersStyle borders = null;
-		Node borderNode = XMLHandler.getSubNode(node, PROP_NAME_BORDER);
-		if (borderNode != null) {
-			borders = CellBordersStyle.instance(borderNode);
-		}
+		CellBordersStyle borders = CellBordersStyle.instance(node);
 
 		return getInstance(font, align, borders);
 	}

@@ -183,12 +183,12 @@
 }
 
 .ui-spreadsheet-state-hideGrid .ui-spreadsheet-gridColSep{
-	background-color: #fff;
-    border-left: 1px solid #fff;
+	background-color: transparent;
+    border-left: 0 dotted #000;
 }
 
 .ui-spreadsheet-state-hideGrid .ui-spreadsheet-gridRow {
-	border-top: 1px solid #fff;
+	border-top: 0 dotted #000;
 }
 
 .ui-spreadsheet-gridSelectAll {

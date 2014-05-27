@@ -111,6 +111,10 @@ class NormalDataDataCell implements IJSONObjectable {
 			jo.put(PROP_NAME_VALUE, val);
 		}
 
+		if (cellStyle != null) {
+			jo.putAll(cellStyle.renderJo(context));
+		}
+
 		return jo;
 	}
 }

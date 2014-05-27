@@ -656,7 +656,7 @@ public class Utils {
 	 * @return
 	 */
 	public static final Long toLong(String str, Long def) {
-		if (def == null) {
+		if (str == null) {
 			return null;
 		}
 		try {
@@ -674,7 +674,7 @@ public class Utils {
 	 * @return
 	 */
 	public static final Float toFloat(String str, Float def) {
-		if (def == null) {
+		if (str == null) {
 			return null;
 		}
 		try {
@@ -692,7 +692,7 @@ public class Utils {
 	 * @return
 	 */
 	public static final Double toDouble(String str, Double def) {
-		if (def == null) {
+		if (str == null) {
 			return null;
 		}
 		try {
@@ -942,5 +942,35 @@ public class Utils {
 	public static String encodeURL(String paramsString, String charset)
 			throws UnsupportedEncodingException {
 		return URLEncoder.encode(paramsString, charset);
+	}
+
+	/**
+	 * 首字母转小写
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String toLowerCaseFirstCharacter(String s) {
+		if (Character.isLowerCase(s.charAt(0)))
+			return s;
+		else
+			return (new StringBuilder())
+					.append(Character.toLowerCase(s.charAt(0)))
+					.append(s.substring(1)).toString();
+	}
+
+	/**
+	 * 首字母转大写
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String toUpperCaseFirstCharacter(String s) {
+		if (Character.isUpperCase(s.charAt(0)))
+			return s;
+		else
+			return (new StringBuilder())
+					.append(Character.toUpperCase(s.charAt(0)))
+					.append(s.substring(1)).toString();
 	}
 }
