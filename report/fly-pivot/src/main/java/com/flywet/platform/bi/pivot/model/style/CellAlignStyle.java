@@ -86,7 +86,7 @@ public class CellAlignStyle implements ICacheable, IJSONObjectable {
 				XMLHandler.getTagAttribute(node, PROP_NAME_SHRINK), null);
 
 		return getInstance(align, vertical, indentation, wrap, shrink);
-		
+
 	}
 
 	public static CellAlignStyle getDefaultInstance() {
@@ -153,15 +153,15 @@ public class CellAlignStyle implements ICacheable, IJSONObjectable {
 		return vertical;
 	}
 
-	public float getIndentation() {
+	public Float getIndentation() {
 		return indentation;
 	}
 
-	public boolean isWrap() {
+	public Boolean isWrap() {
 		return wrap;
 	}
 
-	public boolean isShrink() {
+	public Boolean isShrink() {
 		return shrink;
 	}
 

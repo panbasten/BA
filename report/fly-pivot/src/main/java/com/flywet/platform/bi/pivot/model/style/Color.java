@@ -56,12 +56,12 @@ public class Color implements ICacheable {
 					new WEB_TEAL(), new WEB_WHITE(), new WEB_YELLOW() };
 
 			for (INamedColor nc : NAMED_COLORS) {
-				NAMED_CACHE.put(nc.getName(), (Color) nc);
+				NAMED_CACHE.put(nc.getName().toLowerCase(), (Color) nc);
 				NAMED_CACHE2.put(nc.getRGBA(), (Color) nc);
 			}
 
 			for (INamedColor nc : WEB_NAMED_COLORS) {
-				NAMED_CACHE.put(nc.getName(), (Color) nc);
+				NAMED_CACHE.put(nc.getName().toLowerCase(), (Color) nc);
 				NAMED_CACHE2.put(nc.getRGBA(), (Color) nc);
 			}
 

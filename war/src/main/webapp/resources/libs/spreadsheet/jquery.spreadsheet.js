@@ -39,6 +39,7 @@
 	// 获得单元格的尺寸
 	function _getCellSize(sheetOpts,cidx,ridx){
 		var m,mc;
+		var tipSize = (sheetOpts.showGrid)?1:0;
 		// 判断开始节点是否是合并节点
 		for(var mergeName in sheetOpts.merge){
 			m = sheetOpts.merge[mergeName];
@@ -52,14 +53,14 @@
 		}
 		if(mc){
 			return {
-				w: _getColsWidth(sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1))-1,
-				h: _getRowsHeight(sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1))-1,
+				w: _getColsWidth(sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1))-tipSize,
+				h: _getRowsHeight(sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1))-tipSize,
 				cidx: mc.cidx,
 				ridx: mc.ridx
 			};
 		}else{
 			return {
-				w: _getColWidth(sheetOpts,cidx)-1,
+				w: _getColWidth(sheetOpts,cidx)-tipSize,
 				h: _getRowHeight(sheetOpts,ridx),
 				cidx: cidx,
 				ridx: ridx
@@ -1527,7 +1528,7 @@
 			
 		var sp = cell.data("position"),
 			merge = cell.data("merge");
-		
+			
 		// 合并单元格的边框
 		// 对于左上边框拥有下列属性
 		// border.left-style 左边框样式
@@ -2266,6 +2267,8 @@
 	}
 	
 	$.fn.spreadsheet = function(options, param) {
+		
+		console.log(options);
 		if(typeof options == "string"){
 			return $.fn.spreadsheet.methods[options](this, param);
 		}

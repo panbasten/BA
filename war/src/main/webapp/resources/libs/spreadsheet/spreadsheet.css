@@ -345,7 +345,7 @@
 	-moz-user-select: -moz-none;
 	-webkit-user-select: none;
 	white-space: pre;
-	z-index: 1;
+	z-index: 20;
 	cursor: url("images/ss/cursors/xlcross.cur") 5 5, default;
 	cursor: url("images/ss/cursors/xlcross.cur"), default \9;
 	line-height: normal;

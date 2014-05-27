@@ -39,7 +39,7 @@ public class CellBordersStyle implements ICacheable, IJSONObjectable {
 		if (lines == null || lines.length == 0) {
 			return "";
 		}
-		String result = lines[0].getUUID();
+		String result = (lines[0] != null) ? lines[0].getUUID() : "";
 		for (int i = 1; i < lines.length; i++) {
 			result = result + ","
 					+ ((lines[i] != null) ? lines[i].getUUID() : "");

@@ -31,7 +31,7 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 	private final CellBordersStyle borders;
 
 	// 背景样式
-//	private final CellBackgroundStyle bg;
+	private final CellBackgroundStyle bg;
 
 	// 数据格式化对象
 	// private CellStyle dataFormat;
@@ -39,12 +39,13 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 	private final String _uuid;
 
 	private CellStyle(CellFontStyle font, CellAlignStyle align,
-			CellBordersStyle borders) {
+			CellBordersStyle borders, CellBackgroundStyle bg) {
 		this.font = font;
 		this.align = align;
 		this.borders = borders;
+		this.bg = bg;
 
-		this._uuid = createUUID(font, align, borders);
+		this._uuid = createUUID(font, align, borders, bg);
 	}
 
 	public static CellStyle instance(Node node) throws BIException {
@@ -53,27 +54,30 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 
 		CellBordersStyle borders = CellBordersStyle.instance(node);
 
-		return getInstance(font, align, borders);
+		CellBackgroundStyle bg = CellBackgroundStyle.instance(node);
+
+		return getInstance(font, align, borders, bg);
 	}
 
 	public static CellStyle getDefaultInstance() {
 		return getInstance(CellFontStyle.getDefaultInstance(),
 				CellAlignStyle.getDefaultInstance(),
-				CellBordersStyle.getDefaultInstance());
+				CellBordersStyle.getDefaultInstance(),
+				CellBackgroundStyle.getDefaultInstance());
 	}
 
 	public static CellStyle getInstance(CellFontStyle font,
-			CellAlignStyle align, CellBordersStyle lines) {
+			CellAlignStyle align, CellBordersStyle lines, CellBackgroundStyle bg) {
 
-		if (font == null && align == null && lines == null) {
+		if (font == null && align == null && lines == null && bg == null) {
 			return null;
 		}
 
-		String key = createUUID(font, align, lines);
+		String key = createUUID(font, align, lines, bg);
 
 		CellStyle cell = matchCache(key);
 		if (cell == null) {
-			cell = new CellStyle(font, align, lines);
+			cell = new CellStyle(font, align, lines, bg);
 			putCache(key, cell);
 		}
 
@@ -97,11 +101,12 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 	}
 
 	public static String createUUID(CellFontStyle font, CellAlignStyle align,
-			CellBordersStyle borders) {
+			CellBordersStyle borders, CellBackgroundStyle bg) {
 		String result = "";
 		result = result + ((font != null) ? font.getUUID() : "") + ",";
 		result = result + ((align != null) ? align.getUUID() : "") + ",";
-		result = result + ((borders != null) ? borders.getUUID() : "");
+		result = result + ((borders != null) ? borders.getUUID() : "") + ",";
+		result = result + ((bg != null) ? bg.getUUID() : "");
 		return result;
 	}
 
@@ -121,6 +126,10 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 		return borders;
 	}
 
+	public CellBackgroundStyle getBg() {
+		return bg;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
@@ -136,6 +145,10 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 
 		if (borders != null) {
 			jo.put(PROP_NAME_BORDER, borders.renderJo(context));
+		}
+
+		if (bg != null) {
+			jo.putAll(bg.renderJo(context));
 		}
 
 		return jo;
