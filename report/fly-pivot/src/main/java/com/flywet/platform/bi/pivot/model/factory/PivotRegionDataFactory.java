@@ -3,6 +3,7 @@ package com.flywet.platform.bi.pivot.model.factory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
 import com.flywet.platform.bi.pivot.model.data.NormalData;
 import com.flywet.platform.bi.pivot.model.data.PivotData;
@@ -14,7 +15,7 @@ import com.flywet.platform.bi.pivot.model.data.PivotData;
  * 
  */
 public class PivotRegionDataFactory {
-	public static IRegionData resolver(Node node) {
+	public static IRegionData resolver(Node node) throws BIException {
 		NodeList children = node.getChildNodes();
 
 		Node childnode;

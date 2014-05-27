@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.pivot.exception.BIPivotException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
@@ -145,16 +146,12 @@ public class PivotData implements IRegionData {
 
 	public static PivotData instance(Node node) {
 		PivotData pd = new PivotData();
-		String databaseMetaId = XMLHandler.getTagAttribute(node,
-				"databaseMetaId");
-		if (databaseMetaId != null) {
-			pd.databaseMetaId = Long.valueOf(databaseMetaId);
-		}
 
-		String catalogId = XMLHandler.getTagAttribute(node, "catalogId");
-		if (catalogId != null) {
-			pd.catalogId = Long.valueOf(catalogId);
-		}
+		pd.databaseMetaId = Utils.toLong(
+				XMLHandler.getTagAttribute(node, "databaseMetaId"), null);
+
+		pd.catalogId = Utils.toLong(
+				XMLHandler.getTagAttribute(node, "catalogId"), null);
 
 		pd.oraMdx = Const.trim(XMLHandler.getTagValue(node, "mdx"));
 		pd.mdx = pd.oraMdx;

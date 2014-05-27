@@ -30,7 +30,7 @@ public class TableRegion implements IRegionObject {
 		this.regionData = regionData;
 	}
 
-	public static TableRegion instance(Node node) {
+	public static TableRegion instance(Node node) throws BIException {
 		TableRegion tr = new TableRegion();
 		tr.regionData = PivotRegionDataFactory.resolver(node);
 		return tr;

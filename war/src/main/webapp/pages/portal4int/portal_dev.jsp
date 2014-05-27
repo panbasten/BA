@@ -627,9 +627,7 @@
 	        											"bottom-style" : "thin",
 														"right-style" : "thin"
 													},
-	        										"caption" : {
-	        											"caption" : "指标"
-	        										}
+	        										"value" : "指标"
 	        									}
 	        									
 	        								]
@@ -757,7 +755,7 @@
         		
         		
         		
-        	$("#idMainView2").spreadsheet(aa);
+        	//$("#idMainView2").spreadsheet(aa);
 
         });
 	</script>

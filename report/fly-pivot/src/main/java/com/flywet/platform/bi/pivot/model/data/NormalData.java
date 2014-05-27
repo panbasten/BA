@@ -1,7 +1,6 @@
 package com.flywet.platform.bi.pivot.model.data;
 
 import org.json.simple.JSONObject;
-import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
@@ -16,7 +15,7 @@ public class NormalData implements IRegionData {
 
 	private NormalDataData data;
 
-	public static NormalData instance(Node node) {
+	public static NormalData instance(Node node) throws BIException {
 		NormalData pd = new NormalData();
 
 		Node dataNode = XMLHandler.getSubNode(node, "data");

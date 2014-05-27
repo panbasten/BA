@@ -30,7 +30,7 @@ public class Region implements IJSONObjectable {
 
 	}
 
-	public static Region instance(Node node) {
+	public static Region instance(Node node) throws BIException {
 		Region r = new Region();
 		r.name = XMLHandler.getTagAttribute(node, PROP_NAME_NAME);
 		r.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);

@@ -1332,10 +1332,10 @@
 		// corner
 		function corner(cellOpts,cell){
 			cellOpts.border = {
-				"top-style" : "thin"
-				,"left-style" : "thin"
-				,"bottom-style" : "thin"
-				,"right-style" : "thin"
+				"top-style" : 1 //"thin"
+				,"left-style" : 1 //"thin"
+				,"bottom-style" : 1 //"thin"
+				,"right-style" : 1 //"thin"
 			};
 			cellOpts.style = "ss-corner";
 			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,"");
@@ -1343,40 +1343,40 @@
 		// heading-heading
 		function headingHeading(cellOpts,cell){
 			cellOpts.border = {
-				"top-style" : "thin"
-				,"left-style" : "thin"
-				,"bottom-style" : "thin"
-				,"right-style" : "thin"
+				"top-style" : 1 //"thin"
+				,"left-style" : 1 //"thin"
+				,"bottom-style" : 1 //"thin"
+				,"right-style" : 1 //"thin"
 			};
 			cellOpts.style = "ss-heading-heading-"+cellOpts.style;
 			cellOpts.indent = 0.5;
-			cellOpts.fontWeight = "bolder"
+			cellOpts.fontWeight = 2;
 			var val = cellOpts.caption.caption;
 			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 		}
 		// column-heading
 		function columnHeading(cellOpts,cell){
 			cellOpts.border = {
-				"top-style" : "thin"
-				,"left-style" : "thin"
-				,"bottom-style" : "thin"
-				,"right-style" : "thin"
+				"top-style" : 1 //"thin"
+				,"left-style" : 1 //"thin"
+				,"bottom-style" : 1 //"thin"
+				,"right-style" : 1 //"thin"
 			};
 			cellOpts.style = "ss-column-heading-"+cellOpts.style;
-			cellOpts.fontWeight = "bolder"
+			cellOpts.fontWeight = 2;
 			var val = cellOpts.caption.caption;
 			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 		}
 		// row-heading
 		function rowHeading(cellOpts,cell){
 			cellOpts.border = {
-				"top-style" : "thin"
-				,"left-style" : "thin"
-				,"bottom-style" : "thin"
-				,"right-style" : "thin"
+				"top-style" : 1 //"thin"
+				,"left-style" : 1 //"thin"
+				,"bottom-style" : 1 //"thin"
+				,"right-style" : 1 //"thin"
 			};
 			cellOpts.style = "ss-row-heading-"+cellOpts.style;
-			cellOpts.fontWeight = "bolder"
+			cellOpts.fontWeight = 2;
 			var val = cellOpts.caption.caption;
 			if(cellOpts.drillExpand){
 				val = "<input id='" + cellOpts.drillExpand.id 
@@ -1399,13 +1399,13 @@
 		// cell
 		function cell(cellOpts,cell){
 			cellOpts.border = {
-				"top-style" : "thin"
-				,"left-style" : "thin"
-				,"bottom-style" : "thin"
-				,"right-style" : "thin"
+				"top-style" : 1 //"thin"
+				,"left-style" : 1 //"thin"
+				,"bottom-style" : 1 //"thin"
+				,"right-style" : 1 //"thin"
 			};
 			cellOpts.style = "ss-cell-"+cellOpts.style;
-			cellOpts.align = "right";
+			cellOpts.align = 2;
 			var val = cellOpts.value;
 			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
 		}
@@ -1462,10 +1462,10 @@
 			v.css("font-color",style.fontColor);
 		}
 		if(style.fontStyle){
-			v.css("font-style",style.fontStyle);
+			v.css("font-style",$.fn.spreadsheet.fontStyleEnum[style.fontStyle]);
 		}
 		if(style.fontWeight){
-			v.css("font-weight",style.fontWeight);
+			v.css("font-weight",$.fn.spreadsheet.fontWeightEnum[style.fontWeight]);
 		}
 	}
 	
@@ -1474,16 +1474,16 @@
 		var v = cell.find(".ui-spreadsheet-gridCell-val"),
 			valign = cell.find(".ui-spreadsheet-gridCell-valign");
 		// 水平
-		v.css("text-align",style.align);
+		v.css("text-align",$.fn.spreadsheet.alignEnum[style.align]);
 		
 		// 垂直
-		if(style.valign == "top"){
+		if(style.valign == 0){
 			v.css("top","0");
 			v.css("bottom",null);
 			v.css("position","absolute");
 			cell.append(v);
 			valign.remove();
-		}else if(style.valign == "bottom"){
+		}else if(style.valign == 2){
 			v.css("top",null);
 			v.css("bottom","0");
 			v.css("position","absolute");
@@ -1502,7 +1502,7 @@
 		}
 		
 		// 设置缩进
-		if(style.align == "right"){
+		if(style.align == 2){
 			v.css("margin-left",null);
 			v.css("margin-right",style.indent+"em");
 		}else{
@@ -1513,6 +1513,12 @@
 		// 自动折行
 		if(style.wrap){
 			v.addClass("ui-spreadsheet-gridCell-wrap");
+		}
+	}
+	
+	function _setBackground(sheetOpts,sheet,cell,style){
+		if(style.backgroundColor){
+			cell.css("background-color",style.backgroundColor);
 		}
 	}
 	
@@ -1540,10 +1546,9 @@
 			top = 0;
 		
 		// 处理左边框
-		if(border["left-style"] && border["left-style"] != "none"){
-			lineStyle = $.fn.spreadsheet.borderLineStyle[border["left-style"]];
-			borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
-				+ (border["left-color"]||lineStyle.color);
+		if(border["left-style"] && border["left-style"] != 0){
+			lineStyle = $.fn.spreadsheet.borderLineStyleFunc(border["left-style"],border["left-color"]);
+			borderStyle = lineStyle.width + "px " + lineStyle.style + " " + lineStyle.color;
 			left = left - lineStyle.width;
 			cell.css("border-left",borderStyle);
 			
@@ -1557,9 +1562,8 @@
 		
 		// 处理上边框
 		if(border["top-style"] && border["top-style"] != "none"){
-			lineStyle = $.fn.spreadsheet.borderLineStyle[border["top-style"]];
-			borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
-				+ (border["top-color"]||lineStyle.color);
+			lineStyle = $.fn.spreadsheet.borderLineStyleFunc(border["top-style"],border["top-color"]);
+			borderStyle = lineStyle.width + "px " + lineStyle.style + " " + lineStyle.color;
 			top = top - lineStyle.width;
 			cell.css("border-top",borderStyle);
 			
@@ -1588,9 +1592,8 @@
 					,border : rstyle
 				});
 			}else{
-				lineStyle = $.fn.spreadsheet.borderLineStyle[border["right-style"]];
-				borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
-					+ (border["right-color"]||lineStyle.color);
+				lineStyle = $.fn.spreadsheet.borderLineStyleFunc(border["right-style"],border["right-color"]);
+				borderStyle = lineStyle.width + "px " + lineStyle.style + " " + lineStyle.color;
 				cell.css("border-right",borderStyle);
 				border["left-proxy"] = false;
 			}
@@ -1612,9 +1615,8 @@
 					,border : tstyle
 				});
 			}else{
-				lineStyle = $.fn.spreadsheet.borderLineStyle[border["bottom-style"]];
-				borderStyle = lineStyle.width + "px " + lineStyle.style + " " 
-					+ (border["bottom-color"]||lineStyle.color);
+				lineStyle = $.fn.spreadsheet.borderLineStyleFunc(border["bottom-style"],border["bottom-color"]);
+				borderStyle = lineStyle.width + "px " + lineStyle.style + " " + lineStyle.color;
 				cell.css("border-bottom",borderStyle);
 				border["top-proxy"] = false;
 			}
@@ -1733,6 +1735,7 @@
 		
 		// 设置边框
 		_setCellBorder(sheetOpts,sheet,cell,style);
+		_setBackground(sheetOpts,sheet,cell,style);
 		
 	}
 	
@@ -2374,22 +2377,41 @@
 	
 	};
 	
+	// TODO 补充样式
 	$.fn.spreadsheet.cellStyleDefaults = {
 		fontFamily : null
-		,fontStyle : "normal" // normal, italic
-		,fontWeight : "normal" // normal, lighter, bolder, bold
+		,fontStyle : 0 // normal, italic
+		,fontWeight : 0 // normal, lighter, bolder, bold
 		,fontSize : null
 		,fontColor : null
 			
-		,align : "left" // left, center, right, justify
-		,valign : "middle" // top, middle, bottom
+		,align : 0 // left, center, right, justify
+		,valign : 1 // top, middle, bottom
 		,indent : 0 // 缩进值
 		,wrap : true // 自动折行
+		
+		,backgroundColor : null // 背景颜色
 		
 		,colspan : 1
 		,rowspan : 1
 		
 	};
+	
+	$.fn.spreadsheet.fontStyleEnum = ["normal","italic"];
+	$.fn.spreadsheet.fontWeightEnum = ["normal","lighter","bolder","bold"];
+	$.fn.spreadsheet.alignEnum = ["left","center","right","justify"];
+	$.fn.spreadsheet.valignEnum = ["top","middle","bottom"];
+	
+	$.fn.spreadsheet.borderLineStyleFunc = function(styleIndex, color){
+		var style = $.extend({}, 
+			$.fn.spreadsheet.borderLineStyle[$.fn.spreadsheet.borderLineStyleEnum[styleIndex]]);
+		if(color){
+			style.color = color;
+		}
+		return style;
+	};
+	
+	$.fn.spreadsheet.borderLineStyleEnum = ["none","thin","medium","dashed"];
 	
 	$.fn.spreadsheet.borderLineStyle = {
 		// 无表格线

@@ -46,7 +46,7 @@ public class PivotReport implements IJSONObjectable {
 
 	}
 
-	public static PivotReport instance(Node node) {
+	public static PivotReport instance(Node node) throws BIException {
 		PivotReport pr = new PivotReport();
 		pr.width = Utils.toInt(
 				XMLHandler.getTagAttribute(node, PROP_NAME_WIDTH), null);

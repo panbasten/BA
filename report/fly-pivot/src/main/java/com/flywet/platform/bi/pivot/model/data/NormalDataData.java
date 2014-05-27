@@ -10,7 +10,9 @@ import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.style.CellStyle;
 import com.tonbeller.wcf.controller.RequestContext;
 
 public class NormalDataData implements IJSONObjectable {
@@ -19,7 +21,7 @@ public class NormalDataData implements IJSONObjectable {
 
 	List<List<NormalDataDataCell>> cells;
 
-	public static NormalDataData instance(Node node) {
+	public static NormalDataData instance(Node node) throws BIException {
 		NormalDataData b = new NormalDataData();
 
 		b.cells = new ArrayList<List<NormalDataDataCell>>();
@@ -70,23 +72,23 @@ class NormalDataDataCell implements IJSONObjectable {
 	String style;
 	String val;
 
-	public static NormalDataDataCell instance(Node node) {
+	CellStyle cellStyle;
+
+	public static NormalDataDataCell instance(Node node) throws BIException {
 		NormalDataDataCell cell = new NormalDataDataCell();
 
-		String colspan = XMLHandler.getTagAttribute(node, PROP_NAME_COLSPAN);
-		if (colspan != null) {
-			cell.colspan = Integer.valueOf(colspan);
-		}
+		cell.colspan = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_COLSPAN), null);
 
-		String rowspan = XMLHandler.getTagAttribute(node, PROP_NAME_ROWSPAN);
-		if (rowspan != null) {
-			cell.rowspan = Integer.valueOf(rowspan);
-		}
+		cell.rowspan = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_ROWSPAN), null);
 
-		cell.style = Const.trim(XMLHandler.getTagAttribute(node,
-				PROP_NAME_STYLE));
-		cell.val = Const
-				.trim(XMLHandler.getTagAttribute(node, PROP_NAME_VALUE));
+		cell.style = Const.NVL(
+				XMLHandler.getTagAttribute(node, PROP_NAME_STYLE), null);
+		cell.val = Const.NVL(XMLHandler.getTagAttribute(node, PROP_NAME_VALUE),
+				null);
+
+		cell.cellStyle = CellStyle.instance(node);
 
 		return cell;
 	}

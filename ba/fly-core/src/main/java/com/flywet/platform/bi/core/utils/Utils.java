@@ -531,7 +531,7 @@ public class Utils {
 			spath[nr] = path.substring(from);
 		}
 
-		// 
+		//
 		// a --> { a }
 		//
 		if (spath.length == 0 && path.length() > 0) {
@@ -661,6 +661,24 @@ public class Utils {
 		}
 		try {
 			return Long.parseLong(str);
+		} catch (Exception e) {
+			return def;
+		}
+	}
+
+	/**
+	 * 将String转换成float。如果转换出错，返回默认值
+	 * 
+	 * @param str
+	 * @param def
+	 * @return
+	 */
+	public static final Float toFloat(String str, Float def) {
+		if (def == null) {
+			return null;
+		}
+		try {
+			return Float.parseFloat(str);
 		} catch (Exception e) {
 			return def;
 		}

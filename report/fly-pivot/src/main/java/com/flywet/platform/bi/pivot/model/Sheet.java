@@ -79,7 +79,7 @@ public class Sheet implements IJSONObjectable {
 
 	}
 
-	public static Sheet instance(Node node) {
+	public static Sheet instance(Node node) throws BIException {
 		Sheet s = new Sheet();
 		s.sheetName = XMLHandler.getTagAttribute(node, PROP_NAME_SHEET_NAME);
 		s.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
