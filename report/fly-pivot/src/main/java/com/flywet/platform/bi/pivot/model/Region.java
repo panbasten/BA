@@ -1,10 +1,12 @@
 package com.flywet.platform.bi.pivot.model;
 
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.model.factory.PivotRegionFactory;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -12,6 +14,7 @@ public class Region implements IJSONObjectable {
 
 	public static final String PROP_NAME_NAME = "name";
 	public static final String PROP_NAME_ANNOTATION = "annotation";
+	public static final String PROP_NAME_MARGIN = "margin";
 	public static final String PROP_NAME_REGION_OBJECT = "regionObject";
 
 	// 名称
@@ -19,6 +22,9 @@ public class Region implements IJSONObjectable {
 
 	// 注释
 	private String annotation;
+
+	// 间距
+	private Integer margin;
 
 	// 开始位置
 	private PositionType startPosition;
@@ -35,8 +41,12 @@ public class Region implements IJSONObjectable {
 
 	public static Region instance(Node node) throws BIException {
 		Region r = new Region();
-		r.name = XMLHandler.getTagAttribute(node, PROP_NAME_NAME);
-		r.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
+		r.name = Const.NVL(XMLHandler.getTagAttribute(node, PROP_NAME_NAME),
+				null);
+		r.annotation = Const.NVL(
+				XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION), null);
+		r.margin = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_MARGIN), null);
 
 		Node startPosition = XMLHandler.getSubNode(node,
 				PositionType.NODE_NAME_START_POSITION);
@@ -68,6 +78,10 @@ public class Region implements IJSONObjectable {
 
 		if (name != null) {
 			jo.put(PROP_NAME_NAME, name);
+		}
+
+		if (margin != null) {
+			jo.put(PROP_NAME_MARGIN, margin);
 		}
 
 		if (startPosition != null) {
@@ -125,6 +139,14 @@ public class Region implements IJSONObjectable {
 
 	public void setRegionObject(IRegionObject regionObject) {
 		this.regionObject = regionObject;
+	}
+
+	public Integer getMargin() {
+		return margin;
+	}
+
+	public void setMargin(Integer margin) {
+		this.margin = margin;
 	}
 
 }

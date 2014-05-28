@@ -19,7 +19,13 @@ import com.tonbeller.wcf.controller.RequestContext;
 public class ChartDataData implements IJSONObjectable {
 
 	ChartDataDataChart chart;
+
+	// 正常分类
 	List<ChartDataDataCategories> categories;
+
+	// 嵌套结构分类
+	List<ChartDataDataCategory> category;
+
 	List<ChartDataDataDataSet> dataSet;
 
 	@SuppressWarnings("unchecked")
@@ -37,6 +43,14 @@ public class ChartDataData implements IJSONObjectable {
 				categoriesJa.add(c.renderJo(context));
 			}
 			jo.put("categories", categoriesJa);
+		}
+
+		if (category != null && category.size() > 0) {
+			JSONArray categoryJa = new JSONArray();
+			for (ChartDataDataCategory c : category) {
+				categoryJa.add(c.renderJo(context));
+			}
+			jo.put("category", categoryJa);
 		}
 
 		if (dataSet != null && dataSet.size() > 0) {
@@ -59,6 +73,14 @@ public class ChartDataData implements IJSONObjectable {
 			d.categories = new ArrayList<ChartDataDataCategories>();
 			for (Node n : categories) {
 				d.categories.add(ChartDataDataCategories.instance(n));
+			}
+		}
+
+		List<Node> category = XMLHandler.getNodes(node, "category");
+		if (category != null && category.size() > 0) {
+			d.category = new ArrayList<ChartDataDataCategory>();
+			for (Node n : categories) {
+				d.category.add(ChartDataDataCategory.instance(n));
 			}
 		}
 
@@ -98,21 +120,21 @@ class ChartDataDataChart implements IJSONObjectable {
 }
 
 class ChartDataDataCategories implements IJSONObjectable {
-	List<ChartDataDataCategory> catagory;
+	List<ChartDataDataCategory> category;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
 
-		if (catagory != null && catagory.size() > 0) {
+		if (category != null && category.size() > 0) {
 			JSONArray ja = new JSONArray();
 
-			for (ChartDataDataCategory c : catagory) {
+			for (ChartDataDataCategory c : category) {
 				ja.add(c.renderJo(context));
 			}
 
-			jo.put("catagory", catagory);
+			jo.put("category", ja);
 		}
 
 		return jo;
@@ -122,11 +144,11 @@ class ChartDataDataCategories implements IJSONObjectable {
 			throws BIException {
 		ChartDataDataCategories c = new ChartDataDataCategories();
 
-		List<Node> catagory = XMLHandler.getNodes(node, "catagory");
+		List<Node> catagory = XMLHandler.getNodes(node, "category");
 		if (catagory != null && catagory.size() > 0) {
-			c.catagory = new ArrayList<ChartDataDataCategory>();
+			c.category = new ArrayList<ChartDataDataCategory>();
 			for (Node n : catagory) {
-				c.catagory.add(ChartDataDataCategory.instance(n));
+				c.category.add(ChartDataDataCategory.instance(n));
 			}
 		}
 
@@ -139,7 +161,7 @@ class ChartDataDataCategory implements IJSONObjectable {
 	String value;
 	Color color;
 
-	List<ChartDataDataCategory> catagory;
+	List<ChartDataDataCategory> category;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -147,25 +169,25 @@ class ChartDataDataCategory implements IJSONObjectable {
 		JSONObject jo = new JSONObject();
 
 		if (label != null) {
-			jo.put("label", jo);
+			jo.put("label", label);
 		}
 
 		if (value != null) {
-			jo.put("value", jo);
+			jo.put("value", value);
 		}
 
 		if (color != null) {
 			jo.put("color", color.getRGBText());
 		}
 
-		if (catagory != null && catagory.size() > 0) {
+		if (category != null && category.size() > 0) {
 			JSONArray ja = new JSONArray();
 
-			for (ChartDataDataCategory c : catagory) {
+			for (ChartDataDataCategory c : category) {
 				ja.add(c.renderJo(context));
 			}
 
-			jo.put("catagory", catagory);
+			jo.put("category", ja);
 		}
 
 		return jo;
@@ -182,11 +204,11 @@ class ChartDataDataCategory implements IJSONObjectable {
 			c.color = Color.getInstance(colorStr);
 		}
 
-		List<Node> catagory = XMLHandler.getNodes(node, "catagory");
+		List<Node> catagory = XMLHandler.getNodes(node, "category");
 		if (catagory != null && catagory.size() > 0) {
-			c.catagory = new ArrayList<ChartDataDataCategory>();
+			c.category = new ArrayList<ChartDataDataCategory>();
 			for (Node n : catagory) {
-				c.catagory.add(ChartDataDataCategory.instance(n));
+				c.category.add(ChartDataDataCategory.instance(n));
 			}
 		}
 

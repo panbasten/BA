@@ -1203,12 +1203,13 @@
 		var regionObject = region.regionObject,
 			regionData = regionObject.regionData,
 			sp = region.startPosition,
-			ep = region.endPosition;
-		
-		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx),
-			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx),
-			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)),
-			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1));
+			ep = region.endPosition || region.startPosition,
+			margin = region.margin || 0;
+			
+		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx) - margin*2,
+			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx) - margin*2,
+			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + margin,
+			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
 		
 		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
 		var chartDiv = $("<div class='ui-spreadsheet-flowRegion'></div>").appendTo(paneIC);
