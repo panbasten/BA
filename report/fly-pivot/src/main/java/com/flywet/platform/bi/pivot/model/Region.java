@@ -23,6 +23,9 @@ public class Region implements IJSONObjectable {
 	// 开始位置
 	private PositionType startPosition;
 
+	// 结束位置
+	private PositionType endPosition;
+
 	// 区域
 	private IRegionObject regionObject;
 
@@ -39,6 +42,12 @@ public class Region implements IJSONObjectable {
 				PositionType.NODE_NAME_START_POSITION);
 		if (startPosition != null) {
 			r.startPosition = new PositionType(startPosition);
+		}
+
+		Node endPosition = XMLHandler.getSubNode(node,
+				PositionType.NODE_NAME_END_POSITION);
+		if (endPosition != null) {
+			r.endPosition = new PositionType(endPosition);
 		}
 
 		r.regionObject = PivotRegionFactory.resolver(node);
@@ -64,6 +73,11 @@ public class Region implements IJSONObjectable {
 		if (startPosition != null) {
 			jo.put(PositionType.PROP_NAME_START_POSITION,
 					startPosition.renderJo(context));
+		}
+
+		if (endPosition != null) {
+			jo.put(PositionType.PROP_NAME_END_POSITION,
+					endPosition.renderJo(context));
 		}
 
 		if (regionObject != null) {
@@ -95,6 +109,14 @@ public class Region implements IJSONObjectable {
 
 	public void setStartPosition(PositionType startPosition) {
 		this.startPosition = startPosition;
+	}
+
+	public PositionType getEndPosition() {
+		return endPosition;
+	}
+
+	public void setEndPosition(PositionType endPosition) {
+		this.endPosition = endPosition;
 	}
 
 	public IRegionObject getRegionObject() {

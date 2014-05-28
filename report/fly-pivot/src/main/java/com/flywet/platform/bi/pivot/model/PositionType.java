@@ -13,6 +13,9 @@ public class PositionType implements IJSONObjectable {
 	public static final String PROP_NAME_START_POSITION = "startPosition";
 	public static final String NODE_NAME_START_POSITION = "StartPosition";
 
+	public static final String PROP_NAME_END_POSITION = "endPosition";
+	public static final String NODE_NAME_END_POSITION = "EndPosition";
+
 	private long cidx;
 	private long ridx;
 

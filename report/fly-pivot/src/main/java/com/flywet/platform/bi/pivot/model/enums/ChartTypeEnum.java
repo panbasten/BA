@@ -6,47 +6,72 @@ import com.flywet.platform.bi.pivot.model.IStyleEnum;
 
 public enum ChartTypeEnum implements IStyleEnum {
 
-	// 2D面积图
-	AREA2D((short) 0, "Area2D"),
-	// 2D柱形图
-	COLUMN2D((short) 0, "Column2D"),
-	// 3D柱形图
-	COLUMN3D((short) 0, "Column3D"),
-	// 2D饼图
-	PIE2D((short) 0, "Pie2D"),
-	// 3D饼图
-	PIE3D((short) 0, "Pie3D"),
-	//
-	LINE((short) 0, "Line"),
-	//
-	MSCOLUMN2D((short) 0, "MSColumn2D"),
-	//
-	MSCOLUMN3D((short) 0, "MSColumn3D"),
-	//
-	MSLINE((short) 0, "MSLine"),
-	//
-	MSCOMBI2D((short) 0, "MSCombi2D"),
-	//
-	MSCOMBI3D((short) 0, "MSCombi3D"),
-	//
-	MSCOLUMNLINE3D((short) 0, "MSColumnLine3D"),
-	//
-	STACKEDCOLUMN3D((short) 0, "StackedColumn3D"),
-	//
-	MSCOLUMN3DLINEDY((short) 0, "MSColumn3DLineDY");
+	// 柱形图
+	MSCOLUMN2D((short) 0, "MSColumn2D", true),
+	// 堆积柱形图
+	MSSTACKEDCOLUMN2D((short) 1, "MSStackedColumn2D", true),
+	// 条形图
+	MSBAR2D((short) 2, "MSBar2D", true),
+	// 面积图
+	MSAREA((short) 3, "MSArea", true),
+	// 折线图
+	MSLINE((short) 4, "MSLine", true),
+	// 饼图
+	PIE2D((short) 5, "Pie2D", false),
+	// 多级饼图
+	MULTILEVELPIE((short) 6, "MultiLevelPie", true),
+	// 单Y轴组合图
+	MSCOMBI2D((short) 7, "MSCombi2D", true),
+	// 双Y轴组合图
+	MSCOMBIDY2D((short) 8, "MSCombiDY2D", true),
+	// 散点图
+	SCATTER((short) 9, "Scatter", true),
+	// 气泡图
+	BUBBLE((short) 10, "Bubble", true),
+	// 仪表盘
+	ANGULARGAUGE((short) 11, "AngularGauge", true),
+	// 雷达图
+	RADAR((short) 12, "Radar", true),
+	// 子弹图
+	VBULLET((short) 13, "VBullet", true),
+	// 水平子弹图
+	HBULLET((short) 14, "HBullet", true),
+	// 温度计
+	THERMOMETER((short) 15, "Thermometer", true),
+	// 量筒图
+	CYLINDER((short) 16, "Cylinder", true),
+	// 漏斗图
+	FUNNEL((short) 17, "Funnel", true),
+	// 金字塔图
+	PYRAMID((short) 18, "Pyramid", true),
+	// 刻度板
+	HLINEARGAUGE((short) 19, "HLinearGauge", true),
+	// 瀑布图
+	WATERFALL2D((short) 20, "Waterfall2D", true),
+	// 迷你柱形图
+	SPARKCOLUM((short) 21, "SparkColumn", true),
+	// 迷你盈亏图
+	SPARKWINLOSS((short) 22, "SparkWinLoss", true),
+	// 迷你柱形图
+	SPARKLINE((short) 23, "SparkLine", true);
 
 	public static final String ENUM_NAME = "ChartType";
 
 	private static Class<?> PKG = ChartTypeEnum.class;
 
-	ChartTypeEnum(short index, String chartName) {
+	ChartTypeEnum(short index, String chartName, boolean isMultiSeries) {
 		this.index = index;
 		this.chartName = chartName;
 	}
 
+	// 索引
 	private short index;
 
+	// 统计图名称
 	private String chartName;
+
+	// 是否是多系列
+	private boolean isMultiSeries;
 
 	public static ChartTypeEnum get(short index) {
 		for (ChartTypeEnum e : ChartTypeEnum.values()) {
@@ -68,6 +93,10 @@ public enum ChartTypeEnum implements IStyleEnum {
 
 	public String getChartName() {
 		return chartName;
+	}
+
+	public boolean isMultiSeries() {
+		return isMultiSeries;
 	}
 
 	@Override

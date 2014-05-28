@@ -5,6 +5,7 @@ import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.model.IRegionObject;
+import com.flywet.platform.bi.pivot.model.region.ChartRegion;
 import com.flywet.platform.bi.pivot.model.region.TableRegion;
 
 /**
@@ -25,6 +26,11 @@ public class PivotRegionFactory {
 			if (childnode.getNodeName().equalsIgnoreCase(
 					TableRegion.REGION_OBJECT_NAME)) {
 				return TableRegion.instance(childnode);
+			}
+
+			else if (childnode.getNodeName().equalsIgnoreCase(
+					ChartRegion.REGION_OBJECT_NAME)) {
+				return ChartRegion.instance(childnode);
 			}
 
 			// TODO

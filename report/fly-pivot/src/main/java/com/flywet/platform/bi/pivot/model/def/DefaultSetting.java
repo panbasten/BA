@@ -1,6 +1,7 @@
 package com.flywet.platform.bi.pivot.model.def;
 
 import com.flywet.platform.bi.pivot.model.enums.AlignEnum;
+import com.flywet.platform.bi.pivot.model.enums.ChartTypeEnum;
 import com.flywet.platform.bi.pivot.model.enums.FontStyleEnum;
 import com.flywet.platform.bi.pivot.model.enums.FontWeightEnum;
 import com.flywet.platform.bi.pivot.model.enums.LineEnum;
@@ -40,6 +41,9 @@ public class DefaultSetting {
 	// 定位
 	public static final int DEFAULT_ROW_POS = 0;
 	public static final int DEFAULT_COLUMN_POS = 0;
+
+	// Chart
+	public static final ChartTypeEnum DEFAULT_CHART_TYPE = ChartTypeEnum.MSCOLUMN2D;
 
 	// 模型最大行数和列数
 	public static final int DEFAULT_MODEL_MAX_ROW_NUM = Short.MAX_VALUE * 2;

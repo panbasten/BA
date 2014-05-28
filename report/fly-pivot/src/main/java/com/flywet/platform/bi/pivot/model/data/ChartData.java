@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.exception.BIPivotException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
+import com.flywet.platform.bi.pivot.model.def.DefaultSetting;
 import com.flywet.platform.bi.pivot.model.enums.ChartTypeEnum;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -23,12 +24,18 @@ public class ChartData implements IRegionData {
 	public static ChartData instance(Node node) throws BIException {
 		ChartData pd = new ChartData();
 
-		Node dataNode = XMLHandler.getSubNode(node, "data");
+		Node dataNode = XMLHandler.getSubNode(node, "chart");
 		if (dataNode != null) {
 			pd.data = ChartDataData.instance(dataNode);
 		}
 
-		Const.NVL(XMLHandler.getTagAttribute(node, PROP_NAME_CHART_TYPE), null);
+		String chartTypeStr = Const.NVL(
+				XMLHandler.getTagAttribute(node, PROP_NAME_CHART_TYPE), null);
+		if (chartTypeStr != null) {
+			pd.type = ChartTypeEnum.getByName(chartTypeStr);
+		} else {
+			pd.type = DefaultSetting.DEFAULT_CHART_TYPE;
+		}
 
 		return pd;
 	}
@@ -39,6 +46,10 @@ public class ChartData implements IRegionData {
 		try {
 			JSONObject jo = new JSONObject();
 			jo.put(REGION_DATA_TYPE, getTypeName());
+
+			if (type != null) {
+				jo.put(PROP_NAME_CHART_TYPE, type.getChartName());
+			}
 
 			if (data != null) {
 				jo.put(PROP_NAME_DATA, data.renderJo(context));

@@ -39,6 +39,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -851,8 +852,8 @@ public class XMLHandler {
 			value.append(tag);
 
 			for (int i = 0; i < attributes.length; i += 2)
-				value.append(" ").append(attributes[i]).append("=\"").append(
-						attributes[i + 1]).append("\" ");
+				value.append(" ").append(attributes[i]).append("=\"")
+						.append(attributes[i + 1]).append("\" ");
 
 			value.append('>');
 
@@ -866,8 +867,8 @@ public class XMLHandler {
 			value.append(tag);
 
 			for (int i = 0; i < attributes.length; i += 2)
-				value.append(" ").append(attributes[i]).append("=\"").append(
-						attributes[i + 1]).append("\" ");
+				value.append(" ").append(attributes[i]).append("=\"")
+						.append(attributes[i + 1]).append("\" ");
 
 			value.append("/>");
 		}
@@ -1236,6 +1237,20 @@ public class XMLHandler {
 				attributes[i] = attr.getNodeName();
 			}
 			return attributes;
+		}
+		return null;
+
+	}
+
+	public static Map<String, String> getNodeAttributesMap(Node node) {
+		NamedNodeMap nnm = node.getAttributes();
+		if (nnm != null) {
+			Map<String, String> map = new HashMap<String, String>();
+			for (int i = 0; i < nnm.getLength(); i++) {
+				Node attr = nnm.item(i);
+				map.put(attr.getNodeName(), attr.getNodeValue());
+			}
+			return map;
 		}
 		return null;
 
