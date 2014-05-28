@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding='gb2312'?>
+<root>
+    <dataSource>
+        <dataSourceName>design</dataSourceName>
+        <oidMark>Z</oidMark>
+        <databaseUrl>jdbc:sqlserver://uapxt02:1433;database=newwf_1010;sendStringParametersAsUnicode=false;responseBuffering=adaptive</databaseUrl>
+        <user>sa</user>
+        <password>sasasa</password>
+        <driverClassName>com.microsoft.sqlserver.jdbc.SQLServerDriver</driverClassName>
+        <databaseType>SQLSERVER2008</databaseType>
+        <maxCon>50</maxCon>
+        <minCon>1</minCon>
+        <dataSourceClassName>nc.bs.mw.ejb.xares.IerpDataSource</dataSourceClassName>
+        <xaDataSourceClassName>nc.bs.mw.ejb.xares.IerpXADataSource</xaDataSourceClassName>
+        <conIncrement>0</conIncrement>
+        <conInUse>0</conInUse>
+        <conIdle>0</conIdle>
+    </dataSource>
+</root>

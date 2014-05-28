@@ -1,0 +1,12 @@
+<!-- docs.fusioncharts.com/powercharts/Contents/ChartSS/Waterfall.htm -->
+
+<chart caption='Sales By Product' subcaption='For the year 2006' xAxisName='Product' yAxisName='Sales' numberPrefix='$' connectorDashed='1' showSumAtEnd='0'>
+   <set label='Bi v2' value='420000' />   
+   <set label='Real v3.2' value='810000' />
+   <!--set label='Business Division Sales' isSum='1' /-->
+   <set label='FusionCharts' value='910000' />
+   <set label='IS v2' value='-720000' />
+   <set label='PS v3' value='550000' />   
+</chart>
+
+

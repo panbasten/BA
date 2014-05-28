@@ -22,6 +22,8 @@ public class PivotReport implements IJSONObjectable {
 
 	public static final String PROP_NAME_WIDTH = "width";
 	public static final String PROP_NAME_HEIGHT = "height";
+	public static final String PROP_NAME_SHOW_H_SCROLL = "showHScroll";
+	public static final String PROP_NAME_SHOW_V_SCROLL = "showVScroll";
 	public static final String PROP_NAME_OFFSET_CELL_NUMBER = "offsetCellNumber";
 	public static final String PROP_NAME_CURRENT_SHEET_INDEX = "currentSheetIndex";
 	public static final String PROP_NAME_SHEET = "sheet";
@@ -32,6 +34,12 @@ public class PivotReport implements IJSONObjectable {
 
 	// 报表区域高度
 	private Integer height;
+
+	// 显示横向滚动条
+	private Boolean showHScroll;
+
+	// 显示纵向滚动条
+	private Boolean showVScroll;
 
 	// 溢出单元格数量
 	private Integer offsetCellNumber;
@@ -52,6 +60,13 @@ public class PivotReport implements IJSONObjectable {
 				XMLHandler.getTagAttribute(node, PROP_NAME_WIDTH), null);
 		pr.height = Utils.toInt(
 				XMLHandler.getTagAttribute(node, PROP_NAME_HEIGHT), null);
+
+		pr.showHScroll = Utils
+				.toBoolean(XMLHandler.getTagAttribute(node,
+						PROP_NAME_SHOW_H_SCROLL), null);
+		pr.showVScroll = Utils
+				.toBoolean(XMLHandler.getTagAttribute(node,
+						PROP_NAME_SHOW_V_SCROLL), null);
 
 		pr.offsetCellNumber = Utils.toInt(
 				XMLHandler.getTagAttribute(node, PROP_NAME_OFFSET_CELL_NUMBER),
@@ -89,6 +104,14 @@ public class PivotReport implements IJSONObjectable {
 
 		if (height != null) {
 			jo.put(PROP_NAME_HEIGHT, height);
+		}
+
+		if (showHScroll != null) {
+			jo.put(PROP_NAME_SHOW_H_SCROLL, showHScroll);
+		}
+
+		if (showVScroll != null) {
+			jo.put(PROP_NAME_SHOW_V_SCROLL, showVScroll);
 		}
 
 		if (offsetCellNumber != null) {

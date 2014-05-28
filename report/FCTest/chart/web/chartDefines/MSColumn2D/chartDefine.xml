@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chartDefine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" index="020202" width="400" height="300" code="MSColumn2D" name="{10502004-0416}={柱状图}" category="{10502004-0365}={基本统计图}" type="{10502004-0416}={柱状图}" xsi:noNamespaceSchemaLocation="../../schemas/chartDefine.xsd">
+	<icon>
+		<littleIcon>little.png</littleIcon>
+		<mouseOverIcon>little.png</mouseOverIcon>
+		<pressedIcon>little.png</pressedIcon>
+		<bigIcon>little.png</bigIcon>
+	</icon>
+	<propertyGroupDefines includeGroups="FC_COMPRESS_SPACE,BQ_BEHAVIOR,FC_TITLES_AND_AXIS_NAMES,FC_DATA_PLOT_COSMETICS,FC_CHART_PADDING_AND_MARGINS,FC_COMMON_FUNCTIONAL,FC_LEGEND_PROPERTIES,FC_TOOL_TIP,FC_DIVISIONAL_LINES_AND_GRIDS,FC_FONT_PROPERTIES,FC_NUMBER_FORMATTING,FC_CANVAS_COSMETICS,FC_CHARTDATA_COSMETICS,FC_STYLE_FONT,FC_ANCHORS,FC_TREND_LINES,FC_VERTICAL_TREND_LINES,FC_AUTODEFINE_AUTOGROUPLINE">				
+		<propertyGroupDefine code="FC_COMPRESS_SPACE" name="压缩空行"/>
+		<propertyGroupDefine code="FC_TITLES_AND_AXIS_NAMES" name="{10502004-0123}={标题和轴名称}"/>
+		<propertyGroupDefine code="FC_LEGEND_PROPERTIES" name="{10502004-0146}={图例}"/>
+		<propertyGroupDefine code="FC_TOOL_TIP" name="{10502004-0147}={悬浮提示}">
+			<propertyDefine code="seriesNameInToolTip" name="{10502004-0148}={显示系列名}" type="toolTipcategory" description="{10502004-0149}={(seriesNameInToolTip) 是否在提示框中显示序列名称}"/>
+			<propertyDefine code="categoryNameInToolTip" name="{10502004-0150}={显示分类轴}" type="toolTipcategory" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/>
+			<propertyDefine code="scategoryNameInToolTip" name="显示次分类轴" type="sCategoryChkEditor" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示次分类轴}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_STYLE_FONT" name="{10502004-0154}={字体样式}"/>
+		<propertyGroupDefine code="FC_DIVISIONAL_LINES_AND_GRIDS" name="{10502004-0153}={网格线}"/>
+		<propertyGroupDefine code="FC_ANCHORS" name="{10502004-0283}={锚点外观}"/>
+		<propertyGroupDefine code="FC_DATA_PLOT_COSMETICS" name="{10502004-0098}={数据外观}">
+			<propertyDefine code="plotGradientColor" name="{10502004-0967}={显示渐变色}" type="gradientEditMode" description="{10502004-0408}={(plotGradientColor) 渐变色}"/>
+			<propertyDefine code="paletteColors" name="{10502004-0366}={序列颜色}" type="textEditMode" description="{10502004-0367}={(paletteColors) 序列颜色}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_COMMON_FUNCTIONAL" name="{10502004-0155}={通用功能}" type="group">
+			<propertyDefine code="showLabels" name="{10502004-0173}={显示标签}" type="boolenEditMode" description="{10502004-0241}={(showLabels) 是否显示 x 轴标签文字}"/>
+			<propertyDefine code="labelDisplay" name="{10502004-0287}={签显示方式}" type="enumEditMode" description="{10502004-0243}={(labelDisplay) 选取标签的显示方式}">
+				<ConstraintTerm name="{10502004-0244}={默认}" value="AUTO"/>
+				<ConstraintTerm name="{10502004-0245}={折叠}" value="WRAP"/>
+				<ConstraintTerm name="{10502004-0246}={堆积}" value="STAGGER"/>
+				<ConstraintTerm name="{10502004-0247}={旋转}" value="ROTATE"/>
+				<ConstraintTerm name="{10502004-0248}={无}" value="NONE"/>
+			</propertyDefine>
+			<propertyDefine code="useEllipsesWhenOverflow" name="{10502004-0103}={标签过长省略}" type="boolenEditMode" description="{10502004-0288}={(useEllipsesWhenOverflow) 当标签文字过长时, 使用省略号表示无法显示的部分}"/>
+			<propertyDefine code="showYAxisValues" name="{10502004-0173}={显示标签}" type="boolenEditMode" description="{10502004-0249}={(showYAxisValues) 设置是否显示Y轴上面的值}"/>
+			<propertyDefine code="showLimits" name="{10502004-0250}={显示极值标签}" type="boolenEditMode" description="{10502004-0251}={(showLimits) 设置是否在Y轴显示极限值}"/>
+			<propertyDefine code="showDivLineValues" name="{10502004-0289}={显示Y轴网格线标签}" type="boolenEditMode" description="{10502004-0290}={(showDivLineValues) 设置是否显示网格线值}"/>
+			<propertyDefine code="animation" name="{10502004-0191}={动画}" type="boolenEditMode" generate="false" description="{10502004-0291}={(animation) 以动画方式显示图表}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_CHARTDATA_COSMETICS" name="{10502004-0160}={图表区外观}"/>
+		<propertyGroupDefine code="FC_CANVAS_COSMETICS" name="{10502004-0161}={画布外观}"/>
+		<propertyGroupDefine code="FC_CHART_PADDING_AND_MARGINS" name="{10502004-0152}={对齐和缩进}"/>
+		<propertyGroupDefine code="FC_NUMBER_FORMATTING" name="{10502004-0162}={数字格式}"/>
+		<propertyGroupDefine code="FC_FONT_PROPERTIES" name="{10502004-0163}={字体属性}"/>
+		<propertyGroupDefine code="FC_TREND_LINES" name="{10502004-0294}={横向趋势线}" type="preWarningLine" repeatable="true" relativeChange="true"/>
+		<propertyGroupDefine code="FC_VERTICAL_TREND_LINES" name="{10502004-0295}={纵向趋势线}" type="groupLine" repeatable="true" relativeChange="true"/>
+		<propertyGroupDefine code="FC_VERTICAL_TREND_LINES_AUTOGROUP" name="{10502004-0296}={自动分组线}" type="autoGroupLine" repeatable="true" relativeChange="true">
+			<propertyDefine code="showLabelBorder" name="{10502004-0371}={显示标签边框}" type="boolenEditMode" description="{10502004-0372}={(showLabelBorder) 显示标签边框}"/>
+			<propertyDefine code="labelPosition" name="{10502004-0377}={标签位置}" type="enumEditMode" description="{10502004-0378}={(labelPosition) 标签位置}">
+				<ConstraintTerm name="{10502004-0379}={顶部}" value="0"/>
+				<ConstraintTerm name="{10502004-0380}={底部}" value="1"/>
+			</propertyDefine>
+			<propertyDefine code="color" name="{10502004-0029}={颜色}" type="color" description="{10502004-0030}={(color) 颜色}"/>
+			<propertyDefine code="thickness" name="{10502004-0031}={线宽}" type="enumEditMode" description="{10502004-0381}={(thickness) 使用的分组线宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="alpha" name="{10502004-0091}={透明度}" type="transparencyEditMode" description="{10502004-0382}={(alpha)透明度}"/>
+			<propertyDefine code="dashed" name="{10502004-0033}={虚线}" type="boolenEditMode" description="{10502004-0034}={(dashed) 启用虚线}"/>
+			<propertyDefine code="dashLen" name="{10502004-0035}={虚线宽度}" type="integerEditMode" description="{10502004-0036}={(dashLen) 虚线的宽度}"/>
+			<propertyDefine code="dashGap" name="{10502004-0037}={虚线间隔}" type="integerEditMode" description="{10502004-0038}={(dashGap) 虚线的间隔宽度}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="BQ_DATASETS" name="{10502004-0297}={数据集}" type="datasets"/>
+		<propertyGroupDefine code="BQ_CATEGORY" name="{10502004-0180}={分类轴}" type="category"/>
+		<propertyGroupDefine code="BQ_SERIES" name="{10502004-0196}={系列}" type="series"/>
+		<propertyGroupDefine code="BQ_CATEGORY_X" name="{10502004-0298}={X轴}" type="single_category"/>
+		<propertyGroupDefine code="BQ_CATEGORY_Y" name="{10502004-0299}={Y轴}" type="single_category"/>
+		<propertyGroupDefine code="BQ_CATEGORY_Z" name="{10502004-0300}={Z轴}" type="single_category"/>
+		<propertyGroupDefine code="BQ_BEHAVIOR" name="{10502004-0230}={行为}"/>
+		<propertyGroupDefine code="BQ_PARAMETER" name="{10502004-0097}={参数}" type="parameterEditMode"/>
+		<propertyGroupDefine code="BQ_ALTNTVDIM" name="{10502004-0301}={切换维度}" type="altntvDim"/>
+		<propertyGroupDefine code="BQ_ALTNTVMEAS" name="{10502004-0302}={切换指标}" type="altntvMeas"/>
+		<dataBindingGroupDefine code="BQ_DATABINDING" name="{10502004-0172}={系列详细设置}" bindingGroup="series" >
+			<propertyDefine code="showValues" name="{10502004-0173}={显示标签}" type="boolenEditMode" description="{10502004-0174}={(showValues) 设置是否在图上显示数值}"/>
+			<propertyDefine code="color" name="{10502004-0029}={颜色}" type="color" description="{10502004-0175}={(color) 序列的颜色}"/>
+			<propertyDefine code="alpha" name="{10502004-0091}={透明度}" type="transparencyEditMode" range="0~100" description="{10502004-0176}={(alpha) Alpha 颜色值, 取值范围 0~100}"/>
+			<propertyDefine code="dashed" name="{10502004-0033}={虚线}" type="boolenEditMode" description="{10502004-0034}={(dashed) 启用虚线}"/>
+			<propertyDefine code="showPCategory" name="显示分类轴" type="boolenEditMode" generate="false" description="{10502004-0149}={(seriesNameInToolTip) 是否在提示框中显示序列名称}"/>  
+            <propertyDefine code="showSCategory" name="显示次分类轴" type="sCategoryChkEditor" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/> 
+            <propertyDefine code="showValue" name="显示值" type="boolenEditMode" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/> 
+            <propertyDefine code="showSeries" name="显示系列名称" type="boolenEditMode" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/> 
+            <propertyDefine code="showInPercent" name="显示百分比" type="boolenEditMode" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/> 
+            <propertyDefine code="sepChar" name="分隔符" type="textEditMode" generate="false" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/>
+		</dataBindingGroupDefine>
+		<styleGroupDefine code="BQ_STYLEAPPLY" name="{10502004-0177}={样式应用}" type="fonts" rawType="font">
+			<applyObject code="Caption" name="{10502004-0178}={标题}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="Subcaption" name="{10502004-0179}={副标题}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="Datalabels" name="{10502004-0180}={分类轴}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="Legend" name="{10502004-0146}={图例}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="Tooltip" name="{10502004-0016}={悬浮提示}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="XAxisName" name="{10502004-0181}={X轴标题}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="YAxisName" name="{10502004-0182}={Y轴标题}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="DataValues" name="{10502004-0183}={数据标签}" includeGroups="FC_STYLE_FONT"/>
+		</styleGroupDefine>
+	</propertyGroupDefines>
+	<defaultSetting themeCode="default">
+		<propertyGroup refCode="FC_TITLES_AND_AXIS_NAMES">
+			<property refCode="caption" mulCode="{10502004-0417}={柱形图}" value="{10502004-0417}={柱形图}"/>
+		</propertyGroup>		
+		<propertyGroup refCode="FC_DATA_PLOT_COSMETICS">
+			<property refCode="showPlotBorder" value="true"/>
+			<property refCode="plotBorderThickness" value="1"/>
+			<property refCode="plotBorderColor" value="cecccc"/>
+			<property refCode="plotGradientColor" value=" "/>
+		</propertyGroup>
+		<propertyGroup refCode="FC_COMMON_FUNCTIONAL">
+			<property refCode="showLabels" value="1"/>
+			<property refCode="labelDisplay" value="AUTO"/>
+			<property refCode="showYAxisValues" value="1"/>
+			<property refCode="showLimits" value="1"/>
+		</propertyGroup>		
+		<propertyGroup refCode="FC_TOOL_TIP">
+			<property refCode="categoryNameInToolTip" value="1" generate="false"/>
+			<property refCode="scategoryNameInToolTip" value="0" generate="false"/>
+			<property refCode="seriesNameInToolTip" value="1"/>
+		</propertyGroup>		
+		<propertyGroup refCode="FC_AUTODEFINE_AUTOGROUPLINE">
+			<property refCode="autolienPaletteColors" value="FF99CC,99CCFF,993366,CC0066,009999,FFCC33,FF0033,333399,CCCC00,FF6600" generate="false"/>
+			<property refCode="autolienThickness" value="2,3,4,5,6,7,8,9,10" generate="false"/>
+		</propertyGroup>
+		<propertyGroup refCode="BQ_DATABINDING">
+			<property refCode="showValues" value="1" generate="false"/>
+			<property refCode="dashed" value="0" generate="false"/>
+			<property refCode="showPCategory" value="0" generate="false"/>
+			<property refCode="showSCategory" value="0" generate="false"/>
+			<property refCode="showValue" value="1" generate="false"/>
+			<property refCode="showInPercent" value="0" generate="false"/>
+			<property refCode="showSeries" value="0" generate="false"/>
+			<property refCode="sepChar" value="," generate="false"/>
+		</propertyGroup>
+		<dataBindingRefGroup code="defaultDataDefine_field2" refCode="defaultDataDefine" datasetCode="defaultDataDefine" columnCode="field2"/>
+		<categorieAxises>
+			<category code="defaultDataDefine_field1" datasetCode="defaultDataDefine" columnCode="field1" hasOperate="false"/>
+		</categorieAxises>
+		<seriesAxises>
+			<series code="" datasetCode="defaultDataDefine" columnCode="field2" isMeasure="true" hasOperate="false"/>
+		</seriesAxises>
+		<datasets>
+			<dataset code="defaultDataDefine" name="">
+				<header>
+					<cell code="field1" mulCode="{10502004-0180}={分类轴}" name="{10502004-0180}={分类轴}" type="Number"/>
+					<cell code="field2" mulCode="{10502004-0320}={系列1}" name="{10502004-0320}={系列1}" type="Number"/>
+					<cell code="field3" mulCode="{10502004-0321}={系列2}" name="{10502004-0321}={系列2}" type="Number"/>
+					<cell code="field4" mulCode="{10502004-0322}={系列3}" name="{10502004-0322}={系列3}" type="Number"/>
+				</header>
+				<body code="" name="">
+					<row code="" name="">
+						<cell code="" refCode="field1">1</cell>
+						<cell code="" refCode="field2">58</cell>
+						<cell code="" refCode="field3">27</cell>
+						<cell code="" refCode="field4">28</cell>
+					</row>
+					<row code="" name="">
+						<cell code="" refCode="field1">2</cell>
+						<cell code="" refCode="field2">25</cell>
+						<cell code="" refCode="field3">20</cell>
+						<cell code="" refCode="field4">48</cell>
+					</row>
+					<row code="" name="">
+						<cell code="" refCode="field1">3</cell>
+						<cell code="" refCode="field2">65</cell>
+						<cell code="" refCode="field3">70</cell>
+						<cell code="" refCode="field4">10</cell>
+					</row>
+					<row code="" name="">
+						<cell code="" refCode="field1">4</cell>
+						<cell code="" refCode="field2">46</cell>
+						<cell code="" refCode="field3">32</cell>
+						<cell code="" refCode="field4">34</cell>
+					</row>
+					<row code="" name="">
+						<cell code="" refCode="field1">5</cell>
+						<cell code="" refCode="field2">100</cell>
+						<cell code="" refCode="field3">81</cell>
+						<cell code="" refCode="field4">15</cell>
+					</row>
+				</body>
+			</dataset>
+		</datasets>
+	</defaultSetting>
+	<nodatadefaultSetting themeCode="emptyDataTheme">
+		
+		<categorieAxises>
+			<category code="defaultDataDefine_field1" datasetCode="defaultDataDefine" columnCode="field1" hasOperate="false"/>
+		</categorieAxises>
+		<seriesAxises>
+			<series code="" datasetCode="defaultDataDefine" columnCode="field2" isMeasure="true" hasOperate="false"/>
+		</seriesAxises>
+		<datasets>
+			<dataset code="defaultDataDefine" name="">
+				<header>
+					<cell code="field1" mulCode="{10502004-0180}={分类轴}" name="{10502004-0180}={分类轴}" type="String"/>
+					<cell code="field2" mulCode="{10502004-0320}={系列1}" name="{10502004-0320}={系列1}" type="Number"/>
+					<cell code="field3" mulCode="{10502004-0321}={系列2}" name="{10502004-0321}={系列2}" type="Number"/>
+					<cell code="field4" mulCode="{10502004-0322}={系列3}" name="{10502004-0322}={系列3}" type="Number"/>
+				</header>
+				<body code="" name="">
+					<row code="" name="">
+						<cell code="" refCode="field1">没有可以显示的数据</cell>
+						<cell code="" refCode="field2">0</cell>
+						<cell code="" refCode="field3">0</cell>
+						<cell code="" refCode="field4">0</cell>
+					</row>
+				</body>
+			</dataset>
+		</datasets>
+	</nodatadefaultSetting>
+	<apiDefines includeApis="">
+		<apiDefine name="" code="">
+			<input typeClassName="" name="" code=""/>
+			<output typeClassName=""/>
+		</apiDefine>
+	</apiDefines>
+	<eventDefines>
+		<eventDefine name="" code="">
+			<input typeClassName="" name="" code=""/>
+		</eventDefine>
+	</eventDefines>
+</chartDefine>

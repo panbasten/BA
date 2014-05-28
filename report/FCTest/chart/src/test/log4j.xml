@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[UAPUnit]%d{MM/dd HH:mm:ss,SSS} %5p [%t] %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+    <appender name="UATLOG-ALL" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="src/test/log/uatLog.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[UAPUnit]%d{MM/dd HH:mm:ss,SSS} %5p [%t] %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+    <appender name="UATLOG-ALL-ANT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="build/log/uatLog.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[UAPUnit]%d{MM/dd HH:mm:ss,SSS} %5p [%t] %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+    <appender name="UATLOG-ERROR" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="src/test/log/uatError.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[UAPUnit]%d{MM/dd HH:mm:ss,SSS} %5p [%t] %c{1}:%L - %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMax" value="error" />
+            <param name="LevelMin" value="error" />
+        </filter>
+    </appender>
+    <appender name="UATLOG-ERROR-ANT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="build/log/uatError.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[UAPUnit]%d{MM/dd HH:mm:ss,SSS} %5p [%t] %c{1}:%L - %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMax" value="error" />
+            <param name="LevelMin" value="error" />
+        </filter>
+    </appender>
+    <appender name="TEST-RESULT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="src/test/log/testResult.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMax" value="info" />
+            <param name="LevelMin" value="info" />
+        </filter>
+    </appender>
+    <appender name="TEST-RESULT-ANT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="build/log/testResult.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMax" value="info" />
+            <param name="LevelMin" value="info" />
+        </filter>
+    </appender>
+
+    <logger name="com.yonyou.uat.context.impl.TestResultLoggerImpl" additivity="true">
+        <appender-ref ref="TEST-RESULT" />
+    </logger>
+
+    <logger name="com.yonyou.uat.context.impl.TestResultLoggerImpl" additivity="true">
+        <appender-ref ref="TEST-RESULT-ANT" />
+    </logger>
+
+    <root>
+        <level value="info" />
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="UATLOG-ERROR" />
+        <appender-ref ref="UATLOG-ERROR-ANT" />
+        <appender-ref ref="UATLOG-ALL" />
+        <appender-ref ref="UATLOG-ALL-ANT" />
+    </root>
+</log4j:configuration>   

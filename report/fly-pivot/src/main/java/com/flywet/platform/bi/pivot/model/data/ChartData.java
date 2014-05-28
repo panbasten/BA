@@ -13,23 +13,22 @@ import com.tonbeller.wcf.controller.RequestContext;
 
 public class ChartData implements IRegionData {
 	public static final String REGION_DATA_NAME = "Chart";
-	
+
 	public static final String PROP_NAME_CHART_TYPE = "type";
 
 	private ChartDataData data;
 
 	private ChartTypeEnum type;
 
-	public static NormalData instance(Node node) throws BIException {
-		NormalData pd = new NormalData();
+	public static ChartData instance(Node node) throws BIException {
+		ChartData pd = new ChartData();
 
 		Node dataNode = XMLHandler.getSubNode(node, "data");
 		if (dataNode != null) {
 			pd.data = ChartDataData.instance(dataNode);
 		}
-		
-		Const.NVL(
-				XMLHandler.getTagAttribute(node, PROP_NAME_CHART_TYPE), null);
+
+		Const.NVL(XMLHandler.getTagAttribute(node, PROP_NAME_CHART_TYPE), null);
 
 		return pd;
 	}

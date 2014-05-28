@@ -211,7 +211,7 @@ Flywet.Portal4int.menu.prototype.showMenu = function(id){
 		},
 		onsuccess: function(data, status, xhr){
 			var view = $(Flywet.escapeClientId(data.targetId));
-			view.empty();
+			view.html("");
 			var view2 = $("<div></div>").appendTo(view);
 			view2.spreadsheet(data.data);
 		}

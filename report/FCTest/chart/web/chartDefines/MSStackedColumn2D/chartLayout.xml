@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<tabPage refPropertyGroup="" code="common" name="{10502004-1055}={常规}" tabAlign="top">
+		<elementGroup refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" name="" align="V" border="0" borderColor="">
+			<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="caption" name="{10502004-1185}={主标题}" />
+		</elementGroup>
+		<elementGroup refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" name="" align="V" border="0" borderColor="">
+			<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="subCaption" name="{10502004-1044}={副标题}" />
+		</elementGroup>
+		<dropListGroup refPropertyGroup="BQ_DATASRC" name="{10502004-0187}={数据源}" type="dropList">
+			<elementGroup refPropertyGroup="BQ_DATASETS" name="" align="V" border="0" borderColor="" />
+			<elementGroup refPropertyGroup="BQ_CATEGORY" name="" align="V" border="0" borderColor="" />
+			<elementGroup refPropertyGroup="BQ_SERIES" name="" align="V" border="0" borderColor="" />
+		</dropListGroup>
+		<dropListGroup name="{10502004-0097}={参数}" type="dropList">
+			<elementGroup refPropertyGroup="BQ_PARAMETER" name="" align="V" border="0" borderColor="" />
+		</dropListGroup>
+	</tabPage>
+	<tabPage refPropertyGroup="" code="appearance" name="{10502004-1057}={外观}" tabAlign="top">
+		<dropListGroup name="{10502004-1058}={布局}" type="dropList">
+			<elementGroup refPropertyGroup="FC_COMMON_FUNCTIONAL" name="" align="H" border="0" borderColor="">
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="animation" name="{10502004-0977}={动画}" />
+			</elementGroup>
+			<elementGroup refPropertyGroup="FC_CANVAS_COSMETICS" name="{10502004-1186}={画布}" align="V" border="1" borderColor="#b2b2b2">
+				<elementGroup refPropertyGroup="FC_CANVAS_COSMETICS" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBgColor" name="{10502004-1064}={背景色}" />
+					<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBgAlpha" name="{10502004-1065}={背景透明度}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_CANVAS_COSMETICS" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBorderColor" name="{10502004-1068}={边框色}" />
+					<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBorderAlpha" name="{10502004-1069}={边框透明度}" />
+					<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBorderThickness" name="{10502004-1070}={线宽}" />
+				</elementGroup>
+			</elementGroup>
+			<elementGroup refPropertyGroup="FC_CHARTDATA_COSMETICS" name="{10502004-1063}={图表区}" align="V" border="1" borderColor="#b2b2b2">
+				<elementGroup refPropertyGroup="FC_CHARTDATA_COSMETICS" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="bgColor" name="{10502004-1064}={背景色}" />
+					<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="bgAlpha" name="{10502004-1065}={背景透明度}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_CHARTDATA_COSMETICS" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="showBorder" name="{10502004-1067}={显示边框}" isController="Y" />
+					<br />
+					<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="borderColor" name="{10502004-1068}={边框色}" />
+					<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="borderAlpha" name="{10502004-1069}={边框透明度}" />
+					<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="borderThickness" name="{10502004-1070}={线宽}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" name="" align="V" border="0" borderColor="">
+					<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="captionPadding" name="{10502004-1187}={   标题与图间距}" />
+					<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="xAxisNamePadding" name="{10502004-1188}={X轴标题与图间距}" />
+					<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="yAxisNamePadding" name="{10502004-1189}={Y轴标题与图间距}" />
+				</elementGroup>
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-1014}={系列}" type="dropList">
+			<elementGroup refPropertyGroup="FC_DATA_PLOT_COSMETICS" name="" align="H" border="0" borderColor="">
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="showPlotBorder" name="{10502004-1067}={显示边框}" isController="Y" />
+				<br />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderColor" name="{10502004-1068}={边框色}" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderAlpha" name="{10502004-1069}={边框透明度}" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderThickness" name="{10502004-1070}={线宽}" />
+			</elementGroup>
+			<line type="dot" />
+			<elementGroup refPropertyGroup="FC_DATA_PLOT_COSMETICS" name="" align="H" border="0" borderColor="">
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="useRoundEdges" name="{10502004-1190}={显示圆角}" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotGradientColor" name="显示渐变色" />
+				<br />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderDashed" name="{10502004-1040}={虚线}" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="rotateValues" name="旋转数据标签" />
+			</elementGroup>
+			<line type="dot" />
+			<elementGroup refPropertyGroup="FC_DATA_PLOT_COSMETICS" name="" align="H" border="0" borderColor="">
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="showPercentValues" name="{10502004-1118}={显示百分比}" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="stack100Percent" name="{10502004-1114}={显示堆积百分比}" />
+				<br />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="showSum" name="显示和值    " />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="showPercentInToolTip" name="{10502004-1116}={悬浮信息显示百分比}" />
+				<br />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotSpacePercent" name="{10502004-1122}={柱间距比}" />
+			</elementGroup>
+			<tabPage refPropertyGroup="BQ_DATABINDING" code="" name="" tabAlign="left">
+				<elementGroup refPropertyGroup="BQ_DATABINDING" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="color" name="{10502004-1064}={背景色}" />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="alpha" name="{10502004-1065}={背景透明度}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="BQ_DATABINDING" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="dashed" name="{10502004-1192}={虚线边框}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="BQ_DATABINDING" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="showValues" name="{10502004-1073}={显示数据标签}" isController="Y" />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="showPCategory" name="显示分类轴" />
+					<br />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="showSCategory" name="显示次分类轴" />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="showSeries" name="显示系列    " />
+					<br />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="showValue" name="显示值" />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="showInPercent" name="显示百分比" />
+					<br />
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="sepChar" name="分割符"
+						mulController="showValues,showPCategory,showSCategory,showSeries,showValue,showInPercent" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="BQ_DATABINDING" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="BQ_DATABINDING" refProperty="groupcode" name="{10502004-1171}={系列组别}" />
+				</elementGroup>
+			</tabPage>
+		</dropListGroup>
+		<dropListGroup name="{10502004-1193}={轴}" type="dropList">
+			<elementGroup refPropertyGroup="FC_COMMON_FUNCTIONAL" name="{10502004-1194}={X轴}" align="H" border="1" borderColor="#b2b2b2">
+				<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="xAxisName" name="{10502004-1043}={标题}" />
+				<br />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showLabels" name="{10502004-1034}={显示标签}" />
+				<br />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="labelDisplay" name="{10502004-1195}={标签显示方式}" />
+			</elementGroup>
+			<elementGroup refPropertyGroup="" name="{10502004-1196}={Y轴}" align="H" border="1" borderColor="#b2b2b2">
+				<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="yAxisName" name="{10502004-1043}={标题}" />
+				<br />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showYAxisValues" name="{10502004-1034}={显示标签}" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showLimits" name="{10502004-1137}={显示极值标签}" />
+				<br />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="yAxisMaxValue" name="{10502004-1197}={刻度最大值}" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="yAxisMinValue" name="{10502004-1198}={刻度最小值}" />
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-0994}={图例}" type="dropList">
+			<elementGroup refPropertyGroup="FC_LEGEND_PROPERTIES" name="" align="H" border="0" borderColor="">
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="showLegend" name="{10502004-1076}={显示图例  }" isController="Y" />
+				<br />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendPosition" name="{10502004-1077}={位置}" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendNumColumns" name="{10502004-1078}={图例列数}" />
+				<br />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBgColor" name="{10502004-1064}={背景色}" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBgAlpha" name="{10502004-1065}={背景透明度}" />
+				<br />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBorderColor" name="{10502004-1068}={边框色}" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBorderAlpha" name="{10502004-1069}={边框透明度}" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBorderThickness" name="{10502004-1070}={线宽}" />
+				<br />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendAllowDrag" name="{10502004-1079}={允许拖拽}" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="interactiveLegend" name="{10502004-1080}={允许交互显示}" />
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-1124}={网格线}" type="dropList">
+			<elementGroup refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" name="{10502004-1199}={水平网格线}" align="V" border="1" borderColor="#b2b2b2">
+				<elementGroup refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="showDivLineValues" name="{10502004-1200}={显示网格线标签}" isController="Y" />
+					<br />
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="numDivLines" name="{10502004-1201}={数量}" />
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineThickness" name="{10502004-1070}={线宽}" />
+					<br />
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineColor" name="{10502004-1202}={网格线颜色}" />
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineAlpha" name="{10502004-1203}={网格线透明度}" />
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineIsDashed" name="{10502004-1204}={虚线网格线}" />
+				</elementGroup>
+				<elementGroup refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="showAlternateHGridColor" name="{10502004-1205}={显示间隔颜色}"
+						isController="Y" />
+					<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="alternateHGridColor" name="{10502004-1206}={间隔颜色}" />
+				</elementGroup>
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-1045}={悬浮提示}" type="dropList">
+			<elementGroup refPropertyGroup="FC_TOOL_TIP" name="" align="H" border="0" borderColor="">
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="showToolTip" name="{10502004-1207}={显示悬浮提示}" isController="Y" />
+				<br />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="categoryNameInToolTip" name="{10502004-0998}={显示分类轴}" />
+				<br />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="scategoryNameInToolTip" name="显示次分类轴" />
+				<br />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="seriesNameInToolTip" name="{10502004-1208}={显示系列名称}" />
+				<br />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="toolTipBgColor" name="{10502004-1064}={背景色}" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="toolTipBorderColor" name="{10502004-1068}={边框色}" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="toolTipSepChar" mulController="showToolTip,categoryNameInToolTip" name="{10502004-1083}={分隔符}" />
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-0218}={文本}" type="dropList">
+			<elementGroup refPropertyGroup="BQ_STYLEAPPLY" name="{10502004-0219}={字体}" align="H" border="1" borderColor="#b2b2b2" />
+			<elementGroup refPropertyGroup="FC_NUMBER_FORMATTING" name="{10502004-0220}={数字}" align="V" border="1" borderColor="#b2b2b2">
+				<elementGroup refPropertyGroup="FC_NUMBER_FORMATTING" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="formatNumber" name="{10502004-0221}={格式化数字}" />
+					<br />
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="forceDecimals" mulController="formatNumber" name="{10502004-0222}={显示小数}" />
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="decimals" mulController="formatNumber,forceDecimals" name="{10502004-0223}={小数位数}" />
+					<br />
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="formatNumberScaleMy" name="{10502004-0224}={比例缩放}" />
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="numberScaleValueMy" mulController="formatNumberScaleMy" name="{10502004-0227}={数字格式化值  }" />
+					<br />
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="numberPrefix" name="{10502004-0228}={前导字符}" />
+					<br />
+					<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="numberSuffix" name="{10502004-0229}={后缀字符}" />
+				</elementGroup>
+			</elementGroup>
+		</dropListGroup>
+	</tabPage>
+	<tabPage refPropertyGroup="" code="behavior" name="{10502004-1015}={行为}" tabAlign="top">
+		<dropListGroup name="{10502004-1209}={预警}" type="dropList">
+			<dropListGroup name="" refPropertyGroup="FC_TREND_LINES" type="numberList">
+				<elementGroup refPropertyGroup="FC_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="displayValue" name="{10502004-0231}={标签  }" />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="valueOnRight" name="{10502004-0352}={右侧显示}" />
+				</elementGroup>
+				<elementGroup refPropertyGroup="FC_TREND_LINES" name="" align="V" border="0" borderColor="">
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="startValue" name="{10502004-0023}={起始值}" />
+				</elementGroup>
+				<elementGroup refPropertyGroup="FC_TREND_LINES" name="" align="V" border="0" borderColor="">
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="endValue" name="{10502004-0025}={结束值}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="color" name="{10502004-0029}={颜色}" />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="alpha" name="{10502004-0091}={透明度}" />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="thickness" name="{10502004-0031}={线宽}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="dashed" name="{10502004-0033}={虚线}" isController="Y" />
+					<br />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="dashLen" name="{10502004-0232}={虚线线段长度}" />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="dashGap" name="虚线线段间隙" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="showOnTop" name="{10502004-0353}={顶层显示}" />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="isTrendZone" name="{10502004-0354}={启用分组面}" />
+					<element refPropertyGroup="FC_TREND_LINES" refProperty="toolText" name="{10502004-0355}={提示}" />
+				</elementGroup>
+			</dropListGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-1216}={分组}" type="dropList">
+			<dropListGroup name="" refPropertyGroup="FC_VERTICAL_TREND_LINES" type="numberList">
+				<elementGroup refPropertyGroup="FC_VERTICAL_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="vValue" name="{10502004-1217}={分组位置}" />
+					<br />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="label" name="{10502004-1218}={    标签}" />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="labelPosition" name="{10502004-1159}={标签位置}" />
+					<br />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="linePosition" name="{10502004-1219}={  线位置}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_VERTICAL_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="color" name="{10502004-1036}={颜色}" />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="alpha" name="{10502004-1038}={透明度}" />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="thickness" name="{10502004-1070}={线宽}" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_VERTICAL_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="dashed" name="{10502004-1040}={虚线}" isController="Y" />
+					<br />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="dashLen" name="{10502004-1212}={虚线线段长度}" />
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="dashGap" name="虚线线段间隙" />
+				</elementGroup>
+				<line type="dot" />
+				<elementGroup refPropertyGroup="FC_VERTICAL_TREND_LINES" name="" align="H" border="0" borderColor="">
+					<element refPropertyGroup="FC_VERTICAL_TREND_LINES" refProperty="showLabelBorder" name="{10502004-1153}={显示标签边框}" />
+				</elementGroup>
+			</dropListGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-0394}={钻取}" type="dropList">
+			<elementGroup refPropertyGroup="BQ_BEHAVIOR" name="" align="V" border="0" borderColor="">
+				<element refPropertyGroup="BQ_BEHAVIOR" refProperty="isDrillDown" name="{10502004-0395}={启用钻取}" isController="Y" />
+				<!-- <element refPropertyGroup="BQ_BEHAVIOR" refProperty="drillType" name="钻取方式"/> -->
+				<element refPropertyGroup="BQ_BEHAVIOR" refProperty="drillItems" name="{10502004-0396}={钻取路径}" />
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-0397}={切换}" type="dropList">
+			<elementGroup refPropertyGroup="BQ_ALTNTVDIM" name="{10502004-0301}={切换维度}" align="V" border="1" borderColor="#b2b2b2" />
+			<elementGroup refPropertyGroup="BQ_ALTNTVMEAS" name="{10502004-0302}={切换指标}" align="V" border="1" borderColor="#b2b2b2" />
+		</dropListGroup>
+		<dropListGroup name="{10502004-0398}={链接}" refPropertyGroup="LINK_ITEM" type="dropList">
+			<element refPropertyGroup="BQ_BEHAVIOR" refProperty="linkItem" name="{10502004-0399}={链接项}" />
+		</dropListGroup>
+		<dropListGroup name="{10502004-0357}={过滤}" type="dropList">
+			<elementGroup refPropertyGroup="BQ_BEHAVIOR" name="" align="V" border="0" borderColor="">
+				<element refPropertyGroup="BQ_BEHAVIOR" refProperty="filterCondition" name="{10502004-0358}={过滤条件}" />
+			</elementGroup>
+		</dropListGroup>
+		<dropListGroup name="{10502004-0400}={排序}" type="dropList">
+			<!--<elementGroup refPropertyGroup="BQ_BEHAVIOR" name="" align = "H" border= "0" borderColor=""> <element refPropertyGroup="BQ_BEHAVIOR" refProperty="sort" 
+				name="排序"/> </elementGroup> <elementGroup refPropertyGroup="BQ_BEHAVIOR" name="" align = "H" border= "0" borderColor=""> <element refPropertyGroup="BQ_BEHAVIOR" 
+				refProperty="isSortEnable" name="浏览态允许设置排序"/> </elementGroup> -->
+			<elementGroup refPropertyGroup="BQ_BEHAVIOR" name="" align="V" border="1" borderColor="#b2b2b2">
+				<element refPropertyGroup="BQ_BEHAVIOR" refProperty="sortBehavior" name="{10502004-0401}={排序行为}" />
+			</elementGroup>
+		</dropListGroup>
+	</tabPage>
+	<tabPage refPropertyGroup="" code="all" name="{10502004-1102}={所有}" tabAlign="top">
+		<tabPage refPropertyGroup="" code="baseApperence" name="{10502004-1103}={基础外观}" tabAlign="bottom">
+			<dropListGroup name="{10502004-1002}={通用功能}" refPropertyGroup="FC_COMMON_FUNCTIONAL" type="dropTable">
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="animation" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="palette" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="paletteColors" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showLabels" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="labelDisplay" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="useEllipsesWhenOverflow" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="rotateLabels" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="slantLabels" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="labelStep" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="staggerLines" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="rotateValues" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="placeValuesInside" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showYAxisValues" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showLimits" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showDivLineValues" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="yAxisValuesStep" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="showShadow" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="rotateYAxisName" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="yAxisNameWidth" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="yAxisMinValue" name="" />
+				<element refPropertyGroup="FC_COMMON_FUNCTIONAL" refProperty="yAxisMaxValue" name="" />
+			</dropListGroup>
+			<dropListGroup name="{10502004-0993}={标题和轴名称}" refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" type="dropTable">
+				<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="caption" name="" />
+				<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="subCaption" name="" />
+				<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="xAxisName" name="" />
+				<element refPropertyGroup="FC_TITLES_AND_AXIS_NAMES" refProperty="yAxisName" name="" />
+			</dropListGroup>
+			<dropListGroup name="悬浮提示" refPropertyGroup="FC_TOOL_TIP" type="dropTable">
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="showToolTip" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="toolTipBgColor" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="toolTipBorderColor" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="toolTipSepChar" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="showToolTipShadow" mulController="showToolTip" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="seriesNameInToolTip" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="categoryNameInToolTip" name="" />
+				<element refPropertyGroup="FC_TOOL_TIP" refProperty="scategoryNameInToolTip" name="" />
+			</dropListGroup>
+			<dropListGroup name="{10502004-1009}={对齐和缩进}" refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" type="dropTable">
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="captionPadding" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="xAxisNamePadding" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="yAxisNamePadding" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="yAxisValuesPadding" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="labelPadding" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="valuePadding" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="chartLeftMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="chartRightMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="chartTopMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="chartBottomMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="canvasLeftMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="canvasRightMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="canvasTopMargin" name="" />
+				<element refPropertyGroup="FC_CHART_PADDING_AND_MARGINS" refProperty="canvasBottomMargin" name="" />
+			</dropListGroup>
+			<dropListGroup name="{10502004-1010}={数字格式}" refPropertyGroup="FC_NUMBER_FORMATTING" type="dropTable">
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="formatNumber" name="" />
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="formatNumberScaleMy" name="" />				
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="numberPrefix" name="" />
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="numberSuffix" name="" />
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="decimalSeparator" name="" />
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="thousandSeparator" name="" />
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="decimals" name="" />
+				<element refPropertyGroup="FC_NUMBER_FORMATTING" refProperty="forceDecimals" name="" />
+			</dropListGroup>
+		</tabPage>
+		<tabPage refPropertyGroup="" code="behavior" name="{10502004-1104}={图表外观}" tabAlign="bottom">
+			<dropListGroup name="{10502004-1105}={图表基本属性}" refPropertyGroup="" type="dropTable">
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="showBorder" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="borderColor" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="borderThickness" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="borderAlpha" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="bgColor" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="bgAlpha" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="bgRatio" name="" />
+				<element refPropertyGroup="FC_CHARTDATA_COSMETICS" refProperty="bgAngle" name="" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBgColor" name="{10502004-1106}={画布背景色}" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBgAlpha" name="{10502004-1107}={画布背景透明度}" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBgRatio" name="" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBgAngle" name="" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBorderColor" name="{10502004-1108}={画布边框色}" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBorderThickness" name="{10502004-1109}={画布边框线宽}" />
+				<element refPropertyGroup="FC_CANVAS_COSMETICS" refProperty="canvasBorderAlpha" name="{10502004-1110}={画布边框透明度}" />
+			</dropListGroup>
+			<dropListGroup name="{10502004-0994}={图例}" refPropertyGroup="FC_LEGEND_PROPERTIES" type="dropTable">
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="showLegend" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendCaption" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendPosition" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBgColor" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBgAlpha" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBorderColor" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBorderThickness" name="{10502004-1070}={线宽}" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendBorderAlpha" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendShadow" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendAllowDrag" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendScrollBgColor" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendScrollBarColor" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendScrollBtnColor" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="reverseLegend" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="interactiveLegend" name="" />
+				<element refPropertyGroup="FC_LEGEND_PROPERTIES" refProperty="legendNumColumns" name="" />
+			</dropListGroup>
+			<dropListGroup name="{10502004-1124}={网格线}" refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" type="dropTable">
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="numDivLines" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineColor" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineThickness" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineAlpha" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineIsDashed" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineDashLen" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="divLineDashGap" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="zeroPlaneColor" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="zeroPlaneThickness" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="zeroPlaneAlpha" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="showAlternateHGridColor" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="alternateHGridColor" name="" />
+				<element refPropertyGroup="FC_DIVISIONAL_LINES_AND_GRIDS" refProperty="alternateHGridAlpha" name="" />
+			</dropListGroup>
+		</tabPage>
+		<tabPage refPropertyGroup="" code="behavior" name="{10502004-1032}={数据外观}" tabAlign="bottom">
+			<dropListGroup name="{10502004-1032}={数据外观}" refPropertyGroup="FC_DATA_PLOT_COSMETICS" type="dropTable">
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="showPlotBorder" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderColor" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderThickness" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderAlpha" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderDashed" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderDashLen" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotBorderDashGap" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotFillAngle" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotFillRatio" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="plotFillAlpha" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="useRoundEdges" name="" />
+				<element refPropertyGroup="FC_DATA_PLOT_COSMETICS" refProperty="placeValuesInside" name="" />
+			</dropListGroup>
+			<dropListGroup name="" refPropertyGroup="BQ_DATABINDING" type="dropTable">
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="showValues" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="showPCategory" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="showSCategory" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="showSeries" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="showValue" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="showInPercent" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="sepChar" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="color" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="alpha" name="" />
+				<element refPropertyGroup="BQ_DATABINDING" refProperty="groupcode" name="{10502004-1171}={系列组别}" />
+			</dropListGroup>
+		</tabPage>
+		<tabPage refPropertyGroup="" code="behavior" name="{10502004-1111}={其他}" tabAlign="bottom">
+			<!-- <dropListGroup name = "分割线" type="dropTable"> </dropListGroup> <dropListGroup name = "参考线" type="dropTable"> </dropListGroup> -->
+		</tabPage>
+	</tabPage>
+</layout>

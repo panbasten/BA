@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 (http://www.altova.com) by wangqzh (yonyou) -->
+<configure version="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schemas/chartConfigure.xsd">
+	<categories>
+		<category code="basic-charts" name="基本统计图"/>
+		<category code="advanced-charts" name="高级统计图"/>
+	</categories>
+	<types>
+		<type code="single-series" name="单系列set样式数据集"/>
+		<type code="multi-series" name="多系列dataset样式数据集"/>
+	</types>
+	<charts>
+		<chart name="柱形图" type="multi-series" category="basic-charts" code="MSColumn2D" icon="little.png" enable="true" description="" path="chartDefines\MSColumn2D"/>
+		<chart name="条形图" type="multi-series" category="basic-charts" code="MSBar2D" icon="little.png" enable="true" description="" path="chartDefines\MSBar2D"/>
+		<chart name="面积图" type="multi-series" category="basic-charts" code="MSArea" icon="little.png" enable="true" description="" path="chartDefines\MSArea"/>
+		<chart name="折线图" type="multi-series" category="basic-charts" code="MSLine" icon="little.png" enable="true" description="" path="chartDefines\MSLine"/>
+		<chart name="饼图" type="single-series" category="basic-charts" code="Pie2D" icon="little.png" enable="true" description="" path="chartDefines\Pie2D"/>
+		<chart name="单Y轴组合图" type="multi-series" category="basic-charts" code="MSCombi2D" icon="little.png" enable="true" description="" path="chartDefines\MSCombi2D"/>
+		<chart name="双Y轴组合图" type="multi-series" category="basic-charts" code="MSCombiDY2D" icon="little.png" enable="true" description="" path="chartDefines\MSCombiDY2D"/>
+		<chart name="散点图" type="multi-series" category="basic-charts" code="Scatter" icon="little.png" enable="true" description="" path="chartDefines\Scatter"/>
+		<chart name="气泡图" type="multi-series" category="advanced-charts" code="Bubble" icon="little.png" enable="true" description="" path="chartDefines\Bubble"/>
+		<chart name="仪表盘" type="multi-series" category="advanced-charts" code="AngularGauge" icon="little.png" enable="true" description="" path="chartDefines\AngularGauge"/>
+		<chart name="雷达图" type="multi-series" category="advanced-charts" code="Radar" icon="little.png" enable="true" description="" path="chartDefines\Radar"/>
+		<chart name="多级饼图" type="multi-series" category="advanced-charts" code="MultiLevelPie" icon="little.png" enable="true" description="" path="chartDefines\MultiLevelPie"/>
+	</charts>
+	<drivers>
+		<parsers name="统计图xml驱动列表" enable="true">
+			<parser name="简单数据集单系列驱动" type="" class="" code=""/>
+		</parsers>
+		<generators enable="true" name="">
+			<generator name="" type="" class="" code=""/>
+		</generators>
+	</drivers>
+</configure>

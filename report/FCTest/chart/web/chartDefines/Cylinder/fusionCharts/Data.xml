@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chart manageResize="1" palette="3" animation="1" lowerLimit="0" upperLimit="100" showShadow="1" caption="Revenue" colorRangeFillRatio="0,10,80,10" showColorRangeBorder="0" subcaption="US $ (1,000s)" roundRadius="0" numberPrefix="$" numberSuffix="K" showValue="1">
+    <value>78.9</value>
+</chart>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chartDefine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" index="030208" code="Cylinder" name="量筒" category="{10502004-0002}={高级统计图}" type="{10502004-1289}={指标}" xsi:noNamespaceSchemaLocation="../../schemas/chartDefine.xsd">
+	<icon>
+		<littleIcon>little.png</littleIcon>
+		<mouseOverIcon>little.png</mouseOverIcon>
+		<pressedIcon>little.png</pressedIcon>
+		<bigIcon>little.png</bigIcon>
+	</icon>
+	<propertyGroupDefines includeGroups="BQ_BEHAVIOR,FC_DIVISIONAL_LINES_AND_GRIDS,FC_CHART_PADDING_AND_MARGINS,FC_TREND_LINES,FC_PIVOT_POINT,FW_BULLET_DATA_PLOT_COSMETICS,FC_TITLES_AND_AXIS_NAMES,FC_DATA_PLOT_COSMETICS,FC_COMMON_FUNCTIONAL,FC_LEGEND_PROPERTIES,FC_TOOL_TIP,FC_FONT_PROPERTIES,FC_NUMBER_FORMATTING,FC_CANVAS_COSMETICS,FC_CHARTDATA_COSMETICS,FC_STYLE_FONT">
+		<propertyGroupDefine code="BQ_BEHAVIOR" name="{10502004-0230}={行为}"/>
+		<propertyGroupDefine code="FC_TITLES_AND_AXIS_NAMES" name="{10502004-0123}={标题和轴名称}"/>		
+		 <propertyGroupDefine code="FC_CHART_PADDING_AND_MARGINS" name="{10502004-1009}={对齐和缩进}"/>
+		<propertyGroupDefine code="FC_CANVAS_COSMETICS" name="{10502004-1008}={画布外观}"/>
+		<propertyGroupDefine code="bullet_value_code" name="当前值  " type="gaugeValueEditor"/>
+		<propertyGroupDefine code="BQ_PARAMETER" name="{10502004-0097}={参数}" type="parameterEditMode"/>		
+		<propertyGroupDefine code="FW_TICKMARKS" name="{10502004-0039}={刻度}">
+			<propertyDefine code="upperLimit" name="{10502004-0040}={最大限值}" type="lazyParamTextEditor" description="{10502004-0041}={(upperLimit) 最大限值}"/>
+			<propertyDefine code="lowerLimit" name="{10502004-0042}={最小限值}" type="lazyParamTextEditor" description="{10502004-0043}={(lowerLimit) 最小限值}"/>
+			<propertyDefine code="showTickMarks" name="{10502004-0044}={显示刻度标记}" type="boolenEditMode" description="{10502004-0045}={(showTickMarks)显示刻度标记}"/>
+			<propertyDefine code="showTickValues" name="{10502004-0046}={显示刻度值}" type="boolenEditMode" description="{10502004-0047}={(showTickValues)显示刻度值}"/>
+			<propertyDefine code="showLimits" name="{10502004-0052}={显示极值}" type="boolenEditMode" description="{10502004-0053}={(showLimits) 显示极值}"/>
+			<propertyDefine code="adjustTM" name="{10502004-0054}={自适应刻度值}" type="boolenEditMode" description="{10502004-0055}={(adjustTM) 自适应刻度值}"/>
+			<propertyDefine code="majorTMNumber" name="{10502004-0056}={主要刻度数目}" type="integerEditMode" range="2~100" description="{10502004-0057}={(majorTMNumber) 主要刻度数目}"/>
+			<propertyDefine code="minorTMNumber" name="{10502004-0058}={次要刻度数目}" type="integerEditMode" range="2~100" description="{10502004-0059}={(minorTMNumber) 次要刻度数目}"/>
+			<propertyDefine code="majorTMColor" name="{10502004-0060}={主要刻度颜色}" type="color" description="{10502004-0061}={(majorTMColor) 主要刻度颜色}"/>
+			<propertyDefine code="minorTMColor" name="{10502004-0062}={次要刻度颜色}" type="color" description="{10502004-0063}={(minorTMColor) 次要刻度颜色}"/>
+			<propertyDefine code="majorTMAlpha" name="{10502004-0064}={主要刻度透明度}" type="transparencyEditMode" description="{10502004-0065}={(majorTMAlpha) 主要刻度透明度}"/>
+			<propertyDefine code="minorTMAlpha" name="{10502004-0066}={次要刻度透明度}" type="transparencyEditMode" description="{10502004-0067}={(minorTMAlpha) 次要刻度透明度}"/>
+			<propertyDefine code="majorTMHeight" name="{10502004-0068}={主要刻度高度}" type="unitName_integerEditMode" description="{10502004-0069}={(majorTMHeight) 主要刻度高度}"/>
+			<propertyDefine code="minorTMHeight" name="{10502004-0070}={次要刻度高度}" type="unitName_integerEditMode" description="{10502004-0071}={(minorTMHeight) 次要刻度高度}"/>
+			<propertyDefine code="majorTMThickness" name="{10502004-0072}={主要刻度宽度}" type="enumEditMode" description="{10502004-0073}={(majorTMThickness) 主要刻度宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="minorTMThickness" name="{10502004-0074}={次要刻度宽度}" type="enumEditMode" description="{10502004-0075}={(minorTMThickness) 次要刻度宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="tickValueDistance" name="{10502004-0076}={刻度值与刻度标记间距}" type="integerEditMode" description="{10502004-0077}={(tickValueDistance) 刻度值与刻度标记间距}"/>
+			<propertyDefine code="tickValueStep" name="{10502004-0080}={间隔显示刻度步长}" type="integerEditMode" description="{10502004-0081}={(tickValueStep) 间隔显示刻度步长}"/>
+			<propertyDefine code="forceTickValueDecimals" name="显示刻度小数" type="boolenEditMode" description="显示刻度小数"/>
+			<propertyDefine code="tickValueDecimals" name="刻度小数位数" type="integerEditMode" description="刻度小数位数"/>
+			<propertyDefine code="ticksOnRight" name="标签右侧显示" type="boolenEditMode" description="标签右侧显示"/>
+			<propertyDefine code="tickMarkDistance" name="刻度标记与量筒间距" type="integerEditMode" description="刻度标记与量筒间距"/>
+			<propertyDefine code="setAdaptiveMin" name="自适应最低值" type="boolenEditMode" description="自适应最低值"/>
+			<propertyDefine code="lowerLimitDisplay" name="下限极值显示" type="paramTextEditor" description="下限极值显示"/>
+			<propertyDefine code="upperLimitDisplay" name="上限极值显示" type="paramTextEditor" description="上限极值显示"/>
+		</propertyGroupDefine>		
+		<propertyGroupDefine code="FC_COMMON_FUNCTIONAL" name="{10502004-0155}={通用功能}" type="group">
+			<propertyDefine code="editMode" name="{10502004-0156}={编辑模式}" type="boolenEditMode" description="{10502004-0157}={(editMode) 编辑模式}"/>
+			<propertyDefine code="autoScale" name="{10502004-0158}={自动缩放}" type="boolenEditMode" description="{10502004-0159}={(autoScale) 自动缩放}"/>
+		</propertyGroupDefine>
+		
+		<propertyGroupDefine code="FC_CHARTDATA_COSMETICS" name="{10502004-0160}={图表区外观}">
+		</propertyGroupDefine>
+		
+		<propertyGroupDefine code="FW_BULLET_DATA_PLOT_COSMETICS" name="{10502004-0098}={数据外观}">
+			<propertyDefine code="showShadow" name="{10502004-0101}={显示阴影}" type="boolenEditMode" description="{10502004-0102}={(showShadow) 显示阴影}"/>
+			<propertyDefine code="showValue" name="{10502004-0099}={显示数据标签}" type="boolenEditMode" description="{10502004-0100}={(showValue) 显示数据标签}"/>
+			<propertyDefine code="useEllipsesWhenOverflow" name="标签过长省略" type="boolenEditMode" description="标签过长省略"/>
+			<propertyDefine code="refreshInterval" name="刷新间隔时间" type="integerEditMode" description="刷新间隔时间"/>
+			<propertyDefine code="cylOriginX" name="X轴位置" type="integerEditMode" description="X轴位置"/>
+			<propertyDefine code="cylOriginY" name="Y轴位置" type="integerEditMode" range="0~500" description="Y轴位置"/>
+			<propertyDefine code="cylRadius" name="半径" type="integerEditMode" range="50~500" description="半径"/>
+			<propertyDefine code="cylHeight" name="高度" type="integerEditMode" range="0~500" description="高度"/>
+			<propertyDefine code="cylYScale" name="Y轴透视值" type="integerEditMode" range="0~50" description="Y轴透视值"/>
+			<propertyDefine code="cylFillColor" name="填充颜色" type="color" description="填充颜色"/>
+		</propertyGroupDefine>		
+		<propertyGroupDefine code="FC_TOOL_TIP" name="{10502004-0147}={悬浮提示}"/>	
+		<!-- 
+		<propertyGroupDefine code="FC_ANNOTATION_GROUP" name="FC_ANNOTATION_GROUP">
+			<propertyDefine code="id" name="编号" type="textEditMode" description="编号"/>
+			<propertyDefine code="x" name="X轴位置" type="integerEditMode" description="X轴位置"/>
+			<propertyDefine code="y" name="Y轴位置" type="integerEditMode" description="Y轴位置"/>
+			<propertyDefine code="alpha" name="透明度" type="integerEditMode" description="透明度"/>
+			<propertyDefine code="origW" name="宽度" type="integerEditMode" description="宽度"/>
+			<propertyDefine code="origH" name="高度" type="integerEditMode" description="高度"/>
+			<propertyDefine code="autoScale" name="自适应" type="boolenEditMode" description="自适应"/>
+			<propertyDefine code="constrainedScale" name="限制自适应" type="boolenEditMode" description="限制自适应"/>
+			<propertyDefine code="scaleImages" name="图片自适应" type="boolenEditMode" description="图片自适应"/>
+			<propertyDefine code="scaleText" name="文本自适应" type="boolenEditMode" description="文本自适应"/>
+			<propertyDefine code="xShift" name="xShift" type="integerEditMode" description="xShift"/>
+			<propertyDefine code="yShift" name="yShift" type="integerEditMode" description="yShift"/>
+			<propertyDefine code="showBelow" name="showBelow" type="boolenEditMode" description="showBelow"/>
+			<propertyDefine code="visible" name="可见" type="boolenEditMode" description="可见"/>
+			<propertyDefine code="toolText" name="toolText" type="textEditMode" description="toolText"/>
+			<propertyDefine code="link" name="link" type="linkEditor" description="link"/>
+			<propertyDefine code="xScale" name="xScale" type="integerEditMode" description="xScale"/>
+			<propertyDefine code="yScale" name="yScale" type="integerEditMode" description="yScale"/>
+		</propertyGroupDefine>
+		 
+		<propertyGroupDefine code="FC_ANNOTATION_LINE" name="FC_ANNOTATION_LINE">
+			<propertyDefine code="" name="" type="" description=""/>
+		</propertyGroupDefine>
+		 -->
+		<propertyGroupDefine code="FC_STYLE_FONT" name="{10502004-0154}={字体样式}"/>
+		<propertyGroupDefine code="FC_NUMBER_FORMATTING" name="{10502004-0162}={数字格式}"/>
+		<dataBindingGroupDefine code="BQ_DATABINDING" name="{10502004-0172}={系列详细设置}" bindingGroup="series"/>		
+		<styleGroupDefine code="BQ_STYLEAPPLY" name="{10502004-0177}={样式应用}" type="fonts" rawType="font">
+			<applyObject code="Caption" name="{10502004-0178}={标题}" includeGroups="FC_STYLE_FONT" />
+			<applyObject code="Subcaption" name="{10502004-0179}={副标题}" includeGroups="FC_STYLE_FONT" />
+			<applyObject code="Tooltip" name="{10502004-0016}={悬浮提示}" includeGroups="FC_STYLE_FONT" />
+			<applyObject code="Value" name="数据标签" includeGroups="FC_STYLE_FONT" />			
+		</styleGroupDefine>
+	</propertyGroupDefines>	
+	<defaultSetting themeCode="default">
+		<propertyGroup refCode="FC_TITLES_AND_AXIS_NAMES">
+			<property refCode="caption" value="量筒"/>				
+		</propertyGroup>
+		<propertyGroup refCode="FC_COMMON_FUNCTIONAL">		
+			<property refCode="autoScale" value="0"/>		
+		</propertyGroup>			
+		<propertyGroup refCode="FW_BULLET_DATA_PLOT_COSMETICS">
+			<property refCode="showValue" value="1"/>
+			<property refCode="showShadow" value="0"/>			
+			<property refCode="cylYScale" value="20"/>			
+			<property refCode="cylFillColor" value="93b5dc"/>			
+		</propertyGroup>
+		<propertyGroup refCode="FW_TICKMARKS">
+			<property refCode="setAdaptiveMin" value="1"/>
+			<property refCode="showTickMarks" value="1"/>
+			<property refCode="showTickValues" value="1"/>
+			<property refCode="showLimits" value="1"/>
+			<property refCode="ticksOnRight" value="1"/>
+			<property refCode="adjustTM" value="1"/>
+			<property refCode="majorTMNumber" value="5"/>
+			<property refCode="majorTMColor" value="58595b"/>
+			<property refCode="majorTMHeight" value="5"/>
+			<property refCode="majorTMThickness" value="2"/>
+			<property refCode="majorTMAlpha" value="100"/>
+			<property refCode="minorTMNumber" value="5"/>
+			<property refCode="minorTMColor" value="5e94d2"/>
+			<property refCode="minorTMHeight" value="3"/>
+			<property refCode="minorTMThickness" value="1"/>
+			<property refCode="minorTMAlpha" value="100"/>
+			<property refCode="tickMarkDistance" value="10"/>
+			<property refCode="tickValueStep" value="1"/>
+			<property refCode="lowerLimitDisplay" value=""/>
+			<property refCode="upperLimitDisplay" value=""/>
+		</propertyGroup>
+		<propertyGroup refCode="FC_TOOL_TIP">			
+			<property refCode="showToolTipShadow" value="0"/>
+		</propertyGroup>		
+		<dataBindingRefGroup code="defaultDataDefine_bcount" refCode="defaultDataDefine" datasetCode="defaultDataDefine" columnCode="bullet_value_code">
+			<property refCode="showShadow" value="0"/>
+		</dataBindingRefGroup>
+		<seriesAxises>
+			<series code="" datasetCode="defaultDataDefine" columnCode="meth_A"/>
+		</seriesAxises>
+		<datasets>
+			<dataset code="defaultDataDefine" mulCode="{10502004-0184}={数据集2}" name="{10502004-0184}={数据集2}">
+				<header>
+					<cell code="bullet_value_code" name="bullet_value_code" type="Number"/>
+				</header>
+				<body code="" name="">
+					<row code="" name="">
+						<cell refCode="bullet_value_code">92</cell>
+					</row>
+				</body>
+			</dataset>
+		</datasets>
+	</defaultSetting>
+	
+	
+	<nodatadefaultSetting themeCode="emptyDataTheme">
+		<propertyGroup refCode="FC_TITLES_AND_AXIS_NAMES">
+			<property refCode="caption" value="数据集为空" mulCode="数据集为空"/>
+		</propertyGroup>
+		<styleGroup code="styleApply_Datalabels" refCode="BQ_STYLEAPPLY" applyObject="Caption">
+			<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+			<property refCode="size" value="22"/>
+			<property refCode="color" value="a5a5a5"/>
+		</styleGroup>
+		<seriesAxises>
+			<series code="" datasetCode="defaultDataDefine" columnCode="bullet_value_code" hasOperate="false"/>
+		</seriesAxises>
+		<datasets>
+			<dataset code="defaultDataDefine" mulCode="{10502004-0184}={数据集2}" name="{10502004-0184}={数据集2}">
+				<header>
+					<cell code="bullet_value_code" name="bullet_value_code" type="Number"/>
+				</header>
+				<body code="" name="">
+					<row code="" name="">
+						<cell refCode="bullet_value_code">0</cell>
+					</row>
+				</body>
+			</dataset>
+		</datasets>
+	</nodatadefaultSetting>
+	<apiDefines includeApis="">
+		<apiDefine name="" code="">
+			<input typeClassName="" name="" code=""/>
+			<output typeClassName=""/>
+		</apiDefine>
+	</apiDefines>
+	<eventDefines>
+		<eventDefine name="" code="">
+			<input typeClassName="" name="" code=""/>
+		</eventDefine>
+	</eventDefines>
+</chartDefine>

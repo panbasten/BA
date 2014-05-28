@@ -612,7 +612,7 @@ public class Utils {
 	 */
 	public static final Integer toInt(String str, Integer def) {
 		if (str == null) {
-			return null;
+			return def;
 		}
 		try {
 			return Integer.parseInt(str);
@@ -657,7 +657,7 @@ public class Utils {
 	 */
 	public static final Long toLong(String str, Long def) {
 		if (str == null) {
-			return null;
+			return def;
 		}
 		try {
 			return Long.parseLong(str);
@@ -675,7 +675,7 @@ public class Utils {
 	 */
 	public static final Float toFloat(String str, Float def) {
 		if (str == null) {
-			return null;
+			return def;
 		}
 		try {
 			return Float.parseFloat(str);
@@ -693,7 +693,7 @@ public class Utils {
 	 */
 	public static final Double toDouble(String str, Double def) {
 		if (str == null) {
-			return null;
+			return def;
 		}
 		try {
 			return Double.parseDouble(str);

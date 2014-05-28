@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:resources/configure/uat.properties" />
+    </bean>
+
+    <bean id="springConstruct" class="com.yonyou.uat.datamanage.datagenerate.SpringConstruct">
+        <property name="configDir" value="${testdata_springfile_dir}" />
+    </bean>
+
+    <bean id="objectFileConstruct" class="com.yonyou.uat.datamanage.datagenerate.ObjectFileConstruct">
+        <property name="objectfileconfigDir" value="${testdata_config_dir}" />
+        <property name="objectfilesDir" value="${testdata_objectfile_dir}" />
+    </bean>
+
+    <bean id="dataTableConstruct" class="com.yonyou.uat.datamanage.datagenerate.DataTableConstruct">
+    </bean>
+
+    <bean id="dataBackupManager" class="com.yonyou.uat.datamanage.backup.BackupManager">
+        <property name="springconfigDir" value="${testdata_springfile_dir}" />
+        <property name="objectfileconfigDir" value="${testdata_config_dir}" />
+        <property name="objectfilesDir" value="${testdata_objectfile_dir}" />
+        <property name="backupfilesDir" value="${testdata_backup_dir}" />
+    </bean>
+
+    <bean id="businessapp" class="com.yonyou.uat.context.impl.BusinessServerManagerImpl">
+    </bean>
+
+
+</beans>

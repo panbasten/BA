@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<themeStyles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schemas/chartStyle.xsd">
+	<colorStyles>
+		<color name="" code="default">
+			<propertyGroup refCode="FC_DATA_PLOT_COLORS">
+				<property refCode="paletteColors" value="afd8f8,f6bd0e,8cba00,ff8f47,5bb6fd,fd81b3,78adf6,f6e80e,bde423,fab984,9f92fc,fa1e57"/>
+			</propertyGroup>
+		</color>
+		<color name="" code="radar">
+			<propertyGroup refCode="FC_DATA_PLOT_COLORS">
+				<property refCode="paletteColors" value="2972d6,ec8c04,579803,e1400f,1095c6,d31f67,6b8ab5,ccb203,a7ad07,d07c52,7b6ee0,ab0372"/>
+			</propertyGroup>
+		</color>
+		<color name="" code="emptyDataColor">
+			<propertyGroup refCode="FC_DATA_PLOT_COLORS">
+				<property refCode="paletteColors" value="d3d3d3"/>
+			</propertyGroup>
+		</color>
+	</colorStyles>
+	<appearanceStyles>
+		<style name="" code="default">
+			<propertyGroup refCode="BQ_DATABINDING">
+				<property refCode="showValues" value="1" generate="false"/>
+				<property refCode="dashed" value="0" generate="false"/>
+				<property refCode="showPCategory" value="0" generate="false"/>
+				<property refCode="showSCategory" value="0" generate="false"/>
+				<property refCode="showValue" value="1" generate="false"/>
+				<property refCode="showInPercent" value="0" generate="false"/>
+				<property refCode="showSeries" value="0" generate="false"/>
+				<property refCode="sepChar" value="," generate="false"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_AUTODEFINE_AUTOGROUPLINE">
+				<property refCode="autolienPaletteColors" value="FF99CC,99CCFF,993366,CC0066,009999,FFCC33,FF0033,333399,CCCC00,FF6600" generate="false"/>
+				<property refCode="autolienThickness" value="1" generate="false"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_COMPRESS_SPACE">
+				<property refCode="compressSpace" value="1" generate="false"/>				
+			</propertyGroup>
+			<propertyGroup refCode="FC_CHARTDATA_COSMETICS">
+				<property refCode="bgColor" value="f6f6f6"/>
+				<property refCode="showBorder" value="1"/>
+				<property refCode="borderColor" value="cecccc"/>
+				<property refCode="borderThickness" value="1"/>
+				<property refCode="bgAlpha" value="100"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_CANVAS_COSMETICS">
+				<property refCode="canvasBgColor" value="ffffff"/>
+				<property refCode="canvasBorderColor" value="cecccc"/>
+				<property refCode="canvasBorderThickness" value="1"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_CHART_PADDING_AND_MARGINS">
+				<property refCode="captionPadding" value="3"/>
+				<property refCode="xAxisNamePadding" value="12"/>
+				<property refCode="yAxisNamePadding" value="12"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_LEGEND_PROPERTIES">
+				<property refCode="legendPosition" value="BOTTOM"/>
+				<property refCode="legendNumColumns" value="5"/>
+				<property refCode="legendBorderThickness" value="1"/>
+				<property refCode="interactiveLegend" value="true"/>
+				<property refCode="legendAllowDrag" value="false"/>
+				<property refCode="showLegend" value="true"/>
+				<property refCode="legendBgColor" value="ffffff"/>
+				<property refCode="legendBorderColor" value="a5a5a5"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_TOOL_TIP">
+				<property refCode="showToolTip" value="1"/>
+				<property refCode="toolTipSepChar" value="{10502004-0319}={，}" mulCode="{10502004-0319}={，}"/>
+				<property refCode="toolTipBgColor" value="ffffff"/>
+				<property refCode="toolTipBorderColor" value="7d7d7d"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_DIVISIONAL_LINES_AND_GRIDS">
+				<property refCode="divLineColor" value="a5a5a5"/>
+				<property refCode="divLineThickness" value="1"/>
+				<property refCode="divLineIsDashed" value="false"/>
+				<property refCode="showAlternateHGridColor" value="1"/>
+				<property refCode="alternateHGridColor" value="faf9f9"/>
+				<property refCode="showDivLineValues" value="1"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_COMMON_FUNCTIONAL">
+				<property refCode="animation" value="1"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_NUMBER_FORMATTING">
+				<property refCode="formatNumber" value="1"/>
+				<property refCode="formatNumberScale" value="0"/>
+				<property refCode="formatNumberScaleMy" value="1" generate ="false"/>
+				<property refCode="forceDecimals" value="0"/>
+				<property refCode="decimals" value="2"/>
+				<property refCode="numberPrefix" value=""/>
+				<property refCode="numberSuffix" value=""/>
+				<property refCode="defaultNumberScale" generate ="false" value=""/>
+				<property refCode="numberScaleUnit" generate ="false" value=""/>
+				<property refCode="numberScaleValue" generate = "false" value=""/>
+				<property refCode="numberScaleValueMy" generate = "false" value=""/>
+			</propertyGroup>
+			<styleGroup code="styleApply_Caption" refCode="BQ_STYLEAPPLY" applyObject="Caption">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="14"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_Subcaption" refCode="BQ_STYLEAPPLY" applyObject="Subcaption">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="666666"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_Datalabels" refCode="BQ_STYLEAPPLY" applyObject="Datalabels">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_Legend" refCode="BQ_STYLEAPPLY" applyObject="Legend">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_Tooltip" refCode="BQ_STYLEAPPLY" applyObject="Tooltip">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="10"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_XAxisName" refCode="BQ_STYLEAPPLY" applyObject="XAxisName">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_YAxisName" refCode="BQ_STYLEAPPLY" applyObject="YAxisName">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_CategoryAxis" refCode="BQ_STYLEAPPLY" applyObject="CategoryAxis">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_DataValues" refCode="BQ_STYLEAPPLY" applyObject="DataValues">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<styleGroup code="styleApply_Value" refCode="BQ_STYLEAPPLY" applyObject="Value">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="000000"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+			<userDivisionPropertyGroup refCode="FC_VERTICAL_TREND_LINES">
+				<property refCode="label" value="{10502004-0929}={分组1}" mulCode="{10502004-0929}={分组1}"/>
+				<property refCode="showLabelBorder" value="1"/>
+				<property refCode="labelPosition" value="0"/>
+				<property refCode="linePosition" value="0.5"/>
+				<property refCode="color" value="6d94d7"/>
+				<property refCode="thickness" value="1"/>
+				<property refCode="dashLen" value="3"/>
+				<property refCode="dashGap" value="1"/>
+				<property refCode="dashed" value="1"/>
+			</userDivisionPropertyGroup>
+			<autoDivisionPropertyGroup refCode="FC_VERTICAL_TREND_LINES_AUTOGROUP">
+				<property refCode="color" value="6d94d7"/>
+				<property refCode="thickness" value="1"/>
+				<property refCode="alpha" value="40"/>
+				<property refCode="labelHalign" value="right"/>
+				<property refCode="dashed" value="1"/>
+			</autoDivisionPropertyGroup>
+			<warningPropertyGroup refCode="FC_TREND_LINES">
+				<property refCode="displayValue" value="{10502004-0930}={目标1}" mulCode="{10502004-0930}={目标1}"/>
+				<property refCode="color" value="ff9f00"/>
+				<property refCode="thickness" value="1"/>
+				<property refCode="dashLen" value="4"/>
+				<property refCode="dashGap" value="3"/>
+			</warningPropertyGroup>
+		</style>
+		<style name="" code="emptyDataStyle">
+			<propertyGroup refCode="FC_COMMON_FUNCTIONAL">
+				<property refCode="showLabels" value="1"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_LEGEND_PROPERTIES">
+				<property refCode="showLegend" value="0"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_DATASET_COMMON_PROPERTIES">
+				<property refCode="showValues" value="0"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_CHART_PADDING_AND_MARGINS">
+				<property refCode="labelPadding" value="-19"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_TOOL_TIP">
+				<property refCode="showToolTip" value="0"/>
+			</propertyGroup>
+			<propertyGroup refCode="FC_CANVAS_COSMETICS">
+				<!--property refCode="canvasBgColor" value="00ff00"/-->
+				<property refCode="canvasBgAlpha" value="0"/>
+			</propertyGroup>
+			<styleGroup code="styleApply_Datalabels" refCode="BQ_STYLEAPPLY" applyObject="Datalabels">
+				<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+				<property refCode="size" value="12"/>
+				<property refCode="color" value="999999"/>
+				<property refCode="bold" value="0"/>
+			</styleGroup>
+		</style>
+	</appearanceStyles>
+</themeStyles>

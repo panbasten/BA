@@ -30,6 +30,9 @@ public class Sheet implements IJSONObjectable {
 	public static final String PROP_NAME_SHOW_ROW_HEAD = "showRowHead";
 	public static final String PROP_NAME_SHOW_GRID = "showGrid";
 
+	public static final String PROP_NAME_COL_NUM = "colNum";
+	public static final String PROP_NAME_ROW_NUM = "rowNum";
+
 	public static final String PROP_NAME_ROWS_HEIGHT = "rowsHeight";
 	public static final String NODE_NAME_ROWS_HEIGHT = "RowsHeight";
 	public static final String PROP_NAME_COLS_WIDTH = "colsWidth";
@@ -62,6 +65,12 @@ public class Sheet implements IJSONObjectable {
 
 	// 显示网格线
 	private Boolean showGrid;
+
+	// 列数
+	private Integer colNum;
+
+	// 行数
+	private Integer rowNum;
 
 	// 开始位置
 	private PositionType startPosition;
@@ -99,6 +108,12 @@ public class Sheet implements IJSONObjectable {
 						PROP_NAME_SHOW_ROW_HEAD), null);
 		s.showGrid = Utils.toBoolean(
 				XMLHandler.getTagAttribute(node, PROP_NAME_SHOW_GRID), null);
+
+		// 显示的行列数
+		s.colNum = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_COL_NUM), null);
+		s.rowNum = Utils.toInt(
+				XMLHandler.getTagAttribute(node, PROP_NAME_ROW_NUM), null);
 
 		// 行高列宽
 		s.rowsHeight = instanceRowColSize(node, NODE_NAME_ROWS_HEIGHT);
@@ -185,6 +200,14 @@ public class Sheet implements IJSONObjectable {
 
 		if (showGrid != null) {
 			jo.put(PROP_NAME_SHOW_GRID, showGrid);
+		}
+
+		if (colNum != null) {
+			jo.put(PROP_NAME_COL_NUM, colNum);
+		}
+
+		if (rowNum != null) {
+			jo.put(PROP_NAME_ROW_NUM, rowNum);
 		}
 
 		if (startPosition != null) {
@@ -314,6 +337,22 @@ public class Sheet implements IJSONObjectable {
 
 	public void setColsWidth(Map<Integer, Integer> colsWidth) {
 		this.colsWidth = colsWidth;
+	}
+
+	public Integer getColNum() {
+		return colNum;
+	}
+
+	public void setColNum(Integer colNum) {
+		this.colNum = colNum;
+	}
+
+	public Integer getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(Integer rowNum) {
+		this.rowNum = rowNum;
 	}
 
 }

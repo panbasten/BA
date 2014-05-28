@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 (http://www.altova.com) by wangqzh (yonyou) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="themeStyles">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="colorStyles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="color" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="propertyGroup" type="propertyGroupType" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+									<xs:attribute name="code" type="xs:string" use="required"/>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="appearanceStyles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="style" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="propertyGroup" type="propertyGroupType" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="styleGroup" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded"/>
+												</xs:sequence>
+												<xs:attribute name="code" type="xs:string" use="required"/>
+												<xs:attribute name="refCode" type="xs:string" use="required"/>
+												<xs:attribute name="applyObject" type="xs:string" use="required"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="userDivisionPropertyGroup" type="propertyGroupType" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="autoDivisionPropertyGroup" type="propertyGroupType" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="warningPropertyGroup" type="propertyGroupType" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="dataBindingRefGroup" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded"/>
+												</xs:sequence>
+												<xs:attribute name="code" type="xs:string" use="required"/>
+												<xs:attribute name="refCode" type="xs:string" use="required"/>
+												<xs:attribute name="datasetCode" type="xs:string" use="required"/>
+												<xs:attribute name="columnCode" type="xs:string" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="code" type="xs:string" use="required"/>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="propertyGroupType">
+		<xs:sequence>
+			<xs:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="refCode" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="propertyType">
+		<xs:attribute name="refCode" type="xs:string" use="required"/>
+		<xs:attribute name="value" type="xs:string" use="required"/>
+		<xs:attribute name="generate" type="xs:boolean"/>
+	</xs:complexType>
+</xs:schema>

@@ -1460,7 +1460,7 @@
 			v.css("font-size",style.fontSize);
 		}
 		if(style.fontColor){
-			v.css("font-color",style.fontColor);
+			v.css("color",style.fontColor);
 		}
 		if(style.fontStyle){
 			v.css("font-style",$.fn.spreadsheet.fontStyleEnum[style.fontStyle]);
@@ -2293,11 +2293,7 @@
 				}
 				
 				for(var i=0;i<sheet.length;i++){
-					sheet[i] = $.extend(
-							{},
-							$.fn.spreadsheet.sheetDefaults,
-							sheet[i]
-						);
+					sheet[i] = $.fn.spreadsheet.parseSheetOptions(sheet[i]);
 				}
 				opts.sheet = sheet;
 				
@@ -2353,6 +2349,15 @@
 		);
 	};
 	
+	$.fn.spreadsheet.parseSheetOptions = function(opts) {
+		return $.extend({
+			// 样式
+			colsWidth : {}
+			,rowsHeight : {}
+			,merge : {}
+		}, $.fn.spreadsheet.sheetDefaults, opts);
+	};
+	
 	$.fn.spreadsheet.sheetDefaults = {
 		
 		defaultColWidth: 64		// 默认列宽
@@ -2372,11 +2377,6 @@
 		// 滚动条起始cell位置
 		,top : 0
 		,left : 0
-		
-		// 样式
-		,colsWidth : {}
-		,rowsHeight : {}
-		,merge : {}
 	
 	};
 	

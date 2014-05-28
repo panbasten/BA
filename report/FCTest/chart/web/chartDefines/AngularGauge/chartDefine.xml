@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chartDefine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" index="030207" code="AngularGauge" name="{10502004-0001}={仪表盘}" category="{10502004-0002}={高级统计图}" type="{10502004-1289}={指标}" xsi:noNamespaceSchemaLocation="../../schemas/chartDefine.xsd">
+	<icon>
+		<littleIcon>little.png</littleIcon>
+		<mouseOverIcon>little.png</mouseOverIcon>
+		<pressedIcon>little.png</pressedIcon>
+		<bigIcon>little.png</bigIcon>
+	</icon>
+	<propertyGroupDefines includeGroups="BQ_BEHAVIOR,FC_DIVISIONAL_LINES_AND_GRIDS,FC_CHART_PADDING_AND_MARGINS,FC_TREND_LINES,FC_PIVOT_POINT,FW_BULLET_DATA_PLOT_COSMETICS,FC_TITLES_AND_AXIS_NAMES,FC_DATA_PLOT_COSMETICS,FC_COMMON_FUNCTIONAL,FC_LEGEND_PROPERTIES,FC_TOOL_TIP,FC_FONT_PROPERTIES,FC_NUMBER_FORMATTING,FC_CANVAS_COSMETICS,FC_CHARTDATA_COSMETICS,FC_STYLE_FONT">
+		<propertyGroupDefine code="BQ_BEHAVIOR" name="{10502004-0230}={行为}"/>
+		<propertyGroupDefine code="FC_TREND_LINES" name="{10502004-0003}={预警}">		
+			<propertyDefine code="valueInside" name="{10502004-0004}={内侧显示}" type="boolenEditMode" description="{10502004-0005}={(valueInside)内侧显示}"/>
+			<propertyDefine code="showBorder" name="{10502004-0006}={显示边框}" type="boolenEditMode" description="{10502004-0007}={(showBorder)显示边框}"/>
+			<propertyDefine code="borderColor" name="{10502004-0008}={边框颜色}" type="paramColorEditor" description="{10502004-0009}={(borderColor)边框颜色}"/>
+			<propertyDefine code="radius" name="{10502004-0010}={半径}" type="integerEditMode" description="{10502004-0011}={(radius)半径}"/>
+			<propertyDefine code="innerRadius" name="{10502004-0012}={内侧半径}" type="integerEditMode" description="{10502004-0013}={(innerRadius)内侧半径}"/>
+			<propertyDefine code="useMarker" name="{10502004-0014}={使用标记}" type="boolenEditMode" description="{10502004-0015}={(useMarker)使用标记}"/>
+			<propertyDefine code="markerTooltext" name="{10502004-0016}={悬浮提示}" type="paramTextEditor" description="{10502004-0017}={(markerTooltext)悬浮提示}"/>
+			<propertyDefine code="markerColor" name="{10502004-0018}={标记颜色}" type="paramColorEditor" description="{10502004-0019}={(markerColor)标记颜色}"/>
+			<propertyDefine code="markerRadius" name="{10502004-0010}={半径}" type="integerEditMode" description="{10502004-0020}={(markerRadius)半径}"/>
+			<propertyDefine code="markerBorderColor" name="{10502004-0021}={标记边框颜色}" type="paramColorEditor" description="{10502004-0022}={(markerBorderColor)标记边框颜色}"/>
+			<propertyDefine code="startValue" name="{10502004-0023}={起始值}" type="textEditMode" description="{10502004-0024}={(startValue) 起始值}"/>
+			<propertyDefine code="endValue" name="{10502004-0025}={结束值}" type="textEditMode" description="{10502004-0026}={(endValue) 结束值}"/>
+			<propertyDefine code="displayValue" name="{10502004-0027}={趋势线标签}" type="textEditMode" description="{10502004-0028}={(displayValue) 自定制的显示内容}"/>
+			<propertyDefine code="color" name="{10502004-0029}={颜色}" type="color" description="{10502004-0030}={(color) 颜色}"/>
+			<propertyDefine code="thickness" name="{10502004-0031}={线宽}" type="enumEditMode" description="{10502004-0032}={(thickness) 使用的趋势线宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="dashed" name="{10502004-0033}={虚线}" type="boolenEditMode" description="{10502004-0034}={(dashed) 启用虚线}"/>
+			<propertyDefine code="dashLen" name="{10502004-0035}={虚线宽度}" type="integerEditMode" description="{10502004-0036}={(dashLen) 虚线的宽度}"/>
+			<propertyDefine code="dashGap" name="{10502004-0037}={虚线间隔}" type="integerEditMode" description="{10502004-0038}={(dashGap) 虚线的间隔宽度}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FW_TICKMARKS" name="{10502004-0039}={刻度}">
+			<propertyDefine code="upperLimit" name="{10502004-0040}={最大限值}" type="lazyParamTextEditor" description="{10502004-0041}={(upperLimit) 最大限值}"/>
+			<propertyDefine code="lowerLimit" name="{10502004-0042}={最小限值}" type="lazyParamTextEditor" description="{10502004-0043}={(lowerLimit) 最小限值}"/>
+			<propertyDefine code="showTickMarks" name="{10502004-0044}={显示刻度标记}" type="boolenEditMode" description="{10502004-0045}={(showTickMarks)显示刻度标记}"/>
+			<propertyDefine code="showTickValues" name="{10502004-0046}={显示刻度值}" type="boolenEditMode" description="{10502004-0047}={(showTickValues)显示刻度值}"/>
+			<propertyDefine code="placeTicksInside" name="{10502004-0048}={放置刻度在内半径}" type="boolenEditMode" description="{10502004-0049}={(placeTicksInside) 放置刻度在内半径}"/>
+			<propertyDefine code="placeValuesInside" name="{10502004-0050}={放置值在内半径}" type="boolenEditMode" description="{10502004-0051}={(placeValuesInside)放置值在内半径}"/>
+			<propertyDefine code="showLimits" name="{10502004-0052}={显示极值}" type="boolenEditMode" description="{10502004-0053}={(showLimits) 显示极值}"/>
+			<propertyDefine code="adjustTM" name="{10502004-0054}={自适应刻度值}" type="boolenEditMode" description="{10502004-0055}={(adjustTM) 自适应刻度值}"/>
+			<propertyDefine code="majorTMNumber" name="{10502004-0056}={主要刻度数目}" type="integerEditMode" range="2~100" description="{10502004-0057}={(majorTMNumber) 主要刻度数目}"/>
+			<propertyDefine code="minorTMNumber" name="{10502004-0058}={次要刻度数目}" type="integerEditMode" range="2~100" description="{10502004-0059}={(minorTMNumber) 次要刻度数目}"/>
+			<propertyDefine code="majorTMColor" name="{10502004-0060}={主要刻度颜色}" type="color" description="{10502004-0061}={(majorTMColor) 主要刻度颜色}"/>
+			<propertyDefine code="minorTMColor" name="{10502004-0062}={次要刻度颜色}" type="color" description="{10502004-0063}={(minorTMColor) 次要刻度颜色}"/>
+			<propertyDefine code="majorTMAlpha" name="{10502004-0064}={主要刻度透明度}" type="transparencyEditMode" description="{10502004-0065}={(majorTMAlpha) 主要刻度透明度}"/>
+			<propertyDefine code="minorTMAlpha" name="{10502004-0066}={次要刻度透明度}" type="transparencyEditMode" description="{10502004-0067}={(minorTMAlpha) 次要刻度透明度}"/>
+			<propertyDefine code="majorTMHeight" name="{10502004-0068}={主要刻度高度}" type="unitName_integerEditMode" description="{10502004-0069}={(majorTMHeight) 主要刻度高度}"/>
+			<propertyDefine code="minorTMHeight" name="{10502004-0070}={次要刻度高度}" type="unitName_integerEditMode" description="{10502004-0071}={(minorTMHeight) 次要刻度高度}"/>
+			<propertyDefine code="majorTMThickness" name="{10502004-0072}={主要刻度宽度}" type="enumEditMode" description="{10502004-0073}={(majorTMThickness) 主要刻度宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="minorTMThickness" name="{10502004-0074}={次要刻度宽度}" type="enumEditMode" description="{10502004-0075}={(minorTMThickness) 次要刻度宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="tickValueDistance" name="{10502004-0076}={刻度值与刻度标记间距}" type="integerEditMode" description="{10502004-0077}={(tickValueDistance) 刻度值与刻度标记间距}"/>
+			<propertyDefine code="trendValueDistance" name="{10502004-0078}={趋势线与刻度线间距}" type="unitName_integerEditMode" description="{10502004-0079}={(trendValueDistance) 趋势线与刻度线间距}"/>
+			<propertyDefine code="tickValueStep" name="{10502004-0080}={间隔显示刻度步长}" type="integerEditMode" description="{10502004-0081}={(tickValueStep) 间隔显示刻度步长}"/>
+			<propertyDefine code="autoAlignTickValues" name="{10502004-0082}={自适应放置刻度}" type="boolenEditMode" description="{10502004-0083}={(autoAlignTickValues) 自适应放置刻度}"/>
+			<propertyDefine code="manageValueOverlapping" name="{10502004-0084}={显示重叠刻度值}" type="boolenEditMode" description="{10502004-0085}={(manageValueOverlapping) 显示重叠刻度值}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FW_COLORRANGE_COLOR" name="{10502004-0086}={分段颜色}" type="rangeColor">
+			<propertyDefine code="minValue" name="{10502004-0087}={刻度最小值}" type="paramTextEditor" description="{10502004-0088}={最小值}"/>
+			<propertyDefine code="maxValue" name="{10502004-0089}={刻度最大值}" type="paramTextEditor" description="{10502004-0090}={最大值}"/>
+			<propertyDefine code="code" name="{10502004-0029}={颜色}" type="paramColorEditor" description="Actual color (hex color) of the color range using which it will be filled."/>
+			<propertyDefine code="alpha" name="{10502004-0091}={透明度}" type="transparencyEditMode" range="0~100" description="{10502004-0092}={Sets the transparency of each range in the color range,取值范围 0~100}"/>
+			<propertyDefine code="borderColor" name="{10502004-0008}={边框颜色}" type="paramColorEditor" description="{10502004-0093}={(borderColor) 整体图表外部边框颜色}"/>
+			<propertyDefine code="borderAlpha" name="{10502004-0094}={边框颜色透明度}" type="transparencyEditMode" range="0~100" description="{10502004-0095}={(borderAlpha) 整体图表外部边框颜色的透明度, 取值范围 0~100}"/>
+		</propertyGroupDefine>
+		<!--propertyGroupDefine code="BQ_DATASETS" name="数据集" type="datasets"/>
+		<propertyGroupDefine code="BQ_SERIES" name="系列" type="series"/>
+		<propertyGroupDefine code="BQ_CATEGORY_X" name="X轴" type="single_category"/>
+		<propertyGroupDefine code="BQ_CATEGORY_Y" name="Y轴" type="single_category"/>
+		<propertyGroupDefine code="BQ_CATEGORY_Z" name="Z轴" type="single_category"/-->
+		<!-- <propertyGroupDefine code="BQ_GAUGEVALUE" name="当前值  " type="gaugeValueEditor"/> -->
+		<propertyGroupDefine code="BQ_GAUGEVALUE" name="数据源 " type="pointer" repeatable="true">
+			<propertyDefine code="pointerDataSrc" name="数值" type="pointerDSEditor" description="数值"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="BQ_PARAMETER" name="{10502004-0097}={参数}" type="parameterEditMode"/>
+		<propertyGroupDefine code="FC_DATA_PLOT_COSMETICS" name="{10502004-0098}={数据外观}"/>
+		<propertyGroupDefine code="FW_BULLET_DATA_PLOT_COSMETICS" name="{10502004-0098}={数据外观}">
+			<propertyDefine code="showValue" name="{10502004-0099}={显示数据标签}" type="boolenEditMode" description="{10502004-0100}={(showValues) 显示数据标签}"/>
+			
+			<propertyDefine code="showShadow" name="{10502004-0101}={显示阴影}" type="boolenEditMode" description="valueBelowPivot 显示阴影}"/>
+			<propertyDefine code="useEllipsesWhenOverflow" name="{10502004-0103}={标签过长省略}" type="boolenEditMode" description="{10502004-0104}={(useEllipsesWhenOverflow) 标签过长省略}"/>
+			<propertyDefine code="pivotRadius" name="{10502004-0105}={支点半径}" type="integerEditMode" range="0~100" description="{10502004-0106}={(pivotRadius) 支点半径}"/>
+			<propertyDefine code="pivotFillAlpha" name="{10502004-0107}={支点填充透明度}" type="transparencyEditMode" range="0~100" description="{10502004-0108}={(pivotFillAlpha) 支点填充透明度}"/>
+			<propertyDefine code="pivotFillColor" name="{10502004-0109}={支点填充颜色}" type="color" description="{10502004-0110}={(pivotFillColor) 支点填充颜色}"/>
+			<propertyDefine code="pivotFillAngle" name="{10502004-0111}={支点填充角度}" type="integerEditMode" range="0~360" description="{10502004-0112}={(pivotFillAngle) 支点填充角度}"/>
+			<propertyDefine code="pivotFillType" name="{10502004-0113}={支点填充类型}" type="enumEditMode" description="{10502004-0114}={(pivotFillType) 支点填充类型}">
+				<ConstraintTerm name="{10502004-0121}={星型}" value="radial"/>
+				<ConstraintTerm name="{10502004-0122}={线型}" value="linear"/>
+			</propertyDefine>
+			<propertyDefine code="showPivotBorder" name="{10502004-0006}={显示边框}" type="boolenEditMode" description="{10502004-0115}={(showPivotBorder) 显示边框}"/>
+			<propertyDefine code="pivotBorderThickness" name="{10502004-0116}={边框线宽度}" type="enumEditMode" description="{10502004-0117}={(pivotBorderThickness) 边框线宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="pivotBorderAlpha" name="{10502004-0118}={边框透明度}" type="transparencyEditMode" description="{10502004-0119}={(pivotBorderAlpha) 边框透明度}"/>
+			<propertyDefine code="pivotBorderColor" name="{10502004-0008}={边框颜色}" type="color" description="{10502004-0120}={(pivotBorderColor) 边框颜色}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_TITLES_AND_AXIS_NAMES" name="{10502004-0123}={标题和轴名称}">
+			<propertyDefine code="setAdaptiveMin" name="{10502004-0124}={自适应最低值}" type="boolenEditMode" description="{10502004-0125}={(setAdaptiveMin) 自适应最低值}"/>
+			<propertyDefine code="upperLimitDisplay" name="{10502004-0126}={上极限值显示}" type="textEditMode" description="{10502004-0127}={(upperLimitDisplay) 上极限值显示}"/>
+			<propertyDefine code="lowerLimitDisplay" name="{10502004-0128}={下极限值显示}" type="textEditMode" description="{10502004-0129}={(lowerLimitDisplay) 下极限值显示}"/>
+			<propertyDefine code="gaugeStartAngle" name="{10502004-0130}={起始角度值}" type="integerEditMode" range="-360~360" description="{10502004-0131}={(gaugeStartAngle) 起始角度值}"/>
+			<propertyDefine code="gaugeEndAngle" name="{10502004-0132}={结束角度值}" type="integerEditMode" range="-360~360" description="{10502004-0133}={(gaugeEndAngle) 结束角度值}"/>
+			<propertyDefine code="gaugeOriginX" name="{10502004-0134}={X轴位置}" type="textEditMode" description="{10502004-0135}={(gaugeOriginX) X轴位置}"/>
+			<propertyDefine code="gaugeOriginY" name="{10502004-0136}={Y轴位置}" type="textEditMode" description="{10502004-0137}={(gaugeOriginY) Y轴位置}"/>
+			<propertyDefine code="gaugeOuterRadius" name="{10502004-0138}={外半径}" type="textEditMode" description="{10502004-0139}={(gaugeOuterRadius) 外半径}"/>
+			<propertyDefine code="gaugeInnerRadius" name="{10502004-0140}={内半径}" type="textEditMode" description="{10502004-0141}={(gaugeInnerRadius) 内半径}"/>
+			<propertyDefine code="showGaugeBorder" name="{10502004-0006}={显示边框}" type="boolenEditMode" description="{10502004-0142}={(showGaugeBorder) 设置是否显示边框}"/>
+			<propertyDefine code="gaugeBorderColor" name="{10502004-0008}={边框颜色}" type="color" description="{10502004-0143}={(gaugeBorderColor) 边框颜色}"/>
+			<propertyDefine code="gaugeBorderThickness" name="{10502004-0116}={边框线宽度}" type="enumEditMode" range="0~5" description="{10502004-0144}={(gaugeBorderThickness) 像素为单位的边框线宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="gaugeBorderAlpha" name="{10502004-0094}={边框颜色透明度}" type="transparencyEditMode" range="0~100" description="{10502004-0145}={(gaugeBorderAlpha)边框颜色的透明度,取值范围 0~100}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_LEGEND_PROPERTIES" name="{10502004-0146}={图例}" relativeChange="true"/>
+		<propertyGroupDefine code="FC_TOOL_TIP" name="{10502004-0147}={悬浮提示}">
+			<propertyDefine code="seriesNameInToolTip" name="{10502004-0148}={显示系列名}" type="boolenEditMode" description="{10502004-0149}={(seriesNameInToolTip) 是否在提示框中显示序列名称}"/>
+			<propertyDefine code="categoryNameInToolTip" name="{10502004-0150}={显示分类轴}" type="toolTipcategory" description="{10502004-0151}={(categoryNameInToolTip) 是否显示分类轴}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_CHART_PADDING_AND_MARGINS" name="{10502004-0152}={对齐和缩进}"/>
+		<propertyGroupDefine code="FC_DIVISIONAL_LINES_AND_GRIDS" name="{10502004-0153}={网格线}"/>
+		<propertyGroupDefine code="FC_STYLE_FONT" name="{10502004-0154}={字体样式}"/>
+		<propertyGroupDefine code="FC_COMMON_FUNCTIONAL" name="{10502004-0155}={通用功能}" type="group">
+			<propertyDefine code="editMode" name="{10502004-0156}={编辑模式}" type="boolenEditMode" description="{10502004-0157}={(editMode) 编辑模式}"/>
+			<propertyDefine code="autoScale" name="{10502004-0158}={自动缩放}" type="boolenEditMode" description="{10502004-0159}={(autoScale) 自动缩放}"/>
+		</propertyGroupDefine>
+		<propertyGroupDefine code="FC_CHARTDATA_COSMETICS" name="{10502004-0160}={图表区外观}"/>
+		<propertyGroupDefine code="FC_CANVAS_COSMETICS" name="{10502004-0161}={画布外观}"/>
+		<propertyGroupDefine code="FC_NUMBER_FORMATTING" name="{10502004-0162}={数字格式}"/>
+		<propertyGroupDefine code="FC_FONT_PROPERTIES" name="{10502004-0163}={字体属性}"/>
+		<propertyGroupDefine code="FW_DIALS_DIAL" name="{10502004-0164}={指针属性设置}" type="group">
+			<propertyDefine code="valueBelowPivot" name="值显示在支点下侧" type="boolenEditMode" description="valueBelowPivot 值显示在支点下侧"/>
+			<propertyDefine code="showValue" name="{10502004-0165}={显示数值}" type="boolenEditMode" description="{10502004-0166}={(showValue) 设置是否显示数值}"/>
+			<propertyDefine code="valueBelowPivot" name="值在支点下侧" type="boolenEditMode" description="值在支点下侧"/>
+			<propertyDefine code="borderColor" name="{10502004-0008}={边框颜色}" type="color" description="{10502004-0167}={(borderColor) 边框颜色}"/>
+			<propertyDefine code="borderThickness" name="{10502004-0116}={边框线宽度}" type="enumEditMode" range="1~5" description="{10502004-0168}={(borderThickness) 像素为单位的边框线宽度}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="borderAlpha" name="{10502004-0094}={边框颜色透明度}" type="transparencyEditMode" range="0~100" description="{10502004-0169}={边框颜色的透明度,取值范围 0~100}"/>
+			<propertyDefine code="bgColor" name="{10502004-0170}={背景色}" type="colorList" description="{10502004-0171}={(bgColor) 设置背景色, 可以通过设置多个颜色实现背景的渐变色}"/>
+			<propertyDefine code="radius" name="{10502004-0010}={半径}" type="integerEditMode" description="Radius for the dial (in pixels)"/>
+		</propertyGroupDefine>
+		<dataBindingGroupDefine code="BQ_DATABINDING" name="{10502004-0172}={系列详细设置}" bindingGroup="series">
+			<propertyDefine code="showValue" name="{10502004-0941}={显示值}" type="boolenEditMode" description="{10502004-0942}={(showValue) 是否显示值}"/>
+			<propertyDefine code="valueX" name="{10502004-0943}={值X轴位置}" type="integerEditMode" range="0~1000" description="{10502004-0944}={(valueX)值X轴位置}"/>
+			<propertyDefine code="valueY" name="{10502004-0945}={值Y轴位置}" type="integerEditMode" range="0~1000" description="{10502004-0946}={(valueY) 值Y轴位置}"/>
+			<propertyDefine code="editMode" name="{10502004-0947}={可编辑}" type="boolenEditMode" description="{10502004-0948}={(editMode) 可编辑}"/>
+			<propertyDefine code="borderColor" name="{10502004-0949}={边框颜色}" type="color" description="{10502004-0950}={(borderColor) 边框颜色}"/>
+			<propertyDefine code="borderThickness" name="{10502004-0951}={边框线宽}" type="enumEditMode" range="1~5" description="{10502004-0952}={(borderThickness) 边框线宽}">
+				<ConstraintTerm name="1px" value="1"/>
+				<ConstraintTerm name="2px" value="2"/>
+				<ConstraintTerm name="3px" value="3"/>
+				<ConstraintTerm name="4px" value="4"/>
+				<ConstraintTerm name="5px" value="5"/>
+			</propertyDefine>
+			<propertyDefine code="borderAlpha" name="{10502004-0953}={边框透明度}" type="transparencyEditMode" description="{10502004-0954}={(borderAlpha) 边框透明度}"/>
+			<propertyDefine code="bgColor" name="{10502004-0955}={背景色}" type="color" description="{10502004-0956}={(bgColor) 背景色}"/>
+			<propertyDefine code="radius" name="{10502004-0957}={指针长度}" type="integerEditMode" description="{10502004-0958}={(radius) 指针长度}"/>
+			<propertyDefine code="baseWidth" name="{10502004-0959}={底部宽度}" type="integerEditMode" description="{10502004-0960}={(baseWidth) 底部宽度}"/>
+			<propertyDefine code="topWidth" name="{10502004-0961}={顶部宽度}" type="integerEditMode" description="{10502004-0962}={(topWidth) 顶部宽度}"/>
+			<propertyDefine code="rearExtension" name="{10502004-0963}={尾部延伸}" type="integerEditMode" description="{10502004-0964}={(rearExtension) 尾部延伸}"/>
+			<propertyDefine code="toolText" name="{10502004-0965}={悬浮提示}" type="textEditMode" description="{10502004-0966}={(toolText) 悬浮提示}"/>
+		</dataBindingGroupDefine>
+		<styleGroupDefine code="BQ_STYLEAPPLY" name="{10502004-0177}={样式应用}" type="fonts" rawType="font">
+			<applyObject code="Caption" name="{10502004-0178}={标题}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="Subcaption" name="{10502004-0179}={副标题}" includeGroups="FC_STYLE_FONT"/>
+			<applyObject code="Tooltip" name="{10502004-0016}={悬浮提示}" includeGroups="FC_STYLE_FONT"/>
+			<!--applyObject code="DataValues" name="{10502004-0183}" includeGroups="FC_STYLE_FONT"/-->
+		</styleGroupDefine>
+	</propertyGroupDefines>
+	<defaultSetting themeCode="default">
+		<propertyGroup refCode="FC_TITLES_AND_AXIS_NAMES">
+			<property refCode="caption" mulCode="{10502004-1294}={仪表盘}" value="{10502004-1294}={仪表盘}"/>
+			<property refCode="setAdaptiveMin" value="1"/>
+			<property refCode="showGaugeBorder" value="1"/>
+			<property refCode="gaugeBorderColor" value="000000"/>
+			<property refCode="gaugeBorderThickness" value="1"/>
+			<property refCode="gaugeStartAngle" value="180"/>
+		</propertyGroup>		
+		<propertyGroup refCode="FW_TICKMARKS">
+			<property refCode="majorTMNumber" value="5"/>
+			<property refCode="majorTMColor" value="000000"/>
+			<property refCode="majorTMHeight" value="5"/>
+			<property refCode="majorTMThickness" value="2"/>
+			<property refCode="minorTMNumber" value="5"/>
+			<property refCode="minorTMColor" value="ffffff"/>
+			<property refCode="minorTMHeight" value="3"/>
+			<property refCode="minorTMThickness" value="1"/>
+			<property refCode="trendValueDistance" value="10"/>
+			<property refCode="tickValueStep" value="1"/>
+			<property refCode="upperLimit" value=""/>
+			<property refCode="lowerLimit" value=""/>
+			<property refCode="autoAlignTickValues" value="1"/>
+			<property refCode="showTickMarks" value="1"/>
+			<property refCode="showTickValues" value="1"/>
+			<property refCode="showLimits" value="1"/>
+			<property refCode="adjustTM" value="1"/>
+		</propertyGroup>
+		<propertyGroup refCode="FW_DIALS_DIAL">
+			<property refCode="valueBelowPivot" value="1"/>			
+			<property refCode="showValue" value="1"/>			
+		</propertyGroup>
+		<propertyGroup refCode="FC_TOOL_TIP">
+			<property refCode="showToolTip" value="1"/>
+			<property refCode="toolTipSepChar" value=","/>
+			<property refCode="seriesNameInToolTip" value="1"/>
+		</propertyGroup>
+		<propertyGroup refCode="FW_DIALS_DIAL">
+			<property refCode="showValue" value="1"/>
+			<property refCode="valueBelowPivot" value="1"/>			
+		</propertyGroup>
+		<propertyGroup refCode="FW_BULLET_DATA_PLOT_COSMETICS">
+			<property refCode="showValues" value="1"/>
+			<property refCode="pivotFillColor" value="cecccc"/>
+			<property refCode="pivotBorderColor" value="cecccc"/>
+			<property refCode="pivotRadius" value="5"/>
+			<property refCode="pivotFillType" value="radial"/>
+			<property refCode="pivotBorderThickness" value="1"/>
+		</propertyGroup>
+		<warningPropertyGroup refCode="FC_TREND_LINES">
+			<!--property refCode="startValue" value="80"/-->
+			<property refCode="markerColor" value="d0d0d0"/>
+			<property refCode="markerBorderColor" value="a5a5a5"/>
+			<property refCode="color" value="ff00ff"/>
+			<property refCode="valueInside" value="0"/>
+			<property refCode="thickness" value="1"/>
+			<property refCode="showBorder" value="1"/>
+			<property refCode="markerRadius" value="5"/>
+		</warningPropertyGroup>
+		<rangeColorPropertyGroup refCode="FW_COLORRANGE_COLOR">
+			<!-- <property refCode="minValue" value="0"/>
+			<property refCode="maxValue" value="50"/> -->
+			<property refCode="code" value="e66351"/>
+			<property refCode="borderColor" value="000000"/>
+		</rangeColorPropertyGroup>
+		<dataBindingRefGroup code="defaultDataDefine_acount" refCode="defaultDataDefine" datasetCode="defaultDataDefine" columnCode="meth_A"/>
+		<dataBindingRefGroup code="defaultDataDefine_bcount" refCode="defaultDataDefine" datasetCode="defaultDataDefine" columnCode="meth_B">
+			<property refCode="showShadow" value="0"/>
+		</dataBindingRefGroup>
+		<seriesAxises>
+			<series code="" datasetCode="defaultDataDefine" columnCode="meth_A" hasOperate="false"/>
+		</seriesAxises>
+		<datasets>
+			<dataset code="defaultDataDefine" mulCode="{10502004-0184}={数据集2}" name="{10502004-0184}={数据集2}">
+				<header>
+					<cell code="meth_A" name="A" type="Number"/>
+				</header>
+				<body code="" name="">
+					<row code="" name="">
+						<cell refCode="meth_A">92</cell>
+					</row>
+				</body>
+			</dataset>
+		</datasets>
+	</defaultSetting>
+	<nodatadefaultSetting themeCode="emptyDataTheme">
+		<propertyGroup refCode="FC_TITLES_AND_AXIS_NAMES">
+			<property refCode="caption" value="数据集为空" mulCode="数据集为空"/>
+		</propertyGroup>
+		<styleGroup code="styleApply_Datalabels" refCode="BQ_STYLEAPPLY" applyObject="Caption">
+			<property refCode="font" value="{10502004-0928}={宋体}" mulCode="{10502004-0928}={宋体}"/>
+			<property refCode="size" value="22"/>
+			<property refCode="color" value="a5a5a5"/>
+		</styleGroup>
+		<rangeColorPropertyGroup refCode="FW_COLORRANGE_COLOR">
+			<property refCode="minValue" value="0"/>
+			<property refCode="maxValue" value="50"/>
+			<property refCode="code" value="e66351"/>
+		</rangeColorPropertyGroup>
+		<rangeColorPropertyGroup refCode="FW_COLORRANGE_COLOR">
+			<property refCode="minValue" value="50"/>
+			<property refCode="maxValue" value="75"/>
+			<property refCode="code" value="e0b123"/>
+		</rangeColorPropertyGroup>
+		<rangeColorPropertyGroup refCode="FW_COLORRANGE_COLOR">
+			<property refCode="minValue" value="75"/>
+			<property refCode="maxValue" value="100"/>
+			<property refCode="code" value="88af18"/>
+		</rangeColorPropertyGroup>
+		<seriesAxises>
+			<series code="" datasetCode="defaultDataDefine" columnCode="meth_A"/>
+		</seriesAxises>
+		<datasets>
+			<dataset code="defaultDataDefine" mulCode="{10502004-0184}={数据集2}" name="{10502004-0184}={数据集2}">
+				<header>
+					<cell code="meth_A" name="A" type="Number"/>
+				</header>
+				<body code="" name="">
+					<row code="" name="">
+						<cell refCode="meth_A">0</cell>
+					</row>
+				</body>
+			</dataset>
+		</datasets>
+	</nodatadefaultSetting>
+	<apiDefines includeApis="">
+		<apiDefine name="" code="">
+			<input typeClassName="" name="" code=""/>
+			<output typeClassName=""/>
+		</apiDefine>
+	</apiDefines>
+	<eventDefines>
+		<eventDefine name="" code="">
+			<input typeClassName="" name="" code=""/>
+		</eventDefine>
+	</eventDefines>
+</chartDefine>

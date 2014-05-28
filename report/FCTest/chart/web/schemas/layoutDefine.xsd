@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 (http://www.altova.com) by zll (igo) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="layout">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tabPage" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="elementGroup" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="chartDefine" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="elementAttributes">
+		<xs:attribute name="refPropertyGroup" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="border">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="elementGroupType">
+		<xs:sequence>
+			<xs:element name="line" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="type" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="dot"/>
+								<xs:enumeration value="solid"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="element" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="refPropertyGroup" type="xs:string" use="required"/>
+					<xs:attribute name="refProperty" type="xs:string" use="required"/>
+					<xs:attribute name="align">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="H"/>
+								<xs:enumeration value="V"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="elementGroup" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tabPage" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="dropListGroup" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="elementGroupType">
+							<xs:attribute name="type">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="dropList"/>
+										<xs:enumeration value="dropTable"/>
+										<xs:enumeration value="dropPanel"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="br" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="elementAttributes"/>
+	</xs:complexType>
+	<xs:element name="elementGroup">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="elementGroupType">
+					<xs:attribute name="algin" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="tabPage">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="elementGroupType">
+					<xs:attribute name="tabAlign" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="top"/>
+								<xs:enumeration value="left"/>
+								<xs:enumeration value="right"/>
+								<xs:enumeration value="bottom"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

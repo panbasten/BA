@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 (http://www.altova.com) by abcde (abcde) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:altova="http://www.altova.com/xml-schema-extensions" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="propertyRepository">
+		<xs:annotation>
+			<xs:documentation>属性组集合包含定义</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="propertyGroupDefine" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="propertyGroupDefineType">
+								<xs:attribute name="dataBindingPropertyGroupDefineCode" type="xs:string" use="optional"/>
+								<xs:attribute name="dataBindingPropertyDefineCode" type="xs:string" use="optional"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="attributeDefine">
+		<xs:attribute name="code" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="optional"/>
+		<xs:attribute name="editorDefine" type="xs:string" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+		<xs:attribute name="assorrtment" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="property"/>
+					<xs:enumeration value="style"/>
+					<xs:enumeration value="trendline"/>
+					<xs:enumeration value="vline"/>
+					<xs:enumeration value="dataset"/>
+					<xs:enumeration value="series"/>
+					<xs:enumeration value="category"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="propertyGroupDefineType">
+		<xs:sequence>
+			<xs:element name="propertyDefine" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ConstraintTerm" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="name" type="xs:string" use="required"/>
+								<xs:attribute name="value" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="attributeDefine"/>
+					<xs:attribute name="repeatable" type="xs:boolean" use="optional" default="false"/>
+					<xs:attribute name="generate" type="xs:boolean" use="optional" default="true"/>
+					<xs:attribute name="range" use="optional">
+						<xs:annotation>
+							<xs:appinfo>
+								<altova:exampleValues>
+									<altova:example value="1-5"/>
+								</altova:exampleValues>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string"/>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="hide" type="xs:boolean" use="optional" default="false"/>
+					<xs:attribute name="isNLS" type="xs:boolean" use="optional" default="false"/>
+					<xs:attribute name="relativeChange" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="attributeDefine"/>
+		<xs:attribute name="repeatable" type="xs:boolean"/>
+		<xs:attribute name="relativeChange" type="xs:boolean"/>
+	</xs:complexType>
+</xs:schema>

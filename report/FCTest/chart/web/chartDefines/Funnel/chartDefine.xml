@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<chartDefine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" index="021207" width="400" height="300" code="Funnel" name="{10502004-0973}={漏斗图}" category="{10502004-0975}={基本统计图}" type="{10502004-0974}={金字塔图}" xsi:noNamespaceSchemaLocation="../../schemas/chartDefine.xsd">  
+  <icon> 
+    <littleIcon>little.png</littleIcon>  
+    <mouseOverIcon>little.png</mouseOverIcon>  
+    <pressedIcon>little.png</pressedIcon>  
+    <bigIcon>little.png</bigIcon> 
+  </icon>  
+  <propertyGroupDefines includeGroups="BQ_BEHAVIOR,FC_TITLES_AND_AXIS_NAMES,FC_LEGEND_PROPERTIES,FC_TOOL_TIP,FC_STYLE_FONT,FC_CHARTDATA_COSMETICS,FC_PIE_DOUGHNUT_PROPERTIES,FC_PIE_COMMON_FUNCTIONAL,FC_CHART_PADDING_AND_MARGINS,FC_NUMBER_FORMATTING,FC_DATA_PLOT_COSMETICS,FC_CANVAS_COSMETICS,FC_COMMON_FUNCTIONAL"> 
+    <propertyGroupDefine code="FC_FUNNEL_DOUGHNUT_PROPERTIES" name="{10502004-0976}={漏斗图外观}"> 
+      <propertyDefine code="animation" name="{10502004-0977}={动画}" type="boolenEditMode" description="{10502004-0978}={(animation) 以动画方式显示图表}"/>  
+      <propertyDefine code="palette" name="{10502004-0979}={预置调色板}" type="paletteEditMode" range="1~5" description="{10502004-0980}={(palette) 选取预制调色板, 范围1-5}"/>  
+      <propertyDefine code="is2D" name="{10502004-0981}={2D效果}" type="boolenEditMode" description="{10502004-0982}={(is2D) 2D风格}"/>  
+      <propertyDefine code="useSameSlantAngle" name="{10502004-0983}={统一倾斜角度}" type="boolenEditMode" description="{10502004-0984}={(useSameSlantAngle) 统一倾斜角度}"/>  
+      <propertyDefine code="streamlinedData" name="{10502004-0985}={流水线数据}" type="boolenEditMode" description="{10502004-0986}={(streamlinedData) 流水线数据}"/>  
+      <propertyDefine code="isSliced" name="{10502004-0987}={是否切片}" type="boolenEditMode" description="{10502004-0988}={(isSliced) 是否切片}"/>  
+      <propertyDefine code="isHollow" name="{10502004-0989}={空心切片}" type="boolenEditMode" description="{10502004-0990}={(isHollow) 空心切片}"/>  
+      <propertyDefine code="funnelYScale" name="{10502004-0991}={Y轴透视值}" type="integerEditMode" range="0~40" description="{10502004-0992}={(funnelYScale) Y轴透视值}"/> 
+    </propertyGroupDefine>  
+    <propertyGroupDefine code="FC_TITLES_AND_AXIS_NAMES" name="{10502004-0993}={标题和轴名称}"/>  
+    <propertyGroupDefine code="FC_LEGEND_PROPERTIES" name="{10502004-0994}={图例}"/>  
+    <propertyGroupDefine code="FC_TOOL_TIP" name="{10502004-0995}={提示框}"> 
+      <propertyDefine code="seriesNameInToolTip" name="{10502004-0996}={显示系列名}" type="boolenEditMode" description="{10502004-0997}={(seriesNameInToolTip) 是否在提示框中显示序列名称}"/>  
+      <propertyDefine code="categoryNameInToolTip" name="{10502004-0998}={显示分类轴}" type="toolTipcategory" description="{10502004-0999}={(categoryNameInToolTip) 是否显示分类轴}"/> 
+    </propertyGroupDefine>  
+    <propertyGroupDefine code="FC_STYLE_FONT" name="{10502004-1000}={字体样式}"/>  
+    <propertyGroupDefine code="FC_PIE_DOUGHNUT_PROPERTIES" name="{10502004-1001}={饼图外观}"/>  
+    <propertyGroupDefine code="FC_PIE_COMMON_FUNCTIONAL" name="{10502004-1002}={通用功能}"> 
+      <propertyDefine code="showLabelsAtCenter" name="{10502004-1003}={居中显示}" type="boolenEditMode" description="{10502004-1004}={(showLabelsAtCenter) 居中显示}"/>  
+      <propertyDefine code="labelDistance" name="{10502004-1005}={标注线与标签间距}" type="textEditMode" description="{10502004-1006}={(labelDistance) 标注线与标签间距}"/> 
+    </propertyGroupDefine>  
+    <propertyGroupDefine code="FC_CHARTDATA_COSMETICS" name="{10502004-1007}={图表区外观}"/>  
+    <propertyGroupDefine code="FC_CANVAS_COSMETICS" name="{10502004-1008}={画布外观}"/>  
+    <propertyGroupDefine code="FC_CHART_PADDING_AND_MARGINS" name="{10502004-1009}={对齐和缩进}"/>  
+    <propertyGroupDefine code="FC_NUMBER_FORMATTING" name="{10502004-1010}={数字格式}"/>  
+    <propertyGroupDefine code="FC_FONT_PROPERTIES" name="{10502004-1011}={字体属性}"/>  
+    <propertyGroupDefine code="BQ_DATASETS" name="{10502004-1012}={数据集}" type="datasets"/>  
+    <propertyGroupDefine code="BQ_CATEGORY" name="{10502004-1013}={分类轴}" type="single_category"/>  
+    <propertyGroupDefine code="BQ_SERIES" name="{10502004-1014}={系列}" type="single_series"/>  
+    <propertyGroupDefine code="BQ_PARAMETER" name="{10502004-0097}={参数}" type="parameterEditMode"/>  
+    <propertyGroupDefine code="BQ_BEHAVIOR" name="{10502004-1015}={行为}"/>      
+    <propertyGroupDefine code="BQ_ALTNTVDIM" name="{10502004-1030}={切换维度}" type="altntvDim"/>  
+    <propertyGroupDefine code="BQ_ALTNTVMEAS" name="{10502004-1031}={切换指标}" type="altntvMeas"/>  
+    <propertyGroupDefine code="FC_DATA_PLOT_COSMETICS" name="{10502004-1032}={数据外观}"/>  
+    <propertyGroupDefine code="FC_COMMON_FUNCTIONAL" name="{10502004-1002}={通用功能}"/>  
+    <dataBindingGroupDefine code="BQ_DATABINDING" name="{10502004-1033}={系列详细设置}" bindingGroup="series" relativeChange="true"> 
+      <propertyDefine code="showValues" name="{10502004-1034}={显示标签}" type="boolenEditMode" description="{10502004-1035}={(showValues) 设置是否在图上显示数值}"/>  
+      <propertyDefine code="color" name="{10502004-1036}={颜色}" type="color" description="{10502004-1037}={(color) 序列的颜色}"/>  
+      <propertyDefine code="alpha" name="{10502004-1038}={透明度}" type="transparencyEditMode" range="0~100" description="{10502004-1039}={(alpha) Alpha 颜色值, 取值范围 0-100}"/>  
+      <propertyDefine code="dashed" name="{10502004-1040}={虚线}" type="boolenEditMode" description="{10502004-1041}={(dashed) 启用虚线}"/>  
+      <propertyDefine code="showValues" name="{10502004-1034}={显示标签}" type="boolenEditMode" description="{10502004-1035}={(showValues) 设置是否在图上显示数值}"/>  
+      <propertyDefine code="color" name="{10502004-1036}={颜色}" type="color" description="{10502004-1037}={(color) 序列的颜色}"/>  
+      <propertyDefine code="alpha" name="{10502004-1038}={透明度}" type="transparencyEditMode" range="0~100" description="{10502004-1039}={(alpha) Alpha 颜色值, 取值范围 0-100}"/>  
+      <propertyDefine code="dashed" name="{10502004-1040}={虚线}" type="boolenEditMode" description="{10502004-1041}={(dashed) 启用虚线}"/> 
+    </dataBindingGroupDefine>  
+    <styleGroupDefine code="BQ_STYLEAPPLY" name="{10502004-1042}={样式应用}" type="fonts" rawType="font"> 
+      <applyObject code="Caption" name="{10502004-1043}={标题}" includeGroups="FC_STYLE_FONT"/>  
+      <applyObject code="Subcaption" name="{10502004-1044}={副标题}" includeGroups="FC_STYLE_FONT"/>  
+      <applyObject code="Legend" name="{10502004-0994}={图例}" includeGroups="FC_STYLE_FONT"/>  
+      <applyObject code="Tooltip" name="{10502004-1045}={悬浮提示}" includeGroups="FC_STYLE_FONT"/>  
+      <applyObject code="Datalabels" name="{10502004-1046}={数据标签}" includeGroups="FC_STYLE_FONT"/> 
+    </styleGroupDefine> 
+  </propertyGroupDefines>  
+  <defaultSetting themeCode="default"> 
+    <propertyGroup refCode="FC_TITLES_AND_AXIS_NAMES"> 
+      <property refCode="caption" value="{10502004-1047}={漏斗图}" mulCode="{10502004-1047}={漏斗图}"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_CHART_PADDING_AND_MARGINS"> 
+      <property refCode="captionPadding" value="3"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_CHARTDATA_COSMETICS"> 
+      <property refCode="bgColor" value="f6f6f6"/>  
+      <property refCode="borderColor" value="cecccc"/>  
+      <property refCode="borderThickness" value="1"/>  
+      <property refCode="showBorder" value="1"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_CANVAS_COSMETICS"> 
+      <property refCode="canvasBgColor" value="ffffff"/>  
+      <property refCode="canvasBorderColor" value="cecccc"/>  
+      <property refCode="canvasBorderThickness" value="1"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_TOOL_TIP"> 
+      <property refCode="showToolTip" value="1"/>  
+      <!--property refCode="toolTipSepChar" value="{10502004-1048}={，}" mulCode="{10502004-1048}={，}"/-->  
+      <property refCode="toolTipBgColor" value="ffffff"/>  
+      <property refCode="toolTipBorderColor" value="7d7d7d"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_FUNNEL_DOUGHNUT_PROPERTIES"> 
+      <property refCode="isHollow" value="1"/>  
+      <property refCode="streamlinedData" value="0"/>  
+      <property refCode="animation" value="1"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_PIE_COMMON_FUNCTIONAL"> 
+      <property refCode="showLabels" value="1"/>  
+      <property refCode="showValues" value="1"/>  
+      <property refCode="labelSepChar" value="，"/>
+      <!--property refCode="labelSepChar" value="{10502004-1048}={，}" mulCode="{10502004-1048}={，}"/--> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_PIE_DOUGHNUT_PROPERTIES"> 
+      <property refCode="enableSmartLabels" value="1"/> 
+      <property refCode="smartLineThickness" value="1"/> 
+      <property refCode="smartLineColor" value="545454"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_DATA_PLOT_COSMETICS"> 
+      <property refCode="showPlotBorder" value="1"/>  
+      <property refCode="plotBorderThickness" value="1"/> 
+      <property refCode="plotBorderColor" value="000000"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_LEGEND_PROPERTIES"> 
+      <property refCode="legendPosition" value="1"/>  
+      <property refCode="legendNumColumns" value="5"/>  
+      <property refCode="legendBorderThickness" value="1"/>  
+      <property refCode="interactiveLegend" value="true"/>  
+      <property refCode="legendAllowDrag" value="false"/>  
+      <property refCode="showLegend" value="true"/>  
+      <property refCode="legendBgColor" value="ffffff"/>  
+      <property refCode="legendBorderColor" value="a5a5a5"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_NUMBER_FORMATTING"> 
+      <property refCode="formatNumber" value="1"/>  
+      <property refCode="formatNumberScale" value="1"/> 
+    </propertyGroup>  
+    <styleGroup code="styleApply_Caption" refCode="BQ_STYLEAPPLY" applyObject="Caption"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="16"/>  
+      <property refCode="color" value="000000"/> 
+    </styleGroup>  
+    <styleGroup code="styleApply_Subcaption" refCode="BQ_STYLEAPPLY" applyObject="Subcaption"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="12"/>  
+      <property refCode="color" value="666666"/> 
+    </styleGroup>  
+    <styleGroup code="styleApply_Datalabels" refCode="BQ_STYLEAPPLY" applyObject="Datalabels"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="14"/>  
+      <property refCode="color" value="000000"/> 
+    </styleGroup>  
+    <styleGroup code="styleApply_Legend" refCode="BQ_STYLEAPPLY" applyObject="Legend"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="10"/>  
+      <property refCode="color" value="000000"/> 
+    </styleGroup>  
+    <styleGroup code="styleApply_Tooltip" refCode="BQ_STYLEAPPLY" applyObject="Tooltip"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="10"/>  
+      <property refCode="color" value="666666"/> 
+    </styleGroup>  
+    <styleGroup code="styleApply_XAxisName" refCode="BQ_STYLEAPPLY" applyObject="XAxisName"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="10"/>  
+      <property refCode="color" value="000000"/> 
+    </styleGroup>  
+    <styleGroup code="styleApply_YAxisName" refCode="BQ_STYLEAPPLY" applyObject="YAxisName"> 
+      <property refCode="font" value="{10502004-1049}={宋体}" mulCode="{10502004-1049}={宋体}"/>  
+      <property refCode="size" value="10"/>  
+      <property refCode="color" value="000000"/> 
+    </styleGroup>  
+    <categorieAxises> 
+      <category code="defaultDataDefine_zone" datasetCode="defaultDataDefine" columnCode="zone" hasOperate="false"/> 
+    </categorieAxises>  
+    <seriesAxises> 
+      <series code="" datasetCode="defaultDataDefine" columnCode="acount" isMeasure="true" hasOperate="false"/> 
+    </seriesAxises>  
+    <datasets> 
+      <dataset code="defaultDataDefine" name="{10502004-1050}={销售统计}" mulCode="{10502004-1050}={销售统计}"> 
+        <header> 
+          <cell code="product" name="{10502004-1051}={销售人员}" mulCode="{10502004-1051}={销售人员}" type="Number"/> 
+          <cell code="zone" name="{10502004-1052}={地区}"  mulCode="{10502004-1052}={地区}" type="String"/>  
+          <cell code="deptment" name="{10502004-1053}={部门}" mulCode="{10502004-1053}={部门}" type="Number"/>  
+          <cell code="acount" name="{10502004-1054}={A数量}" mulCode="{10502004-1054}={A数量}" type="Number"/> 
+        </header>  
+        <body code="" name=""> 
+         
+         <row code="" name=""> 
+            <cell refCode="zone">1</cell>  
+            <cell refCode="acount">58</cell> 
+          </row>  
+          <row code="" name=""> 
+            <cell refCode="zone">2</cell>  
+            <cell refCode="acount">25</cell> 
+          </row>  
+          <row code="" name=""> 
+            <cell refCode="zone">3</cell>  
+            <cell refCode="acount">65</cell> 
+          </row>  
+          <row code="" name=""> 
+            <cell refCode="zone">4</cell>  
+            <cell refCode="acount">46</cell> 
+          </row>  
+          <row code="" name=""> 
+            <cell refCode="zone">5</cell>  
+            <cell refCode="acount">100</cell> 
+          </row>  
+        </body> 
+      </dataset> 
+    </datasets> 
+  </defaultSetting>  
+  
+   
+  <nodatadefaultSetting themeCode="emptyDataTheme"> 
+    
+    <propertyGroup refCode="FC_FUNNEL_DOUGHNUT_PROPERTIES"> 
+      <property refCode="streamlinedData" value="0"/> 
+    </propertyGroup>  
+    <propertyGroup refCode="FC_PIE_COMMON_FUNCTIONAL"> 
+      <property refCode="showLabelsAtCenter" value="0"/> 
+    </propertyGroup>
+    <categorieAxises> 
+      <category code="defaultDataDefine_field1" datasetCode="defaultDataDefine" columnCode="field1" hasOperate="false"/> 
+    </categorieAxises>  
+    <seriesAxises> 
+      <series code="" datasetCode="defaultDataDefine" columnCode="field2" isMeasure="true" hasOperate="false"/> 
+    </seriesAxises>  
+    <datasets> 
+      <dataset code="defaultDataDefine" name=""> 
+        <header> 
+          <cell code="field1" mulCode="{10502004-0180}={分类轴}" name="{10502004-0180}={分类轴}" type="String"/>  
+          <cell code="field2" mulCode="{10502004-0320}={系列1}"  name="{10502004-0320}={系列1}" type="Number"/>  
+          <cell code="field3" mulCode="{10502004-0321}={系列2}" name="{10502004-0321}={系列2}" type="Number"/>  
+          <cell code="field4" mulCode="{10502004-0322}={系列3}"  name="{10502004-0322}={系列3}" type="Number"/> 
+        </header>  
+        <body code="" name=""> 
+          <row code="" name=""> 
+            <cell code="" refCode="field1">没有可以显示的数据</cell>  
+            <cell code="" refCode="field2">10</cell>  
+            <cell code="" refCode="field3">10</cell>  
+            <cell code="" refCode="field4">10</cell> 
+          </row>  
+        </body> 
+      </dataset> 
+    </datasets> 
+  </nodatadefaultSetting>   
+  
+  
+  <apiDefines includeApis=""> 
+    <apiDefine name="" code=""> 
+      <input typeClassName="" name="" code=""/>  
+      <output typeClassName=""/> 
+    </apiDefine> 
+  </apiDefines>  
+  <eventDefines> 
+    <eventDefine name="" code=""> 
+      <input typeClassName="" name="" code=""/> 
+    </eventDefine> 
+  </eventDefines> 
+</chartDefine>

@@ -54,7 +54,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 	private final String _uuid;
 
 	private CellFontStyle(String fontFamily, FontStyleEnum fontStyle,
-			FontWeightEnum fontWeight, int fontSize, Color fontColor,
+			FontWeightEnum fontWeight, Integer fontSize, Color fontColor,
 			Boolean strikethrough) {
 		this.fontFamily = fontFamily;
 		this.fontStyle = fontStyle;
@@ -160,7 +160,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 	 * @return
 	 */
 	private static String createUUID(String fontFamily,
-			FontStyleEnum fontStyle, FontWeightEnum fontWeight, int fontSize,
+			FontStyleEnum fontStyle, FontWeightEnum fontWeight, Integer fontSize,
 			Color fontColor, Boolean strikethrough) {
 		String result = "";
 		result = result + Const.NVL(fontFamily, "") + ",";
@@ -202,7 +202,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 		return fontStyle;
 	}
 
-	public int getFontSize() {
+	public Integer getFontSize() {
 		return fontSize;
 	}
 

@@ -18,6 +18,7 @@ import com.tonbeller.wcf.controller.RequestContext;
 public class NormalDataData implements IJSONObjectable {
 	public static final String PROP_NAME_ROW = "row";
 	public static final String PROP_NAME_CELL = "cell";
+	public static final String PROP_NAME_ROW_NUM = "num";
 
 	List<List<NormalDataDataCell>> cells;
 
@@ -35,6 +36,12 @@ public class NormalDataData implements IJSONObjectable {
 				row.add(NormalDataDataCell.instance(cellNode));
 			}
 			b.cells.add(row);
+
+			int rowNum = Utils.toInt(
+					XMLHandler.getTagAttribute(rowNode, PROP_NAME_ROW_NUM), 1);
+			for (int i = 1; i < rowNum; i++) {
+				b.cells.add(new ArrayList<NormalDataDataCell>());
+			}
 		}
 
 		return b;
