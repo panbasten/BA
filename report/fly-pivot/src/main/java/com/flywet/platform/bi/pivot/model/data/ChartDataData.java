@@ -26,7 +26,11 @@ public class ChartDataData implements IJSONObjectable {
 	// 嵌套结构分类
 	List<ChartDataDataCategory> category;
 
+	// 数据集
 	List<ChartDataDataDataSet> dataSet;
+
+	// 趋势线
+	List<ChartDataDataTrendlines> trendlines;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -61,6 +65,14 @@ public class ChartDataData implements IJSONObjectable {
 			jo.put("dataSet", dataSetJa);
 		}
 
+		if (trendlines != null && trendlines.size() > 0) {
+			JSONArray trendlinesJa = new JSONArray();
+			for (ChartDataDataTrendlines tl : trendlines) {
+				trendlinesJa.add(tl.renderJo(context));
+			}
+			jo.put("trendlines", trendlinesJa);
+		}
+
 		return jo;
 	}
 
@@ -92,6 +104,14 @@ public class ChartDataData implements IJSONObjectable {
 			}
 		}
 
+		List<Node> trendlines = XMLHandler.getNodes(node, "trendlines");
+		if (trendlines != null && trendlines.size() > 0) {
+			d.trendlines = new ArrayList<ChartDataDataTrendlines>();
+			for (Node n : trendlines) {
+				d.trendlines.add(ChartDataDataTrendlines.instance(n));
+			}
+		}
+
 		return d;
 
 	}
@@ -111,8 +131,8 @@ class ChartDataDataChart implements IJSONObjectable {
 	}
 
 	public static ChartDataDataChart instance(Node node) {
-		Map<String, String> map = XMLHandler.getNodeAttributesMap(node);
 		ChartDataDataChart chart = new ChartDataDataChart();
+		Map<String, String> map = XMLHandler.getNodeAttributesMap(node);
 		chart.attrs = map;
 		return chart;
 	}
@@ -220,8 +240,13 @@ class ChartDataDataCategory implements IJSONObjectable {
 class ChartDataDataDataSet implements IJSONObjectable {
 
 	String seriesName;
+	Map<String, String> attrs;
 
+	// set节点
 	List<ChartDataDataDataSetData> data;
+
+	// 嵌套dataSet
+	List<ChartDataDataDataSet> dataSet;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -232,12 +257,24 @@ class ChartDataDataDataSet implements IJSONObjectable {
 			jo.put("seriesName", seriesName);
 		}
 
+		if (attrs != null) {
+			jo.putAll(attrs);
+		}
+
 		if (data != null && data.size() > 0) {
 			JSONArray dataJa = new JSONArray();
 			for (ChartDataDataDataSetData d : data) {
 				dataJa.add(d.renderJo(context));
 			}
 			jo.put("data", dataJa);
+		}
+
+		if (dataSet != null && dataSet.size() > 0) {
+			JSONArray dataSetJa = new JSONArray();
+			for (ChartDataDataDataSet ds : dataSet) {
+				dataSetJa.add(ds.renderJo(context));
+			}
+			jo.put("dataSet", dataSetJa);
 		}
 
 		return jo;
@@ -248,11 +285,22 @@ class ChartDataDataDataSet implements IJSONObjectable {
 		ds.seriesName = Const.NVL(
 				XMLHandler.getTagAttribute(node, "seriesName"), null);
 
+		Map<String, String> map = XMLHandler.getNodeAttributesMap(node);
+		ds.attrs = map;
+
 		List<Node> set = XMLHandler.getNodes(node, "set");
 		if (set != null && set.size() > 0) {
 			ds.data = new ArrayList<ChartDataDataDataSetData>();
 			for (Node n : set) {
 				ds.data.add(ChartDataDataDataSetData.instance(n));
+			}
+		}
+
+		List<Node> dataSet = XMLHandler.getNodes(node, "dataSet");
+		if (dataSet != null && dataSet.size() > 0) {
+			ds.dataSet = new ArrayList<ChartDataDataDataSet>();
+			for (Node n : set) {
+				ds.dataSet.add(ChartDataDataDataSet.instance(n));
 			}
 		}
 
@@ -262,30 +310,76 @@ class ChartDataDataDataSet implements IJSONObjectable {
 }
 
 class ChartDataDataDataSetData implements IJSONObjectable {
-	String value;
-	String link;
+	Map<String, String> attrs;
+
+	@Override
+	public JSONObject renderJo(RequestContext context) throws BIException {
+		if (attrs != null) {
+			return JSONUtils.convertToJSONObject(attrs);
+		}
+		return null;
+	}
+
+	public static ChartDataDataDataSetData instance(Node node) {
+		ChartDataDataDataSetData d = new ChartDataDataDataSetData();
+		Map<String, String> map = XMLHandler.getNodeAttributesMap(node);
+		d.attrs = map;
+		return d;
+	}
+}
+
+class ChartDataDataTrendlines implements IJSONObjectable {
+
+	// set节点
+	List<ChartDataDataTrendlinesLine> line;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
 
-		if (value != null) {
-			jo.put("value", value);
-		}
-
-		if (link != null) {
-			jo.put("link", link);
+		if (line != null && line.size() > 0) {
+			JSONArray lineJa = new JSONArray();
+			for (ChartDataDataTrendlinesLine d : line) {
+				lineJa.add(d.renderJo(context));
+			}
+			jo.put("line", lineJa);
 		}
 
 		return jo;
 	}
 
-	public static ChartDataDataDataSetData instance(Node node)
-			throws BIException {
-		ChartDataDataDataSetData d = new ChartDataDataDataSetData();
-		d.value = Const.NVL(XMLHandler.getTagAttribute(node, "value"), null);
-		d.link = Const.NVL(XMLHandler.getTagAttribute(node, "link"), null);
-		return d;
+	public static ChartDataDataTrendlines instance(Node node) {
+		ChartDataDataTrendlines tl = new ChartDataDataTrendlines();
+
+		List<Node> line = XMLHandler.getNodes(node, "line");
+		if (line != null && line.size() > 0) {
+			tl.line = new ArrayList<ChartDataDataTrendlinesLine>();
+			for (Node n : line) {
+				tl.line.add(ChartDataDataTrendlinesLine.instance(n));
+			}
+		}
+
+		return tl;
+	}
+
+}
+
+class ChartDataDataTrendlinesLine implements IJSONObjectable {
+	Map<String, String> attrs;
+
+	@Override
+	public JSONObject renderJo(RequestContext context) throws BIException {
+		if (attrs != null) {
+			return JSONUtils.convertToJSONObject(attrs);
+		}
+		return null;
+	}
+
+	public static ChartDataDataTrendlinesLine instance(Node node) {
+		ChartDataDataTrendlinesLine l = new ChartDataDataTrendlinesLine();
+		Map<String, String> map = XMLHandler.getNodeAttributesMap(node);
+		l.attrs = map;
+		return l;
 	}
 }

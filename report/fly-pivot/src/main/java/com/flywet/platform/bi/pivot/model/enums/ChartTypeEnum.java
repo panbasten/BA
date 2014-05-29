@@ -9,51 +9,53 @@ public enum ChartTypeEnum implements IStyleEnum {
 	// 柱形图
 	MSCOLUMN2D((short) 0, "MSColumn2D", true),
 	// 堆积柱形图
-	MSSTACKEDCOLUMN2D((short) 1, "MSStackedColumn2D", true),
+	STACKEDCOLUMN2D((short) 1, "StackedColumn2D", true),
 	// 条形图
 	MSBAR2D((short) 2, "MSBar2D", true),
+	// 堆积条形图
+	STACKEDBAR2D((short) 3, "StackedBar2D", true),
 	// 面积图
-	MSAREA((short) 3, "MSArea", true),
+	MSAREA((short) 4, "MSArea", true),
 	// 折线图
-	MSLINE((short) 4, "MSLine", true),
+	MSLINE((short) 5, "MSLine", true),
 	// 饼图
-	PIE2D((short) 5, "Pie2D", false),
+	PIE2D((short) 6, "Pie2D", false),
 	// 多级饼图
-	MULTILEVELPIE((short) 6, "MultiLevelPie", true),
+	MULTILEVELPIE((short) 7, "MultiLevelPie", true),
 	// 单Y轴组合图
-	MSCOMBI2D((short) 7, "MSCombi2D", true),
+	MSCOMBI2D((short) 8, "MSCombi2D", true),
 	// 双Y轴组合图
-	MSCOMBIDY2D((short) 8, "MSCombiDY2D", true),
+	MSCOMBIDY2D((short) 9, "MSCombiDY2D", true),
 	// 散点图
-	SCATTER((short) 9, "Scatter", true),
+	SCATTER((short) 10, "Scatter", true),
 	// 气泡图
-	BUBBLE((short) 10, "Bubble", true),
+	BUBBLE((short) 11, "Bubble", true),
 	// 仪表盘
-	ANGULARGAUGE((short) 11, "AngularGauge", true),
+	ANGULARGAUGE((short) 12, "AngularGauge", true),
 	// 雷达图
-	RADAR((short) 12, "Radar", true),
+	RADAR((short) 13, "Radar", true),
 	// 子弹图
-	VBULLET((short) 13, "VBullet", true),
+	VBULLET((short) 14, "VBullet", true),
 	// 水平子弹图
-	HBULLET((short) 14, "HBullet", true),
+	HBULLET((short) 15, "HBullet", true),
 	// 温度计
-	THERMOMETER((short) 15, "Thermometer", true),
+	THERMOMETER((short) 16, "Thermometer", true),
 	// 量筒图
-	CYLINDER((short) 16, "Cylinder", true),
+	CYLINDER((short) 17, "Cylinder", true),
 	// 漏斗图
-	FUNNEL((short) 17, "Funnel", true),
+	FUNNEL((short) 18, "Funnel", true),
 	// 金字塔图
-	PYRAMID((short) 18, "Pyramid", true),
+	PYRAMID((short) 19, "Pyramid", true),
 	// 刻度板
-	HLINEARGAUGE((short) 19, "HLinearGauge", true),
+	HLINEARGAUGE((short) 20, "HLinearGauge", true),
 	// 瀑布图
-	WATERFALL2D((short) 20, "Waterfall2D", true),
+	WATERFALL2D((short) 21, "Waterfall2D", true),
 	// 迷你柱形图
-	SPARKCOLUM((short) 21, "SparkColumn", true),
+	SPARKCOLUM((short) 22, "SparkColumn", true),
 	// 迷你盈亏图
-	SPARKWINLOSS((short) 22, "SparkWinLoss", true),
+	SPARKWINLOSS((short) 23, "SparkWinLoss", true),
 	// 迷你柱形图
-	SPARKLINE((short) 23, "SparkLine", true);
+	SPARKLINE((short) 24, "SparkLine", true);
 
 	public static final String ENUM_NAME = "ChartType";
 
