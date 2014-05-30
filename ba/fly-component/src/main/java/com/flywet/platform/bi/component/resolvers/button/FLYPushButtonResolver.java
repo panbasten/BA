@@ -43,7 +43,8 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 	}
 
 	private void renderSeparatorType(Node node, HTMLWriter html,
-			List<String> script, FLYVariableResolver attrs) {
+			List<String> script, FLYVariableResolver attrs)
+			throws BIPageException {
 		html.startElement(HTML.COMPONENT_TYPE_BASE_SPAN);
 
 		HTML.writeStyleClassAttribute(node, html, attrs, HTML.SEPARATOR_CLASS);
@@ -61,7 +62,7 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 	}
 
 	private String resolveStyleClass(Node node, FLYVariableResolver attrs,
-			boolean isMenu) {
+			boolean isMenu) throws BIPageException {
 		String icon = HTML.getTagAttribute(node, HTML.ATTR_ICON_CLASS, attrs);
 		String label = HTML.getTagAttribute(node, HTML.ATTR_LABEL, attrs);
 		String state = HTML.getTagAttribute(node, HTML.ATTR_STATE, attrs);

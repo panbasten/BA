@@ -243,12 +243,12 @@ public class PageTemplateResolverType {
 		String nodeName = node.getNodeName();
 		if (nodeName.startsWith(HTML.COMPONENT_TYPE_FLY_PREFIX)) {
 			if (getPlugins().containsKey(nodeName.toLowerCase())) {
-				getPlugins().get(nodeName.toLowerCase()).getResolver().render(
-						node, html, script, attrs, fileUrl);
+				getPlugins().get(nodeName.toLowerCase()).getResolver()
+						.render(node, html, script, attrs, fileUrl);
 				return;
 			}
 		} else if (XMLUtils.isTextNode(node)) {
-			html.writeText(PageTemplateInterpolator.interpolateExpressions(
+			html.writeText(FLYExpressionResolver.evaluate(
 					Const.removeTAB(Const.removeCRLF(node.getNodeValue())),
 					attrs));
 			return;

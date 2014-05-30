@@ -41,8 +41,7 @@ public abstract class BaseComponentResolver implements
 					fileUrl);
 		}
 		if (node.getNodeValue() != null) {
-			html.writeText(Const.removeTAB(Const
-					.removeCRLF(node.getNodeValue())));
+			html.writeText(Const.removeTAB(Const.removeCRLF(node.getNodeValue())));
 		}
 	}
 
@@ -62,7 +61,8 @@ public abstract class BaseComponentResolver implements
 			FLYVariableResolver attrs, String fileUrl) throws BIPageException {
 	}
 
-	public boolean isRequired(Node node, FLYVariableResolver attrs) {
+	public boolean isRequired(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String validate = HTML.getTagAttribute(node, ATTR_VALIDATE, attrs);
 		boolean required = false;
 		if (validate != null) {

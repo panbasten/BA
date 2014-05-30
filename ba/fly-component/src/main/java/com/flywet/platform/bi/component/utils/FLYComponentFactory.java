@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.flywet.platform.bi.component.anno.FLYComponent;
 import com.flywet.platform.bi.core.utils.ClassUtils;
 
@@ -16,8 +14,6 @@ import com.flywet.platform.bi.core.utils.ClassUtils;
  * 
  */
 public class FLYComponentFactory {
-	private static final Logger logger = Logger
-			.getLogger(FLYComponentFactory.class);
 
 	private static final String COMPONENT_BASE_PACKAGE = "com.flywet.platform.bi.component";
 	private static List<String> allFileNames = null;

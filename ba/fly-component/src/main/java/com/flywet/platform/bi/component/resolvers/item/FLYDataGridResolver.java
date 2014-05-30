@@ -57,9 +57,9 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 
 			html.endElement(HTML.COMPONENT_TYPE_BASE_DIV);
 
-			Map<String, Object> map = HTML.getAttributesMap(node
-					.getAttributes(), new String[] { ATTR_COLUMNS,
-					ATTR_TOOLBAR, ATTR_DATA }, attrs);
+			Map<String, Object> map = HTML.getAttributesMap(
+					node.getAttributes(), new String[] { ATTR_COLUMNS,
+							ATTR_TOOLBAR, ATTR_DATA }, attrs);
 			JSONObject jo = JSONUtils.convertToJSONObject(map);
 			// id
 			jo.put(HTML.ATTR_ID, id);
@@ -111,7 +111,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	private void parserSubNode(JSONObject jo, Node node,
 			FLYVariableResolver attrs) throws BIPageException, BIJSONException {
 		// columns
-		Node columns = XMLUtils.selectSingleNode(node,
+		Node columns = XMLUtils.selectSingleNode(
+				node,
 				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_COLUMNS));
 		if (columns != null) {
@@ -119,7 +120,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 		}
 
 		// toolbar
-		Node toolbar = XMLUtils.selectSingleNode(node,
+		Node toolbar = XMLUtils.selectSingleNode(
+				node,
 				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_TOOLBAR));
 		if (toolbar != null) {
@@ -127,16 +129,18 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 		}
 
 		// rowStylers
-		Node rowStylers = XMLUtils.selectSingleNode(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+		Node rowStylers = XMLUtils.selectSingleNode(
+				node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_ROW_STYLERS));
 		if (rowStylers != null) {
 			jo.put(ATTR_ROW_STYLER, parserRowStylers(rowStylers, attrs));
 		}
 
 		// dataFilters
-		Node dataFilters = XMLUtils.selectSingleNode(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+		Node dataFilters = XMLUtils.selectSingleNode(
+				node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_DATA_FILTERS));
 		if (rowStylers != null) {
 			jo.put(ATTR_DATA_FILTER, parserDataFilters(dataFilters, attrs));
@@ -144,12 +148,13 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	}
 
 	private ComponentFunction parserDataFilters(Node node,
-			FLYVariableResolver attrs) {
+			FLYVariableResolver attrs) throws BIPageException {
 		ComponentFunction func = ComponentFunction.instance();
 		func.addParameter("index").addParameter("row");
 
-		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+		NodeList nodeList = XMLUtils.selectNodes(
+				node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_DATA_FILTER));
 
 		if (nodeList != null) {
@@ -188,12 +193,13 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	}
 
 	private ComponentFunction parserRowStylers(Node node,
-			FLYVariableResolver attrs) {
+			FLYVariableResolver attrs) throws BIPageException {
 		ComponentFunction func = ComponentFunction.instance();
 		func.addParameter("index").addParameter("row");
 
-		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+		NodeList nodeList = XMLUtils.selectNodes(
+				node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_ROW_STYLER));
 		if (nodeList != null) {
 			func.addStatement("var style = '';");
@@ -255,8 +261,10 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 			throws BIPageException, BIJSONException {
 		JSONArray ja = new JSONArray();
 		// 获得所有行
-		NodeList nodeList = XMLUtils.selectNodes(node, XMLUtils
-				.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX + ATTR_ROW));
+		NodeList nodeList = XMLUtils.selectNodes(
+				node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_ROW));
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				ja.add(parserColumnsRow(nodeList.item(i), attrs));
@@ -269,10 +277,10 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 	private JSONArray parserColumnsRow(Node node, FLYVariableResolver attrs)
 			throws BIPageException, BIJSONException {
 		JSONArray ja = new JSONArray();
-		NodeList nodeList = XMLUtils
-				.selectNodes(node, XMLUtils
-						.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
-								+ ATTR_COLUMN));
+		NodeList nodeList = XMLUtils.selectNodes(
+				node,
+				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
+						+ ATTR_COLUMN));
 		if (nodeList != null) {
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				ja.add(parserColumnsRowColumn(nodeList.item(i), attrs));
@@ -285,8 +293,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 			FLYVariableResolver attrs) throws BIPageException, BIJSONException {
 		Map<String, Object> map = HTML.getAttributesMap(node.getAttributes(),
 				null, attrs);
-		map.put(HTML.ATTR_WIDTH, HTML.getTagAttribute(node, HTML.ATTR_WIDTH,
-				attrs));
+		map.put(HTML.ATTR_WIDTH,
+				HTML.getTagAttribute(node, HTML.ATTR_WIDTH, attrs));
 		Object editor = HTML.getTagAttributeObject(node, ATTR_EDITOR, attrs);
 		if (editor instanceof EditorObjectData) {
 			map.put(ATTR_EDITOR, ((EditorObjectData) editor).getFormDataJo());

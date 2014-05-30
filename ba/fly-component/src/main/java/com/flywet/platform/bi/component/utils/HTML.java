@@ -419,8 +419,8 @@ public class HTML {
 				for (int i = 0; i < nnm.getLength(); i++) {
 					Node n = nnm.item(i);
 					if (!marchAttribute(disMap, n.getNodeName())) {
-						String val = PageTemplateInterpolator
-								.interpolateExpressions(n.getNodeValue(), attrs);
+						String val = FLYExpressionResolver.evaluate(
+								n.getNodeValue(), attrs);
 						rtn.put(n.getNodeName(), Utils.autoConvert(val));
 					}
 				}
@@ -446,9 +446,8 @@ public class HTML {
 			for (int i = 0; i < nnm.getLength(); i++) {
 				Node n = nnm.item(i);
 				if (!marchAttribute(disMap, n.getNodeName())) {
-					html.writeAttribute(n.getNodeName(),
-							PageTemplateInterpolator.interpolateExpressions(n
-									.getNodeValue(), attrs));
+					html.writeAttribute(n.getNodeName(), FLYExpressionResolver
+							.evaluate(n.getNodeValue(), attrs));
 				}
 			}
 		}
@@ -471,7 +470,8 @@ public class HTML {
 
 	}
 
-	public static String getId(Node node, FLYVariableResolver attrs) {
+	public static String getId(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String id = HTML.getTagAttribute(node, HTML.ATTR_ID, attrs);
 		if (Const.isEmpty(id)) {
 			id = "id_" + UUIDUtil.getUUIDAsString();
@@ -490,8 +490,17 @@ public class HTML {
 		return XMLHandler.getTagAttribute(node, attribute);
 	}
 
+	/**
+	 * 通过标签和上下文获得一个字符串
+	 * 
+	 * @param node
+	 * @param attribute
+	 * @param attrs
+	 * @return
+	 * @throws BIPageException
+	 */
 	public static String getTagAttribute(Node node, String attribute,
-			FLYVariableResolver attrs) {
+			FLYVariableResolver attrs) throws BIPageException {
 		String attr = null;
 		if (attrs == null) {
 			attr = XMLHandler.getTagAttribute(node, attribute);
@@ -499,13 +508,21 @@ public class HTML {
 			attr = XMLHandler.getTagAttribute(node, attribute);
 			if (attr != null) {
 				attr = attr.trim();
-				attr = PageTemplateInterpolator.evaluate(attr, attrs);
+				attr = FLYExpressionResolver.evaluate(attr, attrs);
 			}
 		}
 
 		return attr;
 	}
 
+	/**
+	 * 通过标签和上下文得到一个对象
+	 * 
+	 * @param node
+	 * @param attribute
+	 * @param attrs
+	 * @return
+	 */
 	public static Object getTagAttributeObject(Node node, String attribute,
 			FLYVariableResolver attrs) {
 		if (attrs == null) {
@@ -515,7 +532,7 @@ public class HTML {
 			if (Const.isEmpty(tagString)) {
 				return null;
 			}
-			return PageTemplateInterpolator.evaluateObject(tagString, attrs);
+			return FLYExpressionResolver.evaluateObject(tagString, attrs);
 		}
 	}
 
@@ -524,7 +541,7 @@ public class HTML {
 	}
 
 	private static String addStyleString(Node node, FLYVariableResolver attrs,
-			String attrName, String styleName) {
+			String attrName, String styleName) throws BIPageException {
 		String v = getTagAttribute(node, attrName, attrs);
 
 		if (!Utils.isEmpty(v)) {
@@ -535,7 +552,7 @@ public class HTML {
 	}
 
 	private static String addStyleInteger(Node node, FLYVariableResolver attrs,
-			String attrName, String styleName) {
+			String attrName, String styleName) throws BIPageException {
 		String v = getTagAttribute(node, attrName, attrs);
 
 		if (!Utils.isEmpty(v)) {
@@ -546,7 +563,7 @@ public class HTML {
 	}
 
 	private static String addStyle(Node node, FLYVariableResolver attrs,
-			String attrName, String styleName) {
+			String attrName, String styleName) throws BIPageException {
 		String v = getTagAttribute(node, attrName, attrs);
 
 		if (!Utils.isEmpty(v)) {
@@ -560,10 +577,11 @@ public class HTML {
 		return "";
 	}
 
-	public static String getFontStyle(Node node, FLYVariableResolver attrs) {
+	public static String getFontStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String style = "";
-		if (PageTemplateResolverType.containComponentAttribute(node
-				.getNodeName(), ATTR_FONT)) {
+		if (PageTemplateResolverType.containComponentAttribute(
+				node.getNodeName(), ATTR_FONT)) {
 			style += addStyleString(node, attrs, ATTR_FONT_FAMILY,
 					"font-family");
 
@@ -580,10 +598,11 @@ public class HTML {
 		return style;
 	}
 
-	public static String getGeometryStyle(Node node, FLYVariableResolver attrs) {
+	public static String getGeometryStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String style = "";
-		if (PageTemplateResolverType.containComponentAttribute(node
-				.getNodeName(), ATTR_GEOMETRY)) {
+		if (PageTemplateResolverType.containComponentAttribute(
+				node.getNodeName(), ATTR_GEOMETRY)) {
 			// 如果拥有freeLayout
 			String v = getTagAttribute(node, ATTR_FREE_LAYOUT, attrs);
 			if (Utils.toBoolean(v, false)) {
@@ -598,11 +617,12 @@ public class HTML {
 		return style;
 	}
 
-	public static String getMarginStyle(Node node, FLYVariableResolver attrs) {
+	public static String getMarginStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String style = "";
 
-		if (PageTemplateResolverType.containComponentAttribute(node
-				.getNodeName(), ATTR_MARGIN_GROUP)) {
+		if (PageTemplateResolverType.containComponentAttribute(
+				node.getNodeName(), ATTR_MARGIN_GROUP)) {
 
 			style += addStyle(node, attrs, ATTR_MARGIN, "margin");
 
@@ -619,11 +639,12 @@ public class HTML {
 		return style;
 	}
 
-	public static String getPaddingStyle(Node node, FLYVariableResolver attrs) {
+	public static String getPaddingStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String style = "";
 
-		if (PageTemplateResolverType.containComponentAttribute(node
-				.getNodeName(), ATTR_PADDING_GROUP)) {
+		if (PageTemplateResolverType.containComponentAttribute(
+				node.getNodeName(), ATTR_PADDING_GROUP)) {
 
 			style += addStyle(node, attrs, ATTR_PADDING, "padding");
 
@@ -640,11 +661,12 @@ public class HTML {
 		return style;
 	}
 
-	public static String getBorderStyle(Node node, FLYVariableResolver attrs) {
+	public static String getBorderStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String style = "";
 
-		if (PageTemplateResolverType.containComponentAttribute(node
-				.getNodeName(), ATTR_BORDER_GROUP)) {
+		if (PageTemplateResolverType.containComponentAttribute(
+				node.getNodeName(), ATTR_BORDER_GROUP)) {
 			style += addStyleString(node, attrs, ATTR_BORDER, "border");
 			style += addStyleInteger(node, attrs, ATTR_BORDER_WIDTH,
 					"border-width");
@@ -693,7 +715,8 @@ public class HTML {
 		return style;
 	}
 
-	public static String getShowStyle(Node node, FLYVariableResolver attrs) {
+	public static String getShowStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String show = getTagAttribute(node, ATTR_SHOW, attrs);
 		if (!Utils.isEmpty(show)) {
 			if (Utils.toBoolean(show, true)) {
@@ -705,7 +728,8 @@ public class HTML {
 		return "";
 	}
 
-	public static String getStyle(Node node, FLYVariableResolver attrs) {
+	public static String getStyle(Node node, FLYVariableResolver attrs)
+			throws BIPageException {
 		String style = Utils.NVL(getTagAttribute(node, ATTR_STYLE, attrs), "");
 
 		style += getFontStyle(node, attrs);
@@ -719,7 +743,7 @@ public class HTML {
 	}
 
 	public static void writeStyleAttribute(Node node, HTMLWriter html,
-			FLYVariableResolver attrs) {
+			FLYVariableResolver attrs) throws BIPageException {
 		String style = getStyle(node, attrs);
 		if (!Utils.isEmpty(style)) {
 			html.writeAttribute(ATTR_STYLE, style);
@@ -728,10 +752,11 @@ public class HTML {
 	}
 
 	public static void writeStyleAttribute(Node node, HTMLWriter html,
-			FLYVariableResolver attrs, String otherStyle) {
+			FLYVariableResolver attrs, String otherStyle)
+			throws BIPageException {
 		String style = getStyle(node, attrs);
 		if (!Utils.isEmpty(otherStyle)) {
-			style += PageTemplateInterpolator.evaluate(otherStyle, attrs);
+			style += FLYExpressionResolver.evaluate(otherStyle, attrs);
 		}
 		if (!Utils.isEmpty(style)) {
 			html.writeAttribute(ATTR_STYLE, style);
@@ -740,13 +765,13 @@ public class HTML {
 	}
 
 	public static void writeStyleClassAttribute(Node node, HTMLWriter html,
-			FLYVariableResolver attrs, String def) {
-		String styleClass = HTML.getTagAttribute(node, HTML.ATTR_CLASS, attrs);
+			FLYVariableResolver attrs, String def) throws BIPageException {
+		String styleClass = getTagAttribute(node, ATTR_CLASS, attrs);
 
 		styleClass = (!Utils.isEmpty(styleClass)) ? def + " " + styleClass
 				: def;
 		if (!Utils.isEmpty(styleClass)) {
-			html.writeAttribute(HTML.ATTR_CLASS, styleClass);
+			html.writeAttribute(ATTR_CLASS, styleClass);
 		}
 	}
 }

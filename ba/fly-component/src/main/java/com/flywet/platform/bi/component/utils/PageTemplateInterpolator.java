@@ -2,13 +2,10 @@ package com.flywet.platform.bi.component.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.core.xml.XMLUtils;
@@ -17,9 +14,6 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.FileUtils;
-import com.flywet.platform.bi.el.expression.Expression;
-import com.flywet.platform.bi.el.expression.ExpressionString;
-import com.flywet.platform.bi.el.parser.ELParser;
 
 /**
  * 进行参数替换的工具类
@@ -28,9 +22,6 @@ import com.flywet.platform.bi.el.parser.ELParser;
  * 
  */
 public class PageTemplateInterpolator {
-
-	private final static Logger log = Logger
-			.getLogger(PageTemplateInterpolator.class);
 
 	public static final String URL_PREFIX_PACKAGE = "package:";
 
@@ -99,7 +90,7 @@ public class PageTemplateInterpolator {
 						domString.getBytes(Const.XML_ENCODING)));
 				return interpolate(fileUrl, doc, script, attrs, nodeId);
 			} catch (Exception e) {
-				String html = interpolateExpressions(domString, attrs);
+				String html = FLYExpressionResolver.evaluate(domString, attrs);
 				return new Object[] { html, script };
 			}
 
@@ -193,7 +184,7 @@ public class PageTemplateInterpolator {
 				return interpolate(URL_PREFIX_PACKAGE + packageClass.getName(),
 						doc, script, attrs, nodeId);
 			} catch (Exception e) {
-				String html = interpolateExpressions(domString, attrs);
+				String html = FLYExpressionResolver.evaluate(domString, attrs);
 				return new Object[] { html, script };
 			}
 
@@ -229,7 +220,7 @@ public class PageTemplateInterpolator {
 				return "";
 			}
 
-			return interpolateExpressions(str, attrs);
+			return FLYExpressionResolver.evaluate(str, attrs);
 
 		} catch (BIPageException e) {
 			throw e;
@@ -251,7 +242,7 @@ public class PageTemplateInterpolator {
 				return "";
 			}
 
-			return interpolateExpressions(str, attrs);
+			return FLYExpressionResolver.evaluate(str, attrs);
 
 		} catch (BIPageException e) {
 			throw e;
@@ -337,113 +328,6 @@ public class PageTemplateInterpolator {
 
 		} catch (Exception e) {
 			throw new BIPageException("获得页面DOM出现错误.", e);
-		}
-	}
-
-	/**
-	 * 替换字符串中的表达式
-	 * 
-	 * @param string
-	 *            目标替换的字符串
-	 * @param attrs
-	 *            参数
-	 * @return
-	 * @throws BIPageException
-	 */
-	public static String interpolateExpressions(String string,
-			FLYVariableResolver attrs) throws BIPageException {
-		StringTokenizer tokens = new StringTokenizer(string, "${}", true);
-		StringBuilder builder = new StringBuilder(string.length());
-		while (tokens.hasMoreTokens()) {
-			String tok = tokens.nextToken();
-
-			if (!"$".equals(tok) || !tokens.hasMoreTokens()) {
-				builder.append(tok);
-				continue;
-			}
-
-			// 1.如果是$
-			String nextTok = tokens.nextToken();
-
-			// 2.如果下一个也是$，将其进栈，待下次循环处理，直到最底层进行后续处理
-			while (nextTok.equals("$") && tokens.hasMoreTokens()) {
-				builder.append(tok);
-				nextTok = tokens.nextToken();
-			}
-
-			// 3.如果下一个是{
-			if ("{".equals(nextTok)) {
-				String attr = tokens.nextToken();
-
-				builder.append(evaluate("${" + attr + "}", attrs));
-
-				// 丢弃后面一个}
-				tokens.nextToken();
-
-			}
-			// 4.如果下一个是其他，则直接当做非关键字显示
-			else {
-				builder.append(tok).append(nextTok);
-			}
-		}
-
-		return builder.toString();
-	}
-
-	public static String evaluate(String input, FLYVariableResolver resolver) {
-		try {
-			if (input == null || input == "") {
-				return input;
-			}
-			StringReader rdr = new StringReader(input);
-			ELParser parser = new ELParser(rdr);
-			Object result = parser.ExpressionString();
-			if (result instanceof String) {
-				return (String) result;
-			} else if (result instanceof Expression) {
-				Expression expr = (Expression) result;
-				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result == null ? "" : result.toString();
-			} else if (result instanceof ExpressionString) {
-				ExpressionString expr = (ExpressionString) result;
-				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result == null ? "" : result.toString();
-			} else {
-				throw new RuntimeException(
-						"无效的解析类型：非 String、Expression、ExpressionString");
-			}
-		} catch (Exception pe) {
-			log.error("解析EL表达式出现异常:[" + input + "]");
-			throw new RuntimeException(pe.getMessage(), pe);
-		}
-	}
-
-	public static Object evaluateObject(String input,
-			FLYVariableResolver resolver) {
-		try {
-			if (input == null || input == "") {
-				return input;
-			}
-			StringReader rdr = new StringReader(input);
-			ELParser parser = new ELParser(rdr);
-			Object result = parser.ExpressionString();
-			if (result instanceof String) {
-				return (String) result;
-			} else if (result instanceof Expression) {
-				Expression expr = (Expression) result;
-				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result;
-			} else if (result instanceof ExpressionString) {
-				ExpressionString expr = (ExpressionString) result;
-				result = expr.evaluate(resolver, FLYFunctionMapper.singleton);
-				return result;
-			} else {
-				throw new RuntimeException(
-						"无效的解析类型：非 String、Expression、ExpressionString");
-			}
-		} catch (Exception pe) {
-			log.error("解析EL表达式出现异常:[" + input + "]");
-			throw new RuntimeException(pe.getMessage(), pe);
 		}
 	}
 

@@ -11,10 +11,10 @@ import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.component.core.ComponentResolverInterface;
 import com.flywet.platform.bi.component.resolvers.BaseComponentResolver;
+import com.flywet.platform.bi.component.utils.FLYExpressionResolver;
 import com.flywet.platform.bi.component.utils.FLYVariableResolver;
 import com.flywet.platform.bi.component.utils.HTML;
 import com.flywet.platform.bi.component.utils.HTMLWriter;
-import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.core.exception.BIPageException;
 
 public class FLYSelectMenuResolver extends BaseComponentResolver implements
@@ -85,7 +85,7 @@ public class FLYSelectMenuResolver extends BaseComponentResolver implements
 	}
 
 	protected void getOptions(Node node, HTMLWriter html, List<String> script,
-			FLYVariableResolver attrs, String val) {
+			FLYVariableResolver attrs, String val) throws BIPageException {
 		// 子节点类型，一种是option，一种是options
 		NodeList nodeList = node.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -118,17 +118,15 @@ public class FLYSelectMenuResolver extends BaseComponentResolver implements
 						optionsAttrs.addVariable("option", itet.next());
 						if (StringUtils.isNumeric(valueVar)
 								&& StringUtils.isNumeric(labelVar)) {
-							value = PageTemplateInterpolator
-									.evaluate("${option[" + valueVar + "]}",
-											optionsAttrs);
-							label = PageTemplateInterpolator
-									.evaluate("${option[" + labelVar + "]}",
-											optionsAttrs);
+							value = FLYExpressionResolver.evaluate("${option["
+									+ valueVar + "]}", optionsAttrs);
+							label = FLYExpressionResolver.evaluate("${option["
+									+ labelVar + "]}", optionsAttrs);
 						} else {
-							value = PageTemplateInterpolator.evaluate(
-									"${option." + valueVar + "}", optionsAttrs);
-							label = PageTemplateInterpolator.evaluate(
-									"${option." + labelVar + "}", optionsAttrs);
+							value = FLYExpressionResolver.evaluate("${option."
+									+ valueVar + "}", optionsAttrs);
+							label = FLYExpressionResolver.evaluate("${option."
+									+ labelVar + "}", optionsAttrs);
 						}
 
 						html.startElement(HTML.COMPONENT_TYPE_BASE_OPTION);
