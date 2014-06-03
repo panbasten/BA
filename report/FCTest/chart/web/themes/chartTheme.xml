@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<chartThemes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" code="1" name="{10502004-0931}={测试1}" xsi:noNamespaceSchemaLocation="../schemas/chartTheme.xsd">  
-   <chartTheme code="radar" name="雷达" colorCode="radar" styleCode="default"/>
-  <chartTheme code="default" name="{10502004-0931}={测试1}" colorCode="default" styleCode="default"/> 
-  <chartTheme code="emptyDataTheme" name="空数据主题" colorCode="emptyDataColor" styleCode="emptyDataStyle"/> 
-  
-</chartThemes>

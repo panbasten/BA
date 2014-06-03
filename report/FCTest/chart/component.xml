@@ -1,6 +1,0 @@
-<component name="chart" displayname="chart">
-  <dependencies>
-  	 <dependency module="aert" component="pub" dep-mask="5" unit-code="0"/>
- 	 <dependency module="aesm" component="sm" dep-mask="5" unit-code="0"/>	
-  </dependencies>
-</component>
