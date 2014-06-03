@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<script type="text/javascript" src="../../jquery/jquery.js"></script>
+		<script type="text/javascript" src="../../core/core.js"></script>
+		<script type="text/javascript" src="../highcharts.js"></script>
+		<script type="text/javascript" src="../jquery.highcharts.js"></script>
+		
+	</head>
+	<body>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+<script type="text/javascript">
+	$(function () {
+        var dataJson = {
+            title: {
+                text: 'Stacked column chart'
+            },
+            xAxis: {
+                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            },
+            yAxis: {
+                title: {
+                    text: 'Total fruit consumption'
+                }
+            },
+            series: [{
+                name: 'John',
+                data: [5, 3, 4, 7, 2]
+            }, {
+                name: 'Jane',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Joe',
+                data: [3, 4, 4, 2, 5]
+            }]
+        };
+        
+        Flywet.cw("HighCharts",null,{
+        	id : "container",
+        	type : "area",
+        	width : 560,
+        	height : 400,
+        	data : dataJson
+        });
+    });
+    
+
+</script>
+		
+	</body>
+</html>

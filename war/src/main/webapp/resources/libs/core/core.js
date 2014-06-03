@@ -296,6 +296,59 @@ Flywet = {
     },
     
     /**
+	 * Deep merge two or more objects and return a third object. If the first argument is
+	 * true, the contents of the second object is copied into the first object.
+	 * Previously this function redirected to jQuery.extend(true), but this had two limitations.
+	 * First, it deep merged arrays, which lead to workarounds in Highcharts. Second,
+	 * it copied properties from extended prototypes. 
+	 */
+	merge : function () {
+		var i,
+			args = arguments,
+			len,
+			ret = {},
+			doCopy = function (copy, original) {
+				var value, key;
+	
+				// An object is replacing a primitive
+				if (typeof copy !== 'object') {
+					copy = {};
+				}
+	
+				for (key in original) {
+					if (original.hasOwnProperty(key)) {
+						value = original[key];
+	
+						// Copy the contents of objects, but not arrays or DOM nodes
+						if (value && typeof value === 'object' && Object.prototype.toString.call(value) !== '[object Array]'
+								&& key !== 'renderTo' && typeof value.nodeType !== 'number') {
+							copy[key] = doCopy(copy[key] || {}, value);
+					
+						// Primitives and arrays are copied over directly
+						} else {
+							copy[key] = original[key];
+						}
+					}
+				}
+				return copy;
+			};
+	
+		// If first argument is true, copy into the existing object. Used in setOptions.
+		if (args[0] === true) {
+			ret = args[1];
+			args = Array.prototype.slice.call(args, 2);
+		}
+	
+		// For each argument, extend the return
+		len = args.length;
+		for (i = 0; i < len; i++) {
+			ret = doCopy(ret, args[i]);
+		}
+	
+		return ret;
+	},
+    
+    /**
      * 判断参数是否是数字类型
      * @param value
      */
@@ -1223,7 +1276,7 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
     	            if(this.queued) {
     	                Flywet.ajax.Queue.poll();
     	            }
-        		},
+        		}
 //        		onLoadError : function(data){
 //        			if(cfg.onerror) {
 //                        cfg.onerror.call(data);
