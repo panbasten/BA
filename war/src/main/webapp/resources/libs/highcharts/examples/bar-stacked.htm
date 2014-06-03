@@ -4,22 +4,25 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Highcharts Example</title>
 
+		
 		<script type="text/javascript" src="../../jquery/jquery.js"></script>
 		<script type="text/javascript" src="../../core/core.js"></script>
 		<script type="text/javascript" src="../highcharts.js"></script>
 		<script type="text/javascript" src="../jquery.highcharts.js"></script>
 		
+		
 	</head>
 	<body>
+<script src="../../js/highcharts.js"></script>
+<script src="../../js/modules/exporting.js"></script>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
+<div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
 
 <script type="text/javascript">
 	$(function () {
         var dataJson = {
             title: {
-                text: 'Stacked column chart'
+                text: 'Stacked bar chart'
             },
             xAxis: {
                 categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
@@ -29,7 +32,9 @@
                     text: 'Total fruit consumption'
                 }
             },
-            
+            legend: {
+                reversed: true
+            },
             series: [{
                 name: 'John',
                 data: [5, 3, 4, 7, 2]
@@ -41,18 +46,17 @@
                 data: [3, 4, 4, 2, 5]
             }]
         };
-        
-        Flywet.cw("HighCharts",null,{
-        	id : "container",
-        	type : "columnStacked",
-        	width : 560,
-        	height : 400,
-        	data : dataJson
-        });
-    });
     
+	    Flywet.cw("HighCharts",null,{
+	    	id : "container",
+	    	type : "barStacked",
+	    	width : 560,
+	    	height : 400,
+	    	data : dataJson
+	    });
+	});
 
 </script>
-		
+
 	</body>
 </html>

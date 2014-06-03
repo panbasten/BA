@@ -49,14 +49,14 @@ Flywet.HighCharts = {
 		},
 		legend: {
             align: 'right',
-            x: -70,
             verticalAlign: 'top',
-            y: 20,
             floating: true,
             backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
             borderWidth: 1,
-            shadow: false
+            shadow: false,
+            x: -70,
+            y: 20
         },
         tooltip: {
         	useHTML: true,
@@ -75,7 +75,18 @@ Flywet.HighCharts = {
         }
 	},
 	
-	stackedColumn : {
+	barStacked : {
+		chart: {
+			type: 'bar'
+		},
+		plotOptions: {
+            series: {
+                stacking: 'normal'
+            }
+        }
+	},
+	
+	columnStacked : {
 		chart: {
 			type: 'column'
 		},
