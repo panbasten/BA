@@ -30,9 +30,11 @@ public class ComponentFunction {
 
 	public String toString() {
 		StringBuffer rtn = new StringBuffer("function(");
-		rtn.append(StringUtils.join(parameters, ","));
+		if (parameters.size() > 0)
+			rtn.append(StringUtils.join(parameters, ","));
 		rtn.append("){");
-		rtn.append(StringUtils.join(statements, ""));
+		if (statements.size() > 0)
+			rtn.append(StringUtils.join(statements, ""));
 		rtn.append("}");
 
 		return rtn.toString();

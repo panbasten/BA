@@ -118,7 +118,6 @@ public class ReflectionUtils {
 	 */
 	public static Object invokeMethod(Object owner, String methodName,
 			Object... args) throws Exception {
-
 		Class<?> ownerClass = owner.getClass();
 		int argsNum = 0;
 		Class<?>[] argsClass;
@@ -150,6 +149,11 @@ public class ReflectionUtils {
 	public static Object invokeStaticMethod(String className,
 			String methodName, Object... args) throws Exception {
 		Class<?> ownerClass = Class.forName(className);
+		return invokeStaticMethod(ownerClass, methodName, args);
+	}
+
+	public static Object invokeStaticMethod(Class<?> ownerClass,
+			String methodName, Object... args) throws Exception {
 		Class<?>[] argsClass = new Class[args.length];
 		for (int i = 0, j = args.length; i < j; i++) {
 			argsClass[i] = args[i].getClass();

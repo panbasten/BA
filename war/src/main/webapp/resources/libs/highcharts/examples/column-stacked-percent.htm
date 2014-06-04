@@ -9,6 +9,8 @@
 		<script type="text/javascript" src="../highcharts.js"></script>
 		<script type="text/javascript" src="../jquery.highcharts.js"></script>
 		
+
+
 	</head>
 	<body>
 
@@ -27,14 +29,8 @@
             yAxis: {
                 title: {
                     text: 'Total fruit consumption'
-                },
-	            labels: {
-	            	formatter: function () {
-						return (this.value*100) + "%";
-					}
-	            }
+                }
             },
-            
             series: [{
                 name: 'John',
                 data: [5, 3, 4, 7, 2]
@@ -49,15 +45,15 @@
         
         Flywet.cw("HighCharts",null,{
         	id : "container",
-        	type : "columnStacked",
+        	type : "columnStackedPercent",
         	width : 560,
         	height : 400,
         	data : dataJson
         });
     });
     
-
 </script>
-		
+
+
 	</body>
 </html>

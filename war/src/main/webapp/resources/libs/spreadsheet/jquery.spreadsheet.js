@@ -1219,7 +1219,7 @@
 			left: left+"px"
 		});
 		
-		Flywet.cw("FusionCharts",null,{
+		Flywet.cw("HighCharts",null,{
         	id : region.name+"_chartdiv",
         	width : colW,
         	height : rowH,

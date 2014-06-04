@@ -39,31 +39,25 @@ Flywet.HighCharts = {
 		type : "column",
 		width : 400,
 		height : 300,
-		"min-width" : 400,
-		"min-height" : 300,
+		"min-width" : 100,
+		"min-height" : 100,
 		margin : "0 auto"
 	},
 	defaults : {
 		yAxis: {
-			min: 0
+			title: {
+				text: ""
+			}
 		},
 		legend: {
-            align: 'right',
-            verticalAlign: 'top',
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false,
-            x: -70,
-            y: 20
+            shadow: false
         },
         tooltip: {
         	useHTML: true,
             formatter: function() {
-                return '<span style="font-size:10px">' + this.point.category + '</span><table>' +
+                return '<span style="font-size:1.2em;font-weight:bolder;">' + this.point.category + '</span><table>' +
                 	'<tr><td style="color:' + this.series.color + ';padding:0">' + this.series.name + ': </td>' +
-                    '<td style="padding:0"><b>' + this.point.y + '</b></td></tr>' +
+                    '<td style="padding:0">' + this.point.y + '</td></tr>' +
                 	'</table>';
             }
         },
@@ -79,9 +73,51 @@ Flywet.HighCharts = {
 		chart: {
 			type: 'bar'
 		},
+		tooltip: {
+            formatter: function() {
+                return '<span style="font-size:1.2em;font-weight:bolder;">' + this.point.category + '</span><table>' +
+                	'<tr><td style="color:' + this.series.color + ';padding:0;">' + this.series.name + ': </td>' +
+                    '<td style="padding:0">' + this.y + '</td></tr>' +
+                    '<tr><td style="padding:0;">合计: </td>' +
+                    '<td style="padding:0;">' + this.point.stackTotal + '</td></tr>' +
+                	'</table>';
+            }
+        },
 		plotOptions: {
             series: {
                 stacking: 'normal'
+            }
+        }
+	},
+	
+	barStackedPercent : {
+		chart: {
+			type: 'bar'
+		},
+		tooltip: {
+            formatter: function() {
+                return '<span style="font-size:1.2em;font-weight:bolder;">' + this.point.category + '</span><table>' +
+                	'<tr><td style="color:' + this.series.color + ';padding:0;">' + this.series.name + ': </td>' +
+                    '<td style="padding:0">' + this.y + '</td></tr>' +
+                    '<tr><td style="padding:0;">合计: </td>' +
+                    '<td style="padding:0;">' + this.point.stackTotal + '</td></tr>' +
+                	'</table>';
+            }
+        },
+		plotOptions: {
+            series: {
+                stacking: 'percent'
+            }
+        }
+	},
+	
+	barPlacement : {
+		chart: {
+			type: 'bar'
+		},
+		plotOptions: {
+            series: {
+                grouping: false
             }
         }
 	},
@@ -90,32 +126,51 @@ Flywet.HighCharts = {
 		chart: {
 			type: 'column'
 		},
-		yAxis: {
-			stackLabels: {
-                enabled: true,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                }
-            }
-		},
         tooltip: {
             formatter: function() {
-                return '<b>'+ this.x +'</b><br/>'+
-                    this.series.name +': '+ this.y +'<br/>'+
-                    '合计: '+ this.point.stackTotal;
+                return '<span style="font-size:1.2em;font-weight:bolder;">' + this.point.category + '</span><table>' +
+                	'<tr><td style="color:' + this.series.color + ';padding:0;">' + this.series.name + ': </td>' +
+                    '<td style="padding:0">' + this.y + '</td></tr>' +
+                    '<tr><td style="padding:0;">合计: </td>' +
+                    '<td style="padding:0;">' + this.point.stackTotal + '</td></tr>' +
+                	'</table>';
             }
         },
         plotOptions: {
             column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                    style: {
-                        textShadow: '0 0 3px black, 0 0 3px black'
-                    }
-                }
+                stacking: 'normal'
+            }
+        }
+	},
+	
+	columnStackedPercent : {
+		chart: {
+			type: 'column'
+		},
+		tooltip: {
+            formatter: function() {
+                return '<span style="font-size:1.2em;font-weight:bolder;">' + this.point.category + '</span><table>' +
+                	'<tr><td style="color:' + this.series.color + ';padding:0;">' + this.series.name + ': </td>' +
+                    '<td style="padding:0">' + this.y + '</td></tr>' +
+                    '<tr><td style="padding:0;">合计: </td>' +
+                    '<td style="padding:0;">' + this.point.stackTotal + '</td></tr>' +
+                	'</table>';
+            }
+        },
+		plotOptions: {
+            column: {
+                stacking: 'percent'
+            }
+        }
+	},
+	
+	columnPlacement : {
+		chart: {
+			type: 'column'
+		},
+		plotOptions: {
+            column: {
+                grouping: false
             }
         }
 	}

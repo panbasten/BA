@@ -1,67 +1,73 @@
 package com.flywet.platform.bi.pivot.model.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
+import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.chart.BaseChart;
+import com.flywet.platform.bi.pivot.model.chart.IChart;
 
 public enum ChartTypeEnum implements IStyleEnum {
 
 	// 柱形图
-	MSCOLUMN2D((short) 0, "MSColumn2D", true),
+	COLUMN((short) 0, "column"),
 	// 堆积柱形图
-	STACKEDCOLUMN2D((short) 1, "StackedColumn2D", true),
+	COLUMNSTACKED((short) 1, "columnStacked"),
+	// 100%堆积柱形图
+	COLUMNSTACKEDPERCENT((short) 1, "columnStackedPercent"),
+	// 重叠柱形图
+	COLUMNPLACEMENT((short) 0, "columnPlacement"),
 	// 条形图
-	MSBAR2D((short) 2, "MSBar2D", true),
+	BAR((short) 2, "bar"),
 	// 堆积条形图
-	STACKEDBAR2D((short) 3, "StackedBar2D", true),
+	BARSTACKED((short) 3, "barStacked"),
+	// 100%堆积条形图
+	BARSTACKEDPERCENT((short) 3, "barStackedPercent"),
+	// 重叠条形图
+	BARPLACEMENT((short) 0, "barPlacement"),
 	// 面积图
-	MSAREA((short) 4, "MSArea", true),
+	AREA((short) 4, "area"),
 	// 折线图
-	MSLINE((short) 5, "MSLine", true),
+	LINE((short) 5, "line"),
 	// 饼图
-	PIE2D((short) 6, "Pie2D", false),
+	PIE((short) 6, "pie"),
 	// 多级饼图
-	MULTILEVELPIE((short) 7, "MultiLevelPie", true),
+	MULTILEVELPIE((short) 7, "multiLevelPie"),
 	// 单Y轴组合图
-	MSCOMBI2D((short) 8, "MSCombi2D", true),
-	// 双Y轴组合图
-	MSCOMBIDY2D((short) 9, "MSCombiDY2D", true),
+	COMBO((short) 8, "combo"),
+	// 多Y轴组合图
+	MULTIAXESCOMBO((short) 9, "multiAxesCombo"),
 	// 散点图
-	SCATTER((short) 10, "Scatter", true),
+	SCATTER((short) 10, "scatter"),
 	// 气泡图
-	BUBBLE((short) 11, "Bubble", true),
+	BUBBLE((short) 11, "bubble"),
 	// 仪表盘
-	ANGULARGAUGE((short) 12, "AngularGauge", true),
+	ANGULARGAUGE((short) 12, "angularGauge"),
 	// 雷达图
-	RADAR((short) 13, "Radar", true),
+	RADAR((short) 13, "radar"),
 	// 子弹图
-	VBULLET((short) 14, "VBullet", true),
+	VBULLET((short) 14, "vBullet"),
 	// 水平子弹图
-	HBULLET((short) 15, "HBullet", true),
+	HBULLET((short) 15, "hBullet"),
 	// 温度计
-	THERMOMETER((short) 16, "Thermometer", true),
+	THERMOMETER((short) 16, "thermometer"),
 	// 量筒图
-	CYLINDER((short) 17, "Cylinder", true),
+	CYLINDER((short) 17, "cylinder"),
 	// 漏斗图
-	FUNNEL((short) 18, "Funnel", true),
+	FUNNEL((short) 18, "funnel"),
 	// 金字塔图
-	PYRAMID((short) 19, "Pyramid", true),
-	// 刻度板
-	HLINEARGAUGE((short) 20, "HLinearGauge", true),
+	PYRAMID((short) 19, "pyramid"),
 	// 瀑布图
-	WATERFALL2D((short) 21, "Waterfall2D", true),
-	// 迷你柱形图
-	SPARKCOLUM((short) 22, "SparkColumn", true),
-	// 迷你盈亏图
-	SPARKWINLOSS((short) 23, "SparkWinLoss", true),
-	// 迷你柱形图
-	SPARKLINE((short) 24, "SparkLine", true);
+	WATERFALL((short) 21, "waterfall");
 
 	public static final String ENUM_NAME = "ChartType";
 
+	public static final String PRIFIX_CHART_PACKAGE = "com.flywet.platform.bi.pivot.model.chart";
+	public static final String SUBFIX_CHART_NAME = "Chart";
+
 	private static Class<?> PKG = ChartTypeEnum.class;
 
-	ChartTypeEnum(short index, String chartName, boolean isMultiSeries) {
+	ChartTypeEnum(short index, String chartName) {
 		this.index = index;
 		this.chartName = chartName;
 	}
@@ -71,9 +77,6 @@ public enum ChartTypeEnum implements IStyleEnum {
 
 	// 统计图名称
 	private String chartName;
-
-	// 是否是多系列
-	private boolean isMultiSeries;
 
 	public static ChartTypeEnum get(short index) {
 		for (ChartTypeEnum e : ChartTypeEnum.values()) {
@@ -97,8 +100,8 @@ public enum ChartTypeEnum implements IStyleEnum {
 		return chartName;
 	}
 
-	public boolean isMultiSeries() {
-		return isMultiSeries;
+	public IChart instance(Node node) {
+		return BaseChart.instance(node);
 	}
 
 	@Override

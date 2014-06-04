@@ -43,7 +43,7 @@ public class DefaultSetting {
 	public static final int DEFAULT_COLUMN_POS = 0;
 
 	// Chart
-	public static final ChartTypeEnum DEFAULT_CHART_TYPE = ChartTypeEnum.MSCOLUMN2D;
+	public static final ChartTypeEnum DEFAULT_CHART_TYPE = ChartTypeEnum.COLUMN;
 
 	// 模型最大行数和列数
 	public static final int DEFAULT_MODEL_MAX_ROW_NUM = Short.MAX_VALUE * 2;

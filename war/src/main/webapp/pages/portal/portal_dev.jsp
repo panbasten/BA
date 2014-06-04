@@ -148,9 +148,9 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/libs/fusioncharts/FusionCharts.js"></script>
+			src="<%=path%>/resources/libs/highcharts/highcharts.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/libs/fusioncharts/fly.fusioncharts.js"></script>
+			src="<%=path%>/resources/libs/highcharts/jquery.highcharts.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/spreadsheet/jquery.spreadsheet.js"></script>
 		<!-- replace end -->

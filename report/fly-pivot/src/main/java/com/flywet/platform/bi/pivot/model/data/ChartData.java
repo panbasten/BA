@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.exception.BIPivotException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
+import com.flywet.platform.bi.pivot.model.chart.IChart;
 import com.flywet.platform.bi.pivot.model.def.DefaultSetting;
 import com.flywet.platform.bi.pivot.model.enums.ChartTypeEnum;
 import com.tonbeller.wcf.controller.RequestContext;
@@ -17,27 +18,34 @@ public class ChartData implements IRegionData {
 
 	public static final String PROP_NAME_CHART_TYPE = "type";
 
-	private ChartDataData data;
+	private IChart data;
 
 	private ChartTypeEnum type;
 
 	public static ChartData instance(Node node) throws BIException {
-		ChartData pd = new ChartData();
+		try {
+			ChartData pd = new ChartData();
 
-		Node dataNode = XMLHandler.getSubNode(node, "chart");
-		if (dataNode != null) {
-			pd.data = ChartDataData.instance(dataNode);
+			String chartTypeStr = Const.NVL(
+					XMLHandler.getTagAttribute(node, PROP_NAME_CHART_TYPE),
+					null);
+			if (chartTypeStr != null) {
+				pd.type = ChartTypeEnum.getByName(chartTypeStr);
+			} else {
+				pd.type = DefaultSetting.DEFAULT_CHART_TYPE;
+			}
+
+			Node dataNode = XMLHandler.getSubNode(node, "chart");
+			if (dataNode != null) {
+				pd.data = pd.type.instance(dataNode);
+			}
+
+			return pd;
+
+		} catch (Exception e) {
+			throw new BIException("实例化统计图组件出现错误：ChartData");
 		}
 
-		String chartTypeStr = Const.NVL(
-				XMLHandler.getTagAttribute(node, PROP_NAME_CHART_TYPE), null);
-		if (chartTypeStr != null) {
-			pd.type = ChartTypeEnum.getByName(chartTypeStr);
-		} else {
-			pd.type = DefaultSetting.DEFAULT_CHART_TYPE;
-		}
-
-		return pd;
 	}
 
 	@SuppressWarnings("unchecked")

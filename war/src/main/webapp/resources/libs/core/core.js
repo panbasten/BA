@@ -349,14 +349,6 @@ Flywet = {
 	},
     
     /**
-     * 判断参数是否是数字类型
-     * @param value
-     */
-    isNumber: function(value) {
-        return typeof value === 'number' && isFinite(value);
-    },
-    
-    /**
      * 通过url获得脚本
      * @param url 脚本的url
      * @param callback 脚本加载完之后调用的方法
@@ -1208,7 +1200,7 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
     	    var xhrOptions = {
     	    	formTarget : form,
         		url : ajaxURL,
-        		dataType : "json",
+        		dataType : "text",
         		onSubmit : function(data){
 	    	    	if(cfg.modalMessage){
 	    				Flywet.changeMarkText(cfg.modalMessage);
@@ -1224,6 +1216,7 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 	                Flywet.Logger.debug('Request form before send:' + status + '.');
         		},
         		success : function(data){
+        			data = Flywet.parseJSON(data);
         			// 失败
         			if(data && data.state == 1){
             			if(cfg.onerror) {
@@ -1308,7 +1301,7 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 	        url : ajaxURL,
 	        type : cfg.type,
 	        cache : false,
-	        dataType : "json",
+	        dataType : "text",
 	        data : ajaxParams,
 	        source: cfg.source,
 	        beforeSend: function(xhr, status) {
@@ -1332,6 +1325,7 @@ Flywet.ajax.AjaxRequest = function(cfg, ext) {
 	            Flywet.Logger.error('Request return with error:' + status + '.');
 	        },
 	        success : function(data, status, xhr) {
+	        	data = Flywet.parseJSON(data);
 	            Flywet.Logger.debug('Response received succesfully.');
 	            
 	            var parsed;

@@ -143,9 +143,9 @@
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/treegrid/jquery.treegrid.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/libs/fusioncharts/FusionCharts.js"></script>
+			src="<%=path%>/resources/libs/highcharts/highcharts.js"></script>
 		<script type="text/javascript"
-			src="<%=path%>/resources/libs/fusioncharts/fly.fusioncharts.js"></script>
+			src="<%=path%>/resources/libs/highcharts/jquery.highcharts.js"></script>
 		<script type="text/javascript"
 			src="<%=path%>/resources/libs/spreadsheet/jquery.spreadsheet.js"></script>
 		<!-- replace end -->
@@ -194,7 +194,7 @@
 	          <!-- 2ed & 3th level menu -->
 	        </div><!--/span-->
 
-	        <div class="col-xs-12 col-md-9" style="height:3850px;" id="idMainView" role="view">
+	        <div class="col-xs-12 col-md-9" style="height:3900px;" id="idMainView" role="view">
 	          
 	          <div id="idMainView2"></div>
 	          
