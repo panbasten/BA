@@ -71,7 +71,7 @@ public class ForecastDBAdaptorImpl extends BIAbstractDbAdaptor implements
                 + quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
                 + " ORDER BY "
                 + quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE)
-                + " DESC";
+                + " DESC LIMIT 20";
         return getRows(sql);
     }
 

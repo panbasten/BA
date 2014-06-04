@@ -1,5 +1,36 @@
 package com.flywet.platform.bi.cust.p001.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
+import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
+import org.pentaho.di.core.RowMetaAndData;
+import org.pentaho.di.core.encryption.Encr;
+import org.pentaho.di.core.row.ValueMetaInterface;
+import org.pentaho.di.trans.TransMeta;
+import org.springframework.stereotype.Service;
+
 import com.enterprisedt.net.ftp.FTPClient;
 import com.enterprisedt.net.ftp.FTPConnectMode;
 import com.enterprisedt.net.ftp.FTPTransferType;
@@ -16,7 +47,12 @@ import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.model.ParameterContext;
-import com.flywet.platform.bi.core.utils.*;
+import com.flywet.platform.bi.core.utils.ArrayUtils;
+import com.flywet.platform.bi.core.utils.DateUtils;
+import com.flywet.platform.bi.core.utils.FileUtils;
+import com.flywet.platform.bi.core.utils.PropertyUtils;
+import com.flywet.platform.bi.core.utils.ReflectionUtils;
+import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.cust.p001.db.CustomDatabaseRepositoryBase;
 import com.flywet.platform.bi.cust.p001.delegates.ForecastDBAdaptor;
 import com.flywet.platform.bi.cust.p001.delegates.ForecastDBAdaptorImpl;
@@ -29,27 +65,6 @@ import com.flywet.platform.bi.di.model.TransExecuteWapper;
 import com.flywet.platform.bi.di.queues.TransExecuteQueue;
 import com.flywet.platform.bi.services.impl.AbstractRepositoryServices;
 import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.vfs.*;
-import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
-import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.pentaho.di.core.Const;
-import org.pentaho.di.core.RowMetaAndData;
-import org.pentaho.di.core.encryption.Encr;
-import org.pentaho.di.core.row.ValueMetaInterface;
-import org.pentaho.di.i18n.BaseMessages;
-import org.pentaho.di.job.entries.ftpput.PDIFTPClient;
-import org.pentaho.di.trans.TransMeta;
-import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.util.*;
 
 @Service("cust.service.forecastServices")
 public class ForecastServices extends AbstractRepositoryServices implements
@@ -562,6 +577,13 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
+			
+			Calendar cd = Calendar.getInstance(); 
+			cd.add(Calendar.MONTH, 1);
+			String currentMonth = DateUtils.formatDate(cd.getTime(), "yyyyMM");
+
+			checkOrCreateDir(PROP_MONTH_PREDICT_FILE_ROOT_PATH,
+					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth);
 
 			FileObject[] children = getMonthPredictDirs();
 
@@ -579,13 +601,8 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			attrsMap.addVariable("menuId", context.get("id"));
 
 			attrsMap.addVariable("monthes", monthes);
-
-			String currentMonth = DateUtils.formatDate(new Date(), "yyyyMM");
-
-			checkOrCreateDir(PROP_MONTH_PREDICT_FILE_ROOT_PATH,
-					PROP_MONTH_PREDICT_FILE_CATEGORY, currentMonth);
-
-			String currentMonthText = DateUtils.formatDate(new Date(),
+			
+			String currentMonthText = DateUtils.formatDate(cd.getTime(),
 					"yyyy年MM月");
 			attrsMap.addVariable("currentMonth", currentMonth);
 			attrsMap.addVariable("currentMonthText", currentMonthText);
@@ -615,8 +632,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 			String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
 			if (Utils.isJSEmpty(currentMonth)) {
-				Date now = new Date();
-				currentMonth = DateUtils.formatDate(now, "yyyyMM");
+				Calendar cd = Calendar.getInstance(); 
+				cd.add(Calendar.MONTH, 1);
+				currentMonth = DateUtils.formatDate(cd.getTime(), "yyyyMM");
 			}
 
 			// 获得页面
@@ -682,7 +700,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			ForecastDBAdaptor prog = BIAdaptorFactory
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Date now = new Date();
+			Calendar cd = Calendar.getInstance(); 
+			cd.add(Calendar.DATE, 10);
+			Date now = cd.getTime();
 			String currentText = DateUtils.formatDate(now, "yyyy年MM月");
 			long year = now.getYear() + 1900, month = now.getMonth() + 1, date = now
 					.getDate(), xun;
@@ -749,7 +769,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
 			if (Utils.isJSEmpty(currentText)) {
-				Date now = new Date();
+				Calendar cd = Calendar.getInstance(); 
+				cd.add(Calendar.DATE, 10);
+				Date now = cd.getTime();
 				currentText = DateUtils.formatDate(now, "yyyy年MM月");
 				long year = now.getYear() + 1900, month = now.getMonth() + 1, date = now
 						.getDate(), xun;
