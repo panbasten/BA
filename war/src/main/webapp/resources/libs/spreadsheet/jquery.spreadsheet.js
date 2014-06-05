@@ -105,6 +105,19 @@
 		return h;
 	}
 	
+	// 获得最大有效行编号
+	function _getMaxCellIndex(sheetOpts){
+		var rowIdx = 0, colIdx = 0, r;
+		console.log(sheetOpts);
+		// 扫描区域
+		for(var i=0;i<sheetOpts.region.length;i++){
+			r = sheetOpts.region[i];
+			console.log(r);
+		}
+		
+		return {rowIdx:rowIdx,colIdx:colIdx};
+	}
+	
 	// 纵向滚动条
 	function _initVsOC(target,parent,opts){
 		var vsOC = _div("ui-spreadsheet-vsOC").appendTo(parent);
@@ -1900,6 +1913,10 @@
 	function _calSize(target){
 		var opts = $.data(target, "spreadsheet").options;
 		
+		opts.workspaceWidth = 0;
+		opts.workspaceHeight = 0;
+		
+		// 找到父窗口尺寸
 		var dim=Flywet.getElementDimensions(target);
 		if(dim.css.width>0 && dim.css.height>0){
 			dim = {width: dim.css.width, height: dim.css.height};
@@ -1914,21 +1931,41 @@
 			}
 		}
 		
+		// 计算最大有效区域
+		var maxCellIdx;
+		if(opts.sheet){
+			maxCellIdx = _getMaxCellIndex(opts.sheet[0]);
+			console.log(maxCellIdx);
+		}
+		
 		// 自定义尺寸，或者使用指定尺寸
-		if(opts.width != "auto" && Flywet.isNumber(opts.width)){
-			opts.width = parseInt(opts.width);
-		}else{
-			opts.width = dim.width;
+		if(Flywet.isNumber(opts.width)){
+			opts.workspaceWidth = parseInt(opts.width);
+		} else if (opts.width == "auto"){
+			if(maxCellIdx){
+				// 根据第一个sheet的内容进行判定
+				
+			}else{
+				opts.workspaceWidth = dim.width;
+			}
+		} else {
+			opts.workspaceWidth = dim.width;
 		}
 		
-		if(opts.height != "auto" && Flywet.isNumber(opts.height)){
-			opts.height = parseInt(opts.height);
-		}else{
-			opts.height = dim.height;
+		if(Flywet.isNumber(opts.height)){
+			opts.workspaceHeight = parseInt(opts.height);
+		} else if (opts.height == "auto"){
+			if(maxCellIdx){
+				// 根据第一个sheet的内容进行判定
+			}else{
+				opts.workspaceHeight = dim.height;
+			}
+		} else {
+			opts.workspaceHeight = dim.height;
 		}
 		
-		opts.workspaceWidth = opts.width - 2;
-		opts.workspaceHeight = opts.height - 2;
+		opts.workspaceWidth = Math.max(opts.workspaceWidth-2, opts.minWidth);
+		opts.workspaceHeight = Math.max(opts.workspaceHeight-2, opts.minHeight);
 		
 		// 重置滚动条显示设置
 		opts.showHScroll = false;
@@ -2269,7 +2306,6 @@
 	
 	$.fn.spreadsheet = function(options, param) {
 		
-		console.log(options);
 		if(typeof options == "string"){
 			return $.fn.spreadsheet.methods[options](this, param);
 		}
@@ -2448,8 +2484,10 @@
 	
 	$.fn.spreadsheet.defaults = {
 		id : 		null
-		,width :	"auto"
+		,width :	"auto" // auto-根据内容自动计算，parent-根据父窗口计算
 		,height :	"auto"
+		,minWidth : 100
+		,minHeight : 100
 		,fit :		true
 		,show :		true
 		
@@ -2494,6 +2532,10 @@
 		,onBeforeHide:	function(){}
 		,onHide:	function(){}
 	};
+	
+	
+	
+//	$.fn.spreadsheet.region
 })(jQuery);
 
 

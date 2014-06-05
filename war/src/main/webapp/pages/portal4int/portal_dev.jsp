@@ -194,9 +194,7 @@
 	          <!-- 2ed & 3th level menu -->
 	        </div><!--/span-->
 
-	        <div class="col-xs-12 col-md-9" style="height:3900px;" id="idMainView" role="view">
-	          
-	          <div id="idMainView2"></div>
+	        <div class="col-xs-12 col-md-9" style="height:auto;" id="idMainView" role="view">
 	          
 	        </div><!--/span-->
 	

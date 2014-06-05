@@ -53,7 +53,8 @@ Flywet.Portal4int = {
 	},
 	
 	changeWebText: function() {
-		console.log(Flywet.Portal4int.messages);
+		// TODO
+//		console.log(Flywet.Portal4int.messages);
 	}
 
 };
@@ -212,7 +213,13 @@ Flywet.Portal4int.menu.prototype.showMenu = function(id){
 		onsuccess: function(data, status, xhr){
 			var view = $(Flywet.escapeClientId(data.targetId));
 			view.html("");
-			var view2 = $("<div></div>").appendTo(view);
+			var view2 = $("<div style='position: relative;'></div>").appendTo(view);
+			if(!data.data.width){
+				data.data.width = "parent";
+			}
+			if(!data.data.height){
+				data.data.height = "auto";
+			}
 			view2.spreadsheet(data.data);
 		}
 	});
