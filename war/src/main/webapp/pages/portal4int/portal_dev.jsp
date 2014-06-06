@@ -73,10 +73,15 @@
 		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
 			type="text/css" />
 			
+		<!-- replace href="<%=path%>/resources/styles/portal4int.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/portal4int.css" rel="stylesheet"
 			type="text/css" />
+		<!-- replace end -->
 		
-			
+		<!--[if lt IE 9]>
+      		<script src="<%=path%>/resources/html5shiv.js"></script>
+      		<script src="<%=path%>/resources/respond.min.js"></script>
+   		<![endif]-->
 			
 			
 		<!-- replace src="<%=path%>/resources/libs.pack.js" type="script" -->

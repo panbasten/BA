@@ -3,8 +3,17 @@ Flywet.Portal4int = {
 	messages: null,
 	MENU_VAR: null,
 	
+	FIXED_SIZE: {
+		loading: 48
+	},
+	
 	resize: function() {
-		
+		var win = Flywet.getWindowScroll();
+		var h = Math.max(0,((win.height-593)/2)),
+			w = Math.max(0,((win.width-955)/2));
+		// cover
+		$("#fly_portal_cover").width(win.width+20).height(win.height+20);
+		$("#fly_portal_cover_img").css({"top":(win.height-Flywet.Portal4int.FIXED_SIZE.loading)/2+"px","left":(win.width-Flywet.Portal4int.FIXED_SIZE.loading)/2+"px"});
 	},
 
 	initPage: function() {
@@ -38,17 +47,22 @@ Flywet.Portal4int = {
 					
 					// 展现一个菜单项
 					Flywet.Portal4int.MENU_VAR.showMenu();
+					
+					// 更新部分尺寸
+					Flywet.Portal4int.resize();
 				}
 			}
 		});
 		
 	},
 	
-	pageCover: function() {
+	pageCover: function(show) {
 		if(show){
-			$("#fly_portal_cover").fadeIn();
+			$("#idBody").addClass("fly_portal_cover");
+			$("#fly_portal_cover").show();
 		}else{
 			$("#fly_portal_cover").fadeOut();
+			$("#idBody").removeClass("fly_portal_cover");
 		}
 	},
 	
@@ -207,6 +221,7 @@ Flywet.Portal4int.menu.prototype.showMenu = function(id){
 	Flywet.ab({
 		type: "get",
 		url: "rest/portalet/menu/"+menuId,
+		modal: true,
 		params : {
 			targetId: this.idTarget
 		},

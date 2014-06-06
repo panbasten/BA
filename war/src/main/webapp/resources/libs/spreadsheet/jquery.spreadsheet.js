@@ -1226,11 +1226,13 @@
 				nstyle = Flywet.merge(nstyle,$.fn.spreadsheet.style[tag+"-"+style.style]);
 			}
 			// 从自定义样式表中获取
-			if(opts.style && opts.style[tag]){
-				nstyle = Flywet.merge(nstyle,opts.style[tag]);
-			}
-			if(style.style && opts.style[tag+"-"+style.style]){
-				nstyle = Flywet.merge(nstyle,opts.style[tag+"-"+style.style]);
+			if(opts.style){
+				if(opts.style[tag]){
+					nstyle = Flywet.merge(nstyle,opts.style[tag]);
+				}
+				if(style.style && opts.style[tag+"-"+style.style]){
+					nstyle = Flywet.merge(nstyle,opts.style[tag+"-"+style.style]);
+				}
 			}
 		}
 		style = Flywet.merge(nstyle, style);

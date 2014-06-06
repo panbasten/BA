@@ -360,6 +360,7 @@ div.overlay-widget {
 #fly_login_container {
 	float: left;
 	width: 655px;
+	min-height: 220px;
 	background: transparent;
 }
 

@@ -40,6 +40,7 @@
 								**/fly.css,
 								**/files.css,
 								**/portal.css,
+								**/portal4int.css,
 								**/reset.css
 							</packagingExcludes>
 						</configuration>
@@ -137,6 +138,14 @@
 									<output>${project.build.directory}/${project.build.finalName}/resources/styles/portal.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/portal.css</include>
+									</includes>
+								</aggregation>
+								<aggregation>
+									<insertNewLine>true</insertNewLine>
+									<removeIncluded>true</removeIncluded>
+									<output>${project.build.directory}/${project.build.finalName}/resources/styles/portal4int.compressed.css</output>
+									<includes>
+										<include>${project.build.directory}/${project.build.finalName}/resources/styles/portal4int.css</include>
 									</includes>
 								</aggregation>
 								<aggregation>

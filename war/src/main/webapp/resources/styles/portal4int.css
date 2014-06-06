@@ -169,12 +169,12 @@
   background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #eb9316 100%);
   background-image:         linear-gradient(to bottom, #f0ad4e 0%, #eb9316 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffeb9316', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
   border-radius: 4px;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
+
 .navbar-default .navbar-nav > .active > a {
   background-image: none;
   -webkit-box-shadow: none;
@@ -207,6 +207,10 @@
   top: 21px;
   border-radius: 6px 6px 0 0;
 }
+.ie .navbar-nav > li > a {
+	padding-top: 5px;
+}
+
 .navbar-inverse {
   background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #222 100%);
   background-image:         linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
@@ -409,9 +413,14 @@
 	background-color: #333;
 	width: 100%;
 	height: 100%;
+	top: 0;
 	opacity: .70;
     filter: alpha(opacity=70);
     z-index: 9999;
+}
+
+.fly_portal_cover{
+	overflow: hidden;
 }
 
 #fly_portal_cover_img {
