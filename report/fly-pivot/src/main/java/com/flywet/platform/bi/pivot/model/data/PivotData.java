@@ -144,7 +144,7 @@ public class PivotData implements IRegionData {
 		return MondrianModelFactory.instance(cfg);
 	}
 
-	public static PivotData instance(Node node) {
+	public static PivotData instance(Node node) throws BIException {
 		PivotData pd = new PivotData();
 
 		pd.databaseMetaId = Utils.toLong(

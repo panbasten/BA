@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.style.CellStyle;
 import com.tonbeller.wcf.controller.RequestContext;
 
 public class PivotDataData implements IJSONObjectable {
@@ -23,7 +24,7 @@ public class PivotDataData implements IJSONObjectable {
 	PivotDataDataBody body;
 	PivotDataDataSlicer slicer;
 
-	public static PivotDataData instance(Node node) {
+	public static PivotDataData instance(Node node) throws BIException {
 		PivotDataData data = new PivotDataData();
 
 		Node headNode = XMLHandler.getSubNode(node, PROP_NAME_HEAD);
@@ -115,7 +116,8 @@ class PivotDataDataMember implements IJSONObjectable {
 		PivotDataDataMember m = new PivotDataDataMember();
 
 		m.level = Const.trim(XMLHandler.getTagAttribute(node, PROP_NAME_LEVEL));
-		m.caption = Const.trim(XMLHandler.getTagAttribute(node, PROP_NAME_CAPTION));
+		m.caption = Const.trim(XMLHandler.getTagAttribute(node,
+				PROP_NAME_CAPTION));
 
 		String depth = XMLHandler.getTagAttribute(node, PROP_NAME_DEPTH);
 		if (depth != null) {
@@ -153,7 +155,7 @@ class PivotDataDataBody implements IJSONObjectable {
 
 	List<List<PivotDataDataCell>> cells;
 
-	public static PivotDataDataBody instance(Node node) {
+	public static PivotDataDataBody instance(Node node) throws BIException {
 		PivotDataDataBody b = new PivotDataDataBody();
 
 		b.cells = new ArrayList<List<PivotDataDataCell>>();
@@ -211,6 +213,8 @@ class PivotDataDataCell implements IJSONObjectable {
 	String tag;
 	String style;
 
+	CellStyle cellStyle;
+
 	boolean drillOther = false;
 	String drillOther_img;
 
@@ -223,7 +227,7 @@ class PivotDataDataCell implements IJSONObjectable {
 
 	String val;
 
-	public static PivotDataDataCell instance(Node node) {
+	public static PivotDataDataCell instance(Node node) throws BIException {
 		PivotDataDataCell cell = new PivotDataDataCell();
 
 		String colspan = XMLHandler.getTagAttribute(node, PROP_NAME_COLSPAN);
@@ -237,21 +241,25 @@ class PivotDataDataCell implements IJSONObjectable {
 		}
 
 		cell.tag = Const.trim(XMLHandler.getTagAttribute(node, PROP_NAME_TAG));
-		cell.style = Const.trim(XMLHandler.getTagAttribute(node, PROP_NAME_STYLE));
-		cell.val = Const.trim(XMLHandler.getTagAttribute(node, PROP_NAME_VALUE));
+		cell.style = Const.trim(XMLHandler.getTagAttribute(node,
+				PROP_NAME_STYLE));
+		cell.val = Const
+				.trim(XMLHandler.getTagAttribute(node, PROP_NAME_VALUE));
+
+		cell.cellStyle = CellStyle.instance(node);
 
 		Node drillOther = XMLHandler.getSubNode(node, PROP_NAME_DRILL_OTHER);
 		if (drillOther != null) {
 			cell.drillOther = true;
-			cell.drillOther_img = Const.trim(XMLHandler.getTagAttribute(drillOther,
-					PROP_NAME_IMG));
+			cell.drillOther_img = Const.trim(XMLHandler.getTagAttribute(
+					drillOther, PROP_NAME_IMG));
 		}
 
 		Node caption = XMLHandler.getSubNode(node, PROP_NAME_CAPTION);
 		if (caption != null) {
 			cell.caption = true;
-			cell.caption_caption = Const.trim(XMLHandler.getTagAttribute(caption,
-					PROP_NAME_CAPTION));
+			cell.caption_caption = Const.trim(XMLHandler.getTagAttribute(
+					caption, PROP_NAME_CAPTION));
 		}
 
 		Node drillExpand = XMLHandler.getSubNode(node, PROP_NAME_DRILL_EXPAND);
@@ -285,6 +293,9 @@ class PivotDataDataCell implements IJSONObjectable {
 		}
 		if (val != null) {
 			jo.put(PROP_NAME_VALUE, val);
+		}
+		if (cellStyle != null) {
+			jo.putAll(cellStyle.renderJo(context));
 		}
 		if (drillOther) {
 			JSONObject drillOtherJo = new JSONObject();

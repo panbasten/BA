@@ -26,7 +26,7 @@ public class DefaultSetting {
 
 	// 字体
 	public static final String DEFAULT_FONT_NAME = "宋体"; // TODO 来自系统参数
-	public static final int DEFAULT_FONT_SIZE = 12; // TODO 来自系统参数
+	public static final String DEFAULT_FONT_SIZE = "1em"; // TODO 来自系统参数
 	public static final FontStyleEnum DEFAULT_FONT_STYLE = FontStyleEnum.FONT_STYLE_NORMAL;
 	public static final FontWeightEnum DEFAULT_FONT_WEIGHT = FontWeightEnum.FONT_WEIGHT_NORMAL;
 	public static final Boolean DEFAULT_STRIKETHROUGH = false;

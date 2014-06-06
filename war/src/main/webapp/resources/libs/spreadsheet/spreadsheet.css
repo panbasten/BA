@@ -951,37 +951,7 @@
 
 
 
-.ss-corner {
-	background-color: #dee3ef;
-}
-
-.ss-heading-heading-even,
-.ss-heading-heading-odd,
-.ss-heading-heading-span {
-	background-color: #eef3ff;
-}
-
-.ss-column-heading-even,
-.ss-column-heading-odd {
-	background-color: #dee3ef;
-}
-
-.ss-row-heading-even {
-	background-color: #dee3ef;
-}
-.ss-row-heading-odd {
-	background-color: #eef3ff;
-}
-
-.ss-cell-even {
-	background-color: #f0f0f0;
-}
-
-.ss-cell-odd {
-	background-color: #ffffff;
-}
-
-.ss-cell-btn {
+.pivot-btn {
 	margin-right: 2px;
 	width: 9px;
 	height: 9px;

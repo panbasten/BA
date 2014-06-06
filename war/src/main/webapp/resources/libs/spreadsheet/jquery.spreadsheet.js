@@ -107,12 +107,17 @@
 	
 	// 获得最大有效行编号
 	function _getMaxCellIndex(sheetOpts){
-		var rowIdx = 0, colIdx = 0, r;
-		console.log(sheetOpts);
+		var rowIdx = 0, colIdx = 0, r, rr;
 		// 扫描区域
-		for(var i=0;i<sheetOpts.region.length;i++){
-			r = sheetOpts.region[i];
-			console.log(r);
+		if(sheetOpts.region){
+			for(var i=0;i<sheetOpts.region.length;i++){
+				r = sheetOpts.region[i];
+				if(r.regionObject && r.regionObject.type){
+					rr = $.fn.spreadsheet.region[r.regionObject.type].getRegionRange(sheetOpts,r);
+					rowIdx = Math.max(rowIdx,rr.endPosition.ridx);
+					colIdx = Math.max(colIdx,rr.endPosition.cidx);
+				}
+			}
 		}
 		
 		return {rowIdx:rowIdx,colIdx:colIdx};
@@ -1203,232 +1208,37 @@
 	function _setRegionData(target,sheet,opts,sheetOpts,regionData){
 		var region = regionData;
 		if(region.regionObject && region.regionObject.type){
-			eval("_setRegion"+region.regionObject.type+"Region(target,sheet,opts,sheetOpts,region);");
+			$.fn.spreadsheet.region[region.regionObject.type].setRegion(target,sheet,opts,sheetOpts,region);
 		}
 		
 		return region;
 	}
 	
-	/****************
-	 * 统计图区域
-	 ****************/
-	function _setRegionChartRegion(target,sheet,opts,sheetOpts,region){
-		var regionObject = region.regionObject,
-			regionData = regionObject.regionData,
-			sp = region.startPosition,
-			ep = region.endPosition || region.startPosition,
-			margin = region.margin || 0;
-			
-		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx) - margin*2,
-			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx) - margin*2,
-			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + margin,
-			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
-		
-		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
-		var chartDiv = $("<div class='ui-spreadsheet-flowRegion'></div>").appendTo(paneIC);
-		chartDiv.attr("id",region.name+"_chartdiv");
-		chartDiv.css({
-			top : top+"px",
-			left: left+"px"
-		});
-		
-		Flywet.cw("HighCharts",null,{
-        	id : region.name+"_chartdiv",
-        	width : colW,
-        	height : rowH,
-        	type : regionData.type,
-        	data : regionData.data
-        });
-	}
-	
-	
-	/****************
-	 * 表格区域
-	 ****************/
-	function _setRegionTableRegion(target,sheet,opts,sheetOpts,region){
-		var regionObject = region.regionObject,
-			regionData = regionObject.regionData;
-		
-		if(regionData && regionData.type){
-			eval("_setRegionData"+regionData.type+"Data(target,sheet,opts,sheetOpts,region);");
-		}
-	}
-	
-	/*************
-	 *	表格区域--通用类型数据解析
-	 *************/
-	function _setRegionDataNormalData(target,sheet,opts,sheetOpts,region){
-		var regionObject = region.regionObject,
-			regionData = regionObject.regionData.data,
-			sp = region.startPosition,
-			cidx = 0, ridx = 0;
-		
-		if(sp){
-			cidx = sp.cidx;
-			ridx = sp.ridx;
-		}
-		
-		var r,cellOpts,cellObj,cn;
-		if(regionData && regionData.row){
-			// 行记录
-			for(var i=0;i<regionData.row.length;i++,ridx++){
-				r = regionData.row[i];
-				cn = 0;
-				for(var j=0;j<r.length;j++){
-					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
-					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
-					
-					var val = cellOpts.value;
-					_setRegionCellData(sheetOpts,sheet,cellObj,cellOpts,val);
-					
-					cn = cn + parseInt(cellOpts.colspan||1);
-				}
+	// 通过tag标签和style来查找样式表
+	function checkStylesByTag(opts,sheetOpts, style){
+		var tag = style["_TAG"];
+		var nstyle = Flywet.merge({},$.fn.spreadsheet.cellStyleDefaults);
+		if(tag){
+			if($.fn.spreadsheet.style[tag]){
+				nstyle = Flywet.merge(nstyle,$.fn.spreadsheet.style[tag]);
+			}
+			if(style.style && $.fn.spreadsheet.style[tag+"-"+style.style]){
+				nstyle = Flywet.merge(nstyle,$.fn.spreadsheet.style[tag+"-"+style.style]);
+			}
+			// 从自定义样式表中获取
+			if(opts.style && opts.style[tag]){
+				nstyle = Flywet.merge(nstyle,opts.style[tag]);
+			}
+			if(style.style && opts.style[tag+"-"+style.style]){
+				nstyle = Flywet.merge(nstyle,opts.style[tag+"-"+style.style]);
 			}
 		}
-		
-	}
-	
-	/*************
-	 *	表格区域--透视表类型数据解析
-	 *************/
-	function _setRegionDataPivotData(target,sheet,opts,sheetOpts,region){
-		var regionObject = region.regionObject,
-			regionData = regionObject.regionData.data,
-			head = regionData.head,
-			body = regionData.body,
-			sp = region.startPosition,
-			cidx = 0, ridx = 0;
-		
-		if(sp){
-			cidx = sp.cidx;
-			ridx = sp.ridx;
-		}
-		
-		var r,cellOpts,cellObj,cn;
-		if(head && head.row){
-			// 头部行记录
-			for(var i=0;i<head.row.length;i++,ridx++){
-				r = head.row[i];
-				cn = 0;
-				for(var j=0;j<r.length;j++){
-					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
-					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
-					if(cellOpts["_TAG"] == "corner"){
-						corner(cellOpts,cellObj);
-					}else if(cellOpts["_TAG"] == "heading-heading"){
-						headingHeading(cellOpts,cellObj);
-					}else if(cellOpts["_TAG"] == "column-heading"){
-						columnHeading(cellOpts,cellObj);
-					}
-					cn = cn + parseInt(cellOpts.colspan||1);
-				}
-			}
-		}
-		
-		if(body && body.row){
-			// 头部行记录
-			for(var i=0;i<body.row.length;i++,ridx++){
-				r = body.row[i];
-				cn = 0;
-				for(var j=0;j<r.length;j++){
-					cellOpts = $.extend({},$.fn.spreadsheet.cellStyleDefaults,r[j]);
-					cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
-					if(cellOpts["_TAG"] == "row-heading"){
-						rowHeading(cellOpts,cellObj);
-					}else if(cellOpts["_TAG"] == "cell"){
-						cell(cellOpts,cellObj);
-					}
-					
-					cn = cn + parseInt(cellOpts.colspan||1);
-				}
-			}
-		}
-		
-		// corner
-		function corner(cellOpts,cell){
-			cellOpts.border = {
-				"top-style" : 1 //"thin"
-				,"left-style" : 1 //"thin"
-				,"bottom-style" : 1 //"thin"
-				,"right-style" : 1 //"thin"
-			};
-			cellOpts.style = "ss-corner";
-			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,"");
-		}
-		// heading-heading
-		function headingHeading(cellOpts,cell){
-			cellOpts.border = {
-				"top-style" : 1 //"thin"
-				,"left-style" : 1 //"thin"
-				,"bottom-style" : 1 //"thin"
-				,"right-style" : 1 //"thin"
-			};
-			cellOpts.style = "ss-heading-heading-"+cellOpts.style;
-			cellOpts.indent = 0.5;
-			cellOpts.fontWeight = 2;
-			var val = cellOpts.caption.caption;
-			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
-		}
-		// column-heading
-		function columnHeading(cellOpts,cell){
-			cellOpts.border = {
-				"top-style" : 1 //"thin"
-				,"left-style" : 1 //"thin"
-				,"bottom-style" : 1 //"thin"
-				,"right-style" : 1 //"thin"
-			};
-			cellOpts.style = "ss-column-heading-"+cellOpts.style;
-			cellOpts.fontWeight = 2;
-			var val = cellOpts.caption.caption;
-			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
-		}
-		// row-heading
-		function rowHeading(cellOpts,cell){
-			cellOpts.border = {
-				"top-style" : 1 //"thin"
-				,"left-style" : 1 //"thin"
-				,"bottom-style" : 1 //"thin"
-				,"right-style" : 1 //"thin"
-			};
-			cellOpts.style = "ss-row-heading-"+cellOpts.style;
-			cellOpts.fontWeight = 2;
-			var val = cellOpts.caption.caption;
-			if(cellOpts.drillExpand){
-				val = "<input id='" + cellOpts.drillExpand.id 
-					+ "' class='ss-cell-btn' type='image' title='展开' src='"
-					+ opts.btn_src + cellOpts.drillExpand.img
-					+ ".png'/>"+val;
-			}
-			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
-			
-			// 事件
-			if(cellOpts.drillExpand){
-				cell.find("#"+cellOpts.drillExpand.id).mousedown(function(e){
-					// TODO
-					alert(cellOpts.drillExpand.id);
-					e.stopPropagation();
-		            e.preventDefault();
-				});
-			}
-		}
-		// cell
-		function cell(cellOpts,cell){
-			cellOpts.border = {
-				"top-style" : 1 //"thin"
-				,"left-style" : 1 //"thin"
-				,"bottom-style" : 1 //"thin"
-				,"right-style" : 1 //"thin"
-			};
-			cellOpts.style = "ss-cell-"+cellOpts.style;
-			cellOpts.align = 2;
-			var val = cellOpts.value;
-			_setRegionCellData(sheetOpts,sheet,cell,cellOpts,val);
-		}
-		
+		style = Flywet.merge(nstyle, style);
+		return style;
 	}
 	
 	// 单元格格式操作：设置单元格数据和样式
-	function _setRegionCellData(sheetOpts,sheet,cell,style,val){
+	function _setCellDataAndStyle(sheetOpts,sheet,cell,style,val){
 		cell.data("style",style);
 		
 		if(style.style){
@@ -1935,7 +1745,6 @@
 		var maxCellIdx;
 		if(opts.sheet){
 			maxCellIdx = _getMaxCellIndex(opts.sheet[0]);
-			console.log(maxCellIdx);
 		}
 		
 		// 自定义尺寸，或者使用指定尺寸
@@ -1944,7 +1753,7 @@
 		} else if (opts.width == "auto"){
 			if(maxCellIdx){
 				// 根据第一个sheet的内容进行判定
-				
+				opts.workspaceWidth = _getColsWidth(opts.sheet[0],0,maxCellIdx.colIdx);
 			}else{
 				opts.workspaceWidth = dim.width;
 			}
@@ -1957,6 +1766,7 @@
 		} else if (opts.height == "auto"){
 			if(maxCellIdx){
 				// 根据第一个sheet的内容进行判定
+				opts.workspaceHeight = _getRowsHeight(opts.sheet[0],0,maxCellIdx.rowIdx+2);
 			}else{
 				opts.workspaceHeight = dim.height;
 			}
@@ -1964,8 +1774,8 @@
 			opts.workspaceHeight = dim.height;
 		}
 		
-		opts.workspaceWidth = Math.max(opts.workspaceWidth-2, opts.minWidth);
-		opts.workspaceHeight = Math.max(opts.workspaceHeight-2, opts.minHeight);
+		opts.workspaceWidth = Math.max(opts.workspaceWidth, opts.minWidth);
+		opts.workspaceHeight = Math.max(opts.workspaceHeight, opts.minHeight);
 		
 		// 重置滚动条显示设置
 		opts.showHScroll = false;
@@ -2419,18 +2229,18 @@
 	
 	// TODO 补充样式
 	$.fn.spreadsheet.cellStyleDefaults = {
-		fontFamily : null
-		,fontStyle : 0 // normal, italic
+		//fontFamily : null
+		fontStyle : 0 // normal, italic
 		,fontWeight : 0 // normal, lighter, bolder, bold
-		,fontSize : null
-		,fontColor : null
+		//,fontSize : null
+		//,fontColor : null
 			
 		,align : 0 // left, center, right, justify
 		,valign : 1 // top, middle, bottom
 		,indent : 0 // 缩进值
 		,wrap : true // 自动折行
 		
-		,backgroundColor : null // 背景颜色
+		//,backgroundColor : null // 背景颜色
 		
 		,colspan : 1
 		,rowspan : 1
@@ -2533,9 +2343,302 @@
 		,onHide:	function(){}
 	};
 	
+	$.fn.spreadsheet.style = {
+		"border-all" : {
+			border : {
+				"top-style" : 1 //"thin"
+				,"left-style" : 1 //"thin"
+				,"bottom-style" : 1 //"thin"
+				,"right-style" : 1 //"thin"
+			}
+		}
+	};
+	
+	$.fn.spreadsheet.style["corner"] = Flywet.merge({},
+						$.fn.spreadsheet.style["border-all"],
+						{backgroundColor: "#dee3ef"});
+	$.fn.spreadsheet.style["heading-heading"] = Flywet.merge({},
+						$.fn.spreadsheet.style["border-all"],
+						{
+							backgroundColor: "#eef3ff"
+							,indent: 0.5
+							,fontWeight: 2
+						});
+	$.fn.spreadsheet.style["column-heading"] = Flywet.merge({},
+						$.fn.spreadsheet.style["border-all"],
+						{
+							backgroundColor: "#dee3ef"
+							,fontWeight: 2
+						});
+	$.fn.spreadsheet.style["row-heading"] = Flywet.merge({},
+						$.fn.spreadsheet.style["border-all"],
+						{fontWeight: 2});
+	$.fn.spreadsheet.style["row-heading-even"] = {backgroundColor: "#dee3ef"};
+	$.fn.spreadsheet.style["row-heading-odd"] = {backgroundColor: "#eef3ff"};
+	$.fn.spreadsheet.style["cell"] = Flywet.merge({},
+						$.fn.spreadsheet.style["border-all"],
+						{align: 2});
+	$.fn.spreadsheet.style["cell-even"] = {backgroundColor: "#f0f0f0"};
+	$.fn.spreadsheet.style["cell-odd"] = {backgroundColor: "#ffffff"};
 	
 	
-//	$.fn.spreadsheet.region
+	
+	$.fn.spreadsheet.region = {};
+	
+	/****************
+	 * 统计图区域
+	 ****************/
+	$.fn.spreadsheet.region.Chart = {};
+	$.fn.spreadsheet.region.Chart.getRegionRange = function(sheetOpts,region){
+		var sp = region.startPosition,
+			ep = region.endPosition;
+		return {startPosition:sp,endPosition:ep};
+	};
+	$.fn.spreadsheet.region.Chart.setRegion = function (target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData,
+			sp = region.startPosition,
+			ep = region.endPosition || region.startPosition,
+			margin = region.margin || 0;
+			
+		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx) - margin*2,
+			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx) - margin*2,
+			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + margin,
+			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
+		
+		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
+		var chartDiv = $("<div class='ui-spreadsheet-flowRegion'></div>").appendTo(paneIC);
+		chartDiv.attr("id",region.name+"_chartdiv");
+		chartDiv.css({
+			top : top+"px",
+			left: left+"px"
+		});
+		
+		Flywet.cw("HighCharts",null,{
+        	id : region.name+"_chartdiv",
+        	width : colW,
+        	height : rowH,
+        	type : regionData.type,
+        	data : regionData.data
+        });
+	};
+	
+	
+	/****************
+	 * 表格区域
+	 ****************/
+	$.fn.spreadsheet.region.Table = {};
+	$.fn.spreadsheet.region.Table.getRegionRange = function(sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData;
+		
+		if(regionData && regionData.type){
+			return eval("_get"+regionData.type+"Range(sheetOpts,region);");
+		}
+		
+		
+		var sp = region.startPosition;
+		return {startPosition:sp,endPosition:sp};
+		
+		function _getMaxRowRange(row){
+			var rowNum = row.length,
+				colNum = 1;
+				
+			// 计算最大列数
+			var r,c,cidx;
+			for(var i=0;i<row.length;i++){
+				r = row[i];
+				if(r.length>0){
+					cidx = 0;
+					for(var j=0;j<r.length;j++){
+						c = r[j];
+						cidx += c.colspan;
+					}
+					colNum = Math.max(colNum, cidx);
+				}
+			}
+			
+			return {rowNum:rowNum,colNum:colNum};
+		}
+		
+		
+		function _getNormalRange(sheetOpts,region){
+			var sp = region.startPosition, ep,
+				row = region.regionObject.regionData.data.row,
+				rr = _getMaxRowRange(row);
+			
+			ep = {
+				ridx : sp.ridx + rr.rowNum - 1,
+				cidx : sp.ridx + rr.colNum - 1
+			};
+			
+			return {startPosition:sp,endPosition:ep};
+		}
+		
+		function _getPivotRange(sheetOpts,region){
+			var sp = region.startPosition, ep,
+				head = region.regionObject.regionData.data.head,
+				body = region.regionObject.regionData.data.body,
+				hrr = _getMaxRowRange(head.row),
+				brr = _getMaxRowRange(head.row);
+				
+			ep = {
+				ridx : sp.ridx + hrr.rowNum + brr.rowNum - 1,
+				cidx : sp.ridx + Math.max(hrr.colNum, brr.colNum) - 1
+			};
+			
+			return {startPosition:sp,endPosition:ep};
+		}
+			
+	};
+	$.fn.spreadsheet.region.Table.setRegion = function(target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData;
+		
+		if(regionData && regionData.type){
+			eval("_set"+regionData.type+"Data(target,sheet,opts,sheetOpts,region);");
+		}
+		
+		
+		
+		/*************
+		 *	表格区域--通用类型数据解析
+		 *************/
+		function _setNormalData(target,sheet,opts,sheetOpts,region){
+			var regionObject = region.regionObject,
+				regionData = regionObject.regionData.data,
+				sp = region.startPosition,
+				cidx = 0, ridx = 0;
+			
+			if(sp){
+				cidx = sp.cidx;
+				ridx = sp.ridx;
+			}
+			
+			var r,cellOpts,cellObj,cn;
+			if(regionData && regionData.row){
+				// 行记录
+				for(var i=0;i<regionData.row.length;i++,ridx++){
+					r = regionData.row[i];
+					cn = 0;
+					for(var j=0;j<r.length;j++){
+						cellOpts = checkStylesByTag(opts,sheetOpts,r[j]);
+						cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+						
+						var val = cellOpts.value;
+						_setCellDataAndStyle(sheetOpts,sheet,cellObj,cellOpts,val);
+						
+						cn = cn + parseInt(cellOpts.colspan||1);
+					}
+				}
+			}
+			
+		}
+		
+		/*************
+		 *	表格区域--透视表类型数据解析
+		 *************/
+		function _setPivotData(target,sheet,opts,sheetOpts,region){
+			var regionObject = region.regionObject,
+				regionData = regionObject.regionData.data,
+				head = regionData.head,
+				body = regionData.body,
+				sp = region.startPosition,
+				cidx = 0, ridx = 0;
+			
+			if(sp){
+				cidx = sp.cidx;
+				ridx = sp.ridx;
+			}
+			
+			var r,cellOpts,cellObj,cn;
+			if(head && head.row){
+				// 头部行记录
+				for(var i=0;i<head.row.length;i++,ridx++){
+					r = head.row[i];
+					cn = 0;
+					for(var j=0;j<r.length;j++){
+						cellOpts = checkStylesByTag(opts,sheetOpts,r[j]);
+						cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+						
+						// 对于特点区域特殊处理
+						if(cellOpts["_TAG"] == "corner"){
+							corner(cellOpts,cellObj);
+						}else if(cellOpts["_TAG"] == "heading-heading"){
+							headingHeading(cellOpts,cellObj);
+						}else if(cellOpts["_TAG"] == "column-heading"){
+							columnHeading(cellOpts,cellObj);
+						}
+						cn = cn + parseInt(cellOpts.colspan||1);
+					}
+				}
+			}
+			
+			if(body && body.row){
+				// 主体行记录
+				for(var i=0;i<body.row.length;i++,ridx++){
+					r = body.row[i];
+					cn = 0;
+					for(var j=0;j<r.length;j++){
+						cellOpts = checkStylesByTag(opts,sheetOpts,r[j]);
+						cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+						
+						if(cellOpts["_TAG"] == "row-heading"){
+							rowHeading(cellOpts,cellObj);
+						}else if(cellOpts["_TAG"] == "cell"){
+							cell(cellOpts,cellObj);
+						}
+						
+						cn = cn + parseInt(cellOpts.colspan||1);
+					}
+				}
+			}
+			
+			
+			// corner
+			function corner(cellOpts,cell){
+				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,"");
+			}
+			// heading-heading
+			function headingHeading(cellOpts,cell){
+				var val = cellOpts.caption.caption;
+				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+			}
+			// column-heading
+			function columnHeading(cellOpts,cell){
+				var val = cellOpts.caption.caption;
+				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+			}
+			// row-heading
+			function rowHeading(cellOpts,cell){
+				var val = cellOpts.caption.caption;
+				if(cellOpts.drillExpand){
+					val = "<input id='" + cellOpts.drillExpand.id 
+						+ "' class='pivot-btn' type='image' title='展开' src='"
+						+ opts.btn_src + cellOpts.drillExpand.img
+						+ ".png'/>"+val;
+				}
+				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+				
+				// 事件
+				if(cellOpts.drillExpand){
+					cell.find("#"+cellOpts.drillExpand.id).mousedown(function(e){
+						// TODO
+						alert(cellOpts.drillExpand.id);
+						e.stopPropagation();
+			            e.preventDefault();
+					});
+				}
+			}
+			// cell
+			function cell(cellOpts,cell){
+				var val = cellOpts.value;
+				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+			}
+			
+		}
+	};
+		
 })(jQuery);
 
 

@@ -71,11 +71,13 @@ class NormalDataDataCell implements IJSONObjectable {
 
 	public static final String PROP_NAME_COLSPAN = "colspan";
 	public static final String PROP_NAME_ROWSPAN = "rowspan";
+	public static final String PROP_NAME_TAG = "_TAG";
 	public static final String PROP_NAME_STYLE = "style";
 	public static final String PROP_NAME_VALUE = "value";
 
 	Integer colspan;
 	Integer rowspan;
+	String tag;
 	String style;
 	String val;
 
@@ -90,6 +92,7 @@ class NormalDataDataCell implements IJSONObjectable {
 		cell.rowspan = Utils.toInt(
 				XMLHandler.getTagAttribute(node, PROP_NAME_ROWSPAN), null);
 
+		cell.tag = Const.trim(XMLHandler.getTagAttribute(node, PROP_NAME_TAG));
 		cell.style = Const.NVL(
 				XMLHandler.getTagAttribute(node, PROP_NAME_STYLE), null);
 		cell.val = Const.NVL(XMLHandler.getTagAttribute(node, PROP_NAME_VALUE),
@@ -110,6 +113,9 @@ class NormalDataDataCell implements IJSONObjectable {
 		}
 		if (rowspan != null) {
 			jo.put(PROP_NAME_ROWSPAN, rowspan);
+		}
+		if (tag != null) {
+			jo.put(PROP_NAME_TAG, tag);
 		}
 		if (style != null) {
 			jo.put(PROP_NAME_STYLE, style);

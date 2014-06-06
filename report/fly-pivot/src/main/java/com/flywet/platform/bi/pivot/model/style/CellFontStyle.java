@@ -40,7 +40,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 	private final FontWeightEnum fontWeight;
 
 	// 字体大小
-	private final Integer fontSize;
+	private final String fontSize;
 
 	// 字体颜色
 	private final Color fontColor;
@@ -54,7 +54,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 	private final String _uuid;
 
 	private CellFontStyle(String fontFamily, FontStyleEnum fontStyle,
-			FontWeightEnum fontWeight, Integer fontSize, Color fontColor,
+			FontWeightEnum fontWeight, String fontSize, Color fontColor,
 			Boolean strikethrough) {
 		this.fontFamily = fontFamily;
 		this.fontStyle = fontStyle;
@@ -86,7 +86,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 			fontWeight = FontWeightEnum.get(fontWeightInt.shortValue());
 		}
 
-		Integer fontSize = Utils.toInt(
+		String fontSize = Const.NVL(
 				XMLHandler.getTagAttribute(node, PROP_NAME_FONT_SIZE), null);
 
 		String fontColorStr = Const.NVL(
@@ -108,14 +108,14 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 	public static CellFontStyle getDefaultInstance() {
 		return getInstance(DefaultConst.UNDEFINED_STR,
 				DefaultSetting.DEFAULT_FONT_STYLE,
-				DefaultSetting.DEFAULT_FONT_WEIGHT, DefaultConst.UNDEFINED_INT,
-				DefaultSetting.DEFAULT_COLOR,
+				DefaultSetting.DEFAULT_FONT_WEIGHT,
+				DefaultSetting.DEFAULT_FONT_SIZE, DefaultSetting.DEFAULT_COLOR,
 				DefaultSetting.DEFAULT_STRIKETHROUGH);
 	}
 
 	public static CellFontStyle getInstance(String fontFamily,
 			FontStyleEnum fontStyle, FontWeightEnum fontWeight,
-			Integer fontSize, Color fontColor, Boolean strikethrough) {
+			String fontSize, Color fontColor, Boolean strikethrough) {
 		if (fontFamily == null && fontStyle == null && fontWeight == null
 				&& fontSize == null && fontColor == null
 				&& strikethrough == null) {
@@ -160,8 +160,8 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 	 * @return
 	 */
 	private static String createUUID(String fontFamily,
-			FontStyleEnum fontStyle, FontWeightEnum fontWeight, Integer fontSize,
-			Color fontColor, Boolean strikethrough) {
+			FontStyleEnum fontStyle, FontWeightEnum fontWeight,
+			String fontSize, Color fontColor, Boolean strikethrough) {
 		String result = "";
 		result = result + Const.NVL(fontFamily, "") + ",";
 		result = result + ((fontStyle != null) ? fontStyle.getIndex() : "")
@@ -202,7 +202,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 		return fontStyle;
 	}
 
-	public Integer getFontSize() {
+	public String getFontSize() {
 		return fontSize;
 	}
 
@@ -232,7 +232,7 @@ public class CellFontStyle implements ICacheable, IJSONObjectable {
 		if (fontWeight != null) {
 			jo.put(PROP_NAME_FONT_WEIGHT, fontWeight.getIndex());
 		}
-		if (fontSize != null && fontSize > 0) {
+		if (fontSize != null) {
 			jo.put(PROP_NAME_FONT_SIZE, fontSize);
 		}
 		if (fontColor != null && !fontColor.isNull()) {
