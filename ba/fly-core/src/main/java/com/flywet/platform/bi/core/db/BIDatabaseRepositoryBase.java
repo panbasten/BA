@@ -97,6 +97,25 @@ public class BIDatabaseRepositoryBase {
 	public static final String FIELD_PORTAL_ACTION_BEAN_NAME = "BEAN_NAME";
 	public static final String FIELD_PORTAL_ACTION_METHOD = "METHOD";
 
+	public static final String TABLE_BI_METRO = "BI_METRO";
+	public static final String FIELD_METRO_ID_METRO = "ID_METRO";
+	public static final String FIELD_METRO_METRO_OBJECT = "METRO_OBJECT";
+	public static final String FIELD_METRO_METRO_TYPE = "METRO_TYPE";
+	public static final String FIELD_METRO_IS_REF = "IS_REF";
+	public static final String FIELD_METRO_REF_URL = "REF_URL";
+	public static final String FIELD_METRO_DESCRIPTION = "DESCRIPTION";
+	public static final String FIELD_METRO_VALID = "VALID";
+	public static final String FIELD_METRO_CREATE_USER = "CREATE_USER";
+	public static final String FIELD_METRO_CREATE_DATE = "CREATE_DATE";
+	public static final String FIELD_METRO_MODIFIED_USER = "MODIFIED_USER";
+	public static final String FIELD_METRO_MODIFIED_DATE = "MODIFIED_DATE";
+
+	public static final String TABLE_BI_METRO_ATTRIBUTE = "BI_METRO_ATTRIBUTE";
+	public static final String FIELD_METRO_ATTRIBUTE_ID_METRO_ATTR = "ID_METRO_ATTR";
+	public static final String FIELD_METRO_ATTRIBUTE_ID_METRO = "ID_METRO";
+	public static final String FIELD_METRO_ATTRIBUTE_CODE = "CODE";
+	public static final String FIELD_METRO_ATTRIBUTE_VALUE_STR = "VALUE_STR";
+
 	public static final String TABLE_BI_FILESYS_TYPE = "BI_FILESYS_TYPE";
 	public static final String FIELD_FILESYS_TYPE_ID_FS_TYPE = "ID_FS_TYPE";
 	public static final String FIELD_FILESYS_TYPE_CODE = "CODE";
@@ -143,6 +162,6 @@ public class BIDatabaseRepositoryBase {
 			TABLE_BI_TIMED_EXE, TABLE_BI_TIMED_EXE_ATTR, TABLE_BI_MSG_CHANNEL,
 			TABLE_BI_MSG, TABLE_BI_FUNC_TYPE, TABLE_BI_FUNC_TYPE_ATTRIBUTE,
 			TABLE_BI_PORTAL_MENU, TABLE_BI_PORTAL_MENU_ATTRIBUTE,
-			TABLE_BI_FILESYS_TYPE, TABLE_BI_FILESYS_DIRECTORY, TABLE_BI_REPORT,
-			TABLE_BI_SMART };
+			TABLE_BI_METRO, TABLE_BI_METRO_ATTRIBUTE, TABLE_BI_FILESYS_TYPE,
+			TABLE_BI_FILESYS_DIRECTORY, TABLE_BI_REPORT, TABLE_BI_SMART };
 }

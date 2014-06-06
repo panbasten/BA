@@ -315,7 +315,7 @@
 								</div>
 								
 								<div class="ui-toeditor-div"> 
-									<input id="toeditor" name="toeditor" type="checkbox" checked="checked" style="float:left;height:16px;" />
+									<input id="toeditor" name="toeditor" type="checkbox" style="float:left;height:16px;" />
 									<label for="toeditor">管理控制台</label>
 								</div>
 								<div class="buttonBox">

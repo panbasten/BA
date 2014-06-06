@@ -108,7 +108,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>pages/portal4int/portal_dev.jsp</welcome-file>
+		<welcome-file>pages/portal/portal_dev.jsp</welcome-file>
 	</welcome-file-list>
 
 	<error-page>

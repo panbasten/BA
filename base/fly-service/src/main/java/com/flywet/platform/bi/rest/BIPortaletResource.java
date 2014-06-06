@@ -51,6 +51,7 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
 import com.flywet.platform.bi.delegates.enums.PermissionCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
+import com.flywet.platform.bi.delegates.vo.MetroItem;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 import com.flywet.platform.bi.delegates.vo.User;
@@ -728,17 +729,25 @@ public class BIPortaletResource {
 				.toJSONString();
 	}
 
+	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/metro")
+	@Path("/metros")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getPortalMetro() throws BIException {
 		try {
-			// TODO 读取两个固定文件
-			JSONObject jo = new JSONObject();
-			jo.put("note1", "每月10号做什么事情<br/>每月20号做什么事情");
-			jo.put("note2", "每月1号做什么事情<br/>每月2号做什么事情");
+			List<MetroItem> items = portalDelegates.getMetroItems();
 
-			return jo.toJSONString();
+			if (items != null) {
+				JSONArray ja = new JSONArray();
+
+				for (MetroItem mItem : items) {
+					ja.add(mItem.getJSONObject());
+				}
+
+				return ja.toJSONString();
+			}
+
+			return "[]";
 
 		} catch (Exception ex) {
 			throw new BIException("获得Portal的Metro页面出现错误。", ex);

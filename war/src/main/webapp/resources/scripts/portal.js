@@ -146,7 +146,7 @@ Flywet.Portal = {
 							Flywet.Portal.maxPageLocation("editor");
 						}
 					}else{
-						window.location = "portal";
+						window.location = "portal4int";
 					}
 				}else{
 					var msg = "";
@@ -491,67 +491,15 @@ Flywet.Portal = {
 		// 5.加载metro页面
         Flywet.ab({
 			type: "get",
-			url: "rest/portalet/action/0",
+			url: "rest/portalet/metros",
 			onsuccess: function(data, status, xhr){
 				if(data){
-                    // TODO
-
                     Flywet.cw("Metro", "portal_content_var", {
                         id : "fly_portal_content",
                         rowNum : 4,
                         columnNum : 7,
     //					backgroundImgType : "tile",
-                        metros : [{
-                            id : "note1",
-                            backgroundCls : "azul",
-                            colspan : 3,
-                            rowspan : 2,
-    //						iconImg : "resources/images/desktop/bi.job.png",
-                            text : "记事板1",
-                            textBackgroundCls : "info",
-                            itemType : "note",
-                            itemData : data.note1
-                        },
-                        {
-                            id : "note2",
-                            backgroundCls : "verde",
-                            colspan : 2,
-                            rowspan : 2,
-    //						iconImg : "resources/images/desktop/bi.job.png",
-                            text : "记事板2",
-                            textBackgroundCls : "roxo",
-                            itemType : "note",
-                            itemData : data.note2
-                        }
-    //					,{
-    //						id : "test2",
-    //						backgroundImg : "resources/images/metro/test.jpg",
-    //						iconImg : "resources/images/desktop/bi.job.png",
-    //						colspan : 2,
-    //						text : "带文字框和背景图片",
-    //						textBackgroundCls : "azul"
-    //					}
-    //                  ,{
-    //						backgroundCls : "roxo",
-    //						text : "roxo背景",
-    //						iconImg : "resources/images/desktop/bi.job.png"
-    //					},{
-    //						backgroundCls : "verde",
-    //						text : "verde背景",
-    //						iconImg : "resources/images/desktop/bi.job.png"
-    //					},{
-    //						backgroundCls : "azul",
-    //						text : "azul背景",
-    //						colspan : 2,
-    //						rowspan : 2,
-    //						iconImg : "resources/images/desktop/bi.job.png"
-    //					},{
-    //						backgroundCls : "vermelho",
-    //						text : "vermelho背景",
-    //						iconImg : "resources/images/desktop/bi.job.png"
-    //					}
-
-                        ]
+                        metros : data
                     });
 				}
 

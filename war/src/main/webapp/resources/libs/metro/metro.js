@@ -153,8 +153,6 @@
 	    // TODO
 	    var metro = _addMetroTypeMetro(options, itemOpt);
 
-        console.log(metro);
-
         return metro;
     }
 	
@@ -239,7 +237,9 @@
 	$.fn.metro.itemDefaults = {
 		// 元素类型:
 		// Metro风格-metro(默认), 
-		// cycle图片风格-cycle, 
+		// 记事本-note,
+		// Cycle图片风格-cycle, 
+		// 报表-report
 		// 自定义页面风格(如果多于一个页面自动循环)-custom
 		itemType : "metro",
 
@@ -249,6 +249,7 @@
 		colspan : 1,
 		
 		// --------metro类型属性--------
+		// backgroundCls:roxo,verde,azul,vermelho,laranja,info
 		backgroundCls : null,
 		backgroundImg : null, // backgroundImg属性优先于backgroundCls属性生效
 		backgroundImgType : "stretch", // 拉伸-stretch(默认), 平铺-tile

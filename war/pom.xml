@@ -153,6 +153,16 @@
 								<aggregation>
 									<insertNewLine>true</insertNewLine>
 									<removeIncluded>true</removeIncluded>
+									<output>${project.build.directory}/${project.build.finalName}/resources/portal4int.pack.js</output>
+									<includes>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/portal4int.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/scripts/preload_for_portal4int.js</include>
+									</includes>
+								</aggregation>
+								
+								<aggregation>
+									<insertNewLine>true</insertNewLine>
+									<removeIncluded>true</removeIncluded>
 									<output>${project.build.directory}/${project.build.finalName}/resources/styles/default.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/styles/reset.css</include>
@@ -242,9 +252,9 @@
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.pagination.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/grid/jquery.datagrid.js</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/treegrid/jquery.treegrid.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/fusioncharts/FusionCharts.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/fusioncharts/jquery.fusioncharts.js</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/spreadsheet/fly.spreadsheet.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/highcharts/highcharts.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/highcharts/jquery.highcharts.js</include>
+										<include>${project.build.directory}/${project.build.finalName}/resources/libs/spreadsheet/jquery.spreadsheet.js</include>
 									</includes>
 								</aggregation>
 								<aggregation>
@@ -287,6 +297,7 @@
 									<includes>
 										<include>pages/editor/editor_dev.jsp</include>
 										<include>pages/portal/portal_dev.jsp</include>
+										<include>pages/portal4int/portal_dev.jsp</include>
 									</includes>
 								</configuration>
 							</execution>

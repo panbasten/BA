@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.delegates.vo.MetroItem;
 import com.flywet.platform.bi.delegates.vo.PortalAction;
 import com.flywet.platform.bi.delegates.vo.PortalMenu;
 
@@ -36,5 +37,13 @@ public interface BIPortalDelegates {
 	 * @throws BIKettleException
 	 */
 	public PortalAction getPortalActionById(long id) throws BIKettleException;
+
+	/**
+	 * 获得Metro的集合
+	 * 
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public List<MetroItem> getMetroItems() throws BIKettleException;
 
 }
