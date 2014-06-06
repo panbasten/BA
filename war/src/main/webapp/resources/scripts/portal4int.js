@@ -19,8 +19,12 @@ Flywet.Portal4int = {
 	initPage: function() {
 		Flywet.env();
 		
+		// 更新部分尺寸
+		Flywet.Portal4int.resize();
+		
 		// 注册遮盖层方法
 		Flywet.triggerMark = Flywet.Portal4int.pageCover;
+		Flywet.triggerMark(true);
 		
 		// 1.替换标识文字
 		Flywet.ab({
@@ -48,8 +52,6 @@ Flywet.Portal4int = {
 					// 展现一个菜单项
 					Flywet.Portal4int.MENU_VAR.showMenu();
 					
-					// 更新部分尺寸
-					Flywet.Portal4int.resize();
 				}
 			}
 		});
