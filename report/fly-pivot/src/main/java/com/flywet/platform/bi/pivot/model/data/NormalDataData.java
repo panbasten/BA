@@ -11,11 +11,11 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.IPivotReport;
 import com.flywet.platform.bi.pivot.model.style.CellStyle;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class NormalDataData implements IJSONObjectable {
+public class NormalDataData implements IPivotReport {
 	public static final String PROP_NAME_ROW = "row";
 	public static final String PROP_NAME_CELL = "cell";
 	public static final String PROP_NAME_ROW_NUM = "num";
@@ -65,9 +65,31 @@ public class NormalDataData implements IJSONObjectable {
 
 		return jo;
 	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+		for (List<NormalDataDataCell> row : cells) {
+			for (NormalDataDataCell cell : row) {
+				cell.init(context);
+			}
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		for (List<NormalDataDataCell> row : cells) {
+			for (NormalDataDataCell cell : row) {
+				rtn = cell.findByName(name);
+				if (rtn != null)
+					return rtn;
+			}
+		}
+		return null;
+	}
 }
 
-class NormalDataDataCell implements IJSONObjectable {
+class NormalDataDataCell implements IPivotReport {
 
 	public static final String PROP_NAME_COLSPAN = "colspan";
 	public static final String PROP_NAME_ROWSPAN = "rowspan";
@@ -129,5 +151,23 @@ class NormalDataDataCell implements IJSONObjectable {
 		}
 
 		return jo;
+	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+		if (cellStyle != null) {
+			cellStyle.init(context);
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (cellStyle != null) {
+			rtn = cellStyle.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
 	}
 }

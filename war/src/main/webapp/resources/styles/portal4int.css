@@ -211,6 +211,13 @@
 	padding-top: 5px;
 }
 
+.navbar-logo {
+	float: left;
+	height: 50px;
+    line-height: 20px;
+    padding: 8px;
+}
+
 .navbar-inverse {
   background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #222 100%);
   background-image:         linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
@@ -390,7 +397,7 @@
 
 #idBody footer .container {
   width: auto;
-  max-width: 700px;
+  max-width: 900px;
   padding: 0 15px;
 }
 
@@ -409,7 +416,7 @@
 }
 
 #fly_portal_cover {
-	position:absolute;
+	position:fixed;
 	background-color: #333;
 	width: 100%;
 	height: 100%;

@@ -10,11 +10,11 @@ import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
-import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.IPivotReport;
 import com.flywet.platform.bi.pivot.model.style.CellStyle;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class PivotDataData implements IJSONObjectable {
+public class PivotDataData implements IPivotReport {
 
 	public static final String PROP_NAME_HEAD = "head";
 	public static final String PROP_NAME_BODY = "body";
@@ -65,9 +65,48 @@ public class PivotDataData implements IJSONObjectable {
 		return jo;
 	}
 
+	@Override
+	public void init(RequestContext context) throws BIException {
+		if (head != null) {
+			head.init(context);
+		}
+
+		if (body != null) {
+			body.init(context);
+		}
+
+		if (slicer != null) {
+			slicer.init(context);
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (head != null) {
+			rtn = head.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (body != null) {
+			rtn = body.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (slicer != null) {
+			rtn = slicer.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		return null;
+	}
+
 }
 
-class PivotDataDataSlicer implements IJSONObjectable {
+class PivotDataDataSlicer implements IPivotReport {
 
 	public static final String PROP_NAME_MEMBERS = "members";
 	public static final String PROP_NAME_MEMBER = "member";
@@ -100,9 +139,28 @@ class PivotDataDataSlicer implements IJSONObjectable {
 		return jo;
 	}
 
+	@Override
+	public void init(RequestContext context) throws BIException {
+		for (PivotDataDataMember member : members) {
+			member.init(context);
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		for (PivotDataDataMember member : members) {
+			rtn = member.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		return null;
+	}
+
 }
 
-class PivotDataDataMember implements IJSONObjectable {
+class PivotDataDataMember implements IPivotReport {
 
 	public static final String PROP_NAME_LEVEL = "level";
 	public static final String PROP_NAME_CAPTION = "caption";
@@ -146,9 +204,19 @@ class PivotDataDataMember implements IJSONObjectable {
 
 		return jo;
 	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		return null;
+	}
 }
 
-class PivotDataDataBody implements IJSONObjectable {
+class PivotDataDataBody implements IPivotReport {
 
 	public static final String PROP_NAME_ROW = "row";
 	public static final String PROP_NAME_CELL = "cell";
@@ -193,9 +261,31 @@ class PivotDataDataBody implements IJSONObjectable {
 		return jo;
 	}
 
+	@Override
+	public void init(RequestContext context) throws BIException {
+		for (List<PivotDataDataCell> row : cells) {
+			for (PivotDataDataCell cell : row) {
+				cell.init(context);
+			}
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		for (List<PivotDataDataCell> row : cells) {
+			for (PivotDataDataCell cell : row) {
+				rtn = cell.findByName(name);
+				if (rtn != null)
+					return rtn;
+			}
+		}
+		return null;
+	}
+
 }
 
-class PivotDataDataCell implements IJSONObjectable {
+class PivotDataDataCell implements IPivotReport {
 
 	public static final String PROP_NAME_COLSPAN = "colspan";
 	public static final String PROP_NAME_ROWSPAN = "rowspan";
@@ -323,5 +413,23 @@ class PivotDataDataCell implements IJSONObjectable {
 		}
 
 		return jo;
+	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+		if (cellStyle != null) {
+			cellStyle.init(context);
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (cellStyle != null) {
+			rtn = cellStyle.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
 	}
 }

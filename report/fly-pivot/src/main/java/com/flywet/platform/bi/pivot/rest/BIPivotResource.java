@@ -3,14 +3,18 @@ package com.flywet.platform.bi.pivot.rest;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -24,10 +28,12 @@ import com.flywet.platform.bi.component.utils.PageTemplateInterpolator;
 import com.flywet.platform.bi.component.web.AjaxResult;
 import com.flywet.platform.bi.component.web.AjaxResultEntity;
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.FileUtils;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.cache.BIPivotReportCache;
 import com.flywet.platform.bi.pivot.model.PivotReport;
+import com.flywet.platform.bi.pivot.model.context.IResourceContext;
 import com.flywet.platform.bi.pivot.model.factory.PivotReportFactory;
 import com.flywet.platform.bi.pivot.service.intf.BIPivotDelegates;
 import com.flywet.platform.bi.rest.BIBaseResource;
@@ -45,6 +51,58 @@ public class BIPivotResource extends AbstractReportResource {
 	private BIPivotDelegates pivotService;
 
 	/**
+	 * 获取资源，用于portal
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIException
+	 */
+	public Object[] getResourceForPortal(String targetId,
+			HashMap<String, Object> context) throws BIException {
+
+		Object[] rtn = new Object[2];
+
+		String param = (String) context.get("param");
+		String id = param.substring(0, param.indexOf("_"));
+		String name = param.substring(param.indexOf("_") + 1);
+
+		PivotReport pr = getPivotById(id);
+		IResourceContext pc = (IResourceContext) pr.findByName(name);
+
+		String n = Const.NVL(pc.getName(), "");
+		if (!Const.isEmpty(pc.getExt())) {
+			n = n + "." + pc.getExt();
+		}
+
+		rtn[0] = n;
+		rtn[1] = pc.getData();
+
+		return rtn;
+	}
+
+	/**
+	 * 显示图片，用于portal
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIException
+	 */
+	public byte[] showImageForPortal(String targetId,
+			HashMap<String, Object> context) throws BIException {
+
+		String param = (String) context.get("param");
+		String id = param.substring(0, param.indexOf("_"));
+		String name = param.substring(param.indexOf("_") + 1);
+
+		PivotReport pr = getPivotById(id);
+		IResourceContext pc = (IResourceContext) pr.findByName(name);
+
+		return pc.getData();
+	}
+
+	/**
 	 * 打开一个多维报表，用于Portal
 	 * 
 	 * @param targetId
@@ -56,9 +114,8 @@ public class BIPivotResource extends AbstractReportResource {
 	public String openPivotForPortal(String targetId,
 			HashMap<String, Object> context) throws BIException {
 		try {
-
-			JSONObject pvt = getPivotById((String) context.get("param"));
-
+			JSONObject pvt = pivotService.query(getPivotById((String) context
+					.get("param")));
 			JSONObject rtn = JSONUtils.convertToJSONObject(context);
 			rtn.put("targetId", targetId);
 			rtn.put("data", pvt);
@@ -70,6 +127,79 @@ public class BIPivotResource extends AbstractReportResource {
 		} catch (Exception ex) {
 			logger.error("创建多维报表编辑页面出现错误。");
 			throw new BIException("创建多维报表编辑页面出现错误。", ex);
+		}
+	}
+
+	@GET
+	@Path("/{id}/showImage/{name}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public void showImage(@PathParam("id") String id,
+			@PathParam("name") String name,
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws BIException {
+		try {
+
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+
+			PivotReport pr = getPivotById(id);
+			IResourceContext pc = (IResourceContext) pr.findByName(name);
+
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+
+			FileUtils.write(pc.getData(), response.getOutputStream());
+		} catch (Exception e) {
+			logger.error("获取报表图片资源出现错误。", e);
+			throw new BIException("获取报表图片资源出现错误。", e);
+		}
+	}
+
+	/**
+	 * 通过报表id和资源name获得资源流
+	 * 
+	 * @param id
+	 * @param name
+	 * @param request
+	 * @param response
+	 * @throws BIException
+	 */
+	@GET
+	@Path("/{id}/resource/{name}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public void getPivotResource(@PathParam("id") String id,
+			@PathParam("name") String name,
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws BIException {
+		try {
+
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+
+			PivotReport pr = getPivotById(id);
+			IResourceContext pc = (IResourceContext) pr.findByName(name);
+
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+
+			String n = Const.NVL(name, "");
+			if (!Const.isEmpty(pc.getExt())) {
+				n = n + "." + pc.getExt();
+			}
+
+			String fileName = Const.replace(n, " ", "%20");
+			// 保证另存为文件名为中文
+			response.setHeader("Content-Disposition", "attachment;filename="
+					+ new String(fileName.getBytes(), "ISO8859_1"));
+
+			FileUtils.write(pc.getData(), response.getOutputStream());
+		} catch (Exception e) {
+			logger.error("获取报表图片资源出现错误。", e);
+			throw new BIException("获取报表图片资源出现错误。", e);
 		}
 	}
 
@@ -86,9 +216,7 @@ public class BIPivotResource extends AbstractReportResource {
 	public String openPivotEditor(@PathParam("id") String id)
 			throws BIException {
 		try {
-
-			JSONObject rtn = getPivotById(id);
-
+			JSONObject rtn = pivotService.query(getPivotById(id));
 			return rtn.toJSONString();
 		} catch (BIException ex) {
 			logger.error(ex.getMessage());
@@ -99,7 +227,7 @@ public class BIPivotResource extends AbstractReportResource {
 		}
 	}
 
-	private JSONObject getPivotById(String id) throws NumberFormatException,
+	private PivotReport getPivotById(String id) throws NumberFormatException,
 			BIException {
 		PivotReport pr = BIPivotReportCache.getPivotReportEditor(Long
 				.valueOf(id));
@@ -112,9 +240,13 @@ public class BIPivotResource extends AbstractReportResource {
 			Node prNode = XMLHandler.getSubNode(doc, "PivotReport");
 
 			pr = PivotReportFactory.resolver(prNode);
+
+			pr.addAttr("reportId", id);
+
+			// TODO 添加缓存
 		}
 
-		return pivotService.query(pr);
+		return pr;
 	}
 
 	/**

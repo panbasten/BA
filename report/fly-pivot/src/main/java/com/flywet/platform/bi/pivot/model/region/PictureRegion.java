@@ -7,11 +7,12 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.exception.BIPivotException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
 import com.flywet.platform.bi.pivot.model.IRegionObject;
-import com.flywet.platform.bi.pivot.model.data.ChartData;
+import com.flywet.platform.bi.pivot.model.data.PictureData;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class ChartRegion implements IRegionObject {
-	public static final String REGION_OBJECT_NAME = "Chart";
+public class PictureRegion implements IRegionObject {
+
+	public static final String REGION_OBJECT_NAME = "Picture";
 
 	private IRegionData regionData;
 
@@ -19,21 +20,14 @@ public class ChartRegion implements IRegionObject {
 		return regionData;
 	}
 
-	public void setRegionData(ChartData regionData) {
+	public void setRegionData(IRegionData regionData) {
 		this.regionData = regionData;
 	}
 
-	public static ChartRegion instance(Node node) throws BIException {
-		ChartRegion cr = new ChartRegion();
-		cr.regionData = ChartData.instance(node);
-		return cr;
-	}
-
-	public static String persistent(TableRegion tr) {
-		// TODO
-		StringBuffer sb = new StringBuffer();
-
-		return sb.toString();
+	public static PictureRegion instance(Node node) throws BIException {
+		PictureRegion pr = new PictureRegion();
+		pr.regionData = PictureData.instance(node);
+		return pr;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -47,7 +41,7 @@ public class ChartRegion implements IRegionObject {
 			}
 			return jo;
 		} catch (Exception e) {
-			throw new BIPivotException("渲染表格报表区域出现错误.", e);
+			throw new BIPivotException("渲染图片区域出现错误.", e);
 		}
 	}
 
@@ -58,7 +52,7 @@ public class ChartRegion implements IRegionObject {
 				regionData.init(context);
 			}
 		} catch (Exception e) {
-			throw new BIPivotException("初始化透视报表区域数据出现错误.", e);
+			throw new BIPivotException("初始化图片区域数据出现错误.", e);
 		}
 	}
 
@@ -77,4 +71,5 @@ public class ChartRegion implements IRegionObject {
 		}
 		return null;
 	}
+
 }

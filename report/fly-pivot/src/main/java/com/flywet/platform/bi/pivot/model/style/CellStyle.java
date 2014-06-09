@@ -9,10 +9,10 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.model.ICacheable;
-import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.IPivotReport;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class CellStyle implements ICacheable, IJSONObjectable {
+public class CellStyle implements ICacheable, IPivotReport {
 
 	private static final long serialVersionUID = -4830092425990536943L;
 
@@ -152,6 +152,54 @@ public class CellStyle implements ICacheable, IJSONObjectable {
 		}
 
 		return jo;
+	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+		if (font != null) {
+			font.init(context);
+		}
+
+		if (align != null) {
+			align.init(context);
+		}
+
+		if (borders != null) {
+			borders.init(context);
+		}
+
+		if (bg != null) {
+			bg.init(context);
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (font != null) {
+			rtn = font.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (align != null) {
+			rtn = align.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (borders != null) {
+			rtn = borders.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (bg != null) {
+			rtn = bg.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
 	}
 
 }

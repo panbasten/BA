@@ -10,7 +10,7 @@ import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.model.factory.PivotRegionFactory;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class Region implements IJSONObjectable {
+public class Region implements IPivotReport {
 
 	public static final String PROP_NAME_NAME = "name";
 	public static final String PROP_NAME_ANNOTATION = "annotation";
@@ -65,6 +65,7 @@ public class Region implements IJSONObjectable {
 		return r;
 	}
 
+	@Override
 	public void init(RequestContext context) throws BIException {
 		if (regionObject != null) {
 			regionObject.init(context);
@@ -147,6 +148,14 @@ public class Region implements IJSONObjectable {
 
 	public void setMargin(Integer margin) {
 		this.margin = margin;
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		if (name.equals(this.name)) {
+			return this;
+		}
+		return null;
 	}
 
 }

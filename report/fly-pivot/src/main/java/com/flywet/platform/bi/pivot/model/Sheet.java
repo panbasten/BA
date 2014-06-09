@@ -20,8 +20,9 @@ import com.tonbeller.wcf.controller.RequestContext;
  * @author PeterPan
  * 
  */
-public class Sheet implements IJSONObjectable {
-	public static final String PROP_NAME_SHEET_NAME = "sheetName";
+public class Sheet implements IPivotReport {
+	public static final String PROP_NAME_NAME = "name";// 用于查找
+	public static final String PROP_NAME_SHEET_NAME = "sheetName";// 用于显示
 	public static final String PROP_NAME_ANNOTATION = "annotation";
 	public static final String PROP_NAME_DEFAULT_COL_WIDTH = "defaultColWidth";
 	public static final String PROP_NAME_DEFAULT_ROW_HEIGHT = "defaultRowHeight";
@@ -44,6 +45,9 @@ public class Sheet implements IJSONObjectable {
 
 	public static final String PROP_NAME_REGION = "region";
 	public static final String NODE_NAME_REGION = "Region";
+
+	// 名称
+	private String name;
 
 	// 电子表格名称
 	private String sheetName;
@@ -90,6 +94,7 @@ public class Sheet implements IJSONObjectable {
 
 	public static Sheet instance(Node node) throws BIException {
 		Sheet s = new Sheet();
+		s.name = XMLHandler.getTagAttribute(node, PROP_NAME_NAME);
 		s.sheetName = XMLHandler.getTagAttribute(node, PROP_NAME_SHEET_NAME);
 		s.annotation = XMLHandler.getTagAttribute(node, PROP_NAME_ANNOTATION);
 
@@ -161,6 +166,7 @@ public class Sheet implements IJSONObjectable {
 		return null;
 	}
 
+	@Override
 	public void init(RequestContext context) throws BIException {
 		if (regions != null && regions.size() > 0) {
 			for (Region r : regions) {
@@ -173,6 +179,10 @@ public class Sheet implements IJSONObjectable {
 	@Override
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		JSONObject jo = new JSONObject();
+
+		if (name != null) {
+			jo.put(PROP_NAME_NAME, name);
+		}
 
 		if (sheetName != null) {
 			jo.put(PROP_NAME_SHEET_NAME, sheetName);
@@ -353,6 +363,22 @@ public class Sheet implements IJSONObjectable {
 
 	public void setRowNum(Integer rowNum) {
 		this.rowNum = rowNum;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		if (name.equals(this.name)) {
+			return this;
+		}
+		return null;
 	}
 
 }

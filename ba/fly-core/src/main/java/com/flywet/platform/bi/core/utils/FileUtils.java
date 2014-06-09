@@ -30,6 +30,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
 
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
 /**
  * 操作文件系统的工具类
  * 
@@ -85,6 +88,20 @@ public class FileUtils {
 			}
 			if (item != null) {
 				item.delete();
+			}
+		}
+	}
+
+	public static void write(byte[] b, OutputStream os) throws IOException {
+
+		try {
+			os.write(b);
+			os.flush();
+		} catch (IOException ioe) {
+			throw ioe;
+		} finally {
+			if (os != null) {
+				os.close();
 			}
 		}
 	}
@@ -284,6 +301,40 @@ public class FileUtils {
 	public static boolean isFileExist(String strFilePath) {
 		File f = new File(strFilePath);
 		return f.exists();
+	}
+
+	/**
+	 * BASE64编码字符串
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String encodeBASE64(byte[] b) {
+		if (b == null) {
+			return null;
+		}
+		// 对字节数组Base64编码
+		BASE64Encoder encoder = new BASE64Encoder();
+		// 返回Base64编码过的字节数组字符串
+		return encoder.encode(b);
+	}
+
+	/**
+	 * BASE64解码字符串
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static byte[] decodeBASE64(String str) {
+		if (str == null)
+			return null;
+		BASE64Decoder decoder = new BASE64Decoder();
+		try {
+			// Base64解码
+			return decoder.decodeBuffer(str);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

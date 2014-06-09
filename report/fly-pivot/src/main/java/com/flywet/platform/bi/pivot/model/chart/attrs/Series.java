@@ -10,10 +10,10 @@ import org.w3c.dom.Node;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.IPivotReport;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class Series implements IJSONObjectable {
+public class Series implements IPivotReport {
 
 	Map<String, String> attrs;
 
@@ -61,5 +61,18 @@ public class Series implements IJSONObjectable {
 		}
 
 		return s;
+	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		if (name.equals(attrs.get("name"))) {
+			return this;
+		}
+		return null;
 	}
 }

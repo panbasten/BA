@@ -2409,15 +2409,15 @@
 			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
 		
 		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
-		var chartDiv = $("<div class='ui-spreadsheet-flowRegion'></div>").appendTo(paneIC);
-		chartDiv.attr("id",region.name+"_chartdiv");
+		var chartDiv = $("<div class='ui-spreadsheet-chartRegion'></div>").appendTo(paneIC);
+		chartDiv.attr("id",region.name+"_regiondiv");
 		chartDiv.css({
 			top : top+"px",
 			left: left+"px"
 		});
 		
 		Flywet.cw("HighCharts",null,{
-        	id : region.name+"_chartdiv",
+        	id : region.name+"_regiondiv",
         	width : colW,
         	height : rowH,
         	type : regionData.type,
@@ -2425,6 +2425,44 @@
         });
 	};
 	
+	/****************
+	 * 图片区域
+	 ****************/
+	$.fn.spreadsheet.region.Picture = {};
+	$.fn.spreadsheet.region.Picture.getRegionRange = function(sheetOpts,region){
+		var sp = region.startPosition,
+			ep = region.endPosition;
+		return {startPosition:sp,endPosition:ep};
+	};
+	$.fn.spreadsheet.region.Picture.setRegion = function (target,sheet,opts,sheetOpts,region){
+		var regionObject = region.regionObject,
+			regionData = regionObject.regionData,
+			sp = region.startPosition,
+			ep = region.endPosition || region.startPosition,
+			margin = region.margin || 0;
+			
+		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx) - margin*2,
+			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx) - margin*2,
+			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + margin,
+			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
+		
+		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
+		var picDiv = $("<div class='ui-spreadsheet-picRegion'></div>").appendTo(paneIC);
+		picDiv.attr("id",region.name+"_regiondiv");
+		picDiv.css({
+			top : top+"px",
+			left: left+"px"
+		});
+		
+		var url;
+		if(opts.resourceAccessFunc){
+			url = opts.resourceAccessFunc(opts.attrs.reportId,regionData.name||regionData["_res"]);
+		}
+		
+		if(url){
+			$("<img src='"+url+"' />").appendTo(picDiv);
+		}
+	};
 	
 	/****************
 	 * 表格区域

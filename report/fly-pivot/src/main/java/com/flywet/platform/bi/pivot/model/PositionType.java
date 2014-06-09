@@ -8,7 +8,7 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class PositionType implements IJSONObjectable {
+public class PositionType implements IPivotReport {
 
 	public static final String PROP_NAME_START_POSITION = "startPosition";
 	public static final String NODE_NAME_START_POSITION = "StartPosition";
@@ -52,6 +52,16 @@ public class PositionType implements IJSONObjectable {
 
 	public void setRidx(long ridx) {
 		this.ridx = ridx;
+	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		return null;
 	}
 
 }

@@ -179,7 +179,10 @@
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	      <div class="container">
 	        <div class="navbar-header">
-	          <span class="navbar-brand">经营数据管理平台</span>
+	          <div class="navbar-logo">
+	          	<img src="resources/images/default/logo.large.png" />
+	          </div>
+	          <span class="navbar-brand">COO卓越运作中心-数据分析平台</span>
 	        </div>
 	        
 	        <div class="navbar-collapse collapse">
@@ -210,15 +213,15 @@
 	      <footer>
 	      	<div class="container">
 	      	  <div class="row">
-	      	    <div class="col-md-2 text-muted">
-	              <p>经营数据管理平台</p>
+	      	    <div class="col-md-5 text-muted">
+	              <p>COO卓越运作中心-数据分析平台</p>
 	            </div>
-	            <div class="col-md-3 text-muted">
+	            <div class="col-md-2 text-muted">
 	              <a href="">收藏本站</a>
 	              |
 	              <a href="">联系我们</a>
 	            </div>
-	            <div class="col-md-5 text-muted">
+	            <div class="col-md-4 text-muted">
 	              <p>系统意见反馈联系 927363 &copy;畅游天下2014</p>
 	            </div>
 	        </div>

@@ -11,7 +11,10 @@ import org.pentaho.di.core.xml.XMLHandler;
 import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.pivot.model.context.IContext;
+import com.flywet.platform.bi.pivot.model.factory.PivotContextFactory;
 import com.flywet.platform.bi.pivot.model.style.CellStyle;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -21,7 +24,7 @@ import com.tonbeller.wcf.controller.RequestContext;
  * @author PeterPan
  * 
  */
-public class PivotReport implements IJSONObjectable {
+public class PivotReport implements IPivotReport {
 
 	public static final String PROP_NAME_WIDTH = "width";
 	public static final String PROP_NAME_HEIGHT = "height";
@@ -34,6 +37,12 @@ public class PivotReport implements IJSONObjectable {
 	public static final String PROP_NAME_STYLE = "style";
 	public static final String NODE_NAME_STYLE = "Style";
 	public static final String PROP_NAME_NAME = "name";
+	public static final String NODE_NAME_CONTEXT = "Context";
+
+	public static final String PROP_NAME_ATTRS = "attrs";
+
+	// 扩展属性，来自程序
+	private Map<String, Object> attrs;
 
 	// 报表区域宽度
 	private Integer width;
@@ -58,6 +67,9 @@ public class PivotReport implements IJSONObjectable {
 
 	// 命名样式表
 	private Map<String, CellStyle> styles;
+
+	// 上下文
+	private Map<String, IContext> contexts;
 
 	private PivotReport() {
 
@@ -101,13 +113,35 @@ public class PivotReport implements IJSONObjectable {
 			}
 		}
 
+		// Context
+		List<Node> contextNodes = XMLHandler.getNodes(node, NODE_NAME_CONTEXT);
+		if (contextNodes != null && contextNodes.size() > 0) {
+			for (Node n : contextNodes) {
+				IContext c = PivotContextFactory.resolver(n);
+				pr.addContext(c.getName(), c);
+			}
+		}
+
 		return pr;
 	}
 
+	@Override
 	public void init(RequestContext context) throws BIException {
 		if (sheets != null && sheets.size() > 0) {
 			for (Sheet s : sheets) {
 				s.init(context);
+			}
+		}
+
+		if (styles != null && styles.size() > 0) {
+			for (String sk : styles.keySet()) {
+				styles.get(sk).init(context);
+			}
+		}
+
+		if (contexts != null && contexts.size() > 0) {
+			for (String ck : contexts.keySet()) {
+				contexts.get(ck).init(context);
 			}
 		}
 	}
@@ -159,6 +193,10 @@ public class PivotReport implements IJSONObjectable {
 			jo.put(PROP_NAME_STYLE, stylesJo);
 		}
 
+		if (attrs != null) {
+			jo.put(PROP_NAME_ATTRS, JSONUtils.convertToJSONObject(attrs));
+		}
+
 		return jo;
 	}
 
@@ -174,6 +212,56 @@ public class PivotReport implements IJSONObjectable {
 			styles = new HashMap<String, CellStyle>();
 		}
 		styles.put(name, s);
+	}
+
+	public void addAttr(String name, Object attr) {
+		if (attrs == null) {
+			attrs = new HashMap<String, Object>();
+		}
+		attrs.put(name, attr);
+	}
+
+	public void addContext(String name, IContext c) {
+		if (contexts == null) {
+			contexts = new HashMap<String, IContext>();
+		}
+		attrs.put(name, c);
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		// Sheet
+		if (sheets != null && sheets.size() > 0) {
+			for (Sheet r : sheets) {
+				rtn = r.findByName(name);
+				if (rtn != null)
+					return rtn;
+			}
+		}
+
+		// Style
+		if (styles != null && styles.size() > 0) {
+			rtn = styles.get(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		// Context
+		if (contexts != null && contexts.size() > 0) {
+			rtn = contexts.get(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		// Attribute
+		if (attrs != null) {
+			rtn = attrs.get(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		return null;
 	}
 
 }

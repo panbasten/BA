@@ -243,4 +243,16 @@ public class PivotData implements IRegionData {
 		}
 	}
 
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (data != null) {
+			rtn = data.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		return null;
+	}
+
 }

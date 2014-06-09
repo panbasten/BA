@@ -108,6 +108,60 @@ public class BIPortaletResource {
 		}
 	}
 
+	@GET
+	@Path("/actionResource/{id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public void portalActionResource(@PathParam("id") String id,
+			@QueryParam("targetId") String targetId,
+			@QueryParam("param") String param,
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response, String body)
+			throws BIException {
+
+		try {
+			// 通过ID获得注册的菜单
+			PortalAction pa = portalDelegates.getPortalActionById(Long
+					.valueOf(id));
+
+			targetId = Const.NVL(targetId, "");
+			param = Const.NVL(param, "");
+
+			Map<String, Object> context = getDefaultContext(id, param);
+
+			Object prog = ReflectionUtils.getBean(pa.getBeanName());
+			Object res = ReflectionUtils.invokeMethod(prog, pa.getMethod(),
+					targetId, context);
+
+			String name = null;
+			byte[] b = null;
+
+			// 获得名称和byte[]
+			if (res instanceof byte[]) {
+				b = (byte[]) res;
+			} else {
+				name = (String) (((Object[]) res)[0]);
+				b = (byte[]) (((Object[]) res)[0]);
+			}
+
+			response.setContentType("application/octet-stream");
+			request.setCharacterEncoding(Const.XML_ENCODING);
+			response.setCharacterEncoding(Const.XML_ENCODING);
+
+			if (name != null) {
+				String fileName = Const.replace(name, " ", "%20");
+				// 保证另存为文件名为中文
+				response.setHeader("Content-Disposition",
+						"attachment;filename="
+								+ new String(fileName.getBytes(), "ISO8859_1"));
+			}
+
+			FileUtils.write(b, response.getOutputStream());
+		} catch (Exception e) {
+			log.error("获得资源文件的Action出现错误:", e);
+			throw new BIException("", e);
+		}
+	}
+
 	@POST
 	@Path("/actionForm/{id}")
 	@Produces(BIWebUtils.TEXT_PLAIN_DEFAULT_CHARSET)

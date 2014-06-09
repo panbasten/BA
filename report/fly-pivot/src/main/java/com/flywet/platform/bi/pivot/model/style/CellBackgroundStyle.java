@@ -11,13 +11,11 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.pivot.model.ICacheable;
-import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.IPivotReport;
 import com.flywet.platform.bi.pivot.model.def.DefaultSetting;
-import com.flywet.platform.bi.pivot.model.enums.AlignEnum;
-import com.flywet.platform.bi.pivot.model.enums.VerticalEnum;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class CellBackgroundStyle implements ICacheable, IJSONObjectable {
+public class CellBackgroundStyle implements ICacheable, IPivotReport {
 
 	private static final long serialVersionUID = 3877054599975202852L;
 
@@ -111,4 +109,13 @@ public class CellBackgroundStyle implements ICacheable, IJSONObjectable {
 		return jo;
 	}
 
+	@Override
+	public void init(RequestContext context) throws BIException {
+
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		return null;
+	}
 }

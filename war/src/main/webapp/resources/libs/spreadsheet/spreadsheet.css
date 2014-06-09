@@ -456,7 +456,8 @@
 }
 
 .ui-spreadsheet-rangeBackground,
-.ui-spreadsheet-flowRegion {
+.ui-spreadsheet-picRegion,
+.ui-spreadsheet-chartRegion {
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -472,7 +473,8 @@
 	z-index: 35;
 }
 
-.ui-spreadsheet-flowRegion {
+.ui-spreadsheet-picRegion,
+.ui-spreadsheet-chartRegion {
 	z-index: 40;
 }
 

@@ -9,18 +9,13 @@ import com.tonbeller.wcf.controller.RequestContext;
  * @author PeterPan
  * 
  */
-public interface IRegionData extends IJSONObjectable {
+public interface IRegionData extends IPivotReport {
 
 	public static final String REGION_DATA_TYPE = "type";
 
 	public static final String PROP_NAME_DATA = "data";
 
-	/**
-	 * 初始化数据对象
-	 * 
-	 * @throws BIException
-	 */
-	public void init(RequestContext context) throws BIException;
+	public static final String PROP_NAME_RES = "_res";
 
 	/**
 	 * 刷新数据

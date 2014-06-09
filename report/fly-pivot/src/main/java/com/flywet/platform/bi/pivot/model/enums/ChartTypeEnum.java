@@ -3,6 +3,8 @@ package com.flywet.platform.bi.pivot.model.enums;
 import org.pentaho.di.i18n.BaseMessages;
 import org.w3c.dom.Node;
 
+import com.flywet.platform.bi.core.exception.BIException;
+import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.pivot.model.IStyleEnum;
 import com.flywet.platform.bi.pivot.model.chart.BaseChart;
 import com.flywet.platform.bi.pivot.model.chart.IChart;
@@ -62,9 +64,6 @@ public enum ChartTypeEnum implements IStyleEnum {
 
 	public static final String ENUM_NAME = "ChartType";
 
-	public static final String PRIFIX_CHART_PACKAGE = "com.flywet.platform.bi.pivot.model.chart";
-	public static final String SUBFIX_CHART_NAME = "Chart";
-
 	private static Class<?> PKG = ChartTypeEnum.class;
 
 	ChartTypeEnum(short index, String chartName) {
@@ -72,11 +71,20 @@ public enum ChartTypeEnum implements IStyleEnum {
 		this.chartName = chartName;
 	}
 
+	ChartTypeEnum(short index, String chartName, Class<? extends IChart> cls) {
+		this.index = index;
+		this.chartName = chartName;
+		this.cls = cls;
+	}
+
 	// 索引
 	private short index;
 
 	// 统计图名称
 	private String chartName;
+
+	// 统计图的实现类
+	private Class<? extends IChart> cls;
 
 	public static ChartTypeEnum get(short index) {
 		for (ChartTypeEnum e : ChartTypeEnum.values()) {
@@ -100,8 +108,16 @@ public enum ChartTypeEnum implements IStyleEnum {
 		return chartName;
 	}
 
-	public IChart instance(Node node) {
-		return BaseChart.instance(node);
+	public IChart instance(Node node) throws BIException {
+		try {
+			if (cls != null) {
+				return (IChart) ReflectionUtils.invokeStaticMethod(cls,
+						"instance", node);
+			}
+			return BaseChart.instance(node);
+		} catch (Exception e) {
+			throw new BIException("创建统计图实例出现错误。", e);
+		}
 	}
 
 	@Override
@@ -113,6 +129,10 @@ public enum ChartTypeEnum implements IStyleEnum {
 	public String getText() {
 		return BaseMessages.getString(PKG, ENUM_LONG_DESC_PREFIX + "."
 				+ ENUM_NAME + "." + this.name());
+	}
+
+	public Class<? extends IChart> getCls() {
+		return cls;
 	}
 
 }

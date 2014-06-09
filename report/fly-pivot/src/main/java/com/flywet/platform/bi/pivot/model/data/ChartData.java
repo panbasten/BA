@@ -53,7 +53,6 @@ public class ChartData implements IRegionData {
 	public JSONObject renderJo(RequestContext context) throws BIException {
 		try {
 			JSONObject jo = new JSONObject();
-			jo.put(REGION_DATA_TYPE, getTypeName());
 
 			if (type != null) {
 				jo.put(PROP_NAME_CHART_TYPE, type.getChartName());
@@ -71,8 +70,9 @@ public class ChartData implements IRegionData {
 
 	@Override
 	public void init(RequestContext context) throws BIException {
-		// TODO Auto-generated method stub
-
+		if (data != null) {
+			data.init(context);
+		}
 	}
 
 	@Override
@@ -84,5 +84,16 @@ public class ChartData implements IRegionData {
 	@Override
 	public String getTypeName() {
 		return REGION_DATA_NAME;
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (data != null) {
+			rtn = data.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
 	}
 }

@@ -237,6 +237,12 @@ Flywet.Portal4int.menu.prototype.showMenu = function(id){
 			if(!data.data.height){
 				data.data.height = "auto";
 			}
+			
+			// 资源访问的url，在portal中是通过访问桥的方式获得
+			data.data.resourceAccessFunc = function(id, name){
+				return "rest/portalet/actionResource/3?param="+id+"_"+name;
+			};
+			
 			view2.spreadsheet(data.data);
 		}
 	});

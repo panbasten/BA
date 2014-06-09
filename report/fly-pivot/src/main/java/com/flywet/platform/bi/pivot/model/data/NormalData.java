@@ -45,8 +45,9 @@ public class NormalData implements IRegionData {
 
 	@Override
 	public void init(RequestContext context) throws BIException {
-		// TODO Auto-generated method stub
-
+		if (data != null) {
+			data.init(context);
+		}
 	}
 
 	@Override
@@ -58,6 +59,17 @@ public class NormalData implements IRegionData {
 	@Override
 	public String getTypeName() {
 		return REGION_DATA_NAME;
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (data != null) {
+			rtn = data.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
 	}
 
 }

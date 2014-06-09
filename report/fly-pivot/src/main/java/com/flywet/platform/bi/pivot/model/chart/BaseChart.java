@@ -122,4 +122,75 @@ public class BaseChart implements IChart {
 		return jo;
 	}
 
+	@Override
+	public void init(RequestContext context) throws BIException {
+		if (title != null) {
+			title.init(context);
+		}
+
+		if (xAxis != null) {
+			for (XAxis x : xAxis) {
+				x.init(context);
+			}
+		}
+
+		if (yAxis != null) {
+			for (YAxis y : yAxis) {
+				y.init(context);
+			}
+		}
+
+		if (tooltip != null) {
+			tooltip.init(context);
+		}
+
+		if (series != null) {
+			for (Series s : series) {
+				s.init(context);
+			}
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+
+		if (title != null) {
+			rtn = title.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (xAxis != null) {
+			for (XAxis x : xAxis) {
+				rtn = x.findByName(name);
+				if (rtn != null)
+					return rtn;
+			}
+		}
+
+		if (yAxis != null) {
+			for (YAxis y : yAxis) {
+				rtn = y.findByName(name);
+				if (rtn != null)
+					return rtn;
+			}
+		}
+
+		if (tooltip != null) {
+			rtn = tooltip.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (series != null) {
+			for (Series s : series) {
+				rtn = s.findByName(name);
+				if (rtn != null)
+					return rtn;
+			}
+		}
+		return null;
+	}
+
 }

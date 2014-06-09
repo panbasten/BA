@@ -8,10 +8,10 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.Utils;
-import com.flywet.platform.bi.pivot.model.IJSONObjectable;
+import com.flywet.platform.bi.pivot.model.IPivotReport;
 import com.tonbeller.wcf.controller.RequestContext;
 
-public class YAxis implements IJSONObjectable {
+public class YAxis implements IPivotReport {
 	Map<String, String> attrs;
 
 	Boolean opposite;
@@ -64,5 +64,37 @@ public class YAxis implements IJSONObjectable {
 		}
 
 		return y;
+	}
+
+	@Override
+	public void init(RequestContext context) throws BIException {
+		if (title != null) {
+			title.init(context);
+		}
+
+		if (labels != null) {
+			labels.init(context);
+		}
+	}
+
+	@Override
+	public Object findByName(String name) throws BIException {
+		if (name.equals(attrs.get("name"))) {
+			return this;
+		}
+
+		Object rtn;
+		if (title != null) {
+			rtn = title.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		if (labels != null) {
+			rtn = labels.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
 	}
 }

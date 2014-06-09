@@ -74,4 +74,15 @@ public class TableRegion implements IRegionObject {
 		return REGION_OBJECT_NAME;
 	}
 
+	@Override
+	public Object findByName(String name) throws BIException {
+		Object rtn;
+		if (regionData != null) {
+			rtn = regionData.findByName(name);
+			if (rtn != null)
+				return rtn;
+		}
+		return null;
+	}
+
 }
