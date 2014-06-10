@@ -78,6 +78,11 @@
 		}
 	}
 	
+	// 设置列宽
+	function _setColWidth(sheetOpts,colIdx,colW){
+		sheetOpts.colsWidth["c_"+colIdx] = colW;
+	}
+	
 	// 获得列宽累计值
 	function _getColsWidth(sheetOpts,sColIdx,eColIdx){
 		var w = 0;
@@ -96,12 +101,27 @@
 		}
 	}
 	
+	// 设置行高
+	function _setRowHeight(sheetOpts,rowIdx,rowH){
+		sheetOpts.rowsHeight["r_"+rowIdx] = rowH;
+	}
+	
 	// 获得行高累计值
 	function _getRowsHeight(sheetOpts,sRowIdx,eRowIdx){
 		var h = 0;
 		for(var i=sRowIdx;i<=eRowIdx;i++){
 			h = h + _getRowHeight(sheetOpts,i);
 		}
+		return h;
+	}
+	
+	// 获得Cell的真实高度
+	function _getCellRealHeight(sheetOpts,cell){
+		var valDiv = $(cell).find(".ui-spreadsheet-gridCell-val");
+		var maxHeight = valDiv.css("max-height");
+		valDiv.css("max-height","none");
+		var h = valDiv.height();
+		valDiv.css("max-height",maxHeight);
 		return h;
 	}
 	
@@ -1340,7 +1360,12 @@
 		// 自动折行
 		if(style.wrap){
 			v.addClass("ui-spreadsheet-gridCell-wrap");
+			
+			if(style.expand){
+				cell.data("expand",true);
+			}
 		}
+		
 	}
 	
 	function _setBackground(sheetOpts,sheet,cell,style){
@@ -1682,6 +1707,7 @@
 			var opts = $.data(target, "spreadsheet").options;
 			if (opts.fit == true) {
 				_rerender(target);
+				return true;
 			}
 			return false;
 		});
@@ -2028,6 +2054,40 @@
 		}
 	}
 	
+	// 处理自动扩展的cell
+	function _fixExpandCell(target){
+		var ss = $.data(target, "spreadsheet");
+		var opts = ss.options;
+		
+		var rerenderFlag = false;
+		
+		for(var sn=0;sn<_getSheetNum(opts);sn++){
+			var sheetOpts = opts.sheet[sn],
+				sheet = sheetOpts.sheet,
+				cells = sheet.find(".ui-spreadsheet-gridCell"),
+				cell,merge;
+			var realH,rowsH,rowH,ridx,diff;
+			for(var cn=0;cn<cells.length;cn++){
+				cell = cells[cn];
+				if($.data(cells[cn], "expand")){
+					merge = $.extend({colspan:1,rowspan:1},$.data(cell, "position"),$.data(cell, "merge"));
+					realH = _getCellRealHeight(sheetOpts,cells[cn]);
+					rowsH = _getRowsHeight(sheetOpts,merge.ridx,(merge.ridx+merge.rowspan-1));
+					diff = realH - rowsH;
+					if(diff>0){
+						rowH = _getRowHeight(sheetOpts,merge.ridx)+diff;
+						_setRowHeight(sheetOpts,merge.ridx,rowH);
+						rerenderFlag = true;
+					}
+				}
+			}
+		}
+		
+		if(rerenderFlag){
+			_rerender(target);
+		}
+	}
+	
 	function _rerender(target){
 		var ss = $.data(target, "spreadsheet");
 		var opts = ss.options;
@@ -2171,7 +2231,7 @@
 			// 重新绘制
 			t.workspace.css("display", "block");
 			_rerender(this);
-			
+			_fixExpandCell(this);
 			
 			if (opts.show) {
 				_show(this);
@@ -2241,7 +2301,7 @@
 		,valign : 1 // top, middle, bottom
 		,indent : 0 // 缩进值
 		,wrap : true // 自动折行
-		
+		,expand : false // 自动扩展，当wrap同时为true时起效
 		//,backgroundColor : null // 背景颜色
 		
 		,colspan : 1
@@ -2429,6 +2489,7 @@
 	 * 图片区域
 	 ****************/
 	$.fn.spreadsheet.region.Picture = {};
+	$.fn.spreadsheet.region.Picture.positionEnum = ["filling","stretching","center","tile"];
 	$.fn.spreadsheet.region.Picture.getRegionRange = function(sheetOpts,region){
 		var sp = region.startPosition,
 			ep = region.endPosition;
@@ -2451,7 +2512,9 @@
 		picDiv.attr("id",region.name+"_regiondiv");
 		picDiv.css({
 			top : top+"px",
-			left: left+"px"
+			left: left+"px",
+			width: colW+"px",
+			height: rowH+"px"
 		});
 		
 		var url;
@@ -2460,7 +2523,31 @@
 		}
 		
 		if(url){
-			$("<img src='"+url+"' />").appendTo(picDiv);
+			var pos = regionData.position || 0;
+			eval($.fn.spreadsheet.region.Picture.positionEnum[pos]+"();");
+		}
+		
+		function filling(){
+			var img = $("<img src='"+url+"' />").appendTo(picDiv);
+			if(regionData.width){
+				img.width(regionData.width);
+			}
+			if(regionData.height){
+				img.height(regionData.height);
+			}
+		}
+		
+		function stretching(){
+			var img = $("<img src='"+url+"' />").appendTo(picDiv);
+			img.width(colW).height(rowH);
+		}
+		
+		function center(){
+			// TODO
+		}
+		
+		function tile(){
+			// TODO
 		}
 	};
 	

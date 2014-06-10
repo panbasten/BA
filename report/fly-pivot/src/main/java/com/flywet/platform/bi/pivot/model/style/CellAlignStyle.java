@@ -27,6 +27,7 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 	private static final String PROP_NAME_VALIGN = "valign";
 	private static final String PROP_NAME_INDENT = "indent";
 	private static final String PROP_NAME_WRAP = "wrap";
+	private static final String PROP_NAME_EXPAND = "expand";
 	private static final String PROP_NAME_SHRINK = "shrink";
 
 	// 水平对齐
@@ -41,6 +42,9 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 	// 自动换行
 	private final Boolean wrap;
 
+	// 自动扩展(当wrap属性同时为true时起效)
+	private final Boolean expand;
+
 	// 缩小字体填充
 	private final Boolean shrink;
 
@@ -50,14 +54,16 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 	private final String _uuid;
 
 	private CellAlignStyle(AlignEnum align, VerticalEnum vertical,
-			Float indentation, Boolean wrap, Boolean shrink) {
+			Float indentation, Boolean wrap, Boolean expand, Boolean shrink) {
 		this.align = align;
 		this.vertical = vertical;
 		this.indentation = indentation;
 		this.wrap = wrap;
+		this.expand = expand;
 		this.shrink = shrink;
 
-		this._uuid = createUUID(align, vertical, indentation, wrap, shrink);
+		this._uuid = createUUID(align, vertical, indentation, wrap, expand,
+				shrink);
 	}
 
 	public static CellAlignStyle instance(Node node) {
@@ -82,32 +88,37 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 		Boolean wrap = Utils.toBoolean(
 				XMLHandler.getTagAttribute(node, PROP_NAME_WRAP), null);
 
+		Boolean expand = Utils.toBoolean(
+				XMLHandler.getTagAttribute(node, PROP_NAME_EXPAND), null);
+
 		Boolean shrink = Utils.toBoolean(
 				XMLHandler.getTagAttribute(node, PROP_NAME_SHRINK), null);
 
-		return getInstance(align, vertical, indentation, wrap, shrink);
+		return getInstance(align, vertical, indentation, wrap, expand, shrink);
 
 	}
 
 	public static CellAlignStyle getDefaultInstance() {
 		return getInstance(DefaultSetting.DEFAULT_ALIGN,
 				DefaultSetting.DEFAULT_VERTICAL, DefaultConst.UNDEFINED_FLOAT,
-				DefaultSetting.DEFAULT_WRAP, DefaultSetting.DEFAULT_SHRINK);
+				DefaultSetting.DEFAULT_WRAP, DefaultSetting.DEFAULT_EXTEND,
+				DefaultSetting.DEFAULT_SHRINK);
 	}
 
 	public static CellAlignStyle getInstance(AlignEnum align,
 			VerticalEnum vertical, Float indentation, Boolean wrap,
-			Boolean shrink) {
+			Boolean expand, Boolean shrink) {
 		if (align == null && vertical == null && indentation == null
-				&& wrap == null && shrink == null) {
+				&& wrap == null && expand == null && shrink == null) {
 			return null;
 		}
 
-		String key = createUUID(align, vertical, indentation, wrap, shrink);
+		String key = createUUID(align, vertical, indentation, wrap, expand,
+				shrink);
 		CellAlignStyle alignStyle = matchCache(key);
 		if (alignStyle == null) {
 			alignStyle = new CellAlignStyle(align, vertical, indentation, wrap,
-					shrink);
+					expand, shrink);
 			putCache(key, alignStyle);
 		}
 		return alignStyle;
@@ -130,13 +141,14 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 	}
 
 	private static String createUUID(AlignEnum align, VerticalEnum vertical,
-			Float indentation, Boolean wrap, Boolean shrink) {
+			Float indentation, Boolean wrap, Boolean expand, Boolean shrink) {
 		String result = "";
 		result = result + ((align != null) ? align.getIndex() : "") + ",";
 		result = result + ((vertical != null) ? vertical.getIndex() : "") + ",";
 		result = result + Const.NVL(indentation, "") + ",";
 		result = result + Const.NVL(wrap, "") + ",";
-		result = result + shrink;
+		result = result + Const.NVL(expand, "") + ",";
+		result = result + Const.NVL(shrink, "");
 		return result;
 	}
 
@@ -161,6 +173,10 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 		return wrap;
 	}
 
+	public Boolean isExpand() {
+		return expand;
+	}
+
 	public Boolean isShrink() {
 		return shrink;
 	}
@@ -182,6 +198,9 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 		if (wrap != null) {
 			jo.put(PROP_NAME_WRAP, wrap);
 		}
+		if (expand != null) {
+			jo.put(PROP_NAME_EXPAND, expand);
+		}
 		if (shrink != null) {
 			jo.put(PROP_NAME_SHRINK, shrink);
 		}
@@ -191,7 +210,7 @@ public class CellAlignStyle implements ICacheable, IPivotReport {
 
 	@Override
 	public void init(RequestContext context) throws BIException {
-		
+
 	}
 
 	@Override

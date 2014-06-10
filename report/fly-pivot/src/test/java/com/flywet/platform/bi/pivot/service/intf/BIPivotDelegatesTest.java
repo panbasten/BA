@@ -21,7 +21,7 @@ public class BIPivotDelegatesTest extends WebBaseTestcase {
 		BIReportDelegates reportService = (BIReportDelegates) ctx
 				.getBean("bi.service.reportService");
 
-		long id = 11L;
+		long id = 25L;
 
 		Object[] report = reportService.getReportObject(Long.valueOf(id));
 		Document doc = PageTemplateInterpolator

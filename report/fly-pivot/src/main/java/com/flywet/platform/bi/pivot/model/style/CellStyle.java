@@ -50,6 +50,7 @@ public class CellStyle implements ICacheable, IPivotReport {
 
 	public static CellStyle instance(Node node) throws BIException {
 		CellFontStyle font = CellFontStyle.instance(node);
+		
 		CellAlignStyle align = CellAlignStyle.instance(node);
 
 		CellBordersStyle borders = CellBordersStyle.instance(node);

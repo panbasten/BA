@@ -7,9 +7,11 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.FileUtils;
+import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.exception.BIPivotException;
 import com.flywet.platform.bi.pivot.model.IRegionData;
 import com.flywet.platform.bi.pivot.model.context.IPictureContext;
+import com.flywet.platform.bi.pivot.model.enums.PicturePositionEnum;
 import com.tonbeller.wcf.controller.RequestContext;
 
 public class PictureData implements IRegionData, IPictureContext {
@@ -18,6 +20,9 @@ public class PictureData implements IRegionData, IPictureContext {
 	public static final String PROP_NAME_NAME = "name";
 	public static final String PROP_NAME_EXT = "ext";
 	public static final String PROP_NAME_DATA = "data";
+	public static final String PROP_NAME_POSITION = "position";
+	public static final String PROP_NAME_WIDTH = "width";
+	public static final String PROP_NAME_HEIGHT = "height";
 
 	private String name;
 
@@ -26,6 +31,12 @@ public class PictureData implements IRegionData, IPictureContext {
 	private byte[] data;
 
 	private String dataRes;
+
+	private Integer width;
+
+	private Integer height;
+
+	private PicturePositionEnum pos;
 
 	public static PictureData instance(Node node) throws BIException {
 		try {
@@ -36,6 +47,17 @@ public class PictureData implements IRegionData, IPictureContext {
 
 			pd.ext = Const.NVL(XMLHandler.getTagAttribute(node, PROP_NAME_EXT),
 					null);
+
+			Integer posInt = Utils.toInt(
+					XMLHandler.getTagAttribute(node, PROP_NAME_POSITION), null);
+			if (posInt != null) {
+				pd.pos = PicturePositionEnum.get(posInt.shortValue());
+			}
+
+			pd.width = Utils.toInt(
+					XMLHandler.getTagAttribute(node, PROP_NAME_WIDTH), null);
+			pd.height = Utils.toInt(
+					XMLHandler.getTagAttribute(node, PROP_NAME_HEIGHT), null);
 
 			Node dataNode = XMLHandler.getSubNode(node, PROP_NAME_DATA);
 			if (dataNode != null) {
@@ -65,6 +87,18 @@ public class PictureData implements IRegionData, IPictureContext {
 
 			if (name != null) {
 				jo.put(PROP_NAME_NAME, name);
+			}
+
+			if (pos != null) {
+				jo.put(PROP_NAME_POSITION, pos.getIndex());
+			}
+
+			if (width != null) {
+				jo.put(PROP_NAME_WIDTH, width);
+			}
+
+			if (height != null) {
+				jo.put(PROP_NAME_HEIGHT, height);
 			}
 
 			if (dataRes != null) {
@@ -117,6 +151,34 @@ public class PictureData implements IRegionData, IPictureContext {
 
 	public void setDataRes(String dataRes) {
 		this.dataRes = dataRes;
+	}
+
+	public PicturePositionEnum getPos() {
+		return pos;
+	}
+
+	public void setPos(PicturePositionEnum pos) {
+		this.pos = pos;
+	}
+
+	public void setExt(String ext) {
+		this.ext = ext;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
 	}
 
 	@Override

@@ -118,7 +118,8 @@ public class PivotReport implements IPivotReport {
 		if (contextNodes != null && contextNodes.size() > 0) {
 			for (Node n : contextNodes) {
 				IContext c = PivotContextFactory.resolver(n);
-				pr.addContext(c.getName(), c);
+				if (c != null)
+					pr.addContext(c.getName(), c);
 			}
 		}
 
@@ -225,12 +226,20 @@ public class PivotReport implements IPivotReport {
 		if (contexts == null) {
 			contexts = new HashMap<String, IContext>();
 		}
-		attrs.put(name, c);
+		contexts.put(name, c);
 	}
 
 	@Override
 	public Object findByName(String name) throws BIException {
 		Object rtn;
+
+		// Context(优先)
+		if (contexts != null && contexts.size() > 0) {
+			rtn = contexts.get(name);
+			if (rtn != null)
+				return rtn;
+		}
+
 		// Sheet
 		if (sheets != null && sheets.size() > 0) {
 			for (Sheet r : sheets) {
@@ -243,13 +252,6 @@ public class PivotReport implements IPivotReport {
 		// Style
 		if (styles != null && styles.size() > 0) {
 			rtn = styles.get(name);
-			if (rtn != null)
-				return rtn;
-		}
-
-		// Context
-		if (contexts != null && contexts.size() > 0) {
-			rtn = contexts.get(name);
 			if (rtn != null)
 				return rtn;
 		}

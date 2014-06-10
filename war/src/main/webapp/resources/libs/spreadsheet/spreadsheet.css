@@ -386,8 +386,8 @@
 	position: absolute;
 	z-Index: 30;
 	background-color: white;
-	opacity: .8;
-	filter: alpha(opacity=80);
+	opacity: .1;
+	filter: alpha(opacity=10);
 	overflow: hidden;
 	white-space: nowrap;
 	margin-left: 1px;

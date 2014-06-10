@@ -22,6 +22,7 @@ public class DefaultSetting {
 	public static final VerticalEnum DEFAULT_VERTICAL = VerticalEnum.VERTICAL_CENTER;
 	public static final float DEFAULT_INDENTATION = 0L;
 	public static final boolean DEFAULT_WRAP = false;
+	public static final boolean DEFAULT_EXTEND = false;
 	public static final boolean DEFAULT_SHRINK = false;
 
 	// 字体

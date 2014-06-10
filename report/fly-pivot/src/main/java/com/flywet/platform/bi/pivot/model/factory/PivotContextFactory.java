@@ -12,7 +12,7 @@ public class PivotContextFactory {
 	public static IContext resolver(Node node) throws BIException {
 		String type = Const.NVL(XMLHandler.getTagAttribute(node, "type"), null);
 
-		if (type.equalsIgnoreCase(PictureContext.CONTEXT_TAG_NAME)) {
+		if (PictureContext.CONTEXT_TAG_NAME.equalsIgnoreCase(type)) {
 			return PictureContext.instance(node);
 		}
 
