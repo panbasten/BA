@@ -2519,7 +2519,7 @@
 		
 		var url;
 		if(opts.resourceAccessFunc){
-			url = opts.resourceAccessFunc(opts.attrs.reportId,regionData.name||regionData["_res"]);
+			url = opts.resourceAccessFunc(opts.attrs.reportId,regionData.name||regionData["_ref"]);
 		}
 		
 		if(url){
@@ -2740,10 +2740,8 @@
 			function rowHeading(cellOpts,cell){
 				var val = cellOpts.caption.caption;
 				if(cellOpts.drillExpand){
-					val = "<input id='" + cellOpts.drillExpand.id 
-						+ "' class='pivot-btn' type='image' title='展开' src='"
-						+ opts.btn_src + cellOpts.drillExpand.img
-						+ ".png'/>"+val;
+					val = "<div id='" + cellOpts.drillExpand.id 
+						+ "' class='ss-pivot-btn ss-icon-"+cellOpts.drillExpand.img+"' title='展开'></div>"+val;
 				}
 				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
 				

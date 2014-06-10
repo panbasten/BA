@@ -244,6 +244,7 @@ public class BIPivotResource extends AbstractReportResource {
 			pr.addAttr("reportId", id);
 
 			// TODO 添加缓存
+			// BIPivotReportCache.putPivotReportEditor(Long.valueOf(id), pr);
 		}
 
 		return pr;

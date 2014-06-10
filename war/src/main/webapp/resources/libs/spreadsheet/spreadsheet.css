@@ -954,8 +954,237 @@
 
 
 
-.pivot-btn {
+.ss-pivot-btn {
 	margin-right: 2px;
+	margin-top: 4px;
 	width: 9px;
 	height: 9px;
+	float: left;
+	cursor:pointer;
+}
+
+.ss-icon-drill-position-expand {
+	background-image: url("images/ss/pivot/drill-position-expand.png");
+}
+
+.ss-icon {
+	width: 16px;
+	height: 16px;
+	background-image: url("images/ss/dataformat/icons.png");
+}
+
+.ss-icon-arrow-gray-01 {
+	background-position: 0 0;
+}
+
+.ss-icon-arrow-gray-02 {
+	background-position: -20px 0;
+}
+
+.ss-icon-arrow-gray-03 {
+	background-position: -40px 0;
+}
+
+.ss-icon-arrow-gray-04 {
+	background-position: -60px 0;
+}
+
+.ss-icon-arrow-gray-05 {
+	background-position: -80px 0;
+}
+
+.ss-icon-arrow-color-01 {
+	background-position: 0 -20px;
+}
+
+.ss-icon-arrow-color-02 {
+	background-position: -20px -20px;
+}
+
+.ss-icon-arrow-yellow-01 {
+	background-position: -40px -20px;
+}
+
+.ss-icon-arrow-yellow-02 {
+	background-position: -60px -20px;
+}
+
+.ss-icon-arrow-yellow-03 {
+	background-position: -80px -20px;
+}
+
+.ss-icon-circle-01 {
+	background-position: 0 -40px;
+}
+
+.ss-icon-circle-02 {
+	background-position: -20px -40px;
+}
+
+.ss-icon-circle-03 {
+	background-position: -40px -40px;
+}
+
+.ss-icon-circle-04 {
+	background-position: -60px -40px;
+}
+
+.ss-icon-flag-01 {
+	background-position: 0 -60px;
+}
+
+.ss-icon-flag-02 {
+	background-position: -20px -60px;
+}
+
+.ss-icon-flag-03 {
+	background-position: -40px -60px;
+}
+
+.ss-icon-circle-info-01 {
+	background-position: 0 -80px;
+}
+
+.ss-icon-circle-info-02 {
+	background-position: -20px -80px;
+}
+
+.ss-icon-circle-info-03 {
+	background-position: -40px -80px;
+}
+
+.ss-icon-info-01 {
+	background-position: 0 -100px;
+}
+
+.ss-icon-info-02 {
+	background-position: -20px -100px;
+}
+
+.ss-icon-info-03 {
+	background-position: -40px -100px;
+}
+
+.ss-icon-circle-fill-01 {
+	background-position: 0 -120px;
+}
+
+.ss-icon-circle-fill-02 {
+	background-position: -20px -120px;
+}
+
+.ss-icon-circle-fill-03 {
+	background-position: -40px -120px;
+}
+
+.ss-icon-circle-fill-04 {
+	background-position: -60px -120px;
+}
+
+.ss-icon-circle-fill-05 {
+	background-position: -80px -120px;
+}
+
+.ss-icon-four-fill-01 {
+	background-position: 0 -140px;
+}
+
+.ss-icon-four-fill-02 {
+	background-position: -20px -140px;
+}
+
+.ss-icon-four-fill-03 {
+	background-position: -40px -140px;
+}
+
+.ss-icon-four-fill-04 {
+	background-position: -60px -140px;
+}
+
+.ss-icon-four-fill-05 {
+	background-position: -80px -140px;
+}
+
+.ss-icon-column-fill-01 {
+	background-position: 0 -160px;
+}
+
+.ss-icon-column-fill-02 {
+	background-position: -20px -160px;
+}
+
+.ss-icon-column-fill-03 {
+	background-position: -40px -160px;
+}
+
+.ss-icon-column-fill-04 {
+	background-position: -60px -160px;
+}
+
+.ss-icon-column-fill-05 {
+	background-position: -80px -160px;
+}
+
+.ss-icon-round-01 {
+	background-position: 0 -180px;
+}
+
+.ss-icon-round-02 {
+	background-position: -20px -180px;
+}
+
+.ss-icon-round-03 {
+	background-position: -40px -180px;
+}
+
+.ss-icon-round-04 {
+	background-position: -60px -180px;
+}
+
+.ss-icon-star-fill-01 {
+	background-position: 0 -200px;
+}
+
+.ss-icon-star-fill-02 {
+	background-position: -20px -200px;
+}
+
+.ss-icon-star-fill-03 {
+	background-position: -40px -200px;
+}
+
+.ss-icon-flag2-01 {
+	background-position: 0 -220px;
+}
+
+.ss-icon-flag2-02 {
+	background-position: -20px -220px;
+}
+
+.ss-icon-flag2-03 {
+	background-position: -40px -220px;
+}
+
+.ss-icon-light-01 {
+	background-position: 0 -240px;
+}
+
+.ss-icon-light-02 {
+	background-position: -20px -240px;
+}
+
+.ss-icon-light-03 {
+	background-position: -40px -240px;
+}
+
+.ss-icon-compare-01 {
+	background-position: 0 -260px;
+}
+
+.ss-icon-compare-02 {
+	background-position: -20px -260px;
+}
+
+.ss-icon-compare-03 {
+	background-position: -40px -260px;
 }

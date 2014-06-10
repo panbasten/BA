@@ -15,7 +15,7 @@ public interface IRegionData extends IPivotReport {
 
 	public static final String PROP_NAME_DATA = "data";
 
-	public static final String PROP_NAME_RES = "_res";
+	public static final String PROP_NAME_REF = "_ref";
 
 	/**
 	 * 刷新数据

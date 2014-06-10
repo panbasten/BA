@@ -49,7 +49,6 @@ public class PictureContext implements IPictureContext {
 		if (name.equals(this.name)) {
 			return this;
 		}
-
 		return null;
 	}
 

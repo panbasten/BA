@@ -14,7 +14,9 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.pivot.model.context.IContext;
+import com.flywet.platform.bi.pivot.model.dataformat.IDataFormat;
 import com.flywet.platform.bi.pivot.model.factory.PivotContextFactory;
+import com.flywet.platform.bi.pivot.model.factory.PivotDataFormatFactory;
 import com.flywet.platform.bi.pivot.model.style.CellStyle;
 import com.tonbeller.wcf.controller.RequestContext;
 
@@ -38,6 +40,8 @@ public class PivotReport implements IPivotReport {
 	public static final String NODE_NAME_STYLE = "Style";
 	public static final String PROP_NAME_NAME = "name";
 	public static final String NODE_NAME_CONTEXT = "Context";
+
+	public static final String NODE_NAME_DATA_FORMAT = "DataFormat";
 
 	public static final String PROP_NAME_ATTRS = "attrs";
 
@@ -70,6 +74,9 @@ public class PivotReport implements IPivotReport {
 
 	// 上下文
 	private Map<String, IContext> contexts;
+
+	// 数据格式
+	private Map<String, IDataFormat> dataFormats;
 
 	private PivotReport() {
 
@@ -123,6 +130,17 @@ public class PivotReport implements IPivotReport {
 			}
 		}
 
+		// DataFormats
+		List<Node> dataFormatNodes = XMLHandler.getNodes(node,
+				NODE_NAME_DATA_FORMAT);
+		if (dataFormatNodes != null && dataFormatNodes.size() > 0) {
+			for (Node n : dataFormatNodes) {
+				IDataFormat df = PivotDataFormatFactory.resolver(n);
+				if (df != null)
+					pr.addDataFormat(df.getName(), df);
+			}
+		}
+
 		return pr;
 	}
 
@@ -143,6 +161,12 @@ public class PivotReport implements IPivotReport {
 		if (contexts != null && contexts.size() > 0) {
 			for (String ck : contexts.keySet()) {
 				contexts.get(ck).init(context);
+			}
+		}
+
+		if (dataFormats != null && dataFormats.size() > 0) {
+			for (String ck : dataFormats.keySet()) {
+				dataFormats.get(ck).init(context);
 			}
 		}
 	}
@@ -194,6 +218,15 @@ public class PivotReport implements IPivotReport {
 			jo.put(PROP_NAME_STYLE, stylesJo);
 		}
 
+		// DataFormats
+		if (dataFormats != null && dataFormats.size() > 0) {
+			JSONObject dfJo = new JSONObject();
+			for (String key : dataFormats.keySet()) {
+				dfJo.put(key, dataFormats.get(key).renderJo(context));
+			}
+			jo.put(NODE_NAME_DATA_FORMAT, dfJo);
+		}
+
 		if (attrs != null) {
 			jo.put(PROP_NAME_ATTRS, JSONUtils.convertToJSONObject(attrs));
 		}
@@ -229,6 +262,13 @@ public class PivotReport implements IPivotReport {
 		contexts.put(name, c);
 	}
 
+	public void addDataFormat(String name, IDataFormat df) {
+		if (dataFormats == null) {
+			dataFormats = new HashMap<String, IDataFormat>();
+		}
+		dataFormats.put(name, df);
+	}
+
 	@Override
 	public Object findByName(String name) throws BIException {
 		Object rtn;
@@ -236,6 +276,13 @@ public class PivotReport implements IPivotReport {
 		// Context(优先)
 		if (contexts != null && contexts.size() > 0) {
 			rtn = contexts.get(name);
+			if (rtn != null)
+				return rtn;
+		}
+
+		// DataFormat
+		if (dataFormats != null && dataFormats.size() > 0) {
+			rtn = dataFormats.get(name);
 			if (rtn != null)
 				return rtn;
 		}

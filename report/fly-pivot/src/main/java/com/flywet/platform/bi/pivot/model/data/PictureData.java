@@ -30,7 +30,7 @@ public class PictureData implements IRegionData, IPictureContext {
 
 	private byte[] data;
 
-	private String dataRes;
+	private String dataRef;
 
 	private Integer width;
 
@@ -61,8 +61,8 @@ public class PictureData implements IRegionData, IPictureContext {
 
 			Node dataNode = XMLHandler.getSubNode(node, PROP_NAME_DATA);
 			if (dataNode != null) {
-				pd.dataRes = Const.NVL(
-						XMLHandler.getTagAttribute(dataNode, PROP_NAME_RES),
+				pd.dataRef = Const.NVL(
+						XMLHandler.getTagAttribute(dataNode, PROP_NAME_REF),
 						null);
 
 				String dataStr = XMLHandler.getNodeValue(dataNode);
@@ -101,8 +101,8 @@ public class PictureData implements IRegionData, IPictureContext {
 				jo.put(PROP_NAME_HEIGHT, height);
 			}
 
-			if (dataRes != null) {
-				jo.put(PROP_NAME_RES, dataRes);
+			if (dataRef != null) {
+				jo.put(PROP_NAME_REF, dataRef);
 			}
 
 			return jo;
@@ -145,12 +145,12 @@ public class PictureData implements IRegionData, IPictureContext {
 		this.data = data;
 	}
 
-	public String getDataRes() {
-		return dataRes;
+	public String getDataRef() {
+		return dataRef;
 	}
 
-	public void setDataRes(String dataRes) {
-		this.dataRes = dataRes;
+	public void setDataRes(String dataRef) {
+		this.dataRef = dataRef;
 	}
 
 	public PicturePositionEnum getPos() {

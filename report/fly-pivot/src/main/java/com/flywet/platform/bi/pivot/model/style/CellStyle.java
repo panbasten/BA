@@ -32,9 +32,9 @@ public class CellStyle implements ICacheable, IPivotReport {
 
 	// 背景样式
 	private final CellBackgroundStyle bg;
-
-	// 数据格式化对象
-	// private CellStyle dataFormat;
+	
+	// 数据格式引用
+//	private final String dataFormatRefs;
 
 	private final String _uuid;
 
