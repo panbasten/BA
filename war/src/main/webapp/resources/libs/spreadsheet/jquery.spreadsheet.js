@@ -37,7 +37,7 @@
 	}
 	
 	// 获得单元格的尺寸
-	function _getCellSize(sheetOpts,cidx,ridx){
+	function _getCellSize(opts,sheetOpts,cidx,ridx){
 		var m,mc;
 		var tipSize = (sheetOpts.showGrid)?1:0;
 		// 判断开始节点是否是合并节点
@@ -53,15 +53,15 @@
 		}
 		if(mc){
 			return {
-				w: _getColsWidth(sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1))-tipSize,
-				h: _getRowsHeight(sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1))-tipSize,
+				w: _getColsWidth(opts,sheetOpts,mc.cidx,(mc.cidx+mc.colspan-1))-tipSize,
+				h: _getRowsHeight(opts,sheetOpts,mc.ridx,(mc.ridx+mc.rowspan-1))-tipSize,
 				cidx: mc.cidx,
 				ridx: mc.ridx
 			};
 		}else{
 			return {
-				w: _getColWidth(sheetOpts,cidx)-tipSize,
-				h: _getRowHeight(sheetOpts,ridx),
+				w: _getColWidth(opts,sheetOpts,cidx)-tipSize,
+				h: _getRowHeight(opts,sheetOpts,ridx),
 				cidx: cidx,
 				ridx: ridx
 			};
@@ -70,7 +70,7 @@
 	}
 	
 	// 获得列宽
-	function _getColWidth(sheetOpts,colIdx){
+	function _getColWidth(opts,sheetOpts,colIdx){
 		if(sheetOpts.colsWidth["c_"+colIdx] != undefined){
 			return sheetOpts.colsWidth["c_"+colIdx];
 		}else{
@@ -79,21 +79,21 @@
 	}
 	
 	// 设置列宽
-	function _setColWidth(sheetOpts,colIdx,colW){
+	function _setColWidth(opts,sheetOpts,colIdx,colW){
 		sheetOpts.colsWidth["c_"+colIdx] = colW;
 	}
 	
 	// 获得列宽累计值
-	function _getColsWidth(sheetOpts,sColIdx,eColIdx){
+	function _getColsWidth(opts,sheetOpts,sColIdx,eColIdx){
 		var w = 0;
 		for(var i=sColIdx;i<=eColIdx;i++){
-			w = w + _getColWidth(sheetOpts,i);
+			w = w + _getColWidth(opts,sheetOpts,i);
 		}
 		return w;
 	}
 	
 	// 获得行高
-	function _getRowHeight(sheetOpts,rowIdx){
+	function _getRowHeight(opts,sheetOpts,rowIdx){
 		if(sheetOpts.rowsHeight["r_"+rowIdx] != undefined){
 			return sheetOpts.rowsHeight["r_"+rowIdx];
 		}else{
@@ -102,21 +102,21 @@
 	}
 	
 	// 设置行高
-	function _setRowHeight(sheetOpts,rowIdx,rowH){
+	function _setRowHeight(opts,sheetOpts,rowIdx,rowH){
 		sheetOpts.rowsHeight["r_"+rowIdx] = rowH;
 	}
 	
 	// 获得行高累计值
-	function _getRowsHeight(sheetOpts,sRowIdx,eRowIdx){
+	function _getRowsHeight(opts,sheetOpts,sRowIdx,eRowIdx){
 		var h = 0;
 		for(var i=sRowIdx;i<=eRowIdx;i++){
-			h = h + _getRowHeight(sheetOpts,i);
+			h = h + _getRowHeight(opts,sheetOpts,i);
 		}
 		return h;
 	}
 	
 	// 获得Cell的真实高度
-	function _getCellRealHeight(sheetOpts,cell){
+	function _getCellRealHeight(opts,sheetOpts,cell){
 		var valDiv = $(cell).find(".ui-spreadsheet-gridCell-val");
 		var maxHeight = valDiv.css("max-height");
 		valDiv.css("max-height","none");
@@ -126,7 +126,7 @@
 	}
 	
 	// 获得最大有效行编号
-	function _getMaxCellIndex(sheetOpts){
+	function _getMaxCellIndex(opts,sheetOpts){
 		var rowIdx = 0, colIdx = 0, r, rr;
 		// 扫描区域
 		if(sheetOpts.region){
@@ -425,7 +425,7 @@
 		function createColHdrs(cls,idPrefix,show){
 			var left = 0;
 			for(var i=0;i<sheetOpts.colNum;i++){
-				width = _getColWidth(sheetOpts,i);
+				width = _getColWidth(opts,sheetOpts,i);
 				col = _div(cls,s10t26(i+1)).appendTo(gridColHdrsIC);
 				if(!show){
 					col.hide();
@@ -459,7 +459,7 @@
 		function createRowHdrs(cls,idPrefix,show){
 			var top = 0;
 			for(var i=0;i<sheetOpts.rowNum;i++){
-				height = _getRowHeight(sheetOpts,i);
+				height = _getRowHeight(opts,sheetOpts,i);
 				row = _div(cls,(i+1)).appendTo(gridRowHdrsIC);
 				if(!show){
 					row.hide();
@@ -491,7 +491,7 @@
 		// 分隔线
 		var col,width,left = 0;
 		for(var i=0;i<sheetOpts.colNum;i++){
-			width = _getColWidth(sheetOpts,i);
+			width = _getColWidth(opts,sheetOpts,i);
 			col = _div("ui-spreadsheet-gridColSep").appendTo(paneIC);
 			col.css({
 				left: left+"px"
@@ -502,7 +502,7 @@
 		// 行记录
 		var row,cell,height,top=0;
 		for(var i=0;i<sheetOpts.rowNum;i++){
-			height = _getRowHeight(sheetOpts,i);
+			height = _getRowHeight(opts,sheetOpts,i);
 			row = _div("ui-spreadsheet-gridRow").appendTo(paneIC);
 			row.css({
 				top: top+"px",
@@ -826,42 +826,42 @@
 				}
 			}
 			
-			var scss = _getCellCss(sheetOpts,startPos),
-			ecss = _getCellCss(sheetOpts,endPos);
+			var scss = _getCellCss(opts,sheetOpts,startPos),
+			ecss = _getCellCss(opts,sheetOpts,endPos);
 			
 			fv1.css({
 				left: (scss.left-1)+"px"
 				,top: (scss.top-1)+"px"
 				,width: "3px"
-				,height: (_getRowsHeight(sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
+				,height: (_getRowsHeight(opts,sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
 			
 			var fv2Width = 3;
 			if(inset && d){
-				fv2Width = fv2Width + _getColsWidth(sheetOpts,(endPos.cidx+1),epos_n.cidx);
+				fv2Width = fv2Width + _getColsWidth(opts,sheetOpts,(endPos.cidx+1),epos_n.cidx);
 			}
 			fv2.css({
-				left: (ecss.left+_getColWidth(sheetOpts,endPos.cidx)-1)+"px"
+				left: (ecss.left+_getColWidth(opts,sheetOpts,endPos.cidx)-1)+"px"
 				,top: (scss.top-1)+"px"
 				,width: fv2Width+"px"
-				,height: (_getRowsHeight(sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
+				,height: (_getRowsHeight(opts,sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
 			
 			fh1.css({
 				left: (scss.left-1)+"px"
 				,top: (scss.top-1)+"px"
-				,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx))+"px"
+				,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx))+"px"
 				,height: "3px"
 			}).show();
 			
 			var fh2Height = 3;
 			if(inset && !d){
-				fh2Height = fh2Height + _getRowsHeight(sheetOpts,(endPos.ridx+1),epos_n.ridx);
+				fh2Height = fh2Height + _getRowsHeight(opts,sheetOpts,(endPos.ridx+1),epos_n.ridx);
 			}
 			fh2.css({
 				left: (scss.left-1)+"px"
-				,top: (ecss.top+_getRowHeight(sheetOpts,endPos.ridx)-1)+"px"
-				,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx)+3)+"px"
+				,top: (ecss.top+_getRowHeight(opts,sheetOpts,endPos.ridx)-1)+"px"
+				,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx)+3)+"px"
 				,height: fh2Height+"px"
 			}).show();
 			
@@ -945,65 +945,65 @@
 				}
 			}
 			
-			var scss = _getCellCss(sheetOpts,startPos),
-				ecss = _getCellCss(sheetOpts,endPos);
+			var scss = _getCellCss(opts,sheetOpts,startPos),
+				ecss = _getCellCss(opts,sheetOpts,endPos);
 				
 			bv1.css({
 				left: (scss.left-2)+"px"
 				,top: (scss.top-1)+"px"
 				,width: "5px"
-				,height: (_getRowsHeight(sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
+				,height: (_getRowsHeight(opts,sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
 			}).show();
 			
 			if(type == "col"){
 				bv2.css({
-					left: (ecss.left+_getColWidth(sheetOpts,endPos.cidx)-2)+"px"
+					left: (ecss.left+_getColWidth(opts,sheetOpts,endPos.cidx)-2)+"px"
 					,top: (scss.top-2)+"px"
 					,width: "5px"
-					,height: (_getRowsHeight(sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
+					,height: (_getRowsHeight(opts,sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
 				}).show();
 			}else{
 				bv2.css({
-					left: (ecss.left+_getColWidth(sheetOpts,endPos.cidx)-2)+"px"
+					left: (ecss.left+_getColWidth(opts,sheetOpts,endPos.cidx)-2)+"px"
 					,top: (scss.top-1)+"px"
 					,width: "5px"
-					,height: (_getRowsHeight(sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
+					,height: (_getRowsHeight(opts,sheetOpts,startPos.ridx,endPos.ridx)+2)+"px"
 				}).show();
 			}
 			
 			bh1.css({
 				left: (scss.left-1)+"px"
 				,top: (scss.top-2)+"px"
-				,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx)+2)+"px"
+				,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx)+2)+"px"
 				,height: "5px"
 			}).show();
 			
 			if(type == "row"){
 				bh2.css({
 					left: (scss.left-2)+"px"
-					,top: (ecss.top+_getRowHeight(sheetOpts,endPos.ridx)-2)+"px"
-					,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx)+2)+"px"
+					,top: (ecss.top+_getRowHeight(opts,sheetOpts,endPos.ridx)-2)+"px"
+					,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx)+2)+"px"
 					,height: "5px"
 				}).show();
 			}else if(type == "col"){
 				bh2.css({
 					left: (scss.left-1)+"px"
-					,top: (ecss.top+_getRowHeight(sheetOpts,endPos.ridx)-2)+"px"
-					,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx)+2)+"px"
+					,top: (ecss.top+_getRowHeight(opts,sheetOpts,endPos.ridx)-2)+"px"
+					,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx)+2)+"px"
 					,height: "5px"
 				}).show();
 			}else{
 				bh2.css({
 					left: (scss.left-1)+"px"
-					,top: (ecss.top+_getRowHeight(sheetOpts,endPos.ridx)-2)+"px"
-					,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx)+1)+"px"
+					,top: (ecss.top+_getRowHeight(opts,sheetOpts,endPos.ridx)-2)+"px"
+					,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx)+1)+"px"
 					,height: "5px"
 				}).show();
 			}
 			
 			// 起始点标记
-			var acSize = _getCellSize(sheetOpts,spos.cidx,spos.ridx),
-				scss_o = _getCellCss(sheetOpts,{
+			var acSize = _getCellSize(opts,sheetOpts,spos.cidx,spos.ridx),
+				scss_o = _getCellCss(opts,sheetOpts,{
 					ridx: acSize.ridx,
 					cidx: acSize.cidx
 				});
@@ -1017,25 +1017,25 @@
 			if(type=="row"){
 				re.css({
 					left: "-1px"
-					,top: (ecss.top+_getRowHeight(sheetOpts,endPos.ridx)-3)+"px"
+					,top: (ecss.top+_getRowHeight(opts,sheetOpts,endPos.ridx)-3)+"px"
 				}).show();
 			}else if(type=="col"){
 				re.css({
-					left: (ecss.left+_getColWidth(sheetOpts,endPos.cidx)-3)+"px"
+					left: (ecss.left+_getColWidth(opts,sheetOpts,endPos.cidx)-3)+"px"
 					,top: "-1px"
 				}).show();
 			}else{
 				re.css({
-					left: (ecss.left+_getColWidth(sheetOpts,endPos.cidx)-3)+"px"
-					,top: (ecss.top+_getRowHeight(sheetOpts,endPos.ridx)-3)+"px"
+					left: (ecss.left+_getColWidth(opts,sheetOpts,endPos.cidx)-3)+"px"
+					,top: (ecss.top+_getRowHeight(opts,sheetOpts,endPos.ridx)-3)+"px"
 				}).show();
 			}
 			
 			rbg.css({
 				left: (scss.left+3)+"px"
 				,top: (scss.top+3)+"px"
-				,width: (_getColsWidth(sheetOpts,startPos.cidx,endPos.cidx)-5)+"px"
-				,height: (_getRowsHeight(sheetOpts,startPos.ridx,endPos.ridx)-5)+"px"
+				,width: (_getColsWidth(opts,sheetOpts,startPos.cidx,endPos.cidx)-5)+"px"
+				,height: (_getRowsHeight(opts,sheetOpts,startPos.ridx,endPos.ridx)-5)+"px"
 			}).show();
 			
 			// 行头
@@ -1079,7 +1079,7 @@
 		var sheetOpts = _getCurrentSheetOpts(opts);
 		var ty = pos.y, ridx = 0;
 		while(ty>0){
-			ty = ty - _getRowHeight(sheetOpts, ridx);
+			ty = ty - _getRowHeight(opts,sheetOpts, ridx);
 			ridx++;
 		}
 		ridx--;
@@ -1088,7 +1088,7 @@
 		
 		return {
 			ridx : ridx
-			,neer : (ridx!=0) && (Math.abs(ty)<=2 || (_getRowHeight(sheetOpts, ridx)+ty)<=2)
+			,neer : (ridx!=0) && (Math.abs(ty)<=2 || (_getRowHeight(opts,sheetOpts, ridx)+ty)<=2)
 		};
 	}
 	
@@ -1098,7 +1098,7 @@
 		var sheetOpts = _getCurrentSheetOpts(opts);
 		var tx = pos.x, cidx = 0;
 		while(tx>0){
-			tx = tx - _getColWidth(sheetOpts, cidx);
+			tx = tx - _getColWidth(opts,sheetOpts, cidx);
 			cidx++;
 		}
 		cidx--;
@@ -1107,7 +1107,7 @@
 		
 		return {
 			cidx : cidx
-			,neer : (cidx!=0) && (Math.abs(tx)<=2 || (_getColWidth(sheetOpts, cidx)+tx)<=2)
+			,neer : (cidx!=0) && (Math.abs(tx)<=2 || (_getColWidth(opts,sheetOpts, cidx)+tx)<=2)
 		};
 	}
 	
@@ -1117,11 +1117,11 @@
 		var sheetOpts = _getCurrentSheetOpts(opts);
 		var tx = pos.x, ty = pos.y, ridx = 0, cidx = 0;
 		while(tx>0){
-			tx = tx - _getColWidth(sheetOpts, cidx);
+			tx = tx - _getColWidth(opts,sheetOpts, cidx);
 			cidx++;
 		}
 		while(ty>0){
-			ty = ty - _getRowHeight(sheetOpts, ridx);
+			ty = ty - _getRowHeight(opts,sheetOpts, ridx);
 			ridx++;
 		}
 		
@@ -1132,7 +1132,7 @@
 	}
 	
 	// 根据Cell坐标获得或者创建Cell对象
-	function _getOrCreateCellByPosition(sheetOpts,sheet,pos){
+	function _getOrCreateCellByPosition(opts,sheetOpts,sheet,pos){
 		var row = sheet.find("#r_"+pos.ridx);
 		var cell = $(row).find("#r_"+pos.ridx+"_c_"+pos.cidx);
 		if(cell && cell.length>0){
@@ -1157,10 +1157,10 @@
 	
 	
 	// 通过Cell坐标获得Cell
-	function _getCellCss(sheetOpts,pos){
+	function _getCellCss(opts,sheetOpts,pos){
 		return {
-			top : _getRowsHeight(sheetOpts,0,(pos.ridx-1))
-			,left : _getColsWidth(sheetOpts,0,(pos.cidx-1))
+			top : _getRowsHeight(opts,sheetOpts,0,(pos.ridx-1))
+			,left : _getColsWidth(opts,sheetOpts,0,(pos.cidx-1))
 		};
 	}
 	
@@ -1260,7 +1260,7 @@
 	}
 	
 	// 单元格格式操作：设置单元格数据和样式
-	function _setCellDataAndStyle(sheetOpts,sheet,cell,style,val){
+	function _setCellDataAndStyle(opts,sheetOpts,sheet,cell,style,val){
 		cell.data("style",style);
 		
 		if(style.style){
@@ -1268,36 +1268,97 @@
 		}
 		
 		// 合并单元格，包括边框
-		_mergeCell(sheetOpts,sheet,cell,style);
+		_mergeCell(opts,sheetOpts,sheet,cell,style);
 		
 		// 设置单元格的内容
-		_setCellValue(sheetOpts,sheet,cell,val);
+		_setCellValue(opts,sheetOpts,sheet,cell,style,val);
 		
 		// 设置字体
-		_setCellFont(sheetOpts,sheet,cell,style);
+		_setCellFont(opts,sheetOpts,sheet,cell,style);
 		
 		// 设置对齐方式
-		_setCellAlign(sheetOpts,sheet,cell,style);
+		_setCellAlign(opts,sheetOpts,sheet,cell,style);
 	}
 	
 	// 单元格格式操作：设置单元格的内容
-	function _setCellValue(sheetOpts,sheet,cell,val){
+	function _setCellValue(opts,sheetOpts,sheet,cell,style,val){
+		var h = "";
+		// 判断是否有icon的数据格式
+		if(style.dataFormatRefs && opts.DataFormat){
+			// 对于单元格内容，只处理icon类型的
+			var refs = style.dataFormatRefs.split(","),ref;
+			for(var i=0;i<refs.length;i++){
+				ref = opts.DataFormat[refs[i]];
+				if(ref && ref.type=="icon"){
+					h = _getCellValueForIcon(ref);
+					break;
+				}
+			}
+		}
+		
+		if(h == ""){
+			h = _getCellShowValue();
+		}
+		
 		var v = cell.find(".ui-spreadsheet-gridCell-val");
 		if(v && v.length > 0){
-			v.html(val);
+			v.html(h);
 		}else{
 			v = _div("ui-spreadsheet-gridCell-val").appendTo(cell);
 			v.css({
 				width : (cell.width()-2) + "px"
 				,"max-height" : cell.height() + "px"
 			});
-			v.html(val);
+			v.html(h);
+		}
+		
+		// 获得icon类型数据格式的内容
+		function _getCellValueForIcon(ref){
+			var valN = parseFloat(val);
+			if(isNaN(valN)){
+				return "";
+			}
+			
+			var icon,rtn;
+			var value = valN;
+			var iconRef = $.extend({showText:true},ref);
+			for(var i=0;i<ref.conditions.length;i++){
+				if(eval(ref.conditions[i].condtion)){
+					icon = ref.conditions[i].icon;
+					break;
+				}
+			}
+			
+			if(icon){
+				var realVal = _getCellShowValue();
+				return "<div class='ss-icon ss-icon-"+icon+"' title='"+realVal+"'></div>"+realVal;
+			}
+			return "";
+		}
+		
+		function _getCellShowValue(){
+			var rtn;
+			
+			// 处理值格式
+			if(style.valueFormat){
+				rtn = $.fn.spreadsheet.valueFormatFunc(opts,sheetOpts,style,val,style.valueFormat);
+			}
+			
+			if(style.valuePrefix){
+				rtn = style.valuePrefix + rtn;
+			}
+			
+			if(style.valueSubfix){
+				rtn = rtn + style.valueSubfix;
+			}
+			
+			return rtn || val;
 		}
 		
 	}
 	
 	// 单元格格式操作：设置字体
-	function _setCellFont(sheetOpts,sheet,cell,style){
+	function _setCellFont(opts,sheetOpts,sheet,cell,style){
 		var v = cell.find(".ui-spreadsheet-gridCell-val");
 		if(style.fontFamily){
 			v.css("font-family",style.fontFamily);
@@ -1317,7 +1378,7 @@
 	}
 	
 	// 单元格格式操作：设置对齐方式
-	function _setCellAlign(sheetOpts,sheet,cell,style){
+	function _setCellAlign(opts,sheetOpts,sheet,cell,style){
 		var v = cell.find(".ui-spreadsheet-gridCell-val"),
 			valign = cell.find(".ui-spreadsheet-gridCell-valign");
 		// 水平
@@ -1368,14 +1429,14 @@
 		
 	}
 	
-	function _setBackground(sheetOpts,sheet,cell,style){
+	function _setBackground(opts,sheetOpts,sheet,cell,style){
 		if(style.backgroundColor){
 			cell.css("background-color",style.backgroundColor);
 		}
 	}
 	
 	// 单元格格式操作：设置单元格的边框
-	function _setCellBorder(sheetOpts,sheet,cell,style){
+	function _setCellBorder(opts,sheetOpts,sheet,cell,style){
 			
 		var sp = cell.data("position"),
 			merge = cell.data("merge");
@@ -1394,7 +1455,7 @@
 		cell.data("border",border);
 		
 		var borderStyle,lineStyle,
-			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + 1,
+			left = _getColsWidth(opts,sheetOpts,0,(sp.cidx-1)) + 1,
 			top = 0;
 		
 		// 处理左边框
@@ -1474,7 +1535,7 @@
 			}
 		}
 		
-		var cSize = _getCellSize(sheetOpts,sp.cidx,sp.ridx);
+		var cSize = _getCellSize(opts,sheetOpts,sp.cidx,sp.ridx);
 		
 		cell.css({
 			left: left+"px"
@@ -1488,7 +1549,7 @@
 				temp_cell,
 				temp_idx = merge.ridx;
 			while(temp_rowspan>0){
-				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+				temp_cell = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{
 					cidx: (merge.cidx + merge.colspan)
 					,ridx : temp_idx
 				});
@@ -1503,11 +1564,11 @@
 				temp_cell,
 				temp_idx = merge.ridx;
 			while(temp_rowspan>0){
-				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+				temp_cell = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{
 					cidx: (merge.cidx + merge.colspan)
 					,ridx : temp_idx
 				});
-				_setCellBorder(sheetOpts,sheet,temp_cell,style);
+				_setCellBorder(opts,sheetOpts,sheet,temp_cell,style);
 				
 				temp_idx = temp_idx + temp_cell.data("merge").rowspan;
 				temp_rowspan = temp_rowspan - temp_cell.data("merge").rowspan;
@@ -1519,7 +1580,7 @@
 				temp_cell,
 				temp_idx = merge.cidx;
 			while(temp_colspan>0){
-				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+				temp_cell = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{
 					cidx: temp_idx
 					,ridx : (merge.ridx + merge.rowspan)
 				});
@@ -1534,11 +1595,11 @@
 				temp_cell,
 				temp_idx = merge.cidx;
 			while(temp_colspan>0){
-				temp_cell = _getOrCreateCellByPosition(sheetOpts,sheet,{
+				temp_cell = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{
 					cidx: temp_idx
 					,ridx : (merge.ridx + merge.rowspan)
 				});
-				_setCellBorder(sheetOpts,sheet,temp_cell,style);
+				_setCellBorder(opts,sheetOpts,sheet,temp_cell,style);
 				
 				temp_idx = temp_idx + temp_cell.data("merge").colspan;
 				temp_colspan = temp_colspan - temp_cell.data("merge").colspan;
@@ -1547,7 +1608,7 @@
 	}
 	
 	// 合并单元格
-	function _mergeCell(sheetOpts,sheet,cell,style){
+	function _mergeCell(opts,sheetOpts,sheet,cell,style){
 		var sp = cell.data("position"),
 			id = "r_"+sp.ridx+"_c_"+sp.cidx,
 			mergeOpts = {
@@ -1561,8 +1622,8 @@
 		
 		if(mergeOpts.rowspan==1 && mergeOpts.colspan==1 && !sheetOpts.merge[id]){
 		}else{
-			var rowH = _getRowsHeight(sheetOpts,sp.ridx,(sp.ridx+mergeOpts.rowspan-1));
-			var colW = _getColsWidth(sheetOpts,sp.cidx,(sp.cidx+mergeOpts.colspan-1));
+			var rowH = _getRowsHeight(opts,sheetOpts,sp.ridx,(sp.ridx+mergeOpts.rowspan-1));
+			var colW = _getColsWidth(opts,sheetOpts,sp.cidx,(sp.cidx+mergeOpts.colspan-1));
 			
 			// 如果rowspan和colspan都为1，从merge中删除
 			if(mergeOpts.rowspan==1 && mergeOpts.colspan==1){
@@ -1586,8 +1647,8 @@
 		}
 		
 		// 设置边框
-		_setCellBorder(sheetOpts,sheet,cell,style);
-		_setBackground(sheetOpts,sheet,cell,style);
+		_setCellBorder(opts,sheetOpts,sheet,cell,style);
+		_setBackground(opts,sheetOpts,sheet,cell,style);
 		
 	}
 	
@@ -1772,7 +1833,7 @@
 		// 计算最大有效区域
 		var maxCellIdx;
 		if(opts.sheet){
-			maxCellIdx = _getMaxCellIndex(opts.sheet[0]);
+			maxCellIdx = _getMaxCellIndex(opts,opts.sheet[0]);
 		}
 		
 		// 自定义尺寸，或者使用指定尺寸
@@ -1781,7 +1842,7 @@
 		} else if (opts.width == "auto"){
 			if(maxCellIdx){
 				// 根据第一个sheet的内容进行判定
-				opts.workspaceWidth = _getColsWidth(opts.sheet[0],0,maxCellIdx.colIdx);
+				opts.workspaceWidth = _getColsWidth(opts,opts.sheet[0],0,maxCellIdx.colIdx);
 			}else{
 				opts.workspaceWidth = dim.width;
 			}
@@ -1794,7 +1855,7 @@
 		} else if (opts.height == "auto"){
 			if(maxCellIdx){
 				// 根据第一个sheet的内容进行判定
-				opts.workspaceHeight = _getRowsHeight(opts.sheet[0],0,maxCellIdx.rowIdx+2);
+				opts.workspaceHeight = _getRowsHeight(opts,opts.sheet[0],0,maxCellIdx.rowIdx+2);
 			}else{
 				opts.workspaceHeight = dim.height;
 			}
@@ -1839,9 +1900,9 @@
 		if(_getSheetNum(opts)==1){
 			var sheetOpts = opts.sheet[0];
 			// 判断是否显示滚动条 ,根据高度判断
-			var allColsWidth = _getColsWidth(sheetOpts,0,(sheetOpts.colNum-1)),
+			var allColsWidth = _getColsWidth(opts,sheetOpts,0,(sheetOpts.colNum-1)),
 				paneWidth = _getPaneWidth(opts,sheetOpts),
-				allRowsHeight = _getRowsHeight(sheetOpts,0,(sheetOpts.rowNum-1)),
+				allRowsHeight = _getRowsHeight(opts,sheetOpts,0,(sheetOpts.rowNum-1)),
 				paneHeight = _getPaneHeight(opts,sheetOpts);
 			if(allColsWidth > paneWidth){
 				opts.showHScroll = true;
@@ -1935,7 +1996,7 @@
 		
 		var vscrollH = (h-opts.hscrollHeight*2),
 			paneH = _getPaneHeight(opts,sheetOpts),
-			allRowH = _getRowsHeight(sheetOpts,0,(sheetOpts.rowNum-1));
+			allRowH = _getRowsHeight(opts,sheetOpts,0,(sheetOpts.rowNum-1));
 		
 		opts.vscrollH = vscrollH;// 滚动条去头尾有效高度
 		opts.paneH = paneH;// 显示主区域有效高度
@@ -2000,7 +2061,7 @@
 		
 		var hscrollW = (w-opts.vscrollWidth*2),
 			paneW = _getPaneWidth(opts,sheetOpts),
-			allColumnW = _getColsWidth(sheetOpts,0,(sheetOpts.colNum-1));
+			allColumnW = _getColsWidth(opts,sheetOpts,0,(sheetOpts.colNum-1));
 		
 		opts.hscrollW = hscrollW;// 滚动条去头尾有效宽度
 		opts.paneW = paneW;// 显示主区域有效宽度
@@ -2071,12 +2132,12 @@
 				cell = cells[cn];
 				if($.data(cells[cn], "expand")){
 					merge = $.extend({colspan:1,rowspan:1},$.data(cell, "position"),$.data(cell, "merge"));
-					realH = _getCellRealHeight(sheetOpts,cells[cn]);
-					rowsH = _getRowsHeight(sheetOpts,merge.ridx,(merge.ridx+merge.rowspan-1));
+					realH = _getCellRealHeight(opts,sheetOpts,cells[cn]);
+					rowsH = _getRowsHeight(opts,sheetOpts,merge.ridx,(merge.ridx+merge.rowspan-1));
 					diff = realH - rowsH;
 					if(diff>0){
-						rowH = _getRowHeight(sheetOpts,merge.ridx)+diff;
-						_setRowHeight(sheetOpts,merge.ridx,rowH);
+						rowH = _getRowHeight(opts,sheetOpts,merge.ridx)+diff;
+						_setRowHeight(opts,sheetOpts,merge.ridx,rowH);
 						rerenderFlag = true;
 					}
 				}
@@ -2463,10 +2524,10 @@
 			ep = region.endPosition || region.startPosition,
 			margin = region.margin || 0;
 			
-		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx) - margin*2,
-			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx) - margin*2,
-			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + margin,
-			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
+		var rowH = _getRowsHeight(opts,sheetOpts,sp.ridx,ep.ridx) - margin*2,
+			colW = _getColsWidth(opts,sheetOpts,sp.cidx,ep.cidx) - margin*2,
+			left = _getColsWidth(opts,sheetOpts,0,(sp.cidx-1)) + margin,
+			top = _getRowsHeight(opts,sheetOpts,0,(sp.ridx-1)) + margin;
 		
 		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
 		var chartDiv = $("<div class='ui-spreadsheet-chartRegion'></div>").appendTo(paneIC);
@@ -2502,10 +2563,10 @@
 			ep = region.endPosition || region.startPosition,
 			margin = region.margin || 0;
 			
-		var rowH = _getRowsHeight(sheetOpts,sp.ridx,ep.ridx) - margin*2,
-			colW = _getColsWidth(sheetOpts,sp.cidx,ep.cidx) - margin*2,
-			left = _getColsWidth(sheetOpts,0,(sp.cidx-1)) + margin,
-			top = _getRowsHeight(sheetOpts,0,(sp.ridx-1)) + margin;
+		var rowH = _getRowsHeight(opts,sheetOpts,sp.ridx,ep.ridx) - margin*2,
+			colW = _getColsWidth(opts,sheetOpts,sp.cidx,ep.cidx) - margin*2,
+			left = _getColsWidth(opts,sheetOpts,0,(sp.cidx-1)) + margin,
+			top = _getRowsHeight(opts,sheetOpts,0,(sp.ridx-1)) + margin;
 		
 		var paneIC = sheetOpts.pane.find(".ui-spreadsheet-paneIC");
 		var picDiv = $("<div class='ui-spreadsheet-picRegion'></div>").appendTo(paneIC);
@@ -2650,10 +2711,10 @@
 					cn = 0;
 					for(var j=0;j<r.length;j++){
 						cellOpts = checkStylesByTag(opts,sheetOpts,r[j]);
-						cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+						cellObj = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
 						
 						var val = cellOpts.value;
-						_setCellDataAndStyle(sheetOpts,sheet,cellObj,cellOpts,val);
+						_setCellDataAndStyle(opts,sheetOpts,sheet,cellObj,cellOpts,val);
 						
 						cn = cn + parseInt(cellOpts.colspan||1);
 					}
@@ -2686,7 +2747,7 @@
 					cn = 0;
 					for(var j=0;j<r.length;j++){
 						cellOpts = checkStylesByTag(opts,sheetOpts,r[j]);
-						cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+						cellObj = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
 						
 						// 对于特点区域特殊处理
 						if(cellOpts["_TAG"] == "corner"){
@@ -2708,7 +2769,7 @@
 					cn = 0;
 					for(var j=0;j<r.length;j++){
 						cellOpts = checkStylesByTag(opts,sheetOpts,r[j]);
-						cellObj = _getOrCreateCellByPosition(sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
+						cellObj = _getOrCreateCellByPosition(opts,sheetOpts,sheet,{cidx:cidx+cn,ridx:ridx});
 						
 						if(cellOpts["_TAG"] == "row-heading"){
 							rowHeading(cellOpts,cellObj);
@@ -2724,17 +2785,17 @@
 			
 			// corner
 			function corner(cellOpts,cell){
-				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,"");
+				_setCellDataAndStyle(opts,sheetOpts,sheet,cell,cellOpts,"");
 			}
 			// heading-heading
 			function headingHeading(cellOpts,cell){
 				var val = cellOpts.caption.caption;
-				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+				_setCellDataAndStyle(opts,sheetOpts,sheet,cell,cellOpts,val);
 			}
 			// column-heading
 			function columnHeading(cellOpts,cell){
 				var val = cellOpts.caption.caption;
-				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+				_setCellDataAndStyle(opts,sheetOpts,sheet,cell,cellOpts,val);
 			}
 			// row-heading
 			function rowHeading(cellOpts,cell){
@@ -2743,7 +2804,7 @@
 					val = "<div id='" + cellOpts.drillExpand.id 
 						+ "' class='ss-pivot-btn ss-icon-"+cellOpts.drillExpand.img+"' title='展开'></div>"+val;
 				}
-				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+				_setCellDataAndStyle(opts,sheetOpts,sheet,cell,cellOpts,val);
 				
 				// 事件
 				if(cellOpts.drillExpand){
@@ -2758,9 +2819,24 @@
 			// cell
 			function cell(cellOpts,cell){
 				var val = cellOpts.value;
-				_setCellDataAndStyle(sheetOpts,sheet,cell,cellOpts,val);
+				_setCellDataAndStyle(opts,sheetOpts,sheet,cell,cellOpts,val);
 			}
 			
+		}
+	};
+	
+	$.fn.spreadsheet.valueFormatFunc=function(opts,sheetOpts,cellOpts,val,format){
+		var value = val;
+		return eval(format);
+		
+		// 转换成百分数
+		function toPercent(v){
+			var valN = parseFloat(v);
+			if(isNaN(valN)){
+				return v;
+			}
+			
+			return (valN*100) + "%";
 		}
 	};
 		

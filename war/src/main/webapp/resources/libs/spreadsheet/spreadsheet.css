@@ -970,6 +970,7 @@
 .ss-icon {
 	width: 16px;
 	height: 16px;
+	float: left;
 	background-image: url("images/ss/dataformat/icons.png");
 }
 

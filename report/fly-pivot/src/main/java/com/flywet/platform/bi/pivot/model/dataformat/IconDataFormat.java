@@ -21,6 +21,8 @@ public class IconDataFormat implements IDataFormat {
 
 	private String name;
 
+	private Boolean showText;
+
 	private List<IconCondition> conditions;
 
 	public static IconDataFormat instance(Node node) throws BIException {
@@ -29,6 +31,9 @@ public class IconDataFormat implements IDataFormat {
 
 			idf.name = Const
 					.NVL(XMLHandler.getTagAttribute(node, "name"), null);
+
+			idf.showText = Utils.toBoolean(
+					XMLHandler.getTagAttribute(node, "showText"), null);
 
 			List<Node> conditionNodes = XMLHandler.getNodes(node, "condition");
 			if (conditionNodes != null && conditionNodes.size() > 0) {
@@ -65,6 +70,10 @@ public class IconDataFormat implements IDataFormat {
 		JSONObject jo = new JSONObject();
 		jo.put("type", DATA_FORMAT_TYPE);
 		jo.put("name", getName());
+
+		if (showText != null) {
+			jo.put("showText", showText);
+		}
 
 		if (conditions != null) {
 			JSONArray ja = new JSONArray();

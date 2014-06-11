@@ -15,6 +15,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.flywet.platform.ba</groupId>
+			<artifactId>fly-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.flywet.platform.report</groupId>
 			<artifactId>fly-report-base</artifactId>
 			<version>${project.version}</version>
