@@ -2835,8 +2835,20 @@
 			if(isNaN(valN)){
 				return v;
 			}
-			
 			return (valN*100) + "%";
+		}
+		
+		// 转换成文字
+		function toTextIcon(v,t){
+			var valN = parseFloat(v);
+			if(isNaN(valN)){
+				return v;
+			}
+			var rtn = "";
+			for(var i=0;i<valN;i++){
+				rtn += t;
+			}
+			return rtn;
 		}
 	};
 		

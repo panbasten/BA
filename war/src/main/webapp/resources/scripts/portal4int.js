@@ -9,11 +9,14 @@ Flywet.Portal4int = {
 	
 	resize: function() {
 		var win = Flywet.getWindowScroll();
-		var h = Math.max(0,((win.height-593)/2)),
-			w = Math.max(0,((win.width-955)/2));
 		// cover
 		$("#fly_portal_cover").width(win.width+20).height(win.height+20);
 		$("#fly_portal_cover_img").css({"top":(win.height-Flywet.Portal4int.FIXED_SIZE.loading)/2+"px","left":(win.width-Flywet.Portal4int.FIXED_SIZE.loading)/2+"px"});
+	
+//		idMainContainer
+		
+		var containerWidth = $("#idMainContainer").width();
+		$("#idController").css("right", ((win.width-containerWidth)/2+10)+"px");
 	},
 
 	initPage: function() {

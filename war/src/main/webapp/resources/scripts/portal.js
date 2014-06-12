@@ -9,7 +9,7 @@ Flywet.Portal = {
 	PIC_NUM : 0,
 	MENU_VAR : null,
 	MAX_SCEEN : false,
-	COOKIE_KEYS : ["username","loginname","repository","repositoryType","toeditor"],
+	COOKIE_KEYS : ["username","loginname","repository","repositoryType","toeditor","lastPageUrl"],
 	messages : null,
 	section: {
 		slideShow : null,
@@ -51,7 +51,16 @@ Flywet.Portal = {
 		Flywet.dialog.warning("浏览器阻止弹出系统首页，请将该网站加入授信站点，并且允许浏览器弹出该网址窗口，然后再次登录。");
 	},
 	
-	maxPageLocation : function(location){
+	location : function(loc){
+		var lastPageUrl = Flywet.CookieUtils.read("lastPageUrl");
+		Flywet.CookieUtils.clear("lastPageUrl");
+		window.location = loc || $$lastPageUrl || lastPageUrl || "portal";
+	},
+	
+	maxPageLocation : function(loc){
+		var lastPageUrl = Flywet.CookieUtils.read("lastPageUrl"),
+			location = loc || $$lastPageUrl || lastPageUrl || "portal";
+		Flywet.CookieUtils.clear("lastPageUrl");
 		if (Flywet.browserDetect.msie){
 			window["editorPageHandle"] = window.open(location,"","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
 			var num = 0;
@@ -137,16 +146,14 @@ Flywet.Portal = {
 					}
 					
 					if(cookieJson.toeditor){
-						// 判断是否是子页面
-						//window.location = "editor";
-						// TODO
+						// TODO 是否可以最大化页面
 						if (true){
-							window.location = "editor";
+							Flywet.Portal.location("editor");
 						}else{
 							Flywet.Portal.maxPageLocation("editor");
 						}
 					}else{
-						window.location = "portal4int";
+						Flywet.Portal.location();
 					}
 				}else{
 					var msg = "";
@@ -248,6 +255,30 @@ Flywet.Portal = {
 		}
 	},
 	
+	showLoginDialog : function(immediately){
+		if(immediately){
+			$("#fly_login_wrapper").show();
+		}else{
+			$("#fly_login_wrapper").show("normal");
+		}
+	},
+	
+	closeLoginDialog : function(immediately){
+		if(immediately){
+			$("#fly_login_wrapper").hide();
+		}else{
+			$("#fly_login_wrapper").hide("fast");
+		}
+	},
+	
+	checkLogin : function(){
+		var username = Flywet.CookieUtils.read("username");
+		if(username){
+			return true;
+		}
+		return false;
+	},
+	
 	initPageComplete : function(){
 		// 显示用户名称
 		var username = Flywet.CookieUtils.read("username");
@@ -267,11 +298,7 @@ Flywet.Portal = {
 			});
 		}else{
 			btnLogin.bind("click", function(){
-				if(Flywet.browserDetect.msie){
-					$("#fly_login_wrapper").show();
-				}else{
-					$("#fly_login_wrapper").show("normal");
-				}
+				Flywet.Portal.showLoginDialog();
 			}).bind("mouseover", function(){
 				$(this).addClass("highlight");
 			}).bind("mouseout", function(){
@@ -366,17 +393,13 @@ Flywet.Portal = {
 		
 		// 登入平台
 		$("#loginPortal").bind("click", function(){
-			if(Flywet.browserDetect.msie){
-				$("#fly_login_wrapper").show();
-			}else{
-				$("#fly_login_wrapper").show("normal");
-			}
+			Flywet.Portal.showLoginDialog();
 		});
 		
 		// 登出平台
 		$("#logoutPortal").bind("click", function(){
 			Flywet.CookieUtils.clear(Flywet.Portal.COOKIE_KEYS);
-			window.location = "portal";
+			Flywet.Portal.location();
 		});
 		
 		
@@ -391,17 +414,21 @@ Flywet.Portal = {
 			Flywet.Portal.fullSceen();
 		});
 		$("#btn_login_close").bind("click", function(){
-			$("#fly_login_wrapper").hide("fast");
+			Flywet.Portal.closeLoginDialog();
 		});
 		
 		// 调整尺寸
 		Flywet.Portal.resize();
 		
-		// 将背景置底
-		$("#fly_portal_bg").removeClass("fly_portal_cover");
-		
 		// 加载背景图
 		preload_background_images(Flywet.Portal.PIC_TOTILE_NUM);
+		
+		
+		$("#fly_portal_cover_first").remove();
+		if(!Flywet.Portal.checkLogin()){
+			Flywet.Portal.showLoginDialog(true);
+		}
+		Flywet.triggerMark(false);
 	},
 	
 	initPage: function(){
@@ -410,6 +437,7 @@ Flywet.Portal = {
 		
 		// 注册遮盖层方法
 		Flywet.triggerMark = Flywet.Portal.pageCover;
+		Flywet.triggerMark(true);
 		
 		// 1.替换标识文字
 		Flywet.ab({

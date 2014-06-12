@@ -1,8 +1,11 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <%
-	//response.sendRedirect(request.getContextPath() + "/pages/editor/editor_dev.jsp");
 	String path = request.getContextPath();
+	String lastPageUrl = request.getParameter("lastPageUrl");
+	if(lastPageUrl==null){
+		lastPageUrl="";;
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -170,13 +173,14 @@
 			
 	</head>
 	<body id="idBody">
-		<div id="fly_portal_cover" class="fly_portal_cover" style="display:none;">
+		<div id="fly_portal_cover_first"></div>
+		<div id="fly_portal_cover">
 			<div id="fly_portal_cover_img">
 				<img src="resources/images/portal/loading.gif" />
 			</div>
 		</div>
 	
-		<div id="fly_portal_bg" class="fly_portal_cover">
+		<div id="fly_portal_bg">
 			<img id="fly_portal_bg_img" src="" style="display:none;">
 		</div>
 		
@@ -346,6 +350,12 @@
 	</body>
 	<script type="text/javascript">
 	$(document).ready( function() {
+	
+		var lastPageUrl = "<%=lastPageUrl%>";
+		if(lastPageUrl && lastPageUrl!=""){
+			$$lastPageUrl = lastPageUrl;
+		}
+	
 		Flywet.Portal.initPage();
 		$(window).bind('resize', function() {
 			Flywet.Portal.resize();

@@ -175,6 +175,10 @@
 				<img src="resources/images/portal/loading.gif" />
 			</div>
 		</div>
+		
+		<div id="idController" class="fly_protal_controller_wrap">
+			<div class="fly_protal_controller"></div>
+		</div>
 
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	      <div class="container">
@@ -185,11 +189,19 @@
 	          <span class="navbar-brand">COO卓越运作中心-数据分析平台</span>
 	        </div>
 	        
-	        <div class="navbar-collapse collapse">
+	        <div class="navbar-collapse collapse" style="float:right;margin-left:20px;margin-right:10px;">
+	          <div id="fly_user_name" class="fly-user-wrap">
+			      <div class="fly-user-mask"></div>
+			      <img class="fly-user-img" width="32" height="32" src="resources/images/default/avatar.jpg">
+			  </div>
+	        </div>
+	        
+	        <div class="navbar-collapse collapse" style="float:right;">
 	          <ul id="fly_portal_menu_1st_level" class="nav navbar-nav navbar-right">
 	          	<!-- 1st level menu -->
 	          </ul>
 	        </div><!--/.nav-collapse -->
+	        
 	      </div>
 	    </div>
 	
@@ -232,7 +244,7 @@
 	</body>
 	<script type="text/javascript">
 		$(document).ready( function() {
-        
+		
         	Flywet.Portal4int.initPage();
         	$(window).bind('resize', function() {
 				Flywet.Portal4int.resize();

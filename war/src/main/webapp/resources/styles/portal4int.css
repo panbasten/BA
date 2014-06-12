@@ -166,10 +166,7 @@
   background-repeat: repeat-x;
 }
 .navbar-default {
-  background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #eb9316 100%);
-  background-image:         linear-gradient(to bottom, #f0ad4e 0%, #eb9316 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffeb9316', GradientType=0);
-  background-repeat: repeat-x;
+  background-color: #eb9316;
   border-radius: 4px;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -434,4 +431,42 @@
 	position:absolute;
 	width:48px;
 	height:48px;
+}
+
+.fly-user-wrap {
+	position: relative;
+	min-width: 34px;
+	min-height: 34px;
+}
+
+.fly-user-mask {
+	position: absolute;
+    background-image: url("../images/default/avatar_mark.png");
+    width: 34px;
+    height: 34px;
+    top: 10px;
+    z-index: 3;
+}
+
+.fly-user-img {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: 11px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.fly_protal_controller_wrap {
+	position: fixed;
+	top:50px;
+	right: 30px;
+	z-index: 200;
+}
+
+.fly_protal_controller {
+	background-image: url("../images/default/controller.png");
+	width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
