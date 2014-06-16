@@ -99,7 +99,7 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 			styleClass = styleClass + " " + "ui-state-active";
 		}
 
-		styleClass = styleClass + " btn-" + btnStyle;
+		styleClass = styleClass + " ui-button-" + btnStyle;
 
 		if (userClass != null) {
 			styleClass = styleClass + " " + userClass;

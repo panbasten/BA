@@ -67,7 +67,7 @@
 		}
 		
 		if(opts.btnStyle) {
-			clazz = clazz + " btn-" + opts.btnStyle;
+			clazz = clazz + " ui-button-" + opts.btnStyle;
 		}
 		
 		btn.addClass(clazz);

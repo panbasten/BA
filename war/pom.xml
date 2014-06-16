@@ -200,7 +200,6 @@
 									<output>${project.build.directory}/${project.build.finalName}/resources/libs.compressed.css</output>
 									<includes>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/jquery/jquery-ui.css</include>
-										<include>${project.build.directory}/${project.build.finalName}/resources/libs/core/core.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/menu/menu.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/metro/metro.css</include>
 										<include>${project.build.directory}/${project.build.finalName}/resources/libs/easytabs/easytabs.css</include>

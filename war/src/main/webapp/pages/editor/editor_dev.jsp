@@ -22,8 +22,6 @@
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
 			type="text/css" />
-		<link href="<%=path%>/resources/libs/core/core.css" rel="stylesheet"
-			type="text/css" />
 		<link href="<%=path%>/resources/libs/menu/menu.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/easytabs/easytabs.css" rel="stylesheet"
