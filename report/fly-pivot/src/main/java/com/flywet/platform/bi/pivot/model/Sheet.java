@@ -31,6 +31,8 @@ public class Sheet implements IPivotReport {
 	public static final String PROP_NAME_SHOW_ROW_HEAD = "showRowHead";
 	public static final String PROP_NAME_SHOW_GRID = "showGrid";
 
+	public static final String PROP_NAME_COL_EXPAND = "colExpand";
+
 	public static final String PROP_NAME_COL_NUM = "colNum";
 	public static final String PROP_NAME_ROW_NUM = "rowNum";
 
@@ -69,6 +71,9 @@ public class Sheet implements IPivotReport {
 
 	// 显示网格线
 	private Boolean showGrid;
+
+	// 自动扩展列宽
+	private Boolean colExpand;
 
 	// 列数
 	private Integer colNum;
@@ -113,6 +118,9 @@ public class Sheet implements IPivotReport {
 						PROP_NAME_SHOW_ROW_HEAD), null);
 		s.showGrid = Utils.toBoolean(
 				XMLHandler.getTagAttribute(node, PROP_NAME_SHOW_GRID), null);
+
+		s.colExpand = Utils.toBoolean(
+				XMLHandler.getTagAttribute(node, PROP_NAME_COL_EXPAND), null);
 
 		// 显示的行列数
 		s.colNum = Utils.toInt(
@@ -210,6 +218,10 @@ public class Sheet implements IPivotReport {
 
 		if (showGrid != null) {
 			jo.put(PROP_NAME_SHOW_GRID, showGrid);
+		}
+
+		if (colExpand != null) {
+			jo.put(PROP_NAME_COL_EXPAND, colExpand);
 		}
 
 		if (colNum != null) {
@@ -331,6 +343,14 @@ public class Sheet implements IPivotReport {
 
 	public void setShowGrid(Boolean showGrid) {
 		this.showGrid = showGrid;
+	}
+
+	public Boolean getColExpand() {
+		return colExpand;
+	}
+
+	public void setColExpand(Boolean colExpand) {
+		this.colExpand = colExpand;
 	}
 
 	public Map<Integer, Integer> getRowsHeight() {

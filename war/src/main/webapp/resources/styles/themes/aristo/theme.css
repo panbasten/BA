@@ -1887,3 +1887,170 @@ fieldset[disabled] .ui-button-link:focus {
 .ui-datagrid .ui-datagrid-toolbar .ui-button {
   color: #fff;
 }
+
+
+.ui-button-group,
+.ui-button-group-vertical {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.ui-button-group > .ui-button,
+.ui-button-group-vertical > .ui-button {
+  position: relative;
+  float: left;
+}
+.ui-button-group > .ui-button:hover,
+.ui-button-group-vertical > .ui-button:hover,
+.ui-button-group > .ui-button:focus,
+.ui-button-group-vertical > .ui-button:focus,
+.ui-button-group > .ui-button:active,
+.ui-button-group-vertical > .ui-button:active,
+.ui-button-group > .ui-button.ui-state-active,
+.ui-button-group-vertical > .ui-button.ui-state-active {
+  z-index: 2;
+}
+.ui-button-group > .ui-button:focus,
+.ui-button-group-vertical > .ui-button:focus {
+  outline: none;
+}
+.ui-button-group .ui-button + .ui-button,
+.ui-button-group .ui-button + .ui-button-group,
+.ui-button-group .ui-button-group + .ui-button,
+.ui-button-group .ui-button-group + .ui-button-group {
+  margin-left: -1px;
+}
+.ui-button-toolbar {
+  margin-left: -5px;
+}
+.ui-button-toolbar .ui-button-group,
+.ui-button-toolbar .input-group {
+  float: left;
+}
+.ui-button-toolbar > .ui-button,
+.ui-button-toolbar > .ui-button-group,
+.ui-button-toolbar > .input-group {
+  margin-left: 5px;
+}
+.ui-button-group > .ui-button:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+.ui-button-group > .ui-button:first-child {
+  margin-left: 0;
+}
+.ui-button-group > .ui-button:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ui-button-group > .ui-button:last-child:not(:first-child),
+.ui-button-group > .dropdown-toggle:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ui-button-group > .ui-button-group {
+  float: left;
+}
+.ui-button-group > .ui-button-group:not(:first-child):not(:last-child) > .ui-button {
+  border-radius: 0;
+}
+.ui-button-group > .ui-button-group:first-child > .ui-button:last-child,
+.ui-button-group > .ui-button-group:first-child > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ui-button-group > .ui-button-group:last-child > .ui-button:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ui-button-group .dropdown-toggle:active,
+.ui-button-group.open .dropdown-toggle {
+  outline: 0;
+}
+.ui-button-group > .ui-button + .dropdown-toggle {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.ui-button-group > .ui-button-lg + .dropdown-toggle {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.ui-button-group.open .dropdown-toggle {
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+.ui-button-group.open .dropdown-toggle.ui-button-link {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.ui-button .caret {
+  margin-left: 0;
+}
+.ui-button-lg .caret {
+  border-width: 5px 5px 0;
+  border-bottom-width: 0;
+}
+.dropup .ui-button-lg .caret {
+  border-width: 0 5px 5px;
+}
+.ui-button-group-vertical > .ui-button,
+.ui-button-group-vertical > .ui-button-group,
+.ui-button-group-vertical > .ui-button-group > .ui-button {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+}
+.ui-button-group-vertical > .ui-button-group > .ui-button {
+  float: none;
+}
+.ui-button-group-vertical > .ui-button + .ui-button,
+.ui-button-group-vertical > .ui-button + .ui-button-group,
+.ui-button-group-vertical > .ui-button-group + .ui-button,
+.ui-button-group-vertical > .ui-button-group + .ui-button-group {
+  margin-top: -1px;
+  margin-left: 0;
+}
+.ui-button-group-vertical > .ui-button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+.ui-button-group-vertical > .ui-button:first-child:not(:last-child) {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ui-button-group-vertical > .ui-button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 4px;
+}
+.ui-button-group-vertical > .ui-button-group:not(:first-child):not(:last-child) > .ui-button {
+  border-radius: 0;
+}
+.ui-button-group-vertical > .ui-button-group:first-child:not(:last-child) > .ui-button:last-child,
+.ui-button-group-vertical > .ui-button-group:first-child:not(:last-child) > .dropdown-toggle {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ui-button-group-vertical > .ui-button-group:last-child:not(:first-child) > .ui-button:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.ui-button-group-justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+}
+.ui-button-group-justified > .ui-button,
+.ui-button-group-justified > .ui-button-group {
+  display: table-cell;
+  float: none;
+  width: 1%;
+}
+.ui-button-group-justified > .ui-button-group .ui-button {
+  width: 100%;
+}
+[data-toggle="buttons"] > .ui-button > input[type="radio"],
+[data-toggle="buttons"] > .ui-button > input[type="checkbox"] {
+  display: none;
+}

@@ -125,22 +125,24 @@
 		return h;
 	}
 	
-	// 获得最大有效行编号
+	// 获得最大有效Cell编号
 	function _getMaxCellIndex(opts,sheetOpts){
-		var rowIdx = 0, colIdx = 0, r, rr;
+		var ridx = 0, cidx = 0, r, rr;
 		// 扫描区域
 		if(sheetOpts.region){
 			for(var i=0;i<sheetOpts.region.length;i++){
 				r = sheetOpts.region[i];
 				if(r.regionObject && r.regionObject.type){
 					rr = $.fn.spreadsheet.region[r.regionObject.type].getRegionRange(sheetOpts,r);
-					rowIdx = Math.max(rowIdx,rr.endPosition.ridx);
-					colIdx = Math.max(colIdx,rr.endPosition.cidx);
+					ridx = Math.max(ridx,rr.endPosition.ridx);
+					cidx = Math.max(cidx,rr.endPosition.cidx);
 				}
 			}
+			
+			return {ridx:ridx,cidx:cidx};
 		}
 		
-		return {rowIdx:rowIdx,colIdx:colIdx};
+		return undefined;
 	}
 	
 	// 纵向滚动条
@@ -1842,7 +1844,7 @@
 		} else if (opts.width == "auto"){
 			if(maxCellIdx){
 				// 根据第一个sheet的内容进行判定
-				opts.workspaceWidth = _getColsWidth(opts,opts.sheet[0],0,maxCellIdx.colIdx);
+				opts.workspaceWidth = _getColsWidth(opts,opts.sheet[0],0,maxCellIdx.cidx);
 			}else{
 				opts.workspaceWidth = dim.width;
 			}
@@ -1855,7 +1857,7 @@
 		} else if (opts.height == "auto"){
 			if(maxCellIdx){
 				// 根据第一个sheet的内容进行判定
-				opts.workspaceHeight = _getRowsHeight(opts,opts.sheet[0],0,maxCellIdx.rowIdx+2);
+				opts.workspaceHeight = _getRowsHeight(opts,opts.sheet[0],0,maxCellIdx.ridx+2);
 			}else{
 				opts.workspaceHeight = dim.height;
 			}
@@ -1882,6 +1884,26 @@
 			// 用户指定的行列数
 			sheetOpts.colNum = parseInt(sheetOpts.colNum);
 			sheetOpts.rowNum = parseInt(sheetOpts.rowNum);
+			
+			// 是否进行宽度缩放
+			if(sheetOpts.colExpand){
+				var maxCellIdx = _getMaxCellIndex(opts,sheetOpts);
+				// 如果设置了colNum，按照colNum进行缩放,
+				// 如果没有设置colNum，按照有效colNum进行缩放
+				if(sheetOpts.colNum<1){
+					if(maxCellIdx){
+						sheetOpts.colNum = maxCellIdx.cidx + 1;
+					}
+				}
+				if(sheetOpts.colNum>0){
+					// 进行宽度缩放
+					var validWidth = _getColsWidth(opts,sheetOpts,0,maxCellIdx.cidx),// 有效宽度
+						realWidth = opts.workspaceWidth,// 实际宽度
+						r = realWidth/validWidth;
+					
+					_fixColsWidth(opts,sheetOpts,r);
+				}
+			}
 			
 			// 对于没有设置行列数，采用默认的行列数
 			var cpos = _getCellPositionByCoors(target, {
@@ -1911,6 +1933,18 @@
 				opts.showVScroll = true;
 			}
 		}	
+	}
+	
+	function _fixColsWidth(opts,sheetOpts,r){
+		if(Flywet.isNumber(r)){
+			sheetOpts.defaultColWidth = Math.floor(sheetOpts.defaultColWidth*r);
+			// 自定义的列宽
+			if(sheetOpts.colsWidth){
+				for(var c in sheetOpts.colsWidth){
+					sheetOpts.colsWidth[c] = Math.floor(sheetOpts.colsWidth[c]*r);
+				}
+			}
+		}
 	}
 	
 	// 获得工作薄数量
@@ -2115,6 +2149,13 @@
 		}
 	}
 	
+	function _fixRerender(target){
+		// fix 扩展Cell高度
+		if(_fixExpandCell(target)){
+			_rerender(target);
+		}
+	}
+	
 	// 处理自动扩展的cell
 	function _fixExpandCell(target){
 		var ss = $.data(target, "spreadsheet");
@@ -2143,10 +2184,7 @@
 				}
 			}
 		}
-		
-		if(rerenderFlag){
-			_rerender(target);
-		}
+		return rerenderFlag;
 	}
 	
 	function _rerender(target){
@@ -2292,7 +2330,7 @@
 			// 重新绘制
 			t.workspace.css("display", "block");
 			_rerender(this);
-			_fixExpandCell(this);
+			_fixRerender(this);
 			
 			if (opts.show) {
 				_show(this);
@@ -2343,6 +2381,8 @@
 		// 实际显示单元格数
 		,rowNum: 0
 		,colNum: 0
+		
+		,colExpand: false //自动扩展列宽
 		
 		// 滚动条起始cell位置
 		,top : 0

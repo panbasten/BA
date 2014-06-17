@@ -2,9 +2,9 @@ package com.flywet.platform.bi.pivot.model.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
 
-import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 
-public enum PicturePositionEnum implements IStyleEnum {
+public enum PicturePositionEnum implements IIndexedEnum {
 
 	// 填充
 	POSITION_FILLING((short) 0),

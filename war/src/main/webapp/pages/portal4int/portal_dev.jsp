@@ -173,13 +173,9 @@
 				<img src="resources/images/portal/loading.gif" />
 			</div>
 		</div>
-		
-		<div id="idController" class="fly_protal_controller_wrap">
-			<div class="fly_protal_controller"></div>
-		</div>
 
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	      <div class="container">
+	      <div class="container-fluid">
 	        <div class="navbar-header">
 	          <div class="navbar-logo">
 	          	<img src="resources/images/default/logo.large.png" />
@@ -204,20 +200,23 @@
 	    </div>
 	
 	
-	    <div class="container" id="idMainContainer">
+	    <div class="container-fluid" id="idMainContainer">
 	
 	      <div class="row">
 	      
-	        <div class="col-xs-6 col-md-3" id="fly_portal_menu_2ed_level" role="navigation">
+	        <div class="col-xs-2" id="fly_portal_menu_2ed_level" role="navigation">
 	          <!-- 2ed & 3th level menu -->
 	        </div><!--/span-->
 
-	        <div class="col-xs-12 col-md-9" style="height:auto;" id="idMainView" role="view">
-	          
+	        <div class="col-xs-10" id="idMainView" role="view">
+	          <div id="idMainParameters">
+	          </div>
+	          <div id="idMainPage">
+	          </div>
 	        </div><!--/span-->
 	
 	      </div><!--/row-->
-	
+
 	      <hr>
 	
 	      <footer>
@@ -236,7 +235,6 @@
 	            </div>
 	        </div>
 	      </footer>
-	
 	    </div>
 		
 	</body>

@@ -5,11 +5,11 @@ import org.w3c.dom.Node;
 
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
-import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 import com.flywet.platform.bi.pivot.model.chart.BaseChart;
 import com.flywet.platform.bi.pivot.model.chart.IChart;
 
-public enum ChartTypeEnum implements IStyleEnum {
+public enum ChartTypeEnum implements IIndexedEnum {
 
 	// 柱形图
 	COLUMN((short) 0, "column"),

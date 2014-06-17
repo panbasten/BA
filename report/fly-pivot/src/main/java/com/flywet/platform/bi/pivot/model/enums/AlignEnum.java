@@ -2,7 +2,7 @@ package com.flywet.platform.bi.pivot.model.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
 
-import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 
 /**
  * 水平对齐枚举类
@@ -10,7 +10,7 @@ import com.flywet.platform.bi.pivot.model.IStyleEnum;
  * @author PeterPan
  * 
  */
-public enum AlignEnum implements IStyleEnum {
+public enum AlignEnum implements IIndexedEnum {
 	// 居左对齐
 	ALIGN_LEFT((short) 0),
 	// 居中对齐

@@ -2,9 +2,9 @@ package com.flywet.platform.bi.pivot.model.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
 
-import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 
-public enum FontWeightEnum implements IStyleEnum {
+public enum FontWeightEnum implements IIndexedEnum {
 
 	// 正常
 	FONT_WEIGHT_NORMAL((short) 0),

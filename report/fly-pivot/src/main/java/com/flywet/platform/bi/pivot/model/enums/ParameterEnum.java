@@ -5,29 +5,32 @@ import org.pentaho.di.i18n.BaseMessages;
 import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 
 /**
- * 字形枚举类
+ * 参数类型枚举类
  * 
  * @author PeterPan
  * 
  */
-public enum FontStyleEnum implements IIndexedEnum {
-	// 正常
-	FONT_STYLE_NORMAL((short) 0),
-	// 倾斜
-	FONT_STYLE_ITALIC((short) 1);
+public enum ParameterEnum implements IIndexedEnum {
 
-	public static final String ENUM_NAME = "FontStyle";
+	// 枚举类型-按钮组
+	PARAMETER_ENUM_BUTTON_GROUP((short) 0),
+	// 字符串类型
+	PARAMETER_STRING((short) 1),
+	// 枚举类型
+	PARAMETER_INT((short) 2);
 
-	private static Class<?> PKG = FontStyleEnum.class;
+	public static final String ENUM_NAME = "Parameter";
 
-	FontStyleEnum(short index) {
+	private static Class<?> PKG = ParameterEnum.class;
+
+	ParameterEnum(short index) {
 		this.index = index;
 	}
 
 	private short index;
 
-	public static FontStyleEnum get(short index) {
-		for (FontStyleEnum e : FontStyleEnum.values()) {
+	public static ParameterEnum get(short index) {
+		for (ParameterEnum e : ParameterEnum.values()) {
 			if (e.index == index) {
 				return e;
 			}
@@ -45,4 +48,5 @@ public enum FontStyleEnum implements IIndexedEnum {
 		return BaseMessages.getString(PKG, ENUM_LONG_DESC_PREFIX + "."
 				+ ENUM_NAME + "." + this.name());
 	}
+
 }

@@ -72,14 +72,14 @@
 			top : opts.top
 		});
 		if (!isNaN(opts.width)) {
-			panel._outerWidth(opts.width);
+			panel.width(opts.width);
 		} else {
 			panel.width("auto");
 		}
-		header.add(body)._outerWidth(panel.width());
+		header.add(body).width(panel.width());
 		if (!isNaN(opts.height)) {
-			panel._outerHeight(opts.height);
-			body._outerHeight(panel.height() - header._outerHeight());
+			panel.height(opts.height);
+			body.height(panel.height() - header.height());
 		} else {
 			body.height("auto");
 		}
@@ -462,6 +462,9 @@
 		var body = $(target).panel("body");
 		panel.css(opts.style);
 		panel.addClass(opts.cls);
+		if (opts.panelStyle) {
+			panel.addClass("ui-panel-" + opts.panelStyle);
+		}
 		if (opts.border) {
 			header.removeClass("ui-panel-header-noborder");
 			body.removeClass("ui-panel-body-noborder");
@@ -665,6 +668,7 @@
 		left : null,
 		top : null,
 		cls : null,
+		panelStyle : "default", //default,primary,success,info,warning,danger
 		headerCls : null,
 		bodyCls : null,
 		style : {},

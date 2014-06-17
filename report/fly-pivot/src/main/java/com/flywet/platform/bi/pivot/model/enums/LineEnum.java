@@ -2,7 +2,7 @@ package com.flywet.platform.bi.pivot.model.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
 
-import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 
 /**
  * 边框的线条
@@ -10,7 +10,7 @@ import com.flywet.platform.bi.pivot.model.IStyleEnum;
  * @author PeterPan
  * 
  */
-public enum LineEnum implements IStyleEnum {
+public enum LineEnum implements IIndexedEnum {
 	// 无表格线
 	BORDER_NONE((short) 0),
 	// 细线

@@ -6,6 +6,8 @@
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
           box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
 }
+
+
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   background-color: #e8e8e8;
@@ -23,6 +25,9 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
   background-repeat: repeat-x;
 }
+
+
+
 .navbar-default {
   background-color: #eb9316;
   border-radius: 4px;
@@ -97,6 +102,9 @@
 .navbar-fixed-bottom {
   border-radius: 0;
 }
+
+
+
 .alert {
   text-shadow: 0 1px 0 rgba(255, 255, 255, .2);
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 1px 2px rgba(0, 0, 0, .05);
@@ -136,6 +144,9 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffebebeb', endColorstr='#fff5f5f5', GradientType=0);
   background-repeat: repeat-x;
 }
+
+
+
 .progress-bar {
   background-image: -webkit-linear-gradient(top, #428bca 0%, #3071a9 100%);
   background-image:         linear-gradient(to bottom, #428bca 0%, #3071a9 100%);
@@ -166,6 +177,9 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc9302c', GradientType=0);
   background-repeat: repeat-x;
 }
+
+
+
 .list-group {
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
@@ -181,46 +195,51 @@
   background-repeat: repeat-x;
   border-color: #3278b3;
 }
-.panel {
+
+
+
+.ui-panel {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
           box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
-.panel-default > .panel-heading {
+.ui-panel-default > .ui-panel-header {
   background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #e8e8e8 100%);
   background-image:         linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffe8e8e8', GradientType=0);
   background-repeat: repeat-x;
 }
-.panel-primary > .panel-heading {
+.ui-panel-primary > .ui-panel-header {
   background-image: -webkit-linear-gradient(top, #428bca 0%, #357ebd 100%);
   background-image:         linear-gradient(to bottom, #428bca 0%, #357ebd 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
   background-repeat: repeat-x;
 }
-.panel-success > .panel-heading {
+.ui-panel-success > .ui-panel-header {
   background-image: -webkit-linear-gradient(top, #dff0d8 0%, #d0e9c6 100%);
   background-image:         linear-gradient(to bottom, #dff0d8 0%, #d0e9c6 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdff0d8', endColorstr='#ffd0e9c6', GradientType=0);
   background-repeat: repeat-x;
 }
-.panel-info > .panel-heading {
+.ui-panel-info > .ui-panel-header {
   background-image: -webkit-linear-gradient(top, #d9edf7 0%, #c4e3f3 100%);
   background-image:         linear-gradient(to bottom, #d9edf7 0%, #c4e3f3 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffc4e3f3', GradientType=0);
   background-repeat: repeat-x;
 }
-.panel-warning > .panel-heading {
+.ui-panel-warning > .ui-panel-header {
   background-image: -webkit-linear-gradient(top, #fcf8e3 0%, #faf2cc 100%);
   background-image:         linear-gradient(to bottom, #fcf8e3 0%, #faf2cc 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcf8e3', endColorstr='#fffaf2cc', GradientType=0);
   background-repeat: repeat-x;
 }
-.panel-danger > .panel-heading {
+.ui-panel-danger > .ui-panel-header {
   background-image: -webkit-linear-gradient(top, #f2dede 0%, #ebcccc 100%);
   background-image:         linear-gradient(to bottom, #f2dede 0%, #ebcccc 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2dede', endColorstr='#ffebcccc', GradientType=0);
   background-repeat: repeat-x;
 }
+
+
 .well {
   background-image: -webkit-linear-gradient(top, #e8e8e8 0%, #f5f5f5 100%);
   background-image:         linear-gradient(to bottom, #e8e8e8 0%, #f5f5f5 100%);
@@ -234,11 +253,10 @@
 
 
 
-
-
-
 #idBody {
-    padding-top: 70px;
+  padding-top: 70px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #idBody .navbar-nav.navbar-right:last-child {
@@ -315,24 +333,3 @@
     overflow: hidden;
     z-index: 2;
 }
-
-.fly_protal_controller_wrap {
-	position: fixed;
-	top:50px;
-	right: 30px;
-	z-index: 200;
-}
-
-.fly_protal_controller {
-	background-image: url("../images/default/controller.png");
-	background-position: 0 0;
-	width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-
-.fly_protal_controller:hover,
-.fly_protal_controller:focus {
-	background-position: -20px 0;
-}
-

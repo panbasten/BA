@@ -6,7 +6,7 @@ package com.flywet.platform.bi.pivot.model;
  * @author PeterPan
  * 
  */
-public interface IStyleEnum {
+public interface IIndexedEnum {
 	public static final String ENUM_LONG_DESC_PREFIX = "SpreadSheet.Style.EnumLongDesc";
 
 	public short getIndex();

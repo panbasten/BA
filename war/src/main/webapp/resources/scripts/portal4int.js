@@ -12,11 +12,6 @@ Flywet.Portal4int = {
 		// cover
 		$("#fly_portal_cover").width(win.width+20).height(win.height+20);
 		$("#fly_portal_cover_img").css({"top":(win.height-Flywet.Portal4int.FIXED_SIZE.loading)/2+"px","left":(win.width-Flywet.Portal4int.FIXED_SIZE.loading)/2+"px"});
-	
-//		idMainContainer
-		
-		var containerWidth = $("#idMainContainer").width();
-		$("#idController").css("right", ((win.width-containerWidth)/2+10)+"px");
 	},
 
 	initPage: function() {
@@ -48,7 +43,8 @@ Flywet.Portal4int = {
 					Flywet.Portal4int.MENU_VAR = new Flywet.Portal4int.menu({
 						id1st : "fly_portal_menu_1st_level",
 						id2ed : "fly_portal_menu_2ed_level",
-						idTarget : "idMainView",
+						idTarget : "idMainPage",
+						idParameter : "idMainParameters",
 						data : data
 					});
 					
@@ -63,11 +59,9 @@ Flywet.Portal4int = {
 	
 	pageCover: function(show) {
 		if(show){
-			$("#idBody").addClass("fly_portal_cover");
 			$("#fly_portal_cover").show();
 		}else{
 			$("#fly_portal_cover").fadeOut();
-			$("#idBody").removeClass("fly_portal_cover");
 		}
 	},
 	
@@ -92,10 +86,12 @@ Flywet.Portal4int.menu = function(cfg){
 	this.id1st = cfg.id1st;
 	this.id2ed = cfg.id2ed;
 	this.idTarget = cfg.idTarget;
+	this.idParameter = cfg.idParameter;
 	
 	this.id1stJq = $(Flywet.escapeClientId(this.id1st));
 	this.id2edJq = $(Flywet.escapeClientId(this.id2ed));
 	this.idTargetJq = $(Flywet.escapeClientId(this.idTarget));
+	this.idParameterJq = $(Flywet.escapeClientId(this.idParameter));
 	
 	this.init();
 };
@@ -223,15 +219,27 @@ Flywet.Portal4int.menu.prototype.showMenu = function(id){
 	this.id2edJq.find(".active").removeClass("active");
 	this.cfg.menusJq["id_"+menuId].addClass("active");
 	
+	var _self = this;
+	
 	Flywet.ab({
 		type: "get",
 		url: "rest/portalet/menu/"+menuId,
 		modal: true,
 		params : {
-			targetId: this.idTarget
+			targetId: "idMainView"
 		},
 		onsuccess: function(data, status, xhr){
-			var view = $(Flywet.escapeClientId(data.targetId));
+			// parameter
+			var paramView = _self.idParameterJq;
+			paramView.html("aaaaaaaaaa");
+			paramView.panel({
+				title: "My Panel"
+				,collapsible: true
+				,panelStyle: "primary"
+			});
+			
+			// spreadsheet
+			var view = _self.idTargetJq;
 			view.html("");
 			var view2 = $("<div style='position: relative;'></div>").appendTo(view);
 			if(!data.data.width){

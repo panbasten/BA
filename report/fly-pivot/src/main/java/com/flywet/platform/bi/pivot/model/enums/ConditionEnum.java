@@ -2,9 +2,9 @@ package com.flywet.platform.bi.pivot.model.enums;
 
 import org.pentaho.di.i18n.BaseMessages;
 
-import com.flywet.platform.bi.pivot.model.IStyleEnum;
+import com.flywet.platform.bi.pivot.model.IIndexedEnum;
 
-public enum ConditionEnum implements IStyleEnum {
+public enum ConditionEnum implements IIndexedEnum {
 	// 等于
 	EQUAL((short) 0, "=="),
 	// 不等于
