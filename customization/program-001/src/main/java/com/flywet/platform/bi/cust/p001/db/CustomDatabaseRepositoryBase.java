@@ -6,6 +6,11 @@ public class CustomDatabaseRepositoryBase {
 	public static final String FIELD_EXTEND_PREDICT_TITLE = "TITLE";
 	public static final String FIELD_EXTEND_PREDICT_DESCRIPTION = "DESCRIPTION";
 	public static final String TABLE_C_EXTEND_PREDICT = "C_EXTEND_PREDICT";
+	
+	public static final String FIELD_OTHER_PREDICT_ID_EXTEND_PREDICT = "ID_OTHER_PREDICT";
+	public static final String FIELD_OTHER_PREDICT_TITLE = "TITLE";
+	public static final String FIELD_OTHER_PREDICT_DESCRIPTION = "DESCRIPTION";
+	public static final String TABLE_C_OTHER_PREDICT = "C_OTHER_PREDICT";
 
 	public static final String FIELD_MONTH_PREDICT_SCORE_ID_MONTH_PREDICT_SCORE = "ID_MONTH_PREDICT_SCORE";
 	public static final String FIELD_MONTH_PREDICT_SCORE_YEAR = "YEAR";

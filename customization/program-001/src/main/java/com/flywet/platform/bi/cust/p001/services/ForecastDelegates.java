@@ -56,20 +56,20 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	public String extendPredictUpdate(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
-    public String extendSettingUpdateSelect(String targetId,
-                                            HashMap<String, Object> context) throws BIJSONException;
+	public String extendSettingUpdateSelect(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
 
-    public String metroPortal(String targetId,
-                              HashMap<String, Object> context) throws BIJSONException;
+	public String metroPortal(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
 
-    public String editNotes(String targetId,
-                            HashMap<String, Object> context) throws BIException;
+	public String editNotes(String targetId, HashMap<String, Object> context)
+			throws BIException;
 
-    public String editNotesSave(String targetId,
-                                ParameterContext context) throws BIException;
+	public String editNotesSave(String targetId, ParameterContext context)
+			throws BIException;
 
-    public String editNotesChange(String targetId,
-                                  HashMap<String, Object> context) throws BIException;
+	public String editNotesChange(String targetId,
+			HashMap<String, Object> context) throws BIException;
 
 	/**
 	 * 预测产品-当月预测填报
@@ -158,6 +158,9 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	 */
 	public String scoreSettingUpdate(String targetId, ParameterContext context)
 			throws BIJSONException;
+
+	public String scoreSettingSelect(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
 
 	/**
 	 * 方法评估-月预测
@@ -291,15 +294,16 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	public String dataUpdateFiles(ArrayList<FileItem> items,
 			HashMap<String, String> dataObj) throws BIJSONException;
 
-    /**
-     * 设置-数据展现（上传数据）
-     * @param targetId
-     * @param context
-     * @return
-     * @throws BIJSONException
-     */
-    public String dataShow(String targetId, HashMap<String, Object> context)
-            throws BIJSONException;
+	/**
+	 * 设置-数据展现（上传数据）
+	 * 
+	 * @param targetId
+	 * @param context
+	 * @return
+	 * @throws BIJSONException
+	 */
+	public String dataShow(String targetId, HashMap<String, Object> context)
+			throws BIJSONException;
 
 	/**
 	 * 设置-上传数据
@@ -367,6 +371,9 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	public String monthPredictEvaluateSetting(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
+	public String monthPredictEvaluateSettingSelect(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
 	/**
 	 * 方法评估-上月预测评估填报-上传文件更新页面
 	 * 
@@ -398,6 +405,9 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	 * @throws BIJSONException
 	 */
 	public String extendPredictPrecipitationSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException;
+
+	public String extendPredictPrecipitationSettingSelect(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
 	/**

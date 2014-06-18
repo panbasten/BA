@@ -6,6 +6,18 @@ function extendSettingUpdata(){
     Flywet.PortalAction.updateMenuDialog(101,38,'content',$('#esu_title').val());
 }
 
+function scoreSettingUpdata(){
+	Flywet.PortalAction.updateMenuDialog(106,43,'ss_body,year,month',$('#ss_title').val());
+}
+
+function monthPredictEvaSettingUpdata(){
+	Flywet.PortalAction.updateMenuDialog(116,44,'mpe_body,year,month',$('#mpe_title').val());
+}
+
+function extendPredictPrecipitationSettingUpdata(){
+	Flywet.PortalAction.updateMenuDialog(117,45,'epp_body,year,month',$('#epp_title').val());
+}
+
 function changeNote(val){
     Flywet.PortalAction.updateMenuDialog(18,41,'fs,rootDir,fileName,category',val);
 }

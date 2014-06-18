@@ -3,10 +3,20 @@
 		column="3" itemWidth="40%,28%,28%" itemMargin="10"
 		class="fly_portal_menu_content">
 		
-		<fly:gridLayoutItem cols="3">
-			<span style="float: left;">填报日期：${currentText}</span>
+		<fly:gridLayoutItem>
+			<span style="float: left;">填报日期：</span>
 		</fly:gridLayoutItem>
-		
+		<fly:gridLayoutItem cols="2">
+			<fly:selectMenu id="ss_title" name="ss_title" style="float:left;" value="${currentText}" onchange="scoreSettingUpdata()">
+                <fly:options value="0" label="1" items="${months}" />
+            </fly:selectMenu>
+		</fly:gridLayoutItem>
+	</fly:gridLayout>
+	
+	<fly:gridLayout
+		column="3" itemWidth="40%,28%,28%" itemMargin="10"
+		id="ss_body" name="ss_body"
+		class="fly_portal_menu_content">
 		<fly:gridLayoutItem>
 			<span></span>
 		</fly:gridLayoutItem>
@@ -92,4 +102,5 @@
 	<fly:inputText id="year" name="year" type="hidden" value="${year}" />
 	<fly:inputText id="month" name="month" type="hidden" value="${month}" />
 
+	<fly:includeJs src="page.js"/>
 </form>

@@ -1,11 +1,22 @@
 <form method="post" id="portal_menu_form">
 	<fly:gridLayout
-		column="4" itemWidth="30%,23%,23%,23%" itemMargin="10"
+		column="3" itemWidth="40%,28%,28%" itemMargin="10"
 		class="fly_portal_menu_content">
 		
-		<fly:gridLayoutItem cols="4">
-			<span style="float: left;">填报日期：${currentText}</span>
+		<fly:gridLayoutItem>
+			<span style="float: left;">填报日期：</span>
 		</fly:gridLayoutItem>
+		<fly:gridLayoutItem cols="2">
+			<fly:selectMenu id="epp_title" name="epp_title" style="float:left;" value="${currentText}" onchange="extendPredictPrecipitationSettingUpdata()">
+                <fly:options value="0" label="1" items="${months}" />
+            </fly:selectMenu>
+		</fly:gridLayoutItem>
+	</fly:gridLayout>
+	
+	<fly:gridLayout
+		column="4" itemWidth="30%,23%,23%,23%" itemMargin="10"
+		id="epp_body" name="epp_body"
+		class="fly_portal_menu_content">
 		
 		<fly:gridLayoutItem>
 			<span></span>
@@ -73,4 +84,5 @@
 	<fly:inputText id="year" name="year" type="hidden" value="${year}" />
 	<fly:inputText id="month" name="month" type="hidden" value="${month}" />
 
+	<fly:includeJs src="page.js"/>
 </form>

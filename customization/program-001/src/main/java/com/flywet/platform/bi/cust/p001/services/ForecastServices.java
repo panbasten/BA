@@ -577,8 +577,8 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
-			
-			Calendar cd = Calendar.getInstance(); 
+
+			Calendar cd = Calendar.getInstance();
 			cd.add(Calendar.MONTH, 1);
 			String currentMonth = DateUtils.formatDate(cd.getTime(), "yyyyMM");
 
@@ -601,7 +601,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			attrsMap.addVariable("menuId", context.get("id"));
 
 			attrsMap.addVariable("monthes", monthes);
-			
+
 			String currentMonthText = DateUtils.formatDate(cd.getTime(),
 					"yyyy年MM月");
 			attrsMap.addVariable("currentMonth", currentMonth);
@@ -632,7 +632,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 			String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
 			if (Utils.isJSEmpty(currentMonth)) {
-				Calendar cd = Calendar.getInstance(); 
+				Calendar cd = Calendar.getInstance();
 				cd.add(Calendar.MONTH, 1);
 				currentMonth = DateUtils.formatDate(cd.getTime(), "yyyyMM");
 			}
@@ -700,7 +700,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			ForecastDBAdaptor prog = BIAdaptorFactory
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Calendar cd = Calendar.getInstance(); 
+			Calendar cd = Calendar.getInstance();
 			cd.add(Calendar.DATE, 10);
 			Date now = cd.getTime();
 			String currentText = DateUtils.formatDate(now, "yyyy年MM月");
@@ -769,7 +769,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
 			if (Utils.isJSEmpty(currentText)) {
-				Calendar cd = Calendar.getInstance(); 
+				Calendar cd = Calendar.getInstance();
 				cd.add(Calendar.DATE, 10);
 				Date now = cd.getTime();
 				currentText = DateUtils.formatDate(now, "yyyy年MM月");
@@ -1352,22 +1352,17 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				.toJSONString();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public String monthPredictEvaluateSetting(String targetId,
+	public String monthPredictEvaluateSettingSelect(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
+			String currentText = (String) context.get(PORTAL_ONLY_PARAM);
+
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			Date now = new Date();
-			long year = now.getYear() + 1900, month = now.getMonth();
-			if (month == 0) {
-				year = year - 1;
-				month = 12;
-			}
-
-			String currentText = year + "年" + month + "月";
+			long year = Long.valueOf(currentText.substring(0, 4)), month = Long
+					.valueOf(currentText.substring(4));
 
 			OptionsData tempOpts = OptionsData.instance();
 			tempOpts.addOption("-1", "偏低");
@@ -1407,6 +1402,92 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			attrsMap.addVariable("currentText", currentText);
 			attrsMap.addVariable("year", year);
 			attrsMap.addVariable("month", month);
+			// months
+			attrsMap.addVariable("months", getMonths(year, month));
+
+			attrsMap.addVariable("cityCodes", CITY_CODES);
+			attrsMap.addVariable("cityNames", CITY_NAMES);
+
+			// 设置响应
+			AjaxResult ar = AjaxResult.instance();
+
+			String[] targetIds = targetId.split(",");
+			for (String id : targetIds) {
+				Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+						TEMPLATE_MONTH_PREDICT_EVALUATE_SETTING, attrsMap, id);
+				AjaxResultEntity acc = AjaxResultEntity.instance()
+						.setOperation(Utils.RESULT_OPERATION_UPDATE)
+						.setTargetId(id).setDomAndScript(domString);
+				ar.addEntity(acc);
+			}
+
+			return ar.toJSONString();
+
+		} catch (Exception e) {
+			log.error("打开方法评估-上月预测评估填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开方法评估-上月预测评估填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public String monthPredictEvaluateSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			String currentText = getMonthString(year, month);
+
+			OptionsData tempOpts = OptionsData.instance();
+			tempOpts.addOption("-1", "偏低");
+			tempOpts.addOption("0", "正常");
+			tempOpts.addOption("1", "偏高");
+
+			OptionsData preOpts = OptionsData.instance();
+			preOpts.addOption("-1", "偏少");
+			preOpts.addOption("0", "正常");
+			preOpts.addOption("1", "偏多");
+
+			attrsMap.addVariable("tempOpts", tempOpts.getOptions());
+			attrsMap.addVariable("preOpts", preOpts.getOptions());
+
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
+
+			List<Object[]> rows = prog.getMonthPredictEvaD(year, month);
+
+			Map<String, Object[]> detailMap = new HashMap<String, Object[]>();
+
+			if (rows != null) {
+				for (Object[] row : rows) {
+					detailMap.put((String) row[0], row);
+				}
+			}
+
+			for (String code : CITY_CODES) {
+				if (!detailMap.containsKey(code)) {
+					detailMap.put(code, new String[] { code, "0", "0", "0",
+							"0", "0", "0", "0", "0" });
+				}
+			}
+
+			attrsMap.addVariable("detailMap", detailMap);
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+			// months
+			attrsMap.addVariable("months", getMonths(year, month));
 
 			attrsMap.addVariable("cityCodes", CITY_CODES);
 			attrsMap.addVariable("cityNames", CITY_NAMES);
@@ -1582,22 +1663,17 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				.toJSONString();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public String extendPredictPrecipitationSetting(String targetId,
+	public String extendPredictPrecipitationSettingSelect(String targetId,
 			HashMap<String, Object> context) throws BIJSONException {
 		try {
+			String currentText = (String) context.get(PORTAL_ONLY_PARAM);
+
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			Date now = new Date();
-			long year = now.getYear() + 1900, month = now.getMonth();
-			if (month == 0) {
-				year = year - 1;
-				month = 12;
-			}
-
-			String currentText = year + "年" + month + "月";
+			long year = Long.valueOf(currentText.substring(0, 4)), month = Long
+					.valueOf(currentText.substring(4));
 
 			ForecastDBAdaptor prog = BIAdaptorFactory
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
@@ -1618,6 +1694,73 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			attrsMap.addVariable("currentText", currentText);
 			attrsMap.addVariable("year", year);
 			attrsMap.addVariable("month", month);
+
+			// months
+			attrsMap.addVariable("months", getMonths(year, month));
+
+			// 设置响应
+			AjaxResult ar = AjaxResult.instance();
+
+			String[] targetIds = targetId.split(",");
+			for (String id : targetIds) {
+				Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+						TEMPLATE_MONTH_PREDICT_PRECIPTATION_SETTING, attrsMap,
+						id);
+				AjaxResultEntity acc = AjaxResultEntity.instance()
+						.setOperation(Utils.RESULT_OPERATION_UPDATE)
+						.setTargetId(id).setDomAndScript(domString);
+				ar.addEntity(acc);
+			}
+
+			return ar.toJSONString();
+
+		} catch (Exception e) {
+			log.error("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。");
+		}
+
+		return ActionMessage.instance()
+				.failure("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。").toJSONString();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public String extendPredictPrecipitationSetting(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			String currentText = getMonthString(year, month);
+
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
+
+			Object[] row = prog.getExtendPredictEva(year, month);
+			if (row != null) {
+				for (int i = 0; i < 9; i++) {
+					attrsMap.addVariable("s" + (i + 1), row[i]);
+				}
+				attrsMap.addVariable("desc", row[9]);
+			} else {
+				for (int i = 0; i < 9; i++) {
+					attrsMap.addVariable("s" + (i + 1), "");
+				}
+				attrsMap.addVariable("desc", "");
+			}
+
+			attrsMap.addVariable("currentText", currentText);
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+
+			// months
+			attrsMap.addVariable("months", getMonths(year, month));
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_MONTH_PREDICT_PRECIPTATION_SETTING, attrsMap);
@@ -2027,7 +2170,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				return ActionMessage.instance().success("延伸期预测评分数据上传成功。")
 						.toJSONString();
 			}
-			
+
 		} catch (Exception e) {
 			log.error("延伸期预测评分数据上传出现问题。");
 		}
@@ -2164,25 +2307,20 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		return s;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public String scoreSetting(String targetId, HashMap<String, Object> context)
-			throws BIJSONException {
+	public String scoreSettingSelect(String targetId,
+			HashMap<String, Object> context) throws BIJSONException {
 		try {
+			String currentText = (String) context.get(PORTAL_ONLY_PARAM);
+
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			Date now = new Date();
-			long year = now.getYear() + 1900, month = now.getMonth();
-			if (month == 0) {
-				year = year - 1;
-				month = 12;
-			}
+			long year = Long.valueOf(currentText.substring(0, 4)), month = Long
+					.valueOf(currentText.substring(4));
 
 			ForecastDBAdaptor prog = BIAdaptorFactory
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
-
-			String currentText = year + "年" + month + "月";
 
 			Object[] row = prog.getMonthPredictScore(year, month);
 			if (row != null) {
@@ -2203,6 +2341,71 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			attrsMap.addVariable("year", year);
 			attrsMap.addVariable("month", month);
 
+			// months
+			attrsMap.addVariable("months", getMonths(year, month));
+
+			// 设置响应
+			AjaxResult ar = AjaxResult.instance();
+
+			String[] targetIds = targetId.split(",");
+			for (String id : targetIds) {
+				Object[] domString = PageTemplateInterpolator.interpolate(PKG,
+						TEMPLATE_SCORE_SETTING, attrsMap, id);
+				AjaxResultEntity acc = AjaxResultEntity.instance()
+						.setOperation(Utils.RESULT_OPERATION_UPDATE)
+						.setTargetId(id).setDomAndScript(domString);
+				ar.addEntity(acc);
+			}
+
+			return ar.toJSONString();
+		} catch (Exception e) {
+			log.error("打开延伸期预测当月填报界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
+				.toJSONString();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public String scoreSetting(String targetId, HashMap<String, Object> context)
+			throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			Date now = new Date();
+			long year = now.getYear() + 1900, month = now.getMonth();
+			if (month == 0) {
+				year = year - 1;
+				month = 12;
+			}
+
+			ForecastDBAdaptor prog = BIAdaptorFactory
+					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
+
+			Object[] row = prog.getMonthPredictScore(year, month);
+			if (row != null) {
+				for (int i = 0; i < 7; i++) {
+					String[] s = getScoreArray((String) row[i]);
+					attrsMap.addVariable("s" + (i + 1), s);
+				}
+			} else {
+				for (int i = 0; i < 7; i++) {
+					String[] s = new String[2];
+					s[0] = "";
+					s[1] = "";
+					attrsMap.addVariable("s" + (i + 1), s);
+				}
+			}
+
+			attrsMap.addVariable("currentText", getMonthString(year, month));
+			attrsMap.addVariable("year", year);
+			attrsMap.addVariable("month", month);
+
+			// months
+			attrsMap.addVariable("months", getMonths(year, month));
+
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_SCORE_SETTING, attrsMap);
 
@@ -2215,6 +2418,31 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
 				.toJSONString();
+	}
+
+	private List<String[]> getMonths(long year, long month) {
+		List<String[]> months = new ArrayList<String[]>();
+		long m;
+		String t = "";
+		for (int i = 0; i < 12; i++) {
+			m = month - i;
+			if (m > 0) {
+				t = getMonthString(year, m);
+			} else {
+				t = getMonthString(year - 1, m + 12);
+			}
+			months.add(new String[] { t, t });
+		}
+		return months;
+	}
+
+	private String getMonthString(long year, long month) {
+		String rtn = "" + year;
+		if (month < 10) {
+			rtn += "0";
+		}
+		rtn += month;
+		return rtn;
 	}
 
 	@Override
