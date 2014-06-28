@@ -1,14 +1,5 @@
 (function($) {
 	
-	function _initSeparator(target){
-		var separator = $("<span></span>").insertAfter(target);
-		$(target).addClass("btn-original").hide().appendTo(separator);
-		separator.addClass("ui-separator")
-			.append($("<span class='ui-icon ui-icon-no-hover ui-icon-grip-dotted-vertical-narrow'></span>"));
-	
-		return separator;
-	}
-	
 	function _initButton(target){
 		var btn = $("<button type='button' class='btn'></button>").insertAfter(target);
 		$(target).addClass("btn-original").hide().appendTo(btn);
@@ -82,12 +73,7 @@
 			t.attr("title", opts.title);
 		}
 		
-		// 根据类型设置
-		if (opts.type == "separator") {
-			return _initSeparator(target);
-		}else{
-			return _initButton(target);
-		}
+		return _initButton(target);
 	}
 	
 	function _toggle(target, state){
@@ -142,13 +128,12 @@
 		var t = $(target);
 		return $.extend(
 				{},
-				Flywet.parseOptions(target, ["id", "type", "state", "title", "label", "btnStyle", "iconCls", "iconAlign"])
+				Flywet.parseOptions(target, ["id", "state", "title", "label", "btnStyle", "iconCls", "iconAlign"])
 			);
 	};
 	
 	$.fn.pushbutton.defaults = {
 		id : null,
-		type : "button",
 		label : null,
 		btnStyle : "default",//default,primary,success,info,warning,danger,link
 		iconCls : null,

@@ -12,14 +12,10 @@ Flywet.widget.BreadCrumb.prototype = {
 	init : function(){
 		this.jqUl = $(this.jq.find("ul").first());
 		this.jqUl.html("");
-		var el = this.cfg.items[0];
-		var $li = $("<li role='menuitem'><a href='#' class='ui-menuitem-link ui-corner-all'><span class='ui-menuitem-text'>"+el.attrs.displayName+"</span></a></li>");
-		this.jqUl.append($li);
-		this.addEvent($li,el);
-		for(var i=1;i<this.cfg.items.length;i++){
-			this.jqUl.append("<li class='ui-breadcrumb-chevron ui-icon ui-icon-triangle-1-e'></li>");
+		var el,$li;
+		for(var i=0;i<this.cfg.items.length;i++){
 			el = this.cfg.items[i];
-			$li = $("<li role='menuitem'><a href='#' class='ui-menuitem-link ui-corner-all'><span class='ui-menuitem-text'>"+el.attrs.displayName+"</span></a></li>");
+			$li = $("<li><a href='#'><span>"+el.attrs.displayName+"</span></a></li>");
 			this.jqUl.append($li);
 			this.addEvent($li,el);
 		}

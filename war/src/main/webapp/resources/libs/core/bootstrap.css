@@ -5185,6 +5185,7 @@ button.modal-btn {
 }
 .modal-header .modal-btn {
   margin-top: -2px;
+  margin-left: 10px;
 }
 .modal-title {
   margin: 0;

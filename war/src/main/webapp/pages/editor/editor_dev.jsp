@@ -13,25 +13,17 @@
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
 		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
-		<link href="<%=path%>/resources/styles/reset.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/styles/default.css" rel="stylesheet"
+		<link href="<%=path%>/resources/libs/core/bootstrap.css" rel="stylesheet"
 			type="text/css" />
 		<!-- replace end -->
 		
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
 			type="text/css" />
-		<link href="<%=path%>/resources/libs/core/core.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/button/button.css" rel="stylesheet"
-			type="text/css" />
 			
 		<link href="<%=path%>/resources/libs/menu/menu.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/easytabs/easytabs.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/breadcrumb/breadcrumb.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/layout/layout.css" rel="stylesheet"
 			type="text/css" />
@@ -68,8 +60,6 @@
 			type="text/css" />
 		<!-- replace end -->
 		
-		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
-			type="text/css" />
 		
 		<!-- replace href="<%=path%>/resources/styles/fly.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/fly.css" rel="stylesheet"

@@ -1,7 +1,7 @@
 Flywet.filesys = {
 	fsopContext:{},
 	ids : {
-		bpVarName : "editorContent-navi-filesys-bp_var",
+		bpVarName : "editorContent-navi-fs-bp_var",
 		rootBtns : ["fs-btn-create","fs-btn-edit","fs-btn-remove"],
 		itemBtns : ["fs-btn-create-dir","fs-btn-upload-file","fs-btn-download-file"]
 	},

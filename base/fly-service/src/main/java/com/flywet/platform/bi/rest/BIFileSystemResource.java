@@ -59,8 +59,8 @@ import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 public class BIFileSystemResource {
 	private final Logger log = Logger.getLogger(BIFileSystemResource.class);
 
-	private static final String ID_EDITOR_CONTENT_NAVI_FILESYS_BC = "editorContent-navi-filesys-bc";
-	private static final String ID_EDITOR_CONTENT_NAVI_FILESYS_BP = "editorContent-navi-filesys-bp";
+	private static final String ID_EDITOR_CONTENT_NAVI_FILESYS_BC = "editorContent-navi-fs-bc";
+	private static final String ID_EDITOR_CONTENT_NAVI_FILESYS_BP = "editorContent-navi-fs-bp";
 
 	private static final String TEMPLATE_FILESYS_EDIT = "editor/filesys/edit.h";
 	private static final String TEMPLATE_FILESYS_RENAME = "editor/filesys/rename.h";

@@ -10,12 +10,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
-		
+	
 		<title></title>
-        
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
@@ -25,18 +22,13 @@
 		<!-- replace end -->
 		
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
-
 		<link href="<%=path%>/resources/libs/metro/metro.css" rel="stylesheet"
 			type="text/css" />
-		
 		<link href="<%=path%>/resources/libs/browsePanel/browsePanel.css" rel="stylesheet"
 			type="text/css" />
-
 		<link href="<%=path%>/resources/libs/dialog/dialog.css" rel="stylesheet"
 			type="text/css" />
-		
 		<!-- replace end -->
-		
 		
 		<!-- replace href="<%=path%>/resources/styles/portal.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/portal.css" rel="stylesheet"

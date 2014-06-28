@@ -1,20 +1,19 @@
 <div id="editorContent-navi-${entity.code}" class="fly-editor-tab">
-	<div id="editorContent-navi-db-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
-		<div class="ui-toolbar-group-left" style="width: 20%; margin: 1px 0 2px;">
-			数据源
-		</div>
-		<div class="ui-toolbar-group-right">
-            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
-            	label="新增" title="新增"
-            	onclick="Flywet.db.create()" />
-            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
-            	label="编辑" title="编辑"
-            	onclick="Flywet.db.edit()" />
-            <fly:pushbutton iconCls="ui-icon-folder-open" btnStyle="link"
-            	label="删除" title="删除"
-            	onclick="Flywet.db.remove()" />
+	<div id="editorContent-navi-${entity.code}-bc" class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-brand">
+				数据源
+			</div>
+			<div class="navbar-right">
+	            <fly:pushbutton btnStyle="link" label="新增" title="新增"
+	            	onclick="Flywet.db.create()" />
+	            <fly:pushbutton btnStyle="link" label="编辑" title="编辑"
+	            	onclick="Flywet.db.edit()" />
+	            <fly:pushbutton btnStyle="link" label="删除" title="删除"
+	            	onclick="Flywet.db.remove()" />
+			</div>
 		</div>
 	</div>
-	<div id="editorContent-navi-db-bp" class="fly-editor-content-height-browse-panel">
+	<div id="editorContent-navi-${entity.code}-bp" class="fly-editor-content-height-browse-panel">
 	</div>
 </div>
