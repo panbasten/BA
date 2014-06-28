@@ -155,8 +155,12 @@ public class ForecastServices extends AbstractRepositoryServices implements
 	private static final String PROP_UPLOAD_SERVER_SERVER_PASSWORD = "custom.portal.upload.server.password";
 	private static final String PROP_UPLOAD_SERVER_SERVER_REMOTE_DIRECTORY = "custom.portal.upload.server.remoteDirectory";
 
-	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_FULL_PATH = "custom.portal.upload.month.predict.data.file.fullPath";
-	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_FULL_PATH = "custom.portal.upload.extend.predict.data.file.fullPath";
+	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH = "custom.portal.upload.month.predict.data.file.rootPath";
+	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_FILE_NAME = "custom.portal.upload.month.predict.data.file.fileName";
+	private static final String PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY = "custom.portal.upload.month.predict.data.file.category";
+	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_ROOT_PATH = "custom.portal.upload.extend.predict.data.file.rootPath";
+	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_FILE_NAME = "custom.portal.upload.extend.predict.data.file.fileName";
+	private static final String PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_CATEGORY = "custom.portal.upload.extend.predict.data.file.category";
 
 	// 业务规范
 	private static final String PROP_BUZ_NORM_FILE_ROOT_PATH = "custom.portal.buzNorm.file.rootPath";
@@ -252,8 +256,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			List<String[]> monthes = new ArrayList<String[]>();
 			for (FileObject fo : children) {
-				monthes.add(new String[] { fo.getName().getBaseName(),
-						getMonthName(fo.getName().getBaseName()) });
+				if (fo.getType() == FileType.FOLDER)
+					monthes.add(new String[] { fo.getName().getBaseName(),
+							getMonthName(fo.getName().getBaseName()) });
 			}
 
 			String currentMonth = children[0].getName().getBaseName();
@@ -885,14 +890,12 @@ public class ForecastServices extends AbstractRepositoryServices implements
 						CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT,
 						rmd);
 			}
-			return ActionMessage.instance().success("更新当前延伸期预测成功。")
-					.toJSONString();
+			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
 			log.error("打开延伸期预测当月更新行为出现问题。");
 		}
 
-		return ActionMessage.instance().failure("打开延伸期预测当月更新行为出现问题。")
-				.toJSONString();
+		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
 	}
 
 	@Override
@@ -1653,14 +1656,12 @@ public class ForecastServices extends AbstractRepositoryServices implements
 						rmd);
 			}
 
-			return ActionMessage.instance().success("更新上月预测评估填报成功。")
-					.toJSONString();
+			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
 			log.error("更新上月预测评估填报行为出现问题。");
 		}
 
-		return ActionMessage.instance().failure("更新上月预测评估填报行为出现问题。")
-				.toJSONString();
+		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
 	}
 
 	@Override
@@ -1859,14 +1860,12 @@ public class ForecastServices extends AbstractRepositoryServices implements
 						rmd);
 			}
 
-			return ActionMessage.instance().success("更新上月延伸期降水过程预测评估成功。")
-					.toJSONString();
+			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
 			log.error("上月延伸期降水过程预测评估填报更新行为出现问题。");
 		}
 
-		return ActionMessage.instance().failure("上月延伸期降水过程预测评估填报更新行为出现问题。")
-				.toJSONString();
+		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
 	}
 
 	@Override
@@ -2047,7 +2046,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		return am.toJSONString();
 	}
 
-	private boolean uploadFile(String fileNamePath) {
+	private boolean uploadFile(String rootPath, String fileName,
+			String categoryProp) {
+
 		boolean result = true;
 
 		String serverName = PropertyUtils
@@ -2105,9 +2106,18 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				ftpclient.chdir(remoteDirectory);
 			}
 
-			File localFile = new File(fileNamePath);
-
-			ftpclient.put(fileNamePath, localFile.getName());
+			// 获得目录列表
+			FileObject root = getFileObject(categoryProp, rootPath);
+			FileObject[] children = root.getChildren();
+			if (children != null) {
+				for (FileObject fo : children) {
+					if (fo.getType() == FileType.FILE
+							&& fo.getName().getBaseName().startsWith(fileName)) {
+						ftpclient.put(fo.getContent().getInputStream(), fo
+								.getName().getBaseName());
+					}
+				}
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -2135,10 +2145,13 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 
 			// 文件名称
-			String fileNamePath = PropertyUtils
-					.getProperty(PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_FULL_PATH);
+			String rootPath = PropertyUtils
+					.getProperty(PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_ROOT_PATH);
+			String fileName = PropertyUtils
+					.getProperty(PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_FILE_NAME);
 
-			boolean result = uploadFile(fileNamePath);
+			boolean result = uploadFile(rootPath, fileName,
+					PROP_UPLOAD_MONTH_PREDICT_DATA_FILE_CATEGORY);
 
 			if (result) {
 				return ActionMessage.instance().success("月预测评分数据上传成功。")
@@ -2161,10 +2174,13 @@ public class ForecastServices extends AbstractRepositoryServices implements
 		try {
 
 			// 文件名称
-			String fileNamePath = PropertyUtils
-					.getProperty(PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_FULL_PATH);
+			String rootPath = PropertyUtils
+					.getProperty(PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_ROOT_PATH);
+			String fileName = PropertyUtils
+					.getProperty(PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_FILE_NAME);
 
-			boolean result = uploadFile(fileNamePath);
+			boolean result = uploadFile(rootPath, fileName,
+					PROP_UPLOAD_EXTEND_PREDICT_DATA_FILE_CATEGORY);
 
 			if (result) {
 				return ActionMessage.instance().success("延伸期预测评分数据上传成功。")
@@ -2523,14 +2539,12 @@ public class ForecastServices extends AbstractRepositoryServices implements
 						rmd);
 			}
 
-			return ActionMessage.instance().success("更新当前延伸期预测成功。")
-					.toJSONString();
+			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
 			log.error("打开延伸期预测当月更新行为出现问题。");
 		}
 
-		return ActionMessage.instance().failure("打开延伸期预测当月更新行为出现问题。")
-				.toJSONString();
+		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
 	}
 
 	@Override

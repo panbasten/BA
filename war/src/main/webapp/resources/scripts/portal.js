@@ -886,6 +886,21 @@ Flywet.PortalAction = {
 			"rest/portalet/editfile/open");
 	},
 	
+	/**
+	 * 打开一个展现目录的窗口
+	 */
+	openShowDirectoryDialog : function(rootDir,category,title){
+		title = title || "文件目录";
+		this.openPortalDialog("edit",title,{
+			width:600,
+			height:400,
+			params:{
+				rootDir:rootDir
+				,category:category
+			}},
+			"rest/portalet/showDirectory");
+	},
+	
 	saveEditFile : function(dialogId,params){
 		var _self = this;
 		Flywet.ab({

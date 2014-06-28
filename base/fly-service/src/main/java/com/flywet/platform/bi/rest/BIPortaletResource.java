@@ -58,6 +58,7 @@ import com.flywet.platform.bi.delegates.vo.User;
 import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
 import com.flywet.platform.bi.services.intf.BIPortalDelegates;
 import com.flywet.platform.bi.services.intf.BIUserDelegate;
+import com.flywet.platform.bi.utils.FSRestUtils;
 
 @Service("bi.resource.portalet")
 @Path("/portalet")
@@ -82,6 +83,8 @@ public class BIPortaletResource {
 	private static final String TEMPLATE_UPLOAD_ONE_FILE = "portal/menu/uploadOneFile.h";
 
 	private static final String TEMPLATE_EDIT_FILE = "portal/menu/editFile.h";
+
+	private static final String TEMPLATE_SHOW_DIRECTORY = "portal/menu/showDir.h";
 
 	private static final String DEFAULT_SHOW_IMAGE = "resources/images/default/default_img.jpg";
 
@@ -205,6 +208,33 @@ public class BIPortaletResource {
 		PortalAction pa = portalDelegates.getPortalActionById(Long.valueOf(id));
 
 		return invokeMethod(pa.getBeanName(), pa.getMethod(), items, dataObj);
+	}
+
+	@GET
+	@Path("/showDirectory")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String openShowDirectoryDialog(
+			@QueryParam("targetId") String targetId,
+			@QueryParam("rootDir") String rootDir,
+			@QueryParam("category") String category) throws BIJSONException {
+		try {
+			// 获得页面
+			FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+			attrsMap.addVariable("files",
+					FSRestUtils.getBrowse(rootDir, category, ""));
+
+			Object[] domString = PageTemplateInterpolator.interpolate(
+					TEMPLATE_SHOW_DIRECTORY, attrsMap);
+
+			// 设置响应
+			return AjaxResult.instanceDialogContent(targetId, domString)
+					.toJSONString();
+		} catch (Exception e) {
+			log.error("打开数据展现界面出现问题。");
+		}
+
+		return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
 	}
 
 	@GET
