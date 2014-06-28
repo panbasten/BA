@@ -57,6 +57,5 @@ preload_images(
 	,'login/hdr.bg.png'
 	,'login/login.setting.png'
 	,'login/login.star.png'
-	,'login/login.title.png'
 );
 

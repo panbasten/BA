@@ -2,7 +2,7 @@
 
 <%
 	String path = request.getContextPath();
-	String lastPageUrl = request.getParameter("lastPageUrl");
+	String lastPageUrl = request.getParameter("to");
 	if(lastPageUrl==null){
 		lastPageUrl="";;
 	}
@@ -20,60 +20,23 @@
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
 		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
-		<link href="<%=path%>/resources/styles/reset.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/styles/default.css" rel="stylesheet"
+		<link href="<%=path%>/resources/libs/core/bootstrap.css" rel="stylesheet"
 			type="text/css" />
 		<!-- replace end -->
 		
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
-		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/menu/menu.css" rel="stylesheet"
-			type="text/css" />
+
 		<link href="<%=path%>/resources/libs/metro/metro.css" rel="stylesheet"
 			type="text/css" />
-		<link href="<%=path%>/resources/libs/easytabs/easytabs.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/breadcrumb/breadcrumb.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/layout/layout.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/toolbar/toolbar.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/scrollbar/scrollbar.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/search/search.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/popup/popup.css" rel="stylesheet"
-			type="text/css" />
+		
 		<link href="<%=path%>/resources/libs/browsePanel/browsePanel.css" rel="stylesheet"
 			type="text/css" />
-		<link href="<%=path%>/resources/libs/tree/tree.css" rel="stylesheet"
-			type="text/css" />
+
 		<link href="<%=path%>/resources/libs/dialog/dialog.css" rel="stylesheet"
 			type="text/css" />
-		<link href="<%=path%>/resources/libs/gridlayout/gridlayout.css" rel="stylesheet"
-			type="text/css" />
 		
-		<link href="<%=path%>/resources/libs/panel/panel.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/combo/combo.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/combo/combobox.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/validate/validatebox.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/grid/pagination.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/grid/datagrid.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/spreadsheet/spreadsheet.css" rel="stylesheet"
-			type="text/css" />
 		<!-- replace end -->
 		
-		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
-			type="text/css" />
 		
 		<!-- replace href="<%=path%>/resources/styles/portal.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/styles/portal.css" rel="stylesheet"
@@ -207,7 +170,7 @@
 						</div>
 						<div id="fly_portal_sub_menu_setting" 
 							class="sub-menu"
-							style="right:0;width:340px;top:34px;">
+							style="right:0;width:260px;top:34px;">
 							<b style="right: 27px;"></b>
 							<dl>
 								<dt style="width:110px;">系统激活管理</dt>
@@ -276,7 +239,7 @@
 			
 			<!-- 登录区域 -->
 			<div id="fly_login_wrapper">
-				<div class="ui-login-star"><div id="btn_login_close" title="系统设置" class="ui-login-close"></div></div>
+				<div class="ui-login-star"><span id="btn_login_close" title="系统设置" class="ui-login-close glyphicon glyphicon-remove"></span></div>
 				<div id="fly_login">
 					<div id="fly_login_header">
 						<div id="title">
@@ -299,24 +262,32 @@
 						</div>
 						
 						<div id="fly_login_sidebar" style="position: relative; top: -50%;">
-							<div class="ui-loging-title"></div>
 							<form id="loginForm" style="margin:0;">
 							<fieldset style="width:215px;">
-								<div id="repositoryDiv" style="display:none;">
-									<h1 class="ui-login-label"><label for="repository">资源库</label></h1>
-									<select id="repository" name="repository" class="ui-login-widget">
-									</select>
+								<div id="repositoryDiv" class="ui-login-row" style="display:none;">
+									<h5 class="ui-login-label"><label for="repository">资源库</label></h5>
+									<h5 class="ui-login-input">
+										<select id="repository" name="repository" class="ui-login-widget">
+										</select>
+									</h5>
+									<div class="clearfix" />
 								</div>
-								<div>
-									<h1 class="ui-login-label"><label for="username">用户名</label></h1>
-									<input id="username" name="username" class="ui-login-widget" value="" />
+								<div class="ui-login-row">
+									<h5 class="ui-login-label"><label for="username">用户名</label></h5>
+									<h5 class="ui-login-input">
+										<input id="username" name="username" class="ui-login-widget" value="" />
+									</h5>
+									<div class="clearfix" />
 								</div>
-								<div>
-									<h1 class="ui-login-label"><label for="password">密　码</label></h1>
-									<input id="password" name="password" type="password" class="ui-login-widget" value="" />
+								<div class="ui-login-row">
+									<h5 class="ui-login-label"><label for="password">密　码</label></h5>
+									<h5 class="ui-login-input">
+										<input id="password" name="password" type="password" class="ui-login-widget" value="" />
+									</h5>
+									<div class="clearfix" />
 								</div>
 								
-								<div class="ui-toeditor-div"> 
+								<div class="ui-toeditor-div" id="toeditorDiv"> 
 									<input id="toeditor" name="toeditor" type="checkbox" style="float:left;height:16px;" />
 									<label for="toeditor">管理控制台</label>
 								</div>

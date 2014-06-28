@@ -396,7 +396,7 @@ public class HTML {
 
 	public static final String LAYOUT_SINGLE_CLASS = "ui-label-single ui-helper-clearfix";
 
-	public static final String STATE_DISABLED_CLASS = "ui-state-disabled";
+	public static final String STATE_DISABLED_CLASS = "disabled";
 
 	public static Map<String, Object> getAttributesMap(NamedNodeMap nnm,
 			FLYVariableResolver attrs) throws BIPageException {

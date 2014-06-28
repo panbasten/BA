@@ -1716,10 +1716,10 @@ Flywet.interaction = {
 					if(target.attr("tagName")=="FIELDSET"){
 					}else{
 						target.removeAttr("disabled");
-						target.removeClass("ui-state-disabled");
+						target.removeClass("disabled");
 					}
 				}
-				$("label[for='"+param[i]+"']").removeClass("ui-state-disabled");
+				$("label[for='"+param[i]+"']").removeClass("disabled");
 			}
 		}else{
 			for(var i=0;i<param.length;i++){
@@ -1730,10 +1730,10 @@ Flywet.interaction = {
 					if(target.attr("tagName")=="FIELDSET"){
 					}else{
 						target.attr("disabled","");
-						target.addClass("ui-state-disabled");
+						target.addClass("disabled");
 					}
 				}
-				$("label[for='"+param[i]+"']").addClass("ui-state-disabled");
+				$("label[for='"+param[i]+"']").addClass("disabled");
 			}
 		}
 	},

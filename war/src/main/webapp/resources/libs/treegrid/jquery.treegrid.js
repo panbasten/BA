@@ -373,7 +373,7 @@
 	function _getSelections(target) {
 		var rtn = [];
 		var panel = $(target).datagrid("getPanel");
-		panel.find("div.ui-datagrid-view2 div.ui-datagrid-body tr.ui-state-active")
+		panel.find("div.ui-datagrid-view2 div.ui-datagrid-body tr.active")
 				.each(function() {
 					var id = $(this).attr("node-id");
 					rtn.push(_find(target, id));
@@ -1213,7 +1213,7 @@
 								return (trIdx == 1 ? dc.footer1 : dc.footer2).find("tr[node-id=" + id + "]");
 							} else {
 								if (type == "selected") {
-									return (trIdx == 1 ? dc.body1 : dc.body2).find("tr.ui-state-active");
+									return (trIdx == 1 ? dc.body1 : dc.body2).find("tr.active");
 								} else {
 									if (type == "last") {
 										return (trIdx == 1 ? dc.body1 : dc.body2).find("tr:last[node-id]");

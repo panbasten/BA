@@ -96,7 +96,7 @@ Flywet.editors.toolbarButton = {
 		
 	isActive : function(id){
 		if(typeof(id)=="string"){
-			return $(Flywet.escapeClientId(id)).hasClass("ui-state-active");
+			return $(Flywet.escapeClientId(id)).hasClass("active");
 		}else if(id instanceof Array){
 			var rtn = {};
 			for(var i=0;i<id.length;i++){
@@ -108,7 +108,7 @@ Flywet.editors.toolbarButton = {
 	
 	active : function(id){
 		if(typeof(id)=="string"){
-			$(Flywet.escapeClientId(id)).addClass("ui-state-active");
+			$(Flywet.escapeClientId(id)).addClass("active");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
 				this.active(id[i]);
@@ -118,7 +118,7 @@ Flywet.editors.toolbarButton = {
 	
 	inactive : function(id){
 		if(typeof(id)=="string"){
-			$(Flywet.escapeClientId(id)).removeClass("ui-state-active");
+			$(Flywet.escapeClientId(id)).removeClass("active");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
 				this.inactive(id[i]);
@@ -128,7 +128,7 @@ Flywet.editors.toolbarButton = {
 	
 	isEnabled : function(id){
 		if(typeof(id)=="string"){
-			return !$(Flywet.escapeClientId(id)).hasClass("ui-state-disabled");
+			return !$(Flywet.escapeClientId(id)).hasClass("disabled");
 		}else if(id instanceof Array){
 			var rtn = {};
 			for(var i=0;i<id.length;i++){
@@ -140,7 +140,7 @@ Flywet.editors.toolbarButton = {
 	
 	enabled : function(id){
 		if(typeof(id)=="string"){
-			$(Flywet.escapeClientId(id)).removeClass("ui-state-disabled").removeAttr("disabled");
+			$(Flywet.escapeClientId(id)).removeClass("disabled").removeAttr("disabled");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
 				this.enabled(id[i]);
@@ -150,7 +150,7 @@ Flywet.editors.toolbarButton = {
 	
 	disabled : function(id){
 		if(typeof(id)=="string"){
-			$(Flywet.escapeClientId(id)).addClass("ui-state-disabled").attr("disabled","disabled");
+			$(Flywet.escapeClientId(id)).addClass("disabled").attr("disabled","disabled");
 		}else if(id instanceof Array){
 			for(var i=0;i<id.length;i++){
 				this.disabled(id[i]);

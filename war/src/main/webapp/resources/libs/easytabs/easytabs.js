@@ -92,7 +92,7 @@
         settings.tabActiveClass = 'ui-tabs-selected';
         settings.containerClass = 'ui-tabs ui-widget ui-widget-content ui-corner-all';
         settings.tabsClass = 'ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all';
-        settings.tabClass = 'ui-state-default ui-corner-top';
+        settings.tabClass = 'ui-corner-top';
         settings.panelClass = 'ui-tabs-panel ui-widget-content ui-corner-bottom';
       }
 

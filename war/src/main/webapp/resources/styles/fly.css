@@ -340,8 +340,8 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 .ui-browsepanel-con div span p{
 	color:#333;
 }
-.ui-browsepanel-con div.ui-state-hover span p,
-.ui-browsepanel-con div.ui-state-active span p{
+.ui-browsepanel-con div.hover span p,
+.ui-browsepanel-con div.active span p{
 	
 }
 
@@ -425,7 +425,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	cursor: pointer;
 }
 
-.fly-editor-systools .ui-state-hover{
+.fly-editor-systools .hover{
 	border: 0 none;
 }
 
@@ -500,11 +500,11 @@ div.ui-fs-local-sftp-icon {
 	height: 100px;
 }
 
-#navis .ui-browsepanel-con .ui-state-hover {
+#navis .ui-browsepanel-con .hover {
 	background: #eee;
 }
 
-#navis .ui-browsepanel-con .ui-state-active {
+#navis .ui-browsepanel-con .active {
 	background: #eee;
 	border: 1px solid #999;
 }
@@ -628,7 +628,7 @@ div.ui-fs-local-sftp-icon {
 }
 
 
-.fly-editor-content-browse-panel-no-toolbar .ui-state-hover{
+.fly-editor-content-browse-panel-no-toolbar .hover{
 	background: #eee;
 	-moz-box-shadow: none;
     -webkit-box-shadow: none;

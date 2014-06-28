@@ -9763,7 +9763,7 @@ $.Widget.prototype = {
 			.removeAttr( "aria-disabled" )
 			.removeClass(
 				this.widgetBaseClass + "-disabled " +
-				"ui-state-disabled" );
+				"disabled" );
 	},
 
 	widget: function() {
@@ -9805,7 +9805,7 @@ $.Widget.prototype = {
 			this.widget()
 				[ value ? "addClass" : "removeClass"](
 					this.widgetBaseClass + "-disabled" + " " +
-					"ui-state-disabled" )
+					"disabled" )
 				.attr( "aria-disabled", value );
 		}
 
@@ -12572,7 +12572,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 			this.widget()
 				[ value ? "addClass" : "removeClass"]( "ui-sortable-disabled" );
 		} else {
-			// Don't call widget base _setOption for disable as it adds ui-state-disabled class
+			// Don't call widget base _setOption for disable as it adds "disabled" class
 			$.Widget.prototype._setOption.apply(this, arguments);
 		}
 	},
@@ -13607,8 +13607,8 @@ $.widget( "ui.slider", $.ui.mouse, {
 	_create: function() {
 		var self = this,
 			o = this.options,
-			existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-state-default ui-corner-all" ),
-			handle = "<a class='ui-slider-handle ui-state-default ui-corner-all' href='#'></a>",
+			existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-corner-all" ),
+			handle = "<a class='ui-slider-handle ui-corner-all' href='#'></a>",
 			handleCount = ( o.values && o.values.length ) || 1,
 			handles = [];
 
@@ -13662,21 +13662,21 @@ $.widget( "ui.slider", $.ui.mouse, {
 			})
 			.hover(function() {
 				if ( !o.disabled ) {
-					$( this ).addClass( "ui-state-hover" );
+					$( this ).addClass( "hover" );
 				}
 			}, function() {
-				$( this ).removeClass( "ui-state-hover" );
+				$( this ).removeClass( "hover" );
 			})
 			.focus(function() {
 				if ( !o.disabled ) {
-					$( ".ui-slider .ui-state-focus" ).removeClass( "ui-state-focus" );
-					$( this ).addClass( "ui-state-focus" );
+					$( ".ui-slider .focus" ).removeClass( "focus" );
+					$( this ).addClass( "focus" );
 				} else {
 					$( this ).blur();
 				}
 			})
 			.blur(function() {
-				$( this ).removeClass( "ui-state-focus" );
+				$( this ).removeClass( "focus" );
 			});
 
 		this.handles.each(function( i ) {
@@ -13708,7 +13708,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 						ret = false;
 						if ( !self._keySliding ) {
 							self._keySliding = true;
-							$( this ).addClass( "ui-state-active" );
+							$( this ).addClass( "active" );
 							allowed = self._start( event, index );
 							if ( allowed === false ) {
 								return;
@@ -13765,7 +13765,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 					self._keySliding = false;
 					self._stop( event, index );
 					self._change( event, index );
-					$( this ).removeClass( "ui-state-active" );
+					$( this ).removeClass( "active" );
 				}
 	
 			});
@@ -13847,7 +13847,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 		self._handleIndex = index;
 
 		closestHandle
-			.addClass( "ui-state-active" )
+			.addClass( "active" )
 			.focus();
 		
 		offset = closestHandle.offset();
@@ -13861,7 +13861,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 				( parseInt( closestHandle.css("marginTop"), 10 ) || 0)
 		};
 
-		if ( !this.handles.hasClass( "ui-state-hover" ) ) {
+		if ( !this.handles.hasClass( "hover" ) ) {
 			this._slide( event, index, normValue );
 		}
 		this._animateOff = true;
@@ -13882,7 +13882,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 	},
 
 	_mouseStop: function( event ) {
-		this.handles.removeClass( "ui-state-active" );
+		this.handles.removeClass( "active" );
 		this._mouseSliding = false;
 
 		this._stop( event, this._handleIndex );
@@ -14070,8 +14070,8 @@ $.widget( "ui.slider", $.ui.mouse, {
 		switch ( key ) {
 			case "disabled":
 				if ( value ) {
-					this.handles.filter( ".ui-state-focus" ).blur();
-					this.handles.removeClass( "ui-state-hover" );
+					this.handles.filter( ".focus" ).blur();
+					this.handles.removeClass( "hover" );
 					this.handles.propAttr( "disabled", true );
 					this.element.addClass( "ui-disabled" );
 				} else {
@@ -14269,7 +14269,7 @@ function Datepicker() {
 	this._mainDivId = 'ui-datepicker-div'; // The ID of the main datepicker division
 	this._inlineClass = 'ui-datepicker-inline'; // The name of the inline marker class
 	this._appendClass = 'ui-datepicker-append'; // The name of the append marker class
-	this._triggerClass = 'ui-datepicker-trigger ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only'; // The name of the trigger marker class
+	this._triggerClass = 'ui-datepicker-trigger ui-button ui-widget ui-corner-all ui-button-icon-only'; // The name of the trigger marker class
 	this._dialogClass = 'ui-datepicker-dialog'; // The name of the dialog marker class
 	this._disableClass = 'ui-datepicker-disabled'; // The name of the disabled covering marker class
 	this._unselectableClass = 'ui-datepicker-unselectable'; // The name of the unselectable cell marker class
@@ -14613,7 +14613,7 @@ $.extend(Datepicker.prototype, {
 		}
 		else if (nodeName == 'div' || nodeName == 'span') {
 			var inline = $target.children('.' + this._inlineClass);
-			inline.children().removeClass('ui-state-disabled');
+			inline.children().removeClass('disabled');
 			inline.find("select.ui-datepicker-month, select.ui-datepicker-year").
 				removeAttr("disabled");
 		}
@@ -14638,7 +14638,7 @@ $.extend(Datepicker.prototype, {
 		}
 		else if (nodeName == 'div' || nodeName == 'span') {
 			var inline = $target.children('.' + this._inlineClass);
-			inline.children().addClass('ui-state-disabled');
+			inline.children().addClass('disabled');
 			inline.find("select.ui-datepicker-month, select.ui-datepicker-year").
 				attr("disabled", "disabled");
 		}
@@ -15682,7 +15682,7 @@ $.extend(Datepicker.prototype, {
 			'<a class="ui-datepicker-prev ui-corner-all" onclick="DP_jQuery_' + dpuuid +
 			'.datepicker._adjustDate(\'#' + inst.id + '\', -' + stepMonths + ', \'M\');"' +
 			' title="' + prevText + '"><span class="ui-icon ui-icon-circle-triangle-' + ( isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>' :
-			(hideIfNoPrevNext ? '' : '<a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="'+ prevText +'"><span class="ui-icon ui-icon-circle-triangle-' + ( isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>'));
+			(hideIfNoPrevNext ? '' : '<a class="ui-datepicker-prev ui-corner-all disabled" title="'+ prevText +'"><span class="ui-icon ui-icon-circle-triangle-' + ( isRTL ? 'e' : 'w') + '">' + prevText + '</span></a>'));
 		var nextText = this._get(inst, 'nextText');
 		nextText = (!navigationAsDateFormat ? nextText : this.formatDate(nextText,
 			this._daylightSavingAdjust(new Date(drawYear, drawMonth + stepMonths, 1)),
@@ -15691,15 +15691,15 @@ $.extend(Datepicker.prototype, {
 			'<a class="ui-datepicker-next ui-corner-all" onclick="DP_jQuery_' + dpuuid +
 			'.datepicker._adjustDate(\'#' + inst.id + '\', +' + stepMonths + ', \'M\');"' +
 			' title="' + nextText + '"><span class="ui-icon ui-icon-circle-triangle-' + ( isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>' :
-			(hideIfNoPrevNext ? '' : '<a class="ui-datepicker-next ui-corner-all ui-state-disabled" title="'+ nextText + '"><span class="ui-icon ui-icon-circle-triangle-' + ( isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>'));
+			(hideIfNoPrevNext ? '' : '<a class="ui-datepicker-next ui-corner-all disabled" title="'+ nextText + '"><span class="ui-icon ui-icon-circle-triangle-' + ( isRTL ? 'w' : 'e') + '">' + nextText + '</span></a>'));
 		var currentText = this._get(inst, 'currentText');
 		var gotoDate = (this._get(inst, 'gotoCurrent') && inst.currentDay ? currentDate : today);
 		currentText = (!navigationAsDateFormat ? currentText :
 			this.formatDate(currentText, gotoDate, this._getFormatConfig(inst)));
-		var controls = (!inst.inline ? '<button type="button" class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all" onclick="DP_jQuery_' + dpuuid +
+		var controls = (!inst.inline ? '<button type="button" class="ui-datepicker-close ui-priority-primary ui-corner-all" onclick="DP_jQuery_' + dpuuid +
 			'.datepicker._hideDatepicker();">' + this._get(inst, 'closeText') + '</button>' : '');
 		var buttonPanel = (showButtonPanel) ? '<div class="ui-datepicker-buttonpane ui-widget-content">' + (isRTL ? controls : '') +
-			(this._isInRange(inst, gotoDate) ? '<button type="button" class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" onclick="DP_jQuery_' + dpuuid +
+			(this._isInRange(inst, gotoDate) ? '<button type="button" class="ui-datepicker-current ui-priority-secondary ui-corner-all" onclick="DP_jQuery_' + dpuuid +
 			'.datepicker._gotoToday(\'#' + inst.id + '\');"' +
 			'>' + currentText + '</button>' : '') + (isRTL ? '' : controls) + '</div>' : '';
 		var firstDay = parseInt(this._get(inst, 'firstDay'),10);
@@ -15774,7 +15774,7 @@ $.extend(Datepicker.prototype, {
 							(defaultDate.getTime() == printDate.getTime() && defaultDate.getTime() == selectedDate.getTime()) ?
 							// or defaultDate is current printedDate and defaultDate is selectedDate
 							' ' + this._dayOverClass : '') + // highlight selected day
-							(unselectable ? ' ' + this._unselectableClass + ' ui-state-disabled': '') +  // highlight unselectable days
+							(unselectable ? ' ' + this._unselectableClass + ' disabled': '') +  // highlight unselectable days
 							(otherMonth && !showOtherMonths ? '' : ' ' + daySettings[1] + // highlight custom dates
 							(printDate.getTime() == currentDate.getTime() ? ' ' + this._currentClass : '') + // highlight selected day
 							(printDate.getTime() == today.getTime() ? ' ui-datepicker-today' : '')) + '"' + // highlight today (if different)
@@ -15782,9 +15782,9 @@ $.extend(Datepicker.prototype, {
 							(unselectable ? '' : ' onclick="DP_jQuery_' + dpuuid + '.datepicker._selectDay(\'#' +
 							inst.id + '\',' + printDate.getMonth() + ',' + printDate.getFullYear() + ', this);return false;"') + '>' + // actions
 							(otherMonth && !showOtherMonths ? '&#xa0;' : // display for other months
-							(unselectable ? '<span class="ui-state-default">' + printDate.getDate() + '</span>' : '<a class="ui-state-default' +
-							(printDate.getTime() == today.getTime() ? ' ui-state-highlight' : '') +
-							(printDate.getTime() == currentDate.getTime() ? ' ui-state-active' : '') + // highlight selected day
+							(unselectable ? '<span class="default">' + printDate.getDate() + '</span>' : '<a class="default' +
+							(printDate.getTime() == today.getTime() ? ' highlight' : '') +
+							(printDate.getTime() == currentDate.getTime() ? ' active' : '') + // highlight selected day
 							(otherMonth ? ' ui-priority-secondary' : '') + // distinguish dates from other months
 							'" href="#">' + printDate.getDate() + '</a>')) + '</td>'; // display selectable date
 						printDate.setDate(printDate.getDate() + 1);
@@ -15984,7 +15984,7 @@ function bindHover(dpDiv) {
 			if ( !elem.length ) {
 				return;
 			}
-			elem.removeClass( "ui-state-hover ui-datepicker-prev-hover ui-datepicker-next-hover" );
+			elem.removeClass( "hover ui-datepicker-prev-hover ui-datepicker-next-hover" );
 		})
 		.bind('mouseover', function(event) {
 			var elem = $( event.target ).closest( selector );
@@ -15992,8 +15992,8 @@ function bindHover(dpDiv) {
 					!elem.length ) {
 				return;
 			}
-			elem.parents('.ui-datepicker-calendar').find('a').removeClass('ui-state-hover');
-			elem.addClass('ui-state-hover');
+			elem.parents('.ui-datepicker-calendar').find('a').removeClass('hover');
+			elem.addClass('hover');
 			if (elem.hasClass('ui-datepicker-prev')) elem.addClass('ui-datepicker-prev-hover');
 			if (elem.hasClass('ui-datepicker-next')) elem.addClass('ui-datepicker-next-hover');
 		});

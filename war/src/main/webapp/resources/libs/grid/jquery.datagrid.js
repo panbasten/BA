@@ -519,11 +519,11 @@
 					if (grid.resizing) {
 						return;
 					}
-					$(this).addClass("ui-state-hover");
+					$(this).addClass("hover");
 				})
 			.bind("mouseleave.datagrid", 
 				function() {
-					$(this).removeClass("ui-state-hover");
+					$(this).removeClass("hover");
 				})
 			.bind("contextmenu.datagrid", 
 				function(e) {
@@ -630,7 +630,7 @@
 						return;
 					}
 					var _5e = getRowIndexFromTr(tr);
-					opts.finder.getTr(target, _5e).addClass("ui-state-hover");
+					opts.finder.getTr(target, _5e).addClass("hover");
 					e.stopPropagation();
 				})
 			.bind("mouseout", function(e) {
@@ -639,7 +639,7 @@
 						return;
 					}
 					var index = getRowIndexFromTr(tr);
-					opts.finder.getTr(target, index).removeClass("ui-state-hover");
+					opts.finder.getTr(target, index).removeClass("hover");
 					e.stopPropagation();
 				})
 			.bind("click", function(e) {
@@ -1263,7 +1263,7 @@
 			})();
 		}
 		opts.onSelect.call(target, index, data.rows[index]);
-		var tr = opts.finder.getTr(target, index).addClass("ui-state-active");
+		var tr = opts.finder.getTr(target, index).addClass("active");
 		if (tr.length) {
 			var headerHeight = dc.view2.children("div.ui-datagrid-header")._outerHeight();
 			var body2 = dc.body2;
@@ -1294,7 +1294,7 @@
 		if (!skip && opts.checkOnSelect) {
 			_uncheckRow(target, index, true);
 		}
-		opts.finder.getTr(target, index).removeClass("ui-state-active");
+		opts.finder.getTr(target, index).removeClass("active");
 		var row = opts.finder.getRow(target, index);
 		if (opts.idField) {
 			deleteObject(selectedRows, opts.idField, row[opts.idField]);
@@ -1313,7 +1313,7 @@
 		if (!skip && opts.checkOnSelect) {
 			_checkAll(target, true);
 		}
-		opts.finder.getTr(target, "", "allbody").addClass("ui-state-active");
+		opts.finder.getTr(target, "", "allbody").addClass("active");
 		if (opts.idField) {
 			for ( var ridx = 0; ridx < rows.length; ridx++) {
 				(function() {
@@ -1342,7 +1342,7 @@
 			_uncheckAll(target, true);
 		}
 		opts.finder.getTr(target, "", "selected").removeClass(
-				"ui-state-active");
+				"active");
 		if (opts.idField) {
 			for ( var _dc = 0; _dc < rows.length; _dc++) {
 				deleteObject(selectedRows, opts.idField, rows[_dc][opts.idField]);
@@ -2779,7 +2779,7 @@
 							if (type == "selected") {
 								return (bodyType == 1 ? dc.body1
 										: dc.body2)
-										.find(">table>tbody>tr.ui-state-active");
+										.find(">table>tbody>tr.active");
 							} else {
 								if (type == "last") {
 									return (bodyType == 1 ? dc.body1

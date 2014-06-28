@@ -652,7 +652,7 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 	this.editorWrapper.droppable({
 		accept: '.fly-dashboard-step-plugin',
 		onDragEnter:function(e,source,data){
-			_self.editorWrapper.addClass("ui-state-highlight");
+			_self.editorWrapper.addClass("highlight");
 			
 			_self.appender = true;
 			_self.initDomsProp();
@@ -660,7 +660,7 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 			_self.redraw();
 		},
 		onDragLeave: function(e,source,data){
-			_self.editorWrapper.removeClass("ui-state-highlight");
+			_self.editorWrapper.removeClass("highlight");
 			
 			_self.appender = false;
 			_self.mouseMovingCoords = undefined;
@@ -687,7 +687,7 @@ Flywet.widget.DashboardEditor.prototype.initEditor = function() {
 			_self.redraw();
 		},
 		onDrop: function(e,source,data){
-			_self.editorWrapper.removeClass("ui-state-highlight");
+			_self.editorWrapper.removeClass("highlight");
 			
 			_self.initDomsProp();
 			_self.mouseDownDom = _self.getDomByMouseCoords({x:data.x,y:data.y});

@@ -196,12 +196,12 @@
 .ui-datagrid-row-alt{
 	background:#EEEEFF;
 }
-.ui-datagrid-body .ui-state-hover,
-.ui-datagrid-header td.ui-state-hover{
+.ui-datagrid-body .hover,
+.ui-datagrid-header td.hover{
 	border:0 none;
 	cursor:default;
 }
-.ui-datagrid-body .ui-state-active{
+.ui-datagrid-body .active{
 	border:0 none;
 	box-shadow: none;
 }

@@ -40,9 +40,9 @@
 				+ "<div class=\"ui-calendar-menu-month-inner\">"
 				+ "</div>" + "</div>" + "</div>");
 		$(target).find(".ui-calendar-title span").hover(function() {
-			$(this).addClass("ui-state-hover");
+			$(this).addClass("hover");
 		}, function() {
-			$(this).removeClass("ui-state-hover");
+			$(this).removeClass("hover");
 		}).click(function() {
 			var menu = $(target).find(".ui-calendar-menu");
 			if (menu.is(":visible")) {
@@ -54,9 +54,9 @@
 		
 		$(".ui-calendar-prevmonth,.ui-calendar-nextmonth,.ui-calendar-prevyear,.ui-calendar-nextyear", target)
 			.hover(function() {
-					$(this).addClass("ui-state-hover");
+					$(this).addClass("hover");
 				}, function() {
-					$(this).removeClass("ui-state-hover");
+					$(this).removeClass("hover");
 				});
 		
 		$(target).find(".ui-calendar-nextmonth").click(function() {
@@ -99,8 +99,8 @@
 		}
 		_initBody(target);
 		var inner = $(target).find(".ui-calendar-menu-month-inner");
-		inner.find("td.ui-state-active").removeClass("ui-state-active");
-		inner.find("td:eq(" + (opts.month - 1) + ")").addClass("ui-state-active");
+		inner.find("td.active").removeClass("active");
+		inner.find("td:eq(" + (opts.month - 1) + ")").addClass("active");
 	}
 	
 	/**
@@ -136,9 +136,9 @@
 			}
 			$(target).find(".ui-calendar-menu-prev,.ui-calendar-menu-next").hover(
 					function() {
-						$(this).addClass("ui-state-hover");
+						$(this).addClass("hover");
 					}, function() {
-						$(this).removeClass("ui-state-hover");
+						$(this).removeClass("hover");
 					});
 			$(target).find(".ui-calendar-menu-next").click(function() {
 				var y = $(target).find(".ui-calendar-menu-year");
@@ -158,14 +158,14 @@
 				}
 			});
 			$(target).find(".ui-calendar-menu-month").hover(function() {
-				$(this).addClass("ui-state-hover");
+				$(this).addClass("hover");
 			}, function() {
-				$(this).removeClass("ui-state-hover");
+				$(this).removeClass("hover");
 			}).click(function() {
 				var menu = $(target).find(".ui-calendar-menu");
-				menu.find(".ui-state-active").removeClass(
-						"ui-state-active");
-				$(this).addClass("ui-state-active");
+				menu.find(".active").removeClass(
+						"active");
+				$(this).addClass("active");
 				setYearMonth();
 			});
 		}
@@ -173,7 +173,7 @@
 		function setYearMonth() {
 			var menu = $(target).find(".ui-calendar-menu");
 			var year = menu.find(".ui-calendar-menu-year").val();
-			var month = menu.find(".ui-state-active").attr("abbr");
+			var month = menu.find(".active").attr("abbr");
 			if (!isNaN(year)) {
 				opts.year = parseInt(year);
 				opts.month = parseInt(month);
@@ -187,9 +187,9 @@
 		var year = menu.find(".ui-calendar-menu-year-inner");
 		var month = menu.find(".ui-calendar-menu-month-inner");
 		year.find("input").val(opts.year).focus();
-		month.find("td.ui-state-active").removeClass("ui-state-active");
+		month.find("td.active").removeClass("active");
 		month.find("td:eq(" + (opts.month - 1) + ")")
-				.addClass("ui-state-active");
+				.addClass("active");
 		menu._outerWidth(body._outerWidth());
 		menu._outerHeight(body._outerHeight());
 		month._outerHeight(menu.height() - year._outerHeight());
@@ -295,11 +295,11 @@
 				+ now.getDate();
 		t.find("td[abbr=\"" + abbr + "\"]").addClass("ui-calendar-today");
 		if (opts.current) {
-			t.find(".ui-state-active").removeClass("ui-state-active");
+			t.find(".active").removeClass("active");
 			var abbr = opts.current.getFullYear() + ","
 					+ (opts.current.getMonth() + 1) + ","
 					+ opts.current.getDate();
-			t.find("td[abbr=\"" + abbr + "\"]").addClass("ui-state-active");
+			t.find("td[abbr=\"" + abbr + "\"]").addClass("active");
 		}
 		var saturday = 6 - opts.firstDay;
 		var sunday = saturday + 1;
@@ -312,12 +312,12 @@
 		t.find("tr").find("td:eq(" + saturday + ")").addClass("ui-calendar-saturday");
 		t.find("tr").find("td:eq(" + sunday + ")").addClass("ui-calendar-sunday");
 		t.find("td").hover(function() {
-			$(this).addClass("ui-state-hover");
+			$(this).addClass("hover");
 		}, function() {
-			$(this).removeClass("ui-state-hover");
+			$(this).removeClass("hover");
 		}).click(function() {
-			t.find(".ui-state-active").removeClass("ui-state-active");
-			$(this).addClass("ui-state-active");
+			t.find(".active").removeClass("active");
+			$(this).addClass("active");
 			var day = $(this).attr("abbr").split(",");
 			opts.current = new Date(day[0], parseInt(day[1]) - 1, day[2]);
 			opts.onSelect.call(target, opts.current);

@@ -38,7 +38,7 @@
 .ui-browsepanel-leaf{
 	background-image: url("images/file.png");
 }
-.ui-browsepanel-con .ui-state-hover{
+.ui-browsepanel-con .hover{
 	background: url("images/ui.panel.hover.png") no-repeat;
 	background-position: center;
 	-moz-box-shadow: none;
@@ -46,7 +46,7 @@
     box-shadow: none;
 	border: none;
 }
-.ui-browsepanel-con .ui-state-active{
+.ui-browsepanel-con .active{
 	background: url("images/ui.panel.active.png") no-repeat;
 	background-position: center;
 	-moz-box-shadow: none;

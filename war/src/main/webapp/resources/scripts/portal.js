@@ -5,11 +5,11 @@ Flywet.Portal = {
 		footerContent : 60,
 		loading : 48
 	},
-	PIC_TOTILE_NUM : 20,
+	PIC_TOTILE_NUM : 5,
 	PIC_NUM : 0,
 	MENU_VAR : null,
 	MAX_SCEEN : false,
-	COOKIE_KEYS : ["username","loginname","repository","repositoryType","toeditor","lastPageUrl"],
+	COOKIE_KEYS : ["username","login","loginname","repository","repositoryType","toeditor","to"],
 	messages : null,
 	section: {
 		slideShow : null,
@@ -51,16 +51,19 @@ Flywet.Portal = {
 		Flywet.dialog.warning("浏览器阻止弹出系统首页，请将该网站加入授信站点，并且允许浏览器弹出该网址窗口，然后再次登录。");
 	},
 	
+	linkLastPage : function(){
+		var lastPageUrl = Flywet.CookieUtils.read("to");
+		return $$lastPageUrl || lastPageUrl;
+	},
+	
 	location : function(loc){
-		var lastPageUrl = Flywet.CookieUtils.read("lastPageUrl");
-		Flywet.CookieUtils.clear("lastPageUrl");
-		window.location = loc || $$lastPageUrl || lastPageUrl || "portal";
+		Flywet.CookieUtils.clear("to");
+		window.location = loc || Flywet.Portal.linkLastPage() || "portal";
 	},
 	
 	maxPageLocation : function(loc){
-		var lastPageUrl = Flywet.CookieUtils.read("lastPageUrl"),
-			location = loc || $$lastPageUrl || lastPageUrl || "portal";
-		Flywet.CookieUtils.clear("lastPageUrl");
+		var location = loc || Flywet.Portal.linkLastPage() || "portal";
+		Flywet.CookieUtils.clear("to");
 		if (Flywet.browserDetect.msie){
 			window["editorPageHandle"] = window.open(location,"","modal=1,dialog=1,fullscreen=1,toolbar=0,menubar=0,location=0,directries=0,location=0,scrollbars=0,status=0,resizable=0");
 			var num = 0;
@@ -272,8 +275,8 @@ Flywet.Portal = {
 	},
 	
 	checkLogin : function(){
-		var username = Flywet.CookieUtils.read("username");
-		if(username){
+		var login = Flywet.CookieUtils.read("login");
+		if(login){
 			return true;
 		}
 		return false;
@@ -283,10 +286,11 @@ Flywet.Portal = {
 		// 显示用户名称
 		var username = Flywet.CookieUtils.read("username");
 		var loginname = Flywet.CookieUtils.read("loginname");
+		var login = Flywet.CookieUtils.read("login");
 		
 		// 登录按钮
 		var btnLogin = $("#btn_login");
-		if(username){
+		if(login){
 			btnLogin.html("<div>" +
 					"<div class='oper-text'>用户：</div>" +
 					"<div class='oper-text'>" + username + "</div>" +
@@ -327,9 +331,16 @@ Flywet.Portal = {
 			$(this).removeClass('ui-login-button-hover');
 		});
 		
-		// 登录窗口的用户名
+		// 登录窗口的上次用户名
 		if(loginname){
 			$("#username").val(loginname);
+		}
+		
+		// 调整管理控制台checkbox，如果指定跳转地址，清除cookie并隐藏控制台checkbox
+		if(Flywet.Portal.linkLastPage()){
+			$("#toeditorDiv").hide();
+			$("#toeditor").removeAttr("checked");
+			Flywet.CookieUtils.clear("login");
 		}
 		
 		// 对于设置按钮的事件
@@ -425,6 +436,7 @@ Flywet.Portal = {
 		
 		
 		$("#fly_portal_cover_first").remove();
+		// 如果没有登录，默认打卡登录界面
 		if(!Flywet.Portal.checkLogin()){
 			Flywet.Portal.showLoginDialog(true);
 		}

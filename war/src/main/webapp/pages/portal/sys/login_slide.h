@@ -8,8 +8,8 @@
 		</p>
 	</div>
 	<div class="slide" style="background: url('resources/images/login/section/mascot.png') no-repeat scroll 0 0 transparent;">
-		<p class="slide-p" style="margin: 25px 0 0 170px;">您的企业是否面临这些问题？</p>
-		<ul class="slide-ul" style="margin:15px 0 0 150px;color:#9CA839;">
+		<p class="slide-p" style="margin: 25px 0 0 160px;">您的企业是否面临这些问题？</p>
+		<ul class="slide-ul" style="margin:15px 0 0 130px;color:#9CA839;">
 			<li>数据量庞大，并且格式复杂</li>
 			<li>数据来源众多，并且质量差</li>
 			<li>数据实时掌控困难</li>
@@ -18,8 +18,8 @@
 		</ul>
 	</div>
 	<div class="slide" style="background: url('resources/images/login/section/mascot.png') no-repeat scroll 0 0 transparent;">
-		<p class="slide-p" style="margin: 25px 0 0 170px;">您是否期望得到这样的答案？</p>
-		<ul class="slide-ul" style="margin:15px 0 0 150px;color:#4066C4;">
+		<p class="slide-p" style="margin: 25px 0 0 160px;">您是否期望得到这样的答案？</p>
+		<ul class="slide-ul" style="margin:15px 0 0 130px;color:#4066C4;">
 			<li>全面、一致、干净、可靠的数据</li>
 			<li>准实时大数据量企业数据监控</li>
 			<li>纷繁准确的企业报表</li>

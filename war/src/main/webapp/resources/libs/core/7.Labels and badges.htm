@@ -1,0 +1,229 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Base · Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="bootstrap.css" rel="stylesheet" type="text/css" />
+	
+	<style type="text/css" >
+.the-icons {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  line-height: 1;
+}
+
+.the-icons li {
+    float: left;
+    line-height: 25px;
+    width: 25%;
+}
+
+section > ul li {
+    margin-bottom: 5px;
+}
+	</style>
+  </head>
+  <body>
+
+
+        <!-- Labels and badges
+        ================================================== -->
+        <section id="labels-badges">
+          <div class="page-header">
+            <h1>Labels and badges</h1>
+          </div>
+          <h3>Labels</h3>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Labels</th>
+                <th>Markup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="label label-default">Default</span>
+                </td>
+                <td>
+                  <code>&lt;span class="label label-default"&gt;Default&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="label label-primary">Primary</span>
+                </td>
+                <td>
+                  <code>&lt;span class="label label-primary"&gt;Primary&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="label label-success">Success</span>
+                </td>
+                <td>
+                  <code>&lt;span class="label label-success"&gt;Success&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="label label-warning">Warning</span>
+                </td>
+                <td>
+                  <code>&lt;span class="label label-warning"&gt;Warning&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="label label-danger">Important</span>
+                </td>
+                <td>
+                  <code>&lt;span class="label label-danger"&gt;Danger&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="label label-info">Info</span>
+                </td>
+                <td>
+                  <code>&lt;span class="label label-info"&gt;Info&lt;/span&gt;</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Badges</h3>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Example</th>
+                <th>Markup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Default
+                </td>
+                <td>
+                  <span class="badge badge-default">1</span>
+                </td>
+                <td>
+                  <code>&lt;span class="badge badge-default"&gt;1&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Success
+                </td>
+                <td>
+                  <span class="badge badge-success">2</span>
+                </td>
+                <td>
+                  <code>&lt;span class="badge badge-success"&gt;2&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Warning
+                </td>
+                <td>
+                  <span class="badge badge-warning">4</span>
+                </td>
+                <td>
+                  <code>&lt;span class="badge badge-warning"&gt;4&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Danger
+                </td>
+                <td>
+                  <span class="badge badge-danger">6</span>
+                </td>
+                <td>
+                  <code>&lt;span class="badge badge-danger"&gt;6&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Info
+                </td>
+                <td>
+                  <span class="badge badge-info">8</span>
+                </td>
+                <td>
+                  <code>&lt;span class="badge badge-info"&gt;8&lt;/span&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Primary
+                </td>
+                <td>
+                  <span class="badge badge-primary">10</span>
+                </td>
+                <td>
+                  <code>&lt;span class="badge badge-primary"&gt;10&lt;/span&gt;</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Easily collapsible</h3>
+          <p>For easy implementation, labels and badges will simply collapse (via CSS's <code>:empty</code> selector) when no content exists within.</p>
+
+
+
+<h3>Adapts to active nav states</h3>
+  <p>Built-in styles are included for placing badges in active states in pill navigations.</p>
+  <div class="bs-example">
+    <ul class="nav nav-pills">
+      <li class="active"><a href="#">Home <span class="badge">42</span></a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Messages <span class="badge">3</span></a></li>
+    </ul>
+    <br>
+    <ul class="nav nav-pills nav-stacked" style="max-width: 260px;">
+      <li class="active">
+        <a href="#">
+          <span class="badge pull-right">42</span>
+          Home
+        </a>
+      </li>
+      <li><a href="#">Profile</a></li>
+      <li>
+        <a href="#">
+          <span class="badge pull-right">3</span>
+          Messages
+        </a>
+      </li>
+    </ul>
+    <br>
+    <button class="btn btn-primary" type="button">
+      Messages <span class="badge">4</span>
+    </button>
+  </div>
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills nav-stacked&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;active&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;badge pull-right&quot;</span><span class="nt">&gt;</span>42<span class="nt">&lt;/span&gt;</span>
+      Home
+    <span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;/li&gt;</span>
+  ...
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div>
+</div>
+
+
+        </section>
+
+        
+ </body>
+</html>

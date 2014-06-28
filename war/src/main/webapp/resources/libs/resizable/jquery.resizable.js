@@ -10,22 +10,48 @@
 			var opts = $.data(data.target, "resizable").options;
 			if (data.dir.indexOf("e") != -1) {
 				var w = data.startWidth + e.pageX - data.startX;
-				w = Math.min(Math.max(w, opts.minWidth), opts.maxWidth);
-				data.width = w;
+				var rw = Math.min(Math.max(w, opts.minWidth), opts.maxWidth);
+				data.width = rw;
+				
+				if(data.hasAlso){
+					var aw = data.startWidthAlso + e.pageX - data.startX;
+					data.widthAlso = aw + rw - w;
+				}
 			}
 			if (data.dir.indexOf("s") != -1) {
 				var h = data.startHeight + e.pageY - data.startY;
-				h = Math.min(Math.max(h, opts.minHeight), opts.maxHeight);
-				data.height = h;
+				var rh = Math.min(Math.max(h, opts.minHeight), opts.maxHeight);
+				data.height = rh;
+				
+				if(data.hasAlso){
+					var ah = data.startHeightAlso + e.pageY - data.startY;
+					data.heightAlso = ah + rh - h;
+				}
 			}
 			if (data.dir.indexOf("w") != -1) {
-				data.width = data.startWidth - e.pageX + data.startX;
+				var w = data.startWidth - e.pageX + data.startX;
+				var rw = Math.min(Math.max(w, opts.minWidth), opts.maxWidth);
+				data.width = rw;
+				
+				if(data.hasAlso){
+					var aw = data.startWidthAlso - e.pageX + data.startX;
+					data.widthAlso = aw + rw - w;
+				}
+				
 				if (data.width >= opts.minWidth && data.width <= opts.maxWidth) {
 					data.left = data.startLeft + e.pageX - data.startX;
 				}
 			}
 			if (data.dir.indexOf("n") != -1) {
-				data.height = data.startHeight - e.pageY + data.startY;
+				var h = data.startHeight - e.pageY + data.startY;
+				var rh = Math.min(Math.max(h, opts.minHeight), opts.maxHeight);
+				data.height = rh;
+				
+				if(data.hasAlso){
+					var ah = data.startHeightAlso - e.pageY + data.startY;
+					data.heightAlso = ah + rh - h;
+				}
+				
 				if (data.height >= opts.minHeight && data.height <= opts.maxHeight) {
 					data.top = data.startTop + e.pageY - data.startY;
 				}
@@ -43,6 +69,11 @@
 				top : data.top
 			});
 			$(target)._outerWidth(data.width)._outerHeight(data.height);
+			
+			if(data.hasAlso){
+				var alsoTarget = data.alsoTarget;
+				$(alsoTarget).width(data.widthAlso-2).height(data.heightAlso-2);
+			}
 		}
 		
 		function onMouseDownFunc(e) {
@@ -88,7 +119,8 @@
 				return;
 			}
 			$(this).bind("mousemove.resizable", {
-				target : this
+				target : this,
+				alsoTarget : opts.alsoResize
 			}, function(e) {
 				if (resize_hold) {
 					return;
@@ -99,9 +131,9 @@
 				} else {
 					$(e.data.target).css("cursor", dir + "-resize");
 				}
-			}).bind("mouseleave.resizable", { target : this }, function(e) {
+			}).bind("mouseleave.resizable", { target : this, alsoTarget : opts.alsoResize }, function(e) {
 				$(e.data.target).css("cursor", "");
-			}).bind("mousedown.resizable", { target : this }, function(e) {
+			}).bind("mousedown.resizable", { target : this, alsoTarget : opts.alsoResize }, function(e) {
 				var dir = getDirection(e);
 				if (dir == "") {
 					return;
@@ -132,8 +164,24 @@
 					deltaWidth : $(e.data.target).outerWidth()
 							- $(e.data.target).width(),
 					deltaHeight : $(e.data.target).outerHeight()
-							- $(e.data.target).height()
+							- $(e.data.target).height(),
+					hasAlso : false
 				};
+				if(e.data.alsoTarget){
+					data = $.extend(data,{
+						hasAlso : true,
+						alsoTarget : e.data.alsoTarget,
+						startWidthAlso : $(e.data.alsoTarget).outerWidth(),
+						startHeightAlso : $(e.data.alsoTarget).outerHeight(),
+						widthAlso : $(e.data.alsoTarget).outerWidth(),
+						heightAlso : $(e.data.alsoTarget).outerHeight(),
+						deltaWidthAlso : $(e.data.alsoTarget).outerWidth()
+								- $(e.data.alsoTarget).width(),
+						deltaHeightAlso : $(e.data.alsoTarget).outerHeight()
+								- $(e.data.alsoTarget).height()
+					});
+				}
+				
 				$(document).bind("mousedown.resizable", data, onMouseDownFunc);
 				$(document).bind("mousemove.resizable", data, onMouseMoveFunc);
 				$(document).bind("mouseup.resizable", data, onMouseUpFunc);

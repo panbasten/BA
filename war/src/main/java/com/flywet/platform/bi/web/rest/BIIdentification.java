@@ -60,6 +60,7 @@ public class BIIdentification {
 	public static final String USERNAME = "username";
 	public static final String LOGINNAME = "loginname";
 	public static final String TOEDITOR = "toeditor";
+	public static final String LOGIN = "login";
 
 	public static final String PASSWORD = "password";
 
@@ -193,8 +194,8 @@ public class BIIdentification {
 			response.setHeader("Content-Disposition", "attachment;filename="
 					+ fileName);
 
-			FileUtils.write(FileUtils.getInputStream(key), response
-					.getOutputStream());
+			FileUtils.write(FileUtils.getInputStream(key),
+					response.getOutputStream());
 
 		} catch (Exception e) {
 			log.error("download private key file exception:", e);
@@ -225,8 +226,8 @@ public class BIIdentification {
 			JSONObject jo = new JSONObject();
 			jo.put(USERNAME, user.getName());
 			jo.put("dom", (String) domString[0]);
-			jo.put("script", JSONUtils
-					.convertToJSONArray((List<String>) domString[1]));
+			jo.put("script",
+					JSONUtils.convertToJSONArray((List<String>) domString[1]));
 
 			return jo.toJSONString();
 		} catch (Exception ex) {
@@ -299,6 +300,7 @@ public class BIIdentification {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(USERNAME, user.getUsername());
 		map.put(LOGINNAME, user.getLogin());
+		map.put(LOGIN, "Y");
 
 		map.put(REPOSITORYNAME, repository);
 		map.put(REPOSITORYTYPE, RepPool.instance().getRepType(repository));
@@ -319,13 +321,13 @@ public class BIIdentification {
 			Document doc = PageTemplateInterpolator
 					.getDom(TEMPLATE_SYS_LOGIN_SLIDE);
 			Object[] domString = PageTemplateInterpolator.interpolate(
-					TEMPLATE_SYS_LOGIN_SLIDE, doc, FLYVariableResolver
-							.instance());
+					TEMPLATE_SYS_LOGIN_SLIDE, doc,
+					FLYVariableResolver.instance());
 
 			JSONObject jo = new JSONObject();
 			jo.put("dom", (String) domString[0]);
-			jo.put("script", JSONUtils
-					.convertToJSONArray((List<String>) domString[1]));
+			jo.put("script",
+					JSONUtils.convertToJSONArray((List<String>) domString[1]));
 
 			return jo.toJSONString();
 		} catch (Exception ex) {

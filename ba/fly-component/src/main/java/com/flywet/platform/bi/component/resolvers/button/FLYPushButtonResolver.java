@@ -94,9 +94,9 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		}
 
 		if (HTML.ATTR_STATE_DISABLED.equalsIgnoreCase(state)) {
-			styleClass = styleClass + " " + "ui-state-disabled";
+			styleClass = styleClass + " " + "disabled";
 		} else if (HTML.ATTR_STATE_ACTIVE.equalsIgnoreCase(state)) {
-			styleClass = styleClass + " " + "ui-state-active";
+			styleClass = styleClass + " " + "active";
 		}
 
 		styleClass = styleClass + " ui-button-" + btnStyle;
@@ -156,13 +156,13 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		}
 
 		// mouseOver
-		String mouseOverEvent = "$(this).addClass('ui-state-hover');"
+		String mouseOverEvent = "$(this).addClass('hover');"
 				+ Utils.NVL(HTML.getTagAttribute(node, HTML.ATTR_ON_MOUSE_OVER,
 						attrs), "");
 		html.writeAttribute(HTML.ATTR_ON_MOUSE_OVER, mouseOverEvent);
 
 		// mouseOut
-		String mouseOutEvent = "$(this).removeClass('ui-state-hover');"
+		String mouseOutEvent = "$(this).removeClass('hover');"
 				+ Utils.NVL(HTML.getTagAttribute(node, HTML.ATTR_ON_MOUSE_OUT,
 						attrs), "");
 		html.writeAttribute(HTML.ATTR_ON_MOUSE_OUT, mouseOutEvent);

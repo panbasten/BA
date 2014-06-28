@@ -40,7 +40,7 @@
             if (!node.length) {
                 return;
             }
-            node.addClass("ui-state-hover");
+            node.addClass("hover");
             if (tt.hasClass("ui-tree-hit")) {
                 if (tt.hasClass("ui-tree-expanded")) {
                     tt.addClass("ui-tree-expanded-hover");
@@ -56,7 +56,7 @@
             if (!node.length) {
                 return;
             }
-            node.removeClass("ui-state-hover");
+            node.removeClass("hover");
             if (tt.hasClass("ui-tree-hit")) {
                 if (tt.hasClass("ui-tree-expanded")) {
                     tt.removeClass("ui-tree-expanded-hover");
@@ -809,7 +809,7 @@
     }
     
     function _getSelected(target){
-        var nodes = $(target).find("div.ui-state-active");
+        var nodes = $(target).find("div.active");
         if (nodes.length) {
             return _getNode(target, nodes[0]);
         }
@@ -961,8 +961,8 @@
         if (options.onBeforeSelect.call(target, nodeData) == false) {
             return;
         }
-        $("div.ui-state-active", target).removeClass("ui-state-active");
-        $(node).addClass("ui-state-active");
+        $("div.active", target).removeClass("active");
+        $(node).addClass("active");
         options.onSelect.call(target, nodeData);
     }
     

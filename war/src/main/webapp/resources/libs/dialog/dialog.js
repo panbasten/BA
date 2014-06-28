@@ -23,7 +23,7 @@ Flywet.widget.Dialog = function(cfg) {
     this.cfg.draggable = this.cfg.draggable == false ? false : true;
     this.cfg.resizable = this.cfg.resizable == false ? false : true;
     this.cfg.minWidth = this.cfg.minWidth||150;
-    this.cfg.minHeight = this.cfg.minHeight||this.titlebar.outerHeight();
+    this.cfg.minHeight = this.cfg.minHeight||this.header.outerHeight();
     this.cfg.position = this.cfg.position||'center';
     
     //size
@@ -32,7 +32,7 @@ Flywet.widget.Dialog = function(cfg) {
         'height': 'auto'
     });
     
-    this.content.height(this.cfg.height);
+    this.body.height(this.cfg.height);
     
     //events
     this.bindEvents();
@@ -43,10 +43,6 @@ Flywet.widget.Dialog = function(cfg) {
     
     if(this.cfg.resizable){
         this.setupResizable();
-    }
-    
-    if(this.cfg.modal) {
-        this.syncWindowResize();
     }
     
     if(this.cfg.appendToBody){
@@ -78,7 +74,7 @@ Flywet.widget.Dialog.prototype.ajax = function() {
 	}else{
 		params = {};
 	}
-	params.targetId = this.content.attr("id");
+	params.targetId = this.body.attr("id");
 	
 	if(this.cfg.url){
 		Flywet.ab({
@@ -86,7 +82,7 @@ Flywet.widget.Dialog.prototype.ajax = function() {
 			url : this.cfg.url,
 			params : params,
 			beforeSend : function(data){
-				_self.content.append("<div class='ui-dialog-content-loader-text'>正在加载...</div><div class='ui-dialog-content-loader'></div>");
+				_self.body.append("<div class='modal-body-loader-text'>正在加载...</div><div class='modal-body-loader'></div>");
 				if(_self.cfg.beforeSend) {
 					_self.cfg.beforeSend.call(this, data);
 				}
@@ -102,7 +98,7 @@ Flywet.widget.Dialog.prototype.ajax = function() {
 			formAction : this.cfg.formAction,
 			params : params,
 			beforeSend : function(data){
-				_self.content.append("<div class='ui-dialog-content-loader-text'>正在加载...</div><div class='ui-dialog-content-loader'></div>");
+				_self.body.append("<div class='modal-body-loader-text'>正在加载...</div><div class='modal-body-loader'></div>");
 				if(_self.cfg.beforeSend) {
 					_self.cfg.beforeSend.call(this, data);
 				}
@@ -123,69 +119,73 @@ Flywet.widget.Dialog.prototype.init = function() {
 	}
 	
 	if(this.jq.length > 0) {
-		this.content = this.jq.children('.ui-dialog-content');
-	    this.titlebar = this.jq.children('.ui-dialog-titlebar');
-	    this.footer = this.jq.find('.ui-dialog-footer');
-	    this.icons = this.titlebar.children('.ui-dialog-titlebar-icon');
-	    this.closeIcon = this.titlebar.children('.ui-dialog-titlebar-close');
-	    this.maximizeIcon = this.titlebar.children('.ui-dialog-titlebar-maximize');
+		this.body = this.jq.children('.modal-body');
+	    this.header = this.jq.children('.modal-header');
+	    this.footer = this.jq.children('.modal-footer');
+	    this.icons = this.header.children('.modal-btn');
+	    this.closeIcon = this.header.children('.modal-header-close');
+	    this.maximizeIcon = this.header.children('.modal-header-maximize');
 		return;
 	}
 	
 	this.realRemove = true;
 	var style=this.cfg.style,styleClass=this.cfg.styleClass;
 	if(styleClass){
-		styleClass = "ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow " + styleClass;
+		styleClass = "modal-content " + styleClass;
 	}else{
-		styleClass = "ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow";
+		styleClass = "modal-content";
 	}
 	
 	this.jq = $("<div></div>");
 	this.jq.attr("id", this.id);
 	this.jq.addClass(styleClass);
-	if(style)this.jq.attr("style",style);
+	if(style){
+		this.jq.attr("style",style);
+	}
 	
-	// 1.titlebar
+	// 1.header
 	if(this.cfg.showHeader){
-		this.titlebar = $("<div></div>");
-		this.titlebar.addClass("ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top");
-		// title
-		var title = $("<span></span>");
-		title.addClass("ui-dialog-title");
-		title.html(this.cfg.header);
-		this.titlebar.append(title);
+		this.header = $("<div></div>");
+		this.header.addClass("modal-header");
+		
 		// closable
 		if(this.cfg.closable){
-			this.closeIcon = this.createIcon("ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all","ui-icon ui-icon-panel-close");
-			this.titlebar.append(this.closeIcon);
+			this.closeIcon = this.createIcon("modal-btn modal-header-close","glyphicon glyphicon-remove");
+			this.header.append(this.closeIcon);
 		}
 		// maximizable
 		if(this.cfg.maximizable){
-			this.maximizeIcon = this.createIcon("ui-dialog-titlebar-icon ui-dialog-titlebar-maximize ui-corner-all","ui-icon ui-icon-panel-max");
-			this.titlebar.append(this.maximizeIcon);
+			this.maximizeIcon = this.createIcon("modal-btn modal-header-maximize","glyphicon glyphicon-resize-full");
+			this.header.append(this.maximizeIcon);
 		}
-		this.icons = this.titlebar.children('.ui-dialog-titlebar-icon');
-		this.jq.append(this.titlebar);
+		this.icons = this.header.children('.modal-btn');
+		
+		// title
+		var title = $("<h4></h4>");
+		title.addClass("modal-title");
+		title.html(this.cfg.header);
+		this.header.append(title);
+		
+		this.jq.append(this.header);
 	}
-	// 2.content
-	this.content = $("<div></div>");
-	this.content.attr("id",this.id+":content");
-	this.content.addClass("ui-dialog-content ui-widget-content");
-	if(this.cfg.content)
-		this.content.html(this.cfg.content);
-	this.jq.append(this.content);
-	
-	if(this.cfg.footerButtons || this.cfg.footerSettingButtons){
-		this.footer = $("<div></div>");
-		this.footer.addClass("ui-dialog-buttonpane ui-widget-content ui-helper-clearfix");
-	}
-	this.jq.append(this.footer);
+	// 2.body
+	this.body = $("<div></div>");
+	this.body.attr("id",this.id+":body");
+	this.body.addClass("modal-body");
+	if(this.cfg.body)
+		this.body.html(this.cfg.body);
+	this.jq.append(this.body);
 	
 	// 3.footer
+	if(this.cfg.footerButtons || this.cfg.footerSettingButtons){
+		this.footer = $("<div></div>");
+		this.footer.addClass("modal-footer");
+	}
+	this.jq.append(this.footer);
 	if(this.cfg.footerButtons){
 		var _self=this;
 		this.defaultFooter = $("<div></div>");
-		this.defaultFooter.addClass("ui-dialog-buttonpane-right");
+		this.defaultFooter.addClass("modal-footer-buttonpane-right");
 		
 		this.checkBtns(this.cfg.footerButtons);
 		
@@ -196,7 +196,7 @@ Flywet.widget.Dialog.prototype.init = function() {
 	if(this.cfg.footerSettingButtons){
 		var _self=this;
 		this.settingFooter = $("<div></div>");
-		this.settingFooter.addClass("ui-dialog-buttonpane-left");
+		this.settingFooter.addClass("modal-footer-buttonpane-left");
 		
 		this.checkBtns(this.cfg.footerSettingButtons);
 		
@@ -204,8 +204,15 @@ Flywet.widget.Dialog.prototype.init = function() {
 		this.footer.append(this.settingFooter);
 	}
 	
-	
-	this.parent.append(this.jq);
+	if(this.cfg.modal){
+		this.jqModal = $("<div></div>");
+		this.jqModal.attr("id",this.id+":modal");
+		this.jqModal.addClass("modal");
+		this.jqModal.append(this.jq);
+		this.parent.append(this.jqModal);
+	}else{
+		this.parent.append(this.jq);
+	}
 	
 };
 
@@ -252,7 +259,7 @@ Flywet.widget.Dialog.prototype.checkBtns = function(btns){
 					if(!ajaxOpts.params){
 						ajaxOpts.params = {};
 					}
-					ajaxOpts.params.targetId = (_self.id+":content");
+					ajaxOpts.params.targetId = (_self.id+":body");
 					
 					Flywet.ab(ajaxOpts);
 				}
@@ -263,7 +270,7 @@ Flywet.widget.Dialog.prototype.checkBtns = function(btns){
 };
 
 Flywet.widget.Dialog.prototype.createIcon = function(anchorClass,iconClass){
-	var a = $("<a href='#'></a>");
+	var a = $("<button type='button'></button>");
 	a.addClass(anchorClass);
 	var icon = $("<span></span>");
 	icon.addClass(iconClass);
@@ -271,51 +278,15 @@ Flywet.widget.Dialog.prototype.createIcon = function(anchorClass,iconClass){
 	return a;
 };
 
-Flywet.widget.Dialog.prototype.enableModality = function() {
-    $(document.body).append('<div id="' + this.id + '_modal" class="ui-widget-overlay"></div>').
-        children(this.jqId + '_modal').css({
-            'width': $(document).width()
-            ,'height': $(document).height()
-            ,'z-index': this.jq.css('z-index') - 1
-        });
-    
-    //disable tabbing out of modal dialog and stop events from targets outside of dialog
-    this.content.bind('keypress.ui-dialog', function(event) {
-        if(event.keyCode !== $.ui.keyCode.TAB) {
-            return;
-        }
-
-        var tabbables = $(':tabbable', this),
-            first = tabbables.filter(':first'),
-            last  = tabbables.filter(':last');
-
-        if (event.target === last[0] && !event.shiftKey) {
-            first.focus(1);
-            return false;
-        } else if (event.target === first[0] && event.shiftKey) {
-            last.focus(1);
-            return false;
-        }
-    });
-};
-
 Flywet.widget.Dialog.prototype.destroy = function(){
-	Flywet.destroyWidget(this.jq);
+	if(this.cfg.modal){
+		Flywet.destroyWidget(this.jqModal);
+	}else{
+		Flywet.destroyWidget(this.jq);
+	}
+	
 };
 
-Flywet.widget.Dialog.prototype.disableModality = function(){
-    $(document.body).children(this.jqId + '_modal').remove();
-    $(document).unbind(this.blockEvents).unbind('keydown.dialog');
-};
-
-Flywet.widget.Dialog.prototype.syncWindowResize = function() {
-    $(window).resize(function() {
-        $(document.body).children('.ui-widget-overlay').css({
-            'width': $(document).width()
-            ,'height': $(document).height()
-        });
-    });
-};
 
 Flywet.widget.Dialog.prototype.show = function() {
     if(this.visible) {
@@ -359,8 +330,6 @@ Flywet.widget.Dialog.prototype._show = function() {
     this.moveToTop();
     this.focusFirstInput();
     
-    if(this.cfg.modal)
-        this.enableModality();
 };
 
 Flywet.widget.Dialog.prototype.postShow = function() {   
@@ -377,16 +346,21 @@ Flywet.widget.Dialog.prototype.hide = function() {
     
     // for children TODO
     
+    var t = this.jq;
+    if(this.cfg.modal){
+    	t = this.jqModal;
+    }
+    
     if(this.cfg.hideEffect) {
         var _self = this;
     
-        this.jq.hide(this.cfg.hideEffect, null, 'normal', function() {
+        t.hide(this.cfg.hideEffect, null, 'normal', function() {
             _self.onHide();
             
             _self.visible = false;
             
             //replace display block with visibility hidden for hidden container support
-            _self.jq.css({
+            t.css({
                 'visibility':'hidden'
                 ,'display':'block'
             });
@@ -395,20 +369,17 @@ Flywet.widget.Dialog.prototype.hide = function() {
             	_self.destroy();
             }
             
-            if(_self.cfg.modal) {
-            	_self.disableModality();
-            }
         });
     }
     else {
-        this.jq.hide();
+        t.hide();
         
         this.onHide();
         
         this.visible = false;
         
         //replace display block with visibility hidden for hidden container support
-        this.jq.css({
+       	t.css({
             'visibility':'hidden'
             ,'display':'block'
         });
@@ -417,9 +388,6 @@ Flywet.widget.Dialog.prototype.hide = function() {
         	this.destroy();
         }
         
-        if(this.cfg.modal) {
-            this.disableModality();
-        }
     }
     
 };
@@ -439,9 +407,9 @@ Flywet.widget.Dialog.prototype.bindEvents = function() {
     });
 
     this.icons.mouseover(function() {
-        $(this).addClass('ui-state-hover');
+        $(this).addClass('hover');
     }).mouseout(function() {
-        $(this).removeClass('ui-state-hover');
+        $(this).removeClass('hover');
     })
     
     if(this.cfg.closable){
@@ -465,29 +433,19 @@ Flywet.widget.Dialog.prototype.bindEvents = function() {
 
 Flywet.widget.Dialog.prototype.setupDraggable = function() {    
     this.jq.draggable({
-        cancel: '.ui-dialog-content, .ui-dialog-titlebar-close',
-        handle: '.ui-dialog-titlebar',
+        cancel: '.modal-body, .modal-header-close',
+        handle: '.modal-header',
         containment : 'document'
     });
 };
 
 Flywet.widget.Dialog.prototype.setupResizable = function() {
-    var _self = this;
-    
     this.jq.resizable({
         handles : 'n,s,e,w,ne,nw,se,sw',
         minWidth : this.cfg.minWidth,
         minHeight : this.cfg.minHeight,
-        alsoResize : this.content,
-        containment: 'document',
-        start: function(event, ui) {
-        },
-        stop: function(event, ui) {
-            _self.jq.css('position', 'fixed');
-        }
+        alsoResize : this.body
     });
-    
-    this.resizers = this.jq.children('.ui-resizable-handle');
 };
 
 Flywet.widget.Dialog.prototype.initPosition = function() {
@@ -550,7 +508,7 @@ Flywet.widget.Dialog.prototype.moveToTop = function() {
  * 改变子元素尺寸
  */
 Flywet.widget.Dialog.prototype.resizeSub = function() {
-	this.content.find("div.ui-panel:visible,div.tabs-container:visible,div.layout:visible")
+	this.body.find("div.ui-panel:visible,div.tabs-container:visible,div.layout:visible")
 		.each(function() {
 			$(this).triggerHandler("_resize", [ true ]);
 		});
@@ -559,11 +517,11 @@ Flywet.widget.Dialog.prototype.resizeSub = function() {
 Flywet.widget.Dialog.prototype.toggleMaximize = function() {
     
     if(this.maximized) {
-        this.jq.removeClass('ui-dialog-maximized');
+        this.jq.removeClass('maximized');
         this.restoreState();
         
         if(this.cfg.maximizable){
-        	this.maximizeIcon.children('.ui-icon').removeClass('ui-icon-panel-restore').addClass('ui-icon-panel-max');
+        	this.maximizeIcon.children('.glyphicon').removeClass('glyphicon-resize-small').addClass('glyphicon-resize-full');
         }
         
         this.maximized = false;
@@ -573,29 +531,29 @@ Flywet.widget.Dialog.prototype.toggleMaximize = function() {
         
         var win = $(window);
         
-        var contentHeight = win.height()-5;
-        if(this.titlebar && this.titlebar.length>0){
-        	contentHeight = contentHeight - this.titlebar.height();
+        var bodyHeight = win.height();
+        if(this.header){
+        	bodyHeight = bodyHeight - this.header._outerHeight();
         }
-        if(this.footer && this.footer.length>0){
-        	contentHeight = contentHeight - this.footer.height();
+        if(this.footer){
+        	bodyHeight = bodyHeight - this.footer._outerHeight();
         }
                 
-        this.jq.addClass('ui-dialog-maximized').css({
+        this.jq.addClass('maximized').css({
             'width': win.width()-2
             ,'height': 'auto'
             ,'top': win.scrollTop()
             ,'left': win.scrollLeft()
         });
         
-        //maximize content
-        this.content.css({
+        //maximize body
+        this.body.css({
             width: 'auto',
-            height: contentHeight
+            height: bodyHeight
         });
         
         if(this.cfg.maximizable){
-        	this.maximizeIcon.removeClass('ui-state-hover').children('.ui-icon').removeClass('ui-icon-panel-max').addClass('ui-icon-panel-restore');
+        	this.maximizeIcon.removeClass('hover').children('.glyphicon').removeClass('glyphicon-resize-full').addClass('glyphicon-resize-small');
         }
         this.maximized = true;
     }
@@ -604,7 +562,7 @@ Flywet.widget.Dialog.prototype.toggleMaximize = function() {
 Flywet.widget.Dialog.prototype.saveState = function() {
     this.state = {
         width: this.jq.width()
-        ,height: this.content.height()
+        ,height: this.body.height()
     };
     
     var win = $(window);
@@ -615,7 +573,7 @@ Flywet.widget.Dialog.prototype.saveState = function() {
 
 Flywet.widget.Dialog.prototype.restoreState = function(includeOffset) {
     this.jq.width(this.state.width).height("auto");
-    this.content.height(this.state.height);
+    this.body.height(this.state.height);
         
     var win = $(window);
     this.jq.css({
@@ -639,14 +597,14 @@ Flywet.widget.Dialog.prototype.loadContents = function() {
         for(var i=0; i < updates.length; i++) {
             var update = updates.eq(i),
             id = update.attr('id'),
-            content = update.text();
+            body = update.text();
 
             if(id == _self.id){
-                _self.content.html(content);
+                _self.body.html(body);
                 _self.loaded = true;
             }
             else {
-                Flywet.ajax.AjaxUtils.updateElement.call(this, id, content);
+                Flywet.ajax.AjaxUtils.updateElement.call(this, id, body);
             }
         }
 
@@ -786,29 +744,25 @@ Flywet.widget.ConfirmDialog = function(cfg) {
     	}
     }
     
-    this.createContentDom(cfg);
+    this.createBodyDom(cfg);
     Flywet.widget.Dialog.call(this, cfg);
 };
 
 Flywet.widget.ConfirmDialog.prototype = Flywet.widget.Dialog.prototype;
 
 Flywet.widget.ConfirmDialog.prototype.changeTitle = function(title){
-	this.jq.find("div.ui-dialog-titlebar span").html(title);
+	this.jq.find("div.modal-header span").html(title);
 };
 
-Flywet.widget.ConfirmDialog.prototype.changeContent = function(img,content){
-	this.jq.find("div.ui-dialog-content p").html('<span class="ui-icon ui-icon-'+img+'" style="float: left; margin: 0pt 7px 20px 0pt;"></span>'+content);
-};
-
-Flywet.widget.ConfirmDialog.prototype.createContentDom =function(cfg){
-	 var contentDom=document.createElement("div");
-	 $(contentDom).addClass(cfg.type);
+Flywet.widget.ConfirmDialog.prototype.createBodyDom =function(cfg){
+	 var bodyDom=document.createElement("div");
+	 $(bodyDom).addClass(cfg.type);
 	 var icon=document.createElement("div");
-	 $(icon).addClass("ui-confirm-dialog-icon");
+	 $(icon).addClass("confirm-modal-icon");
 	 var span=document.createElement("span");
-	 $(span).addClass("ui-confirm-dialog-span");
+	 $(span).addClass("confirm-modal-span");
 	 $(span).html(cfg.text);
-	 $(contentDom).append(icon);
-	 $(contentDom).append(span);
-	 cfg.content=contentDom;
+	 $(bodyDom).append(icon);
+	 $(bodyDom).append(span);
+	 cfg.body=bodyDom;
 };

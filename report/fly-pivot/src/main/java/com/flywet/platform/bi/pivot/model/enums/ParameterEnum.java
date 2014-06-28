@@ -12,8 +12,8 @@ import com.flywet.platform.bi.pivot.model.IIndexedEnum;
  */
 public enum ParameterEnum implements IIndexedEnum {
 
-	// 枚举类型-按钮组
-	PARAMETER_ENUM_BUTTON_GROUP((short) 0),
+	// 按钮组
+	PARAMETER_BUTTON_GROUP((short) 0),
 	// 字符串类型
 	PARAMETER_STRING((short) 1),
 	// 枚举类型
