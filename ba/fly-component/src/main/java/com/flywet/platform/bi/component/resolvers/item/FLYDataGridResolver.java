@@ -125,7 +125,8 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 				XMLUtils.getSubTagExpress(HTML.COMPONENT_TYPE_FLY_PREFIX
 						+ ATTR_TOOLBAR));
 		if (toolbar != null) {
-			jo.put(ATTR_TOOLBAR, parserToolbar(toolbar, attrs));
+			jo.put(ATTR_TOOLBAR, PageTemplateResolverType.convertComponentsJa(
+					toolbar, attrs));
 		}
 
 		// rowStylers
@@ -229,31 +230,6 @@ public class FLYDataGridResolver extends BaseComponentResolver implements
 		}
 
 		return func;
-	}
-
-	@SuppressWarnings("unchecked")
-	private JSONArray parserToolbar(Node node, FLYVariableResolver attrs)
-			throws BIPageException, BIJSONException {
-		JSONArray ja = new JSONArray();
-		NodeList nodeList = node.getChildNodes();
-		if (nodeList != null) {
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				Node subNode = nodeList.item(i);
-				if (!XMLUtils.isTextNode(subNode)) {
-					ja.add(parserToolbarElement(subNode, attrs));
-				}
-			}
-		}
-		return ja;
-	}
-
-	private JSONObject parserToolbarElement(Node node, FLYVariableResolver attrs)
-			throws BIPageException, BIJSONException {
-		Map<String, Object> map = HTML.getAttributesMap(node.getAttributes(),
-				null, attrs);
-		map.put("componentType", PageTemplateResolverType
-				.convertComponentPluginName(node.getNodeName()));
-		return JSONUtils.convertToJSONObject(map);
 	}
 
 	@SuppressWarnings("unchecked")

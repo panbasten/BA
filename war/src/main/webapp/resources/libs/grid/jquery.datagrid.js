@@ -364,11 +364,11 @@
 		dc.footer1.add(dc.footer2).css("display", opts.showFooter ? "block" : "none");
 		if (opts.toolbar) {
 			if (typeof opts.toolbar == "string") {
-				$(opts.toolbar).addClass("ui-datagrid-toolbar").prependTo(panel);
+				$(opts.toolbar).addClass("ui-datagrid-toolbar navbar navbar-inverse").prependTo(panel);
 				$(opts.toolbar).show();
 			} else {
 				$("div.ui-datagrid-toolbar", panel).remove();
-				var tb = $("<div class=\"ui-datagrid-toolbar\"></div>").prependTo(panel);
+				var tb = $("<div class=\"ui-datagrid-toolbar navbar navbar-inverse\"></div>").prependTo(panel);
 				Flywet.autocw(opts.toolbar, tb);
 			}
 		} else {

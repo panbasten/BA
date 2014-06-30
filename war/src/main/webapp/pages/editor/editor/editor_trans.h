@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content">
-		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-all">
+		<div id="${editorId}EditorToolbar" class="ui-toolbar navbar navbar-inverse">
 			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" btnStyle="link" onclick="Flywet.editors.trans.action.run();" title="运行" />
 			<fly:pushbutton id="trans_runreturn" iconCls="ui-icon-editor-return" btnStyle="link" onclick="" title="重复运行" />
 			<fly:pushbutton id="trans_pause" iconCls="ui-icon-editor-pause" btnStyle="link" onclick="" title="暂停" />
@@ -46,12 +46,12 @@
 			<fly:pushbutton id="trans_save_xml" iconCls="ui-icon-save-xml" btnStyle="link" onclick="Flywet.editors.trans.action.saveXml();" title="保存为xml文件并下载" />
 			<fly:pushbutton id="trans_save_image" iconCls="ui-icon-save-image" btnStyle="link" onclick="Flywet.editors.trans.action.saveImage();" title="保存为图片并下载" />
 		</div>
-		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="ui-helper-clearfix">
+		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="clearfix">
 		</div>
 	</div>
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top fly-editor-side-bar-only">
 		<div id="${editorId}ThumbPanel" class="ui-widget-panel">
-			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+			<div class="navbar navbar-inverse">
 				<div class="ui-toolbar-group-left">缩略图</div>
 				<div class="ui-toolbar-group-right">
 					<span id="${editorId}ThumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('thumbPane');"></span>
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div id="${editorId}DSPanel" class="ui-widget-panel">
-			<div class="ui-widget-header ui-helper-clearfix ui-corner-top fly-editor-side-bar-only">
+			<div class="navbar navbar-inverse fly-editor-side-bar-only">
 				<div class="ui-toolbar-group-left">数据源</div>
 				<div class="ui-toolbar-group-right">
 					<span id="${editorId}DSClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('dsPane');"></span>

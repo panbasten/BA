@@ -55,7 +55,7 @@
           closePanel: true,
           checkModify: false,
           modifyCloseTip: "Are you sure remove the tab?",
-          closeButton: "<span class='ui-button ui-icon ui-icon-close'></span>",
+          closeButton: "<span class='ui-tab-close glyphicon glyphicon-remove'></span>",
           modifyTag: "<span class='ui-modify-tag'></span>",
           panelContext: $container
         },
@@ -91,7 +91,7 @@
       if ( settings.uiTabs ) {
         settings.tabActiveClass = 'ui-tabs-selected';
         settings.containerClass = 'ui-tabs ui-widget ui-widget-content ui-corner-all';
-        settings.tabsClass = 'ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all';
+        settings.tabsClass = 'ui-tabs-nav clearfix';
         settings.tabClass = 'ui-corner-top';
         settings.panelClass = 'ui-tabs-panel ui-widget-content ui-corner-bottom';
       }
@@ -578,7 +578,7 @@
           })
     	  .bind("click.easytabs", function(e) {
     		  var element = $(this);
-              if($(e.target).is(':not(.ui-icon-close)')) {
+              if($(e.target).is(':not(.ui-tab-close)')) {
 	    		  settings.cycle = false;
 	    		  skipUpdateToHash = false;
 	    		  plugin.selectTab( $(this) );
@@ -588,7 +588,7 @@
     	  
     	  // close
     	  if(closable) {
-    		  var $tabClose = $tab.find("span.ui-icon-close");
+    		  var $tabClose = $tab.find("span.ui-tab-close");
     		  $tabClose.bind("click.easytabs",$taba,function(e){
     			  plugin.removeTab(e.data);
     			  e.preventDefault();

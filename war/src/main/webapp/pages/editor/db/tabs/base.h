@@ -14,12 +14,12 @@
 	<fly:gridLayout column="2" itemWidth="40%,60%" itemMargin="10">
 		<fly:gridLayoutItem>
 			<fly:verticalLayout margin="0">
-				<fly:labelObject buddy="${formId}:connectionType" text="连接类型"></fly:labelObject>
+				<fly:labelObject buddy="${formId}:connectionType" class="ui-layout-no-bottom-margin" text="连接类型"></fly:labelObject>
 				<fly:selectMenu id="${formId}:connectionType" name="${formId}:connectionType" size="10" value="${dbMeta.databaseInterface.pluginId}"
 					onchange="Flywet.database.changeConnectionType('${formId}')">
 					<fly:options items="${dbTypes}" value="ids[0]" label="name" />
 				</fly:selectMenu>
-				<fly:labelObject buddy="${formId}:accessType" text="连接方式" marginTop="10"></fly:labelObject>
+				<fly:labelObject buddy="${formId}:accessType" class="ui-layout-no-bottom-margin" text="连接方式" marginTop="10"></fly:labelObject>
 				<fly:selectMenu id="${formId}:accessType" name="${formId}:accessType" size="4" value="${dbMeta.accessType}"
 					onchange="Flywet.database.changeConnectionType('${formId}')">
 					<fly:options items="${accessTypes}" value="0" label="1" />

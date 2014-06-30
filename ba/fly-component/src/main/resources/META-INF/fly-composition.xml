@@ -12,6 +12,7 @@
 	<component>fly-verticalspacer.xml</component>
 	
 	<!-- buttons -->
+	<component>fly-pushbuttongroup.xml</component>
 	<component>fly-pushbutton.xml</component>
 	<component>fly-linkbutton.xml</component>
 	<component>fly-radiobutton.xml</component>

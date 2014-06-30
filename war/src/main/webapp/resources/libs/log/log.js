@@ -101,7 +101,7 @@ Flywet.widget.Log.prototype.add = function(msg, severity, icon) {
     var visible = this.severity == severity || this.severity == 'all',
     style = visible ? 'display:block' : 'display:none';
     
-    var item = '<li class="ui-log-item ui-log-item-' + severity + ' ui-helper-clearfix" style="' + style + 
+    var item = '<li class="ui-log-item ui-log-item-' + severity + ' clearfix" style="' + style + 
         '"><span class="ui-icon ' + icon + '"></span>' + new Date().toLocaleString() + ' : '  + msg + '</li>';
     
     this.itemsContainer.append(item);

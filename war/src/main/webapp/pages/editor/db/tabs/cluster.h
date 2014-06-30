@@ -8,12 +8,12 @@
 			<fly:inputText id="${formId}:partitioned" name="${formId}:partitioned" type="checkbox" 
 				value="${dbMeta.partitioned}"
 				interaction="[{method:'enable',val:true,param:['${formId}:partitioningInformations']}]"
-				class="ui-layout-div ui-helper-clearfix" />
+				class="ui-layout-div clearfix" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
 	
 	<fly:verticalLayout margin="10">
-		<fly:labelObject text="命名参数" buddy="${formId}:partitioningInformations" disabled="${!dbMeta.partitioned}" />
+		<fly:labelObject text="命名参数" class="ui-layout-no-bottom-margin" buddy="${formId}:partitioningInformations" disabled="${!dbMeta.partitioned}" />
 		<fly:dataGrid id="${formId}:partitioningInformations" singleSelect="true" height="250" data="${partitioningInformations}" disabled="${!dbMeta.partitioned}">
 			<fly:columns>
 				<fly:row>

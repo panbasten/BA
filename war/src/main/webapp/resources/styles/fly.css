@@ -193,7 +193,6 @@
 	background-image: url("../images/default/tabmiddle.png");
 	display:block;
 	float:left;
-	padding-right:10px;
 }
 .ui-tab-state-hover .ui-tab-text,
 .ui-tab-state-active .ui-tab-text {

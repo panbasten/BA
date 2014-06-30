@@ -1,6 +1,6 @@
 (function($) {
 	
-	function _initButton(target){
+	function _init(target){
 		var btn = $("<button type='button' class='btn'></button>").insertAfter(target);
 		$(target).addClass("btn-original").hide().appendTo(btn);
 		
@@ -8,7 +8,12 @@
 		
 		var menuItems = opts.menuItems;
 		
+		// 设置ID
+		btn.attr("id", (opts.id)?(opts.id):"");
 		
+		if(opts.title){
+			btn.attr("title", opts.title);
+		}
 		
 		var iconCls = opts.iconCls,
 			iconAlign = opts.iconAlign,
@@ -23,6 +28,12 @@
 		
 		if(opts.btnStyle) {
 			clazz = clazz + " btn-" + opts.btnStyle;
+		}
+		
+		if(opts.btnSize) {
+			if(opts.btnSize == "large"){ clazz = clazz + " btn-lg"; }
+			else if(opts.btnSize == "small"){ clazz = clazz + " btn-sm"; }
+			else if(opts.btnSize == "mini"){ clazz = clazz + " btn-xs"; }
 		}
 		
 		btn.addClass(clazz);
@@ -57,23 +68,6 @@
 		Flywet.attachBehaviorsOn(btn,opts);
 		
 		return btn;
-	}
-	
-	function _init(target){
-		var opts = $.data(target, "pushbutton").options;
-		var t = $(target);
-		
-		// 清空对象内容
-		t.empty();
-		
-		// 设置ID
-		t.attr("id", (opts.id)?(opts.id):"");
-		
-		if(opts.title){
-			t.attr("title", opts.title);
-		}
-		
-		return _initButton(target);
 	}
 	
 	function _toggle(target, state){
@@ -136,6 +130,7 @@
 		id : null,
 		label : null,
 		btnStyle : "default",//default,primary,success,info,warning,danger,link
+		btnSize : "default",// default,large,small,mini
 		iconCls : null,
 		iconAlign : "left"
 	};
@@ -182,5 +177,42 @@ Flywet.PushButton = {
 	},
 	destroy : function(menuId){
 		window[menuId+'_var'].destroy();
+	}
+};
+
+
+
+
+
+
+
+Flywet.widget.PushButtonGroup=function(cfg){
+	this.cfg = cfg;
+	this.id = this.cfg.id;
+	this.jqId = Flywet.escapeClientId(this.id);
+	
+	this.init();
+};
+
+Flywet.extend(Flywet.widget.PushButtonGroup, Flywet.widget.BaseWidget);
+
+Flywet.widget.PushButtonGroup.prototype.init = function() {
+	if(this.cfg.parent || this.cfg.parentId){
+		this.parent = this.cfg.parent || $(Flywet.escapeClientId(this.cfg.parentId));
+		this.jq = $(this.parent).find(this.jqId);
+		if(this.jq.length == 0){
+			this.jq = $("<div></div>");
+			this.jq.addClass("btn-group");
+		}
+		this.parent.append(this.jq);
+	}else{
+		this.jq = $(this.jqId);
+	}
+	
+	if(this.cfg.subs){
+		for(var i=0;i<this.cfg.subs.length;i++){
+			console.log(this.cfg.subs[i]);
+			Flywet.autocw(this.cfg.subs[i], this.jq);
+		}
 	}
 };

@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content">
-		<div id="${editorId}EditorToolbar" class="ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-top">
+		<div id="${editorId}EditorToolbar" class="ui-toolbar clearfix">
 			<fly:pushbutton id="dashboard_editor_component" iconCls="ui-icon-dashboard-edit" btnStyle="link"
 				onclick="Flywet.editors.dashboard.action.editorComponent();" title="编辑控件" state="active" />
 			<fly:pushbutton id="dashboard_editor_signal_slot" iconCls="ui-icon-dashboard-signal" btnStyle="link"
@@ -47,7 +47,7 @@
 			</fly:combobox>
 		</div>
 		
-		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor ui-helper-clearfix" 
+		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="fly-editor clearfix" 
 			style="margin:0 5px;overflow:auto;">
 				<!-- margin 需要处理按字号处理高度，还要考虑是否有边框，以及边框宽度 -->
 				<div id="${editorId}EditorPanelWrapper" class="fly-editor-wrapper fly-dashboard-editor-wrapper">
@@ -56,7 +56,7 @@
 		</div>
 		
 		<div id="${editorId}SignalBar" class="fly-flow-signal-bar">
-			<div class="ui-widget-header ui-helper-clearfix ui-datagrid-toolbar">
+			<div class="ui-datagrid-toolbar clearfix">
 				<div class="ui-toolbar-group-left">
 					<fly:pushbutton iconCls="ui-icon-plusthick" btnStyle="link" onclick="Flywet.editors.dashboard.action.signal_add_on_click();" title="添加" />
 					<fly:pushbutton iconCls="ui-icon-closethick" btnStyle="link" onclick="Flywet.editors.dashboard.action.signal_delete_on_click();" title="删除" />
@@ -73,7 +73,7 @@
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar fly-editor-side-bar">
 	
 		<div id="${editorId}StructPanel" class="ui-widget-panel">
-			<div class="ui-widget-header ui-helper-clearfix ui-corner-top">
+			<div class="clearfix">
 				<div class="ui-toolbar-group-left">结构</div>
 				<div class="ui-toolbar-group-right">
 					<span id="${editorId}StructClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.dashboard.toggleContent('structPane');"></span>

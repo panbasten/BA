@@ -370,11 +370,11 @@ public class HTML {
 
 	public static final String REQUIRED_CLASS = "ui-required-tag";
 
-	public static final String LAYOUT_CLASS = "ui-helper-clearfix";
+	public static final String LAYOUT_CLASS = "clearfix";
 
-	public static final String LAYOUT_ITEM_CLASS = "ui-layout-float ui-helper-clearfix";
+	public static final String LAYOUT_ITEM_CLASS = "ui-layout-float clearfix";
 
-	public static final String LAYOUT_SINGLE_CLASS = "ui-label-single ui-helper-clearfix";
+	public static final String LAYOUT_SINGLE_CLASS = "ui-label-single clearfix";
 
 	public static final String STATE_DISABLED_CLASS = "disabled";
 

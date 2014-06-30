@@ -26,6 +26,7 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 
 	public static final String ATTR_MENU_ID = "menuId";
 	public static final String ATTR_BTN_STYLE = "btnStyle";
+	public static final String ATTR_BTN_SIZE = "btnSize";
 
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,
@@ -53,6 +54,15 @@ public class FLYPushButtonResolver extends BaseComponentResolver implements
 		}
 
 		styleClass = styleClass + " btn btn-" + btnStyle;
+
+		String btnSize = HTML.getTagAttribute(node, ATTR_BTN_SIZE, attrs);
+		if ("large".equalsIgnoreCase(btnSize)) {
+			styleClass = styleClass + " btn btn-lg";
+		} else if ("small".equalsIgnoreCase(btnSize)) {
+			styleClass = styleClass + " btn btn-sm";
+		} else if ("mini".equalsIgnoreCase(btnSize)) {
+			styleClass = styleClass + " btn btn-xs";
+		}
 
 		if (userClass != null) {
 			styleClass = styleClass + " " + userClass;

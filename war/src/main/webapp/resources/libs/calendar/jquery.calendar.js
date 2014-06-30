@@ -20,7 +20,7 @@
 	 * 初始化
 	 */
 	function _init(target) {
-		$(target).addClass("ui-calendar ui-widget ui-helper-clearfix ui-corner-all").wrapInner(
+		$(target).addClass("ui-calendar clearfix").wrapInner(
 			"<div class=\"ui-calendar-header\">"
 				+ "<div class=\"ui-calendar-prevmonth ui-icon ui-icon-triangle-1-w\"></div>"
 				+ "<div class=\"ui-calendar-nextmonth ui-icon ui-icon-triangle-1-e\"></div>"
