@@ -5,6 +5,8 @@
 	position:relative;
 }
 .ui-datagrid-view{
+	border: 1px solid #ddd;
+	border-top: 1px dotted #999;
 	position:relative;
 	overflow:hidden;
 }
@@ -60,9 +62,13 @@
 	background:url('images/datagrid_sort_asc.gif') no-repeat center center;
 }
 .ui-datagrid-toolbar{
-	background:#ccc url('images/ui_datagrid_bg_rownumber.png') repeat-x left bottom;
-	padding:2px 5px;
-	border-bottom:1px solid #ccc;
+	margin-bottom: 0;
+	height: 30px;
+	min-height: 30px;
+	padding:3px 5px;
+	-webkit-border-radius: 5px 5px 0 0;
+	   -moz-border-radius: 5px 5px 0 0;
+	        border-radius: 5px 5px 0 0;
 }
 .ui-datagrid-btn-separator{
 	float:left;
@@ -121,6 +127,8 @@
 	margin:0px;
 	padding:3px 0px;
 }
+
+.ui-datagrid-header-row td,
 .ui-datagrid-td-rownumber{
 	background:#ccc url('images/ui_datagrid_bg_rownumber.png') repeat-x left bottom;
 }
@@ -196,12 +204,12 @@
 .ui-datagrid-row-alt{
 	background:#EEEEFF;
 }
-.ui-datagrid-body .ui-state-hover,
-.ui-datagrid-header td.ui-state-hover{
+.ui-datagrid-body .hover,
+.ui-datagrid-header td.hover{
 	border:0 none;
 	cursor:default;
 }
-.ui-datagrid-body .ui-state-active{
+.ui-datagrid-body .active{
 	border:0 none;
 	box-shadow: none;
 }

@@ -262,13 +262,13 @@ Flywet.editors.trans = {
 				$("#transEditorPanel").droppable({
 					accept: '.fly-trans-step-plugin',
 					onDragEnter:function(e,source,data){
-						$("#transEditorPanel").addClass("ui-state-highlight");
+						$("#transEditorPanel").addClass("highlight");
 					},
 					onDragLeave: function(e,source,data){
-						$("#transEditorPanel").removeClass("ui-state-highlight");
+						$("#transEditorPanel").removeClass("highlight");
 					},
 					onDrop: function(e,source,data){
-						$("#transEditorPanel").removeClass("ui-state-highlight");
+						$("#transEditorPanel").removeClass("highlight");
 						Flywet.editors.trans.action.appendEl($(source).data("data"),data);
 					}
 				});

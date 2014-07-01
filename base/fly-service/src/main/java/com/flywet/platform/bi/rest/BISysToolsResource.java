@@ -87,7 +87,7 @@ public class BISysToolsResource {
 													.getExtAttrString())
 											+ "\" title=\""
 											+ child.getDesc()
-											+ "\" onclick=\"Flywet.sysTools.openTool(this)\" onmouseover=\"$(this).addClass('ui-state-hover')\" onmouseout=\"$(this).removeClass('ui-state-hover')\">");
+											+ "\" onclick=\"Flywet.sysTools.openTool(this)\" onmouseover=\"$(this).addClass('hover')\" onmouseout=\"$(this).removeClass('hover')\">");
 							sb
 									.append("<div class=\"func-item\" style=\"background:url('resources/images/functype/"
 											+ child.getCode()
@@ -100,7 +100,7 @@ public class BISysToolsResource {
 							sb
 									.append("<div id=\"func_"
 											+ child.getId()
-											+ "\" class=\"func-item-con ui-state-disabled\" title=\""
+											+ "\" class=\"func-item-con disabled\" title=\""
 											+ child.getAuth() + "\">");
 							sb
 									.append("<div class=\"func-item\" style=\"background:url('resources/images/functype/"

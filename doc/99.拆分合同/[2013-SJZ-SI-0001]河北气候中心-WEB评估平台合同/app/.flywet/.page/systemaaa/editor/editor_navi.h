@@ -4,7 +4,7 @@
 	</ul>
 	<div class="panel-container hb-editor-content-height-no-padding" style="background:transparent;padding-left:75px;">
 		<div id="editorContent-navi-trans">
-			<div id="editorContent-navi-trans-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
+			<div id="editorContent-navi-trans-bc" class="navbar navbar-inverse">
 				<div class="ui-toolbar-group-left" style="width: 60%;">
 					<ul>
 					</ul>
@@ -25,7 +25,7 @@
 			editorContent-navi-databases
 		</div>
 		<div id="editorContent-navi-filesys">
-			<div id="editorContent-navi-filesys-bc" class="ui-breadcrumb ui-widget-header ui-helper-clearfix ui-corner-all">
+			<div id="editorContent-navi-filesys-bc" class="navbar navbar-inverse">
 				<div class="ui-toolbar-group-left" style="width: 60%;">
 					<ul>
 					</ul>

@@ -11,20 +11,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.core.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.flywet.platform.bi.component.core.ComponentAttributeInterface;
 import com.flywet.platform.bi.component.core.ComponentResolverInterface;
 import com.flywet.platform.bi.component.resolvers.base.HTMLComponentResolver;
 import com.flywet.platform.bi.component.vo.ComponentAttribute;
 import com.flywet.platform.bi.component.vo.ComponentPlugin;
+import com.flywet.platform.bi.core.exception.BIJSONException;
 import com.flywet.platform.bi.core.exception.BIPageException;
 import com.flywet.platform.bi.core.utils.FileUtils;
+import com.flywet.platform.bi.core.utils.JSONUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 
 public class PageTemplateResolverType {
@@ -224,6 +229,37 @@ public class PageTemplateResolverType {
 			return plugin.getId();
 		}
 		return name;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static JSONArray convertComponentsJa(Node node,
+			FLYVariableResolver attrs) throws BIJSONException, BIPageException {
+		JSONArray ja = new JSONArray();
+		NodeList nodeList = node.getChildNodes();
+		if (nodeList != null && nodeList.getLength() > 0) {
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node subNode = nodeList.item(i);
+				if (!XMLUtils.isTextNode(subNode)) {
+					ja.add(convertComponentJo(subNode, attrs));
+				}
+			}
+			return ja;
+		}
+		return null;
+	}
+
+	private static JSONObject convertComponentJo(Node node,
+			FLYVariableResolver attrs) throws BIJSONException, BIPageException {
+		Map<String, Object> map = HTML.getAttributesMap(node.getAttributes(),
+				null, attrs);
+		map.put("componentType", convertComponentPluginName(node.getNodeName()));
+
+		JSONArray subs = convertComponentsJa(node, attrs);
+		if (subs != null) {
+			map.put("subs", subs);
+		}
+
+		return JSONUtils.convertToJSONObject(map);
 	}
 
 	public static List<String> getCategoryNames() throws BIPageException {

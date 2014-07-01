@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="fly:PushButtonGroup">
+	<description>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeLongDesc.PushButtonGroup</description>
+	<classname>com.flywet.platform.bi.component.resolvers.button.FLYPushButtonGroupResolver</classname>
+	<category>Buttons</category>
+	<tooltip>i18n:com.flywet.platform.bi.component.resolvers:Component.TypeTooltipDesc.PushButtonGroup</tooltip>
+	<iconfile>pushbuttongroup.png</iconfile>
+	
+	<attributes>
+		&fly-attribute-object-name
+		&fly-attribute-enabled
+		&fly-attribute-tooltip
+		
+		&fly-attribute-geometry
+		&fly-attribute-margin
+		&fly-attribute-padding
+	</attributes>
+</component>

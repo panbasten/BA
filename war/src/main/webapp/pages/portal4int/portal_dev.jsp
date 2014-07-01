@@ -15,60 +15,9 @@
 		<link rel="shortcut icon" href="<%=path%>/resources/images/logo.ico" />
 		<link rel="icon" href="<%=path%>/resources/images/logo.ico" />
 		
-		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
-		<link href="<%=path%>/resources/styles/reset.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/styles/default.css" rel="stylesheet"
-			type="text/css" />
-		<!-- replace end -->
-			
-		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
-		<link href="<%=path%>/resources/libs/jquery/jquery-ui.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/menu/menu.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/metro/metro.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/easytabs/easytabs.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/breadcrumb/breadcrumb.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/layout/layout.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/toolbar/toolbar.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/scrollbar/scrollbar.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/search/search.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/popup/popup.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/browsePanel/browsePanel.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/tree/tree.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/dialog/dialog.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/gridlayout/gridlayout.css" rel="stylesheet"
-			type="text/css" />
-		
-		<link href="<%=path%>/resources/libs/panel/panel.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/combo/combo.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/combo/combobox.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/validate/validatebox.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/grid/pagination.css" rel="stylesheet"
-			type="text/css" />
-		<link href="<%=path%>/resources/libs/grid/datagrid.css" rel="stylesheet"
+		<link href="<%=path%>/resources/libs/core/bootstrap.css" rel="stylesheet"
 			type="text/css" />
 		<link href="<%=path%>/resources/libs/spreadsheet/spreadsheet.css" rel="stylesheet"
-			type="text/css" />
-		<!-- replace end -->
-		
-		<link href="<%=path%>/resources/styles/themes/aristo/theme.css" rel="stylesheet"
 			type="text/css" />
 			
 		<!-- replace href="<%=path%>/resources/styles/portal4int.compressed.css" type="style" -->

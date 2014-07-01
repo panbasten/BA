@@ -2,6 +2,9 @@
 	float: left;
 }
 
+.ui-layout-no-bottom-margin {
+	margin-bottom: 0 !important;
+}
 
 /*
 *	OUTER LAYOUT RESIZERS & TOGGLERS

@@ -38,7 +38,7 @@ Flywet.widget.BrowsePanel.prototype={
 	getSelections:function(){
 		var items = [];
 		this.container.children().each(function(i){
-			if($(this).hasClass("ui-state-active")){
+			if($(this).hasClass("active")){
 				items.push($(this).data("data"));
 			}
 		});
@@ -87,10 +87,10 @@ Flywet.widget.BrowsePanel.prototype={
 			// click event
 			itemDom.bind("click",item,function(event){
 				var el = $(this),
-					active = el.is(".ui-state-active");
-				el.parent().children().removeClass("ui-state-active");
+					active = el.is(".active");
+				el.parent().children().removeClass("active");
 				if(!active)
-					el.addClass("ui-state-active");
+					el.addClass("active");
 				if(event.data && event.data.attrs && event.data.attrs.events && event.data.attrs.events["click"]){
 					Flywet.invokeFunction(event.data.attrs.events["click"],event,event.data);
 				}
@@ -98,7 +98,7 @@ Flywet.widget.BrowsePanel.prototype={
 			
 			// mouseover event
 			itemDom.bind("mouseover",item,function(event){
-				$(this).addClass("ui-state-hover");
+				$(this).addClass("hover");
 				if(event.data && event.data.attrs && event.data.attrs.events && event.data.attrs.events["mouseover"]){
 					Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
 				}
@@ -106,7 +106,7 @@ Flywet.widget.BrowsePanel.prototype={
 			
 			// mouseout event
 			itemDom.bind("mouseout",item,function(event){
-				$(this).removeClass("ui-state-hover");
+				$(this).removeClass("hover");
 				if(event.data && event.data.attrs && event.data.attrs.events && event.data.attrs.events["mouseout"]){
 					Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
 				}

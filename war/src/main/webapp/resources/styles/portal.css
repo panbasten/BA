@@ -2,11 +2,10 @@ body {
 	background-image: url("../images/login/bg.png");
 	background-color: #1A1A1C;
 	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
-    font-size: 12px;
-    text-align: center;
+    font-size: 14px;
     /*text-shadow: 0 0 3px #666666;*/
 	line-height: 1.25em;
-	color: #D3D4D5;
+	color: #333;
 	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
@@ -15,215 +14,11 @@ body {
 	padding: 0;
 }
 
-fieldset {
-	margin: 0;
-	padding: 0;
-	border: 0 none;
-}
-
-a {
-	color: #3BA7BC;
-	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
-	font-weight: bold;
-	text-align: right;
-}
-
-b, i, dl, dt, dd {
-	margin: 0;
-	padding: 0;
-}
-
-
-q:before,q:after,blockquote:before,blockquote:after {
-	content: "";
-}
-
-audio,canvas,video {
-	display: inline-block; *
-	display: inline; *
-	zoom: 1;
-}
-
-audio:not([controls]){
-	display:none;
-}
-
-sub,sup {
-	font-size: 75%;
-	line-height: 0;
-	position: relative;
-	vertical-align: baseline;
-}
-
-sup {
-	top: -0.5em;
-}
-
-sub {
-	bottom: -0.25em;
-}
-
-img {
-	border: 0;
-	-ms-interpolation-mode: bicubic;
-}
-
-button,input,select,textarea {
-	font-size: 100%;
-	margin: 0;
-	vertical-align: baseline; *
-	vertical-align: middle;
-}
-
-button,input {
-	line-height: normal; *
-	overflow: visible;
-}
-
-button::-moz-focus-inner,input::-moz-focus-inner {
-	border: 0;
-	padding: 0;
-}
-
-button,input[type="button"],input[type="reset"],input[type="submit"] {
-	cursor: pointer;
-	-webkit-appearance: button;
-}
-
-input[type="search"] {
-	-webkit-appearance: textfield;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
-
-input[type="search"]::-webkit-search-decoration {
-	-webkit-appearance: none;
-}
-
-textarea {
-	overflow: auto;
-	vertical-align: top;
-}
-
-.label {
-	font-weight: bold;
-}
-
-label {
-	font-size: 12px;
-	font-family: Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
-	text-align: left;
-	display: block;
-	float: left;
-	line-height: 25px;
-	margin: 0 10px;
-}
-
-form .input {
-	margin-left: 150px;
-}
-
-input[type=checkbox],input[type=radio] {
-	cursor: pointer;
-}
-
-input,textarea,select {
-	display: inline-block;
-	width: 100%;
-	font-size: 12px;
-	line-height: 18px;
-	border: 1px solid #333;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-input,select,textarea,label {
-	height: 20px;
-}
-
-select {
-	padding: initial;
-}
-
-input[type=checkbox],input[type=radio] {
-	width: auto;
-	height: auto;
-	line-height: normal;
-	border: none;
-}
-
-input[type=file] {
-	background-color: #ffffff;
-	padding: initial;
-	border: initial;
-	line-height: initial;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-}
-
-input[type=button],input[type=reset],input[type=submit] {
-	width: auto;
-	height: auto;
-}
-
-input[type=file] {
-	height: 27px; *
-	height: auto;
-	line-height: 27px; *
-	margin-top: 4px;
-}
-
-select[multiple] {
-	height: inherit;
-	background-color: #ffffff;
-}
-
-textarea {
-	height: auto;
-}
-
-input,select,textarea {
-	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
-	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
-	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
-	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
-	transition: border linear 0.2s, box-shadow linear 0.2s;
-	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-input:focus,textarea:focus {
-	outline: 0;
-	border-color: rgba(82, 168, 236, 0.8);
-	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px
-		rgba(82, 168, 236, 0.6);
-	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px
-		rgba(82, 168, 236, 0.6);
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px
-		rgba(82, 168, 236, 0.6);
-}
-
-input[type=file]:focus,input[type=checkbox]:focus,select:focus {
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	outline: 1px dotted #666;
-}
-
-
-.ui-login-label label {
-	width: 40px;
-}
-
 .ui-login-widget {
 	border: 1px solid #C3BBB6;
 	background: none repeat scroll 0 0 #C3BBB6;
-	width: 125px;
-	padding: 4px;
+	width: 130px;
+	padding-left: 5px;
 	border-radius: 5px;
 	color: #333;
 }
@@ -374,10 +169,11 @@ div.overlay-widget {
 
 #fly_login_sidebar {
 	float: left;
-	width: 199px;
 	text-align:center;
 	display:inline-block;
 	vertical-align:middle;
+	margin-top: 30px;
+	margin-left: 10px;
 }
 
 #fly_login_sidebar .content {
@@ -408,9 +204,15 @@ div.overlay-widget {
 	box-shadow: 7px 7px 5px #000;
 }
 
-#fly_login_sidebar h1 {
+#fly_login_sidebar h5 {
 	color: white;
 	line-height: 22px;
+	float: left;
+	margin: 10px 0 0 0;
+}
+
+#fly_login_sidebar h5.ui-login-label {
+	width: 80px;
 	/**text-shadow: #c89f40 2px 2px 2px;*/
 }
 
@@ -431,7 +233,7 @@ div.overlay-widget {
 	border: solid 1px white;
 	float: left;
 	width: 392px;
-	height: 195px;
+	height: 210px;
 	-moz-box-shadow: 7px 7px 5px #000;
 	-webkit-box-shadow: 7px 7px 5px #000;
 	box-shadow: 7px 7px 5px #000;
@@ -448,10 +250,9 @@ div.section {
 #fly_login_footer {
 	clear: both;
 	float: left;
-	margin-top:10px;
+	margin-top:25px;
 	width: 100%;
 	height:64px;
-	padding-top: 15px;
 }
 
 #fly_login_footer_box {
@@ -504,6 +305,7 @@ div.section {
     margin-right: 10px;
     text-indent: 9999px;
     width: 10px;
+    outline: 0;
 }
 
 .section-paging a.activeSlide {
@@ -534,13 +336,8 @@ div.section {
 }
 .ui-toeditor-div label {
 	float:left;
+	margin-top: 3px;
 	margin-left: 5px;
-}
-.ui-loging-title{
-	width: 75px;
-	height:20px;
-	background:  url("../images/login/login.title.png");
-	margin:20px 0 0 80px;
 }
 .ui-login-star{
 	background: url("../images/login/login.star.png") no-repeat scroll 0 0 transparent;
@@ -552,16 +349,22 @@ div.section {
 }
 
 .ui-login-close{
-	background: url("../images/portal/portal.png") no-repeat scroll -141px 0 transparent;
     height: 25px;
     width: 25px;
-    top: 22px;
+    top: 25px;
+    color: #eee;
+    font-size: 25px;
     left: 615px;
     position: relative;
     cursor: pointer;
 }
 
+.ui-login-close:hover {
+	color: #fff;
+}
+
 .slide p.slide-p{
+	color: #999;
 	font-size: 16px;
 	font-weight: bold;
     line-height: 1em;
@@ -573,6 +376,7 @@ div.section {
 }
 
 .slide p.slide-single-p{
+	color: #999;
 	font-size: 24px;
 	font-weight: bold;
     line-height: 1em;
@@ -611,10 +415,14 @@ div.section {
 
 #fly_portal_header *,
 #fly_portal_menus * {
-	color: #999999;
+	color: #d3d4d5;
 	font-size: 1em;
 	font-family: Microsoft YaHei, Segoe UI, Tahoma, Arial, Verdana,
 		sans-serif;
+}
+
+#fly_portal_sub_menu_setting * {
+	color: #333;
 }
 
 #fly_portal_menus {
@@ -707,6 +515,7 @@ div.section {
     border-bottom: 1px dashed #E0E0E0;
     overflow: hidden;
     padding: 12px 0;
+    margin: 0;
 }
 .sub-menu dl:last-child {
     border-bottom: medium none;
@@ -754,7 +563,7 @@ div.section {
 
 #fly_portal_oper a div {
 	height: auto;
-	top: -2px;
+	top: 2px;
 	margin-right: 20px;
 	position: relative;
 }
@@ -777,26 +586,27 @@ div.section {
 #fly_portal_oper .highlight .menu-disabled,
 #fly_portal_menus_ul .menu-disabled,
 #fly_portal_menus_ul .highlight .menu-disabled{
-	color: #777;
+	color: #999;
 	text-shadow: 1px 1px 0 #333;
 	cursor: default;
 }
 
 #fly_portal_oper .sub-menu a,
 #fly_portal_menus_ul .sub-menu a{
-	color: #777;
+	color: #333;
 }
 
 #fly_portal_oper .sub-menu a.highlight,
 #fly_portal_menus_ul .sub-menu .highlight a{
-	color: #222;
+	color: #000;
+	background-color: #f5f5f5;
 }
 
 #fly_portal_oper .sub-menu .menu-disabled,
 #fly_portal_oper .sub-menu .highlight .menu-disabled,
 #fly_portal_menus_ul .sub-menu .menu-disabled,
 #fly_portal_menus_ul .sub-menu .highlight .menu-disabled {
-	color: #aaa;
+	color: #999;
 	text-shadow: 0 0 0;
 	cursor: default;
 }
@@ -856,6 +666,7 @@ div.section {
 
 #fly_portal_desktop_ctrl_btns a {
 	float: right;
+	outline: 0;
 }
 
 

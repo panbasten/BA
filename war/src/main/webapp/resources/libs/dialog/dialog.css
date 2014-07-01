@@ -1,45 +1,73 @@
-.ui-dialog { background-color:#696969;position: fixed; padding: 0; overflow: hidden; visibility: hidden;-moz-box-shadow: 3px 3px 3px #808080; -webkit-box-shadow: 3px 3px 3px #808080; }
-.ui-dialog .ui-dialog-titlebar { padding: .4em .4em .4em 1em; position: relative; border:0px; }
-.ui-dialog .ui-dialog-title { float: left; margin: .3em 16px .1em 0; } 
-.ui-dialog .ui-dialog-content {position: relative; border: 0; padding: .5em 1em; background-color: #e8e8e8; overflow: auto; zoom: 1; }
-.ui-dialog .ui-dialog-buttonpane { border-width: 1px 0 0 0; background-color: #5d5d5d; padding: .3em 1em .5em .4em; }
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonpane-left button { margin: 1em 0 .5em .8em; height:27px;}
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonpane-right button { margin: 1em .8em .5em 0; height:27px;}
-.ui-dialog .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
-.ui-draggable .ui-dialog-titlebar { cursor: move; }
-.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-titlebar-minimize,.ui-dialog .ui-dialog-titlebar-maximize { float: right; margin: 0px; top:0px; padding: 1px; margin-top:4px;}
-.ui-dialog .ui-dialog-titlebar-close span, .ui-dialog .ui-dialog-titlebar-minimize span, .ui-dialog .ui-dialog-titlebar-maximize span { display: block; margin: 0px; }
-.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus, .ui-dialog .ui-dialog-titlebar-minimize:hover, .ui-dialog .ui-dialog-titlebar-minimize:focus, .ui-dialog .ui-dialog-titlebar-maximize:hover, .ui-dialog .ui-dialog-titlebar-maximize:focus   { }
-.ui-dialog-footer {padding: .4em 1em; border-width: 1px 0 0 0;text-align:left;}
-.ui-dialog-docking-zone {position: fixed;bottom: 0;left: 0;}
-.ui-dialog-minimizing {border: 2px dotted gray;}
-.ui-confirm-dialog-severity {float: left; margin: 3px 7px 20px 0;}
-.ui-dialog.ui-dialog-minimized{*width: 200px !important;} /*IE7 hack*/
-
-.ui-dialog-buttonpane-left {float: left;}
-.ui-dialog-buttonpane-right {float: right;}
-
-.ui-dialog .ui-corner-top{padding:0 10px 0 0;height:30px;line-height:30px;font-size:12px;background: url("images/topbg.png") repeat-x;}
-.ui-dialog .ui-widget-content{border-bottom: 1px solid #000;width:100%;padding:0;margin:0;}
-.ui-dialog .ui-dialog-buttonpane{margin:0;padding:0;height:60px;border-top:1px solid #fff;}
-.ui-dialog .ui-corner-top .ui-dialog-title{margin:0 0 0 15px;}
-
-.ui-dialog-content .prompt,.ui-dialog-content .warning,.ui-dialog-content .error,.ui-dialog-content .confirm{height: auto;width: auto;margin: 20px auto 0 auto;}
-.ui-dialog-content span.ui-confirm-dialog-span{color:#333;margin-left:90px;margin-right:10px;display:block;float:left;margin-top:10px;font-size:12px;position:absolute;text-align:left;}
-.ui-dialog-content-loader {height:19px;width:220px;position:relative;top:50%;margin:0 auto;background:url("images/ajax-loader.gif") repeat scroll 0 0 transparent;}
-.ui-dialog-content-loader-text{position:relative;top:50%;margin:0 auto;color:#333;text-align:center;}
-.ui-dialog-content .ui-confirm-dialog-icon{float:left;height:62px;width:62px;margin-left: 20px;}
-.ui-dialog-content .prompt .ui-confirm-dialog-icon{background: url("images/prompt.png");}
-.ui-dialog-content .warning .ui-confirm-dialog-icon{background: url("images/warning.png");}
-.ui-dialog-content .error .ui-confirm-dialog-icon{background: url("images/error.png");}
-.ui-dialog-content .confirm .ui-confirm-dialog-icon{background: url("images/confirm.png");}
-
-.ui-dialog-content fieldset {
-	border: 1px solid #333;
-	padding: 5px;
+.modal-footer .modal-footer-buttonpane-left {
+	float: left;
 }
 
-.ui-dialog-content fieldset legend {
+.modal-footer .modal-footer-buttonpane-right {
+	float: right;
+}
+
+
+.modal-body span.confirm-modal-span {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
+	position: absolute;
+	float: left;
+	text-align: left;
+}
+
+.modal-body .modal-body-loader {
+	height: 19px;
+	width: 220px;
+	position: relative;
+	top: 50%;
+	margin: 0 auto;
+	background: url("images/libs/dialog/ajax-loader.gif") repeat scroll 0 0 transparent;
+}
+
+.modal-body .modal-body-loader-text {
+	position: relative;
+	top: 50%;
+	margin: 0 auto;
+	color: #333;
+	text-align: center;
+}
+
+.modal-body .confirm-modal-icon {
+	float: left;
+	height: 62px;
+	width: 62px;
+	margin-left: 20px;
+}
+
+.modal-body .prompt .confirm-modal-icon {
+	background: url("images/libs/dialog/prompt.png");
+}
+
+.modal-body .warning .confirm-modal-icon {
+	background: url("images/libs/dialog/warning.png");
+}
+
+.modal-body .error .confirm-modal-icon {
+	background: url("images/libs/dialog/error.png");
+}
+
+.modal-body .confirm .confirm-modal-icon {
+	background: url("images/libs/dialog/confirm.png");
+}
+
+
+
+
+.modal-body fieldset {
+	border: 1px solid #ddd;
+	padding: 5px;
+	-webkit-border-radius: 5px 5px 0 0;
+	   -moz-border-radius: 5px 5px 0 0;
+	        border-radius: 5px 5px 0 0;
+}
+
+.modal-body fieldset legend {
 	margin: 0 0 0 10px;
 	padding: 0 5px;
 	display: block;
@@ -50,29 +78,29 @@
 	width: auto;
 }
 
-.ui-dialog-content form .clearfix {
-	margin-bottom: 18px;
+.modal-body form .clearfix {
+	margin-bottom: 10px;
 	zoom: 1;
 }
 
-.ui-dialog-content form .clearfix:before,form .clearfix:after {
+.modal-body form .clearfix:before,form .clearfix:after {
 	display: table;
 	content: "";
 	zoom: 1;
 }
 
-.ui-dialog-content form .clearfix:after {
+.modal-body form .clearfix:after {
 	clear: both;
 }
 
-.ui-dialog-content .ui-label-single label,
-.ui-dialog-content .ui-label-single input,
-.ui-dialog-content .ui-label-single select,
-.ui-dialog-content .ui-label-single textarea,
-.ui-dialog-content .ui-grid-layout-item label,
-.ui-dialog-content .ui-grid-layout-item input,
-.ui-dialog-content .ui-grid-layout-item select,
-.ui-dialog-content .ui-grid-layout-item textarea {
-	width:100%;
-	float:left;
+.modal-body .ui-label-single label,
+.modal-body .ui-label-single input,
+.modal-body .ui-label-single select,
+.modal-body .ui-label-single textarea,
+.modal-body .ui-grid-layout-item label,
+.modal-body .ui-grid-layout-item input,
+.modal-body .ui-grid-layout-item select,
+.modal-body .ui-grid-layout-item textarea {
+	width: 100%;
+	float: left;
 }

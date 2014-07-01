@@ -1,137 +1,73 @@
 (function($) {
 	
-	function _initSeparator(target){
-		var separator = $("<span></span>").insertAfter(target);
-		$(target).addClass("ui-button-original").hide().appendTo(separator);
-		separator.addClass("ui-separator")
-			.append($("<span class='ui-icon ui-icon-no-hover ui-icon-grip-dotted-vertical-narrow'></span>"));
-	
-		return separator;
-	}
-	
-	function _initButton(target){
-		var btn = $("<button type='button'></button>").insertAfter(target);
-		$(target).addClass("ui-button-original").hide().appendTo(btn);
+	function _init(target){
+		var btn = $("<button type='button' class='btn'></button>").insertAfter(target);
+		$(target).addClass("btn-original").hide().appendTo(btn);
 		
 		var opts = $.data(target, "pushbutton").options;
 		
 		var menuItems = opts.menuItems;
 		
+		// 设置ID
+		btn.attr("id", (opts.id)?(opts.id):"");
 		
+		if(opts.title){
+			btn.attr("title", opts.title);
+		}
 		
 		var iconCls = opts.iconCls,
 			iconAlign = opts.iconAlign,
 			label = opts.label,
 			clazz = "";
 		
-		if(opts.menuItems){
-			// 有文字，无图片
-			if(label && iconCls == undefined){
-				clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-text-only";
-			}
-			// 有文字，有图片
-			else if(label && iconCls){
-				if(iconAlign == "right"){
-					clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
-				}else{
-					clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
-				}
-			}
-			// 无文字，只有图片
-			else if(label== undefined && iconCls){
-				clazz = "ui-button ui-button-menu ui-widget ui-state-default ui-corner-all ui-button-icon-only";
-			}
-		}else{
-			// 有文字，无图片
-			if(label && iconCls == undefined){
-				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
-			}
-			// 有文字，有图片
-			else if(label && iconCls){
-				if(iconAlign == "right"){
-					clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-right";
-				}else{
-					clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left";
-				}
-			}
-			// 无文字，只有图片
-			else if(label== undefined && iconCls){
-				clazz = "ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only";
-			}
-		}
-		
 		if(opts.state == "disabled"){
-			clazz = clazz + " ui-state-disabled";
+			clazz = clazz + " disabled";
 		}else if(opts.state == "active"){
-			clazz = clazz + " ui-state-active";
+			clazz = clazz + " active";
 		}
 		
 		if(opts.btnStyle) {
-			clazz = clazz + " ui-button-" + opts.btnStyle;
+			clazz = clazz + " btn-" + opts.btnStyle;
+		}
+		
+		if(opts.btnSize) {
+			if(opts.btnSize == "large"){ clazz = clazz + " btn-lg"; }
+			else if(opts.btnSize == "small"){ clazz = clazz + " btn-sm"; }
+			else if(opts.btnSize == "mini"){ clazz = clazz + " btn-xs"; }
 		}
 		
 		btn.addClass(clazz);
 		
+		// 设置文字
+		var content = "";
+		if(label){
+			content = label;
+		}
+		
 		// 设置图片
 		if(iconCls){
 			if(iconAlign == "right"){
-				$("<span></span>").addClass("ui-button-icon-right ui-icon "+iconCls).appendTo(btn);
+				content = content + "<span class='glyphicon "+iconCls+"'></span>";
 			}else{
-				$("<span></span>").addClass("ui-button-icon-left ui-icon "+iconCls).appendTo(btn);
+				content = "<span class='glyphicon "+iconCls+"'></span>" + content;
 			}
 		}
 		
-		// 设置文字
-		var labelSpan = $("<span></span>").addClass("ui-button-text").appendTo(btn);
-		if(label){
-			labelSpan.html(label);
-		}else{
-			labelSpan.html("text");
+		if(opts.menuItems){
+			content = content + "<span class='caret'></span>";
+			
+			// TODO
+			
+			console.log(opts.menuItems);
 		}
 		
-		// mouseOver
-		btn.bind("mouseover",opts,function(event){
-			$(this).addClass('ui-state-hover');
-			if(event.data && event.data.events && event.data.events["mouseover"]){
-				Flywet.invokeFunction(event.data.events["mouseover"],event,event.data);
-			}
-		});
-		
-		// mouseOut
-		btn.bind("mouseout",opts,function(event){
-			$(this).removeClass('ui-state-hover');
-			if(event.data && event.data.events && event.data.events["mouseout"]){
-				Flywet.invokeFunction(event.data.events["mouseout"],event,event.data);
-			}
-		});
+		btn.html(content);
 		
 		// other event
-		Flywet.attachBehaviors(btn,Flywet.assembleBehaviors(opts.events,["mouseover","mouseout"]),opts);
+		Flywet.attachBehaviors(btn,Flywet.assembleBehaviors(opts.events),opts);
 		Flywet.attachBehaviorsOn(btn,opts);
 		
 		return btn;
-	}
-	
-	function _init(target){
-		var opts = $.data(target, "pushbutton").options;
-		var t = $(target);
-		
-		// 清空对象内容
-		t.empty();
-		
-		// 设置ID
-		t.attr("id", (opts.id)?(opts.id):"");
-		
-		if(opts.title){
-			t.attr("title", opts.title);
-		}
-		
-		// 根据类型设置
-		if (opts.type == "separator") {
-			return _initSeparator(target);
-		}else{
-			return _initButton(target);
-		}
 	}
 	
 	function _toggle(target, state){
@@ -163,7 +99,6 @@
 			var btn = _init(this);
 			$.data(this, "pushbutton", {button:btn} );
 			
-			// TODO 下拉列表
 		});
 	};
 	
@@ -187,15 +122,15 @@
 		var t = $(target);
 		return $.extend(
 				{},
-				Flywet.parseOptions(target, ["id", "type", "state", "title", "label", "btnStyle", "iconCls", "iconAlign"])
+				Flywet.parseOptions(target, ["id", "state", "title", "label", "btnStyle", "iconCls", "iconAlign"])
 			);
 	};
 	
 	$.fn.pushbutton.defaults = {
 		id : null,
-		type : "button",
 		label : null,
 		btnStyle : "default",//default,primary,success,info,warning,danger,link
+		btnSize : "default",// default,large,small,mini
 		iconCls : null,
 		iconAlign : "left"
 	};
@@ -229,7 +164,7 @@ Flywet.widget.PushButton.prototype.init = function() {
 };
 
 Flywet.widget.PushButton.prototype.isActive = function(){
-	return this.jq.hasClass("ui-state-active");
+	return this.jq.hasClass("active");
 };
 
 Flywet.PushButton = {
@@ -242,5 +177,42 @@ Flywet.PushButton = {
 	},
 	destroy : function(menuId){
 		window[menuId+'_var'].destroy();
+	}
+};
+
+
+
+
+
+
+
+Flywet.widget.PushButtonGroup=function(cfg){
+	this.cfg = cfg;
+	this.id = this.cfg.id;
+	this.jqId = Flywet.escapeClientId(this.id);
+	
+	this.init();
+};
+
+Flywet.extend(Flywet.widget.PushButtonGroup, Flywet.widget.BaseWidget);
+
+Flywet.widget.PushButtonGroup.prototype.init = function() {
+	if(this.cfg.parent || this.cfg.parentId){
+		this.parent = this.cfg.parent || $(Flywet.escapeClientId(this.cfg.parentId));
+		this.jq = $(this.parent).find(this.jqId);
+		if(this.jq.length == 0){
+			this.jq = $("<div></div>");
+			this.jq.addClass("btn-group");
+		}
+		this.parent.append(this.jq);
+	}else{
+		this.jq = $(this.jqId);
+	}
+	
+	if(this.cfg.subs){
+		for(var i=0;i<this.cfg.subs.length;i++){
+			console.log(this.cfg.subs[i]);
+			Flywet.autocw(this.cfg.subs[i], this.jq);
+		}
 	}
 };

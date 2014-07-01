@@ -36,17 +36,17 @@ Flywet.widget.Log.prototype.bindEvents = function() {
     //visuals
     this.header.children('.ui-log-button').mouseover(function() {
         var el = $(this);
-        if(!el.hasClass('ui-state-active'))
-            $(this).addClass('ui-state-hover');
+        if(!el.hasClass('active'))
+            $(this).addClass('hover');
     }).mouseout(function() {
-        $(this).removeClass('ui-state-hover');
+        $(this).removeClass('hover');
     });
     
     //clear
     this.header.children('.ui-log-clear').click(function(e) {
         _self.itemsContainer.html('');
-        _self.filters.filter('.ui-state-active').removeClass('ui-state-active');
-        _self.filters.filter('.ui-log-all').addClass('ui-state-active');
+        _self.filters.filter('.active').removeClass('active');
+        _self.filters.filter('.ui-log-all').addClass('active');
         _self.severity = 'all';
         e.preventDefault();
     });
@@ -54,8 +54,8 @@ Flywet.widget.Log.prototype.bindEvents = function() {
     //all
     this.header.children('.ui-log-all').click(function(e) {
         _self.itemsContainer.children().show();
-        _self.filters.filter('.ui-state-active').removeClass('ui-state-active');
-        $(this).addClass('ui-state-active').removeClass('ui-state-hover');
+        _self.filters.filter('.active').removeClass('active');
+        $(this).addClass('active').removeClass('hover');
         _self.severity = 'all';
         e.preventDefault();
     });
@@ -101,7 +101,7 @@ Flywet.widget.Log.prototype.add = function(msg, severity, icon) {
     var visible = this.severity == severity || this.severity == 'all',
     style = visible ? 'display:block' : 'display:none';
     
-    var item = '<li class="ui-log-item ui-log-item-' + severity + ' ui-helper-clearfix" style="' + style + 
+    var item = '<li class="ui-log-item ui-log-item-' + severity + ' clearfix" style="' + style + 
         '"><span class="ui-icon ' + icon + '"></span>' + new Date().toLocaleString() + ' : '  + msg + '</li>';
     
     this.itemsContainer.append(item);
@@ -113,8 +113,8 @@ Flywet.widget.Log.prototype.filter = function(severity) {
 
 Flywet.widget.Log.prototype.handleFilterClick = function(event, severityClass, severity, button) {
     this.filter(severityClass);
-    this.filters.filter('.ui-state-active').removeClass('ui-state-active');
-    button.addClass('ui-state-active').removeClass('ui-state-hover');
+    this.filters.filter('.active').removeClass('active');
+    button.addClass('active').removeClass('hover');
     this.severity = severity;
     event.preventDefault();
 };

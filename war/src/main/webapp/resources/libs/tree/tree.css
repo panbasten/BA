@@ -101,7 +101,7 @@
 	white-space:nowrap;
 }
 
-.ui-tree .ui-state-active{
+.ui-tree .active{
 	border:0 none;
 	box-shadow: none;
 }

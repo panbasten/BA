@@ -15,7 +15,7 @@ import com.flywet.platform.bi.core.exception.BIPageException;
 public class FLYLabelObjectResolver extends BaseComponentResolver implements
 		ComponentResolverInterface {
 
-	public static final String LABLE_STYLE_CLASS = "ui-label-default ui-helper-clearfix";
+	public static final String LABLE_STYLE_CLASS = "ui-label-default clearfix";
 
 	@Override
 	public void renderSub(Node node, HTMLWriter html, List<String> script,

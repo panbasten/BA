@@ -7,7 +7,7 @@
 		<fly:gridLayoutItem cols="3">
 			<fly:inputText id="${formId}:usingConnectionPool" name="${formId}:usingConnectionPool" type="checkbox" 
 					value="${dbMeta.usingConnectionPool}"
-					class="ui-layout-div ui-helper-clearfix"
+					class="ui-layout-div clearfix"
 					interaction="[{method:'enable',val:true,param:['${formId}:poolSize','${formId}:initialPoolSize','${formId}:maximumPoolSize','${formId}:poolingParameters']}]" />
 		</fly:gridLayoutItem>
 	</fly:gridLayout>
@@ -21,7 +21,7 @@
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:initialPoolSize" name="${formId}:initialPoolSize" type="text" 
 						value="${dbMeta.initialPoolSize}"
-						class="ui-helper-clearfix"
+						class="clearfix"
 						disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 				
@@ -31,13 +31,13 @@
 				<fly:gridLayoutItem>
 					<fly:inputText id="${formId}:maximumPoolSize" name="${formId}:maximumPoolSize" type="text" 
 						value="${dbMeta.maximumPoolSize}"
-						class="ui-helper-clearfix"
+						class="clearfix"
 						disabled="${!dbMeta.usingConnectionPool}" />
 				</fly:gridLayoutItem>
 			</fly:gridLayout>
 		</fly:fieldSet>
 		
-		<fly:labelObject text="命名参数" buddy="${formId}:poolingParameters" disabled="${!dbMeta.usingConnectionPool}" marginTop="10" />
+		<fly:labelObject class="ui-layout-no-bottom-margin" text="命名参数" buddy="${formId}:poolingParameters" disabled="${!dbMeta.usingConnectionPool}" marginTop="10" />
 		
 		<fly:dataGrid id="${formId}:poolingParameters" singleSelect="false" checkOnSelect="false" height="120" data="${poolingParameters}" disabled="${!dbMeta.usingConnectionPool}">
 			<fly:columns>

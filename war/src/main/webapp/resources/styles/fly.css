@@ -2,8 +2,7 @@
 .fly-container { padding: 10px; height: 75px; margin-bottom: 15px; }
 .fly-container .fly-panels { margin:0; }
 .fly-container .fly-tabs{margin:0 0 ;padding:0;list-style:none;zoom:1;height:40px;min-height:40px;}
-.fly-container .navbar {min-height:40px;border-radius:0;}
-.fly-container .navbar-inverse {border: medium none;}
+
 .fly-container .fly-tabs:before,.fly-container .fly-tabs:after{display:table;content:"";zoom:1;}
 .fly-container .fly-tabs:after{clear:both;}
 .fly-container .fly-tabs li{margin-left:-20px;float:left;position:relative;margin-bottom:-1px;}
@@ -194,7 +193,6 @@
 	background-image: url("../images/default/tabmiddle.png");
 	display:block;
 	float:left;
-	padding-right:10px;
 }
 .ui-tab-state-hover .ui-tab-text,
 .ui-tab-state-active .ui-tab-text {
@@ -340,8 +338,8 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 .ui-browsepanel-con div span p{
 	color:#333;
 }
-.ui-browsepanel-con div.ui-state-hover span p,
-.ui-browsepanel-con div.ui-state-active span p{
+.ui-browsepanel-con div.hover span p,
+.ui-browsepanel-con div.active span p{
 	
 }
 
@@ -353,11 +351,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 .fly-container .fly-tabs li a span{
 	line-height: 30px;
 }
-.ui-breadcrumb ul li a{
-	color:#FFFFFF;
-	line-height: 18px;
-	text-shadow: 0 0 0;
-}
+
 .ui-tab-side-container ul.ui-tabs{
 	background: #e8e8e8 url("../images/default/funbarbg.png") repeat-y;
 	border-right: medium none;
@@ -382,6 +376,52 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	height:100%;
 	margin: 0 5px;
 }
+
+.fly-editor-tab .navbar {
+	height: 40px;
+	min-height: 40px;
+	margin-bottom: 0;
+}
+
+.fly-editor-tab .navbar .container-fluid {
+	height: 40px;
+}
+
+.fly-editor-tab .navbar .navbar-brand {
+	height: 40px;
+	padding: 10px;
+	color: #fff;
+}
+
+.fly-editor-tab .navbar .navbar-brand .breadcrumb {
+	padding: 0;
+	background-color: transparent;
+}
+
+.fly-editor-tab .navbar .navbar-brand .breadcrumb a {
+	color: #fff;
+}
+
+.fly-editor-tab .navbar .btn-link{
+	color: #fff;
+}
+
+
+.fly-editor-toolbar {
+	margin-top: 5px;
+	margin-bottom: 10px;
+	height: 32px;
+	min-height: 30px;
+	padding:3px 5px;
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+	        border-radius: 5px;
+}
+
+.fly-editor-toolbar .btn-group {
+	margin-right: 5px;
+}
+
 .fly-editor-content-height-browse-panel,
 .fly-editor-content-browse-panel-no-toolbar{
 	width: 100%;
@@ -394,11 +434,13 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	height:auto;
 	min-height: 100px;
 	background: #f9f9f9;
+	overflow: hidden;
 }
 .fly-editor-systools .func-line-even{
 	height:auto;
 	min-height: 100px;
 	background: #e8e8e8;
+	overflow: hidden;
 }
 .fly-editor-systools .split-line-odd{
 	width: 100%;
@@ -425,7 +467,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	cursor: pointer;
 }
 
-.fly-editor-systools .ui-state-hover{
+.fly-editor-systools .hover{
 	border: 0 none;
 }
 
@@ -455,9 +497,7 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 .fly-editor-systools .func-item-con .func-item-text{
 	color: #333;
 }
-.fly-editor-tab .ui-breadcrumb .ui-toolbar-group-left *{
-	font-weight: bold;
-}
+
 
 div.ui-trans-icon {
 	background-image: url("../images/desktop/bi.trans.png");
@@ -500,11 +540,11 @@ div.ui-fs-local-sftp-icon {
 	height: 100px;
 }
 
-#navis .ui-browsepanel-con .ui-state-hover {
+#navis .ui-browsepanel-con .hover {
 	background: #eee;
 }
 
-#navis .ui-browsepanel-con .ui-state-active {
+#navis .ui-browsepanel-con .active {
 	background: #eee;
 	border: 1px solid #999;
 }
@@ -628,7 +668,7 @@ div.ui-fs-local-sftp-icon {
 }
 
 
-.fly-editor-content-browse-panel-no-toolbar .ui-state-hover{
+.fly-editor-content-browse-panel-no-toolbar .hover{
 	background: #eee;
 	-moz-box-shadow: none;
     -webkit-box-shadow: none;

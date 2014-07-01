@@ -1,7 +1,7 @@
 Flywet.filesys = {
 	fsopContext:{},
 	ids : {
-		bpVarName : "editorContent-navi-filesys-bp_var",
+		bpVarName : "editorContent-navi-fs-bp_var",
 		rootBtns : ["fs-btn-create","fs-btn-edit","fs-btn-remove"],
 		itemBtns : ["fs-btn-create-dir","fs-btn-upload-file","fs-btn-download-file"]
 	},
@@ -77,10 +77,10 @@ Flywet.filesys = {
 					func : function(){
 						var layout = $(Flywet.escapeClientId("fs_upload_form")).find(".ui-grid-layout");
 						var num = layout.find("label").size() + 1;
-						layout.append('<div class="ui-grid-layout-item ui-layout-float ui-helper-clearfix" style="width: 30%; height: 28px;">' +
-								'<label class="ui-label-default ui-helper-clearfix" for="fs'+num+'" style="margin:5px 30px 5px 5px;float:right;" text="上传文件'+num+'：" buddy="fs'+num+'">上传文件'+num+'：</label>' +
+						layout.append('<div class="ui-grid-layout-item ui-layout-float clearfix" style="width: 30%; height: 28px;">' +
+								'<label class="ui-label-default clearfix" for="fs'+num+'" style="margin:5px 30px 5px 5px;float:right;" text="上传文件'+num+'：" buddy="fs'+num+'">上传文件'+num+'：</label>' +
 								'</div>');
-						layout.append('<div class="ui-grid-layout-item ui-layout-float ui-helper-clearfix" style="width: 70%; height: 28px;">' +
+						layout.append('<div class="ui-grid-layout-item ui-layout-float clearfix" style="width: 70%; height: 28px;">' +
 								'<input id="fs'+num+'" type="file" size="30" name="fs'+num+'">' +
 								'</div>');
 					}

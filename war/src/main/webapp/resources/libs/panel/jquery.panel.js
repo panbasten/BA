@@ -21,9 +21,9 @@
 			if (!t.fitted) {
 				t.fitted = true;
 				p.fcount = fcount + 1;
-				$(p).addClass("ui-panel-noscroll");
+				$(p).addClass("panel-noscroll");
 				if (p.tagName == "BODY") {
-					$("html").addClass("ui-panel-fit");
+					$("html").addClass("panel-fit");
 				}
 			}
 		} else {
@@ -31,9 +31,9 @@
 				t.fitted = false;
 				p.fcount = fcount - 1;
 				if (p.fcount == 0) {
-					$(p).removeClass("ui-panel-noscroll");
+					$(p).removeClass("panel-noscroll");
 					if (p.tagName == "BODY") {
-						$("html").removeClass("ui-panel-fit");
+						$("html").removeClass("panel-fit");
 					}
 				}
 			}
@@ -50,8 +50,8 @@
 	function _resize(target, param) {
 		var opts = $.data(target, "panel").options;
 		var panel = $.data(target, "panel").panel;
-		var header = panel.children("div.ui-panel-header");
-		var body = panel.children("div.ui-panel-body");
+		var header = panel.children("div.panel-heading");
+		var body = panel.children("div.panel-body");
 		if (param) {
 			if (param.width) {
 				opts.width = param.width;
@@ -85,7 +85,7 @@
 		}
 		panel.css("height", "");
 		opts.onResize.apply(target, [ opts.width, opts.height ]);
-		panel.find(">div.ui-panel-body>div").triggerHandler("_resize");
+		panel.find(">div.panel-body>div").triggerHandler("_resize");
 	}
 	
 	/**
@@ -113,8 +113,8 @@
 	 * 初始化Panel的Div
 	 */
 	function _initPanel(target) {
-		$(target).addClass("ui-panel-body");
-		var panel = $("<div class=\"ui-panel ui-widget ui-helper-clearfix ui-corner-all\"></div>").insertBefore(target);
+		$(target).addClass("panel-body");
+		var panel = $("<div class=\"panel panel-default\"></div>").insertBefore(target);
 		panel[0].appendChild(target);
 		panel.bind("_resize", function() {
 			var opts = $.data(target, "panel").options;
@@ -133,18 +133,18 @@
 		var opts = $.data(target, "panel").options;
 		var panel = $.data(target, "panel").panel;
 		if (opts.tools && typeof opts.tools == "string") {
-			panel.find(">div.ui-panel-header>div.ui-panel-tool .ui-panel-tool-a").appendTo(opts.tools);
+			panel.find(">div.panel-heading>div.panel-tool .panel-tool-a").appendTo(opts.tools);
 		}
-		_reset(panel.children("div.ui-panel-header"));
+		_reset(panel.children("div.panel-heading"));
 		if (opts.title && !opts.noheader) {
-			var header = $("<div class=\"ui-panel-header ui-widget ui-widget-header\"><div class=\"ui-panel-title\">"
+			var header = $("<div class=\"panel-heading\"><div class=\"panel-title\">"
 					+ opts.title + "</div></div>").prependTo(panel);
 			if (opts.iconCls) {
-				header.find(".ui-panel-title").addClass("ui-panel-with-icon");
-				$("<div class=\"ui-panel-icon\"></div>").addClass(opts.iconCls)
+				header.find(".panel-title").addClass("panel-with-icon");
+				$("<div class=\"panel-icon\"></div>").addClass(opts.iconCls)
 						.appendTo(header);
 			}
-			var panelTool = $("<div class=\"ui-panel-tool\"></div>").appendTo(header);
+			var panelTool = $("<div class=\"panel-tool\"></div>").appendTo(header);
 			panelTool.bind("click", function(e) {
 				e.stopPropagation();
 			});
@@ -153,7 +153,7 @@
 					$(opts.tools).children().each(
 						function() {
 							$(this).addClass($(this).attr("iconCls"))
-								.addClass("ui-panel-tool-a").appendTo(panelTool);
+								.addClass("panel-tool-a").appendTo(panelTool);
 						});
 				} else {
 					for ( var i = 0; i < opts.tools.length; i++) {
@@ -166,7 +166,7 @@
 				}
 			}
 			if (opts.collapsible) {
-				$("<a class=\"ui-panel-tool-collapse ui-icon ui-icon-triangle-1-n\" href=\"javascript:void(0)\"></a>")
+				$("<a class=\"panel-tool-collapse ui-icon ui-icon-triangle-1-n\" href=\"javascript:void(0)\"></a>")
 					.appendTo(panelTool).bind("click", function() {
 						if (opts.collapsed == true) {
 							_expand(target, true);
@@ -177,14 +177,14 @@
 					});
 			}
 			if (opts.minimizable) {
-				$("<a class=\"ui-panel-tool-min ui-icon ui-icon-panel-min\" href=\"javascript:void(0)\"></a>")
+				$("<a class=\"panel-tool-min ui-icon ui-icon-panel-min\" href=\"javascript:void(0)\"></a>")
 					.appendTo(panelTool).bind("click", function() {
 						_minimize(target);
 						return false;
 					});
 			}
 			if (opts.maximizable) {
-				$("<a class=\"ui-panel-tool-max ui-icon ui-icon-panel-max\" href=\"javascript:void(0)\"></a>")
+				$("<a class=\"panel-tool-max ui-icon ui-icon-panel-max\" href=\"javascript:void(0)\"></a>")
 					.appendTo(panelTool).bind("click", function() {
 						if (opts.maximized == true) {
 							_restore(target);
@@ -195,15 +195,15 @@
 					});
 			}
 			if (opts.closable) {
-				$("<a class=\"ui-panel-tool-close ui-icon ui-icon-panel-close\" href=\"javascript:void(0)\"></a>")
+				$("<a class=\"panel-tool-close ui-icon ui-icon-panel-close\" href=\"javascript:void(0)\"></a>")
 					.appendTo(panelTool).bind("click", function() {
 						_close(target);
 						return false;
 					});
 			}
-			panel.children("div.ui-panel-body").removeClass("ui-panel-body-noheader");
+			panel.children("div.panel-body").removeClass("panel-body-noheader");
 		} else {
-			panel.children("div.ui-panel-body").addClass("ui-panel-body-noheader");
+			panel.children("div.panel-body").addClass("panel-body-noheader");
 		}
 	}
 	
@@ -215,9 +215,9 @@
 		if (panel.options.href && (!panel.isLoaded || !panel.options.cache)) {
 			panel.isLoaded = false;
 			_destroySub(target);
-			var body = panel.panel.find(">div.ui-panel-body");
+			var body = panel.panel.find(">div.panel-body");
 			if (panel.options.loadingMessage) {
-				body.html($("<div class=\"ui-panel-loading ui-loading\"></div>").html(
+				body.html($("<div class=\"panel-loading ui-loading\"></div>").html(
 						panel.options.loadingMessage));
 			}
 			// 获得页面执行相应的匹配操作
@@ -256,7 +256,7 @@
 	 * TODO
 	 */
 	function _resizeSub(target) {
-		$(target).find("div.ui-panel:visible,div.tabs-container:visible,div.layout:visible")
+		$(target).find("div.panel:visible,div.tabs-container:visible,div.layout:visible")
 			.each(function() {
 				$(this).triggerHandler("_resize", [ true ]);
 			});
@@ -276,7 +276,7 @@
 		panel.show();
 		opts.closed = false;
 		opts.minimized = false;
-		var toolRestore = panel.children("div.ui-panel-header").find("a.ui-panel-tool-restore");
+		var toolRestore = panel.children("div.panel-heading").find("a.panel-tool-restore");
 		if (toolRestore.length) {
 			opts.maximized = true;
 		}
@@ -334,9 +334,9 @@
 	function _collapse(target, animate) {
 		var opts = $.data(target, "panel").options;
 		var panel = $.data(target, "panel").panel;
-		var body = panel.children("div.ui-panel-body");
-		var header = panel.children("div.ui-panel-header")
-				.find("a.ui-panel-tool-collapse");
+		var body = panel.children("div.panel-body");
+		var header = panel.children("div.panel-heading")
+				.find("a.panel-tool-collapse");
 		if (opts.collapsed == true) {
 			return;
 		}
@@ -344,7 +344,7 @@
 		if (opts.onBeforeCollapse.call(target) == false) {
 			return;
 		}
-		header.addClass("ui-panel-tool-expand ui-icon ui-icon-triangle-1-s");
+		header.addClass("panel-tool-expand ui-icon ui-icon-triangle-1-s");
 		if (animate == true) {
 			body.slideUp("normal", function() {
 				opts.collapsed = true;
@@ -363,9 +363,9 @@
 	function _expand(target, animate) {
 		var opts = $.data(target, "panel").options;
 		var panel = $.data(target, "panel").panel;
-		var body = panel.children("div.ui-panel-body");
-		var header = panel.children("div.ui-panel-header")
-				.find("a.ui-panel-tool-collapse");
+		var body = panel.children("div.panel-body");
+		var header = panel.children("div.panel-heading")
+				.find("a.panel-tool-collapse");
 		if (opts.collapsed == false) {
 			return;
 		}
@@ -373,7 +373,7 @@
 		if (opts.onBeforeExpand.call(target) == false) {
 			return;
 		}
-		header.removeClass("ui-panel-tool-expand ui-icon-triangle-1-s");
+		header.removeClass("panel-tool-expand ui-icon-triangle-1-s");
 		if (animate == true) {
 			body.slideDown("normal", function() {
 				opts.collapsed = false;
@@ -396,11 +396,11 @@
 	function _maximize(target) {
 		var opts = $.data(target, "panel").options;
 		var panel = $.data(target, "panel").panel;
-		var toolMax = panel.children("div.ui-panel-header").find("a.ui-panel-tool-max");
+		var toolMax = panel.children("div.panel-heading").find("a.panel-tool-max");
 		if (opts.maximized == true) {
 			return;
 		}
-		toolMax.addClass("ui-panel-tool-restore ui-icon ui-icon-panel-restore");
+		toolMax.addClass("panel-tool-restore ui-icon ui-icon-panel-restore");
 		if (!$.data(target, "panel").original) {
 			$.data(target, "panel").original = {
 				width : opts.width,
@@ -438,12 +438,12 @@
 	function _restore(target) {
 		var opts = $.data(target, "panel").options;
 		var panel = $.data(target, "panel").panel;
-		var toolMax = panel.children("div.ui-panel-header").find("a.ui-panel-tool-max");
+		var toolMax = panel.children("div.panel-heading").find("a.panel-tool-max");
 		if (opts.maximized == false) {
 			return;
 		}
 		panel.show();
-		toolMax.removeClass("ui-panel-tool-restore ui-icon-panel-restore");
+		toolMax.removeClass("panel-tool-restore ui-icon-panel-restore");
 		$.extend(opts, $.data(target, "panel").original);
 		_resize(target);
 		opts.minimized = false;
@@ -463,14 +463,14 @@
 		panel.css(opts.style);
 		panel.addClass(opts.cls);
 		if (opts.panelStyle) {
-			panel.addClass("ui-panel-" + opts.panelStyle);
+			panel.addClass("panel-" + opts.panelStyle);
 		}
 		if (opts.border) {
-			header.removeClass("ui-panel-header-noborder");
-			body.removeClass("ui-panel-body-noborder");
+			header.removeClass("panel-heading-noborder");
+			body.removeClass("panel-body-noborder");
 		} else {
-			header.addClass("ui-panel-header-noborder");
-			body.addClass("ui-panel-body-noborder");
+			header.addClass("panel-header-noborder");
+			body.addClass("panel-body-noborder");
 		}
 		header.addClass(opts.headerCls);
 		body.addClass(opts.bodyCls);
@@ -486,7 +486,7 @@
 	 */
 	function _setTitle(target, title) {
 		$.data(target, "panel").options.title = title;
-		$(target).panel("header").find("div.ui-panel-title").html(title);
+		$(target).panel("header").find("div.panel-title").html(title);
 	}
 	
 	var TO = false;
@@ -565,10 +565,10 @@
 			return $.data(jq[0], "panel").panel;
 		},
 		header : function(jq) {
-			return $.data(jq[0], "panel").panel.find(">div.ui-panel-header");
+			return $.data(jq[0], "panel").panel.find(">div.panel-heading");
 		},
 		body : function(jq) {
-			return $.data(jq[0], "panel").panel.find(">div.ui-panel-body");
+			return $.data(jq[0], "panel").panel.find(">div.panel-body");
 		},
 		setTitle : function(jq, title) {
 			return jq.each(function() {
