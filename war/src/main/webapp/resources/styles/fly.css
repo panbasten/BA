@@ -407,6 +407,21 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 }
 
 
+.fly-editor-toolbar {
+	margin-top: 5px;
+	margin-bottom: 10px;
+	height: 32px;
+	min-height: 30px;
+	padding:3px 5px;
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+	        border-radius: 5px;
+}
+
+.fly-editor-toolbar .btn-group {
+	margin-right: 5px;
+}
+
 .fly-editor-content-height-browse-panel,
 .fly-editor-content-browse-panel-no-toolbar{
 	width: 100%;
@@ -419,11 +434,13 @@ a.ui-tab-state-active .ui-navi-icon-systools{
 	height:auto;
 	min-height: 100px;
 	background: #f9f9f9;
+	overflow: hidden;
 }
 .fly-editor-systools .func-line-even{
 	height:auto;
 	min-height: 100px;
 	background: #e8e8e8;
+	overflow: hidden;
 }
 .fly-editor-systools .split-line-odd{
 	width: 100%;

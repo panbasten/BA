@@ -16,55 +16,61 @@
 		</div>
 	</div>
 	<div id="${editorId}Content" class="fly-flow-content">
-		<div id="${editorId}EditorToolbar" class="ui-toolbar navbar navbar-inverse">
-			<fly:pushbutton id="trans_run" iconCls="ui-icon-editor-run" btnStyle="link" onclick="Flywet.editors.trans.action.run();" title="运行" />
-			<fly:pushbutton id="trans_runreturn" iconCls="ui-icon-editor-return" btnStyle="link" onclick="" title="重复运行" />
-			<fly:pushbutton id="trans_pause" iconCls="ui-icon-editor-pause" btnStyle="link" onclick="" title="暂停" />
-			<fly:pushbutton id="trans_stop" iconCls="ui-icon-editor-stop" btnStyle="link" onclick="" title="停止" />
-			<fly:pushbutton id="trans_validate" iconCls="ui-icon-editor-validate" btnStyle="link" onclick="Flywet.editors.trans.action.check();" title="验证" />
-			<fly:pushbutton id="trans_analize" iconCls="ui-icon-editor-analize" btnStyle="link" onclick="Flywet.editors.trans.action.analyse();" title="分析对数据库影响" />
-			<fly:pushbutton id="trans_show" iconCls="ui-icon-editor-show" btnStyle="link" onclick="Flywet.editors.trans.action.showLog();" title="显示结果" />
-			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="trans_edit" iconCls="ui-icon-editor-edit" btnStyle="link" onclick="Flywet.editors.trans.action.changeOuterControlType('inner:dealCreateHop','edit');" title="画线" />
-			<fly:pushbutton id="trans_magnify" iconCls="ui-icon-editor-zoom-in" btnStyle="link" onclick="Flywet.editors.trans.action.changeOuterControlType('magnify');" title="放大" />
-			<fly:pushbutton id="trans_lessen" iconCls="ui-icon-editor-zoom-out" btnStyle="link" onclick="Flywet.editors.trans.action.changeOuterControlType('lessen');" title="缩小" />
-			<fly:pushbutton id="trans_partMagnify" iconCls="ui-icon-editor-zoom-part" btnStyle="link" onclick="Flywet.editors.trans.action.changeOuterControlType('partMagnify');" title="局部放大" />
-			<fly:pushbutton id="trans_zoom_100" iconCls="ui-icon-editor-zoom-100" btnStyle="link" onclick="Flywet.editors.trans.action.editorZoom100();" title="100%" />
-			<fly:pushbutton id="trans_zoom_fit" iconCls="ui-icon-editor-zoom-fit" btnStyle="link" onclick="Flywet.editors.trans.action.editorFix();" title="合适比例" />
-			<fly:pushbutton id="trans_screenMove" iconCls="ui-icon-editor-move" btnStyle="link" onclick="Flywet.editors.trans.action.changeOuterControlType('screenMove');" title="屏幕移动" />
-			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="trans_grid_show" iconCls="ui-icon-grid-show" btnStyle="link" onclick="Flywet.editors.trans.action.showGrid();" title="显示网格" />
-			<fly:pushbutton id="trans_grid_close" iconCls="ui-icon-grid-close" btnStyle="link" onclick="Flywet.editors.trans.action.closeGrid();" title="贴近网格" />
-			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="trans_cut" iconCls="ui-icon-system-cut" btnStyle="link" onclick="" title="剪切" />
-			<fly:pushbutton id="trans_copy" iconCls="ui-icon-system-copy" btnStyle="link" onclick="" title="复制" />
-			<fly:pushbutton id="trans_paste" iconCls="ui-icon-system-paste" btnStyle="link" onclick="" title="粘贴" />
-			<fly:pushbutton id="trans_delete" iconCls="ui-icon-system-delete" btnStyle="link" onclick="Flywet.editors.trans.action.deleteSelectedElFromOutset();" title="删除" />
-			<fly:pushbutton type="separator" />
-			<fly:pushbutton id="trans_save" iconCls="ui-icon-save" btnStyle="link" onclick="Flywet.editors.trans.action.save();" title="保存" />
-			<fly:pushbutton id="trans_saveas" iconCls="ui-icon-saveas" btnStyle="link" onclick="Flywet.editors.trans.action.saveas();" title="另存为..." />
-			<fly:pushbutton id="trans_save_xml" iconCls="ui-icon-save-xml" btnStyle="link" onclick="Flywet.editors.trans.action.saveXml();" title="保存为xml文件并下载" />
-			<fly:pushbutton id="trans_save_image" iconCls="ui-icon-save-image" btnStyle="link" onclick="Flywet.editors.trans.action.saveImage();" title="保存为图片并下载" />
+		<div id="${editorId}EditorToolbar" class="fly-editor-toolbar navbar">
+			<fly:pushbuttongroup>
+				<fly:pushbutton id="trans_run" iconCls="ui-icon ui-icon-editor-run" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.run();" title="运行" />
+				<fly:pushbutton id="trans_runreturn" iconCls="ui-icon ui-icon-editor-return" btnStyle="primary" btnSize="mini" onclick="" title="重复运行" />
+				<fly:pushbutton id="trans_pause" iconCls="ui-icon ui-icon-editor-pause" btnStyle="primary" btnSize="mini" onclick="" title="暂停" />
+				<fly:pushbutton id="trans_stop" iconCls="ui-icon ui-icon-editor-stop" btnStyle="primary" btnSize="mini" onclick="" title="停止" />
+				<fly:pushbutton id="trans_validate" iconCls="ui-icon ui-icon-editor-validate" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.check();" title="验证" />
+				<fly:pushbutton id="trans_analize" iconCls="ui-icon ui-icon-editor-analize" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.analyse();" title="分析对数据库影响" />
+				<fly:pushbutton id="trans_show" iconCls="ui-icon ui-icon-editor-show" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.showLog();" title="显示结果" />
+			</fly:pushbuttongroup>
+			<fly:pushbuttongroup>
+				<fly:pushbutton id="trans_edit" iconCls="ui-icon ui-icon-editor-edit" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.changeOuterControlType('inner:dealCreateHop','edit');" title="画线" />
+				<fly:pushbutton id="trans_magnify" iconCls="ui-icon ui-icon-editor-zoom-in" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.changeOuterControlType('magnify');" title="放大" />
+				<fly:pushbutton id="trans_lessen" iconCls="ui-icon ui-icon-editor-zoom-out" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.changeOuterControlType('lessen');" title="缩小" />
+				<fly:pushbutton id="trans_partMagnify" iconCls="ui-icon ui-icon-editor-zoom-part" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.changeOuterControlType('partMagnify');" title="局部放大" />
+				<fly:pushbutton id="trans_zoom_100" iconCls="ui-icon ui-icon-editor-zoom-100" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.editorZoom100();" title="100%" />
+				<fly:pushbutton id="trans_zoom_fit" iconCls="ui-icon ui-icon-editor-zoom-fit" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.editorFix();" title="合适比例" />
+				<fly:pushbutton id="trans_screenMove" iconCls="ui-icon ui-icon-editor-move" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.changeOuterControlType('screenMove');" title="屏幕移动" />
+			</fly:pushbuttongroup>
+			<fly:pushbuttongroup>
+				<fly:pushbutton id="trans_grid_show" iconCls="ui-icon ui-icon-grid-show" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.showGrid();" title="显示网格" />
+				<fly:pushbutton id="trans_grid_close" iconCls="ui-icon ui-icon-grid-close" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.closeGrid();" title="贴近网格" />
+			</fly:pushbuttongroup>
+			<fly:pushbuttongroup>
+				<fly:pushbutton id="trans_cut" iconCls="ui-icon ui-icon-system-cut" btnStyle="primary" btnSize="mini" onclick="" title="剪切" />
+				<fly:pushbutton id="trans_copy" iconCls="ui-icon ui-icon-system-copy" btnStyle="primary" btnSize="mini" onclick="" title="复制" />
+				<fly:pushbutton id="trans_paste" iconCls="ui-icon ui-icon-system-paste" btnStyle="primary" btnSize="mini" onclick="" title="粘贴" />
+				<fly:pushbutton id="trans_delete" iconCls="ui-icon ui-icon-system-delete" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.deleteSelectedElFromOutset();" title="删除" />
+			</fly:pushbuttongroup>
+			<fly:pushbuttongroup>
+				<fly:pushbutton id="trans_save" iconCls="ui-icon ui-icon-save" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.save();" title="保存" />
+				<fly:pushbutton id="trans_saveas" iconCls="ui-icon ui-icon-saveas" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.saveas();" title="另存为..." />
+				<fly:pushbutton id="trans_save_xml" iconCls="ui-icon ui-icon-save-xml" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.saveXml();" title="保存为xml文件并下载" />
+				<fly:pushbutton id="trans_save_image" iconCls="ui-icon ui-icon-save-image" btnStyle="primary" btnSize="mini" onclick="Flywet.editors.trans.action.saveImage();" title="保存为图片并下载" />
+			</fly:pushbuttongroup>
 		</div>
 		<div id="${editorId}EditorPanel" oncontextmenu="return false;" class="clearfix">
 		</div>
 	</div>
 	<div id="${editorId}PropBar" class="fly-flow-prop-bar ui-corner-top fly-editor-side-bar-only">
-		<div id="${editorId}ThumbPanel" class="ui-widget-panel">
+		<div id="${editorId}ThumbPanel" class="panel">
 			<div class="navbar navbar-inverse">
 				<div class="ui-toolbar-group-left">缩略图</div>
 				<div class="ui-toolbar-group-right">
-					<span id="${editorId}ThumbClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('thumbPane');"></span>
+					<span id="${editorId}ThumbClose" class="ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('thumbPane');"></span>
 				</div>
 			</div>
-			<div id="${editorId}ThumbContent" class="ui-widget-content">
+			<div id="${editorId}ThumbContent">
 			</div>
 		</div>
-		<div id="${editorId}DSPanel" class="ui-widget-panel">
+		<div id="${editorId}DSPanel" class="panel">
 			<div class="navbar navbar-inverse fly-editor-side-bar-only">
 				<div class="ui-toolbar-group-left">数据源</div>
 				<div class="ui-toolbar-group-right">
-					<span id="${editorId}DSClose" class="ui-button ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('dsPane');"></span>
+					<span id="${editorId}DSClose" class="ui-icon ui-icon-circle-minus" onclick="Flywet.editors.trans.toggleContent('dsPane');"></span>
 				</div>
 			</div>
 			<fly:tree id="${editorId}DSContent" class="ui-widget-content"

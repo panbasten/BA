@@ -8,10 +8,14 @@ Flywet.sysTools = {
 		
 		data = Flywet.parseJSON(decodeURIComponent(data));
 		
+		console.log(data);
+		console.log(target);
+		
 		var dialogId = target.attr("id") + "_dialog";
 		
 		var opt = $.extend({},{
 			id : dialogId,
+			header : target.attr("title") || "操作",
 			width : 700,
 			height : 400,
 			autoOpen : true,
@@ -31,6 +35,7 @@ Flywet.sysTools = {
 						type : "button",
 						label : "取消",
 						title : "取消",
+						btnStyle : "link",
 						events : {
 							"click" : "hide"
 						}
@@ -39,12 +44,13 @@ Flywet.sysTools = {
 					var btn = {
 						componentType : "fly:PushButton",
 						type : "button",
+						btnStyle : "success",
 						label : btnsSetting[i].label,
 						title : btnsSetting[i].title,
 						url : btnsSetting[i].url,
 						click : {
 							formId : "sys_tools_item_form",
-							formAction : params.url
+							formAction : btnsSetting[i].url
 						}
 					};
 					btns.push(btn);

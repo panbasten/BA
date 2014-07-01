@@ -15,6 +15,8 @@
 		<!-- replace href="<%=path%>/resources/styles/default.compressed.css" type="style" -->
 		<link href="<%=path%>/resources/libs/core/bootstrap.css" rel="stylesheet"
 			type="text/css" />
+		<link href="<%=path%>/resources/libs/core/core.css" rel="stylesheet"
+			type="text/css" />
 		<!-- replace end -->
 		
 		<!-- replace href="<%=path%>/resources/libs.compressed.css" type="style" -->
