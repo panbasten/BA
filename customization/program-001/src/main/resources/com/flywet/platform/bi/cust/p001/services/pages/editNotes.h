@@ -8,13 +8,11 @@
 		    <div style="float:left;width:100px;text-align:left;">记事板2</div>
 		</div>
 		<textarea id="fs" name="fs" rows="16">
-			${fileText}
+			${miText}
 		</textarea>
 	</fly:verticalLayout>
 	
-	<fly:inputText id="rootDir" name="rootDir" type="hidden" value="${rootDir}" />
-	<fly:inputText id="fileName" name="fileName" type="hidden" value="${fileName}" />
-	<fly:inputText id="category" name="category" type="hidden" value="${category}" />
+	<fly:inputText id="miId" name="miId" type="hidden" value="${miId}" />
 
 	<fly:includeJs src="page.js"/>
 

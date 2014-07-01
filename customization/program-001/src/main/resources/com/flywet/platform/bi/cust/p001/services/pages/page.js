@@ -19,7 +19,7 @@ function extendPredictPrecipitationSettingUpdata(){
 }
 
 function changeNote(val){
-    Flywet.PortalAction.updateMenuDialog(18,41,'fs,rootDir,fileName,category',val);
+    Flywet.PortalAction.updateMenuDialog(18,41,'fs,miId',val);
 }
 
 function buzNormsUpdate(){

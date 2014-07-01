@@ -49,6 +49,7 @@ import com.flywet.platform.bi.core.utils.PropertyUtils;
 import com.flywet.platform.bi.core.utils.ReflectionUtils;
 import com.flywet.platform.bi.core.utils.Utils;
 import com.flywet.platform.bi.delegates.enums.AuthorizationObjectCategory;
+import com.flywet.platform.bi.delegates.enums.BIMetroCategory;
 import com.flywet.platform.bi.delegates.enums.PermissionCategory;
 import com.flywet.platform.bi.delegates.utils.BIWebUtils;
 import com.flywet.platform.bi.delegates.vo.MetroItem;
@@ -822,6 +823,13 @@ public class BIPortaletResource {
 			List<MetroItem> items = portalDelegates.getMetroItems();
 
 			if (items != null) {
+				// 对于note类型的要替换CR
+				for (MetroItem m : items) {
+					if (m.getType() == BIMetroCategory.METRO_TYPE_NOTE) {
+						m.setData(Const.replace(m.getData(), Const.CR, "<br/>"));
+					}
+				}
+
 				JSONArray ja = new JSONArray();
 
 				for (MetroItem mItem : items) {

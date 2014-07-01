@@ -59,9 +59,6 @@ public interface ForecastDelegates extends BIRepositoryDelegates {
 	public String extendSettingUpdateSelect(String targetId,
 			HashMap<String, Object> context) throws BIJSONException;
 
-	public String metroPortal(String targetId, HashMap<String, Object> context)
-			throws BIJSONException;
-
 	public String editNotes(String targetId, HashMap<String, Object> context)
 			throws BIException;
 

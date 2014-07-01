@@ -2,13 +2,11 @@ package com.flywet.platform.bi.services.impl;
 
 import java.util.List;
 
-import org.pentaho.di.core.Const;
 import org.springframework.stereotype.Service;
 
 import com.flywet.platform.bi.cache.PortalCache;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIKettleException;
-import com.flywet.platform.bi.delegates.enums.BIMetroCategory;
 import com.flywet.platform.bi.delegates.intf.BIMetroAdaptor;
 import com.flywet.platform.bi.delegates.intf.BIPortalMenuAdaptor;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
@@ -75,19 +73,21 @@ public class BIPortalServices implements BIPortalDelegates {
 	public List<MetroItem> getMetroItems() throws BIKettleException {
 		BIMetroAdaptor metroDelegate = BIAdaptorFactory
 				.createAdaptor(BIMetroAdaptor.class);
+		return metroDelegate.getMetroItems();
+	}
 
-		List<MetroItem> items = metroDelegate.getMetroItems();
+	@Override
+	public MetroItem getMetroItemById(long id) throws BIKettleException {
+		BIMetroAdaptor metroDelegate = BIAdaptorFactory
+				.createAdaptor(BIMetroAdaptor.class);
+		return metroDelegate.getMetroItemById(id);
+	}
 
-		// 对于note类型的要替换CR
-		if (items != null) {
-			for (MetroItem m : items) {
-				if (m.getType() == BIMetroCategory.METRO_TYPE_NOTE) {
-					m.setData(Const.replace(m.getData(), Const.CR, "<br/>"));
-				}
-			}
-		}
-
-		return items;
+	@Override
+	public void updateMetroObject(long id, String obj) throws BIKettleException {
+		BIMetroAdaptor metroDelegate = BIAdaptorFactory
+				.createAdaptor(BIMetroAdaptor.class);
+		metroDelegate.updateMetroObject(id, obj);
 	}
 
 }

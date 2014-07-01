@@ -23,7 +23,6 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.encryption.Encr;
@@ -61,10 +60,11 @@ import com.flywet.platform.bi.cust.p001.vo.MonthPredictEvaVo;
 import com.flywet.platform.bi.cust.p001.vo.MonthPredictScoreVo;
 import com.flywet.platform.bi.delegates.enums.BIFileSystemCategory;
 import com.flywet.platform.bi.delegates.utils.BIAdaptorFactory;
+import com.flywet.platform.bi.delegates.vo.MetroItem;
 import com.flywet.platform.bi.di.model.TransExecuteWapper;
 import com.flywet.platform.bi.di.queues.TransExecuteQueue;
 import com.flywet.platform.bi.services.impl.AbstractRepositoryServices;
-import com.flywet.platform.bi.services.intf.BIFileSystemDelegate;
+import com.flywet.platform.bi.services.intf.BIPortalDelegates;
 
 @Service("cust.service.forecastServices")
 public class ForecastServices extends AbstractRepositoryServices implements
@@ -108,16 +108,6 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 	private static final String TEMPLATE_MONTH_PREDICT_EVALUATE_SETTING = "monthPredictEvaluateSetting.h";
 	private static final String TEMPLATE_MONTH_PREDICT_PRECIPTATION_SETTING = "extendPredictPrecipitationSetting.h";
-
-	// Note1
-	private static final String PROP_NOTE1_FILE_ROOT_PATH = "custom.portal.note1.file.rootPath";
-	private static final String PROP_NOTE1_FILE_CATEGORY = "custom.portal.note1.file.category";
-	private static final String PROP_NOTE1_FILE_FILENAME = "custom.portal.note1.file.fileName";
-
-	// Note2
-	private static final String PROP_NOTE2_FILE_ROOT_PATH = "custom.portal.note2.file.rootPath";
-	private static final String PROP_NOTE2_FILE_CATEGORY = "custom.portal.note2.file.category";
-	private static final String PROP_NOTE2_FILE_FILENAME = "custom.portal.note2.file.fileName";
 
 	// 月预测数据存储位置
 	private static final String PROP_MONTH_PREDICT_FILE_ROOT_PATH = "custom.portal.monthPredict.file.rootPath";
@@ -1918,27 +1908,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 	public String editNotes(String targetId, HashMap<String, Object> context)
 			throws BIException {
 		try {
-			BIFileSystemDelegate filesysService = ReflectionUtils
-					.getBean("bi.service.filesystemService");
+			BIPortalDelegates pd = ReflectionUtils
+					.getBean("bi.service.portalServices");
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String category = PROP_NOTE1_FILE_CATEGORY;
-			String rootDir = PROP_NOTE1_FILE_ROOT_PATH;
-			String fileName = PROP_NOTE1_FILE_FILENAME;
+			MetroItem mi = pd.getMetroItemById(1L);
 
-			FileObject fileObj = filesysService.composeVfsObject(
-					PropertyUtils.getProperty(category),
-					PropertyUtils.getProperty(fileName),
-					PropertyUtils.getProperty(rootDir));
-			String fileText = FileUtils.getString(fileObj.getContent()
-					.getInputStream());
-
-			attrsMap.addVariable("rootDir", rootDir);
-			attrsMap.addVariable("fileText", fileText);
-			attrsMap.addVariable("fileName", fileName);
-			attrsMap.addVariable("category", category);
+			attrsMap.addVariable("miText", mi.getData());
+			attrsMap.addVariable("miId", mi.getId());
 
 			Object[] domString = PageTemplateInterpolator.interpolate(PKG,
 					TEMPLATE_EDIT_NOTES, attrsMap);
@@ -1958,37 +1937,26 @@ public class ForecastServices extends AbstractRepositoryServices implements
 	public String editNotesChange(String targetId,
 			HashMap<String, Object> context) throws BIException {
 		try {
-			BIFileSystemDelegate filesysService = ReflectionUtils
-					.getBean("bi.service.filesystemService");
+			BIPortalDelegates pd = ReflectionUtils
+					.getBean("bi.service.portalServices");
 
 			String currentMonth = (String) context.get(PORTAL_ONLY_PARAM);
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
-			String category, rootDir, fileName;
+			MetroItem mi = null;
 
 			if ("note1".equals(currentMonth)) {
-				category = PROP_NOTE1_FILE_CATEGORY;
-				rootDir = PROP_NOTE1_FILE_ROOT_PATH;
-				fileName = PROP_NOTE1_FILE_FILENAME;
+				mi = pd.getMetroItemById(1L);
 			} else {
-				category = PROP_NOTE2_FILE_CATEGORY;
-				rootDir = PROP_NOTE2_FILE_ROOT_PATH;
-				fileName = PROP_NOTE2_FILE_FILENAME;
+				mi = pd.getMetroItemById(2L);
 			}
 
-			FileObject fileObj = filesysService.composeVfsObject(
-					PropertyUtils.getProperty(category),
-					PropertyUtils.getProperty(fileName),
-					PropertyUtils.getProperty(rootDir));
-			String fileText = FileUtils.getString(fileObj.getContent()
-					.getInputStream());
+			pd.getMetroItemById(1L);
 
-			attrsMap.addVariable("rootDir", rootDir);
-			attrsMap.addVariable("fileText", fileText);
-			attrsMap.addVariable("fileName", fileName);
-			attrsMap.addVariable("category", category);
+			attrsMap.addVariable("miText", mi.getData());
+			attrsMap.addVariable("miId", mi.getId());
 
 			AjaxResult ar = AjaxResult.instance();
 
@@ -2016,27 +1984,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			throws BIException {
 		ActionMessage am = new ActionMessage();
 		try {
-			BIFileSystemDelegate filesysService = ReflectionUtils
-					.getBean("bi.service.filesystemService");
+			BIPortalDelegates pd = ReflectionUtils
+					.getBean("bi.service.portalServices");
 
 			// 页面设置
 			String fs = context.getParameter("fs");
 
-			String rootDir = PropertyUtils.getProperty(context
-					.getParameter("rootDir"));
-			String fileName = PropertyUtils.getProperty(context
-					.getParameter("fileName"));
-			String category = PropertyUtils.getProperty(context
-					.getParameter("category"));
+			String miId = context.getParameter("miId");
 
 			// 保存
-			File fullFile = new File(fileName);
-			String destFileStr = FileUtils.dirAppend(null, fullFile.getName());
-			FileObject destFileObj = filesysService.composeVfsObject(category,
-					destFileStr, rootDir);
-
-			FileUtils.write(FileUtils.getInputStream(fs), destFileObj
-					.getContent().getOutputStream());
+			pd.updateMetroObject(Long.valueOf(miId), fs);
 
 			am.addMessage("保存文件成功。");
 		} catch (Exception e) {
@@ -2193,44 +2150,6 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 		return ActionMessage.instance().failure("延伸期预测评分数据上传出现问题。")
 				.toJSONString();
-	}
-
-	@Override
-	public String metroPortal(String targetId, HashMap<String, Object> context)
-			throws BIJSONException {
-		// TODO
-		try {
-			// TODO 读取两个固定文件
-			JSONObject jo = new JSONObject();
-
-			BIFileSystemDelegate filesysService = ReflectionUtils
-					.getBean("bi.service.filesystemService");
-
-			FileObject fileObj1 = filesysService.composeVfsObject(
-					PropertyUtils.getProperty(PROP_NOTE1_FILE_CATEGORY),
-					PropertyUtils.getProperty(PROP_NOTE1_FILE_FILENAME),
-					PropertyUtils.getProperty(PROP_NOTE1_FILE_ROOT_PATH));
-			String fileText1 = Const
-					.NVL(FileUtils.getString(fileObj1.getContent()
-							.getInputStream()), "");
-
-			FileObject fileObj2 = filesysService.composeVfsObject(
-					PropertyUtils.getProperty(PROP_NOTE2_FILE_CATEGORY),
-					PropertyUtils.getProperty(PROP_NOTE2_FILE_FILENAME),
-					PropertyUtils.getProperty(PROP_NOTE2_FILE_ROOT_PATH));
-			String fileText2 = Const
-					.NVL(FileUtils.getString(fileObj2.getContent()
-							.getInputStream()), "");
-
-			jo.put("note1", Const.replace(fileText1, Const.CR, "<br/>"));
-			jo.put("note2", Const.replace(fileText2, Const.CR, "<br/>"));
-
-			return jo.toJSONString();
-
-		} catch (Exception ex) {
-			return ActionMessage.instance().failure("获得Portal的Metro页面出现错误。")
-					.toJSONString();
-		}
 	}
 
 	@Override

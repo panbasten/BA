@@ -46,4 +46,22 @@ public interface BIPortalDelegates {
 	 */
 	public List<MetroItem> getMetroItems() throws BIKettleException;
 
+	/**
+	 * 通过ID，获得Metro的对象
+	 * 
+	 * @param id
+	 * @return
+	 * @throws BIKettleException
+	 */
+	public MetroItem getMetroItemById(long id) throws BIKettleException;
+
+	/**
+	 * 通过ID和对象，更新Metro
+	 * 
+	 * @param id
+	 * @param obj
+	 * @throws BIKettleException
+	 */
+	public void updateMetroObject(long id, String obj) throws BIKettleException;
+
 }
