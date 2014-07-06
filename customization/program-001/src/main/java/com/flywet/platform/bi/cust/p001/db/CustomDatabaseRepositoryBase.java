@@ -4,6 +4,7 @@ public class CustomDatabaseRepositoryBase {
 
 	public static final String FIELD_EXTEND_PREDICT_ID_EXTEND_PREDICT = "ID_EXTEND_PREDICT";
 	public static final String FIELD_EXTEND_PREDICT_TITLE = "TITLE";
+	public static final String FIELD_EXTEND_PREDICT_OTHER_TITLE = "OTHER_TITLE";
 	public static final String FIELD_EXTEND_PREDICT_DESCRIPTION = "DESCRIPTION";
 	public static final String TABLE_C_EXTEND_PREDICT = "C_EXTEND_PREDICT";
 	
