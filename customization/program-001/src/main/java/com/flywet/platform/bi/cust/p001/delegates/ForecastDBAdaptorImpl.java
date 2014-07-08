@@ -14,15 +14,37 @@ public class ForecastDBAdaptorImpl extends BIAbstractDbAdaptor implements
 	@Override
 	public Object[] getExtendPredict(String title)
 			throws KettleDatabaseException {
-		String sql = "SELECT "
-				+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
-				+ " FROM "
-				+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
-				+ " WHERE "
-				+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE)
-				+ " = ?";
-		Object[] params = new Object[1];
-		params[0] = title;
+		String sql = null;
+		Object[] params = null;
+		if (title.indexOf(" ") > 0) {
+			String t1 = title.substring(0, title.indexOf(" "));
+			String t2 = title.substring(title.indexOf(" ") + 1);
+
+			sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_OTHER_TITLE)
+					+ " = ?";
+			params = new Object[2];
+			params[0] = t1;
+			params[1] = t2;
+		} else {
+			sql = "SELECT "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION)
+					+ " FROM "
+					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
+					+ " WHERE "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE)
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_OTHER_TITLE)
+					+ " is null";
+			params = new Object[1];
+			params[0] = title;
+		}
 
 		return getOneRow(sql, params);
 	}
@@ -53,7 +75,9 @@ public class ForecastDBAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
 					+ " WHERE "
 					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE)
-					+ " = ?";
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_OTHER_TITLE)
+					+ " is null";
 			row = getOneRow(sql, new Object[] { title });
 		}
 
@@ -75,7 +99,9 @@ public class ForecastDBAdaptorImpl extends BIAbstractDbAdaptor implements
 					+ quoteTable(CustomDatabaseRepositoryBase.TABLE_C_EXTEND_PREDICT)
 					+ " WHERE "
 					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE)
-					+ " = ?";
+					+ " = ? AND "
+					+ quote(CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_OTHER_TITLE)
+					+ " is null";
 
 			row = getOneRow(sql, new Object[] { title });
 		} else {

@@ -732,19 +732,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			List<Object[]> rows = prog.getAllExtendPredict();
 
-			List<String[]> menus = new ArrayList<String[]>();
-			String menu = null;
-			for (Object[] r : rows) {
-				menu = getExtendPredictTitle(r);
-				if (menu.equals(currentText)) {
-					hasCurrentText = true;
-				}
-				menus.add(new String[] { menu, menu });
-			}
-
-			if (!hasCurrentText) {
-				menus.add(new String[] { currentText, currentText });
-			}
+			List<String[]> menus = getExtendSettingMonth();
 
 			attrsMap.addVariable("currentText", currentText);
 			attrsMap.addVariable("content", content);
@@ -762,6 +750,26 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
 				.toJSONString();
+	}
+
+	private List<String[]> getExtendSettingMonth() {
+		List<String[]> m = new ArrayList<String[]>();
+
+		Calendar cd = Calendar.getInstance();
+		cd.add(Calendar.MONTH, 1);
+		String s = null;
+
+		for (int i = 0; i < 10; i++) {
+			s = DateUtils.formatDate(cd.getTime(), "yyyy年MM月");
+
+			for (int j = 2; j >= 0; j--) {
+				m.add(new String[] { s + YUN_DESC[j], s + YUN_DESC[j] });
+			}
+
+			cd.add(Calendar.MONTH, -1);
+		}
+
+		return m;
 	}
 
 	@Override
