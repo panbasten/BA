@@ -15,6 +15,7 @@
 	</parent>
 	<modules>
 		<module>program-001</module>
+		<module>program-002</module>
 	</modules>
 
 	<dependencies>
