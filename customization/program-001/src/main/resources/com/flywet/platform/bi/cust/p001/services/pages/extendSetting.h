@@ -10,7 +10,7 @@
             </fly:selectMenu>
 		</fly:gridLayoutItem>
 		<fly:gridLayoutItem>
-            <span style="float:right;">其他填报日期：</span>
+            <span style="float:right;">备注：</span>
         </fly:gridLayoutItem>
         <fly:gridLayoutItem>
             <fly:inputText id="esu_other_title" name="esu_other_title" style="float:left;" value="" />

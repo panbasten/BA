@@ -239,6 +239,8 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			FileObject[] children = getMonthPredictDirs();
 
+			FileObject firstFo = null;
+
 			if (children == null) {
 				return ActionMessage.instance().failure("预测产品-月预测无记录。")
 						.toJSONString();
@@ -246,12 +248,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			List<String[]> monthes = new ArrayList<String[]>();
 			for (FileObject fo : children) {
-				if (fo.getType() == FileType.FOLDER)
+				if (fo.getType() == FileType.FOLDER) {
+					if (firstFo == null) {
+						firstFo = fo;
+					}
 					monthes.add(new String[] { fo.getName().getBaseName(),
 							getMonthName(fo.getName().getBaseName()) });
+				}
 			}
 
-			String currentMonth = children[0].getName().getBaseName();
+			String currentMonth = firstFo.getName().getBaseName();
 
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
@@ -515,6 +521,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				.toJSONString();
 	}
 
+	private String getExtendPredictTitle(Object[] r) {
+		String title = Const.NVL((String) r[0], "");
+
+		if (!Const.isEmpty((String) r[1])) {
+			title = title + " " + Const.NVL((String) r[1], "");
+		}
+
+		return title;
+	}
+
 	@Override
 	public String extendPredict(String targetId, HashMap<String, Object> context)
 			throws BIJSONException {
@@ -528,15 +544,16 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			List<Object[]> rows = prog.getAllExtendPredict();
 
 			List<String[]> menus = new ArrayList<String[]>();
+			String title;
 			for (Object[] r : rows) {
-				menus.add(new String[] { Const.NVL((String) r[0], ""),
-						Const.NVL((String) r[0], "") });
+				title = getExtendPredictTitle(r);
+				menus.add(new String[] { title, title });
 			}
 
 			Object[] current = rows.get(0);
 
-			String title = Const.NVL((String) current[0], "");
-			String extendDesc = Const.NVL((String) current[1], "");
+			title = getExtendPredictTitle(rows.get(0));
+			String extendDesc = Const.NVL((String) current[2], "");
 			extendDesc = Const.replace(extendDesc, Const.CR, "<br/>");
 
 			attrsMap.addVariable("menuId", context.get("id"));
@@ -557,11 +574,6 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 		return ActionMessage.instance().failure("打开预测产品-延伸期预测界面出现问题。")
 				.toJSONString();
-	}
-
-	private String getExtendPredictValue(Object[] r) {
-		return (Long) r[0] + "年" + (Long) r[1] + "月"
-				+ YUN_DESC[((Long) r[2]).intValue()];
 	}
 
 	@Override
@@ -589,8 +601,10 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			List<String[]> monthes = new ArrayList<String[]>();
 			for (FileObject fo : children) {
-				monthes.add(new String[] { fo.getName().getBaseName(),
-						getMonthName(fo.getName().getBaseName()) });
+				if (fo.getType() == FileType.FOLDER) {
+					monthes.add(new String[] { fo.getName().getBaseName(),
+							getMonthName(fo.getName().getBaseName()) });
+				}
 			}
 
 			attrsMap.addVariable("menuId", context.get("id"));
@@ -718,19 +732,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			List<Object[]> rows = prog.getAllExtendPredict();
 
-			List<String[]> menus = new ArrayList<String[]>();
-			String menu = null;
-			for (Object[] r : rows) {
-				menu = Const.NVL((String) r[0], "");
-				if (menu.equals(currentText)) {
-					hasCurrentText = true;
-				}
-				menus.add(new String[] { menu, menu });
-			}
-
-			if (!hasCurrentText) {
-				menus.add(new String[] { currentText, currentText });
-			}
+			List<String[]> menus = getExtendSettingMonth();
 
 			attrsMap.addVariable("currentText", currentText);
 			attrsMap.addVariable("content", content);
@@ -748,6 +750,26 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
 				.toJSONString();
+	}
+
+	private List<String[]> getExtendSettingMonth() {
+		List<String[]> m = new ArrayList<String[]>();
+
+		Calendar cd = Calendar.getInstance();
+		cd.add(Calendar.MONTH, 1);
+		String s = null;
+
+		for (int i = 0; i < 10; i++) {
+			s = DateUtils.formatDate(cd.getTime(), "yyyy年MM月");
+
+			for (int j = 2; j >= 0; j--) {
+				m.add(new String[] { s + YUN_DESC[j], s + YUN_DESC[j] });
+			}
+
+			cd.add(Calendar.MONTH, -1);
+		}
+
+		return m;
 	}
 
 	@Override
@@ -793,7 +815,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			List<String[]> menus = new ArrayList<String[]>();
 			String menu = null;
 			for (Object[] r : rows) {
-				menu = Const.NVL((String) r[0], "");
+				menu = getExtendPredictTitle(r);
 				if (menu.equals(currentText)) {
 					hasCurrentText = true;
 				}
@@ -838,14 +860,10 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			String title = context.getParameter("esu_title");
 			String otherTitle = context.getParameter("esu_other_title");
 
-			if (!Utils.isJSEmpty(otherTitle)) {
-				title = otherTitle;
-			}
-
 			ForecastDBAdaptor prog = BIAdaptorFactory
 					.createCustomAdaptor(ForecastDBAdaptorImpl.class);
 
-			Long rid = prog.getIDFromExtendPredict(title);
+			Long rid = prog.getIDFromExtendPredict(title, otherTitle);
 			if (rid != null) {
 				RowMetaAndData rmd = new RowMetaAndData();
 				rmd.addValue(
@@ -854,6 +872,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				rmd.addValue(
 						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE,
 						ValueMetaInterface.TYPE_STRING, title);
+				rmd.addValue(
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_OTHER_TITLE,
+						ValueMetaInterface.TYPE_STRING, otherTitle);
 				rmd.addValue(
 						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION,
 						ValueMetaInterface.TYPE_STRING, content);
@@ -873,6 +894,9 @@ public class ForecastServices extends AbstractRepositoryServices implements
 				rmd.addValue(
 						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_TITLE,
 						ValueMetaInterface.TYPE_STRING, title);
+				rmd.addValue(
+						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_OTHER_TITLE,
+						ValueMetaInterface.TYPE_STRING, otherTitle);
 				rmd.addValue(
 						CustomDatabaseRepositoryBase.FIELD_EXTEND_PREDICT_DESCRIPTION,
 						ValueMetaInterface.TYPE_STRING, content);
