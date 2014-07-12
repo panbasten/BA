@@ -524,7 +524,7 @@
 		<!-- program -->
 		<dependency>
 			<groupId>com.flywet.platform.customization</groupId>
-			<artifactId>program-001</artifactId>
+			<artifactId>program-002</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

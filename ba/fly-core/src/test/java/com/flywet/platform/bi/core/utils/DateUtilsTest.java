@@ -37,7 +37,7 @@ public class DateUtilsTest extends TestCase {
 				+ DateUtils.getPassDayOfSeason(date));
 		System.out.println(strDate + " 所在季度剩余多少天？"
 				+ DateUtils.getRemainDayOfSeason(date));
-		System.out.println(strDate + " 是第几季度？" + DateUtils.getSeason(date));
+		System.out.println(strDate + " 是第几季度？" + DateUtils.getQuarter(date));
 		System.out.println(strDate
 				+ " 所在季度月份？"
 				+ DateUtils.formatDate(DateUtils.getSeasonDate(date)[0],

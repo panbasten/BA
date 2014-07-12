@@ -5,12 +5,31 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.i18n.BaseMessages;
 
 public class DateUtils {
 	private static final Logger logger = Logger.getLogger(DateUtils.class);
 
+	private static Class<?> PKG = DateUtils.class;
+
 	// 中国周一是一周的第一天
 	public static final int FIRST_DAY_OF_WEEK = Calendar.MONDAY;
+
+	public static final String[] WEEK_NAME = new String[] { "Sunday", "Monday",
+			"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+
+	public static final String[] MONTH_NAME = new String[] { "January",
+			"February", "March", "April", "May", "June", "July", "August",
+			"September", "October", "November", "December" };
+
+	public static final String[] QUARTER_NAME = new String[] { "First",
+			"Second", "Third", "Fourth" };
+
+	public static final String[] TENDAY_NAME = new String[] { "First",
+			"Second", "Third" };
+
+	public static final String[] HALFYEAR_NAME = new String[] { "First",
+			"Second" };
 
 	/**
 	 * 通用的date/time格式 see also method StringUtil.getFormattedDateTime()
@@ -111,6 +130,108 @@ public class DateUtils {
 			logger.error("formatDate error:", e);
 		}
 		return 0;
+	}
+
+	/**
+	 * 获得日期的星期描述
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getDayOfWeekDesc(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int w = c.get(Calendar.DAY_OF_WEEK);
+		return BaseMessages.getString(PKG, "Date.Message.Week."
+				+ WEEK_NAME[w - 1]);
+	}
+
+	/**
+	 * 获得日期的月份描述
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getMonthDesc(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int m = c.get(Calendar.MONTH);
+		return BaseMessages.getString(PKG, "Date.Message.Month."
+				+ MONTH_NAME[m]);
+	}
+
+	/**
+	 * 获得日期的季度描述
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getQuarterDesc(Date date) {
+		int m = getQuarter(date);
+		return BaseMessages.getString(PKG, "Date.Message.Quarter."
+				+ QUARTER_NAME[m - 1]);
+	}
+
+	/**
+	 * 获得日期的旬编号
+	 * 
+	 * @param date
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	public static int getTenDay(Date date) {
+		int d = date.getDate(), xun;
+
+		if (d <= 10) {
+			xun = 1;
+		} else if (d <= 20) {
+			xun = 2;
+		} else {
+			xun = 3;
+		}
+
+		return xun;
+	}
+
+	/**
+	 * 获得日期的旬描述
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getTenDayDesc(Date date) {
+		int x = getTenDay(date);
+		return BaseMessages.getString(PKG, "Date.Message.TenDay."
+				+ TENDAY_NAME[x - 1]);
+	}
+
+	/**
+	 * 获得半年编号
+	 * 
+	 * @param date
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	public static int getHalfYear(Date date) {
+		int m = date.getMonth(), h;
+		if (m < Calendar.JULY) {
+			h = 1;
+		} else {
+			h = 2;
+		}
+		return h;
+	}
+
+	/**
+	 * 获得半年描述
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getHalfYearDesc(Date date) {
+		int h = getHalfYear(date);
+		return BaseMessages.getString(PKG, "Date.Message.HalfYear."
+				+ HALFYEAR_NAME[h - 1]);
 	}
 
 	/**
@@ -317,7 +438,7 @@ public class DateUtils {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 
-		int nSeason = getSeason(date);
+		int nSeason = getQuarter(date);
 		if (nSeason == 1) {// 第一季度
 			c.set(Calendar.MONTH, Calendar.JANUARY);
 			season[0] = c.getTime();
@@ -357,7 +478,7 @@ public class DateUtils {
 	 * @param date
 	 * @return
 	 */
-	public static int getSeason(Date date) {
+	public static int getQuarter(Date date) {
 
 		int season = 0;
 

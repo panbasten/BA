@@ -15,6 +15,7 @@ import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIKettleException;
 import com.flywet.platform.bi.core.pools.RepPool;
 import com.flywet.platform.bi.core.utils.Utils;
+import com.flywet.platform.bi.model.BIDatabaseConnectionDelegate;
 import com.flywet.platform.bi.services.intf.BIDatabaseDelegates;
 
 @Service("bi.service.databaseServices")
@@ -33,9 +34,7 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 				BrowseNodeMeta node = new BrowseNodeMeta();
 				node.setCategory(Utils.CATEGORY_DB);
 				node.setId(d.getObjectId().getId());
-				node
-						.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, d
-								.getName());
+				node.addAttribute(BrowseNodeMeta.ATTR_DISPLAY_NAME, d.getName());
 				node.addAttribute(BrowseNodeMeta.ATTR_ICON_STYLE, "ui-"
 						+ Utils.CATEGORY_DB + "-icon");
 				node.addAttribute(HTML.ATTR_TYPE, Utils.DOM_LEAF);
@@ -52,6 +51,13 @@ public class BIDatabaseServices implements BIDatabaseDelegates {
 			RepPool.instance().returnRep(rep);
 		}
 
+	}
+
+	@Override
+	public BIDatabaseConnectionDelegate getDatabaseConnectionDelegate(Long id)
+			throws BIException {
+		DatabaseMeta dbm = getDatabaseMeta(id);
+		return new BIDatabaseConnectionDelegate(dbm);
 	}
 
 	@Override
