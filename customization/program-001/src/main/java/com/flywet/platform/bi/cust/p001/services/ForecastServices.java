@@ -201,7 +201,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ar.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测产品-月预测界面出现问题。");
+			log.error("打开预测产品-月预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测产品-月预测界面出现问题。")
@@ -277,7 +277,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测产品-月预测界面出现问题。");
+			log.error("打开预测产品-月预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测产品-月预测界面出现问题。")
@@ -304,7 +304,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ActionMessage.instance().failure(e.getMessage())
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("提交统计尺度分析计算执行出现问题。");
+			log.error("提交统计尺度分析计算执行出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("提交统计尺度分析计算执行出现问题。")
@@ -331,7 +331,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ActionMessage.instance().failure(e.getMessage())
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("提交统计尺度分析计算执行出现问题。");
+			log.error("提交统计尺度分析计算执行出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("提交统计尺度分析计算执行出现问题。")
@@ -514,7 +514,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ar.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测产品-延伸期预测界面出现问题。");
+			log.error("打开预测产品-延伸期预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测产品-延伸期预测界面出现问题。")
@@ -569,7 +569,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测产品-延伸期预测界面出现问题。");
+			log.error("打开预测产品-延伸期预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测产品-延伸期预测界面出现问题。")
@@ -627,7 +627,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开当月预测填报界面出现问题。");
+			log.error("打开当月预测填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
@@ -690,7 +690,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ar.toJSONString();
 
 		} catch (Exception e) {
-			log.error("打开当月预测填报界面出现问题。");
+			log.error("打开当月预测填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
@@ -745,7 +745,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开延伸期预测当月填报界面出现问题。");
+			log.error("打开延伸期预测当月填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
@@ -845,7 +845,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ar.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测产品-延伸期预测填报-按旬更新界面出现问题。");
+			log.error("打开预测产品-延伸期预测填报-按旬更新界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测产品-延伸期预测界面出现问题。")
@@ -906,7 +906,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			}
 			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
-			log.error("打开延伸期预测当月更新行为出现问题。");
+			log.error("打开延伸期预测当月更新行为出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
@@ -926,7 +926,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测评分-延伸期预测界面出现问题。");
+			log.error("打开预测评分-延伸期预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测评分-延伸期预测界面出现问题。")
@@ -964,7 +964,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 					}
 				}
 			} catch (FileSystemException e) {
-				log.error("文件对象排序出现错误。");
+				log.error("文件对象排序出现错误。", e);
 			}
 			return 0;
 		}
@@ -993,7 +993,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 					}
 				}
 			} catch (FileSystemException e) {
-				log.error("文件对象倒序排序出现错误。");
+				log.error("文件对象倒序排序出现错误。", e);
 			}
 			return 0;
 		}
@@ -1018,7 +1018,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开业务规范界面出现问题。");
+			log.error("打开业务规范界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开业务规范界面出现问题。").toJSONString();
@@ -1051,7 +1051,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ar.toJSONString();
 
 		} catch (Exception e) {
-			log.error("打开业务规范界面出现问题。");
+			log.error("打开业务规范界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开业务规范界面出现问题。").toJSONString();
@@ -1081,7 +1081,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开设置-数据更新界面出现问题。");
+			log.error("打开设置-数据更新界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开设置-数据更新界面出现问题。")
@@ -1195,7 +1195,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开数据展现界面出现问题。");
+			log.error("打开数据展现界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
@@ -1218,7 +1218,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开设置-上传数据界面出现问题。");
+			log.error("打开设置-上传数据界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开设置-上传数据界面出现问题。")
@@ -1242,7 +1242,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开制作评分数据-延伸期预测出现问题。");
+			log.error("打开制作评分数据-延伸期预测出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开制作评分数据-延伸期预测出现问题。")
@@ -1284,7 +1284,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测方法评估-延伸期降水过程预测界面出现问题。");
+			log.error("打开预测方法评估-延伸期降水过程预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测方法评估-延伸期降水过程预测界面出现问题。")
@@ -1362,7 +1362,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("更新上月预测评估填报界面出现问题。");
+			log.error("更新上月预测评估填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("更新上月预测评估填报界面出现问题。")
@@ -1441,7 +1441,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ar.toJSONString();
 
 		} catch (Exception e) {
-			log.error("打开方法评估-上月预测评估填报界面出现问题。");
+			log.error("打开方法评估-上月预测评估填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开方法评估-上月预测评估填报界面出现问题。")
@@ -1516,7 +1516,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开方法评估-上月预测评估填报界面出现问题。");
+			log.error("打开方法评估-上月预测评估填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开方法评估-上月预测评估填报界面出现问题。")
@@ -1672,7 +1672,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
-			log.error("更新上月预测评估填报行为出现问题。");
+			log.error("更新上月预测评估填报行为出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
@@ -1730,7 +1730,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ar.toJSONString();
 
 		} catch (Exception e) {
-			log.error("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。");
+			log.error("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance()
@@ -1784,7 +1784,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。");
+			log.error("打开方法评估-上月延伸期降水过程预测评估填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance()
@@ -1876,7 +1876,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
-			log.error("上月延伸期降水过程预测评估填报更新行为出现问题。");
+			log.error("上月延伸期降水过程预测评估填报更新行为出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
@@ -1897,7 +1897,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开相关网址链接界面出现问题。");
+			log.error("打开相关网址链接界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开相关网址链接界面出现问题。")
@@ -1921,7 +1921,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开制作评分数据-月预测界面出现问题。");
+			log.error("打开制作评分数据-月预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开制作评分数据-月预测界面出现问题。")
@@ -1950,7 +1950,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开记事板编辑页面出现问题。");
+			log.error("打开记事板编辑页面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开记事板编辑页面出现问题。")
@@ -1996,7 +1996,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ar.toJSONString();
 		} catch (Exception e) {
-			log.error("打开记事板编辑页面出现问题。");
+			log.error("打开记事板编辑页面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开记事板编辑页面出现问题。")
@@ -2021,7 +2021,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			am.addMessage("保存文件成功。");
 		} catch (Exception e) {
-			log.error("保存文件出现错误。");
+			log.error("保存文件出现错误。", e);
 			am.addErrorMessage("保存文件出现错误。");
 		}
 		return am.toJSONString();
@@ -2102,14 +2102,13 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 		} catch (Exception e) {
 			result = false;
-			log.error("JobFTPPUT.Log.ErrorPuttingFiles");
-			log.error(Const.getStackTracker(e));
+			log.error("JobFTPPUT.Log.ErrorPuttingFiles", e);
 		} finally {
 			if (ftpclient != null && ftpclient.connected()) {
 				try {
 					ftpclient.quit();
 				} catch (Exception e) {
-					log.error("JobFTPPUT.Log.ErrorQuitingFTP");
+					log.error("JobFTPPUT.Log.ErrorQuitingFTP", e);
 				}
 			}
 
@@ -2140,8 +2139,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("月预测评分数据上传出现问题。");
+			log.error("月预测评分数据上传出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("月预测评分数据上传出现问题。")
@@ -2169,7 +2167,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			}
 
 		} catch (Exception e) {
-			log.error("延伸期预测评分数据上传出现问题。");
+			log.error("延伸期预测评分数据上传出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("延伸期预测评分数据上传出现问题。")
@@ -2210,7 +2208,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测方法评估-月预测界面出现问题。");
+			log.error("打开预测方法评估-月预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测方法评估-月预测界面出现问题。")
@@ -2251,7 +2249,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开预测评分-月预测界面出现问题。");
+			log.error("打开预测评分-月预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开预测评分-月预测界面出现问题。")
@@ -2318,7 +2316,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ar.toJSONString();
 		} catch (Exception e) {
-			log.error("打开延伸期预测当月填报界面出现问题。");
+			log.error("打开延伸期预测当月填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
@@ -2372,7 +2370,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开延伸期预测当月填报界面出现问题。");
+			log.error("打开延伸期预测当月填报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开延伸期预测当月填报界面出现问题。")
@@ -2484,7 +2482,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 
 			return ActionMessage.instance().success("数据更新成功。").toJSONString();
 		} catch (Exception e) {
-			log.error("打开延伸期预测当月更新行为出现问题。");
+			log.error("打开延伸期预测当月更新行为出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("数据更新出现问题。").toJSONString();
@@ -2507,7 +2505,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开分析工具-海温月预测界面出现问题。");
+			log.error("打开分析工具-海温月预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开分析工具-海温月预测界面出现问题。")
@@ -2534,7 +2532,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ActionMessage.instance().failure(e.getMessage())
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("提交月度海温预测分析计算出现问题。");
+			log.error("提交月度海温预测分析计算出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("提交月度海温预测分析计算出现问题。")
@@ -2561,7 +2559,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return ActionMessage.instance().failure(e.getMessage())
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("提交季度海温预测分析计算出现问题。");
+			log.error("提交季度海温预测分析计算出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("提交季度海温预测分析计算出现问题。")
@@ -2584,7 +2582,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开分析工具-海温季预测界面出现问题。");
+			log.error("打开分析工具-海温季预测界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开分析工具-海温季预测界面出现问题。")
@@ -2597,7 +2595,7 @@ public class ForecastServices extends AbstractRepositoryServices implements
 			return FileUtils.getInputStreamByRelativePath("di/" + relativePath,
 					PKG);
 		} catch (Exception e) {
-			throw new BIException("获得转换内容出现错误。");
+			throw new BIException("获得转换内容出现错误。", e);
 		}
 	}
 

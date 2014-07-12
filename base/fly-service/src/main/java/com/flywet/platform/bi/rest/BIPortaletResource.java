@@ -232,7 +232,7 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开数据展现界面出现问题。");
+			log.error("打开数据展现界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
@@ -272,11 +272,10 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开当月预测填报界面出现问题。");
+			log.error("打开编辑文件界面出现问题。", e);
 		}
 
-		return ActionMessage.instance().failure("打开当月预测填报界面出现问题。")
-				.toJSONString();
+		return ActionMessage.instance().failure("打开编辑文件界面出现问题。").toJSONString();
 	}
 
 	@POST
@@ -304,7 +303,7 @@ public class BIPortaletResource {
 
 			am.addMessage("保存文件成功。");
 		} catch (Exception e) {
-			log.error("保存文件出现错误。");
+			log.error("保存文件出现错误。", e);
 			am.addErrorMessage("保存文件出现错误。");
 		}
 		return am.toJSONString();
@@ -343,7 +342,7 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开上传一个文件界面出现问题。");
+			log.error("打开上传一个文件界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开上传一个文件界面出现问题。")
@@ -390,7 +389,7 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开上传多个文件报界面出现问题。");
+			log.error("打开上传多个文件报界面出现问题。", e);
 		}
 
 		return ActionMessage.instance().failure("打开上传多个文件界面出现问题。")
@@ -601,7 +600,7 @@ public class BIPortaletResource {
 						response.getOutputStream());
 			}
 		} catch (Exception e) {
-			log.error("download file exception:", e);
+			log.error("展示图片文件出现异常:", e);
 		}
 	}
 
@@ -645,7 +644,7 @@ public class BIPortaletResource {
 			FileUtils.write(fileObj.getContent().getInputStream(),
 					response.getOutputStream());
 		} catch (Exception e) {
-			log.error("download file exception:", e);
+			log.error("下载文件流出现异常:", e);
 		}
 	}
 
@@ -682,7 +681,7 @@ public class BIPortaletResource {
 			fileObj.delete();
 			am.addMessage("删除" + fileObj.getName().getBaseName() + "成功");
 		} catch (Exception e) {
-			log.error("delete operation exception:", e);
+			log.error("删除文件出现异常:", e);
 			am.addErrorMessage("删除操作失败");
 		}
 		return am.toJSONString();
@@ -779,7 +778,7 @@ public class BIPortaletResource {
 					targetId, context);
 
 		} catch (Exception ex) {
-			log.error("打开Portal的菜单出现错误。");
+			log.error("打开Portal的菜单出现错误。", ex);
 		}
 		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
 				.toJSONString();
@@ -793,7 +792,7 @@ public class BIPortaletResource {
 					targetId, context);
 
 		} catch (Exception ex) {
-			log.error("打开Portal的菜单出现错误。");
+			log.error("打开Portal的菜单出现错误。", ex);
 		}
 		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
 				.toJSONString();
@@ -808,7 +807,7 @@ public class BIPortaletResource {
 					dataObj);
 
 		} catch (Exception ex) {
-			log.error("打开Portal的文件上传出现错误。");
+			log.error("打开Portal的文件上传出现错误。", ex);
 		}
 		return ActionMessage.instance().failure("打开Portal的文件上传出现错误。")
 				.toJSONString();

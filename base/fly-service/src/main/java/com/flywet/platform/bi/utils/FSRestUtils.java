@@ -125,8 +125,13 @@ public class FSRestUtils {
 
 			if (BIFileSystemCategory.FILESYS_TYPE_SFTP.getCategory().equals(
 					category)) {
-				SftpFileSystemConfigBuilder.getInstance()
-						.setStrictHostKeyChecking(opts, "no");
+				SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder
+						.getInstance();
+				builder.setStrictHostKeyChecking(opts, "no");
+				builder.setUserDirIsRoot(opts, false);
+
+				builder.getKnownHosts(opts);
+				builder.setUserDirIsRoot(opts, false);
 			}
 
 			return fsManager.resolveFile(vfsPath, opts);
