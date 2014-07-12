@@ -5,6 +5,7 @@ import org.pentaho.di.core.database.DatabaseMeta;
 import com.flywet.platform.bi.component.components.browse.BrowseMeta;
 import com.flywet.platform.bi.core.exception.BIException;
 import com.flywet.platform.bi.core.exception.BIKettleException;
+import com.flywet.platform.bi.model.BIDatabaseConnectionDelegate;
 
 public interface BIDatabaseDelegates {
 	/**
@@ -14,6 +15,16 @@ public interface BIDatabaseDelegates {
 	 * @throws BIException
 	 */
 	public void getNavigatorsDatabase(BrowseMeta browseMeta) throws BIException;
+
+	/**
+	 * 获得数据库的链接代理
+	 * 
+	 * @param id
+	 * @return
+	 * @throws BIException
+	 */
+	public BIDatabaseConnectionDelegate getDatabaseConnectionDelegate(Long id)
+			throws BIException;
 
 	/**
 	 * 获得数据库元数据

@@ -973,4 +973,46 @@ public class Utils {
 					.append(Character.toUpperCase(s.charAt(0)))
 					.append(s.substring(1)).toString();
 	}
+
+	/**
+	 * 10进制数转26进制字符串A-Z
+	 * 
+	 * @param in
+	 * @return
+	 */
+	public static String s10t26(int n) {
+		String s = "";
+		while (n > 0) {
+			int m = n % 26;
+			if (m == 0) {
+				m = 26;
+			}
+			s = (char) (m + 64) + s;
+			n = (n - m) / 26;
+		}
+
+		return s;
+	}
+
+	/**
+	 * 26进制A-Z转换为10进制数字
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static int s26t10(String s) {
+		if (isEmpty(s))
+			return 0;
+
+		int n = 0, j = 1;
+		char[] c = s.toUpperCase().toCharArray();
+		for (int i = c.length - 1; i >= 0; i--) {
+			if (c[i] < 'A' || c[i] > 'Z')
+				return 0;
+
+			n += (c[i] - 64) * j;
+			j *= 26;
+		}
+		return n;
+	}
 }

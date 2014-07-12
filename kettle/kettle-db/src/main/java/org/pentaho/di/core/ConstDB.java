@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.database.SAPR3DatabaseMeta;
@@ -51,6 +52,42 @@ public class ConstDB {
 		}
 
 		return sap;
+	}
+
+	/**
+	 * 通过字段名称和值的Map，获得RowMetaAndData
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public static RowMetaAndData getRowMetaAndData(Map<String, Object> map) {
+		RowMetaAndData rmd = new RowMetaAndData();
+		for (String key : map.keySet()) {
+			rmd.addValue(key, getValueMetaType(map.get(key)), map.get(key));
+		}
+		return rmd;
+	}
+
+	public static int getValueMetaType(Object data) {
+		int type = ValueMetaInterface.TYPE_STRING;
+		if (data == null) {
+			type = ValueMetaInterface.TYPE_NONE;
+		} else if (data instanceof String) {
+		} else if (data instanceof Long || data instanceof Integer) {
+			type = ValueMetaInterface.TYPE_INTEGER;
+		} else if (data instanceof Double) {
+			type = ValueMetaInterface.TYPE_NUMBER;
+		} else if (data instanceof BigDecimal) {
+			type = ValueMetaInterface.TYPE_BIGNUMBER;
+		} else if (data instanceof Date) {
+			type = ValueMetaInterface.TYPE_DATE;
+		} else if (data instanceof Boolean) {
+			type = ValueMetaInterface.TYPE_BOOLEAN;
+		} else if (data instanceof byte[]) {
+			type = ValueMetaInterface.TYPE_BINARY;
+		}
+
+		return type;
 	}
 
 	public static ValueMetaInterface getValueMeta(Object data) {

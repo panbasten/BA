@@ -180,8 +180,8 @@ public class BIPortaletResource {
 			ParameterContext paramContext = BIWebUtils
 					.fillParameterContext(body);
 
-			return invokeMethod(pa.getBeanName(), pa.getMethod(), paramContext,
-					targetId);
+			return invokeMethodForm(pa.getBeanName(), pa.getMethod(),
+					paramContext, targetId);
 		} catch (Exception ex) {
 			throw new BIException("执行Portal Form的行为出现错误。", ex);
 		}
@@ -721,7 +721,7 @@ public class BIPortaletResource {
 			return invokeMethod(pm.getExtAttr("beanName"),
 					pm.getExtAttr("method"), context, targetId);
 		} catch (Exception ex) {
-			throw new BIException("打开Portal的菜单出现错误。", ex);
+			throw new BIException("通过菜单ID(" + id + ")打开Portal的菜单出现错误。", ex);
 		}
 	}
 
@@ -746,7 +746,7 @@ public class BIPortaletResource {
 			return invokeMethod(pa.getBeanName(), pa.getMethod(), context,
 					targetId);
 		} catch (Exception ex) {
-			throw new BIException("打开Portal的菜单出现错误。", ex);
+			throw new BIException("通过菜单ID(" + id + ")更新Portal的菜单页面内容出现错误。", ex);
 		}
 	}
 
@@ -779,13 +779,13 @@ public class BIPortaletResource {
 					targetId, context);
 
 		} catch (Exception ex) {
-			log.error("打开Portal的菜单出现错误。");
+			log.error("调用业务方法打开Portal的菜单出现错误。", ex);
 		}
-		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
+		return ActionMessage.instance().failure("调用业务方法打开Portal的菜单出现错误。")
 				.toJSONString();
 	}
 
-	private String invokeMethod(String beanName, String method,
+	private String invokeMethodForm(String beanName, String method,
 			ParameterContext context, String targetId) throws BIException {
 		try {
 			Object prog = ReflectionUtils.getBean(beanName);
@@ -793,9 +793,9 @@ public class BIPortaletResource {
 					targetId, context);
 
 		} catch (Exception ex) {
-			log.error("打开Portal的菜单出现错误。");
+			log.error("调用业务方法打开Portal Form的菜单出现错误。", ex);
 		}
-		return ActionMessage.instance().failure("打开Portal的菜单出现错误。")
+		return ActionMessage.instance().failure("调用业务方法打开Portal Form的菜单出现错误。")
 				.toJSONString();
 	}
 
