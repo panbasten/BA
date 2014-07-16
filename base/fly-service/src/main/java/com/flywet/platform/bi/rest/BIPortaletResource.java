@@ -87,6 +87,8 @@ public class BIPortaletResource {
 
 	private static final String TEMPLATE_SHOW_DIRECTORY = "portal/menu/showDir.h";
 
+	private static final String TEMPLATE_SHOW2_DIRECTORY = "portal/menu/showDir2.h";
+
 	private static final String DEFAULT_SHOW_IMAGE = "resources/images/default/default_img.jpg";
 
 	@GET
@@ -216,14 +218,14 @@ public class BIPortaletResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String openShowDirectoryDialog(
 			@QueryParam("targetId") String targetId,
-			@QueryParam("rootDir") String rootDir,
-			@QueryParam("category") String category) throws BIJSONException {
+			@QueryParam("rootDir") String rootDirProp,
+			@QueryParam("category") String categoryProp) throws BIJSONException {
 		try {
 			// 获得页面
 			FLYVariableResolver attrsMap = new FLYVariableResolver();
 
 			attrsMap.addVariable("files",
-					FSRestUtils.getBrowse(rootDir, category, ""));
+					FSRestUtils.getBrowse(rootDirProp, categoryProp, ""));
 
 			Object[] domString = PageTemplateInterpolator.interpolate(
 					TEMPLATE_SHOW_DIRECTORY, attrsMap);
@@ -232,7 +234,29 @@ public class BIPortaletResource {
 			return AjaxResult.instanceDialogContent(targetId, domString)
 					.toJSONString();
 		} catch (Exception e) {
-			log.error("打开数据展现界面出现问题。", e);
+			String rootDir = PropertyUtils.getProperty(rootDirProp);
+			String category = PropertyUtils.getProperty(categoryProp);
+			if ("ftp".equalsIgnoreCase(category)
+					|| "sftp".equalsIgnoreCase(category)) {
+				try {
+					// 获得页面
+					FLYVariableResolver attrsMap = new FLYVariableResolver();
+
+					attrsMap.addVariable("dir", rootDir);
+
+					Object[] domString = PageTemplateInterpolator.interpolate(
+							TEMPLATE_SHOW2_DIRECTORY, attrsMap);
+
+					// 设置响应
+					return AjaxResult
+							.instanceDialogContent(targetId, domString)
+							.toJSONString();
+				} catch (Exception ex) {
+					log.error("打开数据展现界面出现问题。", ex);
+				}
+			} else {
+				log.error("打开数据展现界面出现问题。", e);
+			}
 		}
 
 		return ActionMessage.instance().failure("打开数据展现界面出现问题。").toJSONString();
@@ -513,6 +537,7 @@ public class BIPortaletResource {
 
 		try {
 			workDir = Const.NVL(workDir, "");
+			boolean uploadFlag = false;
 			// 遍历文件并逐次上传文件系统
 			if (!Const.isEmpty(rootDir)) {
 				for (FileItem item : items) {
@@ -521,6 +546,7 @@ public class BIPortaletResource {
 					}
 
 					uploadFile(item, rootDir, workDir, category, item.getName());
+					uploadFlag = true;
 				}
 			}
 			// 执行操作
@@ -535,8 +561,13 @@ public class BIPortaletResource {
 						pDialogId + ":content");
 
 			} else {
-				resultMsg.addMessage("上传操作成功");
-				return resultMsg.toJSONString();
+				if (uploadFlag) {
+					resultMsg.addMessage("上传操作成功");
+					return resultMsg.toJSONString();
+				} else {
+					resultMsg.addErrorMessage("请至少选择一个文件上传");
+					return resultMsg.toJSONString();
+				}
 			}
 
 		} catch (Exception e) {

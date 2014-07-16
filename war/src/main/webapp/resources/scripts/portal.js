@@ -812,11 +812,18 @@ Flywet.PortalAction = {
 										// 参数可以使用dialogId,event,params
 										eval(params.click.func);
 									}else{
-										var ajaxOpts = $.extend({},{
-											onsuccess:function(data, status, xhr) {
-												window[dialogId + "_var"].hide();
-											}
-										},params.click);
+										var ajaxOpts = {};
+											
+										if(params.click.closeParentDialog){
+											ajaxOpts = $.extend( {},
+												{
+													onsuccess:function(data, status, xhr) {
+														window[dialogId + "_var"].hide();
+													}
+												});
+										}
+											
+										ajaxOpts = $.extend(ajaxOpts, params.click);
 										
 										if(!ajaxOpts.params){
 											ajaxOpts.params = {};
@@ -830,7 +837,7 @@ Flywet.PortalAction = {
 						}
 					};
 					btn = $.extend(btn, btnsSetting[i]);
-					btn.click = $.extend({},btnClick,btnsSetting[i].click);
+					btn.click = $.extend({closeParentDialog:true},btnClick,btnsSetting[i].click);
 					btns.push(btn);
 				}
 			}
