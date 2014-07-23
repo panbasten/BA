@@ -8,7 +8,7 @@
 	 */
 	function init(target){
 		$(target).appendTo('body');
-		$(target).addClass('ui-menu-top');	// the top menu
+		$(target).addClass('dropdown-menu-top');	// the top menu
 		
 		var menus = [];
 		adjust($(target));
@@ -17,7 +17,7 @@
 		for(var i=0; i<menus.length; i++){
 			var menu = menus[i];
 			wrapMenu(menu);
-			menu.children('div.ui-menu-item').each(function(){
+			menu.children('div.dropdown-menu-item').each(function(){
 				bindMenuItemEvent(target, $(this));
 			});
 			
@@ -53,7 +53,7 @@
 		 * the menu not include sub menus
 		 */
 		function wrapMenu(menu){
-			menu.addClass('ui-menu').find('>div').each(function(){
+			menu.addClass('dropdown-menu').find('>div').each(function(){
 				var item = $(this);
 				if (item.hasClass('ui-menu-sep')){
 					item.html('&nbsp;');
@@ -64,8 +64,8 @@
 					});
 					item.attr('name',itemOpts.name || '').attr('href',itemOpts.href || '');
 					
-					var text = item.addClass('ui-menu-item').html();
-					item.empty().append($('<div class="ui-menu-text"></div>').html(text));
+					var text = item.addClass('dropdown-menu-item').html();
+					item.empty().append($('<div class="dropdown-menu-text"></div>').html(text));
 					
 					if (itemOpts.iconCls){
 						$('<div class="ui-menu-icon ui-icon"></div>').addClass(itemOpts.iconCls).appendTo(item);
@@ -92,7 +92,7 @@
 		item.bind('mousedown.menu', function(){
 			return false;	// skip the mousedown event that has been used for document to hide the menu
 		}).bind('click.menu', function(){
-			if ($(this).hasClass('ui-menu-item-disabled')){
+			if ($(this).hasClass('disabled')){
 				return;
 			}
 			// only the sub menu clicked can hide all menus
@@ -111,13 +111,13 @@
 				if (this.submenu){
 					hideMenu(this.submenu);
 				}
-				$(this).removeClass('ui-menu-active');
+				$(this).removeClass('active');
 			});
 			// show this menu
-			item.addClass('ui-menu-active');
+			item.addClass('active');
 			
-			if ($(this).hasClass('ui-menu-item-disabled')){
-				item.addClass('ui-menu-active-disabled');
+			if ($(this).hasClass('disabled')){
+				item.addClass('disabled');
 				return;
 			}
 			
@@ -137,17 +137,17 @@
 				});
 			}
 		}).bind('mouseleave.menu', function(e){
-			item.removeClass('ui-menu-active ui-menu-active-disabled');
+			item.removeClass('active disabled');
 			var submenu = item[0].submenu;
 			if (submenu){
 				if (e.pageX>=parseInt(submenu.css('left'))){
-					item.addClass('ui-menu-active');
+					item.addClass('active');
 				} else {
 					hideMenu(submenu);
 				}
 				
 			} else {
-				item.removeClass('ui-menu-active');
+				item.removeClass('active');
 			}
 		});
 	}
@@ -218,11 +218,11 @@
 		if (!menu) return;
 		
 		hideit(menu);
-		menu.find('div.ui-menu-item').each(function(){
+		menu.find('div.dropdown-menu-item').each(function(){
 			if (this.submenu){
 				hideMenu(this.submenu);
 			}
-			$(this).removeClass('ui-menu-active');
+			$(this).removeClass('active');
 		});
 		
 		function hideit(m){
@@ -238,7 +238,7 @@
 		var result = null;
 		var tmp = $('<div></div>');
 		function find(menu){
-			menu.children('div.ui-menu-item').each(function(){
+			menu.children('div.dropdown-menu-item').each(function(){
 				var item = $(target).menu('getItem', this);
 				var s = tmp.empty().html(item.text).text();
 				if (text == $.trim(s)) {
@@ -257,13 +257,13 @@
 		var t = $(itemEl);
 		
 		if (disabled){
-			t.addClass('ui-menu-item-disabled');
+			t.addClass('disabled');
 			if (itemEl.onclick){
 				itemEl.onclick1 = itemEl.onclick;
 				itemEl.onclick = null;
 			}
 		} else {
-			t.removeClass('ui-menu-item-disabled');
+			t.removeClass('disabled');
 			if (itemEl.onclick1){
 				itemEl.onclick = itemEl.onclick1;
 				itemEl.onclick1 = null;
@@ -276,8 +276,8 @@
 		if (param.parent){
 			menu = param.parent.submenu;
 		}
-		var item = $('<div class="ui-menu-item"></div>').appendTo(menu);
-		$('<div class="ui-menu-text"></div>').html(param.text).appendTo(item);
+		var item = $('<div class="dropdown-menu-item"></div>').appendTo(menu);
+		$('<div class="dropdown-menu-text"></div>').html(param.text).appendTo(item);
 		if (param.iconCls) $('<div class="ui-menu-icon ui-icon"></div>').addClass(param.iconCls).appendTo(item);
 		if (param.id) item.attr('id', param.id);
 		if (param.href) item.attr('href', param.href);
@@ -301,7 +301,7 @@
 	function removeItem(target, itemEl){
 		function removeit(el){
 			if (el.submenu){
-				el.submenu.children('div.ui-menu-item').each(function(){
+				el.submenu.children('div.dropdown-menu-item').each(function(){
 					removeit(this);
 				});
 				var shadow = el.submenu[0].shadow;
@@ -314,7 +314,7 @@
 	}
 	
 	function destroyMenu(target){
-		$(target).children('div.ui-menu-item').each(function(){
+		$(target).children('div.dropdown-menu-item').each(function(){
 			removeItem(target, this);
 		});
 		if (target.shadow) target.shadow.remove();
@@ -369,7 +369,7 @@
 		 */
 		setText: function(jq, param){
 			return jq.each(function(){
-				$(param.target).children('div.ui-menu-text').html(param.text);
+				$(param.target).children('div.dropdown-menu-text').html(param.text);
 			});
 		},
 		/**
@@ -405,8 +405,8 @@
 			var item = {
 				target: itemEl,
 				id: t.attr('id'),
-				text: $.trim(t.children('div.ui-menu-text').html()),
-				disabled: t.hasClass('ui-menu-item-disabled'),
+				text: $.trim(t.children('div.dropdown-menu-text').html()),
+				disabled: t.hasClass('disabled'),
 				href: t.attr('href'),
 				name: t.attr('name'),
 				onclick: itemEl.onclick
