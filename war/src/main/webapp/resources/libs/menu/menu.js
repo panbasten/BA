@@ -55,29 +55,27 @@
 		function wrapMenu(menu){
 			menu.addClass('dropdown-menu').find('>div').each(function(){
 				var item = $(this);
-				if (item.hasClass('ui-menu-sep')){
+				if (item.hasClass('divider')){
 					item.html('&nbsp;');
 				} else {
 					// the menu item options
-					var itemOpts = $.extend({}, Flywet.parseOptions(this,['name','iconCls','href']), {
+					var itemOpts = $.extend({}, Flywet.parseOptions(this,['name','href']), {
 						disabled: (item.attr('disabled') ? true : undefined)
 					});
 					item.attr('name',itemOpts.name || '').attr('href',itemOpts.href || '');
 					
 					var text = item.addClass('dropdown-menu-item').html();
-					item.empty().append($('<div class="dropdown-menu-text"></div>').html(text));
+					var textWrap = $('<div class="dropdown-menu-text"></div>');
+					textWrap.html(text);
+					item.empty().append(textWrap);
 					
-					if (itemOpts.iconCls){
-						$('<div class="ui-menu-icon ui-icon"></div>').addClass(itemOpts.iconCls).appendTo(item);
-					}
 					if (itemOpts.disabled){
 						setDisabled(target, item[0], true);
 					}
 					if (item[0].submenu){
-						$('<div class="ui-menu-rightarrow"></div>').appendTo(item);	// has sub menu
+						$('<div class="dropdown-rightarrow glyphicon glyphicon-chevron-right"></div>').appendTo(textWrap);	// has sub menu
 					}
 					
-					item._outerHeight(22);
 				}
 			});
 			menu.hide();
@@ -137,7 +135,7 @@
 				});
 			}
 		}).bind('mouseleave.menu', function(e){
-			item.removeClass('active disabled');
+			item.removeClass('active');
 			var submenu = item[0].submenu;
 			if (submenu){
 				if (e.pageX>=parseInt(submenu.css('left'))){
@@ -195,19 +193,7 @@
 			menu.css(pos);
 		}
 		menu.show(0, function(){
-			if (!menu[0].shadow){
-				menu[0].shadow = $('<div class="ui-menu-shadow"></div>').insertAfter(menu);
-			}
-			menu[0].shadow.css({
-				display:'block',
-				zIndex:$.fn.menu.defaults.zIndex++,
-				left:menu.css('left'),
-				top:menu.css('top'),
-				width:menu.outerWidth(),
-				height:menu.outerHeight()
-			});
 			menu.css('z-index', $.fn.menu.defaults.zIndex++);
-			
 			if (callback){
 				callback();
 			}
@@ -227,9 +213,6 @@
 		
 		function hideit(m){
 			m.stop(true,true);
-			if (m[0].shadow){
-				m[0].shadow.hide();
-			}
 			m.hide();
 		}
 	}
@@ -278,7 +261,6 @@
 		}
 		var item = $('<div class="dropdown-menu-item"></div>').appendTo(menu);
 		$('<div class="dropdown-menu-text"></div>').html(param.text).appendTo(item);
-		if (param.iconCls) $('<div class="ui-menu-icon ui-icon"></div>').addClass(param.iconCls).appendTo(item);
 		if (param.id) item.attr('id', param.id);
 		if (param.href) item.attr('href', param.href);
 		if (param.name) item.attr('name', param.name);
@@ -304,8 +286,6 @@
 				el.submenu.children('div.dropdown-menu-item').each(function(){
 					removeit(this);
 				});
-				var shadow = el.submenu[0].shadow;
-				if (shadow) shadow.remove();
 				el.submenu.remove();
 			}
 			$(el).remove();
@@ -317,7 +297,6 @@
 		$(target).children('div.dropdown-menu-item').each(function(){
 			removeItem(target, this);
 		});
-		if (target.shadow) target.shadow.remove();
 		$(target).remove();
 	}
 	
@@ -373,29 +352,11 @@
 			});
 		},
 		/**
-		 * set the menu icon class
-		 * param: {
-		 * 	target: DOM object, indicate the menu item
-		 * 	iconCls: the menu item icon class
-		 * }
-		 */
-		setIcon: function(jq, param){
-			return jq.each(function(){
-				var item = $(this).menu('getItem', param.target);
-				if (item.iconCls){
-					$(item.target).children('div.ui-menu-icon').removeClass(item.iconCls).addClass(param.iconCls);
-				} else {
-					$('<div class="ui-menu-icon ui-icon"></div>').addClass(param.iconCls).appendTo(param.target);
-				}
-			});
-		},
-		/**
 		 * get the menu item data that contains the following property:
 		 * {
 		 * 	target: DOM object, the menu item
 		 *  id: the menu id
 		 * 	text: the menu item text
-		 * 	iconCls: the icon class
 		 *  href: a remote address to redirect to
 		 *  onclick: a function to be called when the item is clicked
 		 * }
@@ -411,17 +372,6 @@
 				name: t.attr('name'),
 				onclick: itemEl.onclick
 			}
-			var icon = t.children('div.ui-menu-icon');
-			if (icon.length){
-				var cc = [];
-				var aa = icon.attr('class').split(' ');
-				for(var i=0; i<aa.length; i++){
-					if (aa[i] != 'ui-menu-icon'){
-						cc.push(aa[i]);
-					}
-				}
-				item.iconCls = cc.join(' ');
-			}
 			return item;
 		},
 		findItem: function(jq, text){
@@ -429,7 +379,7 @@
 		},
 		/**
 		 * append menu item, the param contains following properties:
-		 * parent,id,text,iconCls,href,onclick
+		 * parent,id,text,href,onclick
 		 * when parent property is assigned, append menu item to it
 		 */
 		appendItem: function(jq, param){
@@ -492,9 +442,9 @@ Flywet.widget.Menu=function(cfg){
 	function addSubItem(parent, item, _self){
 		var $item = $("<div></div>");
 		if(item.type == "separator"){
-			$item.addClass("ui-menu-sep");
+			$item.addClass("divider");
 		}else if(item.subItems){
-			$item.append("<span>"+item.text+"</span>");
+			$item.append(item.text);
 			var subWidth = item.subWidth || _self.itemWidth;
 			var style = "width:"+subWidth+"px;";
 			var $sub = $("<div style='"+style+"'></div>");
@@ -509,9 +459,6 @@ Flywet.widget.Menu=function(cfg){
 		var opt = [];
 		if(item.href){
 			opt.push("href:'"+item.href+"'");
-		}
-		if(item.iconCls){
-			opt.push("iconCls:'"+item.iconCls+"'");
 		}
 		if(item.disabled != undefined){
 			opt.push("disabled:"+item.disabled);

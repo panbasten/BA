@@ -3004,6 +3004,17 @@ input[type="button"].btn-block {
 .dropdown {
   position: relative;
 }
+
+div.dropdown-menu-text {
+  position: relative;
+}
+div.dropdown-menu-text .dropdown-rightarrow {
+  top:8px;
+  right:10px;
+  float: right;
+  position: absolute;
+  font-size: 12px;
+}
 .dropdown-toggle:focus {
   outline: 0;
 }
